@@ -12,7 +12,7 @@ std::vector<uint8_t*> MemoryPool;
 GameEngine* GameEngine::Instance;
 
 GameEngine::GameEngine() {
-    this->context = Ship::Context::CreateUninitializedInstance("StarRod", "ship", "starship.cfg.json");
+    this->context = Ship::Context::CreateUninitializedInstance("StarRod", "ship", "starrod.cfg.json");
 
     std::vector<std::string> archiveFiles;
     const std::string main_path = Ship::Context::GetPathRelativeToAppDirectory("pm64.o2r");

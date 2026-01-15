@@ -1,31 +1,15 @@
 # ROM Version Configuration
 # This file defines the ROM versions and their properties for the decompilation project
 
-game:
-  name: "Starrod"
-  short_name: "PM64"
-
-versions:
-  us_rev0:
-    region: "US"
-    revision: 0
-    sha1: "0000000000000000000000000000000000000000"
-    rom_size: 0x00000000
-    entry_point: 0x8000040000
-
-paths:
-  baserom: "baserom.z64"
-  build_dir: "build"
-  assets_dir: "assets"
-  yaml_dir: "yamls/assets/yaml"
-
-memory:
-  ram_start: 0x80000000
-  ram_size: 0x00800000  # 8MB
-
-segments:
-  # Define ROM segments here
-  # boot:
-  #   vram: 0x80000400
-  #   files:
-  #     - src/boot/...
+3837f44cda784b466c9a2d99df70d77c322b97a0:
+  name: pm64
+  path: ./assets/yaml/us
+  config:
+    gbi: F3DEX2
+    gbi_floats: false
+    sort: OFFSET
+    logging: INFO
+    output:
+      binary: starrod.o2r
+      headers: include
+      code: code
