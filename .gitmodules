@@ -1,0 +1,6 @@
+[submodule "external/torch"]
+	path = external/torch
+	url = git@github.com:HarbourMasters/Torch.git
+[submodule "external/libultraship"]
+	path = external/libultraship
+	url = https://github.com/Kenix3/libultraship
