@@ -1,0 +1,36 @@
+#include "nok_02.h"
+
+EvtScript N(EVS_Scene_Epilogue) = {
+    Call(DisablePlayerInput, true)
+    Call(DisablePlayerPhysics, true)
+    Call(GetPlayerPos, LVar0, LVar1, LVar2)
+    Call(SetPlayerPos, NPC_DISPOSE_LOCATION)
+    Call(UseSettingsFrom, CAM_DEFAULT, LVar0, LVar1, LVar2)
+    Call(SetPanTarget, CAM_DEFAULT, LVar0, LVar1, LVar2)
+    Call(SetCamSpeed, CAM_DEFAULT, Float(90.0))
+    Call(PanToTarget, CAM_DEFAULT, 0, true)
+    Wait(50)
+    Call(SetNpcAnimation, NPC_Parakarry, ANIM_WorldParakarry_Talk)
+    Wait(15)
+    Call(SetNpcAnimation, NPC_Parakarry, ANIM_WorldParakarry_Idle)
+    Wait(15)
+    Call(SetNpcAnimation, NPC_Bombette, ANIM_WorldBombette_Talk)
+    Wait(15)
+    Call(SetNpcAnimation, NPC_Bombette, ANIM_WorldBombette_Idle)
+    Wait(15)
+    Call(SetNpcAnimation, NPC_KoloradoWife_Epilogue, ANIM_KoloradoWife_Walk)
+    Call(NpcMoveTo, NPC_KoloradoWife_Epilogue, -80, -50, 30)
+    Call(SetNpcAnimation, NPC_KoloradoWife_Epilogue, ANIM_KoloradoWife_Idle)
+    Call(SetCamSpeed, CAM_DEFAULT, Float(1.0))
+    Call(SetPanTarget, CAM_DEFAULT, -53, LVar1, LVar2)
+    Call(WaitForCam, CAM_DEFAULT, Float(1.0))
+    Call(InterpNpcYaw, NPC_Parakarry, 270, 0)
+    Wait(15)
+    Call(SetNpcAnimation, NPC_KoloradoWife_Epilogue, ANIM_KoloradoWife_Talk)
+    Wait(45)
+    Call(FadeOutMusic, 0, 1000)
+    Call(GotoMap, Ref("obk_09"), obk_09_ENTRY_2)
+    Wait(100)
+    Return
+    End
+};

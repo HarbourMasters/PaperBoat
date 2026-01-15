@@ -1,0 +1,83 @@
+#include "flo_19.h"
+#include "effects.h"
+
+#include "world/common/atomic/TexturePan.inc.c"
+
+API_CALLABLE(N(SpawnSunEffect)) {
+    fx_sun_undeclared(FX_SUN_FROM_RIGHT, 0, 0, 0, 0, 0);
+    return ApiStatus_DONE2;
+}
+
+EvtScript N(EVS_ExitWalk_flo_21_0) = {
+    SetGroup(EVT_GROUP_EXIT_MAP)
+    Call(UseExitHeading, 60, flo_19_ENTRY_1)
+    Exec(ExitWalk)
+#if VERSION_JP
+    Call(GotoMap, Ref("flo_21"), flo_21_ENTRY_0)
+#else
+    Call(GotoMap, 0x80243000, flo_21_ENTRY_0) // raw pointer to missing string "flo_21"
+#endif
+    Wait(100)
+    Return
+    End
+};
+
+EvtScript N(EVS_BindExitTriggers) = {
+    BindTrigger(Ref(N(EVS_ExitWalk_flo_21_0)), TRIGGER_FLOOR_ABOVE, COLLIDER_deilie, 1, 0)
+    Return
+    End
+};
+
+EvtScript N(EVS_Main) = {
+    Set(GB_WorldLocation, LOCATION_CLOUDY_CLIMB)
+    Call(SetSpriteShading, SHADING_NONE)
+    Call(SetCamLeadPlayer, CAM_DEFAULT, false)
+    EVT_SETUP_CAMERA_DEFAULT()
+    Set(GF_MAP_CloudyClimb, true)
+    ExecWait(N(EVS_MakeEntities))
+    Call(ParentColliderToModel, COLLIDER_o117, MODEL_o142)
+    Call(HidePlayerShadow, true)
+    Exec(0x80242FD0) // raw pointer to missing N(EVS_SetupBeanstalk)
+    Exec(0x80241780) // raw pointer to missing N(EVS_SetupClouds)
+    Call(ModifyColliderFlags, MODIFY_COLLIDER_FLAGS_SET_SURFACE, COLLIDER_o122, SURFACE_TYPE_CLOUD)
+    Call(EnableTexPanning, MODEL_o59, true)
+    Call(EnableTexPanning, MODEL_o60, true)
+    Thread
+        TEX_PAN_PARAMS_ID(TEX_PANNER_1)
+        TEX_PAN_PARAMS_STEP( -120,    0,    0,    0)
+        TEX_PAN_PARAMS_FREQ(    1,    0,    0,    0)
+        TEX_PAN_PARAMS_INIT(    0,    0,    0,    0)
+        Exec(N(EVS_UpdateTexturePan))
+    EndThread
+    Thread
+        TEX_PAN_PARAMS_ID(TEX_PANNER_2)
+        TEX_PAN_PARAMS_STEP(  -90,    0,    0,    0)
+        TEX_PAN_PARAMS_FREQ(    1,    0,    0,    0)
+        TEX_PAN_PARAMS_INIT(    0,    0,    0,    0)
+        Exec(N(EVS_UpdateTexturePan))
+    EndThread
+    Call(GetEntryID, LVar0)
+    IfNe(LVar0, flo_19_ENTRY_3)
+        Set(AF_FLO_RidingBeanstalk, false)
+    EndIf
+    Switch(LVar0)
+        CaseEq(flo_19_ENTRY_0)
+            Exec(N(EVS_BindExitTriggers))
+        CaseEq(flo_19_ENTRY_1)
+            Call(ModifyColliderFlags, MODIFY_COLLIDER_FLAGS_SET_BITS, COLLIDER_deilite, COLLIDER_FLAGS_UPPER_MASK)
+            Set(LVar0, Ref(N(EVS_BindExitTriggers)))
+            Exec(EnterWalk)
+        CaseEq(flo_19_ENTRY_2)
+            Exec(0x80242A2C) // raw pointer to missing N(EVS_Scene_BeanstalkGrowing)
+            Exec(N(EVS_BindExitTriggers))
+        CaseEq(flo_19_ENTRY_3)
+            Exec(0x80241CC4) // raw pointer to missing N(EVS_Enter_Beanstalk)
+            Exec(N(EVS_BindExitTriggers))
+    EndSwitch
+    ExecWait(N(EVS_SetupMusic))
+    IfGe(GB_StoryProgress, STORY_CH6_DESTROYED_PUFF_PUFF_MACHINE)
+        Call(N(SpawnSunEffect))
+    EndIf
+    Return
+    End
+};

@@ -1,0 +1,27 @@
+#define NAMESPACE A(pink_shy_guy)
+
+#define ANIM_SHYGUY_Anim00 ANIM_ShyGuy_Pink_Anim00
+#define ANIM_SHYGUY_Anim01 ANIM_ShyGuy_Pink_Anim01
+#define ANIM_SHYGUY_Anim02 ANIM_ShyGuy_Pink_Anim02
+#define ANIM_SHYGUY_Anim03 ANIM_ShyGuy_Pink_Anim03
+#define ANIM_SHYGUY_Anim04 ANIM_ShyGuy_Pink_Anim04
+#define ANIM_SHYGUY_Anim05 ANIM_ShyGuy_Pink_Anim05
+#define ANIM_SHYGUY_Anim06 ANIM_ShyGuy_Pink_Anim06
+#define ANIM_SHYGUY_Anim07 ANIM_ShyGuy_Pink_Anim07
+#define ANIM_SHYGUY_Anim08 ANIM_ShyGuy_Pink_Anim08
+#define ANIM_SHYGUY_Anim09 ANIM_ShyGuy_Pink_Anim09
+#define ANIM_SHYGUY_Anim0A ANIM_ShyGuy_Pink_Anim0A
+#define ANIM_SHYGUY_Anim0B ANIM_ShyGuy_Pink_Anim0B
+#define ANIM_SHYGUY_Anim0C ANIM_ShyGuy_Pink_Anim0C
+#define ANIM_SHYGUY_Anim0D ANIM_ShyGuy_Pink_Anim0D
+#define ANIM_SHYGUY_Anim0E ANIM_ShyGuy_Pink_Anim0E
+#define ANIM_SHYGUY_Anim0F ANIM_ShyGuy_Pink_Anim0F
+#define ANIM_SHYGUY_Anim10 ANIM_ShyGuy_Pink_Anim10
+#define ANIM_SHYGUY_Anim11 ANIM_ShyGuy_Pink_Anim11
+#define ANIM_SHYGUY_Anim12 ANIM_ShyGuy_Pink_Anim12
+#define ANIM_SHYGUY_Anim13 ANIM_ShyGuy_Pink_Anim13
+#define ANIM_SHYGUY_Anim14 ANIM_ShyGuy_Pink_Anim14
+#define ANIM_SHYGUY_Anim15 ANIM_ShyGuy_Pink_Anim15
+
+#include "shy_guy_base.inc.c"
+

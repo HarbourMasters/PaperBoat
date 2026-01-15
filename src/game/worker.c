@@ -1,0 +1,188 @@
+#include "common.h"
+
+BSS WorkerList gWorldWorkerList;
+BSS WorkerList gBattleWorkerList;
+BSS WorkerList* gCurrentWorkerListPtr;
+
+void worker_delegate_do_nothing(void) {
+}
+
+void clear_worker_list(void) {
+    s32 i;
+
+    if (gGameStatusPtr->context == CONTEXT_WORLD) {
+        gCurrentWorkerListPtr = &gWorldWorkerList;
+    } else {
+        gCurrentWorkerListPtr = &gBattleWorkerList;
+    }
+
+    for (i = 0; i < MAX_WORKERS; i++) {
+        (*gCurrentWorkerListPtr)[i] = nullptr;
+    }
+}
+
+void init_worker_list(void) {
+    if (gGameStatusPtr->context == CONTEXT_WORLD) {
+        gCurrentWorkerListPtr = &gWorldWorkerList;
+    } else {
+        gCurrentWorkerListPtr = &gBattleWorkerList;
+    }
+}
+
+s32 create_worker_scene(void (*updateFunc)(void), void (*renderFunc)(void)) {
+    Worker* worker;
+    s32 i;
+
+    for (i = 0; i < MAX_WORKERS; i++) {
+        Worker* lastWorker = (*gCurrentWorkerListPtr)[i];
+        if (lastWorker == nullptr) {
+            break;
+        }
+    }
+    ASSERT(i < MAX_WORKERS);
+
+    (*gCurrentWorkerListPtr)[i] = worker = heap_malloc(sizeof(*worker));
+    ASSERT(worker != nullptr);
+
+    worker->flags = WORKER_FLAG_1 | WORKER_FLAG_SKIP_DRAW_UNTIL_UPDATE;
+    worker->update = updateFunc;
+    if (updateFunc == nullptr) {
+        worker->update = worker_delegate_do_nothing;
+    }
+    worker->draw = renderFunc;
+    if (renderFunc == nullptr) {
+        worker->draw = worker_delegate_do_nothing;
+    }
+
+    if (gGameStatusPtr->context != CONTEXT_WORLD) {
+        i |= BATTLE_ENTITY_ID_BIT;
+    }
+    return i;
+}
+
+s32 create_worker_frontUI(void (*updateFunc)(void), void (*drawFunc)(void)) {
+    Worker* worker;
+    s32 i;
+
+    for (i = 0; i < MAX_WORKERS; i++) {
+        Worker* lastWorker = (*gCurrentWorkerListPtr)[i];
+        if (lastWorker == nullptr) {
+            break;
+        }
+    }
+    ASSERT(i < MAX_WORKERS);
+
+    (*gCurrentWorkerListPtr)[i] = worker = heap_malloc(sizeof(*worker));
+    ASSERT(worker != nullptr);
+
+    worker->flags = WORKER_FLAG_1 | WORKER_FLAG_SKIP_DRAW_UNTIL_UPDATE | WORKER_FLAG_FRONT_UI;
+    worker->update = updateFunc;
+    if (updateFunc == nullptr) {
+        worker->update = worker_delegate_do_nothing;
+    }
+    worker->draw = drawFunc;
+    if (drawFunc == nullptr) {
+        worker->draw = worker_delegate_do_nothing;
+    }
+
+    if (gGameStatusPtr->context != CONTEXT_WORLD) {
+        i |= BATTLE_ENTITY_ID_BIT;
+    }
+    return i;
+}
+
+s32 create_worker_backUI(void (*updateFunc)(void), void (*drawFunc)(void)) {
+    Worker* worker;
+    s32 i;
+
+    for (i = 0; i < MAX_WORKERS; i++) {
+        Worker* lastWorker = (*gCurrentWorkerListPtr)[i];
+        if (lastWorker == nullptr) {
+            break;
+        }
+    }
+    ASSERT(i < MAX_WORKERS);
+
+    (*gCurrentWorkerListPtr)[i] = worker = heap_malloc(sizeof(*worker));
+    ASSERT(worker != nullptr);
+
+    worker->flags = WORKER_FLAG_1 | WORKER_FLAG_SKIP_DRAW_UNTIL_UPDATE | WORKER_FLAG_BACK_UI;
+    worker->update = updateFunc;
+    if (updateFunc == nullptr) {
+        worker->update = &worker_delegate_do_nothing;
+    }
+    worker->draw = drawFunc;
+    if (drawFunc == nullptr) {
+        worker->draw = &worker_delegate_do_nothing;
+    }
+
+    if (gGameStatusPtr->context != CONTEXT_WORLD) {
+        i |= BATTLE_ENTITY_ID_BIT;
+    }
+    return i;
+}
+
+void update_workers(void) {
+    s32 i;
+
+    for (i = 0; i < MAX_WORKERS; i++) {
+        Worker* worker = (*gCurrentWorkerListPtr)[i];
+        if (worker != nullptr) {
+            worker->flags &= ~WORKER_FLAG_SKIP_DRAW_UNTIL_UPDATE;
+            worker->update();
+        }
+    }
+}
+
+void render_workers_scene(void) {
+    s32 i;
+
+    for (i = 0; i < MAX_WORKERS; i++) {
+        Worker* worker = (*gCurrentWorkerListPtr)[i];
+        if (worker != nullptr && !(worker->flags & WORKER_FLAG_SKIP_DRAW_UNTIL_UPDATE)) {
+            if (!(worker->flags & WORKER_FLAG_FRONT_UI)) {
+                worker->draw();
+            }
+        }
+    }
+}
+
+void render_workers_frontUI(void) {
+    s32 i;
+
+    for (i = 0; i < MAX_WORKERS; i++) {
+        Worker* worker = (*gCurrentWorkerListPtr)[i];
+        if (worker != nullptr && !(worker->flags & WORKER_FLAG_SKIP_DRAW_UNTIL_UPDATE)) {
+            if (worker->flags & WORKER_FLAG_FRONT_UI) {
+                worker->draw();
+            }
+        }
+    }
+}
+
+void render_workers_backUI(void) {
+    s32 i;
+
+    for (i = 0; i < MAX_WORKERS; i++) {
+        Worker* worker = (*gCurrentWorkerListPtr)[i];
+        if (worker != nullptr && !(worker->flags & WORKER_FLAG_SKIP_DRAW_UNTIL_UPDATE)) {
+            if (worker->flags & WORKER_FLAG_BACK_UI) {
+                worker->draw();
+            }
+        }
+    }
+}
+
+void free_worker(s32 idx) {
+    if (gGameStatusPtr->context == CONTEXT_WORLD || (idx & BATTLE_ENTITY_ID_BIT)) {
+        idx &= ~BATTLE_ENTITY_ID_BIT;
+        if ((*gCurrentWorkerListPtr)[idx] != nullptr) {
+            heap_free((*gCurrentWorkerListPtr)[idx]);
+            (*gCurrentWorkerListPtr)[idx] = nullptr;
+        }
+    }
+}
+
+Worker* get_worker(s32 idx) {
+    return (*gCurrentWorkerListPtr)[idx & ~BATTLE_ENTITY_ID_BIT];
+}
