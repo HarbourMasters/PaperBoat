@@ -426,8 +426,8 @@ void pause_tabs_handle_input(MenuPanel* tab) {
     }
 
     if (tab->col != gPauseTabsCurrentTab) {
-        replace_window_update(gPauseTabsWindowIDs[tab->col], 0x40, pause_update_tab_active);
-        replace_window_update(gPauseTabsWindowIDs[gPauseTabsCurrentTab], 0x40, pause_update_tab_inactive);
+        replace_window_update(gPauseTabsWindowIDs[tab->col], 0x40, (WindowUpdateFunc){.func = pause_update_tab_active});
+        replace_window_update(gPauseTabsWindowIDs[gPauseTabsCurrentTab], 0x40, (WindowUpdateFunc){.func = pause_update_tab_inactive});
 
         pauseWindows = &gWindows[WIN_PAUSE_TAB_STATS];
         x = pauseWindows[tab->col].pos.x;

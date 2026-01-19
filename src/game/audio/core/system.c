@@ -63,7 +63,7 @@ void create_audio_system(void) {
 
     for (i = 0; i < ARRAY_COUNT(nuAuTasks); i++) {
         nuAuTasks[i].next = nullptr;
-        nuAuTasks[i].msg = 0;
+        nuAuTasks[i].msg = OS_MESG_32(0);
         nuAuTasks[i].list.t.type = M_AUDTASK;
 #if VERSION_IQUE
         nuAuTasks[i].list.t.ucode_boot = (u64*) rspbootTextStart;
@@ -144,7 +144,7 @@ void nuAuMgr(void* arg) {
                     nuAuTasks[cmdListIndex].msgQ = &auRtnMesgQ;
                     nuAuTasks[cmdListIndex].list.t.data_ptr = (u64*)cmdListBuf;
                     nuAuTasks[cmdListIndex].list.t.data_size = (cmdListAfter_ptr - cmdListBuf) * sizeof(Acmd);
-                    osSendMesg(&nusched.audioRequestMQ, &nuAuTasks[cmdListIndex], OS_MESG_BLOCK);
+                    osSendMesg(&nusched.audioRequestMQ, OS_MESG_PTR(&nuAuTasks[cmdListIndex]), OS_MESG_BLOCK);
                     nuAuCleanDMABuffers();
                     osRecvMesg(&auRtnMesgQ, nullptr, 1);
                     if (++bufferIndex == 3) {

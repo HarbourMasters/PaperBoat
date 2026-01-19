@@ -1,6 +1,6 @@
 #ifndef _XSTDIO_H
 #define _XSTDIO_H
-#include "PR/ultratypes.h"
+#include "ultra64.h"
 #include "gcc/stdlib.h"
 #include "gcc/stdarg.h"
 

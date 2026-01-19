@@ -6,6 +6,9 @@
 #include "nu/nusys.h"
 #include "game_modes.h"
 
+#include "Engine.h"
+#include "assets/logos.h"
+
 void appendGfx_intro_logos(void);
 
 #if VERSION_JP
@@ -75,14 +78,11 @@ void state_init_logos(void) {
     startup_set_fade_screen_alpha(255);
     startup_set_fade_screen_color(0);
 
-    romEnd = logos_ROM_END;
-    romStart = logos_ROM_START;
-    gLogosImages = heap_malloc(romEnd - romStart);
-    dma_copy(romStart, romEnd, gLogosImages);
-
-    gLogosImage1 = gLogosImages + 0x0;
-    gLogosImage3 = gLogosImages + 0x7000;
-    gLogosImage2 = gLogosImages + 0x15000;
+    // Load logo textures from OTR archive
+    gLogosImage1 = (u8*)LOAD_ASSET(LOGO_1);
+    gLogosImage2 = (u8*)LOAD_ASSET(LOGO_2);
+    gLogosImage3 = (u8*)LOAD_ASSET(LOGO_3);
+    gLogosImages = gLogosImage1;  // For cleanup compatibility
 
     nuContRmbForceStop();
     create_cameras();
@@ -238,7 +238,7 @@ void state_step_logos(void) {
                 }
                 break;
             case LOGOS_STATE_CLEANUP:
-                heap_free(gLogosImages);
+                // OTR resources are managed by libultraship, no heap_free needed
                 gLogosImages = nullptr;
                 startup_set_fade_screen_alpha(255);
                 gGameStatusPtr->introPart = INTRO_PART_0;

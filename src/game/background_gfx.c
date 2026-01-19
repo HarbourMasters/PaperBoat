@@ -21,16 +21,27 @@ Gfx D_80074210[] = {
     gsSPEndDisplayList(),
 };
 
-Gfx D_80074230[] = {
-    gsSPViewport(&D_80074200),
-    gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
-                          G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH | G_CLIPPING | 0x0040F9FA),
-    gsSPSetGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_SHADING_SMOOTH),
-    gsSPTexture(0, 0, 0, G_TX_RENDERTILE, G_OFF),
-    gsSPEndDisplayList(),
-};
+// Port fix: Initialize viewport reference at runtime since addresses aren't compile-time constants on 64-bit
+Gfx D_80074230[5];
+
+static void init_D_80074230(void) {
+    static s32 initialized = 0;
+    if (!initialized) {
+        Gfx temp[] = {
+            gsSPViewport(&D_80074200),
+            gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
+                                  G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH | G_CLIPPING | 0x0040F9FA),
+            gsSPSetGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_SHADING_SMOOTH),
+            gsSPTexture(0, 0, 0, G_TX_RENDERTILE, G_OFF),
+            gsSPEndDisplayList(),
+        };
+        memcpy(D_80074230, temp, sizeof(temp));
+        initialized = 1;
+    }
+}
 
 void gfx_init_state(void) {
+    init_D_80074230();
     gSPSegment(gMainGfxPos++, 0x00, 0x0);
     gSPDisplayList(gMainGfxPos++, OS_K0_TO_PHYSICAL(D_80074230));
     gSPDisplayList(gMainGfxPos++, OS_K0_TO_PHYSICAL(D_80074210));

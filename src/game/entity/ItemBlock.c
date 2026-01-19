@@ -15,7 +15,7 @@ extern StaticAnimatorNode* Entity_HitFloatingYellowBlock_Mesh[];
 extern AnimScript Entity_HitRedBlock_AnimationHit;
 extern StaticAnimatorNode* Entity_HitRedBlock_Mesh[];
 
-extern s32 D_802EA310[];
+extern EntityScript D_802EA310;
 
 extern EntityBlueprint Entity_HitGroundedYellowBlock;
 extern EntityBlueprint Entity_HitFloatingYellowBlock;

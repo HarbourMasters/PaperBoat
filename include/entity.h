@@ -3,8 +3,8 @@
 
 #include "common.h"
 
-typedef s32 EntityScript[];
-typedef s32 EntityModelScript[];
+typedef const intptr_t EntityScript[];
+typedef const intptr_t EntityModelScript[];
 
 extern s32 CreateEntityVarArgBuffer[];
 
@@ -33,9 +33,9 @@ enum {
 };
 
 #define es_End ENTITY_SCRIPT_OP_End,
-#define es_Jump(script) ENTITY_SCRIPT_OP_Jump, (s32)script,
-#define es_Call(func) ENTITY_SCRIPT_OP_Call, (s32)func,
-#define es_SetCallback(func, time) ENTITY_SCRIPT_OP_SetCallback, time, (s32)func,
+#define es_Jump(script) ENTITY_SCRIPT_OP_Jump, (intptr_t)script,
+#define es_Call(func) ENTITY_SCRIPT_OP_Call, (intptr_t)func,
+#define es_SetCallback(func, time) ENTITY_SCRIPT_OP_SetCallback, time, (intptr_t)func,
 #define es_Goto(labelId) ENTITY_SCRIPT_OP_Goto, labelId,
 #define es_Restart ENTITY_SCRIPT_OP_Goto, 0,
 #define es_Label(labelId) ENTITY_SCRIPT_OP_Label, labelId,
@@ -45,13 +45,13 @@ enum {
 #define es_PlaySound(soundId) ENTITY_SCRIPT_OP_PlaySound, soundId,
 
 #define ems_End ENTITY_MODEL_SCRIPT_OP_End,
-#define ems_Draw(dlist, holdTime) ENTITY_MODEL_SCRIPT_OP_Draw, holdTime, (s32)dlist,
+#define ems_Draw(dlist, holdTime) ENTITY_MODEL_SCRIPT_OP_Draw, holdTime, (intptr_t)dlist,
 #define ems_Restart ENTITY_MODEL_SCRIPT_OP_Restart,
 #define ems_Loop ENTITY_MODEL_SCRIPT_OP_Loop,
 #define ems_SetRenderMode(mode) ENTITY_MODEL_SCRIPT_OP_SetRenderMode, mode,
 #define ems_SetFlags(flags) ENTITY_MODEL_SCRIPT_OP_SetFlags, flags,
 #define ems_ClearFlags(flags) ENTITY_MODEL_SCRIPT_OP_ClearFlags, flags,
-#define ems_DrawImage(raster, palette, width, height, holdTime) ENTITY_MODEL_SCRIPT_OP_DrawImage, holdTime, (s32)raster, (s32)palette, width, height,
+#define ems_DrawImage(raster, palette, width, height, holdTime) ENTITY_MODEL_SCRIPT_OP_DrawImage, holdTime, (intptr_t)raster, (intptr_t)palette, width, height,
 
 #define STANDARD_ENTITY_MODEL_SCRIPT(gfx, renderMode) \
     { \

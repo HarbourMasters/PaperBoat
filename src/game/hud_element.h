@@ -6,7 +6,7 @@
 
 #define HUD_ELEMENT_BATTLE_ID_MASK 0x800
 
-typedef s32 HudScript[];
+typedef const intptr_t HudScript[];
 
 enum {
     HUD_ELEMENT_OP_End,
@@ -230,12 +230,12 @@ extern PartnerPopupProperties gPartnerPopupProperties[13];
 extern HudScript* wDisabledPartnerHudScripts[];
 extern HudScript* wPartnerHudScripts[];
 
-#define HS_PTR(sym)         (s32)&sym
+#define HS_PTR(sym)         (intptr_t)&sym
 
 #define hs_End HUD_ELEMENT_OP_End,
-#define hs_SetRGBA(time, image) HUD_ELEMENT_OP_SetRGBA, time, (s32)image,
-#define hs_SetCI(time, name) HUD_ELEMENT_OP_SetCI, time, (s32)name##_png, (s32)name##_pal,
-#define hs_SetCI_Explicit(time, raster, palette) HUD_ELEMENT_OP_SetCI, time, (s32)raster##_png, (s32)palette##_pal,
+#define hs_SetRGBA(time, image) HUD_ELEMENT_OP_SetRGBA, time, (intptr_t)image,
+#define hs_SetCI(time, name) HUD_ELEMENT_OP_SetCI, time, (intptr_t)name##_png, (intptr_t)name##_pal,
+#define hs_SetCI_Explicit(time, raster, palette) HUD_ELEMENT_OP_SetCI, time, (intptr_t)raster##_png, (intptr_t)palette##_pal,
 #define hs_Restart HUD_ELEMENT_OP_Restart,
 #define hs_Loop HUD_ELEMENT_OP_Loop,
 #define hs_SetTileSize(size) HUD_ELEMENT_OP_SetTileSize, size,
@@ -246,7 +246,7 @@ extern HudScript* wPartnerHudScripts[];
 #define hs_AddTexelOffsetX(x) HUD_ELEMENT_OP_AddTexelOffsetX, x,
 #define hs_AddTexelOffsetY(y) HUD_ELEMENT_OP_AddTexelOffsetY, y,
 #define hs_SetTexelOffset(x, y) HUD_ELEMENT_OP_SetTexelOffset, x, y,
-#define hs_SetIcon(time, icon) HUD_ELEMENT_OP_SetImage, time, ICON_##icon##_raster, ICON_##icon##_palette, 0, 0,
+#define hs_SetIcon(time, icon) HUD_ELEMENT_OP_SetImage, time, (intptr_t)ICON_##icon##_raster, (intptr_t)ICON_##icon##_palette, 0, 0,
 #define hs_SetScale(scale) HUD_ELEMENT_OP_SetScale, (s32)(scale * 65536.0f),
 #define hs_SetAlpha(alpha) HUD_ELEMENT_OP_SetAlpha, alpha,
 #define hs_RandomDelay(arg0, arg1) HUD_ELEMENT_OP_RandomDelay, arg0, arg1,
@@ -258,7 +258,7 @@ extern HudScript* wPartnerHudScripts[];
 #define hs_RandomRestart(max, cutoff) HUD_ELEMENT_OP_RandomRestart, max, cutoff,
 
 #define hs_op_15(arg0) HUD_ELEMENT_OP_op_15, arg0,
-#define hs_RandomBranch(args...) HUD_ELEMENT_OP_RandomBranch, (sizeof((s32[]){args})/sizeof(s32)), args,
+#define hs_RandomBranch(args...) HUD_ELEMENT_OP_RandomBranch, (sizeof((intptr_t[]){args})/sizeof(intptr_t)), args,
 #define hs_SetFlags(arg0) HUD_ELEMENT_OP_SetFlags, arg0,
 #define hs_ClearFlags(arg0) HUD_ELEMENT_OP_ClearFlags, arg0,
 #define hs_PlaySound(arg0) HUD_ELEMENT_OP_PlaySound, arg0,

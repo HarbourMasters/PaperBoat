@@ -334,11 +334,12 @@ Mtx gBoxMatrix = RDP_MATRIX(
 // In vanilla, this results in some data being written to an unused struct field inside gPartnerStatus, which doesn't
 // cause any issues. In shiftable builds, there's no telling where quads might be, so we make some adjustments to
 // prevent the overflow
-s32 draw_box(s32 flags, WindowStyle windowStyle, s32 posX, s32 posY, s32 posZ, s32 width, s32 height, u8 opacity,
+s32 draw_box(s32 flags, void* windowStyle, s32 posX, s32 posY, s32 posZ, s32 width, s32 height, u8 opacity,
               u8 darkening, f32 scaleX, f32 scaleY, f32 rotX, f32 rotY, f32 rotZ,
               void (*fpDrawContents)(s32, s32, s32, s32, s32, s32, s32), void* drawContentsArg0, Matrix4f rotScaleMtx,
               s32 translateX, s32 translateY, Matrix4f outMtx)
 {
+    WindowStyle style = { .defaultStyleID = (int)(unsigned long)windowStyle };
     Matrix4f mtx1, mtx2, mtx3;
     u8 primR, primG, primB, primA, envR, envG, envB, envA;
     DefaultWindowStyle* defaultStyle = nullptr;
@@ -357,8 +358,8 @@ s32 draw_box(s32 flags, WindowStyle windowStyle, s32 posX, s32 posY, s32 posZ, s
     s32 foo;
     s32 alpha = foo * opacity / 255;
 
-    if (windowStyle.defaultStyleID <= WINDOW_STYLE_MAX && windowStyle.defaultStyleID >= 0) {
-        defaultStyle = &gBoxDefaultStyles[windowStyle.defaultStyleID];
+    if (style.defaultStyleID <= WINDOW_STYLE_MAX && style.defaultStyleID >= 0) {
+        defaultStyle = &gBoxDefaultStyles[style.defaultStyleID];
 
         primR = defaultStyle->color1.r;
         primG = defaultStyle->color1.g;
@@ -372,18 +373,18 @@ s32 draw_box(s32 flags, WindowStyle windowStyle, s32 posX, s32 posY, s32 posZ, s
         background = &gBoxBackground[defaultStyle->bgIndex];
         corners = &gBoxCorners[defaultStyle->cornersIndex];
     } else {
-        primR = windowStyle.customStyle->color1.r;
-        primG = windowStyle.customStyle->color1.g;
-        primB = windowStyle.customStyle->color1.b;
-        primA = windowStyle.customStyle->color1.a * opacity / 255;
-        envR = windowStyle.customStyle->color2.r;
-        envG = windowStyle.customStyle->color2.g;
-        envB = windowStyle.customStyle->color2.b;
-        envA = windowStyle.customStyle->color2.a;
+        primR = style.customStyle->color1.r;
+        primG = style.customStyle->color1.g;
+        primB = style.customStyle->color1.b;
+        primA = style.customStyle->color1.a * opacity / 255;
+        envR = style.customStyle->color2.r;
+        envG = style.customStyle->color2.g;
+        envB = style.customStyle->color2.b;
+        envA = style.customStyle->color2.a;
 
-        customStyle = windowStyle.customStyle;
-        background = &windowStyle.customStyle->background;
-        corners = &windowStyle.customStyle->corners;
+        customStyle = style.customStyle;
+        background = &style.customStyle->background;
+        corners = &style.customStyle->corners;
     }
     {
         u8* bgImage;

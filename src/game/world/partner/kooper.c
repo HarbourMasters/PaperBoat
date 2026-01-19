@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../src/world/partners.h"
+#include "../partners.h"
 #include "sprite/npc/WorldKooper.h"
 #include "sprite/player.h"
 #include "effects.h"

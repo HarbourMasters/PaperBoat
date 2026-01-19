@@ -1,6 +1,6 @@
 #include "include_asset.h"
 
-#include "PR/gbi.h"
+#include "ultra64.h"
 
 INCLUDE_IMG("effects/gfx/star_cards/card_front.png", D_09000000_3FA4B0);
 INCLUDE_PAL("effects/gfx/star_cards/card_front.pal", D_09000200_3FA6B0);

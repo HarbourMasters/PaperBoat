@@ -4,7 +4,9 @@
 #include "ultra64.h"
 
 // Should be at least the width of a pointer i.e. intptr_t
-typedef s32 Bytecode;
+// Port fix: Use intptr_t for 64-bit compatibility (pointers stored in bytecode arrays)
+#include <stdint.h>
+typedef intptr_t Bytecode;
 
 enum {
     EVT_OP_INTERNAL_FETCH,

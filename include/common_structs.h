@@ -2529,12 +2529,12 @@ typedef struct CreditsPairOffset {
 } CreditsPairOffset; // size = 0x4
 
 typedef struct PartnerDMAData {
-    /* 0x00 */ u32 dmaStart;
-    /* 0x04 */ u32 dmaEnd;
-    /* 0x08 */ void* dmaDest;
-    /* 0x0C */ struct ActorBlueprint* ActorBlueprint;
-    /* 0x10 */ s32 y;
-} PartnerDMAData; // size = 0x14
+    /* 0x00 */ uintptr_t dmaStart;
+    /* 0x08 */ uintptr_t dmaEnd;
+    /* 0x10 */ void* dmaDest;
+    /* 0x18 */ struct ActorBlueprint* ActorBlueprint;
+    /* 0x20 */ s32 y;
+} PartnerDMAData; // size = 0x28
 
 typedef struct UseItemStruct {
     /* 0x00 */ u8* dmaStart;

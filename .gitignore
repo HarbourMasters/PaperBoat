@@ -55,5 +55,9 @@ src/cn/
 properties.h
 mods*/%
 
+ignored/
+CMakeFiles/
+ver/
+logs.txt
 .vscode
 CLAUDE.md

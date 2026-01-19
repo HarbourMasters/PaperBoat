@@ -509,7 +509,7 @@ u8 gPauseMsg_56[] = { 0xB6, 0xB6, 0xB6, 0xFD };                                 
 #define gPauseMsg_56 MSG_PAL_Menu_0054 /* ??? */
 #endif
 
-s32 gPauseMessages[] = {
+uintptr_t gPauseMessages[] = {
     [PAUSE_MSG_NONE]                MSG_NONE,
     [PAUSE_MSG_TUT_NAME_BADGES]     MSG_MenuTip_BadgeTutorial_01,
     [PAUSE_MSG_TUT_UNUSED_1]        MSG_MenuTip_002B,
@@ -534,10 +534,10 @@ s32 gPauseMessages[] = {
     [PAUSE_MSG_TUT_CMD_6]           MSG_MenuTip_BadgeTutorial_14,
     [PAUSE_MSG_TUT_CMD_7]           MSG_MenuTip_BadgeTutorial_15,
 #if !VERSION_PAL
-    [PAUSE_MSG_17]                  (s32) gPauseMsg_17,
-    [PAUSE_MSG_18]                  (s32) gPauseMsg_18,
-    [PAUSE_MSG_19]                  (s32) gPauseMsg_19,
-    [PAUSE_MSG_1A]                  (s32) gPauseMsg_1A,
+    [PAUSE_MSG_17]                  gPauseMsg_17,
+    [PAUSE_MSG_18]                  gPauseMsg_18,
+    [PAUSE_MSG_19]                  gPauseMsg_19,
+    [PAUSE_MSG_1A]                  gPauseMsg_1A,
 #endif
     [PAUSE_MSG_TAB_STATS]           MSG_MenuTip_StatsTab,
     [PAUSE_MSG_TAB_BADGES]          MSG_MenuTip_BadgesTab,
@@ -562,55 +562,55 @@ s32 gPauseMessages[] = {
     [PAUSE_MSG_TIP_SECRETS]         MSG_MenuTip_Secrets,
     [PAUSE_MSG_TIP_STAR_PIECES]     MSG_MenuTip_StarPieces,
     [PAUSE_MSG_TIP_TIME]            MSG_MenuTip_Time,
-    [PAUSE_MSG_LBL_COINS]           (s32) gPauseMsg_32,
-    [PAUSE_MSG_LBL_STAR_POINTS]     (s32) gPauseMsg_33,
-    [PAUSE_MSG_LBL_STAR_PIECES]     (s32) gPauseMsg_34,
-    [PAUSE_MSG_LBL_TIME]            (s32) gPauseMsg_35,
-    [PAUSE_MSG_LBL_HP]              (s32) gPauseMsg_36,
-    [PAUSE_MSG_LBL_FP]              (s32) gPauseMsg_37,
-    [PAUSE_MSG_LBL_BP]              (s32) gPauseMsg_38,
-    [PAUSE_MSG_SLASH]               (s32) gPauseMsg_39,
-    [PAUSE_MSG_DOT]                 (s32) gPauseMsg_3A,
+    [PAUSE_MSG_LBL_COINS]           gPauseMsg_32,
+    [PAUSE_MSG_LBL_STAR_POINTS]     gPauseMsg_33,
+    [PAUSE_MSG_LBL_STAR_PIECES]     gPauseMsg_34,
+    [PAUSE_MSG_LBL_TIME]            gPauseMsg_35,
+    [PAUSE_MSG_LBL_HP]              gPauseMsg_36,
+    [PAUSE_MSG_LBL_FP]              gPauseMsg_37,
+    [PAUSE_MSG_LBL_BP]              gPauseMsg_38,
+    [PAUSE_MSG_SLASH]               gPauseMsg_39,
+    [PAUSE_MSG_DOT]                 gPauseMsg_3A,
 #if !VERSION_PAL
-    [PAUSE_MSG_3B]                  (s32) gPauseMsg_3B,
+    [PAUSE_MSG_3B]                  gPauseMsg_3B,
 #endif
-    [PAUSE_MSG_3C]                  (s32) gPauseMsg_3C,
-    [PAUSE_MSG_3D]                  (s32) gPauseMsg_3D,
-    [PAUSE_MSG_3E]                  (s32) gPauseMsg_3E,
+    [PAUSE_MSG_3C]                  gPauseMsg_3C,
+    [PAUSE_MSG_3D]                  gPauseMsg_3D,
+    [PAUSE_MSG_3E]                  gPauseMsg_3E,
 #if !VERSION_PAL
-    [PAUSE_MSG_3F]                  (s32) gPauseMsg_3F,
+    [PAUSE_MSG_3F]                  gPauseMsg_3F,
 #endif
-    [PAUSE_MSG_40]                  (s32) gPauseMsg_40,
-    [PAUSE_MSG_41]                  (s32) gPauseMsg_41,
-    [PAUSE_MSG_42]                  (s32) gPauseMsg_42,
-    [PAUSE_MSG_MARIO]               (s32) gPauseMsg_43,
-    [PAUSE_MSG_LEVEL]               (s32) gPauseMsg_44,
+    [PAUSE_MSG_40]                  gPauseMsg_40,
+    [PAUSE_MSG_41]                  gPauseMsg_41,
+    [PAUSE_MSG_42]                  gPauseMsg_42,
+    [PAUSE_MSG_MARIO]               gPauseMsg_43,
+    [PAUSE_MSG_LEVEL]               gPauseMsg_44,
     [PAUSE_MSG_NO_BADGE]            MSG_MenuTip_None,
-    [PAUSE_MSG_BADGE_BP]            (s32) gPauseMsg_46,
-    [PAUSE_MSG_ALL_BADGES]          (s32) gPauseMsg_47,
+    [PAUSE_MSG_BADGE_BP]            gPauseMsg_46,
+    [PAUSE_MSG_ALL_BADGES]          gPauseMsg_47,
 #if VERSION_PAL
-    [PAUSE_MSG_PAL_42]              (s32) gPauseMsg_PAL_42,
+    [PAUSE_MSG_PAL_42]              gPauseMsg_PAL_42,
 #endif
-    [PAUSE_MSG_ACTIVE]              (s32) gPauseMsg_48,
+    [PAUSE_MSG_ACTIVE]              gPauseMsg_48,
 #if !VERSION_JP
-    [PAUSE_MSG_BADGES]              (s32) gPauseMsg_49,
+    [PAUSE_MSG_BADGES]              gPauseMsg_49,
 #endif
-    [PAUSE_MSG_NOT_ENOUGH_BP]       (s32) gPauseMsg_4A,
-    [PAUSE_MSG_DONT_WEAR_MORE]      (s32) gPauseMsg_4B,
+    [PAUSE_MSG_NOT_ENOUGH_BP]       gPauseMsg_4A,
+    [PAUSE_MSG_DONT_WEAR_MORE]      gPauseMsg_4B,
     [PAUSE_MSG_BAGDE_DESC_ALL]      MSG_MenuTip_BadgeTab_All,
     [PAUSE_MSG_BAGDE_DESC_ACTIVE]   MSG_MenuTip_BadgeTab_Equipped,
     [PAUSE_MSG_BAGDE_DESC_NONE]     MSG_MenuTip_None,
-    [PAUSE_MSG_KEY_ITEMS]           (s32) gPauseMsg_4F,
+    [PAUSE_MSG_KEY_ITEMS]           gPauseMsg_4F,
 #if VERSION_PAL
-    [PAUSE_MSG_PAL_4B]              (s32) gPauseMsg_PAL_4B,
+    [PAUSE_MSG_PAL_4B]              gPauseMsg_PAL_4B,
 #endif
-    [PAUSE_MSG_CONSUMABLES]         (s32) gPauseMsg_50,
+    [PAUSE_MSG_CONSUMABLES]         gPauseMsg_50,
     [PAUSE_MSG_DESC_CONSUMABLES]    MSG_MenuTip_ItemTab_Consumables,
     [PAUSE_MSG_DESC_KEY_ITEMS]      MSG_MenuTip_ItemTab_KeyItems,
-    [PAUSE_MSG_PARTNER_HP]          (s32) gPauseMsg_53,
-    [PAUSE_MSG_PARTNER_FP]          (s32) gPauseMsg_54,
-    [PAUSE_MSG_PARTNER_ABILITIES]   (s32) gPauseMsg_55,
-    [PAUSE_MSG_UNKNOWN_SPIRIT]      (s32) gPauseMsg_56,
+    [PAUSE_MSG_PARTNER_HP]          gPauseMsg_53,
+    [PAUSE_MSG_PARTNER_FP]          gPauseMsg_54,
+    [PAUSE_MSG_PARTNER_ABILITIES]   gPauseMsg_55,
+    [PAUSE_MSG_UNKNOWN_SPIRIT]      gPauseMsg_56,
 };
 
 Gfx* PauseGfxLabels[] = {

@@ -294,7 +294,7 @@ void water_block_appendGfx(void* effect) {
 
     gSPVertex(gMainGfxPos++, &vtxBase[28], 12, 0);
 
-    gSPDisplayList(gMainGfxPos++, D_09000538_3B7128)
+    gSPDisplayList(gMainGfxPos++, D_09000538_3B7128);
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }

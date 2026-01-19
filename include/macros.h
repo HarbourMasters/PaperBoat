@@ -4,7 +4,14 @@
 #include "types.h"
 #include "include_asm.h"
 
-#ifndef M2CTX
+// Port fix: Remove ELF section attributes for non-ELF platforms (macOS/Windows)
+// These attributes don't work on modern compilers and cause issues
+#if defined(PORT) || defined(M2CTX)
+#define SHIFT_BSS
+#define BSS
+#define TRANSPARENT_UNION __attribute__ ((__transparent_union__))
+#define MATCHING_BSS(size)
+#else
 
 #ifdef SHIFT
 #define SHIFT_BSS __attribute__ ((section (".bss")))
@@ -20,10 +27,6 @@
 
 #define BSS __attribute__ ((nocommon, section (".bss")))
 #define TRANSPARENT_UNION __attribute__ ((__transparent_union__))
-#else
-#define SHIFT_BSS static
-#define BSS static
-#define TRANSPARENT_UNION
 #endif
 
 #define ALIGNED(x) __attribute__((aligned(x)))
@@ -138,6 +141,7 @@ typedef s32 Difficulty2D[AC_DIFFICULTY_LEN][2];
 #define PI_D    3.141592
 #define TAU     6.28318f
 #define PI_S    3.14159f // Shorter PI
+#define M_PI    3.141592653589793 // Standard math.h constant for modern compilers
 
 // Angle conversion macros
 #define DEG_TO_BINANG(x) ((x) * (0x8000 / 180.0f))
@@ -537,12 +541,5 @@ typedef s32 Difficulty2D[AC_DIFFICULTY_LEN][2];
 #endif
 
 #define DMA_COPY_SEGMENT(segment) dma_copy(segment##_ROM_START, segment##_ROM_END, segment##_VRAM)
-
-#if defined(OLD_GCC) || __STDC_VERSION__ < 202311L
-typedef enum {
-    false,
-    true
-} bool;
-#endif
 
 #endif

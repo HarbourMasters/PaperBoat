@@ -49,8 +49,8 @@ BSS u8 Vine2Base[0x3000];
 BSS u8 Vine1Base[0x3000];
 BSS u8 Vine0Base[0x4000];
 
-#define VINE_1_BASE (s32) Vine1Base
-#define VINE_2_BASE (s32) Vine2Base
+#define VINE_1_BASE (intptr_t) Vine1Base
+#define VINE_2_BASE (intptr_t) Vine2Base
 
 #define EVT_LOAD_BUD_ANIM(whichVine, anim) \
     IfEq(whichVine, VINE_1) \

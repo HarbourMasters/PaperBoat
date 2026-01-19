@@ -1,6 +1,11 @@
 #ifndef _TYPES_H_
 #define _TYPES_H_
 
+// Port fix: Include stddef.h early on non-N64 platforms
+#ifdef PORT
+#include <stddef.h>
+#endif
+
 #include "ultra64.h"
 
 #if !defined(OLD_GCC) && (defined(__cplusplus) && __cplusplus >= 201103L)

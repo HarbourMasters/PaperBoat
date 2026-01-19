@@ -337,7 +337,7 @@ void render_windows(s32* windowsArray, s32 parent, s32 flags, s32 baseX, s32 bas
             boxFlags |= DRAW_FLAG_ANIMATED_BACKGROUND;
         }
 
-        if (draw_box(boxFlags, windowStyle, posX, posY, posZ, width, height, childOpacity, childDarkening,
+        if (draw_box(boxFlags, *(void**)&windowStyle, posX, posY, posZ, width, height, childOpacity, childDarkening,
                     scaleX, scaleY, rotX, rotY, rotZ, fpDrawContents, drawContentsArg0, rotScaleMtx,
                     boxTranslateX, boxTranslateY, outMtx) == 0) {
             if (childFlags == 0 && rotScaleMtx == 0) {

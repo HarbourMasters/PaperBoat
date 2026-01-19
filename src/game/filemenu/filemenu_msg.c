@@ -41,7 +41,7 @@ u8* filemenu_specialSymbols[][5] = {
     [LANGUAGE_ES] = { filemenu_msg_C8, filemenu_msg_C6, filemenu_msg_C7, filemenu_msg_C9, filemenu_msg_CA_es },
 };
 #else
-s32 filemenu_specialSymbols[] = { (s32)filemenu_msg_C6, (s32)filemenu_msg_C7, (s32)filemenu_msg_C8, (s32)filemenu_msg_C9, (s32)filemenu_msg_CA };
+intptr_t filemenu_specialSymbols[] = { (intptr_t)filemenu_msg_C6, (intptr_t)filemenu_msg_C7, (intptr_t)filemenu_msg_C8, (intptr_t)filemenu_msg_C9, (intptr_t)filemenu_msg_CA };
 #endif
 
 Gfx filemenu_dl_draw_char_init[] = {

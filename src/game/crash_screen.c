@@ -300,8 +300,8 @@ void crash_screen_thread_entry(void* unused) {
     OSMesg mesg;
     OSThread* faultedThread;
 
-    osSetEventMesg(OS_EVENT_CPU_BREAK, &gCrashScreen.queue, (OSMesg)1);
-    osSetEventMesg(OS_EVENT_FAULT, &gCrashScreen.queue, (OSMesg)2);
+    osSetEventMesg(OS_EVENT_CPU_BREAK, &gCrashScreen.queue, OS_MESG_32(1));
+    osSetEventMesg(OS_EVENT_FAULT, &gCrashScreen.queue, OS_MESG_32(2));
 
     do {
         osRecvMesg(&gCrashScreen.queue, &mesg, 1);

@@ -292,6 +292,7 @@ HudScript HES_HandPointLeftHeld = {
     hs_End
 };
 
+
 #include "item_data.inc.c"
 
 //TODO split for partner popup menu data?
@@ -330,7 +331,7 @@ s32 MenuIndexFromPartnerID[] = {
 
 PartnerPopupProperties gPartnerPopupProperties[] = {
     [PARTNER_NONE] {
-        (s32) "なし",
+        (s32) 1,//"なし",
         0,
         MSG_NONE,
         MSG_NONE,

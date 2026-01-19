@@ -9,7 +9,7 @@ extern Gfx Entity_SaveBlock_RenderContent[];
 extern Gfx Entity_SaveBlock_RenderBlock[];
 extern Gfx Entity_SaveBlock_RenderNone[];
 
-extern s32 Entity_SaveBlock_ScriptResume[];
+extern EntityScript Entity_SaveBlock_ScriptResume;
 
 BSS bool SaveBlockTutorialPrinterClosed;
 BSS bool SaveBlockResultPrinterClosed;

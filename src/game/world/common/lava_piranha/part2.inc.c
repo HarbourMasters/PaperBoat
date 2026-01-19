@@ -5,11 +5,11 @@ BSS s32 N(VineRenderState);
 MAP_STATIC_PAD(1, unk_static_pad);
 
 #define PIRANHA_DMA_ENTRY(name) \
-    (s32) world_model_anim_kzn_##name##_ROM_START,\
-    (s32) world_model_anim_kzn_##name##_ROM_END,\
-    (s32) world_model_anim_kzn_##name##_VRAM
+    (intptr_t) world_model_anim_kzn_##name##_ROM_START,\
+    (intptr_t) world_model_anim_kzn_##name##_ROM_END,\
+    (intptr_t) world_model_anim_kzn_##name##_VRAM
 
-s32 N(VineAnimationsDmaTable)[] = {
+intptr_t N(VineAnimationsDmaTable)[] = {
     PIRANHA_DMA_ENTRY(00),
     PIRANHA_DMA_ENTRY(01),
     PIRANHA_DMA_ENTRY(02),

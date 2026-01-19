@@ -1,7 +1,7 @@
 #ifndef _IMGFX_H_
 #define _IMGFX_H_
 
-#include "PR/gbi.h"
+#include "ultra64.h"
 
 // 'compressed' vertex data for animated image fx keyframes
 typedef struct ImgFXVtx {

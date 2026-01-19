@@ -1,6 +1,6 @@
 #include "include_asset.h"
 
-#include "PR/gbi.h"
+#include "ultra64.h"
 
 Lights1 D_09000000_398BC0 = gdSPDefLights1(255, 255, 255, 255, 255, 255, 255, 65, 109);
 

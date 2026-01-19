@@ -140,3 +140,19 @@ extern "C" uint8_t GameEngine_OTRSigCheck(const char* data) {
     }
     return strncmp(data, sOtrSignature, strlen(sOtrSignature)) == 0;
 }
+
+// C-callable wrapper for processing graphics commands
+extern "C" void GameEngine_ProcessGfxCommands(Gfx* commands) {
+    std::vector<std::unordered_map<Mtx*, MtxF>> mtx_replacements;
+    mtx_replacements.push_back({});  // Empty map for now, interpolation can be added later
+    GameEngine::RunCommands(commands, mtx_replacements);
+}
+
+// C-callable memory allocator
+extern "C" void* GameEngine_Malloc(size_t size) {
+    void* ptr = malloc(size);
+    if (ptr != nullptr) {
+        MemoryPool.push_back((uint8_t*)ptr);
+    }
+    return ptr;
+}

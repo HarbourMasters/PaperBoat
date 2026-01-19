@@ -1,6 +1,6 @@
 #include "common.h"
 #include "goompa.h"
-#include "../src/world/partners.h"
+#include "../partners.h"
 
 #define NAMESPACE world_goompa
 
