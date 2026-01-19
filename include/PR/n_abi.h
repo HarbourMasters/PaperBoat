@@ -20,6 +20,14 @@
 #ifndef __N_ABI__
 #define	__N_ABI__
 
+// Audio command constants needed by PM64 audio system
+#ifndef A_SETVOL
+#define A_SETVOL 9
+#endif
+#ifndef A_POLEF
+#define A_POLEF 14
+#endif
+
 /*
  * BEGIN C-specific section: (typedef's)
  */

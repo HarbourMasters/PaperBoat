@@ -1,4 +1,4 @@
-#include "PR/guint.h"
+#include "ultra64.h"
 
 #include "sintable.inc.c"
 

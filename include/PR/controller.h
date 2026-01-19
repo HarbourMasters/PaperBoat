@@ -1,8 +1,8 @@
 #ifndef _CONTROLLER_H
 #define _CONTROLLER_H
 
-#include "os_internal.h"
-#include "rcp.h"
+#include "PR/osint.h"
+#include "ultra64.h"
 
 //should go somewhere else but
 #define ARRLEN(x) ((s32)(sizeof(x) / sizeof(x[0])))
