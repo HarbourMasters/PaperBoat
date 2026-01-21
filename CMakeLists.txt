@@ -13,6 +13,15 @@ set(CMAKE_CXX_STANDARD 20)
 # Add libultraship BEFORE setting include directories to avoid polluting its builds
 add_subdirectory(external/libultraship ${CMAKE_CURRENT_SOURCE_DIR}/external/libultraship)
 
+# Add torch as a library for asset extraction
+set(USE_STANDALONE OFF CACHE BOOL "" FORCE)
+set(BUILD_SM64 OFF CACHE BOOL "" FORCE)
+set(BUILD_MK64 OFF CACHE BOOL "" FORCE)
+set(BUILD_SF64 OFF CACHE BOOL "" FORCE)
+set(BUILD_FZERO OFF CACHE BOOL "" FORCE)
+set(BUILD_MARIO_ARTIST OFF CACHE BOOL "" FORCE)
+add_subdirectory(external/torch)
+
 # Collect all game C sources (excluding .inc.c which are included by other files)
 file(GLOB_RECURSE GAME_SOURCES ${CMAKE_SOURCE_DIR}/src/game/*.c)
 file(GLOB_RECURSE INC_FILES ${CMAKE_SOURCE_DIR}/src/game/*.inc.c)
@@ -33,6 +42,10 @@ list(FILTER GAME_SOURCES EXCLUDE REGEX "/kzn_19_anim[0-9]+\\.c$")
 set(PORT_SOURCES
     src/port/Game.cpp
     src/port/Engine.cpp
+    src/port/audio/AudioLoader.cpp
+    src/port/factories/PM64SpriteFactory.cpp
+    src/port/factories/PM64TextureFactory.cpp
+    src/port/sprite/SpriteLoader.cpp
     src/port/nusys_overrides.c
     src/port/gu.c
     src/port/ld_addr.c
@@ -79,6 +92,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/include/assets
     ${CMAKE_SOURCE_DIR}/src/port
     ${CMAKE_SOURCE_DIR}/src/game
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/torch/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/torch/lib
     ${CMAKE_CURRENT_SOURCE_DIR}/external/libultraship/include
     ${CMAKE_CURRENT_SOURCE_DIR}/external/libultraship/include/libultraship
     ${CMAKE_CURRENT_SOURCE_DIR}/external/libultraship/src
@@ -105,7 +121,23 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 add_dependencies(${PROJECT_NAME} libultraship)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE libultraship)
+target_link_libraries(${PROJECT_NAME} PRIVATE libultraship torch)
+
+# Copy config.yml and assets to output directory for torch asset extraction
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMENT "Copying config.yml and asset yamls..."
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/config.yml" "$<TARGET_FILE_DIR:${PROJECT_NAME}>/config.yml"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/assets/" "$<TARGET_FILE_DIR:${PROJECT_NAME}>/assets/"
+)
+
+# Generate f3d.o2r shader archive from libultraship shaders
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMENT "Generating f3d.o2r shader archive..."
+    COMMAND ${CMAKE_COMMAND} -E tar cf "$<TARGET_FILE_DIR:${PROJECT_NAME}>/f3d.o2r" --format=zip -- shaders
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/external/libultraship/src/fast"
+)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 

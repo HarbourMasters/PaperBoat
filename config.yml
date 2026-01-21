@@ -10,6 +10,6 @@
     sort: OFFSET
     logging: INFO
     output:
-      binary: starrod.o2r
+      binary: pm64.o2r
       headers: include
       code: code

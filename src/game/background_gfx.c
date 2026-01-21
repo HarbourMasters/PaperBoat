@@ -45,6 +45,10 @@ void gfx_init_state(void) {
     gSPSegment(gMainGfxPos++, 0x00, 0x0);
     gSPDisplayList(gMainGfxPos++, OS_K0_TO_PHYSICAL(D_80074230));
     gSPDisplayList(gMainGfxPos++, OS_K0_TO_PHYSICAL(D_80074210));
+    // libultraship requires an explicit color image target
+    // Use address 1 as a sentinel value (NULL/0 might be treated specially)
+    gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, (void*)1);
+    gDPSetDepthImage(gMainGfxPos++, (void*)1);
 }
 
 s32 gfx_frame_filter_pass_0(const u16* frameBuffer0, const u16* frameBuffer1, s32 y, s32 x, Color_RGBA8* out) {

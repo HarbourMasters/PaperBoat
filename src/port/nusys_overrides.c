@@ -6,6 +6,10 @@
  * instead of actual N64 hardware.
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <execinfo.h>
 #include "common.h"
 #include "nu/nusys.h"
 #include "Engine.h"
@@ -86,7 +90,8 @@ void nuPiInit(void) {
 }
 
 void nuPiReadRom(u32 romAddr, void* ramAddr, u32 len) {
-    // No-op - assets loaded via OTR
+    GameEngine_LogInfo("nuPiReadRom: addr=0x%08X len=0x%X (%u)", romAddr, len, len);
+    //GameEngine_LogStackTrace("nuPiReadRom");
     return;
 }
 

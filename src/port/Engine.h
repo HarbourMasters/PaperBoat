@@ -1,5 +1,20 @@
 #pragma once
 
+#include <stdint.h>
+#include <stddef.h>
+
+// Forward declarations for C code
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void* ResourceGetDataByName(const char* name);
+uint8_t GameEngine_OTRSigCheck(const char* data);
+
+#ifdef __cplusplus
+}
+#endif
+
 #define LOAD_ASSET(path) (path == NULL ? NULL : (GameEngine_OTRSigCheck((const char*) path) ? ResourceGetDataByName((const char*) path) : path))
 #define LOAD_ASSET_RAW(path) ResourceGetDataByName((const char*) path)
 
@@ -53,6 +68,8 @@ extern "C" {
 
 void* GameEngine_Malloc(size_t size);
 void GameEngine_ProcessGfxCommands(Gfx* commands);
+void GameEngine_LogInfo(const char* fmt, ...);
+void GameEngine_LogStackTrace(const char* label);
 
 #ifdef __cplusplus
 }

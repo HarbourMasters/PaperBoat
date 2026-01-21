@@ -1,0 +1,4 @@
+# This blob contains all audio data: BGM, SFX, instruments, etc.
+
+audio_sbn:
+  { type: BLOB, offset: 0xF00000, size: 0xA42C40, symbol: gAudioSBN }

@@ -3,8 +3,8 @@
 ### Development
 
 ```
-cmake -H. -Bbuild-cmake -GNinja -DCMAKE_BUILD_TYPE=debug
-cmake --build build-cmake -j
+cmake -H. -Bbuild -GNinja -DCMAKE_BUILD_TYPE=debug
+cmake --build build -j
 ```
 
 Then:

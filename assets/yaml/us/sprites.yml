@@ -1,0 +1,37 @@
+:config:
+  segments:
+    - [0x01, 0x01000000]
+
+sprite_data_header:
+  { type: BLOB, offset: 0x1943010, size: 0xC, symbol: gSpriteDataHeader }
+
+player_raster_header:
+  { type: BLOB, offset: 0x1943020, size: 0xC, symbol: gPlayerRasterHeader }
+
+player_raster_sets:
+  { type: BLOB, offset: 0x1943030, size: 0x38, symbol: gPlayerRasterSets }
+
+player_raster_load_descriptors:
+  { type: BLOB, offset: 0x1943068, size: 0xB38, symbol: gPlayerRasterLoadDescriptors }
+
+player_raster_image_data:
+  { type: BLOB, offset: 0x1943BA0, size: 0x9CDD0, symbol: gPlayerRasterImageData }
+
+player_sprite_index:
+  { type: BLOB, offset: 0x19E0970, size: 0x3C, symbol: gPlayerSpriteIndex }
+
+player_sprite_0:
+  { type: PM64:SPRITE, offset: 0x19E09A8, symbol: gPlayerSprite0 }
+player_sprite_1:
+  { type: PM64:SPRITE, offset: 0x19E1390, symbol: gPlayerSprite1 }
+player_sprite_5:
+  { type: PM64:SPRITE, offset: 0x19E3208, symbol: gPlayerSprite5 }
+player_sprite_6:
+  { type: PM64:SPRITE, offset: 0x19E3BA8, symbol: gPlayerSprite6 }
+player_sprite_7:
+  { type: PM64:SPRITE, offset: 0x19E3FD8, symbol: gPlayerSprite7 }
+player_sprite_8:
+  { type: PM64:SPRITE, offset: 0x19E4828, symbol: gPlayerSprite8 }
+
+npc_sprite_index:
+  { type: BLOB, offset: 0x1980420, size: 0x758, symbol: gNpcSpriteIndex }

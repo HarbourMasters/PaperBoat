@@ -4,6 +4,9 @@
 #include "ld_addrs.h"
 #include "sprite/player.h"
 
+#include "port/sprite/SpriteLoader.h"
+#include "port/Engine.h"
+
 #ifdef SHIFT
 #define SPRITE_ROM_START (u32) sprites_ROM_START + 0x10
 #elif VERSION_US || VERSION_IQUE
@@ -79,15 +82,61 @@ SpriteAnimData* spr_load_sprite(s32 idx, s32 isPlayerSprite, s32 useTailAlloc) {
     s32 count;
     s32** data;
     s32** palettes;
+    s32 loadedFromAssets = false;
+
+    // The loader converts N64 format to native format with proper pointer sizes,
+    // so we skip the swizzle section entirely for asset-loaded sprites.
+    if (isPlayerSprite) {
+        size_t spriteSize = Sprite_GetPlayerSize(idx);
+        if (spriteSize > 0) {
+            if (useTailAlloc) {
+                animData = _heap_malloc_tail(&heap_spriteHead, spriteSize);
+            } else {
+                animData = _heap_malloc(&heap_spriteHead, spriteSize);
+            }
+
+            if (Sprite_LoadPlayer(idx, animData, spriteSize) == NULL) {
+                GameEngine_LogInfo("Failed to load player sprite %d from assets", idx);
+                goto rom_load;
+            }
+
+            GameEngine_LogInfo("Loaded player sprite %d from assets (%d bytes)", idx, (int)spriteSize);
+            // Skip swizzle - loader already converted to native format
+            loadedFromAssets = true;
+            goto load_player_raster_desc;
+        }
+        GameEngine_LogInfo("Player sprite %d not in assets, using ROM path", idx);
+    } else {
+        size_t spriteSize = Sprite_GetNPCSize(idx);
+        if (spriteSize > 0) {
+            if (useTailAlloc) {
+                animData = _heap_malloc_tail(&heap_spriteHead, spriteSize);
+            } else {
+                animData = _heap_malloc(&heap_spriteHead, spriteSize);
+            }
+
+            if (Sprite_LoadNPC(idx, animData, spriteSize) == NULL) {
+                GameEngine_LogInfo("Failed to load NPC sprite %d from assets", idx);
+                goto rom_load;
+            }
+
+            GameEngine_LogInfo("Loaded NPC sprite %d from assets (%d bytes)", idx, (int)spriteSize);
+            // Skip swizzle - loader already converted to native format
+            return animData;
+        }
+        GameEngine_LogInfo("NPC sprite %d not in assets, using ROM path", idx);
+    }
+rom_load:
 
     if (isPlayerSprite) {
         base = SpriteDataHeader[1];
+        // Load player sprite index entry from asset
+        Sprite_GetPlayerSpriteIndexEntry(idx, spr_asset_entry);
     } else {
         base = SpriteDataHeader[2];
+        // read current and next sprite offsets, so we can find the difference
+        nuPiReadRom(base + idx * 8, &spr_asset_entry, sizeof(spr_asset_entry));
     }
-
-    // read current and next sprite offsets, so we can find the difference
-    nuPiReadRom(base + idx * 4, &spr_asset_entry, sizeof(spr_asset_entry));
 
     compressedSize = ALIGN8(spr_asset_entry[1] - spr_asset_entry[0]);
     data = general_heap_malloc(compressedSize);
@@ -105,6 +154,7 @@ SpriteAnimData* spr_load_sprite(s32 idx, s32 isPlayerSprite, s32 useTailAlloc) {
     decode_yay0(data, animData);
     general_heap_free(data);
 
+swizzle:
     // swizzle raster array
     data = (s32**)animData->rastersOffset;
     data = SPR_SWIZZLE(ALIGN4(animData), data);
@@ -127,18 +177,23 @@ SpriteAnimData* spr_load_sprite(s32 idx, s32 isPlayerSprite, s32 useTailAlloc) {
         }
     }
 
+load_player_raster_desc:
     if (isPlayerSprite) {
         PlayerRasterLoadDescBeginSpriteIndex[idx] = PlayerRasterLoadDescNumLoaded;
         count = PlayerSpriteRasterSets[idx + 1] - PlayerSpriteRasterSets[idx];
-        // load a range of raster loading desciptors to a buffer and copy contents into PlayerRasterLoadDesc
-        nuPiReadRom(SpriteDataHeader[0] + PlayerRasterHeader.loadDescriptors + sizeof(u32) * PlayerSpriteRasterSets[idx],
-            PlayerRasterLoadDescBuffer, sizeof(PlayerRasterLoadDescBuffer));
+        // load a range of raster loading descriptors from assets (byte-swapped)
+        Sprite_GetPlayerRasterLoadDescriptors(idx, PlayerSpriteRasterSets[idx],
+            PlayerRasterLoadDescBuffer, count);
         for (i = 0; i < count; i++) {
             PlayerRasterLoadDesc[PlayerRasterLoadDescNumLoaded++] = PlayerRasterLoadDescBuffer[i];
         }
+        // For asset-loaded sprites, we're done (data is already in native format)
+        if (loadedFromAssets) {
+            return animData;
+        }
     }
 
-    // swizzle palettes array
+    // swizzle palettes array (only for ROM-loaded sprites)
     palettes = SPR_SWIZZLE(ALIGN4(animData), animData->palettesOffset);
     animData->palettesOffset = (PAL_PTR*)palettes;
     while (true) {
@@ -158,8 +213,16 @@ SpriteAnimData* spr_load_sprite(s32 idx, s32 isPlayerSprite, s32 useTailAlloc) {
 void spr_init_player_raster_cache(s32 cacheSize, s32 maxRasterSize) {
     void* raster;
     s32 i;
+    s32 tempHeader[3];
 
-    nuPiReadRom(SPRITE_ROM_START, &SpriteDataHeader, sizeof(SpriteDataHeader));
+    // Load sprite data header from assets
+    Sprite_GetDataHeader(tempHeader);
+    SpriteDataHeader[0] = tempHeader[0];
+    SpriteDataHeader[1] = tempHeader[1];
+    SpriteDataHeader[2] = tempHeader[2];
+    GameEngine_LogInfo("Loaded SpriteDataHeader from assets: [0x%X, 0x%X, 0x%X]",
+                       SpriteDataHeader[0], SpriteDataHeader[1], SpriteDataHeader[2]);
+
     PlayerRasterCacheSize = cacheSize;
     PlayerRasterMaxSize = maxRasterSize;
     SpriteDataHeader[0] += SPRITE_ROM_START;
@@ -179,8 +242,18 @@ void spr_init_player_raster_cache(s32 cacheSize, s32 maxRasterSize) {
         PlayerRasterLoadDescBeginSpriteIndex[i] = 0;
     }
     PlayerRasterLoadDescNumLoaded = 0;
-    nuPiReadRom(SpriteDataHeader[0], &PlayerRasterHeader, sizeof(PlayerRasterHeader));
-    nuPiReadRom(SpriteDataHeader[0] + PlayerRasterHeader.indexRanges, PlayerSpriteRasterSets, sizeof(PlayerSpriteRasterSets));
+
+    // Load player raster header from assets
+    Sprite_GetPlayerRasterHeader(tempHeader);
+    PlayerRasterHeader.indexRanges = tempHeader[0];
+    PlayerRasterHeader.loadDescriptors = tempHeader[1];
+    PlayerRasterHeader.imageData = tempHeader[2];
+    GameEngine_LogInfo("Loaded PlayerRasterHeader from assets: [0x%X, 0x%X, 0x%X]",
+                       PlayerRasterHeader.indexRanges, PlayerRasterHeader.loadDescriptors, PlayerRasterHeader.imageData);
+
+    // Load player sprite raster sets from assets
+    Sprite_GetPlayerRasterSets(PlayerSpriteRasterSets, ARRAY_COUNT(PlayerSpriteRasterSets));
+    GameEngine_LogInfo("Loaded PlayerSpriteRasterSets from assets");
 }
 
 IMG_PTR spr_get_player_raster(s32 rasterIndex, s32 playerSpriteID) {
@@ -212,7 +285,9 @@ IMG_PTR spr_get_player_raster(s32 rasterIndex, s32 playerSpriteID) {
     // each player raster load descriptor has image size (in bytes) and relative offset packed into one word
     // upper three nibbles give size / 16, lower 5 give offset
     playerRasterInfo = PlayerRasterLoadDesc[PlayerRasterLoadDescBeginSpriteIndex[playerSpriteID] + rasterIndex];
-    nuPiReadRom(SpriteDataHeader[0] + (playerRasterInfo & 0xFFFFF), cacheEntry->raster, (playerRasterInfo >> 0x10) & 0xFFF0);
+    // Load from asset: offset is relative to SpriteDataHeader[0], asset starts at imageData offset
+    Sprite_LoadPlayerRaster((playerRasterInfo & 0xFFFFF) - PlayerRasterHeader.imageData,
+                            cacheEntry->raster, (playerRasterInfo >> 0x10) & 0xFFF0);
     return cacheEntry->raster;
 }
 

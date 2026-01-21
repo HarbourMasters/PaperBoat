@@ -4,6 +4,7 @@
 #include "nu/nualsgi.h"
 #include "PR/n_abi.h"
 #include "common.h"
+#include "ship/utils/binarytools/endianness.h"
 
 typedef s32 s8_24; // 8.24 fixed point
 typedef s32 s16_16; // 16.16 fixed point

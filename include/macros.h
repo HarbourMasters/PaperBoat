@@ -65,8 +65,8 @@
 #define MAP_RODATA_PAD(n,name) const s32 N(rodata_pad_##name)[n] = {};
 #define MAP_STATIC_PAD(n,name) BSS s32 N(static_pad_##name)[n];
 
-#define PHYSICAL_TO_VIRTUAL(addr) (void*)((u32)(addr) + 0x80000000)
-#define VIRTUAL_TO_PHYSICAL(addr) (u32)((u8*)(addr) - 0x80000000)
+#define PHYSICAL_TO_VIRTUAL(addr) ((void*)(uintptr_t)(addr))
+#define VIRTUAL_TO_PHYSICAL(addr) ((uintptr_t)(addr))
 
 #ifdef DEBUG
 #define IS_DEBUG_PANIC(statement, file, line) is_debug_panic(statement, file, line)

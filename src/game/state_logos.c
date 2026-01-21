@@ -76,7 +76,8 @@ void state_init_logos(void) {
     gGameStatusPtr->logoTime = 0;
     gGameStatusPtr->skipLogos = false;
     startup_set_fade_screen_alpha(255);
-    startup_set_fade_screen_color(0);
+    // Start with white fade, don't know why decomp has the start as black
+    startup_set_fade_screen_color(230);
 
     // Load logo textures from OTR archive
     gLogosImage1 = (u8*)LOAD_ASSET(LOGO_1);
@@ -165,7 +166,7 @@ void state_step_logos(void) {
                 break;
             case LOGOS_STATE_N64_HOLD:
                 if (gGameStatusPtr->logoTime == 0) {
-                    startup_set_fade_screen_color(208);
+                    startup_set_fade_screen_color(232); // Match logo texture background
                     gGameStatusPtr->startupState++;
                 }
                 gGameStatusPtr->logoTime--;
@@ -190,7 +191,7 @@ void state_step_logos(void) {
 #if VERSION_JP
                     startup_set_fade_screen_color(0);
 #else
-                    startup_set_fade_screen_color(208);
+                    startup_set_fade_screen_color(232); // Match logo texture background
 #endif
                 }
                 gGameStatusPtr->logoTime--;
@@ -209,7 +210,7 @@ void state_step_logos(void) {
             case LOGOS_STATE_IS_HOLD_1:
                 if (gGameStatusPtr->logoTime == 0) {
                     gGameStatusPtr->startupState++;
-                    startup_set_fade_screen_color(208);
+                    startup_set_fade_screen_color(232); // Match logo texture background
                     gGameStatusPtr->logoTime = 30;
                 }
                 gGameStatusPtr->logoTime--;
@@ -262,7 +263,10 @@ void appendGfx_intro_logos(void) {
     gDPSetRenderMode(gMainGfxPos++, G_RM_NOOP, G_RM_NOOP2);
     gDPSetCombineMode(gMainGfxPos++, G_CC_DECALRGB, G_CC_DECALRGB);
     gDPSetCycleType(gMainGfxPos++, G_CYC_FILL);
-    gDPSetFillColor(gMainGfxPos++, PACK_FILL_COLOR(224, 224, 224, 1));
+
+    // Use 232 to match logo texture background (avoids visible seam on LCD)
+    gDPSetFillColor(gMainGfxPos++, PACK_FILL_COLOR(232, 232, 232, 1));
+
     gDPFillRectangle(gMainGfxPos++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     gDPPipeSync(gMainGfxPos++);
 

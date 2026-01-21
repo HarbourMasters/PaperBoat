@@ -182,6 +182,11 @@ void gfx_draw_frame(void) {
         return;
     }
 
+    // libultraship requires explicit color/depth image targets
+    // Set sentinel values to indicate default framebuffer
+    gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, (void*)1);
+    gDPSetDepthImage(gMainGfxPos++, (void*)1);
+
     gSPMatrix(gMainGfxPos++, &MasterIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     spr_render_init();
