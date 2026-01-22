@@ -1,5 +1,7 @@
 #include "common.h"
 #include "model.h"
+#include "port/Engine.h"
+#include <stdio.h>
 
 typedef struct HitFile {
     /* 0x00 */ u32 collisionOffset;
@@ -100,21 +102,17 @@ void initialize_collision(void) {
 }
 
 void load_map_hit_asset(void) {
-    u32 assetSize;
+    char assetPath[64];
+    sprintf(assetPath, "__OTR__collisions/%s", wMapHitName);
+
     MapSettings* map = get_current_map_settings();
-    void* compressedData = load_asset_by_name(wMapHitName, &assetSize);
-    HitFile* uncompressedData = heap_malloc(assetSize);
+    HitFile* data = (HitFile*)LOAD_ASSET(assetPath);
 
-    decode_yay0(compressedData, uncompressedData);
-    general_heap_free(compressedData);
+    map->hitAssetCollisionOffset = data->collisionOffset;
+    map->hitAssetZoneOffset = data->zoneOffset;
 
-    map->hitAssetCollisionOffset = uncompressedData->collisionOffset;
-    map->hitAssetZoneOffset = uncompressedData->zoneOffset;
-
-    load_hit_data(0, uncompressedData); // Colliders
-    load_hit_data(1, uncompressedData); // Zones
-
-    heap_free(uncompressedData);
+    load_hit_data(0, data); // Colliders
+    load_hit_data(1, data); // Zones
 }
 
 void restore_map_collision_data(void) {
@@ -149,22 +147,18 @@ void restore_map_collision_data(void) {
 }
 
 void load_battle_hit_asset(const char* hitName) {
-    if (hitName == nullptr) {
+    if (hitName == NULL) {
         gCollisionData.numColliders = 0;
     } else {
-        u32 assetSize;
+        char assetPath[64];
+        sprintf(assetPath, "__OTR__collisions/%s", hitName);
+
         MapSettings* map = get_current_map_settings();
-        void* compressedData = load_asset_by_name(hitName, &assetSize);
-        HitFile* uncompressedData = heap_malloc(assetSize);
+        HitFile* data = (HitFile*)LOAD_ASSET(assetPath);
 
-        decode_yay0(compressedData, uncompressedData);
-        general_heap_free(compressedData);
+        map->hitAssetCollisionOffset = data->collisionOffset;
 
-        map->hitAssetCollisionOffset = uncompressedData->collisionOffset;
-
-        load_hit_data(0, uncompressedData);
-
-        heap_free(uncompressedData);
+        load_hit_data(0, data);
     }
 }
 

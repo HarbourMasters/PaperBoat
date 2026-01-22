@@ -319,7 +319,7 @@ void play_model_animation(s32, s16*);
 s32 heap_free(void* ptr);
 
 void load_battle_hit_asset(const char* hitName);
-void load_data_for_models(struct ModelNode* model, s32 romOffset, s32 size);
+void load_data_for_models(struct ModelNode* model, u8* textureData, s32 size);
 void load_player_actor(void);
 
 void btl_state_update_normal_start(void);
@@ -1084,7 +1084,7 @@ void btl_update(void);
 void update_item_entities(void);
 void iterate_models(void);
 void restore_map_collision_data(void);
-void mdl_load_all_textures(struct ModelNode* model, s32 romOffset, s32 size);
+void mdl_load_all_textures(struct ModelNode* model, u8* textureData, s32 size);
 void mdl_calculate_model_sizes(void);
 
 #endif

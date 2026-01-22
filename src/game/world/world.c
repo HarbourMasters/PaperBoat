@@ -7,6 +7,8 @@
 #include "sprite.h"
 #include "model.h"
 #include "gcc/string.h"
+#include "port/Engine.h"
+#include "port/shape_loader.h"
 
 s32 WorldReverbModeMapping[] = { 0, 1, 2, 3 };
 
@@ -147,10 +149,17 @@ void load_map_by_IDs(s16 areaID, s16 mapID, s16 loadType) {
 
     if (!skipLoadingAssets) {
         ShapeFile* shapeFile = &gMapShapeData;
-        void* yay0Asset = load_asset_by_name(wMapShapeName, &decompressedSize);
 
-        decode_yay0(yay0Asset, shapeFile);
-        general_heap_free(yay0Asset);
+        // Build OTR asset path for shape
+        char assetPath[64];
+        snprintf(assetPath, sizeof(assetPath), "__OTR__shapes/%s", wMapShapeName);
+
+        // Load pre-processed shape data (already decompressed and byte-swapped by factory)
+        u8* shapeData = (u8*)ResourceGetDataByName(assetPath);
+        size_t shapeSize = ResourceGetSizeByName(assetPath);
+
+        // Convert raw N64 shape data to native format with proper pointers
+        Shape_LoadFromRawData(shapeFile, shapeData, shapeSize);
 
         mapSettings->modelTreeRoot = shapeFile->header.root;
         mapSettings->modelNameList = shapeFile->header.modelNames;
@@ -206,10 +215,13 @@ void load_map_by_IDs(s16 areaID, s16 mapID, s16 loadType) {
     sfx_reset_door_sounds();
 
     if (!skipLoadingAssets) {
-        s32 texturesOffset = get_asset_offset(wMapTexName, &decompressedSize);
+        char texAssetPath[64];
+        snprintf(texAssetPath, sizeof(texAssetPath), "__OTR__textures/%s", wMapTexName);
+        u8* textureData = ResourceGetDataByName(texAssetPath);
+        size_t textureSize = ResourceGetSizeByName(texAssetPath);
 
-        if (mapSettings->modelTreeRoot != nullptr) {
-            load_data_for_models(mapSettings->modelTreeRoot, texturesOffset, decompressedSize);
+        if (mapSettings->modelTreeRoot != nullptr && textureData != NULL) {
+            load_data_for_models(mapSettings->modelTreeRoot, textureData, textureSize);
         }
     }
 

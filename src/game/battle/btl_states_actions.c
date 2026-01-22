@@ -8,6 +8,7 @@
 #include "battle/battle.h"
 #include "model.h"
 #include "game_modes.h"
+#include "port/Engine.h"
 
 extern StageListRow* gCurrentStagePtr;
 
@@ -197,7 +198,6 @@ void btl_state_update_normal_start(void) {
     StatusBar* statusBar;
     void* compressedAsset;
     ModelNode* rootModel;
-    s32 texturesOffset;
     Actor* actor;
     Evt* script;
     s32 enemyNotDone;
@@ -230,9 +230,14 @@ void btl_state_update_normal_start(void) {
             ASSERT(size <= 0x8000);
 
             rootModel = gMapShapeData.header.root;
-            texturesOffset = get_asset_offset(stage->texture, &size);
-            if (rootModel != nullptr) {
-                load_data_for_models(rootModel, texturesOffset, size);
+            {
+                char texAssetPath[64];
+                snprintf(texAssetPath, sizeof(texAssetPath), "__OTR__textures/%s", stage->texture);
+                u8* textureData = ResourceGetDataByName(texAssetPath);
+                size_t textureSize = ResourceGetSizeByName(texAssetPath);
+                if (rootModel != nullptr) {
+                    load_data_for_models(rootModel, textureData, textureSize);
+                }
             }
             load_battle_hit_asset(stage->hit);
 

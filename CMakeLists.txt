@@ -44,7 +44,11 @@ set(PORT_SOURCES
     src/port/Engine.cpp
     src/port/audio/AudioLoader.cpp
     src/port/factories/PM64SpriteFactory.cpp
+    src/port/factories/PM64ShapeFactory.cpp
     src/port/factories/PM64TextureFactory.cpp
+    src/port/factories/PM64BackgroundFactory.cpp
+    src/port/factories/PM64CollisionFactory.cpp
+    src/port/factories/PM64MapTextureFactory.cpp
     src/port/sprite/SpriteLoader.cpp
     src/port/nusys_overrides.c
     src/port/gu.c
@@ -53,6 +57,7 @@ set(PORT_SOURCES
     src/port/libc_compat.c
     src/port/decode_yay0.c
     src/port/effects_shim.c
+    src/port/shape_loader.c
 )
 
 add_executable(${PROJECT_NAME}

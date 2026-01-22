@@ -1,6 +1,7 @@
 #include "common.h"
 #include "model.h"
 #include "gcc/string.h"
+#include "port/Engine.h"
 
 char gCloudyFlowerFieldsBg[] = "fla_bg";
 char gSunnyFlowerFieldsBg[] = "flb_bg";
@@ -17,8 +18,6 @@ BSS s32 D_801595AC;
 
 void load_map_bg(char* optAssetName) {
     if (optAssetName != nullptr) {
-        UNK_PTR compressedData;
-        u32 assetSize;
         char* assetName = optAssetName;
 
         if (evt_get_variable(nullptr, GB_StoryProgress) >= STORY_CH6_DESTROYED_PUFF_PUFF_MACHINE) {
@@ -28,9 +27,25 @@ void load_map_bg(char* optAssetName) {
             }
         }
 
-        compressedData = load_asset_by_name(assetName, &assetSize);
-        decode_yay0(compressedData, &gBackgroundImage);
-        general_heap_free(compressedData);
+        // Build OTR path and load pre-processed background (raw bytes)
+        char assetPath[64];
+        snprintf(assetPath, sizeof(assetPath), "__OTR__backgrounds/%s", assetName);
+
+        u8* bgData = (u8*)ResourceGetDataByName(assetPath);
+        if (bgData != NULL) {
+            // Parse N64 layout manually (offsets are already byte-swapped by factory)
+            // N64 layout: [rasterOffset:4][paletteOffset:4][startX:2][startY:2][width:2][height:2]
+            u32 rasterOffset = *(u32*)(bgData + 0x00);
+            u32 paletteOffset = *(u32*)(bgData + 0x04);
+
+            // Convert offsets to actual pointers
+            gBackgroundImage.raster = (IMG_PTR)(bgData + rasterOffset);
+            gBackgroundImage.palette = (PAL_PTR)(bgData + paletteOffset);
+            gBackgroundImage.startX = *(u16*)(bgData + 0x08);
+            gBackgroundImage.startY = *(u16*)(bgData + 0x0A);
+            gBackgroundImage.width = *(u16*)(bgData + 0x0C);
+            gBackgroundImage.height = *(u16*)(bgData + 0x0E);
+        }
     }
 }
 

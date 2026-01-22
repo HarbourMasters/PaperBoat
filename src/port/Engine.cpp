@@ -12,7 +12,11 @@
 #include <filesystem>
 #include "src/Companion.h"
 #include "factories/PM64SpriteFactory.h"
+#include "factories/PM64ShapeFactory.h"
+#include "factories/PM64BackgroundFactory.h"
 #include "factories/PM64TextureFactory.h"
+#include "factories/PM64CollisionFactory.h"
+#include "factories/PM64MapTextureFactory.h"
 
 namespace fs = std::filesystem;
 
@@ -31,6 +35,10 @@ static void ExtractAssets(const std::string& romPath, const std::string& outputP
 
     // Register PM64-specific factories before Init()
     Companion::Instance->RegisterFactory("PM64:SPRITE", std::make_shared<PM64SpriteFactory>());
+    Companion::Instance->RegisterFactory("PM64:SHAPE", std::make_shared<PM64ShapeFactory>());
+    Companion::Instance->RegisterFactory("PM64:BACKGROUND", std::make_shared<PM64BackgroundFactory>());
+    Companion::Instance->RegisterFactory("PM64:COLLISION", std::make_shared<PM64CollisionFactory>());
+    Companion::Instance->RegisterFactory("PM64:MAP_TEXTURE", std::make_shared<PM64MapTextureFactory>());
 
     Companion::Instance->Init(ExportType::Binary);
 }

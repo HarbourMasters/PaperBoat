@@ -9,6 +9,7 @@ extern "C" {
 #endif
 
 void* ResourceGetDataByName(const char* name);
+size_t ResourceGetSizeByName(const char* name);
 uint8_t GameEngine_OTRSigCheck(const char* data);
 
 #ifdef __cplusplus

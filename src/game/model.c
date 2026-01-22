@@ -1363,6 +1363,8 @@ void make_texture_gfx(TextureHeader*, Gfx**, IMG_PTR raster, PAL_PTR palette, IM
 void load_model_transforms(ModelNode* model, ModelNode* parent, Matrix4f mdlTxMtx, s32 treeDepth);
 s32 is_identity_fixed_mtx(Mtx* mtx);
 void build_custom_gfx(void);
+void load_texture_impl(u8* srcData, TextureHandle* handle, TextureHeader* header, s32 mainSize, s32 mainPalSize, s32 auxSize, s32 auxPalSize);
+void load_texture_variants(u8* srcData, s32 textureID, u8* baseData, s32 size);
 
 void appendGfx_model(void* data) {
     Model* model = data;
@@ -2005,7 +2007,7 @@ void appendGfx_model(void* data) {
     gDPPipeSync((*gfxPos)++);
 }
 
-void load_texture_impl(u32 romOffset, TextureHandle* handle, TextureHeader* header, s32 mainSize, s32 mainPalSize, s32 auxSize, s32 auxPalSize) {
+void load_texture_impl(u8* srcData, TextureHandle* handle, TextureHeader* header, s32 mainSize, s32 mainPalSize, s32 auxSize, s32 auxPalSize) {
     Gfx** temp;
 
     // load main img + palette to texture heap
@@ -2015,8 +2017,8 @@ void load_texture_impl(u32 romOffset, TextureHandle* handle, TextureHeader* head
     } else {
         handle->palette = nullptr;
     }
-    dma_copy((u8*) romOffset, (u8*) (romOffset + mainSize + mainPalSize), TextureHeapPos);
-    romOffset += mainSize + mainPalSize;
+    memcpy(TextureHeapPos, srcData, mainSize + mainPalSize);
+    srcData += mainSize + mainPalSize;
     TextureHeapPos += mainSize + mainPalSize;
 
     // load aux img + palette to texture heap
@@ -2027,7 +2029,7 @@ void load_texture_impl(u32 romOffset, TextureHandle* handle, TextureHeader* head
         } else {
             handle->auxPalette = nullptr;
         }
-        dma_copy((u8*) romOffset, (u8*) (romOffset + auxSize + auxPalSize), TextureHeapPos);
+        memcpy(TextureHeapPos, srcData, auxSize + auxPalSize);
         TextureHeapPos += auxSize + auxPalSize;
     } else {
         handle->auxPalette = nullptr;
@@ -2043,9 +2045,9 @@ void load_texture_impl(u32 romOffset, TextureHandle* handle, TextureHeader* head
     gSPEndDisplayList((*temp)++);
 }
 
-void load_texture_by_name(ModelNodeProperty* propertyName, s32 romOffset, s32 size) {
+void load_texture_by_name(ModelNodeProperty* propertyName, u8* textureData, s32 size) {
     char* textureName = (char*)propertyName->data.p;
-    u32 startOffset = romOffset;
+    u32 currentOffset = 0;
     s32 textureIdx = 0;
     u32 paletteSize;
     u32 rasterSize;
@@ -2060,8 +2062,8 @@ void load_texture_by_name(ModelNodeProperty* propertyName, s32 romOffset, s32 si
         return;
     }
 
-    while (romOffset < startOffset + size) {
-        dma_copy((u8*)romOffset, (u8*)romOffset + sizeof(gCurrentTextureHeader), &gCurrentTextureHeader);
+    while (currentOffset < (u32)size) {
+        memcpy(&gCurrentTextureHeader, textureData + currentOffset, sizeof(gCurrentTextureHeader));
         header = &gCurrentTextureHeader;
 
         rasterSize = header->mainW * header->mainH;
@@ -2147,11 +2149,11 @@ void load_texture_by_name(ModelNodeProperty* propertyName, s32 romOffset, s32 si
 
         textureIdx++;
         mainSize = rasterSize + paletteSize + sizeof(*header);
-        romOffset += mainSize;
-        romOffset += auxRasterSize + auxPaletteSize;
+        currentOffset += mainSize;
+        currentOffset += auxRasterSize + auxPaletteSize;
     }
 
-    if (romOffset >= startOffset + 0x40000) {
+    if (currentOffset >= 0x40000) {
         // did not find the texture with `textureName`
         (*gCurrentModelTreeNodeInfo)[TreeIterPos].textureID = 0;
         return;
@@ -2159,17 +2161,17 @@ void load_texture_by_name(ModelNodeProperty* propertyName, s32 romOffset, s32 si
 
     (*gCurrentModelTreeNodeInfo)[TreeIterPos].textureID = textureIdx + 1;
     textureHandle = &TextureHandles[(*gCurrentModelTreeNodeInfo)[TreeIterPos].textureID];
-    romOffset += sizeof(*header);
+    currentOffset += sizeof(*header);
 
     if (textureHandle->gfx == nullptr) {
-        load_texture_impl(romOffset, textureHandle, header, rasterSize, paletteSize, auxRasterSize, auxPaletteSize);
-        load_texture_variants(romOffset + rasterSize + paletteSize + auxRasterSize + auxPaletteSize, (*gCurrentModelTreeNodeInfo)[TreeIterPos].textureID, startOffset, size);
+        load_texture_impl(textureData + currentOffset, textureHandle, header, rasterSize, paletteSize, auxRasterSize, auxPaletteSize);
+        load_texture_variants(textureData + currentOffset + rasterSize + paletteSize + auxRasterSize + auxPaletteSize, (*gCurrentModelTreeNodeInfo)[TreeIterPos].textureID, textureData, size);
     }
 }
 
 // loads variations for current texture by looping through the following textures until a non-variant is found
-void load_texture_variants(u32 romOffset, s32 textureID, s32 baseOffset, s32 size) {
-    u32 offset;
+void load_texture_variants(u8* srcData, s32 textureID, u8* baseData, s32 size) {
+    u8* currentPtr;
     TextureHeader iterTextureHeader;
     TextureHeader* header;
     TextureHandle* textureHandle;
@@ -2181,8 +2183,8 @@ void load_texture_variants(u32 romOffset, s32 textureID, s32 baseOffset, s32 siz
     s32 mainSize;
     s32 currentTextureID = textureID;
 
-    for (offset = romOffset; offset < baseOffset + size;) {
-        dma_copy((u8*)offset, (u8*)offset + sizeof(iterTextureHeader), &iterTextureHeader);
+    for (currentPtr = srcData; currentPtr < baseData + size;) {
+        memcpy(&iterTextureHeader, currentPtr, sizeof(iterTextureHeader));
         header = &iterTextureHeader;
 
         if (!header->isVariant) {
@@ -2269,11 +2271,11 @@ void load_texture_variants(u32 romOffset, s32 textureID, s32 baseOffset, s32 siz
         textureID++;
         currentTextureID = textureID;
         textureHandle = &TextureHandles[currentTextureID];
-        load_texture_impl(offset + sizeof(*header), textureHandle, header, rasterSize, paletteSize, auxRasterSize, auxPaletteSize);
+        load_texture_impl(currentPtr + sizeof(*header), textureHandle, header, rasterSize, paletteSize, auxRasterSize, auxPaletteSize);
 
         mainSize = rasterSize + paletteSize + sizeof(*header);
-        offset += mainSize;
-        offset += auxRasterSize + auxPaletteSize;
+        currentPtr += mainSize;
+        currentPtr += auxRasterSize + auxPaletteSize;
     }
 }
 
@@ -2291,7 +2293,7 @@ ModelNodeProperty* get_model_property(ModelNode* node, ModelPropertyKeys key) {
 }
 
 // load textures used by models, starting from current model
-void load_next_model_textures(ModelNode* model, s32 romOffset, s32 texSize) {
+void load_next_model_textures(ModelNode* model, u8* textureData, s32 texSize) {
     if (model->type != SHAPE_TYPE_MODEL) {
         if (model->groupData != nullptr) {
             s32 numChildren = model->groupData->numChildren;
@@ -2300,21 +2302,21 @@ void load_next_model_textures(ModelNode* model, s32 romOffset, s32 texSize) {
                 s32 i;
 
                 for (i = 0; i < numChildren; i++) {
-                    load_next_model_textures(model->groupData->childList[i], romOffset, texSize);
+                    load_next_model_textures(model->groupData->childList[i], textureData, texSize);
                 }
             }
         }
     } else {
         ModelNodeProperty* propTextureName = get_model_property(model, MODEL_PROP_KEY_TEXTURE_NAME);
         if (propTextureName != nullptr) {
-            load_texture_by_name(propTextureName, romOffset, texSize);
+            load_texture_by_name(propTextureName, textureData, texSize);
         }
     }
     TreeIterPos++;
 }
 
 // load all textures used by models, starting from the root
-void mdl_load_all_textures(ModelNode* rootModel, s32 romOffset, s32 size) {
+void mdl_load_all_textures(ModelNode* rootModel, u8* textureData, s32 size) {
     s32 baseOffset = 0;
 
     // textures are loaded to the upper half of the texture heap when not in the world
@@ -2324,7 +2326,7 @@ void mdl_load_all_textures(ModelNode* rootModel, s32 romOffset, s32 size) {
 
     TextureHeapPos = TextureHeapBase + baseOffset;
 
-    if (rootModel != nullptr && romOffset != 0 && size != 0) {
+    if (rootModel != nullptr && textureData != NULL && size != 0) {
         s32 i;
 
         for (i = 0; i < ARRAY_COUNT(TextureHandles); i++) {
@@ -2333,7 +2335,7 @@ void mdl_load_all_textures(ModelNode* rootModel, s32 romOffset, s32 size) {
 
         TreeIterPos = 0;
         if (rootModel != nullptr) {
-            load_next_model_textures(rootModel, romOffset, size);
+            load_next_model_textures(rootModel, textureData, size);
         }
     }
 }
@@ -2567,16 +2569,18 @@ void mdl_create_model(ModelBlueprint* bp, s32 unused) {
     model->center.y = y;
     model->center.z = z;
 
-    bb = (ModelBoundingBox*) prop;
-    x = bb->maxX - bb->minX;
-    y = bb->maxY - bb->minY;
-    z = bb->maxZ - bb->minZ;
-    bb->halfSizeX = x * 0.5;
-    bb->halfSizeY = y * 0.5;
-    bb->halfSizeZ = z * 0.5;
+    if (prop != NULL) {
+        bb = (ModelBoundingBox*) prop;
+        x = bb->maxX - bb->minX;
+        y = bb->maxY - bb->minY;
+        z = bb->maxZ - bb->minZ;
+        bb->halfSizeX = x * 0.5;
+        bb->halfSizeY = y * 0.5;
+        bb->halfSizeZ = z * 0.5;
 
-    if (model->bakedMtx == nullptr && x < 100.0f && y < 100.0f && z < 100.0f) {
-        model->flags |= MODEL_FLAG_DO_BOUNDS_CULLING;
+        if (model->bakedMtx == nullptr && x < 100.0f && y < 100.0f && z < 100.0f) {
+            model->flags |= MODEL_FLAG_DO_BOUNDS_CULLING;
+        }
     }
     (*gCurrentModelTreeNodeInfo)[TreeIterPos].modelIndex = modelIdx;
 }
@@ -3325,13 +3329,13 @@ Model* get_model_from_list_index(s32 listIndex) {
     return (*gCurrentModels)[listIndex];
 }
 
-void load_data_for_models(ModelNode* rootModel, s32 texturesOffset, s32 size) {
+void load_data_for_models(ModelNode* rootModel, u8* textureData, s32 size) {
     Matrix4f mtx;
 
     guMtxIdentF(mtx);
 
-    if (texturesOffset != 0) {
-        mdl_load_all_textures(rootModel, texturesOffset, size);
+    if (textureData != NULL) {
+        mdl_load_all_textures(rootModel, textureData, size);
     }
 
     *gCurrentModelTreeRoot = rootModel;
@@ -3385,7 +3389,7 @@ void load_model_transforms(ModelNode* model, ModelNode* parent, Matrix4f mdlTran
     guMtxF2L(mdlTransformMtx, &sp50);
     modelBPptr->flags = 0;
     modelBPptr->mdlNode = model;
-    modelBPptr->groupData = parent->groupData;
+    modelBPptr->groupData = parent != NULL ? parent->groupData : NULL;
     modelBPptr->mtx = &sp50;
 
     if (model->type == SHAPE_TYPE_GROUP) {
