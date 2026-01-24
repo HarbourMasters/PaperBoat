@@ -1,6 +1,9 @@
 #include "common.h"
 #include "entity.h"
 
+// Display list context tracking for debugging
+extern void GameEngine_SetDisplayListContext(const char* context);
+
 EntityModelScript D_8014C260 = {
     ems_End
     ems_End
@@ -360,7 +363,9 @@ void appendGfx_entity_model(EntityModel* model) {
         }
         gDPPipeSync(gMainGfxPos++);
 
+        GameEngine_SetDisplayListContext("entity_model_displaylist");
         gSPDisplayList(gMainGfxPos++, model->gfx.displayList);
+        GameEngine_SetDisplayListContext(NULL);
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         gDPPipeSync(gMainGfxPos++);
 
@@ -374,7 +379,9 @@ void appendGfx_entity_model(EntityModel* model) {
         guMtxF2L(mtx, &model->transform);
         gDisplayContext->matrixStack[gMatrixListPos] = model->transform;
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        GameEngine_SetDisplayListContext("entity_model_displaylist_reflect");
         gSPDisplayList(gMainGfxPos++, model->gfx.displayList);
+        GameEngine_SetDisplayListContext(NULL);
     } else {
         SpriteRasterInfo* imageData;
 
@@ -665,7 +672,9 @@ void draw_entity_model_E(s32 modelIdx, Mtx* transformMtx) {
         if (model->vertexArray != nullptr) {
             gSPSegment(gMainGfxPos++, D_80154374, VIRTUAL_TO_PHYSICAL(model->vertexArray));
         }
+        GameEngine_SetDisplayListContext("entity_model_displaylist2");
         gSPDisplayList(gMainGfxPos++, model->gfx.displayList);
+        GameEngine_SetDisplayListContext(NULL);
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         gDPPipeSync(gMainGfxPos++);
         if (!(model->flags & ENTITY_MODEL_FLAG_REFLECT)) {
@@ -678,7 +687,9 @@ void draw_entity_model_E(s32 modelIdx, Mtx* transformMtx) {
         guMtxF2L(mtx, &model->transform);
         gDisplayContext->matrixStack[gMatrixListPos] = model->transform;
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        GameEngine_SetDisplayListContext("entity_model_displaylist2_reflect");
         gSPDisplayList(gMainGfxPos++, model->gfx.displayList);
+        GameEngine_SetDisplayListContext(NULL);
     } else {
         SpriteRasterInfo* imageData;
 

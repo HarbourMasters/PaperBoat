@@ -4,6 +4,7 @@
 #include "mips.h"
 
 extern s32 obfuscated_battle_heap_create[];
+extern HeapNode heap_battleHead;
 
 #ifdef SHIFT
 void battle_heap_create_obfuscated(void) {

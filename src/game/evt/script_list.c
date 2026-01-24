@@ -148,6 +148,12 @@ void find_script_labels(Evt* script) {
 
     j = 0;
     curLine = script->ptrNextLine;
+
+    if (curLine == NULL) {
+        return;
+    }
+
+    s32 zeroOpcodeCount = 0;
     while (j < ARRAY_COUNT(script->labelIndices)) {
         type = *curLine++;
         numArgs = *curLine++;
@@ -156,6 +162,15 @@ void find_script_labels(Evt* script) {
 
         if (type == 1) {
             return;
+        }
+
+        if (type == 0 && numArgs == 0) {
+            zeroOpcodeCount++;
+            if (zeroOpcodeCount > 5) {
+                return;
+            }
+        } else {
+            zeroOpcodeCount = 0;  // Reset if we see a valid opcode
         }
 
         if (type == 3) {
@@ -309,6 +324,10 @@ Evt* start_script_in_group(EvtScript* source, u8 priority, u8 flags, u8 groupFla
     s32 curScriptIndex;
     s32* tempCounter;
     s32* numScripts;
+
+    if (gCurrentScriptListPtr == NULL) {
+        return NULL;
+    }
 
     for (i = 0; i < MAX_SCRIPTS; i++) {
         if ((*gCurrentScriptListPtr)[i] == nullptr) {
@@ -581,6 +600,10 @@ void update_scripts(void) {
         return;
     }
 
+    if (gCurrentScriptListPtr == NULL) {
+        return;
+    }
+
     IsUpdatingScripts = true;
     sort_scripts();
 
@@ -622,11 +645,11 @@ void update_scripts(void) {
 
 // Does nothing, is cursed
 void func_802C3EE4(void) {
-    s32 temp;
+    intptr_t temp;
     s32 i;
 
     for (i = 0; i < gScriptListCount; i++) {
-        temp = (s32) (*gCurrentScriptListPtr)[gScriptIndexList[i]];
+        temp = (intptr_t) (*gCurrentScriptListPtr)[gScriptIndexList[i]];
         temp = *((s32*) temp);
         if (temp == gScriptIdList[i]) {
             temp = 1;

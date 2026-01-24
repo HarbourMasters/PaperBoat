@@ -2,22 +2,76 @@
 #include "gcc/string.h"
 #include <stdio.h>
 
+// Forward declaration for logging and resource loading
+extern void GameEngine_LogInfo(const char* fmt, ...);
+extern void* ResourceGetDataByName(const char* name);
+
+// Debug logging - use GameEngine_LogInfo for proper logging
+#define SHAPE_LOG(...) GameEngine_LogInfo(__VA_ARGS__)
+#define SPDLOG_INFO(...) GameEngine_LogInfo(__VA_ARGS__)
+
+// Current shape name for display list path building
+static const char* gCurrentShapeName = NULL;
+
 // Forward declarations for recursive conversion
 static ModelNode* ConvertModelNode(u8* base, u32 offset);
 static ModelGroupData* ConvertModelGroupData(u8* base, u32 offset);
 
+// Load display list from OTR resource by offset
+// Display lists use G_VTX_OTR_HASH which libultraship resolves automatically
+static Gfx* LoadDisplayListByOffset(u32 dlOffset) {
+    if (dlOffset == 0 || gCurrentShapeName == NULL) {
+        return NULL;
+    }
+
+    SPDLOG_INFO("[Shape] Loading display list from shape: %s, offset: 0x%X\n",
+              gCurrentShapeName, dlOffset);
+
+    // Build the resource path: shapes/{shapeName}/dlist_{offset}
+    char path[128];
+    snprintf(path, sizeof(path), "__OTR__shapes/%s/dlist_%X", gCurrentShapeName, dlOffset);
+
+    // Load the display list from OTR - G_VTX_OTR_HASH resolves vertices automatically
+    Gfx* dl = (Gfx*)ResourceGetDataByName(path);
+
+    if (dl == NULL) {
+        SPDLOG_INFO("[Shape] WARNING: Could not load display list from %s\n", path);
+        return NULL;
+    }
+
+    SPDLOG_INFO("[Shape] Loaded display list from %s -> %p\n", path, (void*)dl);
+
+    return dl;
+}
+
 static ModelDisplayData* ConvertModelDisplayData(u8* base, u32 offset) {
-    if (offset == 0) return NULL;
+    if (offset == 0) {
+        SPDLOG_INFO("[Shape] ConvertModelDisplayData: offset=0, returning NULL (shape=%s)\n",
+                   gCurrentShapeName ? gCurrentShapeName : "(null)");
+        return NULL;
+    }
 
     RawModelDisplayData* raw = (RawModelDisplayData*)(base + offset);
 
-    // ModelDisplayData can be used directly since it only has a Gfx* which we
-    // convert to offset-based, and unk_04. We allocate a native structure.
+    SPDLOG_INFO("[Shape] ConvertModelDisplayData: offset=0x%X, displayListOffset=0x%X\n",
+              offset, raw->displayListOffset);
+
+    if (raw->displayListOffset == 0) {
+        SPDLOG_INFO("[Shape] ConvertModelDisplayData: displayListOffset=0, returning NULL (shape=%s)\n",
+                   gCurrentShapeName ? gCurrentShapeName : "(null)");
+        return NULL;
+    }
+
+    // Allocate native ModelDisplayData structure
     ModelDisplayData* native = general_heap_malloc(sizeof(ModelDisplayData));
-    native->displayList = (Gfx*)Shape_OffsetToPtr(base, raw->displayListOffset);
-    // Note: displayList is also an offset, but Gfx display lists are handled
-    // differently by the graphics system - they stay as raw data
-    native->displayList = (Gfx*)(base + raw->displayListOffset);
+
+    // Load display list from OTR resource - vertices resolved via G_VTX_OTR_HASH
+    native->displayList = LoadDisplayListByOffset(raw->displayListOffset);
+
+    if (native->displayList != NULL) {
+        SPDLOG_INFO("[Shape] Display list loaded at %p\n", (void*)native->displayList);
+    }
+
     // Copy other fields (unk_04 is raw bytes)
     memcpy(native->unk_04, &raw->unk_04, 4);
 
@@ -77,6 +131,13 @@ static ModelNode* ConvertModelNode(u8* base, u32 offset) {
 
     RawModelNode* raw = (RawModelNode*)(base + offset);
 
+    // Debug: hex dump the raw bytes to verify what's actually there
+    u8* bytes = (u8*)raw;
+    SPDLOG_INFO("[Shape] ConvertModelNode: offset=0x%X, raw bytes: %02X %02X %02X %02X %02X %02X %02X %02X\n",
+              offset, bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]);
+    SPDLOG_INFO("[Shape] ConvertModelNode: offset=0x%X, type=%d, displayDataOffset=0x%X, groupDataOffset=0x%X\n",
+              offset, raw->type, raw->displayDataOffset, raw->groupDataOffset);
+
     ModelNode* native = general_heap_malloc(sizeof(ModelNode));
     native->type = raw->type;
     native->displayData = ConvertModelDisplayData(base, raw->displayDataOffset);
@@ -109,8 +170,12 @@ static char** ConvertNameTable(u8* base, u32 offset) {
     return native;
 }
 
-void Shape_LoadFromRawData(ShapeFile* shapeFile, const u8* rawData, size_t rawSize) {
+void Shape_LoadFromRawData(ShapeFile* shapeFile, const u8* rawData, size_t rawSize, const char* shapeName) {
+    SPDLOG_INFO("[Shape] Shape_LoadFromRawData called: rawData=%p, rawSize=%zu, shapeName=%s\n",
+              (void*)rawData, rawSize, shapeName ? shapeName : "(null)");
+
     if (rawData == NULL || rawSize == 0) {
+        SPDLOG_INFO("[Shape] Shape_LoadFromRawData: rawData is NULL or size is 0, returning early\n");
         shapeFile->header.root = NULL;
         shapeFile->header.vertexTable = NULL;
         shapeFile->header.modelNames = NULL;
@@ -128,11 +193,18 @@ void Shape_LoadFromRawData(ShapeFile* shapeFile, const u8* rawData, size_t rawSi
     u8* base = shapeFile->data;
     RawShapeFileHeader* rawHeader = (RawShapeFileHeader*)base;
 
+    SPDLOG_INFO("[Shape] Raw header: root=0x%X, vtx=0x%X, modelNames=0x%X\n",
+              rawHeader->rootOffset, rawHeader->vertexTableOffset, rawHeader->modelNamesOffset);
+
+    // Set up global context for display list loading
+    gCurrentShapeName = shapeName;
+
     // Data is already byte-swapped and converted by PM64ShapeFactory
     // All offsets are file-relative (not N64 virtual addresses)
 
     // Convert the model tree (allocates native structures)
     shapeFile->header.root = ConvertModelNode(base, rawHeader->rootOffset);
+    SPDLOG_INFO("[Shape] ConvertModelNode returned: %p\n", (void*)shapeFile->header.root);
 
     // Vertex table is just raw data, convert offset to pointer
     shapeFile->header.vertexTable = (Vtx_t*)Shape_OffsetToPtr(base, rawHeader->vertexTableOffset);
@@ -141,4 +213,7 @@ void Shape_LoadFromRawData(ShapeFile* shapeFile, const u8* rawData, size_t rawSi
     shapeFile->header.modelNames = ConvertNameTable(base, rawHeader->modelNamesOffset);
     shapeFile->header.colliderNames = ConvertNameTable(base, rawHeader->colliderNamesOffset);
     shapeFile->header.zoneNames = ConvertNameTable(base, rawHeader->zoneNamesOffset);
+
+    // Clear global context
+    gCurrentShapeName = NULL;
 }

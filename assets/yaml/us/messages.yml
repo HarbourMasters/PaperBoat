@@ -1,0 +1,9 @@
+
+# Message data blob from ROM
+# Contains hierarchical u32 offset tables (big-endian) pointing to message byte strings
+# PM64:MESSAGE factory DOES NOT byte-swaps the u32 offset tables at extraction time
+# as strings, index table and sections are interleaved, we need to split
+# everything into its own messaging asset
+
+messages:
+  { type: PM64:MESSAGE, offset: 0x1B83000, size: 0x101D30, symbol: gMessages }

@@ -168,7 +168,7 @@ typedef enum ExtraTileTypes {
     EXTRA_TILE_4                    = 4, // only use-case may be a mistake? unused and mostly unimplemented
 } ExtraTileTypes;
 
-#define SHAPE_SIZE_LIMIT 0x8000
+#define SHAPE_SIZE_LIMIT 0x30000  // Increased from 0x8000 to accommodate larger shapes (e.g., hos_05 is ~109KB)
 
 typedef struct ShapeFileHeader {
     /* 0x00 */ ModelNode* root;

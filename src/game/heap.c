@@ -2,6 +2,7 @@
 
 extern HeapNode heap_generalHead;
 extern HeapNode heap_collisionHead;
+extern HeapNode heap_battleHead;
 
 HeapNode* general_heap_create(void) {
     return _heap_create(&heap_generalHead, GENERAL_HEAP_SIZE);

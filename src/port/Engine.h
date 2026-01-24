@@ -9,6 +9,8 @@ extern "C" {
 #endif
 
 void* ResourceGetDataByName(const char* name);
+void* ResourceGetDataByCrc(uint64_t crc);
+const char* ResourceGetNameByCrc(uint64_t crc);
 size_t ResourceGetSizeByName(const char* name);
 uint8_t GameEngine_OTRSigCheck(const char* data);
 
@@ -21,6 +23,9 @@ uint8_t GameEngine_OTRSigCheck(const char* data);
 
 #ifdef __cplusplus
 #include <vector>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 #include <SDL2/SDL.h>
 #include <fast/interpreter.h>
 #include <libultraship.h>
@@ -55,6 +60,16 @@ class GameEngine {
 
     static int ShowYesNoBox(const char* title, const char* box);
     static void ShowMessage(const char* title, const char* message, SDL_MessageBoxFlags type = SDL_MESSAGEBOX_ERROR);
+
+  private:
+    static struct {
+        std::thread thread;
+        std::mutex mutex;
+        std::condition_variable cv_to_thread;
+        std::condition_variable cv_from_thread;
+        bool running = false;
+        bool processing = false;
+    } mAudio;
 };
 
 Fast::Interpreter* GameEngine_GetInterpreter();
@@ -71,6 +86,14 @@ void* GameEngine_Malloc(size_t size);
 void GameEngine_ProcessGfxCommands(Gfx* commands);
 void GameEngine_LogInfo(const char* fmt, ...);
 void GameEngine_LogStackTrace(const char* label);
+
+// C-callable context tracking for display list debugging
+void GameEngine_SetDisplayListContext(const char* context);
+const char* GameEngine_GetDisplayListContext(void);
+
+// Texture debug tracking - maps memory addresses to source asset paths
+void GameEngine_RegisterTextureDebugInfo(const void* addr, const char* assetPath, int rasterIdx);
+const char* GameEngine_LookupTextureSource(const void* addr);
 
 #ifdef __cplusplus
 }

@@ -1,0 +1,91 @@
+
+charset_standard:
+  { type: BLOB, offset: 0x10F1B0, size: 0x5300, symbol: gCharsetStandard }
+
+charset_standard_palette:
+  { type: BLOB, offset: 0x1144B0, size: 0x500, symbol: gCharsetStandardPalette }
+
+charset_title:
+  { type: BLOB, offset: 0x1149B0, size: 0xF60, symbol: gCharsetTitle }
+
+charset_subtitle:
+  { type: BLOB, offset: 0x115910, size: 0xB88, symbol: gCharsetSubtitle }
+
+charset_subtitle_palette:
+  { type: BLOB, offset: 0x116498, size: 0x80, symbol: gCharsetSubtitlePalette }
+
+charset_title_palette:
+  { type: BLOB, offset: 0x1164A8, size: 0x10, symbol: gCharsetTitlePalette }
+
+# Peach letter (CI8 150x105)
+charset_peach_letter:
+  { type: BLOB, offset: 0x1164B8, size: 0x3D88, symbol: gCharsetPeachLetter }
+charset_peach_letter_palette:
+  { type: BLOB, offset: 0x11A240, size: 0x200, symbol: gCharsetPeachLetterPalette }
+
+# Postcard (CI4 150x105)
+charset_postcard:
+  { type: BLOB, offset: 0x11A440, size: 0x1EC8, symbol: gCharsetPostcard }
+charset_postcard_palette:
+  { type: BLOB, offset: 0x11C308, size: 0x20, symbol: gCharsetPostcardPalette }
+
+# Letter content 1-12 (CI8 70x95 each)
+charset_letter_content_1:
+  { type: BLOB, offset: 0x11C328, size: 0x1A00, symbol: gCharsetLetterContent1 }
+charset_letter_content_1_palette:
+  { type: BLOB, offset: 0x11DD28, size: 0x200, symbol: gCharsetLetterContent1Palette }
+
+charset_letter_content_2:
+  { type: BLOB, offset: 0x11DF28, size: 0x1A00, symbol: gCharsetLetterContent2 }
+charset_letter_content_2_palette:
+  { type: BLOB, offset: 0x11F928, size: 0x200, symbol: gCharsetLetterContent2Palette }
+
+charset_letter_content_3:
+  { type: BLOB, offset: 0x11FB28, size: 0x1A00, symbol: gCharsetLetterContent3 }
+charset_letter_content_3_palette:
+  { type: BLOB, offset: 0x121528, size: 0x200, symbol: gCharsetLetterContent3Palette }
+
+charset_letter_content_4:
+  { type: BLOB, offset: 0x121728, size: 0x1A00, symbol: gCharsetLetterContent4 }
+charset_letter_content_4_palette:
+  { type: BLOB, offset: 0x123128, size: 0x200, symbol: gCharsetLetterContent4Palette }
+
+charset_letter_content_5:
+  { type: BLOB, offset: 0x123328, size: 0x1A00, symbol: gCharsetLetterContent5 }
+charset_letter_content_5_palette:
+  { type: BLOB, offset: 0x124D28, size: 0x200, symbol: gCharsetLetterContent5Palette }
+
+charset_letter_content_6:
+  { type: BLOB, offset: 0x124F28, size: 0x1A00, symbol: gCharsetLetterContent6 }
+charset_letter_content_6_palette:
+  { type: BLOB, offset: 0x126928, size: 0x200, symbol: gCharsetLetterContent6Palette }
+
+charset_letter_content_7:
+  { type: BLOB, offset: 0x126B28, size: 0x1A00, symbol: gCharsetLetterContent7 }
+charset_letter_content_7_palette:
+  { type: BLOB, offset: 0x128528, size: 0x200, symbol: gCharsetLetterContent7Palette }
+
+charset_letter_content_8:
+  { type: BLOB, offset: 0x128728, size: 0x1A00, symbol: gCharsetLetterContent8 }
+charset_letter_content_8_palette:
+  { type: BLOB, offset: 0x12A128, size: 0x200, symbol: gCharsetLetterContent8Palette }
+
+charset_letter_content_9:
+  { type: BLOB, offset: 0x12A328, size: 0x1A00, symbol: gCharsetLetterContent9 }
+charset_letter_content_9_palette:
+  { type: BLOB, offset: 0x12BD28, size: 0x200, symbol: gCharsetLetterContent9Palette }
+
+charset_letter_content_10:
+  { type: BLOB, offset: 0x12BF28, size: 0x1A00, symbol: gCharsetLetterContent10 }
+charset_letter_content_10_palette:
+  { type: BLOB, offset: 0x12D928, size: 0x200, symbol: gCharsetLetterContent10Palette }
+
+charset_letter_content_11:
+  { type: BLOB, offset: 0x12DB28, size: 0x1A00, symbol: gCharsetLetterContent11 }
+charset_letter_content_11_palette:
+  { type: BLOB, offset: 0x12F528, size: 0x200, symbol: gCharsetLetterContent11Palette }
+
+charset_letter_content_12:
+  { type: BLOB, offset: 0x12F728, size: 0x1A00, symbol: gCharsetLetterContent12 }
+charset_letter_content_12_palette:
+  { type: BLOB, offset: 0x131128, size: 0x200, symbol: gCharsetLetterContent12Palette }

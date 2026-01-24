@@ -1,6 +1,9 @@
 #include "sprite.h"
 #include "sprite/player.h"
 
+// Display list context tracking for debugging
+extern void GameEngine_SetDisplayListContext(const char* context);
+
 #define MAX_SPRITE_ID 0xEA // todo generate this
 
 extern HeapNode heap_generalHead;
@@ -360,16 +363,24 @@ void spr_appendGfx_component(
 
     if (gSpriteShadingProfile->flags & SPR_SHADING_FLAG_ENABLED) {
         if ((u8) opacity == 255) {
+            GameEngine_SetDisplayListContext("sprite_opaque_shaded");
             gSPDisplayList(gMainGfxPos++, OpaqueShadedSpriteGfx);
+            GameEngine_SetDisplayListContext(NULL);
         } else {
+            GameEngine_SetDisplayListContext("sprite_translucent_shaded");
             gSPDisplayList(gMainGfxPos++, TranslucentShadedSpriteGfx);
+            GameEngine_SetDisplayListContext(NULL);
         }
     } else {
         if ((u8) opacity == 255) {
+            GameEngine_SetDisplayListContext("sprite_opaque");
             gSPDisplayList(gMainGfxPos++, OpaqueSpriteGfx);
+            GameEngine_SetDisplayListContext(NULL);
         } else {
             gDPSetPrimColor(gMainGfxPos++, 0, 0, 0, 0, 0, (u8) opacity);
+            GameEngine_SetDisplayListContext("sprite_translucent");
             gSPDisplayList(gMainGfxPos++, TranslucentSpriteGfx);
+            GameEngine_SetDisplayListContext(NULL);
         }
     }
 
@@ -849,16 +860,16 @@ s32 spr_update_player_sprite(s32 spriteInstanceID, s32 animID, f32 timeScale) {
         }
     }
 
-    spriteData = (u32*)PlayerSprites[spriteIdx];
+    SpriteAnimData* animData = PlayerSprites[spriteIdx];
     compList = CurPlayerAnimInfo[instanceIdx].componentList;
 
-    if (spriteData == nullptr) {
+    if (animData == nullptr) {
         return 0;
     }
 
-    rasterList = (SpriteRasterCacheEntry**)*spriteData;
-    spriteData += 4 + animIndex;
-    animList = (SpriteAnimComponent**)*spriteData;
+    // Access struct fields directly instead of u32* pointer arithmetic for 64-bit compatibility
+    rasterList = animData->rastersOffset;
+    animList = animData->animListStart[animIndex];
 
     spr_set_anim_timescale(timeScale);
     if ((spriteInstanceID & DRAW_SPRITE_OVERRIDE_ALPHA) ||
@@ -886,7 +897,7 @@ s32 spr_draw_player_sprite(s32 spriteInstanceID, s32 yaw, s32 alphaIn, PAL_PTR* 
     SpriteComponent** components;
     f32 zscale;
     u32 alpha;
-    u32* spriteData;
+    SpriteAnimData* animData;
     s32 spriteIdx;
     s32 spriteIdBackFacing;
 
@@ -895,17 +906,15 @@ s32 spr_draw_player_sprite(s32 spriteInstanceID, s32 yaw, s32 alphaIn, PAL_PTR* 
     }
 
     CurPlayerSpriteIndex = spriteIdx = SPR_UNPACK_SPR(animID) - 1;
-    spriteData = (u32*)PlayerSprites[spriteIdx];
-    if (spriteData == nullptr) {
+    animData = PlayerSprites[spriteIdx];
+    if (animData == nullptr) {
         return false;
     }
 
-    // TODO: fake match or not?
-    rasters = (SpriteRasterCacheEntry**)*spriteData++;
-    palettes = (PAL_PTR*)*spriteData++;
-    spriteData++;
-    spriteData++;
-    animComponents = (SpriteAnimComponent**)spriteData[SPR_UNPACK_ANIM(animID)];
+    // Access struct fields directly for 64-bit compatibility
+    rasters = animData->rastersOffset;
+    palettes = animData->palettesOffset;
+    animComponents = animData->animListStart[SPR_UNPACK_ANIM(animID)];
 
     if (animID & SPRITE_ID_BACK_FACING) {
         switch (spriteIdx) {
@@ -913,10 +922,9 @@ s32 spr_draw_player_sprite(s32 spriteInstanceID, s32 yaw, s32 alphaIn, PAL_PTR* 
             case SPR_MarioW1 - 1:
             case SPR_Peach1 - 1:
                 spriteIdBackFacing = spriteIdx + 1;
-                // TODO find better match
-                rasters = (SpriteRasterCacheEntry**)PlayerSprites[spriteIdBackFacing];
+                // Access back-facing sprite data properly for 64-bit
                 CurPlayerSpriteIndex = spriteIdBackFacing;
-                rasters = (SpriteRasterCacheEntry**)*rasters;
+                rasters = PlayerSprites[spriteIdBackFacing]->rastersOffset;
                 break;
         }
     }
@@ -1044,6 +1052,7 @@ s32 spr_load_npc_sprite(s32 animID, u32* extraAnimList) {
             break;
         }
     }
+
     if (MaxLoadedSpriteInstanceID < i) {
         MaxLoadedSpriteInstanceID = i;
     }
@@ -1051,6 +1060,7 @@ s32 spr_load_npc_sprite(s32 animID, u32* extraAnimList) {
         return -1;
     }
     listIndex = i;
+
     if (NpcSpriteData[spriteIndex] != nullptr) {
         NpcSpriteInstanceCount[spriteIndex]++;
         header = NpcSpriteData[spriteIndex];
@@ -1060,9 +1070,12 @@ s32 spr_load_npc_sprite(s32 animID, u32* extraAnimList) {
         header = spr_load_sprite(spriteIndex - 1, false, useTailAlloc);
         SpriteInstances[listIndex].spriteData = header;
         NpcSpriteData[spriteIndex] = header;
-        if (extraAnimList != nullptr) {
-            spr_load_npc_extra_anims(header, extraAnimList);
-        }
+        // PC port: All sprites are asset-loaded in native format with 8-byte pointers.
+        // spr_load_npc_extra_anims was designed for N64 ROM-loaded sprites with 4-byte pointers
+        // and incorrectly shrinks heap allocations via _heap_realloc, causing heap corruption.
+        // if (extraAnimList != nullptr) {
+        //     spr_load_npc_extra_anims(header, extraAnimList);
+        // }
     }
     compList = spr_allocate_components(header->maxComponents);
     SpriteInstances[listIndex].componentList = compList;
@@ -1077,7 +1090,7 @@ s32 spr_load_npc_sprite(s32 animID, u32* extraAnimList) {
 }
 
 s32 spr_update_sprite(s32 spriteInstanceID, s32 animID, f32 timeScale) {
-    u32* spriteData;
+    SpriteAnimData* spriteData;
     SpriteComponent** compList;
     SpriteAnimComponent** animList;
     SpriteRasterCacheEntry** rasterList;
@@ -1087,11 +1100,11 @@ s32 spr_update_sprite(s32 spriteInstanceID, s32 animID, f32 timeScale) {
     s32 animIndex = SPR_UNPACK_ANIM(animID);
 
     compList = SpriteInstances[i].componentList;
-    spriteData = (u32*)SpriteInstances[i].spriteData;
+    spriteData = SpriteInstances[i].spriteData;
 
-    rasterList = (SpriteRasterCacheEntry**)*spriteData;
-    spriteData += 4 + animIndex;
-    animList = (SpriteAnimComponent**)*spriteData;
+    // Use proper struct access for 64-bit compatibility (pointers are 8 bytes)
+    rasterList = spriteData->rastersOffset;
+    animList = spriteData->animListStart[animIndex];
 
     palID = SPR_UNPACK_PAL(animID);
     spr_set_anim_timescale(timeScale);
@@ -1109,27 +1122,31 @@ s32 spr_update_sprite(s32 spriteInstanceID, s32 animID, f32 timeScale) {
 
 s32 spr_draw_npc_sprite(s32 spriteInstanceID, s32 yaw, s32 alphaIn, PAL_PTR* paletteList, Matrix4f mtx) {
     s32 i = spriteInstanceID & 0xFF;
-    s32 animID = SpriteInstances[i].curAnimID;
+    s32 animID;
+
+    if (i < 0 || i >= ARRAY_COUNT(SpriteInstances)) {
+        return false;
+    }
+
+    animID = SpriteInstances[i].curAnimID;
     SpriteRasterCacheEntry** rasters;
     PAL_PTR* palettes;
     SpriteAnimComponent** animComponents;
     SpriteComponent** components;
     f32 zscale;
     u32 alpha;
-    u32* spriteData;
+    SpriteAnimData* spriteData;
 
     if (animID == ANIM_LIST_END) {
         return false;
     }
 
-    spriteData = (u32*)SpriteInstances[i].spriteData;
+    spriteData = SpriteInstances[i].spriteData;
 
-    // TODO: fake match or not?
-    rasters = (SpriteRasterCacheEntry**)*spriteData++;
-    palettes = (PAL_PTR*)*spriteData++;
-    spriteData++;
-    spriteData++;
-    animComponents = (SpriteAnimComponent**)spriteData[SPR_UNPACK_ANIM(animID)];
+    // Use proper struct access for 64-bit compatibility (pointers are 8 bytes)
+    rasters = spriteData->rastersOffset;
+    palettes = spriteData->palettesOffset;
+    animComponents = spriteData->animListStart[SPR_UNPACK_ANIM(animID)];
 
     SpriteCurBaseRot[0] = 0;
     SpriteCurBaseRot[1] = yaw;
@@ -1267,7 +1284,6 @@ s32 spr_get_comp_position(s32 spriteIdx, s32 compListIdx, s32* outX, s32* outY, 
     SpriteComponent* comp;
     u8 animID;
     s32 i;
-    u32* spriteData;
 
     if (sprite->componentList == nullptr) {
         return -1; // bug: does not return a value
@@ -1275,11 +1291,8 @@ s32 spr_get_comp_position(s32 spriteIdx, s32 compListIdx, s32* outX, s32* outY, 
 
     animID = sprite->curAnimID;
     if (animID != 255) {
-        // following 3 lines equivalent to:
-        // animCompList = sprite->spriteData->animListStart[animID];
-        spriteData = (u32*)sprite->spriteData;
-        spriteData += 4 + animID;
-        animCompList = (SpriteAnimComponent**)*spriteData;
+        // Use proper struct access for 64-bit compatibility (pointers are 8 bytes)
+        animCompList = sprite->spriteData->animListStart[animID];
         compList = sprite->componentList;
         i = 0;
         while (*compList != PTR_LIST_END) {

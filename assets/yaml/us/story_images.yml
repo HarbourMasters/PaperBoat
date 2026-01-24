@@ -1,0 +1,26 @@
+# Story page images (264x162 CI8 with 256-color palette)
+# Layout in ROM: image (42768 bytes) followed immediately by palette (512 bytes)
+
+# Page 1: Starry sky background
+story_page_starry_sky:
+  { type: PM64:STORY_IMAGE, offset: 0x2191B0, width: 264, height: 162, has_palette: true }
+
+# Page 2: Shrine exterior
+story_page_shrine_ext:
+  { type: PM64:STORY_IMAGE, offset: 0x223AC0, width: 264, height: 162, has_palette: true }
+
+# Page 3: Star rod close-up
+story_page_star_rod:
+  { type: PM64:STORY_IMAGE, offset: 0x22E3D0, width: 264, height: 162, has_palette: true }
+
+# Page 4: Shrine interior
+story_page_shrine_int:
+  { type: PM64:STORY_IMAGE, offset: 0x238CE0, width: 264, height: 162, has_palette: true }
+
+# Tape decoration (128x128 IA8 - no palette)
+story_tape:
+  { type: PM64:STORY_IMAGE, offset: 0x2435F0, width: 128, height: 128, has_palette: false }
+
+# Bowser silhouette (128x128 CI8 with palette)
+story_bowser_silhouette:
+  { type: PM64:STORY_IMAGE, offset: 0x2475F0, width: 128, height: 128, has_palette: true }

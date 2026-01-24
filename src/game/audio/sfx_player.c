@@ -1,5 +1,6 @@
 #include "audio.h"
 #include "audio/core.h"
+#include "Engine.h"
 
 static void au_sfx_play_sound(SoundManager* manager, SoundPlayer* player, s8* readPos, SoundRequest* request, s32 priority, s32 exclusiveID);
 static void au_sfx_set_triggers(SoundManager* manager, u32 soundID);
@@ -1304,6 +1305,9 @@ static void au_sfx_update_sequence(SoundManager* manager, SoundPlayer* player, A
     }
     player->delay--;
     while (player->delay == 0) {
+        if (player->sefDataReadPos == NULL) {
+            return;
+        }
         CmdHandlers = SefCmdHandlers;
         opcode = *player->sefDataReadPos++;
         if (opcode < 0x80) {

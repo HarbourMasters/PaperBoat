@@ -707,7 +707,7 @@ void au_bgm_player_initialize(BGMPlayer* player) {
 
     for (i = 0; i < ARRAY_COUNT(player->tracks); i++) {
         BGMPlayerTrack* track = &player->tracks[i];
-        track->instrument = NO_INSTRUMENT;
+        track->instrument = player->globals->defaultInstrument;
         track->insVolume = AU_MAX_VOLUME_16 << 16; // @bug? incorrect format for 8.24 fixed, should be (AU_MAX_VOLUME_8 << 24)
         track->insPan = 0x40;
         track->insReverb = 0;
@@ -746,7 +746,11 @@ void au_bgm_player_initialize(BGMPlayer* player) {
 
     for (i = 0; i < ARRAY_COUNT(player->notes); i++) {
         SeqNote* note = &player->notes[i];
-        note->ins = NO_INSTRUMENT;
+        // TODO: Sometimes we are having a crash here and its is intermittent because it depends on timing
+        // between the game thread (which loads songs and triggers BGM state transitions) and the audio thread
+        // (which processes frames). If the audio thread starts processing a track before its F5 (UseInstrument)
+        // command has been executed, track->instrument is still NO_INSTRUMENT.
+        note->ins = player->globals->defaultInstrument;
         note->pitchRatio = 2.0f;
         note->randDetune = 0;
         note->velocity = 0;
@@ -967,7 +971,7 @@ void au_bgm_load_phrase(BGMPlayer* player, u32 cmd) {
                         track->firstVoice = linkedTrack->firstVoice;
                         track->lastVoice = linkedTrack->lastVoice;
 
-                        track->bgmReadPos = (track->bgmReadPos + (s32)player->phraseStartPos);
+                        track->bgmReadPos = (track->bgmReadPos + (intptr_t)player->phraseStartPos);
                         track->delayTime = 1;
 
                         track->linkedTrackID = linkedID;
@@ -985,7 +989,7 @@ void au_bgm_load_phrase(BGMPlayer* player, u32 cmd) {
                     curVoice += count;
                     track->lastVoice = curVoice;
 
-                    track->bgmReadPos = (track->bgmReadPos + (s32)player->phraseStartPos);
+                    track->bgmReadPos = (track->bgmReadPos + (intptr_t)player->phraseStartPos);
                     track->delayTime = 1;
                 }
             } else {
@@ -1380,6 +1384,44 @@ void au_bgm_player_update_playing(BGMPlayer *player) {
                                 POST_BGM_READ();
                             }
                             bgm_args_done:
+                            // TODO: we need to do this at extraction phase:
+                            // Byte-swap multi-byte SeqArgs fields for little-endian.
+                            // Raw bytes are filled in big-endian order from the BGM stream,
+                            // but union fields (u16/s16/u32) read in native endianness.
+                            switch (opcode) {
+                                case 0xE0: // MasterTempo: u16 at [0..1]
+                                case 0xE5: // MasterVolumeFade: u16 at [0..1], u8 at [2]
+                                case 0xEF: // TrackDetune: s16 at [0..1]
+                                case 0xF6: // TrackVolumeFade: u16 at [0..1], u8 at [2]
+                                case 0xFC: // Branch: u16 at [0..1], u8 at [2]
+                                case 0xFE: // Detour: u16 at [0..1], u8 at [2]
+                                {
+                                    u8 t = player->seqCmdArgs.raw[0];
+                                    player->seqCmdArgs.raw[0] = player->seqCmdArgs.raw[1];
+                                    player->seqCmdArgs.raw[1] = t;
+                                    break;
+                                }
+                                case 0xE4: // MasterTempoFade: u16 at [0..1], u16 at [2..3]
+                                {
+                                    u8 t = player->seqCmdArgs.raw[0];
+                                    player->seqCmdArgs.raw[0] = player->seqCmdArgs.raw[1];
+                                    player->seqCmdArgs.raw[1] = t;
+                                    t = player->seqCmdArgs.raw[2];
+                                    player->seqCmdArgs.raw[2] = player->seqCmdArgs.raw[3];
+                                    player->seqCmdArgs.raw[3] = t;
+                                    break;
+                                }
+                                case 0xFD: // EventTrigger: u32 at [0..3]
+                                {
+                                    u8 t = player->seqCmdArgs.raw[0];
+                                    player->seqCmdArgs.raw[0] = player->seqCmdArgs.raw[3];
+                                    player->seqCmdArgs.raw[3] = t;
+                                    t = player->seqCmdArgs.raw[1];
+                                    player->seqCmdArgs.raw[1] = player->seqCmdArgs.raw[2];
+                                    player->seqCmdArgs.raw[2] = t;
+                                    break;
+                                }
+                            }
                             CurrentSeqCmdHandler = SeqCmdHandlers[opcode - 0xE0];
                             CurrentSeqCmdHandler(player, track);
                         }

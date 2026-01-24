@@ -3,10 +3,6 @@
 #include "message_ids.h"
 #include "sprite.h"
 
-#include "charset/charset.h"
-#include "charset/postcard.png.h"
-#include "charset/letter_content_1.png.h"
-
 extern IMG_BIN ui_msg_bubble_left_png[];
 extern IMG_BIN ui_msg_bubble_mid_png[];
 extern IMG_BIN ui_msg_bubble_right_png[];

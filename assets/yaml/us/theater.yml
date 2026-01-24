@@ -1,0 +1,37 @@
+
+theater_walls:
+  { type: TEXTURE, format: I4, offset: 0x4F9E0, width: 16, height: 32, symbol: theater_walls }
+
+theater_curtains:
+  { type: TEXTURE, format: RGBA32, offset: 0x4FB30, width: 32, height: 32, symbol: theater_curtains }
+
+theater_floor_pal:
+  { type: TEXTURE, format: TLUT, offset: 0x50C80, colors: 16, symbol: theater_floor_pal }
+
+theater_floor:
+  { type: TEXTURE, format: CI4, offset: 0x50B80, width: 32, height: 16, tlut: 0x50C80, symbol: theater_floor }
+
+ui_no_controller:
+  { type: TEXTURE, format: IA8, offset: 0x51540, width: 128, height: 32, symbol: ui_no_controller }
+
+# Vertices
+theater_left_wall_vtx:
+  { type: VTX, offset: 0x50D20, count: 6, symbol: theater_left_wall_vtx }
+
+theater_right_wall_vtx:
+  { type: VTX, offset: 0x50D80, count: 6, symbol: theater_right_wall_vtx }
+
+theater_floor_vtx:
+  { type: VTX, offset: 0x50DE0, count: 25, symbol: theater_floor_vtx }
+
+theater_left_inset_shadow_vtx:
+  { type: VTX, offset: 0x50F70, count: 4, symbol: theater_left_inset_shadow_vtx }
+
+theater_right_inset_shadow_vtx:
+  { type: VTX, offset: 0x50FB0, count: 4, symbol: theater_right_inset_shadow_vtx }
+
+theater_curtain_vtx:
+  { type: VTX, offset: 0x50FF0, count: 31, symbol: theater_curtain_vtx }
+
+theater_wall_shadows_vtx:
+  { type: VTX, offset: 0x511E0, count: 8, symbol: theater_wall_shadows_vtx }

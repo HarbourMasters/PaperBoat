@@ -10,13 +10,29 @@
 #define gSPDisplayList(pkt, dl) __gSPDisplayList(pkt, dl)
 #endif
 
+// Declare middleware functions for OTR path resolution
+void gSPVertexOTR(Gfx* pkt, uintptr_t v, int n, int v0);
+void gDPSetTextureImageOTR(Gfx* pkt, int fmt, int siz, int width, uintptr_t img);
+
 #ifndef gSPVertex
-#define gSPVertex(pkt, v, n, v0) __gSPVertex(pkt, v, n, v0)
+#define gSPVertex(pkt, v, n, v0) gSPVertexOTR(pkt, (uintptr_t)(v), n, v0)
 #endif
 
 #ifndef gSPSegment
 #define gSPSegment(pkt, segment, base) __gSPSegment(pkt, segment, base)
 #endif
+
+// =============================================================================
+// Debug wrapper for gDPSetTextureImage to catch uninitialized textures
+// =============================================================================
+
+// Extern function implemented in Engine.cpp
+void _gbi_debug_check_texture(const void* img, const char* file, int line);
+
+// Override gDPSetTextureImage to use OTR middleware for path resolution
+#undef gDPSetTextureImage
+#define gDPSetTextureImage(pkt, f, s, w, i) \
+    gDPSetTextureImageOTR(pkt, f, s, w, (uintptr_t)(i))
 
 #define	gDPScrollMultiTile2_4b(pkt, timg, fmt, width, height,	\
 		uls, ult, lrs, lrt, pal,				\

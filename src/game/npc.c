@@ -6,6 +6,8 @@
 #include "world/partners.h"
 #include "sprite/npc/WorldWatt.h"
 
+extern void GameEngine_LogInfo(const char* fmt, ...);
+
 s16 gNpcCount;
 static NpcList gWorldNpcList;
 static NpcList gBattleNpcList;
@@ -196,8 +198,12 @@ s32 create_npc_impl(NpcBlueprint* blueprint, AnimID* animList, s32 isPeachNpc) {
         if (!(npc->flags & NPC_FLAG_HAS_NO_SPRITE)) {
             if (!(npc->flags & NPC_FLAG_PARTNER)) {
                 npc->spriteInstanceID = spr_load_npc_sprite(npc->curAnim, animList);
+                GameEngine_LogInfo("npc_init_basic_data: npc=%p id=%d spriteInstanceID=%d (curAnim=0x%08X)",
+                    (void*)npc, npc->npcID, npc->spriteInstanceID, npc->curAnim);
             } else {
                 npc->spriteInstanceID = spr_load_npc_sprite(npc->curAnim | SPRITE_ID_TAIL_ALLOCATE, animList);
+                GameEngine_LogInfo("npc_init_basic_data: partner npc=%p id=%d spriteInstanceID=%d (curAnim=0x%08X)",
+                    (void*)npc, npc->npcID, npc->spriteInstanceID, npc->curAnim);
             }
         } else {
             npc->flags |= NPC_FLAG_INVISIBLE;
@@ -1377,7 +1383,7 @@ s32 npc_render_with_watt_idle_palettes(Npc* npc, s32 arg1, Matrix4f mtx) {
     if (npc->resetPalAdjust != 0) {
         npc->originalPalettesList = spr_get_npc_palettes(npc->curAnim >> 16);
         npc->originalPalettesCount = 0;
-        while ((s32)npc->originalPalettesList[npc->originalPalettesCount] != -1) {
+        while ((intptr_t)npc->originalPalettesList[npc->originalPalettesCount] != -1) {
             npc->originalPalettesCount++;
         }
 
@@ -1487,7 +1493,7 @@ s32 npc_render_with_single_pal_blending(Npc* npc, s32 yaw, bool hasDifferentInte
         }
 
         npc->originalPalettesCount = 0;
-        while ((s32)npc->originalPalettesList[npc->originalPalettesCount] != -1) {
+        while ((intptr_t)npc->originalPalettesList[npc->originalPalettesCount] != -1) {
             npc->originalPalettesCount++;
         }
 
@@ -1623,7 +1629,7 @@ s32 npc_render_with_double_pal_blending(Npc* npc, s32 yaw, Matrix4f mtx) {
         }
 
         npc->originalPalettesCount = 0;
-        while ((s32)npc->originalPalettesList[npc->originalPalettesCount] != -1) {
+        while ((intptr_t)npc->originalPalettesList[npc->originalPalettesCount] != -1) {
             npc->originalPalettesCount++;
         }
 

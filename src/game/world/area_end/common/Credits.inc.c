@@ -518,7 +518,7 @@ void N(credits_update_line)(CreditsLine* line) {
         line->state = 0;
     }
 
-    get_msg_properties((s32) line->message, &msgHeight, &msgWidth, &msgMaxLineChars, nullptr, nullptr, nullptr, 0);
+    get_msg_properties((intptr_t) line->message, &msgHeight, &msgWidth, &msgMaxLineChars, nullptr, nullptr, nullptr, 0);
 
     curChar->font = 0;
     curChar->variation = 0;
@@ -727,7 +727,7 @@ void N(credits_update_line)(CreditsLine* line) {
 
     if ((line->state == CREDITS_LINE_APPEARING) && doneCurrentState) {
         s32 temp = 0;
-        get_msg_properties((s32) line->message, nullptr, nullptr, &temp, nullptr, nullptr, nullptr, 0);
+        get_msg_properties((intptr_t) line->message, nullptr, nullptr, &temp, nullptr, nullptr, nullptr, 0);
         line->time = 0;
         line->state++;
         if (line->holdTime <= 0) {
@@ -788,7 +788,7 @@ void N(credits_load_message)(CreditsEntry* entry) {
         } else {
             line->message = (u8*) entry->msgID;
         }
-        get_msg_properties((s32) line->message, nullptr, nullptr, &maxLineChars, nullptr, nullptr, &numSpaces, 0);
+        get_msg_properties((intptr_t) line->message, nullptr, nullptr, &maxLineChars, nullptr, nullptr, &numSpaces, 0);
         line->posX            = entry->posX;
         line->posY            = entry->posY;
         line->palette         = entry->palette;

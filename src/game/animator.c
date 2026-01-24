@@ -2,6 +2,9 @@
 #include "animation_script.h"
 #include "model.h"
 
+// Display list context tracking for debugging
+extern void GameEngine_SetDisplayListContext(const char* context);
+
 typedef struct DisplayListBufferHandle {
     /* 0x0 */ s32 ttl;
     /* 0x4 */ void* addr;
@@ -886,7 +889,9 @@ void appendGfx_animator_node(ModelAnimator* animator, AnimatorNode* node, Matrix
 
     if (node->displayList != nullptr) {
         if (node->vertexStartOffset < 0) {
+            GameEngine_SetDisplayListContext("animator_node_displaylist");
             gSPDisplayList(gMainGfxPos++, node->displayList);
+            GameEngine_SetDisplayListContext(NULL);
         } else {
             Gfx* gfxPos;
             s32 vtxIdx, dlIdx;
@@ -959,7 +964,9 @@ void appendGfx_animator_node(ModelAnimator* animator, AnimatorNode* node, Matrix
             } while (true);
 
             gSPEndDisplayList(gfxPos++);
+            GameEngine_SetDisplayListContext("animator_buffer_displaylist");
             gSPDisplayList(gMainGfxPos++, bufferHandle->addr);
+            GameEngine_SetDisplayListContext(NULL);
         }
     }
     gDPPipeSync(gMainGfxPos++);

@@ -11,6 +11,18 @@ extern "C" {
 // Raw N64 structures - these match the exact binary layout in shape files
 // All "pointer" fields are actually 32-bit offsets relative to the start of the data
 
+// N64 Gfx command format (8 bytes - two 32-bit words)
+// This is the raw format in shape files, different from native Gfx (16 bytes)
+typedef struct N64Gfx {
+    u32 w0;
+    u32 w1;
+} N64Gfx; // size = 0x08
+
+// F3DEX2 opcodes used in shape display lists
+#define SHAPE_G_ENDDL   0xDF
+#define SHAPE_G_SETTIMG 0xFD
+#define SHAPE_G_NOOP    0x00
+
 typedef struct RawModelDisplayData {
     /* 0x00 */ u32 displayListOffset;
     /* 0x04 */ u32 unk_04;
@@ -49,7 +61,8 @@ typedef struct RawShapeFileHeader {
 
 // Load shape data from raw bytes and populate ShapeFile with proper pointers
 // The raw data is copied into shapeFile->data and all pointer fields are converted
-void Shape_LoadFromRawData(ShapeFile* shapeFile, const u8* rawData, size_t rawSize);
+// shapeName is used to build display list resource paths (e.g., "kmr_02_shape")
+void Shape_LoadFromRawData(ShapeFile* shapeFile, const u8* rawData, size_t rawSize, const char* shapeName);
 
 // Helper to get a pointer from an offset (returns NULL if offset is 0)
 static inline void* Shape_OffsetToPtr(u8* base, u32 offset) {

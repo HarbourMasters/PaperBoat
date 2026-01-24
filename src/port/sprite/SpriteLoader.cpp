@@ -11,14 +11,22 @@
 // Forward declaration of ResourceGetDataByName from Engine
 extern "C" void* ResourceGetDataByName(const char* name);
 
+// Forward declaration of texture debug tracking from Engine
+extern "C" void GameEngine_RegisterTextureDebugInfo(const void* addr, const char* assetPath, int rasterIdx);
+
+// Forward declaration of N64 sprite converter
+static size_t ConvertN64SpriteToNative(const uint8_t* srcBlob, size_t srcSize,
+                                       uint8_t* destBuffer, size_t destBufferSize,
+                                       bool isPlayerSprite, const char* assetPath);
+
 // Global flag indicating sprites are loaded from assets
 static SpriteS32 sSpritesAvailable = 0;
 
 // Cache for sprite data header
 static uint32_t sSpriteDataHeader[3] = {0};
 
-// Asset path prefix for sprites
-static const char* SPRITE_ASSET_PREFIX = "__OTR__sprites/npc/sprite_";
+// Asset path prefix for NPC sprites (matches npc_sprite_XXX in sprites.yml)
+static const char* SPRITE_ASSET_PREFIX = "__OTR__sprites/npc_sprite_";
 
 void Sprite_Init(void) {
     // Check if sprite assets exist by trying to load the header
@@ -32,11 +40,8 @@ void Sprite_Init(void) {
         sSpriteDataHeader[0] = BSWAP32(src[0]);
         sSpriteDataHeader[1] = BSWAP32(src[1]);
         sSpriteDataHeader[2] = BSWAP32(src[2]);
-        SPDLOG_INFO("Sprite assets available, header loaded: [0x{:X}, 0x{:X}, 0x{:X}]",
-                    sSpriteDataHeader[0], sSpriteDataHeader[1], sSpriteDataHeader[2]);
     } else {
         sSpritesAvailable = 0;
-        SPDLOG_WARN("Sprite assets not available, will use ROM loading fallback");
     }
 }
 
@@ -56,12 +61,11 @@ SpriteS32 Sprite_AssetsAvailable(void) {
     return sSpritesAvailable;
 }
 
-size_t Sprite_GetNPCSize(SpriteS32 spriteIdx) {
-    // Build asset path: __OTR__sprites/npc/sprite_XXX
+// Get raw blob size for NPC sprites (internal helper)
+static size_t GetNPCBlobSize(SpriteS32 spriteIdx) {
     char assetPath[64];
     snprintf(assetPath, sizeof(assetPath), "%s%03d", SPRITE_ASSET_PREFIX, spriteIdx);
 
-    // Try to get size from resource manager
     auto ctx = Ship::Context::GetInstance();
     if (ctx == nullptr) {
         return 0;
@@ -72,19 +76,40 @@ size_t Sprite_GetNPCSize(SpriteS32 spriteIdx) {
         return 0;
     }
 
-    // Load resource to get size
     auto resource = resourceMgr->LoadResource(assetPath);
     if (resource == nullptr) {
         return 0;
     }
 
-    // For blob resources, the size is stored in the data vector
     auto blob = std::dynamic_pointer_cast<Ship::Blob>(resource);
     if (blob != nullptr) {
         return blob->Data.size();
     }
 
     return 0;
+}
+
+size_t Sprite_GetNPCSize(SpriteS32 spriteIdx) {
+    // Build asset path: __OTR__sprites/npc/sprite_XXX
+    char assetPath[64];
+    snprintf(assetPath, sizeof(assetPath), "%s%03d", SPRITE_ASSET_PREFIX, spriteIdx);
+
+    void* spriteData = ResourceGetDataByName(assetPath);
+    if (spriteData == nullptr) {
+        return 0;
+    }
+
+    size_t blobSize = GetNPCBlobSize(spriteIdx);
+    if (blobSize == 0) {
+        return 0;
+    }
+
+    // Calculate native size needed (pass nullptr to just get size)
+    size_t nativeSize = ConvertN64SpriteToNative(
+        reinterpret_cast<const uint8_t*>(spriteData), blobSize,
+        nullptr, 0, false /* isPlayerSprite */, nullptr /* assetPath */);
+
+    return nativeSize;
 }
 
 void* Sprite_LoadNPC(SpriteS32 spriteIdx, void* destBuffer, size_t bufferSize) {
@@ -105,24 +130,22 @@ void* Sprite_LoadNPC(SpriteS32 spriteIdx, void* destBuffer, size_t bufferSize) {
         return nullptr;
     }
 
-    // Get the actual size of the sprite data
-    size_t spriteSize = Sprite_GetNPCSize(spriteIdx);
-    if (spriteSize == 0) {
-        SPDLOG_WARN("Sprite_LoadNPC: Could not determine size for sprite {}", spriteIdx);
+    size_t blobSize = GetNPCBlobSize(spriteIdx);
+    if (blobSize == 0) {
+        SPDLOG_WARN("Sprite_LoadNPC: Could not determine blob size for NPC sprite {}", spriteIdx);
         return nullptr;
     }
 
-    if (spriteSize > bufferSize) {
-        SPDLOG_ERROR("Sprite_LoadNPC: Buffer too small for sprite {} (need {}, have {})",
-                     spriteIdx, spriteSize, bufferSize);
+    // Convert N64 format to native format with proper pointer sizes
+    size_t convertedSize = ConvertN64SpriteToNative(
+        reinterpret_cast<const uint8_t*>(spriteData), blobSize,
+        reinterpret_cast<uint8_t*>(destBuffer), bufferSize,
+        false /* isPlayerSprite */, assetPath);
+
+    if (convertedSize == 0) {
+        SPDLOG_ERROR("Sprite_LoadNPC: Failed to convert NPC sprite {}", spriteIdx);
         return nullptr;
     }
-
-    // Copy sprite data to destination buffer
-    // The data is already decompressed and byte-swapped
-    memcpy(destBuffer, spriteData, spriteSize);
-
-    SPDLOG_DEBUG("Sprite_LoadNPC: Loaded sprite {} ({} bytes)", spriteIdx, spriteSize);
 
     return destBuffer;
 }
@@ -161,8 +184,6 @@ SpriteS32 Sprite_GetDataHeader(int32_t* outHeader) {
     sSpriteDataHeader[2] = (uint32_t)outHeader[2];
     sSpritesAvailable = 1;
 
-    SPDLOG_INFO("Sprite_GetDataHeader: Loaded [0x{:X}, 0x{:X}, 0x{:X}]",
-                outHeader[0], outHeader[1], outHeader[2]);
     return 1;
 }
 
@@ -185,8 +206,6 @@ SpriteS32 Sprite_GetPlayerRasterHeader(int32_t* outHeader) {
     outHeader[1] = (int32_t)BSWAP32(src[1]);
     outHeader[2] = (int32_t)BSWAP32(src[2]);
 
-    SPDLOG_INFO("Sprite_GetPlayerRasterHeader: Loaded [0x{:X}, 0x{:X}, 0x{:X}]",
-                outHeader[0], outHeader[1], outHeader[2]);
     return 1;
 }
 
@@ -235,7 +254,6 @@ SpriteS32 Sprite_GetPlayerRasterSets(int32_t* outSets, SpriteS32 maxCount) {
         outSets[i] = (int32_t)BSWAP32(src[i]);
     }
 
-    SPDLOG_INFO("Sprite_GetPlayerRasterSets: Loaded {} entries", count);
     return count;
 }
 
@@ -258,8 +276,6 @@ SpriteS32 Sprite_GetPlayerSpriteIndexEntry(SpriteS32 spriteIdx, int32_t* outEntr
     outEntry[0] = (int32_t)BSWAP32(src[spriteIdx]);
     outEntry[1] = (int32_t)BSWAP32(src[spriteIdx + 1]);
 
-    SPDLOG_INFO("Sprite_GetPlayerSpriteIndexEntry: sprite {} -> [0x{:X}, 0x{:X}]",
-                spriteIdx, outEntry[0], outEntry[1]);
     return 1;
 }
 
@@ -308,9 +324,10 @@ static int CountN64PtrArray(const uint8_t* base, uint32_t offset) {
 // Convert N64 format sprite blob to native format with proper pointer sizes
 // Returns the required buffer size, or 0 on error
 // If destBuffer is provided and large enough, performs the conversion
+// assetPath is used for debug tracking (can be nullptr when just calculating size)
 static size_t ConvertN64SpriteToNative(const uint8_t* srcBlob, size_t srcSize,
                                         uint8_t* destBuffer, size_t destBufferSize,
-                                        bool isPlayerSprite) {
+                                        bool isPlayerSprite, const char* assetPath) {
     if (srcSize < sizeof(N64_SpriteAnimData)) {
         SPDLOG_ERROR("Sprite blob too small: {}", srcSize);
         return 0;
@@ -336,9 +353,6 @@ static size_t ConvertN64SpriteToNative(const uint8_t* srcBlob, size_t srcSize,
         if (numAnims > 1000) break;
     }
 
-    SPDLOG_DEBUG("N64 sprite: {} rasters, {} palettes, {} anims, {} total components",
-                 numRasters, numPalettes, numAnims, totalComponents);
-
     // Calculate size needed for native format
     // Native header: 2 pointers + 2 ints + animListStart array of pointers
     size_t headerSize = sizeof(void*) * 2 + sizeof(int32_t) * 2 + sizeof(void*) * (numAnims + 1);
@@ -346,11 +360,17 @@ static size_t ConvertN64SpriteToNative(const uint8_t* srcBlob, size_t srcSize,
     // Raster pointer array (pointers + terminator)
     size_t rasterArraySize = sizeof(void*) * (numRasters + 1);
 
-    // Raster entries (each has a pointer field that expands)
-    size_t rasterEntriesSize = sizeof(void*) * numRasters; // For expanded SpriteRasterCacheEntry
-    // Actually, SpriteRasterCacheEntry is: pointer + 4 bytes = 8 + 4 = 12 bytes on 64-bit (with padding maybe 16)
-    // On N64 it's 8 bytes. Let's use native struct size.
-    // For now, keep the N64 raster entries as-is since image is an offset we convert to pointer
+    // Native raster entries - must be native struct size (16 bytes each on 64-bit)
+    // N64 format: {u32 imageOffset(4), u8 width(1), u8 height(1), s8 palette(1), s8 quadCacheIndex(1)} = 8 bytes
+    // Native format: {void* image(8), u8 width(1), u8 height(1), s8 palette(1), s8 quadCacheIndex(1)} = 16 bytes with padding
+    struct NativeRasterEntry {
+        void* image;
+        uint8_t width;
+        uint8_t height;
+        int8_t palette;
+        int8_t quadCacheIndex;
+    };
+    size_t rasterEntriesSize = sizeof(NativeRasterEntry) * numRasters;
 
     // Palette pointer array
     size_t paletteArraySize = sizeof(void*) * (numPalettes + 1);
@@ -375,7 +395,7 @@ static size_t ConvertN64SpriteToNative(const uint8_t* srcBlob, size_t srcSize,
     // For simplicity, we'll copy the entire source blob and then overlay the converted structures
 
     // Total size estimate (generous)
-    size_t totalSize = headerSize + rasterArraySize + paletteArraySize +
+    size_t totalSize = headerSize + rasterArraySize + rasterEntriesSize + paletteArraySize +
                        compListArraysSize + compEntriesSize + srcSize;
 
     // Round up to 16-byte alignment
@@ -416,6 +436,10 @@ static size_t ConvertN64SpriteToNative(const uint8_t* srcBlob, size_t srcSize,
     headerPtr[0] = rasterArray; // rastersOffset now points to raster array
     writePtr += rasterArraySize;
 
+    // 2b. Native raster entries (properly sized for 64-bit)
+    NativeRasterEntry* nativeRasterEntries = reinterpret_cast<NativeRasterEntry*>(writePtr);
+    writePtr += rasterEntriesSize;
+
     // 3. Palette pointer array
     void** paletteArray = reinterpret_cast<void**>(writePtr);
     headerPtr[1] = paletteArray; // palettesOffset now points to palette array
@@ -440,22 +464,32 @@ static size_t ConvertN64SpriteToNative(const uint8_t* srcBlob, size_t srcSize,
 
     // 7. Now fix up all the pointers
 
-    // Raster array: convert offsets to pointers
+    // Raster array: convert N64 entries to native entries with proper pointer size
     const uint32_t* n64RasterOffsets = reinterpret_cast<const uint32_t*>(srcBlob + n64Header->rastersOffset);
     for (int i = 0; i < numRasters; i++) {
         uint32_t offset = n64RasterOffsets[i];
-        // Point to the raster entry in the raw data copy
-        // The raster entry itself has an image offset we need to convert
-        N64_SpriteRasterCacheEntry* n64Raster = reinterpret_cast<N64_SpriteRasterCacheEntry*>(rawDataPtr + offset);
+        // Read N64 raster entry from source blob
+        const N64_SpriteRasterCacheEntry* n64Raster = reinterpret_cast<const N64_SpriteRasterCacheEntry*>(srcBlob + offset);
 
-        // For player sprites, image offset stays as offset (loaded from ROM at runtime)
-        // For NPC sprites, convert image offset to pointer
-        if (!isPlayerSprite) {
-            // Convert image offset to pointer within raw data
-            n64Raster->imageOffset = (uint32_t)(uintptr_t)(rawDataPtr + n64Raster->imageOffset);
+        // Convert to native entry with proper pointer size
+        NativeRasterEntry* nativeRaster = &nativeRasterEntries[i];
+
+        // Convert image offset to pointer within raw data
+        // (Player sprites also need this - images are embedded in sprite data)
+        uint32_t imgOffset = n64Raster->imageOffset;
+        nativeRaster->image = rawDataPtr + imgOffset;
+
+        // Register texture address for debug tracking
+        if (assetPath != nullptr) {
+            GameEngine_RegisterTextureDebugInfo(nativeRaster->image, assetPath, i);
         }
 
-        rasterArray[i] = n64Raster;
+        nativeRaster->width = n64Raster->width;
+        nativeRaster->height = n64Raster->height;
+        nativeRaster->palette = n64Raster->palette;
+        nativeRaster->quadCacheIndex = n64Raster->quadCacheIndex;
+
+        rasterArray[i] = nativeRaster;
     }
     rasterArray[numRasters] = reinterpret_cast<void*>(-1); // PTR_LIST_END
 
@@ -508,9 +542,6 @@ static size_t ConvertN64SpriteToNative(const uint8_t* srcBlob, size_t srcSize,
     }
     animListStart[numAnims] = reinterpret_cast<void**>(-1); // PTR_LIST_END
 
-    SPDLOG_INFO("Converted N64 sprite: {} bytes src -> {} bytes native",
-                srcSize, totalSize);
-
     return totalSize;
 }
 
@@ -559,9 +590,8 @@ size_t Sprite_GetPlayerSize(SpriteS32 spriteIdx) {
     // Calculate native size needed (pass nullptr to just get size)
     size_t nativeSize = ConvertN64SpriteToNative(
         reinterpret_cast<const uint8_t*>(spriteData), blobSize,
-        nullptr, 0, true /* isPlayerSprite */);
+        nullptr, 0, true /* isPlayerSprite */, nullptr /* assetPath */);
 
-    SPDLOG_DEBUG("Sprite_GetPlayerSize: sprite {} blob={} native={}", spriteIdx, blobSize, nativeSize);
     return nativeSize;
 }
 
@@ -591,14 +621,12 @@ void* Sprite_LoadPlayer(SpriteS32 spriteIdx, void* destBuffer, size_t bufferSize
     size_t convertedSize = ConvertN64SpriteToNative(
         reinterpret_cast<const uint8_t*>(spriteData), blobSize,
         reinterpret_cast<uint8_t*>(destBuffer), bufferSize,
-        true /* isPlayerSprite */);
+        true /* isPlayerSprite */, assetPath);
 
     if (convertedSize == 0) {
         SPDLOG_ERROR("Sprite_LoadPlayer: Failed to convert player sprite {}", spriteIdx);
         return nullptr;
     }
-
-    SPDLOG_INFO("Sprite_LoadPlayer: Loaded player sprite {} ({} bytes native)", spriteIdx, convertedSize);
 
     return destBuffer;
 }
@@ -623,13 +651,18 @@ SpriteS32 Sprite_GetPlayerRasterLoadDescriptors(SpriteS32 spriteIdx, SpriteS32 s
         outBuffer[i] = (int32_t)BSWAP32(src[startIndex + i]);
     }
 
-    SPDLOG_DEBUG("Sprite_GetPlayerRasterLoadDescriptors: Loaded {} descriptors starting at index {}",
-                 count, startIndex);
     return 1;
 }
 
 SpriteS32 Sprite_LoadPlayerRaster(SpriteS32 rasterOffset, void* destBuffer, SpriteS32 size) {
     if (destBuffer == nullptr || size <= 0) {
+        SPDLOG_ERROR("Sprite_LoadPlayerRaster: Invalid params - destBuffer={} size={}", destBuffer, size);
+        return 0;
+    }
+
+    // Validate offset is not negative
+    if (rasterOffset < 0) {
+        SPDLOG_ERROR("Sprite_LoadPlayerRaster: Negative offset 0x{:X} ({})", (uint32_t)rasterOffset, rasterOffset);
         return 0;
     }
 
@@ -641,10 +674,28 @@ SpriteS32 Sprite_LoadPlayerRaster(SpriteS32 rasterOffset, void* destBuffer, Spri
         return 0;
     }
 
+    // Get blob size for bounds checking
+    // player_raster_image_data is 0x9CDD0 bytes (642,512 bytes)
+    const size_t PLAYER_RASTER_BLOB_SIZE = 0x9CDD0;
+
+    // Bounds check
+    if ((size_t)(rasterOffset + size) > PLAYER_RASTER_BLOB_SIZE) {
+        SPDLOG_ERROR("Sprite_LoadPlayerRaster: Out of bounds! offset=0x{:X} size={} (end=0x{:X}, max=0x{:X})",
+                     rasterOffset, size, rasterOffset + size, PLAYER_RASTER_BLOB_SIZE);
+        return 0;
+    }
+
     // Copy raster data (CI4 image data is byte-level, no byte-swap needed)
     uint8_t* src = (uint8_t*)imageData;
     memcpy(destBuffer, src + rasterOffset, size);
 
-    SPDLOG_DEBUG("Sprite_LoadPlayerRaster: Loaded {} bytes at offset 0x{:X}", size, rasterOffset);
+    // Register texture address for debug tracking
+    char debugPath[64];
+    snprintf(debugPath, sizeof(debugPath), "__OTR__sprites/player_raster@0x%X", rasterOffset);
+    GameEngine_RegisterTextureDebugInfo(destBuffer, debugPath, 0);
+
+    // Note: CI4 rasters can legitimately contain many zero bytes (palette index 0 = transparent)
+    // So all-zeros at the start is normal for sprites with transparent regions
+
     return 1;
 }

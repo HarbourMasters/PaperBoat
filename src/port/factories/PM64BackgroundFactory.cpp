@@ -6,16 +6,19 @@
 
 // PM64 background file structure (N64 ROM format):
 // BackgroundHeader (0x10 bytes):
-//   0x00: rasterOffset (u32) - offset from start of data to CI8 raster
-//   0x04: paletteOffset (u32) - offset from start of data to RGBA16 palette
+//   0x00: rasterAddr (u32) - N64 VRAM address (e.g., 0x80200210) - NOT a file offset!
+//   0x04: paletteAddr (u32) - N64 VRAM address (e.g., 0x80200010) - NOT a file offset!
 //   0x08: startX (u16)
 //   0x0A: startY (u16)
 //   0x0C: width (u16)
 //   0x0E: height (u16)
 //
-// Followed by:
-//   - Raster data: width * height bytes (CI8 indexed color, no swap needed)
-//   - Palette data: 256 * 2 bytes (RGBA16, needs u16 swap)
+// The decompressed data has a FIXED layout:
+//   0x0000: Header (16 bytes)
+//   0x0010: Palette (256 colors * 2 bytes = 512 bytes, RGBA16)
+//   0x0210: Raster (width * height bytes, CI8 indexed)
+//
+// The N64 VRAM addresses in the header are meaningless on PC - we use fixed offsets.
 
 static void ByteSwapBackgroundData(uint8_t* data, size_t size) {
     if (size < 0x10) {
@@ -23,36 +26,32 @@ static void ByteSwapBackgroundData(uint8_t* data, size_t size) {
         return;
     }
 
-    // Byte-swap header fields at fixed offsets
     uint32_t* header32 = reinterpret_cast<uint32_t*>(data);
     uint16_t* header16 = reinterpret_cast<uint16_t*>(data);
 
-    // Swap 32-bit offset fields
-    uint32_t rasterOffset = BSWAP32(header32[0]);
-    uint32_t paletteOffset = BSWAP32(header32[1]);
-    header32[0] = rasterOffset;
-    header32[1] = paletteOffset;
-
-    // Swap 16-bit dimension fields
+    // Swap 16-bit dimension fields first (we need these for validation)
     header16[4] = BSWAP16(header16[4]);  // startX at offset 0x08
     header16[5] = BSWAP16(header16[5]);  // startY at offset 0x0A
     header16[6] = BSWAP16(header16[6]);  // width at offset 0x0C
     header16[7] = BSWAP16(header16[7]);  // height at offset 0x0E
 
-    SPDLOG_DEBUG("Background header: rasterOffset=0x{:X}, paletteOffset=0x{:X}, startX={}, startY={}, width={}, height={}",
-                 rasterOffset, paletteOffset,
-                 header16[4], header16[5], header16[6], header16[7]);
+    // The N64 header contains absolute VRAM addresses (0x802xxxxx) that cannot be
+    // converted to file offsets. The background data has a fixed layout:
+    //   - Palette at offset 0x10 (right after 16-byte header)
+    //   - Raster at offset 0x210 (after header + 512-byte palette)
+    // We ignore the N64 addresses and write the correct fixed offsets.
+    constexpr uint32_t paletteOffset = 0x10;   // Right after 16-byte header
+    constexpr uint32_t rasterOffset = 0x210;   // After header (16) + palette (512)
 
-    // Byte-swap palette data (256 x u16 RGBA16)
-    if (paletteOffset > 0 && paletteOffset + 512 <= size) {
-        uint16_t* palette = reinterpret_cast<uint16_t*>(data + paletteOffset);
-        for (int i = 0; i < 256; i++) {
-            palette[i] = BSWAP16(palette[i]);
-        }
-        SPDLOG_DEBUG("Byte-swapped 256 palette entries at offset 0x{:X}", paletteOffset);
-    }
+    header32[0] = rasterOffset;
+    header32[1] = paletteOffset;
 
-    // Raster data is CI8 (byte indices) - no swap needed
+    SPDLOG_INFO("Background header: using fixed offsets rasterOffset=0x{:X}, paletteOffset=0x{:X}, startX={}, startY={}, width={}, height={}",
+                rasterOffset, paletteOffset,
+                header16[4], header16[5], header16[6], header16[7]);
+
+    // Background palettes are swapped internally by libultraship, no need to swap them here
+    // Also, Raster data is CI8 (byte indices) - no swap needed
 }
 
 std::optional<std::shared_ptr<IParsedData>> PM64BackgroundFactory::parse(std::vector<uint8_t>& buffer, YAML::Node& node) {

@@ -189,7 +189,7 @@ void nuAuMgr(void* arg) {
 }
 
 /// DMA callback for audio sample streaming; manages a DMA buffer cache.
-s32 nuAuDmaCallBack(s32 addr, s32 len, void *state, u8 useDma) {
+intptr_t nuAuDmaCallBack(intptr_t addr, s32 len, void *state, u8 useDma) {
     NUDMABuffer* dmaPtr;
     NUDMABuffer* freeBuffer;
     OSIoMesg* mesg;

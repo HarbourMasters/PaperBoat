@@ -3,6 +3,12 @@
 #include "gcc/string.h"
 #include "port/Engine.h"
 
+// Display list context tracking for debugging
+extern void GameEngine_SetDisplayListContext(const char* context);
+
+// Texture debug tracking
+extern void GameEngine_RegisterTextureDebugInfo(const void* addr, const char* assetPath, int rasterIdx);
+
 char gCloudyFlowerFieldsBg[] = "fla_bg";
 char gSunnyFlowerFieldsBg[] = "flb_bg";
 s8 gBackroundWaveEnabled = false;
@@ -32,11 +38,15 @@ void load_map_bg(char* optAssetName) {
         snprintf(assetPath, sizeof(assetPath), "__OTR__backgrounds/%s", assetName);
 
         u8* bgData = (u8*)ResourceGetDataByName(assetPath);
+        GameEngine_LogInfo("load_map_bg: assetName=%s, path=%s, bgData=%p", assetName, assetPath, (void*)bgData);
+
         if (bgData != NULL) {
             // Parse N64 layout manually (offsets are already byte-swapped by factory)
             // N64 layout: [rasterOffset:4][paletteOffset:4][startX:2][startY:2][width:2][height:2]
             u32 rasterOffset = *(u32*)(bgData + 0x00);
             u32 paletteOffset = *(u32*)(bgData + 0x04);
+
+            GameEngine_LogInfo("load_map_bg: rasterOffset=0x%X, paletteOffset=0x%X", rasterOffset, paletteOffset);
 
             // Convert offsets to actual pointers
             gBackgroundImage.raster = (IMG_PTR)(bgData + rasterOffset);
@@ -45,6 +55,16 @@ void load_map_bg(char* optAssetName) {
             gBackgroundImage.startY = *(u16*)(bgData + 0x0A);
             gBackgroundImage.width = *(u16*)(bgData + 0x0C);
             gBackgroundImage.height = *(u16*)(bgData + 0x0E);
+
+            // Register texture addresses for debug tracking
+            GameEngine_RegisterTextureDebugInfo(gBackgroundImage.raster, assetPath, 0);
+            GameEngine_RegisterTextureDebugInfo(gBackgroundImage.palette, assetPath, 1);
+
+            GameEngine_LogInfo("load_map_bg: loaded palette=%p, raster=%p, size=%dx%d",
+                (void*)gBackgroundImage.palette, (void*)gBackgroundImage.raster,
+                gBackgroundImage.width, gBackgroundImage.height);
+        } else {
+            GameEngine_LogInfo("load_map_bg: FAILED to load background asset!");
         }
     }
 }
@@ -57,6 +77,10 @@ void reset_background_settings(void) {
 }
 
 void set_background(BackgroundHeader* bg) {
+    // DEBUG: Log background being set
+    GameEngine_LogInfo("set_background: bg=%p, palette=%p, raster=%p, width=%d, height=%d",
+        (void*)bg, (void*)bg->palette, (void*)bg->raster, bg->width, bg->height);
+
     gGameStatusPtr->backgroundMaxX = bg->width;
     gGameStatusPtr->backgroundMaxY = bg->height;
     gGameStatusPtr->backgroundMinX = bg->startX;
@@ -81,6 +105,7 @@ u16 blend_background_channel(u16 arg0, s32 arg1, s32 alpha) {
 void appendGfx_background_texture(void) {
     Camera* cam = &gCameras[gCurrentCameraID];
     u16 flags = 0;
+
     s32 fogR, fogG, fogB, fogA;
     u8 r1, g1, b1, a1;
     u8 r2, g2, b2;
@@ -237,6 +262,7 @@ void appendGfx_background_texture(void) {
     gDPSetTextureFilter(gMainGfxPos++, G_TF_POINT);
     gDPPipeSync(gMainGfxPos++);
 
+    GameEngine_SetDisplayListContext("background_texture");
     if (!(gGameStatusPtr->backgroundFlags & BACKGROUND_FLAG_FOG)) {
         gDPLoadTLUT_pal256(gMainGfxPos++, gGameStatusPtr->backgroundPalette);
     } else {
@@ -323,6 +349,7 @@ void appendGfx_background_texture(void) {
                                                  G_TX_RENDERTILE, 0, 0, 4096, 1024);
         }
     }
+    GameEngine_SetDisplayListContext(NULL);
 }
 
 void enable_background_wave(void) {

@@ -10,9 +10,9 @@ void render_item_entities(void);
 
 f32 CamLengthScale;
 s16 gCurrentCamID;
-u16* nuGfxCfb_ptr;
-Gfx* gMainGfxPos;
-DisplayContext* gDisplayContext;
+extern u16* nuGfxCfb_ptr;       // Defined in main_pre_bss.c
+extern Gfx* gMainGfxPos;        // Defined in main_pre_bss.c
+extern DisplayContext* gDisplayContext;  // Defined in main_pre_bss.c
 Camera gCameras[4];
 
 void update_cameras(void) {

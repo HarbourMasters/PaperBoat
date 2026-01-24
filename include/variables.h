@@ -116,7 +116,8 @@ extern s16 gCurrentCamID;
 
 extern s32 PartnerWishAnims[][5];
 
-extern HeapNode heap_battleHead;
+// NOTE: heap_battleHead is declared locally in files that use it (heap.c, etc.)
+// and defined as u8[BATTLE_HEAP_SIZE] in heaps2.c - similar to heap_generalHead.
 
 extern u32 bMarioIdleAnims[];
 extern s32 bMarioDefendAnims[];

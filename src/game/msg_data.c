@@ -1,6 +1,5 @@
 #include "common.h"
 #include "ld_addrs.h"
-#include "charset/charset.h"
 
 extern IMG_BIN MsgCharImgTitle[];
 extern IMG_BIN MsgCharImgSubtitle[];
@@ -879,36 +878,6 @@ MessageCharset* MsgCharsets[] = {
     [MSG_FONT_TITLE]    &MsgCharsetTitle,
     [MSG_FONT_SUBTITLE] &MsgCharsetSubtitle,
     nullptr
-};
-
-IMG_PTR MsgLetterRasterOffsets[] = {
-    charset_letter_content_1_OFFSET,
-    charset_letter_content_2_OFFSET,
-    charset_letter_content_3_OFFSET,
-    charset_letter_content_4_OFFSET,
-    charset_letter_content_5_OFFSET,
-    charset_letter_content_6_OFFSET,
-    charset_letter_content_7_OFFSET,
-    charset_letter_content_8_OFFSET,
-    charset_letter_content_9_OFFSET,
-    charset_letter_content_10_OFFSET,
-    charset_letter_content_11_OFFSET,
-    charset_letter_content_12_OFFSET,
-};
-
-PAL_PTR MsgLetterPaletteOffsets[] = {
-    charset_letter_content_1_pal_OFFSET,
-    charset_letter_content_2_pal_OFFSET,
-    charset_letter_content_3_pal_OFFSET,
-    charset_letter_content_4_pal_OFFSET,
-    charset_letter_content_5_pal_OFFSET,
-    charset_letter_content_6_pal_OFFSET,
-    charset_letter_content_7_pal_OFFSET,
-    charset_letter_content_8_pal_OFFSET,
-    charset_letter_content_9_pal_OFFSET,
-    charset_letter_content_10_pal_OFFSET,
-    charset_letter_content_11_pal_OFFSET,
-    charset_letter_content_12_pal_OFFSET,
 };
 
 MsgVoice MsgVoices[] = {

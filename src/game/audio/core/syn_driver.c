@@ -1,6 +1,7 @@
 #include "common.h"
 #include "audio.h"
 #include "audio/core.h"
+#include "Engine.h"
 
 static s16 _getVol(s16 arg0, s32 arg1, s16 arg2, u16 arg3);
 
@@ -13,6 +14,7 @@ BSS s32 AuDelayCount;
 
 AuSynDriver* gActiveSynDriverPtr = nullptr;
 AuSynDriver* gSynDriverPtr = nullptr;
+
 u8 AuUseGlobalVolume = false;
 u16 AuGlobalVolume = AU_MAX_VOLUME_16;
 u8 AuSynStereoDirty = false;
@@ -126,7 +128,6 @@ Acmd* alAudioFrame(Acmd* cmdList, s32* cmdLen, s16* outBuf, s32 outLen) {
     s32 busID;
     bool firstBus;
 
-    // sanity check: ensure audio system is initialized
     if (gActiveSynDriverPtr == nullptr) {
         *cmdLen = 0;
         return cmdListPos;
@@ -152,7 +153,6 @@ Acmd* alAudioFrame(Acmd* cmdList, s32* cmdLen, s16* outBuf, s32 outLen) {
         // organize all voices by which FX bus they send to
         for (busID = 0; busID < gSynDriverPtr->num_pvoice; busID++) {
             pvoice = &gSynDriverPtr->pvoices[busID];
-
             if ((pvoice->busID != 0xFF) && (pvoice->busID < gSynDriverPtr->num_bus)) {
                 fxBus = &gSynDriverPtr->fxBus[pvoice->busID];
                 if (fxBus->tail != nullptr) {
@@ -241,6 +241,12 @@ Acmd* alAudioFrame(Acmd* cmdList, s32* cmdLen, s16* outBuf, s32 outLen) {
             }
         }
 
+        // if no bus had any voices, clear accumulation to prevent stale data feedback
+        if (firstBus) {
+            aClearBuffer(cmdListPos++, 0, 4 * AUDIO_SAMPLES);
+            memset(gSynDriverPtr->wetAccumBuffer, 0, 4 * AUDIO_SAMPLES);
+        }
+
         // final output mix stage
         aDMEMMove(cmdListPos++, 0, N_AL_MAIN_L_OUT, 4 * AUDIO_SAMPLES);
         n_aLoadBuffer(cmdListPos++, 4 * AUDIO_SAMPLES, N_AL_AUX_L_OUT, osVirtualToPhysical(gSynDriverPtr->wetAccumBuffer));
@@ -265,7 +271,6 @@ Acmd* alAudioFrame(Acmd* cmdList, s32* cmdLen, s16* outBuf, s32 outLen) {
         gSynDriverPtr->curSamples += AUDIO_SAMPLES;
     }
     *cmdLen = (cmdListPos - cmdList);
-
     return cmdListPos;
 }
 
@@ -333,7 +338,7 @@ void au_syn_stop_voice(u8 voiceIdx) {
     decoder->first = true;
     decoder->sample = 0;
     if (decoder->instrument != nullptr) {
-        decoder->memin = (s32)decoder->instrument->wavData;
+        decoder->memin = (intptr_t)decoder->instrument->wavData;
         if (decoder->instrument->type == AL_ADPCM_WAVE) {
             if (decoder->instrument->loopEnd != 0){
                 decoder->loop.count = decoder->instrument->loopCount;
@@ -363,7 +368,7 @@ void au_syn_start_voice_params(u8 voiceIdx, u8 busID, Instrument* instrument, f3
     pvoice->busID = busID;
     decoder->instrument = instrument;
 
-    pvoice->decoder.memin = (s32)decoder->instrument->wavData;
+    pvoice->decoder.memin = (intptr_t)decoder->instrument->wavData;
     pvoice->decoder.sample = 0;
 
     switch (decoder->instrument->type) {
@@ -422,7 +427,7 @@ void au_syn_set_wavetable(u8 voiceIdx, Instrument* instrument) {
     AuLoadFilter* decoder = &pvoice->decoder;
 
     pvoice->decoder.instrument = instrument;
-    pvoice->decoder.memin = (s32)decoder->instrument->wavData;
+    pvoice->decoder.memin = (intptr_t)decoder->instrument->wavData;
     pvoice->decoder.sample = 0;
 
     switch (decoder->instrument->type) {
@@ -746,7 +751,7 @@ void au_init_delay_channel(s16 channel) {
 
 void alHeapInit(ALHeap* hp, u8* base, s32 len) {
     u32 i;
-    s32 alignBytes = 0x10 - ((s32)base & 0xF);
+    s32 alignBytes = 0x10 - ((intptr_t)base & 0xF);
 
     if (alignBytes != 0x10) {
         hp->base = base + alignBytes;
@@ -764,11 +769,16 @@ void alHeapInit(ALHeap* hp, u8* base, s32 len) {
 
 void* alHeapAlloc(ALHeap* heap, s32 count, s32 size) {
     void* ret = nullptr;
-    u8* newCur = &heap->cur[ALIGN16(count * size)];
+    s32 allocSize = ALIGN16(count * size);
+    u8* newCur = &heap->cur[allocSize];
 
     if (&heap->base[heap->len] >= newCur) {
         ret = heap->cur;
         heap->cur = newCur;
+    } else {
+        s32 used = (s32)(heap->cur - heap->base);
+        s32 total = heap->len;
+        GameEngine_LogInfo("[AUDIO HEAP] ALLOCATION FAILED: requested %d bytes, used %d/%d", allocSize, used, total);
     }
 
     return ret;

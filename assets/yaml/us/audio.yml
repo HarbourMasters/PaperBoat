@@ -1,4 +1,5 @@
 # This blob contains all audio data: BGM, SFX, instruments, etc.
+# Uses PM64:AUDIO factory to byte-swap structures from big-endian (N64) to native-endian
 
 audio_sbn:
-  { type: BLOB, offset: 0xF00000, size: 0xA42C40, symbol: gAudioSBN }
+  { type: PM64:AUDIO, offset: 0xF00000, size: 0xA42C40, symbol: gAudioSBN }

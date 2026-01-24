@@ -4,6 +4,7 @@
 #include "Engine.h"
 #include "assets/audio_sbn.h"
 #include <string.h>
+#include <stddef.h>
 
 u8* gSbnData = NULL;
 
@@ -81,7 +82,6 @@ void au_engine_init(s32 outputRate) {
         globals->effectChanges[i].type = AU_FX_NONE;
         globals->effectChanges[i].changed = false;
     }
-
     for (i = 0; i < ARRAY_COUNT(globals->voices); i++) {
         AuVoice* voice;
         au_pvoice_set_bus(i, FX_BUS_BGMA_MAIN);
@@ -102,10 +102,6 @@ void au_engine_init(s32 outputRate) {
     gSbnData = (u8*)LOAD_ASSET(AUDIO_SBN);
     au_load_INIT(globals, gSbnData, alHeap);
 
-    for (i = 0; i < ARRAY_COUNT(globals->auxBanks); i++) {
-        globals->auxBanks[i] = alHeapAlloc(alHeap, 1, sizeof(BKFileBuffer));
-    }
-
     au_bgm_player_init(gBGMPlayerA, AU_PRIORITY_BGM_PLAYER_MAIN, FX_BUS_BGMA_MAIN, globals);
     effects[0] = FX_BUS_BGMA_MAIN;
     effects[1] = FX_BUS_BGMA_AUX;
@@ -124,14 +120,16 @@ void au_engine_init(s32 outputRate) {
     au_mseq_manager_init(gAuAmbienceManager, AU_PRIORITY_MSEQ_MANAGER, FX_BUS_SOUND, globals);
     au_init_voices(globals);
     au_load_BK_headers(globals, alHeap);
-    if (au_fetch_SBN_file(BE16SWAP(globals->extraFileList[0]), AU_FMT_SEF, &fileEntry) == AU_RESULT_OK) {
+
+    AuResult sefResult = au_fetch_SBN_file(globals->extraFileList[0], AU_FMT_SEF, &fileEntry);
+    if (sefResult == AU_RESULT_OK) {
         globals->dataSEF = au_read_rom(fileEntry.offset);
     }
     au_sfx_load_groups_from_SEF(gSoundManager);
-    if (au_fetch_SBN_file(BE16SWAP(globals->extraFileList[1]), AU_FMT_PER, &fileEntry) == AU_RESULT_OK) {
+    if (au_fetch_SBN_file(globals->extraFileList[1], AU_FMT_PER, &fileEntry) == AU_RESULT_OK) {
         au_load_PER(globals, fileEntry.offset);
     }
-    if (au_fetch_SBN_file(BE16SWAP(globals->extraFileList[2]), AU_FMT_PRG, &fileEntry) == AU_RESULT_OK) {
+    if (au_fetch_SBN_file(globals->extraFileList[2], AU_FMT_PRG, &fileEntry) == AU_RESULT_OK) {
         au_load_PRG(globals, fileEntry.offset);
     }
 
@@ -574,7 +572,7 @@ AuResult au_load_song_files(u32 songID, BGMHeader* bgmFile, BGMPlayer* player) {
 
     if (cond) {
         songInfo = &globals->songList[songID];
-        status = au_fetch_SBN_file(BE16SWAP(songInfo->bgmFileIndex), AU_FMT_BGM, &fileEntry);
+        status = au_fetch_SBN_file(songInfo->bgmFileIndex, AU_FMT_BGM, &fileEntry);
         if (status != AU_RESULT_OK) {
             return status;
         }
@@ -586,7 +584,7 @@ AuResult au_load_song_files(u32 songID, BGMHeader* bgmFile, BGMPlayer* player) {
         memcpy(fileCopy, au_read_rom(fileEntry.offset), fileEntry.data & 0xFFFFFF);
 
         for (i = 0; i < ARRAY_COUNT(songInfo->bkFileIndex); i++) {
-            bkFileIndex = BE16SWAP(songInfo->bkFileIndex[i]);
+            bkFileIndex = songInfo->bkFileIndex[i];
             if (bkFileIndex != 0) {
                 bkFileEntry = &globals->sbnFileList[bkFileIndex];
 
@@ -601,7 +599,7 @@ AuResult au_load_song_files(u32 songID, BGMHeader* bgmFile, BGMPlayer* player) {
                 }
             }
         }
-        bgmFileIndex = BE16SWAP(songInfo->bgmFileIndex);
+        bgmFileIndex = songInfo->bgmFileIndex;
         playerCopy->songID = songID;
         playerCopy->bgmFile = bgmFile;
         playerCopy->bgmFileIndex = bgmFileIndex;
@@ -623,14 +621,14 @@ AuResult au_reload_song_files(s32 songID, BGMHeader* bgmFile) {
 
     globals = gSoundGlobals;
     songInfo = &globals->songList[songID];
-    status = au_fetch_SBN_file(BE16SWAP(songInfo->bgmFileIndex), AU_FMT_BGM, &sbnEntry);
+    status = au_fetch_SBN_file(songInfo->bgmFileIndex, AU_FMT_BGM, &sbnEntry);
     if (status == AU_RESULT_OK) {
         // load BGM file
         memcpy(bgmFile, au_read_rom(sbnEntry.offset), sbnEntry.data & 0xFFFFFF);
 
         // load any auxiliary banks required by this BGM
         for (i = 0; i < ARRAY_COUNT(songInfo->bkFileIndex); i++) {
-            bkFileIndex = BE16SWAP(songInfo->bkFileIndex[i]);
+            bkFileIndex = songInfo->bkFileIndex[i];
             if (bkFileIndex != 0) {
                 bkFileEntry = &globals->sbnFileList[bkFileIndex];
 
@@ -656,7 +654,7 @@ BGMPlayer* au_get_snapshot_by_index(s32 index) {
     return nullptr;
 }
 
-#define SBN_EXTRA_LOOKUP(i,fmt,e) (au_fetch_SBN_file(BE16SWAP(globals->extraFileList[AmbientSoundIDtoMSEQFileIndex[i]]), fmt, &e))
+#define SBN_EXTRA_LOOKUP(i,fmt,e) (au_fetch_SBN_file(globals->extraFileList[AmbientSoundIDtoMSEQFileIndex[i]], fmt, &e))
 
 AuResult au_ambient_load(u32 ambSoundID) {
     AmbienceManager* manager;
@@ -743,22 +741,23 @@ void au_load_INIT(AuGlobals* globals, u8* sbnData, ALHeap* heap) {
     INITHeader* initHeader;
     SBNFileEntry* entry;
     s32 numEntries;
-    s32 fileListOffset = BE32SWAP(sbnHeader->fileListOffset);
-    s32 initOffset = BE32SWAP(sbnHeader->INIToffset);
+    // Data is now native-endian after torch extraction (PM64:AUDIO factory)
+    s32 fileListOffset = sbnHeader->fileListOffset;
+    s32 initOffset = sbnHeader->INIToffset;
 
-    numEntries = BE32SWAP(sbnHeader->numEntries);
+    numEntries = sbnHeader->numEntries;
     globals->baseRomOffset = 0;
     globals->fileListLength = numEntries;
     globals->sbnFileList = (SBNFileEntry*)(sbnData + fileListOffset);
 
     entry = globals->sbnFileList;
     while (numEntries--) {
-        s32 offset = BE32SWAP(entry->offset);
-        u32 data = BE32SWAP(entry->data);
+        // Data is already native-endian, just apply alignment
+        s32 offset = entry->offset;
+        u32 data = entry->data;
         if ((offset & 0xFFFFFF) == 0) {
             break;
         }
-        entry->offset = offset;
         entry->data = (data + 0xF) & ~0xF;
         entry++;
     }
@@ -766,11 +765,12 @@ void au_load_INIT(AuGlobals* globals, u8* sbnData, ALHeap* heap) {
     if (initOffset != 0) {
         initHeader = (INITHeader*)(sbnData + initOffset);
 
-        u16 songListOffset = BE16SWAP(initHeader->songListOffset);
-        u16 mseqListOffset = BE16SWAP(initHeader->mseqListOffset);
-        u16 bankListOffset = BE16SWAP(initHeader->bankListOffset);
-        u16 bankListSize = BE16SWAP(initHeader->bankListSize);
-        u16 songListSize = BE16SWAP(initHeader->songListSize);
+        // Data is now native-endian after torch extraction
+        u16 songListOffset = initHeader->songListOffset;
+        u16 mseqListOffset = initHeader->mseqListOffset;
+        u16 bankListOffset = initHeader->bankListOffset;
+        u16 bankListSize = initHeader->bankListSize;
+        u16 songListSize = initHeader->songListSize;
 
         globals->songList = (InitSongEntry*)(sbnData + initOffset + songListOffset);
         globals->extraFileList = (u16*)(sbnData + initOffset + mseqListOffset);
@@ -804,7 +804,8 @@ AuResult au_fetch_SBN_file(u32 fileIdx, AuFileFormat format, SBNFileEntry* outEn
 
 void au_load_PER(AuGlobals* globals, s32 offset) {
     PERHeader* header = au_read_rom(offset);
-    u32 size = BE32SWAP(header->mdata.size) - sizeof(PERHeader);
+    // Data is now native-endian after torch extraction
+    u32 size = header->mdata.size - sizeof(PERHeader);
     s32 numItems = size / sizeof(PEREntry);
     s32 numItemsLeft = 6 - numItems;
     void* end;
@@ -819,7 +820,8 @@ void au_load_PER(AuGlobals* globals, s32 offset) {
 
 void au_load_PRG(AuGlobals* globals, s32 offset) {
     PERHeader* header = au_read_rom(offset);
-    u32 size = BE32SWAP(header->mdata.size) - sizeof(PERHeader);
+    // Data is now native-endian after torch extraction
+    u32 size = header->mdata.size - sizeof(PERHeader);
     s32 numItems, numItemsLeft;
     void* end;
 
@@ -843,14 +845,15 @@ s32 au_load_BGM(s32 arg0) {
     s32 i;
 
     while (true) {
-        u16 bgmFileIndex = BE16SWAP(song->bgmFileIndex);
+        // Data is now native-endian after torch extraction
+        u16 bgmFileIndex = song->bgmFileIndex;
         if (bgmFileIndex == 0xFFFF) {
             return ret;
         }
 
         if (bgmFileIndex == arg0) {
             for (i = 0; i < ARRAY_COUNT(song->bkFileIndex); i++) {
-                u16 bkFileIndex = BE16SWAP(song->bkFileIndex[i]);
+                u16 bkFileIndex = song->bkFileIndex[i];
                 if (bkFileIndex != 0) {
                     SBNFileEntry* bkFileEntry = &globals->sbnFileList[bkFileIndex];
                     SBNFileEntry fileEntry;
@@ -931,7 +934,6 @@ BKFileBuffer* au_load_BK_to_bank(s32 bkFileOffset, BKFileBuffer* bkFile, s32 ban
     s32 instrumentCount;
     u16 keepReading;
     u16 readState;
-    s32 size;
     u32 i;
     readState = BK_READ_FETCH_HEADER;
     keepReading = true;
@@ -963,15 +965,7 @@ BKFileBuffer* au_load_BK_to_bank(s32 bkFileOffset, BKFileBuffer* bkFile, s32 ban
                 break;
 
             case BK_READ_PROCESS_CR:
-                size = ALIGN16_(header->instrumetsLength)
-                    + ALIGN16_(header->loopStatesLength)
-                    + ALIGN16_(header->predictorsLength)
-                    + ALIGN16_(header->envelopesLength)
-                    + sizeof(*header);
-                if (bkFile == nullptr) {
-                    bkFile = alHeapAlloc(heap, 1, size);
-                }
-                memcpy(bkFile, au_read_rom(bkFileOffset), size);
+                bkFile = (BKFileBuffer*)au_read_rom(bkFileOffset);
 
                 group = au_get_BK_instruments(bankSet, bankIndex);
                 inst = (*group);
@@ -980,8 +974,23 @@ BKFileBuffer* au_load_BK_to_bank(s32 bkFileOffset, BKFileBuffer* bkFile, s32 ban
                 for (i = 0; i < ARRAY_COUNT(header->instruments); inst++, i++) {
                     u16 instOffset = header->instruments[i];
                     if (instOffset != 0) {
+                        InstrumentBinary* binInst = (InstrumentBinary*)AU_FILE_RELATIVE(bkFile, instOffset);
+                        Instrument* newInst = alHeapAlloc(heap, 1, sizeof(Instrument));
+                        newInst->wavData = (u8*)(uintptr_t)binInst->wavData;
+                        newInst->wavDataLength = binInst->wavDataLength;
+                        newInst->loopState = (ADPCM_STATE*)(uintptr_t)binInst->loopState;
+                        newInst->loopStart = binInst->loopStart;
+                        newInst->loopEnd = binInst->loopEnd;
+                        newInst->loopCount = binInst->loopCount;
+                        newInst->predictor = (s16*)(uintptr_t)binInst->predictor;
+                        newInst->codebookSize = binInst->codebookSize;
+                        newInst->keyBase = binInst->keyBase;
+                        newInst->sampleRate = binInst->sampleRate;
+                        newInst->type = binInst->type;
+                        newInst->useDma = binInst->useDma;
+                        newInst->envelopes = (EnvelopePreset*)(uintptr_t)binInst->envelopes;
+                        *inst = newInst;
                         instrumentCount++;
-                        *inst = AU_FILE_RELATIVE(bkFile, instOffset);
                     } else {
                         *inst = nullptr;
                     }
@@ -1015,7 +1024,7 @@ BKFileBuffer* au_load_BK_to_bank(s32 bkFileOffset, BKFileBuffer* bkFile, s32 ban
 /// Fixes up (swizzles) instrument pointers in a loaded bank, converting file-relative offsets to valid RAM pointers.
 /// Sets whether each instrument uses DMA streaming or not, and updates pitch ratios to match output rate.
 /// Replaces nullptr instruments with a default instrument to ensure all loaded patches point to valid data.
-void au_swizzle_BK_instruments(s32 bkFileOffset, BKFileBuffer* file, InstrumentBank instruments, u32 instrumentCount, u8 useDma) {
+void au_swizzle_BK_instruments(intptr_t bkFileOffset, BKFileBuffer* file, InstrumentBank instruments, u32 instrumentCount, u8 useDma) {
     Instrument* defaultInstrument = gSoundGlobals->defaultInstrument;
     BKHeader* header = &file->header;
     f32 outputRate = gSoundGlobals->outputRate;
@@ -1027,7 +1036,7 @@ void au_swizzle_BK_instruments(s32 bkFileOffset, BKFileBuffer* file, InstrumentB
 
             if (instrument != nullptr) {
                 if (instrument->wavData != 0) {
-                    instrument->wavData += bkFileOffset;
+                    instrument->wavData = gSbnData + bkFileOffset + (uintptr_t)instrument->wavData;
                 }
                 if (instrument->loopState != nullptr) {
                     instrument->loopState = AU_FILE_RELATIVE(file, instrument->loopState);
@@ -1038,7 +1047,7 @@ void au_swizzle_BK_instruments(s32 bkFileOffset, BKFileBuffer* file, InstrumentB
                 if (instrument->envelopes != nullptr) {
                     instrument->envelopes = AU_FILE_RELATIVE(file, instrument->envelopes);
                 }
-                instrument->useDma = useDma;
+                instrument->useDma = false;
                 instrument->pitchRatio = instrument->sampleRate / outputRate;
             } else {
                 instruments[i] = defaultInstrument;
@@ -1085,10 +1094,7 @@ BKFileBuffer* au_load_static_BK_to_bank(s32* inAddr, void* outAddr, s32 bankInde
                 }
                 break;
             case BK_READ_FETCH_DATA:
-                if (bkFile == nullptr) {
-                    bkFile = alHeapAlloc(heap, 1, header->size);
-                }
-                memcpy(bkFile, au_read_rom(*inAddr), header->size);
+                bkFile = (BKFileBuffer*)au_read_rom(*inAddr);
 
                 instrumentCount = 0;
                 group = au_get_BK_instruments(bankSet, bankIndex);
@@ -1096,8 +1102,23 @@ BKFileBuffer* au_load_static_BK_to_bank(s32* inAddr, void* outAddr, s32 bankInde
                 for (i = 0; i < ARRAY_COUNT(header->instruments); inst++, i++) {
                     u16 instOffset = header->instruments[i];
                     if (instOffset != 0) {
+                        InstrumentBinary* binInst = (InstrumentBinary*)AU_FILE_RELATIVE(bkFile, instOffset);
+                        Instrument* newInst = alHeapAlloc(heap, 1, sizeof(Instrument));
+                        newInst->wavData = (u8*)(uintptr_t)binInst->wavData;
+                        newInst->wavDataLength = binInst->wavDataLength;
+                        newInst->loopState = (ADPCM_STATE*)(uintptr_t)binInst->loopState;
+                        newInst->loopStart = binInst->loopStart;
+                        newInst->loopEnd = binInst->loopEnd;
+                        newInst->loopCount = binInst->loopCount;
+                        newInst->predictor = (s16*)(uintptr_t)binInst->predictor;
+                        newInst->codebookSize = binInst->codebookSize;
+                        newInst->keyBase = binInst->keyBase;
+                        newInst->sampleRate = binInst->sampleRate;
+                        newInst->type = binInst->type;
+                        newInst->useDma = binInst->useDma;
+                        newInst->envelopes = (EnvelopePreset*)(uintptr_t)binInst->envelopes;
+                        *inst = newInst;
                         instrumentCount++;
-                        *inst = AU_FILE_RELATIVE(bkFile, instOffset);
                     } else {
                         *inst =  nullptr;
                     }
@@ -1110,7 +1131,7 @@ BKFileBuffer* au_load_static_BK_to_bank(s32* inAddr, void* outAddr, s32 bankInde
                 }
                 break;
             case BK_READ_SWIZZLE:
-                au_swizzle_BK_instruments((s32)bkFile, bkFile, *group, 16, useDma);
+                au_swizzle_BK_instruments((intptr_t)bkFile, bkFile, *group, 16, useDma);
                 readState = BK_READ_DONE;
                 break;
             default:
@@ -1197,7 +1218,7 @@ void au_memset(void* dst, s32 size, u8 value) {
             *(u8*)dst++ = value;
         }
     } else {
-        count = (u32)dst & 0x3;
+        count = (intptr_t)dst & 0x3;
         if (count != 0) {
             count = 4 - count;
             size -= count;
@@ -1235,7 +1256,7 @@ void au_copy_words(void* src, void* dst, s32 size) {
     size /= 4;
 
     if (size > 0) {
-        if (!(((s32) src | (s32) dst) & 3)) {
+        if (!(((intptr_t) src | (intptr_t) dst) & 3)) {
             s32* srcIt = src;
             s32* dstIt = dst;
 

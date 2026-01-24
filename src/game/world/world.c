@@ -158,8 +158,15 @@ void load_map_by_IDs(s16 areaID, s16 mapID, s16 loadType) {
         u8* shapeData = (u8*)ResourceGetDataByName(assetPath);
         size_t shapeSize = ResourceGetSizeByName(assetPath);
 
+        GameEngine_LogInfo("[World] Loading shape %s: data=%p, size=%zu", wMapShapeName, (void*)shapeData, shapeSize);
+
         // Convert raw N64 shape data to native format with proper pointers
-        Shape_LoadFromRawData(shapeFile, shapeData, shapeSize);
+        // Pass shape name for display list resource path building
+        Shape_LoadFromRawData(shapeFile, shapeData, shapeSize, wMapShapeName);
+
+        GameEngine_LogInfo("[World] Shape loaded: root=%p, root->type=%d",
+                          (void*)shapeFile->header.root,
+                          shapeFile->header.root ? shapeFile->header.root->type : -1);
 
         mapSettings->modelTreeRoot = shapeFile->header.root;
         mapSettings->modelNameList = shapeFile->header.modelNames;
