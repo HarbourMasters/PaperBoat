@@ -2532,7 +2532,7 @@ void create_encounters(void) {
                         enemy->drops = &DefaultEnemyDrops;
                     }
                     enemy->encountered = 0;
-                    if ((s32) npcData->init < EVT_LIMIT) {
+                    if ((intptr_t) npcData->init < EVT_LIMIT) {
                         enemy->initBytecode = npcData->init;
                     } else {
                         enemy->initBytecode = nullptr;

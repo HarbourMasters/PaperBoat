@@ -46,9 +46,10 @@ void gfx_init_state(void) {
     gSPDisplayList(gMainGfxPos++, OS_K0_TO_PHYSICAL(D_80074230));
     gSPDisplayList(gMainGfxPos++, OS_K0_TO_PHYSICAL(D_80074210));
     // libultraship requires an explicit color image target
-    // Use address 1 as a sentinel value (NULL/0 might be treated specially)
+    // Use different sentinel values - if both are the same, libultraship skips fill rectangles
+    // thinking it's a Z buffer clear (see interpreter.cpp GfxDpFillRectangle)
     gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, (void*)1);
-    gDPSetDepthImage(gMainGfxPos++, (void*)1);
+    gDPSetDepthImage(gMainGfxPos++, (void*)2);
 }
 
 s32 gfx_frame_filter_pass_0(const u16* frameBuffer0, const u16* frameBuffer1, s32 y, s32 x, Color_RGBA8* out) {
@@ -370,7 +371,7 @@ void gfx_draw_background(void) {
             gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
             gDPSetCycleType(gMainGfxPos++, G_CYC_FILL);
             gDPSetRenderMode(gMainGfxPos++, G_RM_NOOP, G_RM_NOOP2);
-            gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, nuGfxCfb_ptr);
+            gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(nuGfxCfb_ptr));
             gDPSetFillColor(gMainGfxPos++, PACK_FILL_COLOR(0, 0, 0, 1));
             gDPFillRectangle(gMainGfxPos++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
             gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);

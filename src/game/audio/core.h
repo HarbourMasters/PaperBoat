@@ -7,7 +7,7 @@
 void create_audio_system(void);
 //void nuAuPreNMIFuncSet(NUAuPreNMIFunc func);
 void nuAuMgr(void* arg);
-s32 nuAuDmaCallBack(s32 addr, s32 len, void *state, u8 useDma);
+intptr_t nuAuDmaCallBack(intptr_t addr, s32 len, void *state, u8 useDma);
 //ALDMAproc nuAuDmaNew(NUDMAState** state);
 //void nuAuCleanDMABuffers(void);
 //void nuAuPreNMIProc(NUScMsg mesg_type, u32 frameCounter);
@@ -69,7 +69,7 @@ void au_load_PER(AuGlobals* globals, s32 romAddr);
 void au_load_PRG(AuGlobals* arg0, s32 romAddr);
 InstrumentBank* au_get_BK_instruments(BankSet bankSet, u32 bankIndex);
 BKFileBuffer* au_load_BK_to_bank(s32 bkFileOffset, BKFileBuffer* bkFile, s32 bankIndex, BankSet bankSet);
-void au_swizzle_BK_instruments(s32 bkFileOffset, BKFileBuffer* bkFile, InstrumentBank instruments, u32 instrumentCount, u8 arg4);
+void au_swizzle_BK_instruments(intptr_t bkFileOffset, BKFileBuffer* bkFile, InstrumentBank instruments, u32 instrumentCount, u8 arg4);
 BKFileBuffer* au_load_static_BK_to_bank(s32* bkFileOffset, void* vaddr, s32 bankIndex, BankSet bankSet);
 s32 au_load_aux_bank(s32 bkFileOffset, s32 bankIndex);
 void au_clear_instrument_group(s32 bankIndex, BankSet bankSet);

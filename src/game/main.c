@@ -18,7 +18,8 @@ void gfxRetrace_Callback(s32);
 void gfxPreNMI_Callback(void);
 void appendGfx_reset_tile_pattern(void);
 
-void gfx_draw_frame(void);
+void gfx_draw_frame_build(void);
+void gfx_task_background_build(void);
 void gfx_init_state(void);
 
 void create_audio_system(void);
@@ -128,8 +129,8 @@ void gfxRetrace_Callback(s32 gfxTaskNum) {
 
             if (gfxTaskNum < 3) {
                 D_80073E08 = 0;
-                gfx_task_background();
-                gfx_draw_frame();
+                gfx_task_background_build();
+                gfx_draw_frame_build();
             }
         }
     }

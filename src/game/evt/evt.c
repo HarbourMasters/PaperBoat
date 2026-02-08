@@ -47,7 +47,7 @@ ApiStatus evt_handle_loop(Evt* script) {
 
     ASSERT(loopDepth < 8);
 
-    script->loopStartTable[loopDepth] = (s32)args;
+    script->loopStartTable[loopDepth] = (Bytecode)args;
     script->loopCounterTable[loopDepth] = var;
 
     return ApiStatus_DONE2;
@@ -849,7 +849,7 @@ ApiStatus evt_handle_allocate_array(Evt* script) {
     Bytecode var = *args++;
 
     script->array = (s32*)heap_malloc(size * 4);
-    evt_set_variable(script, var, (s32)script->array);
+    evt_set_variable(script, var, (Bytecode)script->array);
     return ApiStatus_DONE2;
 }
 
@@ -906,7 +906,8 @@ ApiStatus evt_handle_call(Evt* script) {
         func = script->callFunction;
         ret = func(script, isInitialCall);
     } else {
-        script->callFunction = (ApiFunc)evt_get_variable(script, *args++);
+        Bytecode resolvedFunc = evt_get_variable(script, *args++);
+        script->callFunction = (ApiFunc)resolvedFunc;
         script->ptrReadPos = args;
         script->curArgc--;
         script->blocked = true;
@@ -1041,7 +1042,7 @@ ApiStatus evt_handle_bind(Evt* script) {
     trigger->varTable[2] = evt_get_variable(script, script->varTable[2]);
 
     if (triggerOut != 0) {
-        evt_set_variable(script, triggerOut, (s32)trigger);
+        evt_set_variable(script, triggerOut, (Bytecode)trigger);
     }
 
     return ApiStatus_DONE2;
@@ -1368,7 +1369,7 @@ ApiStatus func_802C73B8(Evt* script) {
 s32 evt_execute_next_command(Evt* script) {
     while (true) {
         s32 status = ApiStatus_DONE2;
-        s32* lines;
+        Bytecode* lines;
         s32 nargs;
 
         switch (script->curOpcode) {
@@ -1699,17 +1700,17 @@ s32 evt_execute_next_command(Evt* script) {
     }
 }
 
-s32 evt_get_variable(Evt* script, Bytecode var) {
+Bytecode evt_get_variable(Evt* script, Bytecode var) {
     s32 wordIdx;
     s32 bitIdx;
-    s32 temp;
+    Bytecode temp;
 
     if (var <= EVT_LIMIT) {
         return var;
     } else if (var <= EVT_IGNORE_ARG) {
         return var;
     } else if (var <= EVT_FIXED_CUTOFF) {
-        return evt_fixed_var_to_float(var);
+        return (Bytecode)evt_fixed_var_to_float(var);
     } else if (var <= EVT_ARRAY_FLAG_CUTOFF) {
         var = EVT_INDEX_OF_ARRAY_FLAG(var);
         wordIdx = var / 32;
@@ -1721,7 +1722,7 @@ s32 evt_get_variable(Evt* script, Bytecode var) {
         var = script->array[var];
         if (var > EVT_LIMIT) {
             if (var <= EVT_FIXED_CUTOFF){
-                var = evt_fixed_var_to_float(var);
+                var = (Bytecode)evt_fixed_var_to_float(var);
             }
         }
     } else if (var <= EVT_GAME_BYTE_CUTOFF) {
@@ -1754,7 +1755,7 @@ s32 evt_get_variable(Evt* script, Bytecode var) {
         if (var > EVT_LIMIT) {
             temp = EVT_FIXED_CUTOFF;
             if (var <= temp){
-                var = evt_fixed_var_to_float(var);
+                var = (Bytecode)evt_fixed_var_to_float(var);
             }
         }
     } else if (var <= EVT_LOCAL_VAR_CUTOFF) {
@@ -1763,7 +1764,7 @@ s32 evt_get_variable(Evt* script, Bytecode var) {
         if (var > EVT_LIMIT) {
             temp = EVT_FIXED_CUTOFF;
             if (var <= temp){
-                var = evt_fixed_var_to_float(var);
+                var = (Bytecode)evt_fixed_var_to_float(var);
             }
         }
     }
@@ -1856,9 +1857,9 @@ s32 evt_get_variable_index_alt(s32 var) {
     return var;
 }
 
-s32 evt_set_variable(Evt* script, Bytecode var, s32 value) {
+Bytecode evt_set_variable(Evt* script, Bytecode var, s32 value) {
     s32 flagBitPos;
-    s32 oldValue;
+    Bytecode oldValue;
 
     if (var <= EVT_LIMIT) {
         return value;
@@ -2141,13 +2142,13 @@ Bytecode* evt_skip_else(Evt* script) {
 Bytecode* evt_goto_end_case(Evt* script) {
     s32 switchDepth = 1;
     Bytecode* pos = script->ptrNextLine;
-    s32* opcode;
-    s32* nargs;
+    Bytecode* opcode;
+    Bytecode nargs;
 
     do {
         opcode = pos++;
-        nargs = pos++;
-        pos += *nargs;
+        nargs = *pos++;
+        pos += nargs;
 
         switch (*opcode) {
             case EVT_OP_END:
@@ -2169,13 +2170,13 @@ Bytecode* evt_goto_end_case(Evt* script) {
 Bytecode* evt_goto_next_case(Evt* script) {
     s32 switchDepth = 1;
     Bytecode* pos = script->ptrNextLine;
-    s32* opcode;
-    s32* nargs;
+    Bytecode* opcode;
+    Bytecode nargs;
 
     do {
         opcode = pos++;
-        nargs = pos++;
-        pos += *nargs;
+        nargs = *pos++;
+        pos += nargs;
 
         switch (*opcode) {
             case EVT_OP_END:

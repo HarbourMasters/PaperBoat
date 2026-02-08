@@ -83,7 +83,7 @@ Acmd* au_pull_voice(AuPVoice* pvoice, Acmd* cmdBufPos) {
             inp = N_AL_DECODER_IN;
 
             // load ADPCM predictor
-            aLoadADPCM(ptr++, decoder->bookSize, K0_TO_PHYS(decoder->instrument->predictor));
+            aLoadADPCM(ptr++, decoder->bookSize, decoder->instrument->predictor);
 
             // will loop be triggered during this frame? if so, only process up to loop end
             looped = (decoder->loop.end < outCount + decoder->sample) && (decoder->loop.count != 0);
@@ -117,7 +117,7 @@ Acmd* au_pull_voice(AuPVoice* pvoice, Acmd* cmdBufPos) {
                 }
 
                 decoder->lastsam = decoder->loop.start & 0xF;
-                decoder->memin = (s32)decoder->instrument->wavData + ADPCMFBYTES * ((s32)(decoder->loop.start >> LFSAMPLES) + 1);
+                decoder->memin = (intptr_t)decoder->instrument->wavData + ADPCMFBYTES * ((s32)(decoder->loop.start >> LFSAMPLES) + 1);
                 decoder->sample = decoder->loop.start;
 
                 // continue decoding looped portion if needed
@@ -144,7 +144,7 @@ Acmd* au_pull_voice(AuPVoice* pvoice, Acmd* cmdBufPos) {
                 decoder->memin += ADPCMFBYTES * nframes;
             } else {
                 nSam = nframes << LFSAMPLES;
-                overFlow = decoder->memin + nbytes - ((s32)decoder->instrument->wavData + decoder->instrument->wavDataLength);
+                overFlow = decoder->memin + nbytes - ((intptr_t)decoder->instrument->wavData + decoder->instrument->wavDataLength);
 
                 if (overFlow <= 0) {
                     overFlow = 0;
@@ -202,7 +202,7 @@ Acmd* au_pull_voice(AuPVoice* pvoice, Acmd* cmdBufPos) {
                     dramAlign = 0;
                 }
                 outp += dramAlign;
-                decoder->memin = (s32)decoder->instrument->wavData + (decoder->loop.start << 1);
+                decoder->memin = (intptr_t)decoder->instrument->wavData + (decoder->loop.start << 1);
                 decoder->sample = decoder->loop.start;
                 op = outp;
                 while (outCount > nSam){
@@ -231,7 +231,7 @@ Acmd* au_pull_voice(AuPVoice* pvoice, Acmd* cmdBufPos) {
                 decoder->memin += outCount << 1;
             } else {
                 nbytes = outCount << 1;
-                overFlow = decoder->memin + nbytes - ((s32)decoder->instrument->wavData + decoder->instrument->wavDataLength);
+                overFlow = decoder->memin + nbytes - ((intptr_t)decoder->instrument->wavData + decoder->instrument->wavDataLength);
                 if (overFlow <= 0) {
                     overFlow = 0;
                 } else {
@@ -308,7 +308,7 @@ Acmd* au_pull_voice(AuPVoice* pvoice, Acmd* cmdBufPos) {
         decoder->lastsam = 0;
         decoder->first = 1;
         decoder->sample = 0;
-        decoder->memin = (s32) decoder->instrument->wavData;
+        decoder->memin = (intptr_t) decoder->instrument->wavData;
         decoder->loop.count = decoder->instrument->loopCount;
         au_release_voice(pvoice->index);
     }
@@ -317,12 +317,12 @@ Acmd* au_pull_voice(AuPVoice* pvoice, Acmd* cmdBufPos) {
 
 /// loads and decodes a chunk of ADPCM data into RSP memory
 static Acmd* _decodeChunk(Acmd* cmdBufPos, AuLoadFilter* filter, s32 tsam, s32 nbytes, s16 output, s16 input, s32 flags) {
-    s32 endAddr;
-    s32 endAlign;
+    intptr_t endAddr;
+    intptr_t endAlign;
     s32 paddedSize;
 
     if (nbytes > 0) {
-        endAddr = filter->dmaFunc((s32) filter->memin, nbytes, filter->dmaState, filter->instrument->useDma);
+        endAddr = filter->dmaFunc(filter->memin, nbytes, filter->dmaState, filter->instrument->useDma);
         endAlign = endAddr & 7;
         nbytes += endAlign;
         paddedSize = nbytes + 8 - (nbytes & 7);
@@ -332,7 +332,7 @@ static Acmd* _decodeChunk(Acmd* cmdBufPos, AuLoadFilter* filter, s32 tsam, s32 n
     }
 
     if (flags & A_LOOP) {
-        aSetLoop(cmdBufPos++, K0_TO_PHYS(filter->lstate));
+        aSetLoop(cmdBufPos++, filter->lstate);
     }
 
     n_aADPCMdec(cmdBufPos++, filter->state, flags, tsam << 1, endAlign, output);

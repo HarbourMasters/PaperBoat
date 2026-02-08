@@ -1,6 +1,8 @@
 #include "common.h"
 #include "nu/nusys.h"
 #include "gcc/string.h"
+#include "port/Engine.h"
+#include <stddef.h>  // for offsetof
 
 u16 heap_nextMallocID = 0;
 
@@ -75,6 +77,8 @@ HeapNode* _heap_create(HeapNode* addr, u32 size) {
     }
 }
 
+extern void GameEngine_LogInfo(const char* fmt, ...);
+
 void* _heap_malloc(HeapNode* head, u32 size) {
     HeapNode* nextHeapNode;
     HeapNode* pPrevHeapNode = nullptr;
@@ -96,6 +100,7 @@ void* _heap_malloc(HeapNode* head, u32 size) {
 
     // find the smallest block we can fit into in the free list
     for (curHeapNode = head; ; curHeapNode = curHeapNode->next) {
+
         if (!curHeapNode->allocated) {
             curBlockLength = curHeapNode->length;
             if ((curBlockLength >= size) && (curBlockLength < smallestBlockFound || !smallestBlockFound)) {
@@ -438,6 +443,8 @@ void copy_matrix(Matrix4f src, Matrix4f dest) {
 // maybe u32
 u32 dma_copy(Addr romStart, Addr romEnd, void* vramDest) {
     // Code is statically linked - no DMA needed
+    GameEngine_LogInfo("[dma_copy] This should not be called!");
+    GameEngine_LogStackTrace("dma_copy");
     (void)romStart;
     (void)romEnd;
     (void)vramDest;

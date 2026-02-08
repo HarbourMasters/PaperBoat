@@ -1,6 +1,6 @@
 #include "osr_00.h"
-#include "ld_addrs.h"
-#include "charset/charset.h"
+#include "Engine.h"
+#include "assets/charset.h"
 
 #include "sprite/npc/Luigi.h"
 
@@ -18,23 +18,19 @@ API_CALLABLE(N(func_80240678_AACEA8)) {
     return ApiStatus_DONE2;
 }
 
-BSS IMG_BIN N(PeachLetterImg)[charset_peach_letter_png_width * charset_peach_letter_png_height];
+BSS IMG_BIN N(PeachLetterImg)[CHARSET_PEACH_LETTER_WIDTH * CHARSET_PEACH_LETTER_HEIGHT];
 BSS PAL_BIN N(PeachLetterPal)[0x100];
 MAP_STATIC_PAD(2, letter);
 BSS MessageImageData N(MsgImage);
 
 API_CALLABLE(N(func_802406E0_AACF10)) {
-    s8* romStart = charset_ROM_START;
-    u8* rasterOffset = charset_peach_letter_OFFSET;
-    u16* paletteOffset = charset_peach_letter_pal_OFFSET;
-
-    dma_copy(romStart + (s32)rasterOffset, romStart + (s32)rasterOffset + sizeof(N(PeachLetterImg)), &N(PeachLetterImg));
-    dma_copy(romStart + (s32)paletteOffset, romStart + (s32)paletteOffset + sizeof(N(PeachLetterPal)), &N(PeachLetterPal));
+    memcpy(&N(PeachLetterImg), LOAD_ASSET(CHARSET_PEACH_LETTER), sizeof(N(PeachLetterImg)));
+    memcpy(&N(PeachLetterPal), LOAD_ASSET(CHARSET_PEACH_LETTER_PAL), sizeof(N(PeachLetterPal)));
 
     N(MsgImage).raster   = N(PeachLetterImg);
     N(MsgImage).palette  = N(PeachLetterPal);
-    N(MsgImage).width    = charset_peach_letter_png_width;
-    N(MsgImage).height   = charset_peach_letter_png_height;
+    N(MsgImage).width    = CHARSET_PEACH_LETTER_WIDTH;
+    N(MsgImage).height   = CHARSET_PEACH_LETTER_HEIGHT;
     N(MsgImage).format   = G_IM_FMT_CI;
     N(MsgImage).bitDepth = G_IM_SIZ_8b;
     set_message_images(&N(MsgImage));

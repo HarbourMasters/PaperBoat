@@ -1,7 +1,7 @@
 #include "kmr_20.h"
 #include "hud_element.h"
-#include "ld_addrs.h"
-#include "charset/charset.h"
+#include "Engine.h"
+#include "assets/charset.h"
 
 #define PACKED_BYTE(base, i) \
     (i / 8) + EVT_INDEX_OF_GAME_BYTE(base)
@@ -18,10 +18,10 @@ extern HudScript HES_Item_EmptyBook;
 extern HudScript HES_Item_EmptyBook_disabled;
 
 BSS PopupMenu N(ChooseDocumentPopupMenu);
-BSS IMG_BIN N(LetterBackgroundImg)[0x3D86] ALIGNED(16);
+BSS IMG_BIN N(LetterBackgroundImg)[(CHARSET_POSTCARD_WIDTH * CHARSET_POSTCARD_HEIGHT) / 2] ALIGNED(16);
 BSS PAL_BIN N(LetterBackgroundPal)[0x100];
 BSS char N(static_pad)[0x8]; // padding
-BSS IMG_BIN N(LetterPhotoImg)[0x3D86];
+BSS IMG_BIN N(LetterPhotoImg)[CHARSET_LETTER_CONTENT_WIDTH * CHARSET_LETTER_CONTENT_HEIGHT];
 BSS PAL_BIN N(N(LetterPhotoPal))[0x100];
 BSS s32 N(LetterWorkerID);
 BSS s32 N(LetterAlpha);
@@ -97,23 +97,6 @@ s32 N(LetterBodyStringIDs)[] = {
     MSG_Document_Letter_Mario10_Body,
     MSG_Document_Letter_Mario11_Body,
     MSG_Document_Letter_Mario12_Body,
-};
-
-// TODO mix of image / palette pointers
-IMG_PTR N(LetterDmaOffsets)[] = {
-    charset_postcard_OFFSET, (IMG_PTR) charset_postcard_pal_OFFSET,
-    charset_letter_content_1_OFFSET, (IMG_PTR) charset_letter_content_1_pal_OFFSET,
-    charset_letter_content_2_OFFSET, (IMG_PTR) charset_letter_content_2_pal_OFFSET,
-    charset_letter_content_3_OFFSET, (IMG_PTR) charset_letter_content_3_pal_OFFSET,
-    charset_letter_content_4_OFFSET, (IMG_PTR) charset_letter_content_4_pal_OFFSET,
-    charset_letter_content_5_OFFSET, (IMG_PTR) charset_letter_content_5_pal_OFFSET,
-    charset_letter_content_6_OFFSET, (IMG_PTR) charset_letter_content_6_pal_OFFSET,
-    charset_letter_content_7_OFFSET, (IMG_PTR) charset_letter_content_7_pal_OFFSET,
-    charset_letter_content_8_OFFSET, (IMG_PTR) charset_letter_content_8_pal_OFFSET,
-    charset_letter_content_9_OFFSET, (IMG_PTR) charset_letter_content_9_pal_OFFSET,
-    charset_letter_content_10_OFFSET, (IMG_PTR) charset_letter_content_10_pal_OFFSET,
-    charset_letter_content_11_OFFSET, (IMG_PTR) charset_letter_content_11_pal_OFFSET,
-    charset_letter_content_12_OFFSET, (IMG_PTR) charset_letter_content_12_pal_OFFSET,
 };
 
 API_CALLABLE(N(InitLetters)){
@@ -226,31 +209,25 @@ API_CALLABLE(N(ReadLetters)){
                     evt_set_variable(nullptr, GF_KMR20_ReadThankYouLetterFromKoopaVillage, true);
                 }
 
-                dma_copy(charset_ROM_START + (s32) N(LetterDmaOffsets)[0],
-                         charset_ROM_START + (s32) N(LetterDmaOffsets)[0] + sizeof(N(LetterBackgroundImg)),
-                         N(LetterBackgroundImg));
-                dma_copy(charset_ROM_START + (s32) N(LetterDmaOffsets)[1],
-                         charset_ROM_START + (s32) N(LetterDmaOffsets)[1] + sizeof(N(LetterBackgroundPal)),
-                         N(LetterBackgroundPal));
+                memcpy(N(LetterBackgroundImg), LOAD_ASSET(CHARSET_POSTCARD),
+                       (CHARSET_POSTCARD_WIDTH * CHARSET_POSTCARD_HEIGHT) / 2);
+                memcpy(N(LetterBackgroundPal), LOAD_ASSET(CHARSET_POSTCARD_PAL), 0x20);
 
                 N(LetterImgData)[0].raster = N(LetterBackgroundImg);
                 N(LetterImgData)[0].palette = N(LetterBackgroundPal);
-                N(LetterImgData)[0].width = 150;
-                N(LetterImgData)[0].height = 105;
+                N(LetterImgData)[0].width = CHARSET_POSTCARD_WIDTH;
+                N(LetterImgData)[0].height = CHARSET_POSTCARD_HEIGHT;
                 N(LetterImgData)[0].format = G_IM_FMT_CI;
                 N(LetterImgData)[0].bitDepth = G_IM_SIZ_4b;
 
-                dma_copy(charset_ROM_START + (s32) N(LetterDmaOffsets)[(userIndex * 2) + 2],
-                         charset_ROM_START + (s32) N(LetterDmaOffsets)[(userIndex * 2) + 2] + sizeof(N(LetterPhotoImg)),
-                         N(LetterPhotoImg));
-                dma_copy(charset_ROM_START + (s32) N(LetterDmaOffsets)[(userIndex * 2) + 3],
-                         charset_ROM_START + (s32) N(LetterDmaOffsets)[(userIndex * 2) + 3] + sizeof(N(N(LetterPhotoPal))),
-                         N(N(LetterPhotoPal)));
+                memcpy(N(LetterPhotoImg), LOAD_ASSET(CHARSET_LETTER_CONTENT_IMGS[userIndex]),
+                       CHARSET_LETTER_CONTENT_WIDTH * CHARSET_LETTER_CONTENT_HEIGHT);
+                memcpy(N(N(LetterPhotoPal)), LOAD_ASSET(CHARSET_LETTER_CONTENT_PALS[userIndex]), 0x200);
 
                 N(LetterImgData)[1].raster = N(LetterPhotoImg);
                 N(LetterImgData)[1].palette = N(N(LetterPhotoPal));
-                N(LetterImgData)[1].width = 70;
-                N(LetterImgData)[1].height = 95;
+                N(LetterImgData)[1].width = CHARSET_LETTER_CONTENT_WIDTH;
+                N(LetterImgData)[1].height = CHARSET_LETTER_CONTENT_HEIGHT;
                 N(LetterImgData)[1].format = G_IM_FMT_CI;
                 N(LetterImgData)[1].bitDepth = G_IM_SIZ_8b;
 

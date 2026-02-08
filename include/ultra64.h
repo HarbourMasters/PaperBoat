@@ -51,12 +51,17 @@
 #endif
 
 // Additional PI functions and video modes not in libultraship
+#include <stdint.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 extern s32 osEPiReadIo(OSPiHandle *, u32, u32 *);
 extern s32 osEPiWriteIo(OSPiHandle *, u32, u32);
 extern u32 osMemSize; // Memory size global variable
+
+// 64-bit safe: returns full pointer value, not truncated to 32-bit
+uintptr_t osVirtualToPhysical(void* addr);
 
 // Video system globals and modes
 extern s32 osTvType; // 0 = PAL, 1 = NTSC, 2 = MPAL

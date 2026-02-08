@@ -6,6 +6,7 @@
 #include "battle/battle.h"
 #include "model.h"
 #include "game_modes.h"
+#include "port/Engine.h"
 
 extern u16 gFrameBuf0[];
 extern u16 gFrameBuf1[];
@@ -195,7 +196,13 @@ void state_step_end_battle(void) {
                     set_background_size(296, 200, 12, 20);
                 }
 
-                mdl_load_all_textures(mapSettings->modelTreeRoot, get_asset_offset(wMapTexName, &sizeTemp), sizeTemp);
+                {
+                    char texAssetPath[64];
+                    snprintf(texAssetPath, sizeof(texAssetPath), "__OTR__textures/%s", wMapTexName);
+                    u8* textureData = ResourceGetDataByName(texAssetPath);
+                    size_t textureSize = ResourceGetSizeByName(texAssetPath);
+                    mdl_load_all_textures(mapSettings->modelTreeRoot, textureData, textureSize);
+                }
                 mdl_calculate_model_sizes();
                 npc_reload_all();
 

@@ -304,11 +304,12 @@ Acmd* au_pull_fx(AuFX* fx, Acmd* ptr, s16 wetDmem, s16 tempDmem) {
         f32 fUnityPitch = UNITY_PITCH;
 
         // calculate read positions for input and output taps, wrapping the circular buffer if necessary
-        inPtr = &fx->input[-delay->input];
+        // Cast to signed to ensure negative indexing works correctly on 64-bit
+        inPtr = &fx->input[-(s32)delay->input];
         if (inPtr < fx->base) {
             inPtr += fx->length;
         }
-        outPtr = &fx->input[-delay->output];
+        outPtr = &fx->input[-(s32)delay->output];
         if (outPtr < fx->base) {
             outPtr += fx->length;
         }
@@ -345,8 +346,8 @@ Acmd* au_pull_fx(AuFX* fx, Acmd* ptr, s16 wetDmem, s16 tempDmem) {
             delay->activeResampler->delta = fincount - count;
 
             // prepare delay line for resampling (wrap if needed)
-            rsOutPtr = &fx->input[-(delay->output - delay->rsdelta)];
-            ramAlign = ((s32) rsOutPtr & 7) >> 1;
+            rsOutPtr = &fx->input[-(s32)(delay->output - delay->rsdelta)];
+            ramAlign = ((intptr_t) rsOutPtr & 7) >> 1;
             rsOutPtr -= ramAlign;
             if (rsOutPtr < fx->base) {
                 rsOutPtr += fx->length;

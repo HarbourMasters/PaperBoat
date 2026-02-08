@@ -29,8 +29,8 @@ extern f32 clamp_angle(f32 theta);
 extern void transform_point(Matrix4f mtx, f32 inX, f32 inY, f32 inZ, f32 inS, f32* outX, f32* outY, f32* outZ, f32* outW);
 extern void draw_prev_frame_buffer_at_screen_pos(s32 x1, s32 y1, s32 x2, s32 y2, f32 alpha);
 // draw_box declaration now comes from functions.h (uses void* for windowStyle on PC)
-extern void draw_msg(s32 msgID, s32 posX, s32 posY, s32 opacity, s32 palette, u8 style);
-extern s32 get_msg_width(s32 msgID, u16 charset);
+extern void draw_msg(intptr_t msgID, s32 posX, s32 posY, s32 opacity, s32 palette, u8 style);
+extern s32 get_msg_width(intptr_t msgID, u16 charset);
 extern void mdl_get_shroud_tint_params(u8* r, u8* g, u8* b, u8* a);
 extern bool is_point_visible(f32 x, f32 y, f32 z, s32 depthQueryID, f32* screenX, f32* screenY);
 

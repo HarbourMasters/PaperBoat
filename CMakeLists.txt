@@ -39,12 +39,34 @@ list(FILTER GAME_SOURCES EXCLUDE REGEX "/(npc_composer|npc_hint_dryite_companion
 # Exclude kzn_19 animation files that are #included
 list(FILTER GAME_SOURCES EXCLUDE REGEX "/kzn_19_anim[0-9]+\\.c$")
 
+#=================== SSE2NEON ===================
+set(SSE2NEON_DIR ${CMAKE_BINARY_DIR}/_deps/sse2neon)
+file(DOWNLOAD "https://raw.githubusercontent.com/DLTcollab/sse2neon/refs/heads/master/sse2neon.h" "${SSE2NEON_DIR}/sse2neon.h")
+
+include_directories(${SSE2NEON_DIR})
+
+FetchContent_Declare(
+    dr_libs
+    GIT_REPOSITORY https://github.com/mackron/dr_libs.git
+	GIT_TAG da35f9d6c7374a95353fd1df1d394d44ab66cf01
+)
+FetchContent_MakeAvailable(dr_libs)
+
 set(PORT_SOURCES
     src/port/Game.cpp
     src/port/Engine.cpp
+    src/port/GBIMiddleware.cpp
     src/port/audio/AudioLoader.cpp
+    src/port/audio/mixer.c
     src/port/factories/PM64SpriteFactory.cpp
+    src/port/factories/PM64ShapeFactory.cpp
     src/port/factories/PM64TextureFactory.cpp
+    src/port/factories/PM64BackgroundFactory.cpp
+    src/port/factories/PM64CollisionFactory.cpp
+    src/port/factories/PM64MapTextureFactory.cpp
+    src/port/factories/PM64AudioFactory.cpp
+    src/port/factories/PM64StoryImageFactory.cpp
+    src/port/factories/PM64MessageFactory.cpp
     src/port/sprite/SpriteLoader.cpp
     src/port/nusys_overrides.c
     src/port/gu.c
@@ -53,6 +75,9 @@ set(PORT_SOURCES
     src/port/libc_compat.c
     src/port/decode_yay0.c
     src/port/effects_shim.c
+    src/port/shape_loader.c
+    src/port/init_globals.c
+    src/port/gfx_frame.c
 )
 
 add_executable(${PROJECT_NAME}
@@ -78,6 +103,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     VERSION_US
     F3DEX_GBI_2
     __CTX__
+    SPDLOG_ACTIVE_LEVEL=0
 )
 
 # Target-specific include directories (only applies to StarRod, not dependencies)

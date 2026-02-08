@@ -3,6 +3,8 @@
 #include "nu/nusys.h"
 #include "ld_addrs.h"
 
+extern void GameEngine_SetDisplayListContext(const char* context);
+
 #define MAX_HUD_CACHE_ENTRIES 192
 
 typedef struct HudElementSize {
@@ -1183,6 +1185,8 @@ void render_hud_elements_backUI(void) {
     s32 drawSizeX, drawSizeY, offsetX, offsetY;
     HudElement* hudElement;
 
+    GameEngine_SetDisplayListContext("hud_element_backUI");
+
     D_80159180++;
     if (D_80159180 > 2) {
         D_80159180 = 0;
@@ -1297,6 +1301,8 @@ void render_hud_elements_backUI(void) {
             hud_element_draw_rect(hudElement, texSizeX, texSizeY, drawSizeX, drawSizeY, offsetX, offsetY, false, false);
         }
     }
+
+    GameEngine_SetDisplayListContext(NULL);
 }
 
 void render_hud_elements_frontUI(void) {
@@ -1306,6 +1312,8 @@ void render_hud_elements_frontUI(void) {
     s32 texSizeX, texSizeY;
     s32 drawSizeX, drawSizeY, offsetX, offsetY;
     HudElement* hudElement;
+
+    GameEngine_SetDisplayListContext("hud_element_frontUI");
 
     gSPDisplayList(gMainGfxPos++, VIRTUAL_TO_PHYSICAL(gHudElementsDLFrontUI));
 
@@ -1412,6 +1420,8 @@ void render_hud_elements_frontUI(void) {
             hud_element_draw_rect(hudElement, texSizeX, texSizeY, drawSizeX, drawSizeY, offsetX, offsetY, false, false);
         }
     }
+
+    GameEngine_SetDisplayListContext(NULL);
 }
 
 void render_hud_element(HudElement* hudElement) {
@@ -1624,6 +1634,8 @@ void render_transformed_hud_elements(void) {
     s32 flags;
     s32 z1, z2;
 
+    GameEngine_SetDisplayListContext("hud_element_transformed");
+
     // TODO fix this terrible match
     do {
         do {
@@ -1753,6 +1765,8 @@ void render_transformed_hud_elements(void) {
             }
         } while (0);
     } while (0);
+
+    GameEngine_SetDisplayListContext(NULL);
 }
 
 void func_80143C48(s32 elemID, s32 arg1, s32 camID) {

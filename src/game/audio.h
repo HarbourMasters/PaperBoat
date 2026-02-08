@@ -1,8 +1,10 @@
 #ifndef _AUDIO_H_
 #define _AUDIO_H_
+#include <stdint.h>  // For intptr_t
 #include "nu/nusys.h"
 #include "nu/nualsgi.h"
 #include "PR/n_abi.h"
+#include "port/audio/mixer.h"
 #include "common.h"
 #include "ship/utils/binarytools/endianness.h"
 
@@ -41,7 +43,8 @@ typedef u8* WaveData;
 #define AU_MAX_BUS_VOLUME       0x8000
 
 #define ALIGN16_(val) (((val) + 0xF) & 0xFFF0)
-#define AU_FILE_RELATIVE(base,offset) ((void*)((s32)(offset) + (s32)(base)))
+// Use intptr_t for 64-bit pointer arithmetic compatibility
+#define AU_FILE_RELATIVE(base,offset) ((void*)((intptr_t)(offset) + (intptr_t)(base)))
 
 #if VERSION_PAL
 #define VIDEO_FRAMES_PER_SECOND 50
@@ -571,7 +574,7 @@ typedef struct AuFxBus {
 
  // ALDMAproc in PM has an extra arg added for bypassing DMA transfers for static audio data
  // (which is always available in RAM), so we have ALDMAproc2 and ALDMANew2.
-typedef s32 (*ALDMAproc2)(s32 addr, s32 len, void *state, u8 arg3);
+typedef intptr_t (*ALDMAproc2)(intptr_t addr, s32 len, void *state, u8 arg3);
 typedef ALDMAproc2 (*ALDMANew2)(void *state);
 
 // based on ALLoadFilter
@@ -586,7 +589,7 @@ typedef struct AuLoadFilter {
     /* 0x24 */ s32 sample;
     /* 0x28 */ s32 lastsam;
     /* 0x2C */ s32 first;
-    /* 0x30 */ s32 memin;
+    /* 0x30 */ intptr_t memin;
 } AuLoadFilter; // size = 0x34
 
 // based on ALResampler
@@ -670,6 +673,25 @@ typedef struct EnvelopePreset {
     /* 0x01 */ char pad_01[3];
     /* 0x04 */ EnvelopeOffset offsets[1]; // variable size
 } EnvelopePreset;
+
+// Binary layout of Instrument as stored in BK files (N64 32-bit, 0x30 bytes).
+// On 64-bit, the real Instrument struct is larger due to pointer fields.
+typedef struct InstrumentBinary {
+    /* 0x00 */ u32 wavData;
+    /* 0x04 */ u32 wavDataLength;
+    /* 0x08 */ u32 loopState;
+    /* 0x0C */ s32 loopStart;
+    /* 0x10 */ s32 loopEnd;
+    /* 0x14 */ s32 loopCount;
+    /* 0x18 */ u32 predictor;
+    /* 0x1C */ u16 codebookSize;
+    /* 0x1E */ u16 keyBase;
+    /* 0x20 */ s32 sampleRate;
+    /* 0x24 */ u8 type;
+    /* 0x25 */ u8 useDma;
+    /* 0x26 */ s8 unused[6];
+    /* 0x2C */ u32 envelopes;
+} InstrumentBinary; // size = 0x30
 
 // partially ALWaveTable?
 typedef struct Instrument {

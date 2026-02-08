@@ -168,7 +168,7 @@ typedef enum ExtraTileTypes {
     EXTRA_TILE_4                    = 4, // only use-case may be a mistake? unused and mostly unimplemented
 } ExtraTileTypes;
 
-#define SHAPE_SIZE_LIMIT 0x8000
+#define SHAPE_SIZE_LIMIT 0x30000  // Increased from 0x8000 to accommodate larger shapes (e.g., hos_05 is ~109KB)
 
 typedef struct ShapeFileHeader {
     /* 0x00 */ ModelNode* root;
@@ -202,7 +202,7 @@ void update_model_animator(s32);
 void update_model_animator_with_transform(s32 animatorID, Mtx* mtx);
 void set_mdl_custom_gfx_set(Model*, s32, u32);
 ModelNodeProperty* get_model_property(ModelNode* node, ModelPropertyKeys key);
-void load_texture_variants(u32 romOffset, s32 textureID, s32 baseOffset, s32 size);
+void load_texture_variants(u8* srcData, s32 textureID, u8* baseData, s32 size);
 s32 step_model_animator(ModelAnimator* animator);
 AnimatorNode* get_animator_node_for_tree_index(ModelAnimator* animator, s32 treeIndex);
 AnimatorNode* get_animator_node_with_id(ModelAnimator* animator, s32 id);

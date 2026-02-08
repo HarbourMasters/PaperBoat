@@ -72,7 +72,7 @@ API_CALLABLE(RemoveNpc) {
     EncounterStatus* currentEncounter = &gCurrentEncounter;
     s32 i, j;
 
-    if ((s32)enemy != NPC_SELF) {
+    if ((intptr_t)enemy != NPC_SELF) {
         if (id == NPC_SELF) {
             id = enemy->npcID;
             ret = ApiStatus_FINISH;
@@ -124,7 +124,7 @@ API_CALLABLE(RemoveEncounter) {
     ApiStatus ret = ApiStatus_DONE1;
     s32 i, j;
 
-    if ((s32)enemy != NPC_SELF && (id == NPC_SELF || enemy->npcID == id)) {
+    if ((intptr_t)enemy != NPC_SELF && (id == NPC_SELF || enemy->npcID == id)) {
         id = enemy->npcID;
         ret = ApiStatus_FINISH;
     } else {
@@ -342,7 +342,7 @@ API_CALLABLE(BindNpcAI) {
     Evt* aiScript;
     s32 groupFlags;
 
-    if ((s32)enemy != NPC_SELF && (id == NPC_SELF || enemy->npcID == id)) {
+    if ((intptr_t)enemy != NPC_SELF && (id == NPC_SELF || enemy->npcID == id)) {
         id = enemy->npcID;
 
         while (true) {
@@ -470,7 +470,7 @@ API_CALLABLE(SetNpcAux) {
     ApiStatus ret = ApiStatus_DONE2;
     Evt* auxScript;
 
-    if ((s32)enemy != NPC_SELF && (id == NPC_SELF || enemy->npcID == id)) {
+    if ((intptr_t)enemy != NPC_SELF && (id == NPC_SELF || enemy->npcID == id)) {
         id = enemy->npcID;
 
         while (true) {

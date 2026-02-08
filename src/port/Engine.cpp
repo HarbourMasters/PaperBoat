@@ -2,22 +2,57 @@
 
 #include <cstdarg>
 #include <fstream>
+#include <mutex>
+#include <unordered_map>
 #include <libultraship.h>
 #include <ship/resource/factory/BlobFactory.h>
 #include <libultraship/controller/controldeck/ControlDeck.h>
 #include <fast/Fast3dWindow.h>
 #include <fast/interpreter.h>
 #include <fast/resource/factory/TextureFactory.h>
+#include <fast/resource/factory/DisplayListFactory.h>
+#include <fast/resource/factory/VertexFactory.h>
 #include <fast/resource/ResourceType.h>
 #include <filesystem>
 #include "src/Companion.h"
 #include "factories/PM64SpriteFactory.h"
+#include "factories/PM64ShapeFactory.h"
+#include "factories/PM64BackgroundFactory.h"
 #include "factories/PM64TextureFactory.h"
+#include "factories/PM64CollisionFactory.h"
+#include "factories/PM64MapTextureFactory.h"
+#include "factories/PM64AudioFactory.h"
+#include "factories/PM64StoryImageFactory.h"
+#include "factories/PM64MessageFactory.h"
 
 namespace fs = std::filesystem;
 
 std::vector<uint8_t*> MemoryPool;
 GameEngine* GameEngine::Instance;
+
+// Static audio thread state definition
+decltype(GameEngine::mAudio) GameEngine::mAudio;
+
+// Game audio system functions and globals
+extern "C" {
+    void nuScCreateScheduler(uint8_t mode, uint8_t numFields);
+    void create_audio_system(void);
+    Acmd* alAudioFrame(Acmd* cmdList, int32_t* cmdLen, int16_t* outBuf, int32_t outLen);
+    extern int32_t AlFrameSize;
+}
+
+// Audio constants from game
+#define AUDIO_SAMPLES 184
+#define HARDWARE_OUTPUT_RATE 32000
+
+// Thread-local context for display list debugging
+static thread_local const char* gDisplayListContext = nullptr;
+
+// Access to the display list pointer for emitting context markers
+// Gfx is already defined in libultraship's gbi.h (included via libultraship.h)
+extern "C" {
+    extern Gfx* gMainGfxPos;
+}
 
 static void ExtractAssets(const std::string& romPath, const std::string& outputPath) {
     std::ifstream file(romPath, std::ios::binary);
@@ -31,6 +66,13 @@ static void ExtractAssets(const std::string& romPath, const std::string& outputP
 
     // Register PM64-specific factories before Init()
     Companion::Instance->RegisterFactory("PM64:SPRITE", std::make_shared<PM64SpriteFactory>());
+    Companion::Instance->RegisterFactory("PM64:SHAPE", std::make_shared<PM64ShapeFactory>());
+    Companion::Instance->RegisterFactory("PM64:BACKGROUND", std::make_shared<PM64BackgroundFactory>());
+    Companion::Instance->RegisterFactory("PM64:COLLISION", std::make_shared<PM64CollisionFactory>());
+    Companion::Instance->RegisterFactory("PM64:MAP_TEXTURE", std::make_shared<PM64MapTextureFactory>());
+    Companion::Instance->RegisterFactory("PM64:AUDIO", std::make_shared<PM64AudioFactory>());
+    Companion::Instance->RegisterFactory("PM64:STORY_IMAGE", std::make_shared<PM64StoryImageFactory>());
+    Companion::Instance->RegisterFactory("PM64:MESSAGE", std::make_shared<PM64MessageFactory>());
 
     Companion::Instance->Init(ExportType::Binary);
 }
@@ -75,7 +117,7 @@ GameEngine::GameEngine() {
 
     this->context->InitGfxDebugger();
 
-    this->context->InitLogging();
+    this->context->InitLogging(spdlog::level::trace, spdlog::level::trace);
     this->context->InitConsoleVariables();
 
     // ControlDeck is needed by window keyboard callbacks
@@ -90,6 +132,10 @@ GameEngine::GameEngine() {
                                     "Blob", static_cast<uint32_t>(Ship::ResourceType::Blob), 0);
     loader->RegisterResourceFactory(std::make_shared<PM64::ResourceFactoryBinaryTextureV0>(), RESOURCE_FORMAT_BINARY,
                                     "Texture", static_cast<uint32_t>(Fast::ResourceType::Texture), 0);
+    loader->RegisterResourceFactory(std::make_shared<Fast::ResourceFactoryBinaryDisplayListV0>(), RESOURCE_FORMAT_BINARY,
+                                    "DisplayList", static_cast<uint32_t>(Fast::ResourceType::DisplayList), 0);
+    loader->RegisterResourceFactory(std::make_shared<Fast::ResourceFactoryBinaryVertexV0>(), RESOURCE_FORMAT_BINARY,
+                                    "Vertex", static_cast<uint32_t>(Fast::ResourceType::Vertex), 0);
 
 }
 
@@ -132,18 +178,97 @@ void GameEngine::StartFrame() const {
 }
 
 void GameEngine::HandleAudioThread() {
+    int16_t audioBuffer[AUDIO_SAMPLES * 4 * 2];
+    Acmd cmdList[0x800];
+
+    while (mAudio.running) {
+        {
+            std::unique_lock<std::mutex> lock(mAudio.mutex);
+            while (!mAudio.processing && mAudio.running) {
+                mAudio.cv_to_thread.wait(lock);
+            }
+            if (!mAudio.running) break;
+        }
+
+        // Generate audio twice per game frame, matching N64's 60Hz audio thread.
+        // On N64, nuAuMgr wakes every VI retrace (60Hz) and generates AlFrameSize
+        // (~552) samples. The game loop runs at 30fps → 2 audio frames per game frame.
+        // This ensures au_update_clients_for_video_frame() runs at the correct 60Hz.
+        for (int pass = 0; pass < 2; pass++) {
+            int samplesToGen = AlFrameSize;
+
+            memset(audioBuffer, 0, samplesToGen * 2 * sizeof(int16_t));
+            int32_t cmdLen = 0;
+            alAudioFrame(cmdList, &cmdLen, audioBuffer, samplesToGen);
+
+            size_t bufferSize = samplesToGen * 2 * sizeof(int16_t);
+            AudioPlayerPlayFrame((uint8_t*)audioBuffer, bufferSize);
+        }
+
+        {
+            std::unique_lock<std::mutex> lock(mAudio.mutex);
+            mAudio.processing = false;
+        }
+        mAudio.cv_from_thread.notify_one();
+    }
 }
 
 void GameEngine::StartAudioFrame() {
+    if (!mAudio.running) return;
+
+    {
+        std::unique_lock<std::mutex> lock(mAudio.mutex);
+        mAudio.processing = true;
+    }
+    mAudio.cv_to_thread.notify_one();
 }
 
 void GameEngine::EndAudioFrame() {
+    if (!mAudio.running) return;
+
+    std::unique_lock<std::mutex> lock(mAudio.mutex);
+    while (mAudio.processing) {
+        mAudio.cv_from_thread.wait(lock);
+    }
 }
 
 void GameEngine::AudioInit() {
+    SPDLOG_INFO("Initializing audio system...");
+
+    // NTSC: retraceCount=1 → AlFrameSize=552 (3 chunks of 184 samples)
+    // Must be set before create_audio_system() which reads nusched.retraceCount
+    nuScCreateScheduler(0, 1);
+
+    // Initialize the game's audio system
+    create_audio_system();
+
+    // Start the audio thread
+    mAudio.running = true;
+    mAudio.processing = false;
+    mAudio.thread = std::thread(&GameEngine::HandleAudioThread);
+
+    SPDLOG_INFO("Audio system initialized");
 }
 
 void GameEngine::AudioExit() {
+    if (mAudio.running) {
+        SPDLOG_INFO("Shutting down audio system...");
+
+        // Signal thread to stop
+        {
+            std::unique_lock<std::mutex> lock(mAudio.mutex);
+            mAudio.running = false;
+            mAudio.processing = true;  // Wake up the thread
+        }
+        mAudio.cv_to_thread.notify_one();
+
+        // Wait for thread to finish
+        if (mAudio.thread.joinable()) {
+            mAudio.thread.join();
+        }
+
+        SPDLOG_INFO("Audio system shut down");
+    }
 }
 
 void GameEngine::RunCommands(Gfx* Commands, const std::vector<std::unordered_map<Mtx*, MtxF>>& mtx_replacements) {
@@ -166,6 +291,25 @@ void GameEngine::RunCommands(Gfx* Commands, const std::vector<std::unordered_map
     }
 }
 
+void GameEngine::ProcessGfxCommands(Gfx* commands) {
+    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(
+        Ship::Context::GetInstance()->GetWindow());
+
+    if (wnd == nullptr) return;
+
+    // Set microcode handler
+    wnd->SetRendererUCode(UcodeHandlers::ucode_f3dex2);
+
+    // Build matrix replacements for interpolation
+    std::vector<std::unordered_map<Mtx*, MtxF>> mtx_replacements;
+
+    // For now, just one pass (no interpolation)
+    // Later: Generate multiple matrix sets for 30fps->60fps or 60fps->120fps
+    mtx_replacements.push_back({});
+
+    RunCommands(commands, mtx_replacements);
+}
+
 static const char* sOtrSignature = "__OTR__";
 
 extern "C" uint8_t GameEngine_OTRSigCheck(const char* data) {
@@ -173,6 +317,15 @@ extern "C" uint8_t GameEngine_OTRSigCheck(const char* data) {
         return 0;
     }
     return strncmp(data, sOtrSignature, strlen(sOtrSignature)) == 0;
+}
+
+// C-callable audio frame hooks
+extern "C" void GameEngine_StartAudioFrame(void) {
+    GameEngine::StartAudioFrame();
+}
+
+extern "C" void GameEngine_EndAudioFrame(void) {
+    GameEngine::EndAudioFrame();
 }
 
 // C-callable wrapper for processing graphics commands
@@ -250,4 +403,79 @@ extern "C" void GameEngine_LogStackTrace(const char* label) {
 #else
     SPDLOG_INFO("Stack trace [{}]: (not available on this platform)", label ? label : "unnamed");
 #endif
+}
+
+// C-callable display list context tracking for debugging
+// This emits a G_NOOP marker command into the display list so the context
+// survives from construction time to execution time in the interpreter.
+extern "C" void GameEngine_SetDisplayListContext(const char* context) {
+    gDisplayListContext = context;
+
+    // Emit G_NOOP with p=9 (context marker) into the display list
+    // Format: w0 = (G_NOOP << 24) | (p << 16) | l, w1 = context pointer
+    // G_NOOP = 0x00 for F3DEX2
+    if (gMainGfxPos != nullptr) {
+        Gfx* g = gMainGfxPos++;
+        g->words.w0 = (0x00 << 24) | (9 << 16) | 0;  // G_NOOP, p=9 (context), l=0
+        g->words.w1 = (uintptr_t)context;
+    }
+}
+
+extern "C" const char* GameEngine_GetDisplayListContext() {
+    return gDisplayListContext ? gDisplayListContext : "(unknown)";
+}
+
+// Debug check for uninitialized textures - called from gDPSetTextureImage macro
+extern "C" void _gbi_debug_check_texture(const void* img, const char* file, int line) {
+    if (img == nullptr) {
+        SPDLOG_WARN("[GBI DEBUG] NULL texture at {}:{}", file, line);
+        return;
+    }
+    // Check if this is an OTR path
+    if (GameEngine_OTRSigCheck((const char*)img)) {
+        SPDLOG_INFO("[GBI DEBUG] OTR texture path at {}:{}, path='{}'", file, line, (const char*)img);
+        return;
+    }
+    // Check if first 16 bytes are all zeros
+    // Note: This is normal for CI4 textures with transparent regions (palette index 0)
+    static const char zeros[16] = {0};
+    if (memcmp(img, zeros, 16) == 0) {
+        SPDLOG_DEBUG("[GBI DEBUG] Texture starts with 16 zero bytes at {}:{}, addr={} (may be CI4 transparent region)",
+                    file, line, img);
+    }
+}
+
+// Texture debug tracking system - maps memory addresses to source asset paths
+// This helps diagnose texture issues by showing which asset file a texture came from
+struct TextureDebugInfo {
+    std::string assetPath;
+    int rasterIdx;
+};
+
+static std::mutex sTextureDebugMutex;
+static std::unordered_map<uintptr_t, TextureDebugInfo> sTextureDebugRegistry;
+
+extern "C" void GameEngine_RegisterTextureDebugInfo(const void* addr, const char* assetPath, int rasterIdx) {
+    if (addr == nullptr || assetPath == nullptr) {
+        return;
+    }
+    std::lock_guard<std::mutex> lock(sTextureDebugMutex);
+    sTextureDebugRegistry[reinterpret_cast<uintptr_t>(addr)] = { assetPath, rasterIdx };
+}
+
+// Thread-local buffer for returning texture source info
+static thread_local char sTextureSourceBuffer[256];
+
+extern "C" const char* GameEngine_LookupTextureSource(const void* addr) {
+    if (addr == nullptr) {
+        return nullptr;
+    }
+    std::lock_guard<std::mutex> lock(sTextureDebugMutex);
+    auto it = sTextureDebugRegistry.find(reinterpret_cast<uintptr_t>(addr));
+    if (it != sTextureDebugRegistry.end()) {
+        snprintf(sTextureSourceBuffer, sizeof(sTextureSourceBuffer), "%s (raster %d)",
+                 it->second.assetPath.c_str(), it->second.rasterIdx);
+        return sTextureSourceBuffer;
+    }
+    return nullptr;
 }

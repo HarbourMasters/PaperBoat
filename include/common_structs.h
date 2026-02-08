@@ -432,22 +432,22 @@ typedef struct Evt {
     /* 0x068 */ struct Evt* childScript;
     /* 0x06C */ struct Evt* parentScript; /* brother? */
     /* 0x070 */ union {
-    /*       */     s32 functionTemp[4];
+    /*       */     intptr_t functionTemp[4];
     /*       */     f32 functionTempF[4];
     /*       */     void* functionTempPtr[4];
     /*       */     bool functionTempBool[4];
     /*       */ };
     /* 0x080 */ ApiFunc callFunction;
     /* 0x084 */ union {
-    /*       */     s32 varTable[16];
+    /*       */     Bytecode varTable[16];
     /*       */     f32 varTableF[16];
     /*       */     void* varTablePtr[16];
     /*       */ };
     /* 0x0C4 */ s32 varFlags[3];
-    /* 0x0D0 */ s32 loopStartTable[8];
-    /* 0x0F0 */ s32 loopCounterTable[8];
+    /*       */ Bytecode loopStartTable[8];
+    /*       */ Bytecode loopCounterTable[8];
     /* 0x110 */ s8 switchBlockState[8];
-    /* 0x118 */ s32 switchBlockValue[8];
+    /*       */ Bytecode switchBlockValue[8];
     /* 0x138 */ s32* buffer;
     /* 0x13C */ s32* array;
     /* 0x140 */ s32* flagArray;
@@ -1214,7 +1214,7 @@ typedef struct MessagePrintState {
     /* 0x000 */ u8* srcBuffer;
     /* 0x004 */ u16 printBufferPos;
     /* 0x006 */ char unk_06[2];
-    /* 0x008 */ s32 msgID;
+    /* 0x008 */ intptr_t msgID;
     /* 0x00C */ u16 srcBufferPos;
     /* 0x00E */ u16 curPrintDelay;
     /* 0x010 */ u8 printBuffer[PRINT_BUFFER_SIZE];

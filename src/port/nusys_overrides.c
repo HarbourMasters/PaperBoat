@@ -22,10 +22,14 @@
 // Global Variables (needed by game code)
 // ============================================================================
 
+// Frame buffers (stubs - libultraship manages actual buffers)
+static u16 gFrameBufDummy[320 * 240];
+u16* FrameBuf[3] = { gFrameBufDummy, gFrameBufDummy, gFrameBufDummy };
+
 // Graphics globals
+// NOTE: nuGfxCfb_ptr and nuGfxCfb are defined in main_pre_bss.c
+// They are initialized by nuGfxInit() called from Game.cpp
 u32 nuGfxCfbNum = 3;
-u16* nuGfxCfb_ptr = NULL;
-u16** nuGfxCfb = NULL;
 u32 nuGfxCfbCounter = 0;
 u32 nuGfxDisplay = NU_GFX_DISPLAY_ON;
 volatile u32 nuGfxTaskSpool = 0;
@@ -50,10 +54,6 @@ NUScTask nuGfxTask[NU_GFX_TASK_NUM];
 // Buffers
 s32 D_800B91D0[NU_GFX_RDP_OUTPUTBUFF_SIZE / sizeof(u32)] ALIGNED(16);
 u64 D_800DA040[0x400 / sizeof(u64)] ALIGNED(16);
-
-// Frame buffers (stubs - libultraship manages actual buffers)
-static u16 gFrameBufDummy[320 * 240];
-u16* FrameBuf[3] = { gFrameBufDummy, gFrameBufDummy, gFrameBufDummy };
 
 // RSP boot ucode buffer
 u8 rspbootUcodeBuffer[0x100] ALIGNED(16);
@@ -90,8 +90,6 @@ void nuPiInit(void) {
 }
 
 void nuPiReadRom(u32 romAddr, void* ramAddr, u32 len) {
-    GameEngine_LogInfo("nuPiReadRom: addr=0x%08X len=0x%X (%u)", romAddr, len, len);
-    //GameEngine_LogStackTrace("nuPiReadRom");
     return;
 }
 
@@ -100,8 +98,7 @@ void nuPiReadRom(u32 romAddr, void* ramAddr, u32 len) {
 // ============================================================================
 
 void nuScCreateScheduler(u8 mode, u8 numFields) {
-    // No-op - libultraship handles scheduling
-    return;
+    nusched.retraceCount = 1;  // NTSC: audio runs every VI retrace (60 Hz)
 }
 
 // ============================================================================
@@ -109,13 +106,20 @@ void nuScCreateScheduler(u8 mode, u8 numFields) {
 // ============================================================================
 
 void nuGfxInit(void) {
-    // No-op - libultraship handles graphics init
-    nuGfxDisplay = NU_GFX_DISPLAY_ON;
+    // Initialize framebuffer pointer so osVirtualToPhysical(nuGfxCfb_ptr) returns valid address
+    // NOTE: Do NOT set nuGfxDisplay here - let game code control via nuGfxDisplayOn/Off
+    // (N64 boot_main calls nuGfxDisplayOff before nuGfxInit, then nuGfxDisplayOn later)
+    nuGfxCfb_ptr = gFrameBufDummy;
+    nuGfxCfb = FrameBuf;
+    GameEngine_LogInfo("nuGfxInit: nuGfxCfb_ptr=%p, gFrameBufDummy=%p", (void*)nuGfxCfb_ptr, (void*)gFrameBufDummy);
 }
 
 void nuGfxInitEX2(void) {
-    // No-op - libultraship handles graphics init
-    nuGfxDisplay = NU_GFX_DISPLAY_ON;
+    // Initialize framebuffer pointer so osVirtualToPhysical(nuGfxCfb_ptr) returns valid address
+    // NOTE: Do NOT set nuGfxDisplay here - let game code control via nuGfxDisplayOn/Off
+    nuGfxCfb_ptr = gFrameBufDummy;
+    nuGfxCfb = FrameBuf;
+    GameEngine_LogInfo("nuGfxInitEX2: nuGfxCfb_ptr=%p, gFrameBufDummy=%p", (void*)nuGfxCfb_ptr, (void*)gFrameBufDummy);
 }
 
 void nuGfxThreadStart(void) {
@@ -127,8 +131,12 @@ void nuGfxTaskMgrInit(void) {
 }
 
 void nuGfxTaskStart(Gfx* gfxList_ptr, u32 gfxListSize, u32 ucode, u32 flag) {
-    // Process display list through libultraship Fast3D
-    GameEngine_ProcessGfxCommands(gfxList_ptr);
+    // No-op: Display list submission now handled by Graphics_ThreadUpdate
+    // Kept for compatibility with any remaining calls
+    (void)gfxList_ptr;
+    (void)gfxListSize;
+    (void)ucode;
+    (void)flag;
 }
 
 void nuGfxTaskAllEndWait(void) {
@@ -348,13 +356,6 @@ void* fx_sun_undeclared(s32 arg0, f32 arg1, f32 arg2, f32 arg3, s32 arg4) {
 }
 
 // ============================================================================
-// Narrator Event Scripts (stubs)
-// ============================================================================
-
-s32 hos_04_EVS_SetupNarrator[] = { 0x00000002, 0x00000000 }; // EVT_RETURN, EVT_END
-s32 hos_05_EVS_SetupNarrator[] = { 0x00000002, 0x00000000 }; // EVT_RETURN, EVT_END
-
-// ============================================================================
 // OS Functions (stubs for N64 libultra functions not provided by libultraship)
 // ============================================================================
 
@@ -528,8 +529,17 @@ void osContGetQuery(OSContStatus* data) {
     (void)data;
 }
 
-u32 osVirtualToPhysical(void* addr) {
-    return (u32)(uintptr_t)addr;
+uintptr_t osVirtualToPhysical(void* addr) {
+    // libultraship interprets address 1 as "main framebuffer"
+    // (see background_gfx.c:50 for existing usage of this pattern)
+    if (addr == gFrameBufDummy) {
+        return 1;
+    }
+    // PORT: Return 1 for NULL to prevent rendering to address 0 (which breaks display)
+    if (addr == NULL) {
+        return 1;
+    }
+    return (uintptr_t)addr;
 }
 
 void osMapTLB(s32 index, OSPageMask pm, void* vaddr, u32 paddr, u32 paddr_end, s32 asid) {

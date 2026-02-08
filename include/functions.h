@@ -98,7 +98,7 @@ s32 draw_ci_image_with_clipping(IMG_PTR raster, s32 width, s32 height, s32 fmt, 
 void render_frame(s32 flag);
 void clear_windows(void);
 void update_window_hierarchy(s32 windowIndex, u8 arg1);
-void get_msg_properties(s32 msgID, s32* height, s32* width, s32* maxLineChars, s32* numLines, s32* maxLinesPerPage, s32* arg6, u16 charset);
+void get_msg_properties(intptr_t msgID, s32* height, s32* width, s32* maxLineChars, s32* numLines, s32* maxLinesPerPage, s32* arg6, u16 charset);
 void replace_window_update(s32 idx, s8 arg1, WindowUpdateFunc pendingFunc);
 void decode_yay0(void* src, void* dst);
 
@@ -188,8 +188,8 @@ void entity_HugeBlueSwitch_init(Entity* entity);
 s32 dispatch_damage_event_actor_0(Actor* actor, s32 damageAmount, s32 event);
 
 // Text
-MessagePrintState* msg_get_printer_for_msg(s32 msgID, bool* donePrintingWriteback);
-s32 msg_printer_load_msg(s32 msgID, MessagePrintState* printer);
+MessagePrintState* msg_get_printer_for_msg(intptr_t msgID, bool* donePrintingWriteback);
+s32 msg_printer_load_msg(intptr_t msgID, MessagePrintState* printer);
 void msg_printer_set_origin_pos(MessagePrintState* msgPrintState, s32 x, s32 y);
 
 void get_screen_coords(s32 camID, f32 x, f32 y, f32 z, s32* screenX, s32* screenY, s32* screenZ);
@@ -211,7 +211,7 @@ void peach_set_disguise_anim(AnimID);
 s32 draw_box(s32 flags, void* windowStyle, s32 posX, s32 posY, s32 posZ, s32 width, s32 height, u8 opacity,
               u8 darkening, f32 scaleX, f32 scaleY, f32 rotX, f32 rotY, f32 rotZ, void (*fpDrawContents)(s32, s32, s32, s32, s32, s32, s32),
               void* drawContentsArg0, Matrix4f rotScaleMtx, s32 translateX, s32 translateY, Matrix4f outMtx);
-s32 get_msg_width(s32 msgID, u16 charset);
+s32 get_msg_width(intptr_t msgID, u16 charset);
 
 s32 partner_can_open_world_menus(void);
 s32 disable_player_static_collisions(void);
@@ -256,8 +256,8 @@ void ai_enemy_play_sound(Npc* npc, s32 arg1, s32 arg2);
 HitID player_test_move_without_slipping(PlayerStatus*, f32*, f32*, f32*, f32, f32, s32*);
 HitID player_test_move_with_slipping(PlayerStatus* playerStatus, f32* posX, f32* posY, f32* posZ, f32 speed, f32 heading);
 
-s32 evt_get_variable(Evt* script, Bytecode var);
-s32 evt_set_variable(Evt* script, Bytecode var, s32 value);
+Bytecode evt_get_variable(Evt* script, Bytecode var);
+Bytecode evt_set_variable(Evt* script, Bytecode var, s32 value);
 f32 evt_get_float_variable(Evt* script, Bytecode var);
 f32 evt_set_float_variable(Evt* script, Bytecode var, f32 value);
 s32 evt_get_variable_index(Evt* script, s32 var);
@@ -319,7 +319,7 @@ void play_model_animation(s32, s16*);
 s32 heap_free(void* ptr);
 
 void load_battle_hit_asset(const char* hitName);
-void load_data_for_models(struct ModelNode* model, s32 romOffset, s32 size);
+void load_data_for_models(struct ModelNode* model, u8* textureData, s32 size);
 void load_player_actor(void);
 
 void btl_state_update_normal_start(void);
@@ -813,7 +813,7 @@ bool is_point_visible(f32 x, f32 y, f32 z, s32 depthQueryID, f32* screenX, f32* 
 void set_screen_overlay_center_worldpos(s32 idx, s32 posIdx, s32 x, s32 y, s32 z);
 void* mdl_get_next_texture_address(s32);
 s32 cancel_current_message(void);
-void draw_msg(s32 msgID, s32 posX, s32 posY, s32 opacity, s32 palette, u8 style);
+void draw_msg(intptr_t msgID, s32 posX, s32 posY, s32 opacity, s32 palette, u8 style);
 void mdl_get_shroud_tint_params(u8* r, u8* g, u8* b, u8* a);
 
 s32 entity_base_block_idle(Entity* entity);
@@ -837,7 +837,7 @@ void func_800EF314(void);
 void func_800EF43C(void);
 void func_800EF3E4(void);
 void enable_player_shadow(void);
-s32 get_msg_lines(s32 messageID);
+s32 get_msg_lines(intptr_t messageID);
 void set_window_properties(s32 panelID, s32 posX, s32 posY, s32 width, s32 height, u8, void* drawContents, void* drawContentsArg, s8 parent);
 void set_window_update(s32 panelID, s32);
 void set_windows_visible(s32 groupIdx);
@@ -942,7 +942,7 @@ s32 get_stored_count(void);
 s32 get_item_empty_count(void);
 void shop_open_item_select_popup(s32 mode);
 void hide_coin_counter(void);
-void set_message_text_var(s32 msgID, s32 index);
+void set_message_text_var(intptr_t msgID, s32 index);
 void set_message_int_var(s32 value, s32 index);
 s32 store_item(s32 itemID);
 void open_status_bar_quickly(void);
@@ -1084,7 +1084,7 @@ void btl_update(void);
 void update_item_entities(void);
 void iterate_models(void);
 void restore_map_collision_data(void);
-void mdl_load_all_textures(struct ModelNode* model, s32 romOffset, s32 size);
+void mdl_load_all_textures(struct ModelNode* model, u8* textureData, s32 size);
 void mdl_calculate_model_sizes(void);
 
 #endif
