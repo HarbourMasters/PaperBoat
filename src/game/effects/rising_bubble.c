@@ -1,21 +1,16 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000200_356730[];
-extern Gfx D_090002E8_356818[];
-extern Gfx D_09000308_356838[];
-extern Gfx D_090003F0_356920[];
-extern Gfx D_09000410_356940[];
-extern Gfx D_09000430_356960[];
 
-Gfx* D_E0046600[] = { D_090002E8_356818 };
+const char* D_E0046600[] = { D_090002E8_356818 };
 
-Gfx* D_E0046604[] = {
+const char* D_E0046604[] = {
     D_090003F0_356920, D_09000410_356940, D_090003F0_356920, D_09000430_356960
 };
 
-Gfx* D_E0046614[] = { D_09000200_356730 };
-Gfx* D_E0046618[] = { D_09000308_356838 };
+const char* D_E0046614[] = { D_09000200_356730 };
+const char* D_E0046618[] = { D_09000308_356838 };
 
 void rising_bubble_init(EffectInstance* effect);
 void rising_bubble_update(EffectInstance* effect);
@@ -118,7 +113,7 @@ void rising_bubble_appendGfx(void* effect) {
         s32 uls;
         s32 ult;
 
-        gSPDisplayList(gMainGfxPos++, D_E0046614[0]);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0046614[0]));
         gDPSetPrimColor(gMainGfxPos++, 0, 0, 127, 127, 127, data->unk_14);
 
         uls = 0;
@@ -132,7 +127,7 @@ void rising_bubble_appendGfx(void* effect) {
         guScaleF(sp60, data->unk_10, 1.0f, data->unk_10);
         guMtxCatF(sp60, sp20, sp20);
     } else {
-        gSPDisplayList(gMainGfxPos++, D_E0046618[0]);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0046618[0]));
         gDPSetPrimColor(gMainGfxPos++, 0, 0, 255, 255, 255, data->unk_14);
         gDPSetEnvColor(gMainGfxPos++, 128, 128, 255, data->unk_14);
 
@@ -143,9 +138,9 @@ void rising_bubble_appendGfx(void* effect) {
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
 
     if (data->pos.y >= data->unk_24) {
-        gSPDisplayList(gMainGfxPos++, D_E0046600[0]);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0046600[0]));
     } else {
-        gSPDisplayList(gMainGfxPos++, D_E0046604[(lifeTime >> 1) & 3]);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0046604[(lifeTime >> 1) & 3]));
     }
 
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);

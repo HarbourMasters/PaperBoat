@@ -1,5 +1,6 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 void tattle_window_init(EffectInstance* effect);
 void tattle_window_update(EffectInstance* effect);
@@ -7,7 +8,6 @@ void tattle_window_render(EffectInstance* effect);
 void func_E00D8264(EffectInstance* effect);
 void func_E00D8630(EffectInstance* effect);
 
-extern u8 D_09000000_3D7040[];
 
 WindowStyleCustom TattleWindowStyle = {
     .background = { 0 },

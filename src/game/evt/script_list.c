@@ -7,7 +7,7 @@ f32 GlobalTimeRate = 1.0f;
 
 // script_list
 BSS u32* gMapFlags;
-BSS s32* gMapVars;
+BSS Bytecode* gMapVars;
 BSS s32 gNumScripts;
 BSS s32 D_802DA48C; // unused?
 BSS ScriptList gWorldScriptList;
@@ -82,8 +82,8 @@ BSS char D_802DBB70[0x100];
 BSS u32 gWorldMapFlags[MAX_MAPFLAGS];
 BSS s32 DoorModelsSwingCW[3];
 BSS PushBlockGrid* wPushBlockGrids[8];
-BSS u32 gWorldMapVars[MAX_MAPVARS];
-BSS u32 gBattleMapVars[MAX_MAPVARS];
+BSS Bytecode gWorldMapVars[MAX_MAPVARS];
+BSS Bytecode gBattleMapVars[MAX_MAPVARS];
 BSS s32 DoorModelsSwingCCW[3];
 BSS u32 gBattleMapFlags[MAX_MAPFLAGS];
 

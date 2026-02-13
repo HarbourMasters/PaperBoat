@@ -81,7 +81,7 @@ API_CALLABLE(N(CreateEndChapterData)) {
     if (isInitialCall) {
         data = heap_malloc(sizeof(*data));
         script->userData = data;
-        evt_set_variable(script, MV_EndChapterDataPtr, (s32) data);
+        evt_set_variable(script, MV_EndChapterDataPtr, (Bytecode) data);
         data->chapter = evt_get_variable(script, *args++);
         data->pos.x = evt_get_float_variable(script, *args++);
         data->pos.y = evt_get_float_variable(script, *args++);

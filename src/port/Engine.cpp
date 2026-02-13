@@ -24,6 +24,7 @@
 #include "factories/PM64AudioFactory.h"
 #include "factories/PM64StoryImageFactory.h"
 #include "factories/PM64MessageFactory.h"
+#include "factories/PM64EffectGfxFactory.h"
 
 namespace fs = std::filesystem;
 
@@ -73,6 +74,7 @@ static void ExtractAssets(const std::string& romPath, const std::string& outputP
     Companion::Instance->RegisterFactory("PM64:AUDIO", std::make_shared<PM64AudioFactory>());
     Companion::Instance->RegisterFactory("PM64:STORY_IMAGE", std::make_shared<PM64StoryImageFactory>());
     Companion::Instance->RegisterFactory("PM64:MESSAGE", std::make_shared<PM64MessageFactory>());
+    Companion::Instance->RegisterFactory("PM64:EFFECT_GFX", std::make_shared<PM64EffectGfxFactory>());
 
     Companion::Instance->Init(ExportType::Binary);
 }
@@ -130,8 +132,12 @@ GameEngine::GameEngine() {
     auto loader = context->GetResourceManager()->GetResourceLoader();
     loader->RegisterResourceFactory(std::make_shared<Ship::ResourceFactoryBinaryBlobV0>(), RESOURCE_FORMAT_BINARY,
                                     "Blob", static_cast<uint32_t>(Ship::ResourceType::Blob), 0);
+
+    // TODO: Use v0 or v1 factory
     loader->RegisterResourceFactory(std::make_shared<PM64::ResourceFactoryBinaryTextureV0>(), RESOURCE_FORMAT_BINARY,
                                     "Texture", static_cast<uint32_t>(Fast::ResourceType::Texture), 0);
+    loader->RegisterResourceFactory(std::make_shared<Fast::ResourceFactoryBinaryTextureV1>(), RESOURCE_FORMAT_BINARY,
+                                    "Texture", static_cast<uint32_t>(Fast::ResourceType::Texture), 1);
     loader->RegisterResourceFactory(std::make_shared<Fast::ResourceFactoryBinaryDisplayListV0>(), RESOURCE_FORMAT_BINARY,
                                     "DisplayList", static_cast<uint32_t>(Fast::ResourceType::DisplayList), 0);
     loader->RegisterResourceFactory(std::make_shared<Fast::ResourceFactoryBinaryVertexV0>(), RESOURCE_FORMAT_BINARY,
@@ -314,6 +320,13 @@ static const char* sOtrSignature = "__OTR__";
 
 extern "C" uint8_t GameEngine_OTRSigCheck(const char* data) {
     if (data == nullptr) {
+        return 0;
+    }
+    // Guard against small integers masquerading as pointers.
+    // This happens when N64 code computes addresses from NULL-based buffers
+    // (e.g. nuGfxZBuffer is NULL on the port, so &nuGfxZBuffer[offset] yields
+    // a small integer that would crash strncmp).
+    if ((uintptr_t)data < 0x10000) {
         return 0;
     }
     return strncmp(data, sOtrSignature, strlen(sOtrSignature)) == 0;

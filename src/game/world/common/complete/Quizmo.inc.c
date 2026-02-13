@@ -41,7 +41,7 @@ BSS s32 N(Quizmo_Worker);
 #ifndef QUIZMO_PRE_STATIC_PAD
 MAP_STATIC_PAD(1,quizmo_pre_array);
 #endif
-BSS s32 N(Quizmo_ScriptArray)[5];
+BSS Bytecode N(Quizmo_ScriptArray)[5];
 MAP_STATIC_PAD(1,quizmo_post_array);
 BSS EffectInstance* N(Quizmo_StageEffect);
 BSS EffectInstance* N(Quizmo_AudienceEffect);

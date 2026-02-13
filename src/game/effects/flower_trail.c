@@ -1,8 +1,7 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000E20_32DCE0[];
-extern Gfx D_09000E38_32DCF8[];
 
 void flower_trail_init(EffectInstance* effect);
 void flower_trail_update(EffectInstance* effect);
@@ -161,7 +160,7 @@ void flower_trail_dispose(EffectInstance* effect) {
 void flower_trail_appendGfx(void* argEffect) {
     EffectInstance* effect = argEffect;
     FlowerFXData* part = effect->data.flowerTrail;
-    Gfx* dlist;
+    const char* dlist;
     s32 i;
 
     gDPPipeSync(gMainGfxPos++);
@@ -181,7 +180,7 @@ void flower_trail_appendGfx(void* argEffect) {
             gDPSetPrimColor(gMainGfxPos++, 0, 0, 112, 96, 24, part->primAlpha);
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
                         G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, dlist);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
     }

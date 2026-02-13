@@ -59,7 +59,7 @@ enum {
 };
 
 API_CALLABLE(N(CreatePhonographData)) {
-    evt_set_variable(script, MV_PhonographDataPtr, (s32) heap_malloc(sizeof(PhonographData)));
+    evt_set_variable(script, MV_PhonographDataPtr, (Bytecode) heap_malloc(sizeof(PhonographData)));
     return ApiStatus_DONE2;
 }
 

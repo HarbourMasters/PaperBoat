@@ -1,22 +1,9 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Vtx D_09002D40_3ADD70[][6]; // TODO confirm this type is correct
-extern Gfx D_09003880_3AE8B0[];
-extern Gfx D_090038F8_3AE928[];
-extern Gfx D_09003968_3AE998[];
-extern Gfx D_090039D8_3AEA08[];
-extern Gfx D_09003A48_3AEA78[];
-extern Gfx D_09003AB8_3AEAE8[];
-extern Gfx D_09003B28_3AEB58[];
-extern Gfx D_09003B98_3AEBC8[];
-extern Gfx D_09003C08_3AEC38[];
-extern Gfx D_09003C78_3AECA8[];
-extern Gfx D_09003CE8_3AED18[];
-extern Gfx D_09003D58_3AED88[];
-extern Gfx D_09003DC8_3AEDF8[];
 
-Gfx* D_E00AA6C0[11] = {
+const char* D_E00AA6C0[11] = {
     D_090038F8_3AE928, D_09003968_3AE998, D_090039D8_3AEA08, D_09003A48_3AEA78, D_09003AB8_3AEAE8, D_09003B28_3AEB58, D_09003B98_3AEBC8, D_09003C08_3AEC38, D_09003C78_3AECA8, D_09003CE8_3AED18, D_09003D58_3AED88
 };
 
@@ -181,10 +168,10 @@ void butterflies_appendGfx(void* effect) {
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(gMainGfxPos++, 0, 0, primColor, primColor, primColor, 255);
-    gSPDisplayList(gMainGfxPos++, D_09003880_3AE8B0);
-    gSPDisplayList(gMainGfxPos++, D_E00AA6C0[type]);
-    gSPVertex(gMainGfxPos++, &D_09002D40_3ADD70[data->unk_2C], 6, 0);
-    gSPDisplayList(gMainGfxPos++, D_09003DC8_3AEDF8);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09003880_3AE8B0));
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00AA6C0[type]));
+    gSPVertex(gMainGfxPos++, LOAD_ASSET(D_09002D40_3ADD70[data->unk_2C]), 6, 0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09003DC8_3AEDF8));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     gDPPipeSync(gMainGfxPos++);
 }

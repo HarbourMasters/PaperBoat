@@ -1,19 +1,26 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000218_398DD8[];
-extern Gfx D_09001518_39A0D8[];
-extern Mtx D_09004148_39CD08[];
-extern Gfx D_09006D48_39F908[];
-extern Gfx D_09006DA0_39F960[];
-extern Gfx D_09006E28_39F9E8[];
-extern Gfx D_09006F20_39FAE0[];
-extern Gfx D_09006FB0_39FB70[];
-extern Gfx D_09006FD8_39FB98[];
-extern Gfx D_09007030_39FBF0[];
-extern Gfx D_09007090_39FC50[];
-extern Gfx D_090070E8_39FCA8[];
-extern Gfx D_09007230_39FDF0[];
+// Matrix data originally from effects/gfx/quizmo_stage.c (not a display list)
+char D_09004148_39CD08[] = {
+    0x0, 0x0, 0xFF, 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+    0x0, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0, 0xFF, 0x83, 0x0, 0x0, 0x0, 0x41, 0x0, 0x1,
+    0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+    0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+    0x0, 0x0, 0x0, 0x1, 0x0, 0x0, 0x0, 0x0, 0xFF, 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+    0x0, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0, 0x0, 0x7D, 0x0, 0x0, 0x0, 0x41, 0x0, 0x1,
+    0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+    0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+    0x0, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xFF, 0xFF, 0x0, 0x0, 0x0, 0x0,
+    0x0, 0x0, 0x0, 0x0, 0xFF, 0xFF, 0x0, 0x0, 0x0, 0x7D, 0x0, 0x0, 0xFF, 0xAB, 0x0, 0x1,
+    0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+    0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+    0x0, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xFF, 0xFF, 0x0, 0x0,
+    0x0, 0x0, 0x0, 0x1, 0x0, 0x0, 0x0, 0x0, 0xFF, 0xCE, 0x0, 0x0, 0x0, 0xA, 0x0, 0x1,
+    0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+    0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0
+};
 
 void quizmo_stage_init(EffectInstance* effect);
 void quizmo_stage_update(EffectInstance* effect);
@@ -122,7 +129,7 @@ void quizmo_stage_appendGfx(void* effect) {
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(gMainGfxPos++, 0, 0, microphoneRaiseAmt, microphoneRaiseAmt, microphoneRaiseAmt, 255);
     gDPSetCombineMode(gMainGfxPos++, G_CC_MODULATEIA, PM_CC2_MULTIPLY_PRIM);
-    gSPDisplayList(gMainGfxPos++, D_09007230_39FDF0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09007230_39FDF0));
 
     if (data->unk_3C != 255) {
         gSPMatrix(gMainGfxPos++, &D_09004148_39CD08[2], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
@@ -131,10 +138,10 @@ void quizmo_stage_appendGfx(void* effect) {
         guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
 
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, D_09006E28_39F9E8);
-        gSPDisplayList(gMainGfxPos++, D_09001518_39A0D8);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09006E28_39F9E8));
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09001518_39A0D8));
         gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, data->lightScrollAmt, 0, data->lightScrollAmt + 252, 60);
-        gSPDisplayList(gMainGfxPos++, D_09006DA0_39F960);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09006DA0_39F960));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         gSPMatrix(gMainGfxPos++, &D_09004148_39CD08[0], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
 
@@ -142,7 +149,7 @@ void quizmo_stage_appendGfx(void* effect) {
         guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
 
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, D_09006FB0_39FB70);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09006FB0_39FB70));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         gSPMatrix(gMainGfxPos++, &D_09004148_39CD08[1], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
 
@@ -150,23 +157,23 @@ void quizmo_stage_appendGfx(void* effect) {
         guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
 
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, D_09006F20_39FAE0);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09006F20_39FAE0));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, D_090070E8_39FCA8);
-        gSPDisplayList(gMainGfxPos++, D_09007030_39FBF0);
-        gSPDisplayList(gMainGfxPos++, D_09001518_39A0D8);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090070E8_39FCA8));
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09007030_39FBF0));
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09001518_39A0D8));
         gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, data->lightScrollAmt, 0, data->lightScrollAmt + 252, 60);
-        gSPDisplayList(gMainGfxPos++, D_09006FD8_39FB98);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09006FD8_39FB98));
         gSPMatrix(gMainGfxPos++, &D_09004148_39CD08[3], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
 
         guRotateF(sp18, 90 - (data->podiumRaiseAmt * 90) / 255, 1.0f, 0.0f, 0.0f);
         guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
 
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, D_09006D48_39F908);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09006D48_39F908));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, D_09000218_398DD8);
-        gSPDisplayList(gMainGfxPos++, D_09007090_39FC50);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000218_398DD8));
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09007090_39FC50));
     }
 
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);

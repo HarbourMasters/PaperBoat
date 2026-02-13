@@ -1,21 +1,10 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09001500_3918D0[];
-extern Gfx D_090015A8_391978[];
-extern Gfx D_09001610_3919E0[];
-extern Gfx D_09001658_391A28[];
-extern Gfx D_090016A0_391A70[];
-extern Gfx D_090016E8_391AB8[];
-extern Gfx D_09001730_391B00[];
-extern Gfx D_090018B8_391C88[];
-extern Gfx D_090018D8_391CA8[];
-extern Gfx D_090018F8_391CC8[];
-extern Gfx D_09001918_391CE8[];
-extern Gfx D_09001938_391D08[];
 
-Gfx* D_E0090A40[5] = { D_09001658_391A28, D_09001610_3919E0, D_090016A0_391A70, D_090016E8_391AB8, D_09001730_391B00 };
-Gfx* D_E0090A54[5] = { D_090018D8_391CA8, D_090018B8_391C88, D_090018F8_391CC8, D_09001918_391CE8, D_09001938_391D08 };
+const char* D_E0090A40[5] = { D_09001658_391A28, D_09001610_3919E0, D_090016A0_391A70, D_090016E8_391AB8, D_09001730_391B00 };
+const char* D_E0090A54[5] = { D_090018D8_391CA8, D_090018B8_391C88, D_090018F8_391CC8, D_09001918_391CE8, D_09001938_391D08 };
 
 u8 D_E0090A68[8] = { 10, 40, 80, 120, 125, 100, 90, 100 };
 u8 D_E0090A70[8] = { 60, 80, 100, 110, 112, 95, 100, 0 };
@@ -201,16 +190,16 @@ void func_E0090444(EffectInstance* effect) {
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
                       G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetPrimColor(gMainGfxPos++, 0, 0, 255, 255, 255, data->alpha);
-            gSPDisplayList(gMainGfxPos++, D_090015A8_391978);
-            gSPDisplayList(gMainGfxPos++, D_E0090A40[data->unk_04]);
-            gSPDisplayList(gMainGfxPos++, D_E0090A54[data->unk_04]);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090015A8_391978));
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0090A40[data->unk_04]));
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0090A54[data->unk_04]));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         } else {
             type -= 5;
             gDPSetPrimColor(gMainGfxPos++, 0, 0, D_E0090A78[type][0], D_E0090A78[type][1], D_E0090A78[type][2], data->alpha);
             gDPSetEnvColor(gMainGfxPos++, D_E0090A78[type][3], D_E0090A78[type][4], D_E0090A78[type][5], 0);
-            gSPDisplayList(gMainGfxPos++, D_09001500_3918D0);
-            gSPDisplayList(gMainGfxPos++, D_E0090A40[data->unk_04]);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09001500_3918D0));
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0090A40[data->unk_04]));
 
             gSPScisTextureRectangle(gMainGfxPos++,
                 data->pos.x * 4.0f,

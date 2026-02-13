@@ -1,15 +1,13 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09002950_32B7F0[];
-extern Gfx D_09002B60_32BA00[];
-extern Gfx D_09002C60_32BB00[];
 
-Gfx* D_E004E5E0[] = {
+const char* D_E004E5E0[] = {
     D_09002B60_32BA00, D_09002C60_32BB00, D_09002B60_32BA00
 };
 
-Gfx* D_E004E5EC[] = {
+const char* D_E004E5EC[] = {
     D_09002950_32B7F0, D_09002950_32B7F0, D_09002950_32B7F0
 };
 
@@ -104,14 +102,14 @@ void smoke_burst_appendGfx(void* effect) {
     s32 envAlpha = (data->unk_20 - unk_20_s32) * 256.0f;
     s32 cond = (unk_20_s32 == 7);
     s32 temp_a1;
-    Gfx* dlist = D_E004E5E0[data->unk_00];
-    Gfx* dlist2 = D_E004E5EC[0];
+    const char* dlist = D_E004E5E0[data->unk_00];
+    const char* dlist2 = D_E004E5EC[0];
     Matrix4f sp20;
     Matrix4f sp60;
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, dlist2);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist2));
 
     guPositionF(sp20, 0.0f, -gCameras[gCurrentCameraID].curYaw, 0.0f, data->unk_10, data->pos.x, data->pos.y, data->pos.z);
     guRotateF(sp60, 20.0f, 0.0f, 0.0f, 1.0f);
@@ -138,7 +136,7 @@ void smoke_burst_appendGfx(void* effect) {
             (temp_a1 + 31) * 4, 31 * 4);
     }
 
-    gSPDisplayList(gMainGfxPos++, dlist);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
     gDPSetAlphaCompare(gMainGfxPos++, G_AC_NONE);
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }

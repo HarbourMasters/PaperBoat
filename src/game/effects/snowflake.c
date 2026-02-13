@@ -1,10 +1,9 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 s32 D_E001C5E0 = 0;
 
-extern Gfx D_09000900_331800[];
-extern Gfx D_090009E8_3318E8[];
 
 void snowflake_init(EffectInstance* effect);
 void snowflake_update(EffectInstance* effect);
@@ -124,7 +123,7 @@ void snowflake_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(effectTemp->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, D_09000900_331800);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000900_331800));
 
     guTranslateF(sp18, data->pos.x, data->pos.y, data->pos.z);
     guRotateF(spD8, -gCameras[gCurrentCameraID].curYaw, 0.0f, 1.0f, 0.0f);
@@ -140,7 +139,7 @@ void snowflake_appendGfx(void* effect) {
     guMtxF2L(sp118, &gDisplayContext->matrixStack[gMatrixListPos]);
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gSPDisplayList(gMainGfxPos++, D_090009E8_3318E8);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090009E8_3318E8));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }

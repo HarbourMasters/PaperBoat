@@ -1,20 +1,16 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 void breaking_junk_init(EffectInstance* effect);
 void breaking_junk_update(EffectInstance* effect);
 void breaking_junk_render(EffectInstance* effect);
 void breaking_junk_appendGfx(void* effect);
 
-extern Gfx D_09000400_403FF0[];
-extern Gfx D_090005A8_404198[];
-extern Gfx D_090005C8_4041B8[];
-extern Gfx D_090005E8_4041D8[];
-extern Gfx D_09000608_4041F8[];
 
-Gfx* D_E01187B0[] = { D_090005A8_404198, D_090005C8_4041B8, D_090005E8_4041D8, D_09000608_4041F8 };
+const char* D_E01187B0[] = { D_090005A8_404198, D_090005C8_4041B8, D_090005E8_4041D8, D_09000608_4041F8 };
 
-Gfx* D_E01187C0[] = { D_09000400_403FF0 };
+const char* D_E01187C0[] = { D_09000400_403FF0 };
 
 EffectInstance* breaking_junk_main(s32 arg0, f32 x, f32 y, f32 z, f32 scale, s32 time) {
     EffectBlueprint bp;
@@ -139,7 +135,7 @@ void breaking_junk_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, D_E01187C0[0]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E01187C0[0]));
 
     for (i = 0; i < ((EffectInstance*)effect)->numParts; i++, data++) {
         guPositionF(sp20, 0.0f, -gCameras[gCurrentCameraID].curYaw, 0.0f, data->scale * 0.5, data->pos.x, data->pos.y, data->pos.z);
@@ -149,7 +145,7 @@ void breaking_junk_appendGfx(void* effect) {
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetPrimColor(gMainGfxPos++, 0, 0, data->primR, data->primG, data->primB, alpha);
         gDPSetEnvColor(gMainGfxPos++, data->envR, data->envG, data->envB, data->envA);
-        gSPDisplayList(gMainGfxPos++, D_E01187B0[(u32)i % ARRAY_COUNT(D_E01187B0)]);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E01187B0[(u32)i % ARRAY_COUNT(D_E01187B0)]));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 

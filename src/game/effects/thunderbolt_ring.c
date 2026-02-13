@@ -1,8 +1,7 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000000_3B46A0[];
-extern Gfx D_090000C8_3B4768[];
 
 void thunderbolt_ring_init(EffectInstance* effect);
 void thunderbolt_ring_update(EffectInstance* effect);
@@ -114,7 +113,7 @@ void thunderbolt_ring_appendGfx(void* effect) {
     guMtxF2L(sp20, &gDisplayContext->matrixStack[gMatrixListPos]);
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gMainGfxPos++, D_09000000_3B46A0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000000_3B46A0));
 
     savedGfxPos = gMainGfxPos++;
     savedGfxPos2 = gMainGfxPos;
@@ -128,7 +127,7 @@ void thunderbolt_ring_appendGfx(void* effect) {
         guMtxF2L(sp20, &gDisplayContext->matrixStack[gMatrixListPos]);
 
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, D_090000C8_3B4768);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090000C8_3B4768));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 

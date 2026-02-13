@@ -1,9 +1,7 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09002950_32B7F0[];
-extern Gfx D_09002B40_32B9E0[];
-extern Gfx D_09002B60_32BA00[];
 
 s8 D_E002E740[] = {
     0,  1, 2, 26,  3, 27,  4,  28,
@@ -124,7 +122,7 @@ void smoke_ring_appendGfx(void* effect) {
     s32 envAlpha = (part->unk_40 & 0x38) * 4;
     s32 spD8 = part->unk_40 & 0x40;
     s32 temp_a3;
-    Gfx* dlist;
+    const char* dlist;
     Matrix4f sp18;
     Matrix4f sp58;
     Matrix4f sp98;
@@ -138,7 +136,7 @@ void smoke_ring_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, D_09002950_32B7F0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09002950_32B7F0));
 
     guTranslateF(sp18, part->unk_04, part->unk_08, part->unk_0C);
     guRotateF(sp58, -gCameras[gCurrentCameraID].curYaw, 0.0f, 1.0f, 0.0f);
@@ -170,7 +168,7 @@ void smoke_ring_appendGfx(void* effect) {
         guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
 
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, dlist);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 

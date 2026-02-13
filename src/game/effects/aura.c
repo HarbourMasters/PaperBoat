@@ -1,47 +1,37 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09002000_379F80[];
-extern Gfx D_090020E8_37A068[];
-extern Gfx D_090021D0_37A150[];
-extern Gfx D_090023B0_37A330[];
-extern Gfx D_090023C8_37A348[];
-extern Gfx D_090023E0_37A360[];
-extern Gfx D_090023F8_37A378[];
-extern Gfx D_09002410_37A390[];
-extern Gfx D_09002428_37A3A8[];
-extern Gfx D_09002440_37A3C0[];
-extern Gfx D_09002458_37A3D8[];
 
-Gfx* D_E0076E90[] = {
+const char* D_E0076E90[] = {
     [FX_AURA_CAPTURE]   D_090023E0_37A360,
     [FX_AURA_RED]       D_090023E0_37A360,
     [FX_AURA_BLUE]      D_09002440_37A3C0,
     [FX_AURA_GOLD]      D_09002440_37A3C0
 };
 
-Gfx* D_E0076EA0[] = {
+const char* D_E0076EA0[] = {
     [FX_AURA_CAPTURE]   D_090023F8_37A378,
     [FX_AURA_RED]       D_090023F8_37A378,
     [FX_AURA_BLUE]      D_09002458_37A3D8,
     [FX_AURA_GOLD]      D_09002458_37A3D8
 };
 
-Gfx* D_E0076EB0[] = {
+const char* D_E0076EB0[] = {
     [FX_AURA_CAPTURE]   D_090023B0_37A330,
     [FX_AURA_RED]       D_090023B0_37A330,
     [FX_AURA_BLUE]      D_09002410_37A390,
     [FX_AURA_GOLD]      D_09002410_37A390
 };
 
-Gfx* D_E0076EC0[] = {
+const char* D_E0076EC0[] = {
     [FX_AURA_CAPTURE]   D_090023C8_37A348,
     [FX_AURA_RED]       D_090023C8_37A348,
     [FX_AURA_BLUE]      D_09002428_37A3A8,
     [FX_AURA_GOLD]      D_09002428_37A3A8
 };
 
-Gfx* D_E0076ED0[] = {
+const char* D_E0076ED0[] = {
     [FX_AURA_CAPTURE]   D_09002000_379F80,
     [FX_AURA_RED]       D_09002000_379F80,
     [FX_AURA_BLUE]      D_090020E8_37A068,
@@ -301,7 +291,7 @@ void aura_appendGfx(void* argEffect) {
     s32 v1, v2;
 
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(effect->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, D_E0076ED0[type]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0076ED0[type]));
 
     guTranslateF(translateMtx, data->posB.x, data->posB.y, data->posB.z);
     if (type == FX_AURA_BLUE) {
@@ -319,7 +309,7 @@ void aura_appendGfx(void* argEffect) {
     guMtxF2L(transformMtx, &gDisplayContext->matrixStack[gMatrixListPos]);
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gMainGfxPos++, D_E0076EC0[type]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0076EC0[type]));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 
     guTranslateF(translateMtx, data->posA.x, data->posA.y, data->posA.z);
@@ -338,7 +328,7 @@ void aura_appendGfx(void* argEffect) {
     guMtxF2L(transformMtx, &gDisplayContext->matrixStack[gMatrixListPos]);
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gMainGfxPos++, D_E0076EB0[type]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0076EB0[type]));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 
     gDPSetPrimColor(gMainGfxPos++, 0, 0, data->primR, data->primG, data->primB, primA);
@@ -348,12 +338,12 @@ void aura_appendGfx(void* argEffect) {
     v2 = data->unk_40 * 4.0f;
 
     gDPSetTileSize(gMainGfxPos++, 1, v1, v2, v1 + 124, v2 + 508);
-    gSPDisplayList(gMainGfxPos++, D_E0076E90[type]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0076E90[type]));
 
     v1 = data->unk_4C * 4.0f;
     v2 = data->unk_58 * 4.0f;
 
     gDPSetTileSize(gMainGfxPos++, 1, v1 + 30, v2 + 30, v1 + 282, v2 + 538);
-    gSPDisplayList(gMainGfxPos++, D_E0076EA0[type]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0076EA0[type]));
     gDPPipeSync(gMainGfxPos++);
 }

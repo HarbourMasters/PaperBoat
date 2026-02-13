@@ -294,7 +294,7 @@ API_CALLABLE(ShowSleepBubble) {
     }
 
     fx_sleep_bubble(type, x, y, z, r, pitch, &effectHandle);
-    evt_set_variable(script, outVar, (s32)effectHandle);
+    evt_set_variable(script, outVar, (Bytecode)effectHandle);
     return ApiStatus_DONE2;
 }
 
@@ -411,7 +411,7 @@ API_CALLABLE(PlayEffect_impl) {
             break;
         case EFFECT_EMOTE:
             fx_emote(iVar1, (Npc*) a2, fVar3, fVar4, fVar5, fVar6, fVar7, iVar8, &sp30);
-            evt_set_variable(script, a8, (s32) sp30);
+            evt_set_variable(script, a8, (Bytecode) sp30);
             break;
         case EFFECT_SPARKLES:
             fx_sparkles(iVar1, fVar2, fVar3, fVar4, fVar5);
@@ -445,7 +445,7 @@ API_CALLABLE(PlayEffect_impl) {
             break;
         case EFFECT_GOT_ITEM_OUTLINE:
             fx_got_item_outline(iVar1, fVar2, fVar3, fVar4, fVar5, &sp34);
-            evt_set_variable(script, a6, (s32) sp34);
+            evt_set_variable(script, a6, (Bytecode) sp34);
             break;
         case EFFECT_SPIKY_WHITE_AURA:
             fx_spiky_white_aura(iVar1, fVar2, fVar3, fVar4, iVar5);
@@ -455,7 +455,7 @@ API_CALLABLE(PlayEffect_impl) {
             break;
         case EFFECT_DAMAGE_INDICATOR:
             fx_damage_indicator(iVar1, fVar2, fVar3, fVar4, fVar5, fVar6, iVar7, &sp30);
-            evt_set_variable(script, a8, (s32) sp30);
+            evt_set_variable(script, a8, (Bytecode) sp30);
             break;
         case EFFECT_PURPLE_RING:
             fx_purple_ring(iVar1, fVar2, fVar3, fVar4, fVar5, fVar6, fVar7, fVar8);
@@ -486,14 +486,14 @@ API_CALLABLE(PlayEffect_impl) {
             break;
         case EFFECT_SLEEP_BUBBLE:
             fx_sleep_bubble(iVar1, fVar2, fVar3, fVar4, fVar5, fVar6, &sp38);
-            evt_set_variable(script, a7, (s32) sp38);
+            evt_set_variable(script, a7, (Bytecode) sp38);
             break;
         case EFFECT_WINDY_LEAVES:
             fx_windy_leaves(iVar1, fVar2, fVar3, fVar4);
             break;
         case EFFECT_FLAME:
             fx_flame(iVar1, fVar2, fVar3, fVar4, fVar5, &sp34);
-            evt_set_variable(script, a6, (s32) sp34);
+            evt_set_variable(script, a6, (Bytecode) sp34);
             break;
         case EFFECT_FALLING_LEAVES:
             fx_falling_leaves(iVar1, fVar2, fVar3, fVar4);
@@ -506,7 +506,7 @@ API_CALLABLE(PlayEffect_impl) {
             break;
         case EFFECT_STARS_ORBITING:
             fx_stars_orbiting(iVar1, fVar2, fVar3, fVar4, fVar5, iVar6, &sp38);
-            evt_set_variable(script, a7, (s32) sp38);
+            evt_set_variable(script, a7, (Bytecode) sp38);
             break;
         case EFFECT_BIG_SNOWFLAKES:
             fx_big_snowflakes(iVar1, fVar2, fVar3, fVar4);
@@ -522,11 +522,11 @@ API_CALLABLE(PlayEffect_impl) {
             break;
         case EFFECT_ENDING_DECALS:
             fx_ending_decals(iVar1, fVar2, fVar3, fVar4, fVar5, &sp34);
-            evt_set_variable(script, a6, (s32) sp34);
+            evt_set_variable(script, a6, (Bytecode) sp34);
             break;
         case EFFECT_LIGHT_RAYS:
             fx_light_rays(iVar1, fVar2, fVar3, fVar4, fVar5, &sp34);
-            evt_set_variable(script, a6, (s32) sp34);
+            evt_set_variable(script, a6, (Bytecode) sp34);
             break;
         case EFFECT_LIGHTNING:
             effectRet = fx_lightning(iVar1, fVar2, fVar3, fVar4, fVar5, fVar6);
@@ -545,15 +545,15 @@ API_CALLABLE(PlayEffect_impl) {
             break;
         case EFFECT_AURA:
             fx_aura(iVar1, fVar2, fVar3, fVar4, fVar5, &sp34);
-            evt_set_variable(script, a6, (s32) sp34);
+            evt_set_variable(script, a6, (Bytecode) sp34);
             break;
         case EFFECT_BULB_GLOW:
             fx_bulb_glow(iVar1, fVar2, fVar3, fVar4, fVar5, &sp34);
-            evt_set_variable(script, a6, (s32) sp34);
+            evt_set_variable(script, a6, (Bytecode) sp34);
             break;
         case EFFECT_3D:
             fx_effect_3D(iVar1, fVar2, fVar3, fVar4, fVar5, fVar6, fVar7, iVar8, &sp3C);
-            evt_set_variable(script, a9, (s32) sp3C);
+            evt_set_variable(script, a9, (Bytecode) sp3C);
             break;
         case EFFECT_BLAST:
             fx_blast(iVar1, fVar2, fVar3, fVar4, fVar5, iVar6);
@@ -767,7 +767,7 @@ API_CALLABLE(PlayEffect_impl) {
     }
 
     if (effectRet != nullptr) {
-        evt_set_variable(script, LVarF, (s32) effectRet);
+        evt_set_variable(script, LVarF, (Bytecode) effectRet);
     }
 
     return ApiStatus_DONE2;

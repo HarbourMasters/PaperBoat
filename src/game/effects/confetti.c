@@ -1,16 +1,14 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 void confetti_init(EffectInstance* effect);
 void confetti_update(EffectInstance* effect);
 void confetti_render(EffectInstance* effect);
 void confetti_appendGfx(void* effect);
 
-extern Gfx D_090009E8_38C588[];
-extern Gfx D_09000A00_38C5A0[];
-extern Gfx D_09000940_38C4E0[];
 
-Gfx* D_E0088CC0[] = {
+const char* D_E0088CC0[] = {
     D_090009E8_38C588, D_090009E8_38C588, D_090009E8_38C588, D_09000A00_38C5A0,
     D_090009E8_38C588, D_090009E8_38C588, D_090009E8_38C588
 };
@@ -255,7 +253,7 @@ void confetti_appendGfx(void* effect) {
     s32 ulx = 0;
     s32 unk_28;
     s32 unk_2C;
-    Gfx* spA0;
+    const char* spA0;
     s32 spA4;
     Gfx* savedGfxPos;
     s32 unk_24;
@@ -268,7 +266,7 @@ void confetti_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, D_09000940_38C4E0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000940_38C4E0));
 
     guTranslateF(sp18, part->unk_04, part->unk_08, part->unk_0C);
     guRotateF(sp58, -gCameras[gCurrentCameraID].curYaw, 0.0f, 1.0f, 0.0f);
@@ -304,7 +302,7 @@ void confetti_appendGfx(void* effect) {
             gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, ulx << 2, uly << 2,
                            (ulx << 2) + ((width >> 1) << 1), (uly << 2) + height);
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, spA0);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(spA0));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
     }

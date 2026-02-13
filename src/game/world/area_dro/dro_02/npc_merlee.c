@@ -18,7 +18,7 @@ BSS Evt* N(CreatorScript);
 
 // this buffer is used as an array in scripts managaing the ritual scene
 // values are enumerated below
-BSS s32 N(RitualBuffer)[16];
+BSS Bytecode N(RitualBuffer)[16];
 
 enum {
     RITUAL_VAR_SHUFFLE_IMGFX    = ArrayVar(0),

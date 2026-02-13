@@ -1,12 +1,10 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09001910_3E4270[];
-extern Gfx D_09001A00_3E4360[];
-extern Gfx D_09001A20_3E4380[];
 
-Gfx* D_E00EAA50[2] = { D_09001A00_3E4360, D_09001A20_3E4380 };
-Gfx* D_E00EAA58[2] = { D_09001910_3E4270, nullptr };
+const char* D_E00EAA50[2] = { D_09001A00_3E4360, D_09001A20_3E4380 };
+const char* D_E00EAA58[2] = { D_09001910_3E4270, nullptr };
 
 void effect_75_init(EffectInstance* effect);
 void effect_75_update(EffectInstance* effect);
@@ -216,9 +214,9 @@ void effect_75_appendGfx(void* effect) {
     gSPMatrix(gMainGfxPos++, camera->mtxBillboard, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
     gDPSetPrimColor(gMainGfxPos++, 0, 0, data->primCol.r, data->primCol.g, data->primCol.b, data->unk_34);
     gDPSetEnvColor(gMainGfxPos++, data->envCol.r, data->envCol.g, data->envCol.b, data->unk_24 * data->masterAlpha / 255);
-    gSPDisplayList(gMainGfxPos++, D_E00EAA58[0]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00EAA58[0]));
     gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, uls0, ult0, uls0 + 252, ult0 + 252);
     gDPSetTileSize(gMainGfxPos++, 1, uls1, ult1, uls1 + 252, ult1 + 252);
-    gSPDisplayList(gMainGfxPos++, D_E00EAA50[type]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00EAA50[type]));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }

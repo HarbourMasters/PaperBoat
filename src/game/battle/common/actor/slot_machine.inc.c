@@ -10,7 +10,7 @@ extern EvtScript N(EVS_TakeTurn);
 extern EvtScript N(EVS_HandleEvent);
 
 // data pertaining to the slot machine itself is stored here, where all the interactable block actors can access it
-BSS s32 N(SharedSlotMachineData)[10];
+BSS Bytecode N(SharedSlotMachineData)[11];
 
 #define BUF_GameState   ArrayVar(1)
 // current state for each reel

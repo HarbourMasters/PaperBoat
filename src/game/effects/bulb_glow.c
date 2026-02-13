@@ -1,6 +1,7 @@
 #include "common.h"
 #include "nu/nusys.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 typedef struct UnkBulbGlow {
     /* 0x00 */ s32 unk_00;
@@ -11,13 +12,8 @@ typedef struct UnkBulbGlow {
     /* 0x14 */ s32 unk_14;
 } UnkBulbGlow; // size = 0x18
 
-extern Gfx D_09001400_37C1D0[];
-extern Gfx D_090014B8_37C288[];
-extern Gfx D_09001570_37C340[];
-extern Gfx D_09001618_37C3E8[];
-extern Gfx D_090016C0_37C490[];
 
-Gfx* D_E0078900[] = {
+const char* D_E0078900[] = {
     D_09001400_37C1D0, D_090014B8_37C288, D_09001570_37C340, D_09001618_37C3E8, D_090016C0_37C490, D_09001570_37C340
 };
 
@@ -199,7 +195,7 @@ void bulb_glow_appendGfx(void* effect) {
         return;
     }
 
-    gSPDisplayList(gMainGfxPos++, D_E0078900[type]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0078900[type]));
     color = &D_E00789AC[data->unk_20];
     colorScale = brightness * 2;
     r = color->r * colorScale / 255;

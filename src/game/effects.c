@@ -100,10 +100,10 @@ void update_effects(void) {
                     if (sharedData->freeDelay != 0) {
                         sharedData->freeDelay--;
                     } else {
-                        if (sharedData->graphics != nullptr) {
+                        if (sharedData->graphics != nullptr && sharedData->graphics != (void*)1) {
                             general_heap_free(sharedData->graphics);
-                            sharedData->graphics = nullptr;
                         }
+                        sharedData->graphics = nullptr;
                         sharedData->flags = 0;
                         osUnmapTLB(i);
                     }
@@ -221,6 +221,19 @@ EffectInstance* create_effect_instance(EffectBlueprint* effectBp) {
         sharedData++;
     }
 
+    // On N64, the TLB miss handler transparently loaded effect overlays on first access.
+    // On the port all code is statically linked, so we lazy-load here instead.
+    if (i >= ARRAY_COUNT(gEffectSharedData)) {
+        load_effect(effectBp->effectID);
+        sharedData = &gEffectSharedData[0];
+        for (i = 0; i < ARRAY_COUNT(gEffectSharedData); i++) {
+            if ((sharedData->flags & FX_SHARED_DATA_LOADED) && (sharedData->effectIndex == effectBp->effectID)) {
+                break;
+            }
+            sharedData++;
+        }
+    }
+
     ASSERT(i < ARRAY_COUNT(gEffectSharedData));
 
     // If this is the first new instance of the effect, initialize the function pointers
@@ -327,49 +340,14 @@ s32 load_effect(s32 effectIndex) {
     // Map space for the effect
     osMapTLB(i, OS_PM_4K, effectEntry->dmaDest, (s32)(gEffectDataBuffer[i]) & 0xFFFFFF, -1, -1);
 
-    // Copy the effect into the newly mapped space
-    dma_copy(effectEntry->dmaStart, effectEntry->dmaEnd, effectEntry->dmaDest);
+    // Copy the effect into the newly mapped space which
+    // in the port is already included in the effects' c files
+    // dma_copy(effectEntry->dmaStart, effectEntry->dmaEnd, effectEntry->dmaDest);
 
-    // If there's graphics data for the effect, allocate space and copy into the new space
+    // Effect graphics are loaded on-demand via OTR asset system.
+    // Set a sentinel so code knows graphics are available but not heap-allocated.
     if (effectEntry->graphicsDmaStart != nullptr) {
-        void* graphics = general_heap_malloc(effectEntry->graphicsDmaEnd - effectEntry->graphicsDmaStart);
-        sharedData->graphics = graphics;
-        ASSERT(graphics != nullptr);
-
-#if VERSION_PAL
-        if (effectEntry->graphicsDmaStart == effect_gfx_attack_result_text_ROM_START) {
-            switch (gCurrentLanguage) {
-                case LANGUAGE_EN:
-                    dma_copy(effectEntry->graphicsDmaStart, effectEntry->graphicsDmaEnd, sharedData->graphics);
-                    break;
-                case LANGUAGE_DE:
-                    dma_copy(effect_gfx_attack_result_text_de_ROM_START, effect_gfx_attack_result_text_de_ROM_END, sharedData->graphics);
-                    break;
-                case LANGUAGE_FR:
-                    dma_copy(effect_gfx_attack_result_text_fr_ROM_START, effect_gfx_attack_result_text_fr_ROM_END, sharedData->graphics);
-                    break;
-                default:
-                    dma_copy(effect_gfx_attack_result_text_es_ROM_START, effect_gfx_attack_result_text_es_ROM_END, sharedData->graphics);
-                    break;
-            }
-        } else if (effectEntry->graphicsDmaStart == effect_gfx_chapter_change_ROM_START) {
-            switch (gCurrentLanguage) {
-                case LANGUAGE_EN:
-                    dma_copy(effectEntry->graphicsDmaStart, effectEntry->graphicsDmaEnd, sharedData->graphics);
-                    break;
-                case LANGUAGE_DE:
-                    dma_copy(effect_chapter_change_gfx_de_ROM_START, effect_chapter_change_gfx_de_ROM_END, sharedData->graphics);
-                    break;
-                case LANGUAGE_FR:
-                    dma_copy(effect_chapter_change_gfx_fr_ROM_START, effect_chapter_change_gfx_fr_ROM_END, sharedData->graphics);
-                    break;
-                default:
-                    dma_copy(effect_chapter_change_gfx_es_ROM_START, effect_chapter_change_gfx_es_ROM_END, sharedData->graphics);
-                    break;
-            }
-        } else
-#endif
-            dma_copy(effectEntry->graphicsDmaStart, effectEntry->graphicsDmaEnd, sharedData->graphics);
+        sharedData->graphics = (void*)1;  // sentinel: DLs loaded via OTR
     }
 
     // Initialize the newly loaded effect data

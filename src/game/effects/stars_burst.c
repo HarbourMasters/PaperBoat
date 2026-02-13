@@ -1,8 +1,7 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_090004C0_343500[];
-extern Gfx D_090005E0_343620[];
 
 u8 D_E0042780[] = {
     254, 172, 172,
@@ -130,7 +129,7 @@ void stars_burst_render(EffectInstance* effect) {
 
 void stars_burst_appendGfx(void* effect) {
     StarsBurstFXData* part = ((EffectInstance*)effect)->data.starsBurst;
-    Gfx* dlist = D_090005E0_343620;
+    const char* dlist = D_090005E0_343620;
     s32 unk_2C;
     Matrix4f sp18;
     Matrix4f sp58;
@@ -139,7 +138,7 @@ void stars_burst_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, D_090004C0_343500);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090004C0_343500));
 
     unk_2C = part->unk_2C;
 
@@ -162,7 +161,7 @@ void stars_burst_appendGfx(void* effect) {
         guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
 
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, dlist);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 }

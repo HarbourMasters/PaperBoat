@@ -498,7 +498,7 @@ API_CALLABLE(N(CalculateTattleCamBoomLength)) {
 API_CALLABLE(N(OpenTattleWindow)) {
     Bytecode* args = script->ptrReadPos;
 
-    evt_set_variable(script, *args++, (s32) fx_tattle_window(0, 106.0f, 144.0f, 0, 1.0f, 0));
+    evt_set_variable(script, *args++, (Bytecode) fx_tattle_window(0, 106.0f, 144.0f, 0, 1.0f, 0));
     return ApiStatus_DONE2;
 }
 

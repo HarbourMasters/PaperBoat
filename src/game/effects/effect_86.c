@@ -1,27 +1,15 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000800_415860[];
-extern Gfx D_09000BA8_415C08[];
-extern Gfx D_09000BC8_415C28[];
-extern Gfx D_09000BE8_415C48[];
-extern Gfx D_09000C08_415C68[];
-extern Gfx D_09000C28_415C88[];
-extern Gfx D_09000C48_415CA8[];
-extern Gfx D_09000C68_415CC8[];
-extern Gfx D_09000C88_415CE8[];
-extern Gfx D_09000CA8_415D08[];
-extern Gfx D_09000CC8_415D28[];
-extern Gfx D_09000CE8_415D48[];
-extern Gfx D_09000D08_415D68[];
 
-Gfx* D_E0128480[12] = {
+const char* D_E0128480[12] = {
     D_09000BA8_415C08, D_09000BC8_415C28, D_09000BE8_415C48, D_09000C08_415C68,
     D_09000C28_415C88, D_09000C48_415CA8, D_09000C68_415CC8, D_09000C88_415CE8,
     D_09000CA8_415D08, D_09000CC8_415D28, D_09000CE8_415D48, D_09000D08_415D68
 };
 
-Gfx* D_E01284B0[] = { D_09000800_415860 };
+const char* D_E01284B0[] = { D_09000800_415860 };
 
 void effect_86_init(EffectInstance* effect);
 void effect_86_update(EffectInstance* effect);
@@ -127,7 +115,7 @@ void effect_86_appendGfx(void* effect) {
     gSPMatrix(gMainGfxPos++, camera->mtxBillboard, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
     gDPSetPrimColor(gMainGfxPos++, 0, 0, part->unk_18, part->unk_1C, part->unk_20, primAlpha);
     gDPSetEnvColor(gMainGfxPos++, part->unk_28, part->unk_2C, part->unk_30, 0);
-    gSPDisplayList(gMainGfxPos++, D_E01284B0[0]);
-    gSPDisplayList(gMainGfxPos++, D_E0128480[dlistIdx % ARRAY_COUNT(D_E0128480)]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E01284B0[0]));
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0128480[dlistIdx % ARRAY_COUNT(D_E0128480)]));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }

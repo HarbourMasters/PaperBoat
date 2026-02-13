@@ -1,12 +1,12 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 void whirlwind_init(EffectInstance* effect);
 void whirlwind_update(EffectInstance* effect);
 void whirlwind_render(EffectInstance* effect);
 void whirlwind_appendGfx(void* effect);
 
-extern Gfx D_09000400_3D3D30[];
 
 EffectInstance* whirlwind_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
     EffectBlueprint bp;
@@ -178,7 +178,7 @@ void whirlwind_appendGfx(void* effect) {
     guMtxF2L(sp20, &gDisplayContext->matrixStack[gMatrixListPos]);
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gMainGfxPos++, D_09000400_3D3D30);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000400_3D3D30));
 
     // Reserve 0x208 bytes (65 commands) for a vertex buffer (2x16 Vtx + space for the current command)
     gSPBranchList(gMainGfxPos, &gMainGfxPos[65]);

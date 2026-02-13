@@ -1,21 +1,14 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09003280_371FE0[];
-extern Gfx D_090032F8_372058[];
-extern Gfx D_09003378_3720D8[];
-extern Gfx D_090033E0_372140[];
-extern Gfx D_09003580_3722E0[];
-extern Gfx D_09003778_3724D8[];
-extern Gfx D_09003888_3725E8[];
-extern Gfx D_09003948_3726A8[];
 
-Gfx* D_E006CB60[] = {
+const char* D_E006CB60[] = {
     D_09003778_3724D8, D_09003580_3722E0, D_090033E0_372140,
     D_09003378_3720D8, D_090032F8_372058, D_09003280_371FE0
 };
 
-Gfx* D_E006CB78[] = {
+const char* D_E006CB78[] = {
     D_09003888_3725E8, D_09003888_3725E8, D_09003888_3725E8,
     D_09003948_3726A8, D_09003948_3726A8, D_09003948_3726A8
 };
@@ -221,8 +214,8 @@ void lightning_appendGfx(void* effect) {
     LightningFXData* data = ((EffectInstance*)effect)->data.lightning;
     s32 unk_00 = data->unk_00;
     s32 unk_18 = data->unk_18;
-    Gfx* dlist = D_E006CB60[unk_00];
-    Gfx* dlist2 = D_E006CB78[unk_00];
+    const char* dlist = D_E006CB60[unk_00];
+    const char* dlist2 = D_E006CB78[unk_00];
     Camera* camera = &gCameras[gCurrentCameraID];
     Matrix4f sp20;
     Matrix4f sp60;
@@ -238,7 +231,7 @@ void lightning_appendGfx(void* effect) {
         s32 ult;
         f32* unk_28; // TODO required to match
 
-        gSPDisplayList(gMainGfxPos++, dlist2);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist2));
 
         uls = data->unk_1C * 4.0f;
         ult = data->unk_20 * 4.0f;
@@ -276,7 +269,7 @@ void lightning_appendGfx(void* effect) {
 
         gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, uls, ult, uls + 1020, ult + 124);
         gDPSetTileSize(gMainGfxPos++, 1, uls2, ult2, uls2 + 1020, ult2 + 124);
-        gSPDisplayList(gMainGfxPos++, dlist);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
         gDPPipeSync(gMainGfxPos++);
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 

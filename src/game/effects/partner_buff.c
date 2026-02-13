@@ -1,5 +1,6 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 void partner_buff_init(EffectInstance* effect);
 void partner_buff_update(EffectInstance* effect);
@@ -18,15 +19,9 @@ enum {
     BUFF_STATE_FADE_IN                  = 40
 };
 
-extern Gfx D_09001800_406740[];
-extern Gfx D_090019A0_4068E0[];
-extern Gfx D_09001A18_406958[];
-extern Gfx D_09001A90_4069D0[];
-extern Gfx D_09001B08_406A48[];
-extern Gfx D_09001B80_406AC0[];
 
-Gfx* D_E011AC20[] = { D_09001800_406740 };
-Gfx* D_E011AC24[] = {
+const char* D_E011AC20[] = { D_09001800_406740 };
+const char* D_E011AC24[] = {
     D_090019A0_4068E0, D_09001A18_406958, D_09001A90_4069D0, D_09001B08_406A48, D_09001B80_406AC0,
     nullptr, nullptr, nullptr, nullptr, nullptr
 };
@@ -216,7 +211,7 @@ void func_E011A700(EffectInstance* effect) {
     s32 temp1;
     s32 temp2;
     f32 scale;
-    Gfx* dlist;
+    const char* dlist;
     f32 x, y;
     s32 i;
 
@@ -224,7 +219,7 @@ void func_E011A700(EffectInstance* effect) {
         gDPPipeSync(gMainGfxPos++);
         gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
 
-        gSPDisplayList(gMainGfxPos++, D_E011AC20[0]);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E011AC20[0]));
 
         numShown = 0;
         for (i = 0; i < ARRAY_COUNT(data->unk_0C); i++) {
@@ -269,7 +264,7 @@ void func_E011A700(EffectInstance* effect) {
                     }
                     dlist = D_E011AC24[idx];
                     if (dlist != nullptr) {
-                        gSPDisplayList(gMainGfxPos++, dlist);
+                        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
                         scale = D_E011AC4C[(s16)stateTimer] * 0.01f;
                         temp2 = (-(scale - 1.0f) * 16.0f) + 0.5;
                         x = temp2 + 20 + numShown * 32;
@@ -280,7 +275,7 @@ void func_E011A700(EffectInstance* effect) {
 
                 dlist = D_E011AC24[turnsDisplay];
                 if (dlist != nullptr) {
-                    gSPDisplayList(gMainGfxPos++, dlist);
+                    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
                     temp1 = D_E011AC64[(s16)stateTimer];
                     temp2 = -temp1;
                     scale = D_E011AC58[(s16)stateTimer] * 0.01f;

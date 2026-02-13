@@ -1,8 +1,7 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_090037A8_3C1148[];
-extern Gfx D_09003818_3C11B8[];
 
 s8 D_E00C0A10[] = {
     100,  90,  82,  76,  72,  70,  74, 89, 103, 116,
@@ -314,8 +313,8 @@ void snowman_doll_appendGfx(void* effect) {
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
     gDPSetPrimColor(gMainGfxPos++, 0, 0, data->unk_18, data->unk_1C, data->unk_20, unk_24);
-    gSPDisplayList(gMainGfxPos++, D_090037A8_3C1148);
-    gSPDisplayList(gMainGfxPos++, D_09003818_3C11B8);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090037A8_3C1148));
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09003818_3C11B8));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }

@@ -1,11 +1,7 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Vtx_t D_09001400_333AA0[];
-extern Gfx D_09001530_333BD0[];
-extern Gfx D_09001650_333CF0[];
-extern Gfx D_09001780_333E20[];
-extern Gfx D_090017D0_333E70[];
 
 void star_init(EffectInstance* effect);
 void star_update(EffectInstance* effect);
@@ -225,14 +221,14 @@ void star_appendGfx(void* effect) {
     gDPSetPrimColor(gMainGfxPos++, 0, 80, primR, primG, primB, 255);
     gDPSetEnvColor(gMainGfxPos++, 127, 127, 127, 127);
 
-    gSPDisplayList(gMainGfxPos++, (data->type >= FX_STAR_LARGE_BOUNCING) ? D_09001650_333CF0 : D_09001530_333BD0);
+    gSPDisplayList(gMainGfxPos++, (data->type >= FX_STAR_LARGE_BOUNCING) ? LOAD_ASSET(D_09001650_333CF0) : LOAD_ASSET(D_09001530_333BD0));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     gDPPipeSync(gMainGfxPos++);
 
     if (type == FX_STAR_SMALL_BOUNCING) {
-        gSPDisplayList(gMainGfxPos++, D_090017D0_333E70);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090017D0_333E70));
     } else {
-        gSPDisplayList(gMainGfxPos++, D_09001780_333E20);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09001780_333E20));
     }
 
     data->trailMatrixPos++;
@@ -253,7 +249,7 @@ void star_appendGfx(void* effect) {
             gDisplayContext->matrixStack[gMatrixListPos] = data->trailMatrices[idx];
 
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPVertex(gMainGfxPos++, &D_09001400_333AA0[i * 2], 2, i * 2);
+            gSPVertex(gMainGfxPos++, LOAD_ASSET(D_09001400_333AA0[i * 2]), 2, i * 2);
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
 

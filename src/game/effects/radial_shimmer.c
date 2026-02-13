@@ -1,27 +1,20 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 void radial_shimmer_init(EffectInstance* effect);
 void radial_shimmer_update(EffectInstance* effect);
 void radial_shimmer_render(EffectInstance* effect);
 void radial_shimmer_appendGfx(void* effect);
 
-extern Gfx D_09003428_36A188[];
-extern Gfx D_09003508_36A268[];
-extern Gfx D_090035E8_36A348[];
-extern Gfx D_090036C8_36A428[];
-extern Gfx D_09003830_36A590[];
-extern Gfx D_090038B8_36A618[];
-extern Gfx D_090039A8_36A708[];
-extern Gfx D_09003A88_36A7E8[];
 
-Gfx* D_E0066C50[] = {
+const char* D_E0066C50[] = {
     D_09003830_36A590, D_09003830_36A590, D_09003830_36A590, D_09003830_36A590, D_09003830_36A590,
     D_09003830_36A590, D_09003830_36A590, D_09003830_36A590, D_09003830_36A590, D_09003830_36A590,
     D_09003830_36A590, D_09003830_36A590, D_09003830_36A590, D_09003830_36A590, D_09003830_36A590
 };
 
-Gfx* D_E0066C8C[] = {
+const char* D_E0066C8C[] = {
     D_09003508_36A268, D_090035E8_36A348, D_09003428_36A188, D_090039A8_36A708, D_09003A88_36A7E8,
     D_09003428_36A188, D_090039A8_36A708, D_09003A88_36A7E8, D_090038B8_36A618, D_09003508_36A268,
     D_090038B8_36A618, D_090038B8_36A618, D_09003428_36A188, D_09003A88_36A7E8, D_090036C8_36A428,
@@ -295,8 +288,8 @@ void radial_shimmer_appendGfx(void* effect) {
     s32 temp_f2;
     s32 temp_f4;
     s32 temp_f6;
-    Gfx* dlist2;
-    Gfx* dlist1;
+    const char* dlist2;
+    const char* dlist1;
     s32 temp_s5;
     s32 temp_t1;
     s32 var_a3;
@@ -330,7 +323,7 @@ void radial_shimmer_appendGfx(void* effect) {
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     alpha = data->unk_24;
     gDPSetEnvColor(gMainGfxPos++, data->unk_6B, data->unk_6C, data->unk_6D, 127);
-    gSPDisplayList(gMainGfxPos++, dlist1);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist1));
 
     for (i = 0; i < effectTemp->numParts; i++, data++) {
         gDPSetPrimColor(gMainGfxPos++, 0, 0, data->unk_68, data->unk_69, data->unk_6A, alpha);
@@ -362,7 +355,7 @@ void radial_shimmer_appendGfx(void* effect) {
 
         gDPSetTileSize(gMainGfxPos++, 0, temp_f0, temp_f2, temp_f0 + other * 4, temp_f2 + var_a3 * 4);
         gDPSetTileSize(gMainGfxPos++, G_TX_MIRROR, temp_f4, temp_f6, temp_f4 + other * 4, temp_f6 + var_a3 * 4);
-        gSPDisplayList(gMainGfxPos++, dlist2);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist2));
     }
 
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);

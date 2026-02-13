@@ -1,5 +1,6 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 enum ArrowType {
     ARROW_TYPE_ATK_UP = 0,
@@ -17,31 +18,12 @@ typedef struct ArrowDataTableEntry {
     s32 value;
 } ArrowDataTableEntry;
 
-extern Gfx D_09002700_3B1E00[];
-extern Gfx D_09002798_3B1E98[];
-extern Gfx D_09002860_3B1F60[];
-extern Gfx D_09002880_3B1F80[];
-extern Gfx D_090028A0_3B1FA0[];
-extern Gfx D_090028C0_3B1FC0[];
-extern Gfx D_090028E0_3B1FE0[];
-extern Gfx D_09002950_3B2050[];
-extern Gfx D_09002990_3B2090[];
-extern Gfx D_090029D0_3B20D0[];
-extern Gfx D_09002A10_3B2110[];
-extern Gfx D_09002A50_3B2150[];
-extern Gfx D_09002A90_3B2190[];
-extern Gfx D_09002AD0_3B21D0[];
-extern Gfx D_09002B10_3B2210[];
-extern Gfx D_09002B50_3B2250[];
-extern Gfx D_09002B90_3B2290[];
-extern Gfx D_09002BD0_3B22D0[];
-extern Gfx D_09002C10_3B2310[];
 
-Gfx* D_E00AC7B0[] = { D_09002700_3B1E00, D_09002700_3B1E00, D_09002798_3B1E98 };
+const char* D_E00AC7B0[] = { D_09002700_3B1E00, D_09002700_3B1E00, D_09002798_3B1E98 };
 
-Gfx* D_E00AC7BC[] = { D_09002860_3B1F60, D_09002880_3B1F80, D_09002860_3B1F60 };
+const char* D_E00AC7BC[] = { D_09002860_3B1F60, D_09002880_3B1F80, D_09002860_3B1F60 };
 
-Gfx* D_E00AC7C8[] = {
+const char* D_E00AC7C8[] = {
     D_09002950_3B2050, D_09002990_3B2090, D_090029D0_3B20D0, D_09002A10_3B2110,
     D_09002A50_3B2150, D_09002A90_3B2190, D_09002AD0_3B21D0, D_09002B10_3B2210,
     D_09002B50_3B2250, D_09002B90_3B2290, D_09002BD0_3B22D0, D_09002C10_3B2310
@@ -264,11 +246,11 @@ void func_E00AC2A4(EffectInstance* effect) {
         guMtxF2L(sp20, &gDisplayContext->matrixStack[gMatrixListPos]);
 
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, D_E00AC7B0[arrowType]);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00AC7B0[arrowType]));
         gDPSetPrimColor(gMainGfxPos++, 0, 0, 0, 0, 0, data->unk_24);
-        gSPDisplayList(gMainGfxPos++, D_E00AC7BC[arrowType]);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00AC7BC[arrowType]));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, D_090028E0_3B1FE0);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090028E0_3B1FE0));
 
         guTranslateF(sp20, 0.0f, data->unk_3C, 0.0f);
         guMtxF2L(sp20, &gDisplayContext->matrixStack[gMatrixListPos]);
@@ -281,16 +263,16 @@ void func_E00AC2A4(EffectInstance* effect) {
             idx = arrowValue;
         }
 
-        gSPDisplayList(gMainGfxPos++, D_E00AC7C8[idx % 10]);
-        gSPDisplayList(gMainGfxPos++, D_090028C0_3B1FC0);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00AC7C8[idx % 10]));
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090028C0_3B1FC0));
 
         if (arrowValue >= 0) {
-            gSPDisplayList(gMainGfxPos++, D_E00AC7C8[11]);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00AC7C8[11]));
         } else {
-            gSPDisplayList(gMainGfxPos++, D_E00AC7C8[10]);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00AC7C8[10]));
         }
 
-        gSPDisplayList(gMainGfxPos++, D_090028A0_3B1FA0);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090028A0_3B1FA0));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         gDPPipeSync(gMainGfxPos++);

@@ -1,19 +1,15 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 void ice_pillar_init(EffectInstance* effect);
 void ice_pillar_update(EffectInstance* effect);
 void ice_pillar_render(EffectInstance* effect);
 void ice_pillar_appendGfx(void* effect);
 
-extern Gfx D_09001000_40B1C0[];
-extern Gfx D_090011A8_40B368[];
-extern Gfx D_090011C8_40B388[];
-extern Gfx D_090011E8_40B3A8[];
-extern Gfx D_09001208_40B3C8[];
 
-Gfx* D_E011E7F0[] = { D_090011A8_40B368, D_090011C8_40B388, D_090011E8_40B3A8, D_09001208_40B3C8 };
-Gfx* D_E011E800[] = { D_09001000_40B1C0 };
+const char* D_E011E7F0[] = { D_090011A8_40B368, D_090011C8_40B388, D_090011E8_40B3A8, D_09001208_40B3C8 };
+const char* D_E011E800[] = { D_09001000_40B1C0 };
 
 EFFECT_DEF_MISC_PARTICLES(misc_particles_main);
 EFFECT_DEF_ICE_SHARD(ice_shard_main);
@@ -171,7 +167,7 @@ void ice_pillar_appendGfx(void* effect) {
     gSPMatrix(gMainGfxPos++, camera->mtxBillboard, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
     gDPSetPrimColor(gMainGfxPos++, 0, 0, data->prim.r, data->prim.g, data->prim.b, alpha);
     gDPSetEnvColor(gMainGfxPos++, data->env.r, data->env.g, data->env.b, data->env.a);
-    gSPDisplayList(gMainGfxPos++, D_E011E800[0]);
-    gSPDisplayList(gMainGfxPos++, D_E011E7F0[data->unk_24]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E011E800[0]));
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E011E7F0[data->unk_24]));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }

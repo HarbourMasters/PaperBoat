@@ -1,10 +1,9 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000940_359CF0[];
-extern Gfx D_090009A0_359D50[];
 
-Gfx* D_E00D0B10[] = { D_090009A0_359D50, D_090009A0_359D50 };
+const char* D_E00D0B10[] = { D_090009A0_359D50, D_090009A0_359D50 };
 
 void red_impact_init(EffectInstance* effect);
 void red_impact_update(EffectInstance* effect);
@@ -142,8 +141,8 @@ void red_impact_render(EffectInstance* effect) {
 
 void red_impact_appendGfx(void* effect) {
     RedImpactFXData* part = ((EffectInstance*)effect)->data.redImpact;
-    Gfx* dlist = D_E00D0B10[part->unk_00];
-    Gfx* dlist2;
+    const char* dlist = D_E00D0B10[part->unk_00];
+    const char* dlist2;
     f32 temp_1C = part->unk_1C * 0.3;
     f32 temp_20 = part->unk_20 * 0.3;
     f32 temp_24 = part->unk_24 * 0.3;
@@ -168,7 +167,7 @@ void red_impact_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, dlist);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
 
     guPositionF(sp20, 0.0f, -gCameras[gCurrentCameraID].curYaw, 0.0f, 1.0f, part->unk_04, part->unk_08, part->unk_0C);
     guMtxF2L(sp20, &gDisplayContext->matrixStack[gMatrixListPos]);
@@ -204,7 +203,7 @@ void red_impact_appendGfx(void* effect) {
             gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, 0, (s32) part->unk_3C, 0x00FC, (s32) part->unk_3C + 0x7C);
             gDPSetTileSize(gMainGfxPos++, 1, 0, (s32) part->unk_44, 0x007C, (s32) part->unk_44 + 0x7C);
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, dlist2);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist2));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
     }

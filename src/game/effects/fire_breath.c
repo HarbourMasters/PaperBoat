@@ -1,13 +1,10 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000A00_373DE0[];
-extern Gfx D_09000B88_373F68[];
-extern Gfx D_09000C00_373FE0[];
-extern Gfx D_09000C20_374000[];
 
-Gfx* D_E006EC00[] = { D_09000B88_373F68, D_09000B88_373F68, D_09000B88_373F68 };
-Gfx* D_E006EC0C[] = { D_09000A00_373DE0, D_09000A00_373DE0, D_09000A00_373DE0 };
+const char* D_E006EC00[] = { D_09000B88_373F68, D_09000B88_373F68, D_09000B88_373F68 };
+const char* D_E006EC0C[] = { D_09000A00_373DE0, D_09000A00_373DE0, D_09000A00_373DE0 };
 
 void fire_breath_init(EffectInstance* effect);
 void fire_breath_update(EffectInstance* effect);
@@ -184,8 +181,8 @@ void fire_breath_appendGfx(void* effect) {
     FireBreathFXData* data = ((EffectInstance*)effect)->data.fireBreath;
     s32 type = data->type;
     s32 envAlpha = (data->animTime - (s32)data->animTime) * 256.0f;
-    Gfx* dlist = D_E006EC00[type];
-    Gfx* dlist2 = D_E006EC0C[type];
+    const char* dlist = D_E006EC00[type];
+    const char* dlist2 = D_E006EC0C[type];
     s32 imgFrame = data->animTime;
 
     gDPPipeSync(gMainGfxPos++);
@@ -199,12 +196,12 @@ void fire_breath_appendGfx(void* effect) {
 
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
                   G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, D_09000C20_374000);
-        gSPDisplayList(gMainGfxPos++, D_09000C00_373FE0);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000C20_374000));
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000C00_373FE0));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 
-    gSPDisplayList(gMainGfxPos++, dlist2);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist2));
     gDPSetPrimColor(gMainGfxPos++, 0, 0, data->primR, data->primG, data->primB, data->alpha);
     gDPSetEnvColor(gMainGfxPos++, data->envR, data->envG, data->envB, envAlpha);
     gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, ((imgFrame * 32) + 0)  * 4, 0, ((imgFrame * 32) + 32) * 4, 128);
@@ -219,6 +216,6 @@ void fire_breath_appendGfx(void* effect) {
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
               G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gSPDisplayList(gMainGfxPos++, dlist);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }

@@ -1427,11 +1427,11 @@ Formation N(PrismBitFormation) = {
     ACTOR_BY_POS(A(crystal_bit_prism), N(CloneSummonPos), 0),
 };
 
-s32 N(CubeBitSummonData)[16] = {};
+Bytecode N(CubeBitSummonData)[16] = {};
 
-s32 N(SphereBitSummonData)[16] = {};
+Bytecode N(SphereBitSummonData)[16] = {};
 
-s32 N(PrismBitSummonData)[16] = {};
+Bytecode N(PrismBitSummonData)[16] = {};
 
 EvtScript N(EVS_SummonBit) = {
     UseArray(LVar4)

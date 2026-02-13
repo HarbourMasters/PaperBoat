@@ -1,12 +1,10 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 #include "nu/nusys.h"
 
-extern Gfx D_09000200_3A35D0[];
-extern Gfx D_090002A8_3A3678[];
-extern Gfx D_09000358_3A3728[];
 
-Gfx* D_E00A29D0[] = { D_09000200_3A35D0, D_090002A8_3A3678, D_09000358_3A3728 };
+const char* D_E00A29D0[] = { D_09000200_3A35D0, D_090002A8_3A3678, D_09000358_3A3728 };
 
 typedef struct UnkStruct {
     /* 0x00 */ s32 unk_00;
@@ -155,7 +153,7 @@ void motion_blur_flame_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, D_E00A29D0[temp_a2]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00A29D0[temp_a2]));
 
     for (i = 0; i < UNK_ARRAY_SIZE_1; i++) {
         f32 temp_f12 = data->unk_1C[i];

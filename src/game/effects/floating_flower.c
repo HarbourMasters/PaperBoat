@@ -1,9 +1,9 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 s32 D_E001A610 = 0;
 
-extern Gfx D_090002F0_330750[];
 
 void floating_flower_init(EffectInstance* effect);
 void floating_flower_update(EffectInstance* effect);
@@ -164,7 +164,7 @@ void floating_flower_appendGfx(void* effect) {
 
     if (alpha != 0) {
         gDPSetPrimColor(gMainGfxPos++, 0, 0, 0, 0, 0, alpha);
-        gSPDisplayList(gMainGfxPos++, D_090002F0_330750);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090002F0_330750));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 }

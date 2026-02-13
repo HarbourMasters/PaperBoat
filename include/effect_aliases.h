@@ -1,7 +1,144 @@
 #ifndef PM_PC_EFFECT_ALIASES_H
 #define PM_PC_EFFECT_ALIASES_H
 
-// Auto-generated: map fx_* names to *_main implementations for PC build.
+// Forward declarations for effect *_main functions.
+// Without these, -Wno-implicit-function-declaration lets the compiler assume int return,
+// which truncates 64-bit EffectInstance* pointers on the port.
+
+// Returns struct EffectInstance*
+struct EffectInstance* attack_result_text_main(s32 type, f32 posX, f32 posY, f32 posZ, f32 appearVel, s32 duration);
+struct EffectInstance* balloon_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* bombette_breaking_main(s32 type, s32 modelID, s32 treeIndex, f32 arg3, s32 arg4, s32 time);
+struct EffectInstance* breaking_junk_main(s32 arg0, f32 x, f32 y, f32 z, f32 scale, s32 time);
+struct EffectInstance* butterflies_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3);
+struct EffectInstance* chapter_change_main(s32 arg0, f32 posX, f32 posY, f32 arg3, f32 arg4, s32 duration);
+struct EffectInstance* chomp_drop_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5, f32 arg6, s32 arg7, f32 arg8, s32 arg9);
+struct EffectInstance* cold_breath_main(s32 type, f32 posX, f32 posY, f32 posZ, f32 scale, s32 duration);
+struct EffectInstance* confetti_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* debuff_main(s32 type, f32 x, f32 y, f32 z);
+struct EffectInstance* disable_x_main(s32 type, f32 x, f32 y, f32 z, s32 arg4);
+struct EffectInstance* dust_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, s32 arg4);
+struct EffectInstance* effect_46_main(s32 type, struct PlayerStatus* player, f32 scale, s32 duration);
+struct EffectInstance* effect_63_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, s32 arg8, s32 arg9);
+struct EffectInstance* effect_65_main(s32 variation, f32 posX, f32 posY, f32 posZ, f32 scale, s32 duration);
+struct EffectInstance* effect_75_main(s32 arg0, f32 posX, f32 posY, f32 posZ, f32 scale, s32 arg5);
+struct EffectInstance* effect_86_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* embers_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, s32 arg7, s32 arg8, f32 arg9, f32 argA);
+struct EffectInstance* energy_in_out_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* energy_orb_wave_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* fire_breath_main(s32 type, f32 startX, f32 startY, f32 startZ, f32 endX, f32 endY, f32 endZ, s32 numExtra, s32 spawnDelay, s32 duration);
+struct EffectInstance* fire_flower_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, s32 arg4);
+struct EffectInstance* firework_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* firework_rocket_main(s32 variation, f32 centerX, f32 centerY, f32 centerZ, f32 velX, f32 velY, f32 velZ, f32 radius, s32 duration);
+struct EffectInstance* flashing_box_shockwave_main(s32 type, f32 posX, f32 posY, f32 posZ, f32 sizeX, f32 sizeY);
+struct EffectInstance* floating_cloud_puff_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* floating_rock_main(s32 type, f32 posX, f32 posY, f32 posZ, f32 floorY, f32 fallVelocity, f32 fallAccel, f32 scale, s32 duration);
+struct EffectInstance* fright_jar_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* gather_magic_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* green_impact_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4);
+struct EffectInstance* hieroglyphs_main(s32 arg0, f32 posX, f32 posY, f32 posZ, f32 arg4, s32 timeLeft);
+struct EffectInstance* huff_puff_breath_main(s32 type, f32 posX, f32 posY, f32 posZ, f32 angle, f32 speed, f32 scale, s32 timeLeft);
+struct EffectInstance* ice_pillar_main(s32 arg0, f32 x, f32 y, f32 z, f32 scale, s32 arg5);
+struct EffectInstance* ice_shard_main(s32 type, f32 posX, f32 posY, f32 posZ, f32 scale, s32 duration);
+struct EffectInstance* lightning_bolt_main(s32 type, f32 startX, f32 startY, f32 startZ, f32 endX, f32 endY, f32 endZ, f32 scale, s32 duration);
+struct EffectInstance* lightning_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
+struct EffectInstance* lil_oink_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* merlin_house_stars_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3);
+struct EffectInstance* misc_particles_main(s32 variation, f32 posX, f32 posY, f32 posZ, f32 scaleX, f32 scaleY, f32 arg6, s32 numParticles, s32 duration);
+struct EffectInstance* motion_blur_flame_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* moving_cloud_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8);
+struct EffectInstance* partner_buff_main(s32 useRandomValues, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 duration);
+struct EffectInstance* peach_star_beam_main(s32 type, f32 x, f32 y, f32 z, f32 arg4, s32 duration);
+struct EffectInstance* pink_sparkles_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
+struct EffectInstance* purple_ring_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7);
+struct EffectInstance* quizmo_answer_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3);
+struct EffectInstance* quizmo_assistant_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* quizmo_audience_main(s32 arg0, f32 posX, f32 posY, f32 posZ);
+struct EffectInstance* quizmo_stage_main(s32 arg0, f32 posX, f32 posY, f32 posZ);
+struct EffectInstance* radial_shimmer_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* radiating_energy_orb_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* recover_main(s32 type, f32 posX, f32 posY, f32 posZ, s32 duration);
+struct EffectInstance* red_impact_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* shape_spell_main(s32 isChild, f32 x, f32 y, f32 z, f32 arg4, f32 arg5, f32 arg6, s32 arg7);
+struct EffectInstance* shimmer_burst_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* shimmer_wave_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, s32 arg6, s32 arg7);
+struct EffectInstance* shiny_flare_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* snaking_static_main(s32 type, f32 posX, f32 posY, f32 posZ, f32 scale, s32 timeLeft);
+struct EffectInstance* snowfall_main(s32 arg0, s32 arg1);
+struct EffectInstance* snowman_doll_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* something_rotating_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* spirit_card_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* squirt_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, s32 arg8);
+struct EffectInstance* star_main(s32 type, f32 startX, f32 startY, f32 startZ, f32 endX, f32 endY, f32 endZ, f32 speed);
+struct EffectInstance* star_outline_main(s32 arg0, f32 posX, f32 posY, f32 posZ, f32 arg4, s32 arg5);
+struct EffectInstance* star_spirits_energy_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* stat_change_main(s32 arg0, f32 x, f32 y, f32 z, f32 scale, s32 time);
+struct EffectInstance* static_status_main(s32 type, f32 x, f32 y, f32 z, f32 scale, s32 numBolts, s32 duration);
+struct EffectInstance* stop_watch_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* sun_main(s32 shineFromRight, f32 offsetX, f32 offsetY, f32 offsetZ, f32 arg4, s32 duration);
+struct EffectInstance* tattle_window_main(s32 type, f32 x, f32 y, f32 z, f32 arg4, s32 duration);
+struct EffectInstance* throw_spiny_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, s32 time);
+struct EffectInstance* thunderbolt_ring_main(s32 arg0, f32 posX, f32 posY, f32 posZ, f32 arg4, s32 lifeTime);
+struct EffectInstance* tubba_heart_attack_main(s32 type, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 duration);
+struct EffectInstance* underwater_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* water_block_main(s32 type, f32 x, f32 y, f32 z, f32 arg4, s32 duration);
+struct EffectInstance* water_fountain_main(s32 arg0, f32 posX, f32 posY, f32 posZ, f32 arg4, s32 arg5);
+struct EffectInstance* water_splash_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* waterfall_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+struct EffectInstance* whirlwind_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+
+// Returns void
+void aura_main(s32 type, f32 posX, f32 posY, f32 posZ, f32 scale, struct EffectInstance** outEffect);
+void big_smoke_puff_main(f32 x, f32 y, f32 z);
+void big_snowflakes_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3);
+void blast_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+void bulb_glow_main(s32 arg0, f32 posX, f32 posY, f32 posZ, f32 arg4, struct EffectInstance** outEffect);
+void cloud_puff_main(f32 arg0, f32 arg1, f32 arg2, f32 arg3);
+void cloud_trail_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3);
+void damage_indicator_main(s32 arg0, f32 posX, f32 posY, f32 posZ, f32 starsRadius, f32 starsAngle, s32 damageAmt, struct EffectInstance** effectOut);
+void damage_stars_main(s32 type, f32 x, f32 y, f32 z, f32 rotAxisX, f32 rotAxisY, f32 rotAxisZ, s32 number);
+void drop_leaves_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, s32 arg4);
+void effect_3D_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, s32 arg7, struct EffectInstance** outEffect);
+void emote_main(s32 arg0, struct Npc* arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, s32 arg7, struct EffectInstance** arg8);
+void ending_decals_main(s32 type, f32 posX, f32 posY, f32 posZ, f32 arg4, struct EffectInstance** outEffect);
+void energy_shockwave_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+void explosion_main(s32 type, f32 x, f32 y, f32 z);
+void falling_leaves_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3);
+void flame_main(s32 type, f32 arg1, f32 arg2, f32 arg3, f32 arg4, struct EffectInstance** outEffect);
+void floating_flower_main(s32 type, f32 posX, f32 posY, f32 posZ, s32 duration);
+void flower_splash_main(f32 posX, f32 posY, f32 posZ, f32 angle);
+void flower_trail_main(s32 triggeredByNpc, f32 posX, f32 posY, f32 posZ, f32 angle, f32 direction);
+void footprint_main(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4);
+void gather_energy_pink_main(s32 type, f32 posX, f32 posY, f32 posZ, f32 scale, s32 duration);
+void got_item_outline_main(s32 type, f32 posX, f32 posY, f32 posZ, f32 arg4, struct EffectInstance** outEffect);
+void landing_dust_main(s32 type, f32 x, f32 y, f32 z, f32 arg4);
+void lens_flare_main(s32 type, f32 posX, f32 posY, f32 posZ, s32 duration);
+void light_rays_main(s32 type, f32 posX, f32 posY, f32 posZ, f32 scale, struct EffectInstance** outEffect);
+void music_note_main(s32 type, f32 posX, f32 posY, f32 posZ);
+void ring_blast_main(s32 arg0, f32 posX, f32 posY, f32 posZ, f32 arg4, s32 arg5);
+void rising_bubble_main(s32 arg0, f32 posX, f32 posY, f32 posZ, f32 arg4);
+void shattering_stones_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4);
+void shockwave_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3);
+void sleep_bubble_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, struct EffectInstance** arg6);
+void smoke_burst_main(s32 arg0, f32 posX, f32 posY, f32 posZ, f32 arg4, s32 timeLeft);
+void smoke_impact_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5, f32 arg6, s32 arg7);
+void smoke_ring_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3);
+void snowflake_main(f32 x, f32 y, f32 z, s32 arg3);
+void sparkles_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4);
+void spiky_white_aura_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, s32 arg4);
+void stars_burst_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, s32 arg6);
+void stars_orbiting_main(s32 type, f32 posX, f32 posY, f32 posZ, f32 radius, s32 numStars, struct EffectInstance** outEffect);
+void stars_shimmer_main(s32 type, f32 x, f32 y, f32 z, f32 arg4, f32 arg5, s32 numParts, s32 arg7);
+void stars_spread_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, s32 arg4, s32 arg5);
+void steam_burst_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+void sweat_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, s32 timeLeft);
+void walking_dust_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
+void windy_leaves_main(s32 type, f32 arg1, f32 arg2, f32 arg3);
+
+// Wrapper with different signature (not an alias)
+void* fx_small_gold_sparkle(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+
+// Map fx_* names to *_main implementations for PC build.
 #define fx_big_smoke_puff big_smoke_puff_main
 #define fx_landing_dust landing_dust_main
 #define fx_walking_dust walking_dust_main

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 typedef struct WaterBlockVtxData {
     /* 0x00 */ Vec3b pos;
@@ -51,11 +52,6 @@ WaterBlockVtxData D_E00B4CF0[] = {
     {{-22,  50,  22 },    61,   1021,   { 240, 240, 240 }},
 };
 
-extern Gfx D_09000300_3B6EF0[];
-extern Gfx D_090003B0_3B6FA0[];
-extern Gfx D_090004A0_3B7090[];
-extern Gfx D_090004D8_3B70C8[];
-extern Gfx D_09000538_3B7128[];
 
 void water_block_init(EffectInstance* effect);
 void water_block_update(EffectInstance* effect);
@@ -271,30 +267,30 @@ void water_block_appendGfx(void* effect) {
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
     gDPSetEnvColor(gMainGfxPos++, 0, 0, 255, data->alpha);
     gDPSetPrimColor(gMainGfxPos++, 0, 0, 255, 255, 255, alpha);
-    gSPDisplayList(gMainGfxPos++, D_090003B0_3B6FA0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090003B0_3B6FA0));
 
     for (i = 0; i < NUM_WATER_BLOCK_COMPONENTS; i++) {
         if (data->unk_88[i] >= 0) {
             guPositionF(sp20, 0.0f, 0.0f, 0.0f, data->unk_78[i], data->unk_38[i], data->unk_48[i], 0.0f);
             guMtxF2L(sp20, &gDisplayContext->matrixStack[gMatrixListPos]);
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, D_090004A0_3B7090);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090004A0_3B7090));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
     }
 
-    gSPDisplayList(gMainGfxPos++, D_09000300_3B6EF0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000300_3B6EF0));
     gDPSetPrimColor(gMainGfxPos++, 0, 0, data->color.r, data->color.g, data->color.b, alpha * 0.3);
     gSPClearGeometryMode(gMainGfxPos++, G_CULL_BOTH);
     gSPSetGeometryMode(gMainGfxPos++, G_CULL_BACK);
 
     gSPVertex(gMainGfxPos++, vtxBase, 30, 0);
 
-    gSPDisplayList(gMainGfxPos++, D_090004D8_3B70C8);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090004D8_3B70C8));
 
     gSPVertex(gMainGfxPos++, &vtxBase[28], 12, 0);
 
-    gSPDisplayList(gMainGfxPos++, D_09000538_3B7128);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000538_3B7128));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }

@@ -1,14 +1,13 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09001B70_3CF250[];
-extern Gfx D_09001C98_3CF378[];
 
-Gfx* D_E00C6C90[] = {
+const char* D_E00C6C90[] = {
     D_09001C98_3CF378, D_09001C98_3CF378, D_09001C98_3CF378
 };
 
-Gfx* D_E00C6C9C[] = {
+const char* D_E00C6C9C[] = {
     D_09001B70_3CF250, D_09001B70_3CF250, D_09001B70_3CF250, nullptr, nullptr
 };
 
@@ -225,7 +224,7 @@ void effect_63_appendGfx(void* effect) {
         gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
         gDPSetPrimColor(gMainGfxPos++, 0, 0, part->unk_28, part->unk_2C, part->unk_30, unk_34);
         gDPSetEnvColor(gMainGfxPos++, part->unk_38, part->unk_3C, part->unk_40, part->unk_44);
-        gSPDisplayList(gMainGfxPos++, D_E00C6C9C[unk_00]);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00C6C9C[unk_00]));
 
         for (i = 0; i < ((EffectInstance*)effect)->numParts; i++, part++) {
             part->unk_4C += part->unk_54;
@@ -261,7 +260,7 @@ void effect_63_appendGfx(void* effect) {
 
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
             gDPSetTileSize(gMainGfxPos++, 1, tempX, tempY, (tempX + 0x3F) * 4, (tempY + 0xF) * 4);
-            gSPDisplayList(gMainGfxPos++, D_E00C6C90[unk_00]);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00C6C90[unk_00]));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
     }

@@ -1,8 +1,7 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_090000E0_32ED30[];
-extern Gfx D_090001B8_32EE08[];
 
 void cloud_puff_init(EffectInstance* effect);
 void cloud_puff_update(EffectInstance* effect);
@@ -121,7 +120,7 @@ void cloud_puff_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(effectTemp->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, D_090000E0_32ED30);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090000E0_32ED30));
 
     for (i = 0; i < effectTemp->numParts; i++, part++) {
         if (part->alive) {
@@ -134,7 +133,7 @@ void cloud_puff_appendGfx(void* effect) {
             gDPSetPrimColor(gMainGfxPos++, 0, 0, 112, 96, 24, part->alpha);
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
                         G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, D_090001B8_32EE08);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090001B8_32EE08));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
     }

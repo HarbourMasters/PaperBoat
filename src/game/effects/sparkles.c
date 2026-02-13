@@ -1,17 +1,9 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000F20_338EE0[];
-extern Gfx D_090011C8_339188[];
-extern Gfx D_090011E0_3391A0[];
-extern Gfx D_090011F8_3391B8[];
-extern Gfx D_09001210_3391D0[];
-extern Gfx D_09001228_3391E8[];
-extern Gfx D_09001240_339200[];
-extern Gfx D_09001258_339218[];
-extern Gfx D_09001270_339230[];
 
-Gfx* D_E0022CD0[] = {
+const char* D_E0022CD0[] = {
     D_09001210_3391D0, D_09001228_3391E8, D_09001240_339200,
     D_09001258_339218, D_09001270_339230, D_090011C8_339188,
     D_090011E0_3391A0, D_090011F8_3391B8
@@ -252,7 +244,7 @@ void sparkles_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, D_09000F20_338EE0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000F20_338EE0));
 
     colorIdx = (part->unk_20 - 1) * 3;
 
@@ -279,7 +271,7 @@ void sparkles_appendGfx(void* effect) {
 
             gDPSetPrimColor(gMainGfxPos++, 0, 0, D_E0022CF0[colorIdx], D_E0022CF0[colorIdx + 1], D_E0022CF0[colorIdx + 2], 255);
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, D_E0022CD0[unk_2C & 7]);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0022CD0[unk_2C & 7]));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
     }

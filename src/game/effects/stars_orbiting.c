@@ -1,11 +1,10 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000440_363090[];
-extern Gfx D_090004F0_363140[];
 
-Gfx* D_E005E670[] = { D_090004F0_363140 };
-Gfx* D_E005E674[] = { D_09000440_363090 };
+const char* D_E005E670[] = { D_090004F0_363140 };
+const char* D_E005E674[] = { D_09000440_363090 };
 
 void stars_orbiting_init(EffectInstance* effect);
 void stars_orbiting_update(EffectInstance* effect);
@@ -109,12 +108,12 @@ void func_E005E334(EffectInstance* effect) {
     s32 i;
 
     if (part->enabled) {
-        Gfx* dlist = D_E005E670[0];
-        Gfx* dlist2 = D_E005E674[0];
+        const char* dlist = D_E005E670[0];
+        const char* dlist2 = D_E005E674[0];
 
         gDPPipeSync(gMainGfxPos++);
         gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-        gSPDisplayList(gMainGfxPos++, dlist2);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist2));
 
         guTranslateF(sp18, part->pos.x, part->pos.y, part->pos.z);
         guRotateF(sp58, -gCameras[gCurrentCameraID].curYaw, 0.0f, 1.0f, 0.0f);
@@ -132,7 +131,7 @@ void func_E005E334(EffectInstance* effect) {
             guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
 
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, dlist);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
 

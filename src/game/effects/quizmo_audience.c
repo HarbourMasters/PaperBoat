@@ -1,24 +1,14 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 typedef struct QuizmoAudiencePositonOffsets {
     /* 0x00 */ Vec2b* offsets;
     /* 0x04 */ u8 count;
 } QuizmoAudiencePositonOffsets; // size = 0x8
 
-extern Gfx D_09002EE0_3AA680[];
-extern Gfx D_09002F18_3AA6B8[];
-extern Gfx D_09002F50_3AA6F0[];
-extern Gfx D_09002F88_3AA728[];
-extern Gfx D_09002FC0_3AA760[];
-extern Gfx D_09002FF8_3AA798[];
-extern Gfx D_09003030_3AA7D0[];
-extern Gfx D_09003068_3AA808[];
-extern Gfx D_090030A0_3AA840[];
-extern Gfx D_090030D8_3AA878[];
-extern Gfx D_09003110_3AA8B0[];
 
-Gfx* quizmo_audience_renderAudienceMember[] = {
+const char* quizmo_audience_renderAudienceMember[] = {
     D_090030D8_3AA878, D_090030A0_3AA840, D_09003068_3AA808, D_09003030_3AA7D0, D_09002FF8_3AA798,
     D_09002FC0_3AA760, D_09002F88_3AA728, D_09002F50_3AA6F0, D_09002F18_3AA6B8, D_09002EE0_3AA680
 };
@@ -198,7 +188,7 @@ void quizmo_audience_appendGfx(void* effect) {
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(gMainGfxPos++, 0, 0, primColor, primColor, primColor, 255);
-    gSPDisplayList(gMainGfxPos++, D_09003110_3AA8B0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09003110_3AA8B0));
 
     for (i = 0; i < MAX_QUIZMO_AUDIENCE; i++) {
         guTranslateF(sp18, data->compX[i], data->compY[i], 0.0f);
@@ -206,7 +196,7 @@ void quizmo_audience_appendGfx(void* effect) {
 
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
                   G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, quizmo_audience_renderAudienceMember[i]);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(quizmo_audience_renderAudienceMember[i]));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 

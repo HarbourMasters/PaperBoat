@@ -1,5 +1,6 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 typedef struct UnkStruct {
     /* 0x00 */ s32 unk_00;
@@ -7,7 +8,6 @@ typedef struct UnkStruct {
     /* 0x08 */ s32 unk_08;
 } UnkStruct; // size = 0xC
 
-extern Gfx D_09001000_3CC890[];
 
 u8 D_E00C49D0[] = { 120, 80, 40, 60 };
 
@@ -198,7 +198,7 @@ void stop_watch_appendGfx(void* effect) {
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPMatrix(gMainGfxPos++, camera->mtxBillboard, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gSPDisplayList(gMainGfxPos++, D_09001000_3CC890);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09001000_3CC890));
     gDPSetEnvColor(gMainGfxPos++, 0, 0, 0, data->unk_2C);
     gSPBranchList(gMainGfxPos, &gMainGfxPos[65]);
 

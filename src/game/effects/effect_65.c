@@ -1,5 +1,6 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 #define MAX_POINTS      30
 #define VTX_BUF_SIZE    2 * MAX_POINTS * sizeof(Vtx) / sizeof(Gfx)
@@ -9,9 +10,8 @@ void effect_65_update(EffectInstance* effect);
 void effect_65_render(EffectInstance* effect);
 void effect_65_appendGfx(void* effect);
 
-extern Gfx D_09000400_3D15E0[];
 
-Gfx* D_E00CACB0[] = { D_09000400_3D15E0, D_09000400_3D15E0, D_09000400_3D15E0, D_09000400_3D15E0 };
+const char* D_E00CACB0[] = { D_09000400_3D15E0, D_09000400_3D15E0, D_09000400_3D15E0, D_09000400_3D15E0 };
 
 EffectInstance* effect_65_main(
     s32 variation,
@@ -254,7 +254,7 @@ void effect_65_appendGfx(void* effect) {
     guMtxF2L(mtx, &gDisplayContext->matrixStack[gMatrixListPos]);
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gMainGfxPos++, D_E00CACB0[variation]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00CACB0[variation]));
 
     if (variation >= 2) {
         gDPSetCombineMode(gMainGfxPos++, PM_CC_4E, PM_CC_4F);

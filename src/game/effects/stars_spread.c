@@ -1,8 +1,7 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000440_360E70[];
-extern Gfx D_090004F0_360F20[];
 
 void stars_spread_init(EffectInstance* effect);
 void stars_spread_update(EffectInstance* effect);
@@ -121,14 +120,14 @@ void stars_spread_render(EffectInstance* effect) {
 
 void stars_spread_appendGfx(void* effect) {
     StarsSpreadFXData* part = ((EffectInstance*)effect)->data.starsSpread;
-    Gfx* dlist = D_090004F0_360F20;
+    const char* dlist = D_090004F0_360F20;
     Matrix4f sp18;
     Matrix4f sp58;
     s32 i;
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, D_09000440_360E70);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000440_360E70));
 
     guTranslateF(sp18, part->unk_04, part->unk_08, part->unk_0C);
     guRotateF(sp58, -gCameras[gCurrentCameraID].curYaw, 0.0f, 1.0f, 0.0f);
@@ -148,7 +147,7 @@ void stars_spread_appendGfx(void* effect) {
         guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
 
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, dlist);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 

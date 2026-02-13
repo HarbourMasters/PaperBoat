@@ -40,7 +40,7 @@ enum N(ActorParams) {
     DMG_PETIT_SPIT      = 4,
 };
 
-static s32 N(unusedArray)[64];
+static Bytecode N(unusedArray)[64];
 
 MATCHING_BSS(0x8A0);
 

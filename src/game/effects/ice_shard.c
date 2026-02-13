@@ -1,12 +1,10 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09001000_3F9CC0[];
-extern Gfx D_09001148_3F9E08[];
-extern Gfx D_09001168_3F9E28[];
 
-Gfx* D_E01108B0[] = { D_09001148_3F9E08 };
-Gfx* D_E01108B4[] = { D_09001000_3F9CC0 };
+const char* D_E01108B0[] = { D_09001148_3F9E08 };
+const char* D_E01108B4[] = { D_09001000_3F9CC0 };
 
 void ice_shard_init(EffectInstance* effect);
 void ice_shard_update(EffectInstance* effect);
@@ -152,7 +150,7 @@ void ice_shard_appendGfx(void* effect) {
     guMtxF2L(sp20, &gDisplayContext->matrixStack[gMatrixListPos]);
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gSPDisplayList(gMainGfxPos++, D_E01108B4[0]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E01108B4[0]));
 
     texCoordS = (type % 2) * 32;
     texCoordT = (s32) (data->animFrame * 4.0f) * 32;
@@ -167,13 +165,13 @@ void ice_shard_appendGfx(void* effect) {
 
     gDPSetPrimColor(gMainGfxPos++, 0, 0, data->primCol.r, data->primCol.g, data->primCol.b, alpha);
     gDPSetEnvColor(gMainGfxPos++, data->envCol.r, data->envCol.g, data->envCol.b, envAlpha);
-    gSPDisplayList(gMainGfxPos++, D_E01108B0[0]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E01108B0[0]));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 
     if (type % 2 == 1 && (s32) (data->animFrame * 4.0f) == 3) {
         gDPSetPrimColor(gMainGfxPos++, 0, 0, data->primCol.r, data->primCol.g, data->primCol.b, alpha * envAlpha / 255);
         gDPSetCombineMode(gMainGfxPos++, PM_CC_3C, PM_CC_3C);
-        gSPDisplayList(gMainGfxPos++, D_09001168_3F9E28);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09001168_3F9E28));
     }
 
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);

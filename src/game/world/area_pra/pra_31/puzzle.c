@@ -54,7 +54,7 @@ API_CALLABLE(N(EVS_ManagePuzzle)) {
 
     if (isInitialCall) {
         puzzle = heap_malloc(sizeof(*puzzle));
-        evt_set_variable(script, MV_PuzzleDataPtr, (s32) puzzle);
+        evt_set_variable(script, MV_PuzzleDataPtr, (Bytecode) puzzle);
         storyProgress = evt_get_variable(script, GB_StoryProgress);
 
         for (i = 0; i < GRID_SIZE_Z; i++) {

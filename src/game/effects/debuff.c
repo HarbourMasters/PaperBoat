@@ -1,11 +1,10 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000240_364E40[];
-extern Gfx D_090002E8_364EE8[];
 
-Gfx* D_E00628C0[] = { D_090002E8_364EE8 };
-Gfx* D_E00628C4[] = { D_09000240_364E40 };
+const char* D_E00628C0[] = { D_090002E8_364EE8 };
+const char* D_E00628C4[] = { D_09000240_364E40 };
 
 void debuff_init(EffectInstance* effect);
 void debuff_update(EffectInstance* effect);
@@ -133,8 +132,8 @@ void debuff_render(EffectInstance* effect) {
 void debuff_appendGfx(void* effect) {
     EffectInstance* eff = (EffectInstance*)effect;
     DebuffFXData* data = eff->data.debuff;
-    Gfx* dlist = D_E00628C0[0];
-    Gfx* dlist2 = D_E00628C4[0];
+    const char* dlist = D_E00628C0[0];
+    const char* dlist2 = D_E00628C4[0];
     Matrix4f mtxTranslate;
     Matrix4f mtxRotate;
     Matrix4f mtxTransform;
@@ -142,7 +141,7 @@ void debuff_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(eff->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, dlist2);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist2));
 
     guTranslateF(mtxTranslate, data->pos.x, data->pos.y, data->pos.z);
     guRotateF(mtxRotate, -gCameras[gCurrentCameraID].curYaw, 0.0f, 1.0f, 0.0f);
@@ -165,7 +164,7 @@ void debuff_appendGfx(void* effect) {
 
         gSPMatrix(gMainGfxPos++,
                   &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, dlist);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 

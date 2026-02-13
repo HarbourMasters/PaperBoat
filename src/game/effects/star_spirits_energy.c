@@ -1,19 +1,14 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09004E00_412090[];
-extern Gfx D_09005168_4123F8[];
-extern Gfx D_090051C8_412458[];
-extern Gfx D_09005370_412600[];
-extern Gfx D_090053D0_412660[];
-extern Gfx D_09005440_4126D0[];
 
-Gfx* D_E0122B90[] = {
+const char* D_E0122B90[] = {
     D_09005168_4123F8, D_090051C8_412458, D_09005370_412600, D_090053D0_412660
 };
 
-Gfx* D_E0122BA0[] = { D_09005440_4126D0 };
-Gfx* D_E0122BA4[] = { D_09004E00_412090 };
+const char* D_E0122BA0[] = { D_09005440_4126D0 };
+const char* D_E0122BA4[] = { D_09004E00_412090 };
 
 typedef struct UnkStarSpiritsEnergy {
     /* 0x00 */ u16 unk_00;
@@ -351,7 +346,7 @@ void star_spirits_energy_appendGfx(void* effect) {
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gMainGfxPos++, D_E0122BA4[0]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0122BA4[0]));
     gDPSetEnvColor(gMainGfxPos++, data->unk_2C, data->unk_30, data->unk_34, data->unk_38);
 
     for (i = 0; i < 4; i++) {
@@ -363,7 +358,7 @@ void star_spirits_energy_appendGfx(void* effect) {
                 gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
                           G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
                 gDPSetPrimColor(gMainGfxPos++, 0, 0, data->unk_1C, data->unk_20, data->unk_24, data->unk_50[i]);
-                gSPDisplayList(gMainGfxPos++, D_E0122B90[i]);
+                gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0122B90[i]));
                 gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
             }
         }
@@ -384,7 +379,7 @@ void star_spirits_energy_appendGfx(void* effect) {
 
         if (alpha > 0) {
             gDPSetPrimColor(gMainGfxPos++, 0, 0, 208, 208, 208, alpha);
-            gSPDisplayList(gMainGfxPos++, D_E0122BA0[0]);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0122BA0[0]));
         }
     }
 

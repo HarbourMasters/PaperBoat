@@ -109,9 +109,9 @@ API_CALLABLE(N(CreateSticker)) {
 
     sticker->imgfxIdx = imgfx_get_free_instances(1);
     sticker->workerID = create_worker_scene(nullptr, N(worker_render_sticker));
-    evt_set_variable(script, MV_StickerData, (s32) sticker);
-    evt_set_variable(script, MV_StickerImage, (s32) iconImg);
-    evt_set_variable(script, MV_StickerPalette, (s32) iconPal);
+    evt_set_variable(script, MV_StickerData, (Bytecode) sticker);
+    evt_set_variable(script, MV_StickerImage, (Bytecode) iconImg);
+    evt_set_variable(script, MV_StickerPalette, (Bytecode) iconPal);
     return ApiStatus_DONE2;
 }
 
@@ -210,9 +210,9 @@ API_CALLABLE(N(DeleteSticker)) {
     heap_free(img);
     heap_free(pal);
 
-    evt_set_variable(script, MV_StickerData, (s32)nullptr);
-    evt_set_variable(script, MV_StickerImage, (s32)nullptr);
-    evt_set_variable(script, MV_StickerPalette, (s32)nullptr);
+    evt_set_variable(script, MV_StickerData, (Bytecode)nullptr);
+    evt_set_variable(script, MV_StickerImage, (Bytecode)nullptr);
+    evt_set_variable(script, MV_StickerPalette, (Bytecode)nullptr);
 
     return ApiStatus_DONE2;
 }

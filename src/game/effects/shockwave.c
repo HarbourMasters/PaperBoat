@@ -1,11 +1,9 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000940_359CF0[];
-extern Gfx D_090009A0_359D50[];
-extern Gfx D_09000A80_359E30[];
 
-Gfx* D_E004AE60[] = {
+const char* D_E004AE60[] = {
     D_090009A0_359D50, D_090009A0_359D50, D_09000A80_359E30,
     D_09000A80_359E30, D_09000A80_359E30, D_09000A80_359E30
 };
@@ -268,8 +266,8 @@ void shockwave_render(EffectInstance* effect) {
 void shockwave_appendGfx(void* effect) {
     ShockwaveFXData* data = ((EffectInstance*) effect)->data.shockwave;
     Matrix4f sp20, sp60;
-    Gfx* dlist = D_09000940_359CF0;
-    Gfx* dlist2;
+    const char* dlist = D_09000940_359CF0;
+    const char* dlist2;
     s32 primA;
     s32 primR, primG, primB;
     s32 envR, envG, envB;
@@ -307,7 +305,7 @@ void shockwave_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, dlist2);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist2));
 
     guPositionF(sp20, 0.0f, -gCameras[gCurrentCameraID].curYaw, 0.0f, 1.0f,
                      data->pos.x, data->pos.y, data->pos.z);
@@ -338,7 +336,7 @@ void shockwave_appendGfx(void* effect) {
 
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
                       G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, dlist);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
     }

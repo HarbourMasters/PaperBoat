@@ -1,13 +1,10 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000DA0_33C970[];
-extern Gfx D_09000E28_33C9F8[];
-extern Gfx D_090010B0_33CC80[];
-extern Gfx D_09001138_33CD08[];
 
-Gfx* D_E00269F0[] = { D_090010B0_33CC80, D_09000DA0_33C970 };
-Gfx* D_E00269F8[] = { D_09001138_33CD08, D_09000E28_33C9F8 };
+const char* D_E00269F0[] = { D_090010B0_33CC80, D_09000DA0_33C970 };
+const char* D_E00269F8[] = { D_09001138_33CD08, D_09000E28_33C9F8 };
 
 u8 D_E0026A00[] = {
     0xFF, 0xC5, 0x9C, 0xFF, 0x9C, 0xFF, 0xFF, 0x73, 0xD6, 0xFF, 0x9C, 0xFF, 0xFF, 0xC5, 0x7B, 0xFF,
@@ -160,8 +157,8 @@ void gather_energy_pink_render(EffectInstance* effect) {
 void gather_energy_pink_appendGfx(void* effect) {
     GatherEnergyPinkFXData* part = ((EffectInstance*)effect)->data.gatherEnergyPink;
     s32 unk_00 = part->unk_00;
-    Gfx* dlist = D_E00269F8[unk_00];
-    Gfx* dlist2 = D_E00269F0[unk_00];
+    const char* dlist = D_E00269F8[unk_00];
+    const char* dlist2 = D_E00269F0[unk_00];
     Camera* camera = &gCameras[gCurrentCameraID];
     Matrix4f sp20;
     Matrix4f sp60;
@@ -173,7 +170,7 @@ void gather_energy_pink_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, dlist);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
 
     guTranslateF(sp20, part->posB.x, part->posB.y, part->posB.z);
     guScaleF(sp60, part->unk_1C, part->unk_1C, 1.0f);
@@ -219,7 +216,7 @@ void gather_energy_pink_appendGfx(void* effect) {
 
         gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, tempX, tempY, tempX + 256, tempY + 256);
         gDPSetTileSize(gMainGfxPos++, 1, tempX2, tempY2, tempX2 + 256, tempY2 + 256);
-        gSPDisplayList(gMainGfxPos++, dlist2);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist2));
     }
 
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);

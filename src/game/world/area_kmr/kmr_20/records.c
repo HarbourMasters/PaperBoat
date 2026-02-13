@@ -288,7 +288,7 @@ API_CALLABLE(N(ShowGameRecords)) {
         records->state = RECORDS_STATE_BEGIN_FADE_IN;
         records->alpha = 255;
         records->workerID = create_worker_scene(nullptr, N(worker_draw_game_records));
-        evt_set_variable(script, MV_RecordsDataPtr, (s32) records);
+        evt_set_variable(script, MV_RecordsDataPtr, (Bytecode) records);
         N(calculate_records)(records);
     }
 

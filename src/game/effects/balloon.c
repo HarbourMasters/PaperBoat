@@ -1,12 +1,9 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09001280_3958F0[];
-extern Gfx D_09001358_3959C8[];
-extern Gfx D_09001430_395AA0[];
-extern Gfx D_09001508_395B78[];
 
-Gfx* D_E00963E0[] = { D_09001280_3958F0, D_09001358_3959C8, D_09001430_395AA0 };
+const char* D_E00963E0[] = { D_09001280_3958F0, D_09001358_3959C8, D_09001430_395AA0 };
 
 void balloon_init(EffectInstance* effect);
 void balloon_update(EffectInstance* effect);
@@ -101,8 +98,8 @@ void balloon_appendGfx(void* effect) {
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
               G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gSPDisplayList(gMainGfxPos++, D_E00963E0[idx]);
-    gSPDisplayList(gMainGfxPos++, D_09001508_395B78);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00963E0[idx]));
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09001508_395B78));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     gDPPipeSync(gMainGfxPos++);
 }

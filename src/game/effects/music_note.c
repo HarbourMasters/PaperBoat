@@ -1,21 +1,14 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 void music_note_appendGfx(void* effect);
 void music_note_init(EffectInstance* effect);
 void music_note_update(EffectInstance* effect);
 void music_note_render(EffectInstance* effect);
 
-extern Gfx D_09000FC0_35B5A0[];
-extern Gfx D_09001038_35B618[];
-extern Gfx D_090010C0_35B6A0[];
-extern Gfx D_09001148_35B728[];
-extern Gfx D_090011D0_35B7B0[];
-extern Gfx D_09001258_35B838[];
-extern Gfx D_090012E0_35B8C0[];
-extern Gfx D_09001368_35B948[];
 
-Gfx* D_E004C660[] = { D_09001038_35B618, D_090010C0_35B6A0, D_09001148_35B728, D_090011D0_35B7B0,
+const char* D_E004C660[] = { D_09001038_35B618, D_090010C0_35B6A0, D_09001148_35B728, D_090011D0_35B7B0,
                       D_09001258_35B838, D_090012E0_35B8C0, D_09001368_35B948 };
 
 s8 D_E004C67C[] = {
@@ -142,7 +135,7 @@ void music_note_appendGfx(void* data) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, D_09000FC0_35B5A0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000FC0_35B5A0));
     gDPSetPrimColor(gMainGfxPos++, 0, 0,
         D_E004C67C[rgbOffset], D_E004C67C[rgbOffset + 1], D_E004C67C[rgbOffset + 2], fxData->alpha
     );
@@ -153,7 +146,7 @@ void music_note_appendGfx(void* data) {
     guMtxCatF(mtxTemp, mtxTransform, mtxTransform);
     guMtxF2L(mtxTransform, &gDisplayContext->matrixStack[gMatrixListPos]);
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gSPDisplayList(gMainGfxPos++, D_E004C660[dlistIdx]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E004C660[dlistIdx]));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     gDPPipeSync(gMainGfxPos++);
 }

@@ -113,7 +113,7 @@ API_CALLABLE(N(func_80241BA8_991388)) {
     ambush->imgfxIdx = 0;
 
     ambush->workerID = create_worker_frontUI(nullptr, N(func_80241610_990DF0));
-    evt_set_variable(script, MV_AmbushPtr, (s32) ambush);
+    evt_set_variable(script, MV_AmbushPtr, (Bytecode) ambush);
     return ApiStatus_DONE2;
 }
 

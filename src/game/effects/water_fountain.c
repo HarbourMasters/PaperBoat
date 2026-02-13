@@ -1,5 +1,6 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 typedef struct UnkStruct {
     /* 0x00 */ s8 unk_00;
@@ -11,9 +12,6 @@ typedef struct UnkStruct {
     /* 0x09 */ char unk_09[1];
 } UnkStruct; // size = 0xA
 
-extern Gfx D_09000280_3B8AE0[];
-extern Gfx D_09000328_3B8B88[];
-extern Gfx D_09000348_3B8BA8[];
 
 UnkStruct D_E00B8900[] = {
     {   0,  0,  30, 140,    0, 255, { 0 } },
@@ -244,7 +242,7 @@ void water_fountain_appendGfx(void* effect) {
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPMatrix(gMainGfxPos++, camera->mtxBillboard, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gSPDisplayList(gMainGfxPos++, D_09000280_3B8AE0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000280_3B8AE0));
 
     guRotateF(sp18, data->unk_38, 0.0f, 0.0f, 1.0f);
     guScaleF(sp58, data->unk_3C, data->unk_40, 1.0f);
@@ -257,7 +255,7 @@ void water_fountain_appendGfx(void* effect) {
     temp = sp9C + 1;
     if (timeLeft >= var_s6 - temp) {
         gDPSetPrimColor(gMainGfxPos++, 0, 0, unk_18, unk_1C, unk_20, unk_24);
-        gSPDisplayList(gMainGfxPos++, D_09000348_3B8BA8);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000348_3B8BA8));
     }
 
     for (i = 0; i < var_s6 / 2; i++) {
@@ -277,7 +275,7 @@ void water_fountain_appendGfx(void* effect) {
 
                     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
                     gDPSetPrimColor(gMainGfxPos++, 0, 0, unk_18, unk_1C, unk_20, (unk_24 * basePtr[idx].sizeScale) >> 8);
-                    gSPDisplayList(gMainGfxPos++, D_09000328_3B8B88);
+                    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000328_3B8B88));
                     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
                 }
             }

@@ -1,15 +1,9 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern IMG_BIN D_09000000_345B40[][0x1000];
-extern IMG_BIN D_09004000_349B40[][0x1000];
-extern Gfx D_09008100_34DC40[];
-extern Gfx D_09008170_34DCB0[];
-extern Gfx D_09008190_34DCD0[];
-extern Gfx D_090081A8_34DCE8[];
-extern Gfx D_090081C0_34DD00[];
 
-Gfx* D_E0036630[] = {
+const char* D_E0036630[] = {
     D_09008170_34DCB0, D_09008190_34DCD0, D_090081A8_34DCE8, D_090081C0_34DD00
 };
 
@@ -118,7 +112,7 @@ void got_item_outline_appendGfx(void* effect) {
     if (scale != 0.0f) {
         gDPPipeSync(gMainGfxPos++);
         gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-        gSPDisplayList(gMainGfxPos++, D_09008100_34DC40);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09008100_34DC40));
 
         if (type == 0) {
             gDPSetPrimColor(gMainGfxPos++, 0, 0, 255, 255, 255, data->alpha);
@@ -162,7 +156,7 @@ void got_item_outline_appendGfx(void* effect) {
                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
             gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, 0, 0, 508, 124);
-            gSPDisplayList(gMainGfxPos++, D_E0036630[i]);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0036630[i]));
         }
 
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);

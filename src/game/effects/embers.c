@@ -1,10 +1,9 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000280_3DC1C0[];
-extern Gfx D_090003B0_3DC2F0[];
 
-Gfx* D_E00E0A40[] = { D_090003B0_3DC2F0, D_09000280_3DC1C0 };
+const char* D_E00E0A40[] = { D_090003B0_3DC2F0, D_09000280_3DC1C0 };
 
 f32 D_E00E0A48[] = {
     0.01f, 0.05f,  0.1f,  0.2f, 0.35f,  0.5f,
@@ -205,7 +204,7 @@ void embers_appendGfx(void* effect) {
     gSPMatrix(gMainGfxPos++, camera->mtxBillboard, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
     gDPSetPrimColor(gMainGfxPos++, 0, 0, part->unk_20, part->unk_24, part->unk_28, unk_2C);
     gDPSetEnvColor(gMainGfxPos++, part->unk_30, part->unk_34, part->unk_38, part->unk_3C);
-    gSPDisplayList(gMainGfxPos++, D_E00E0A40[1]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00E0A40[1]));
 
     part++;
     for (i = 1; i < ((EffectInstance*)effect)->numParts; i++, part++) {
@@ -216,7 +215,7 @@ void embers_appendGfx(void* effect) {
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
             gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, 0, (i % 4) * 16 * 4, 15 * 4, ((i % 4) * 16 + 15) * 4);
             gDPSetTileSize(gMainGfxPos++, 1, (s32) part->unk_5C * 4, (s32) part->unk_60 * 4, ((s32) part->unk_5C + 15) * 4, ((s32) part->unk_60 + 15) * 4);
-            gSPDisplayList(gMainGfxPos++, D_E00E0A40[0]);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00E0A40[0]));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
     }

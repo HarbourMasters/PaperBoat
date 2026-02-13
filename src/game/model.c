@@ -3316,21 +3316,76 @@ void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_P
                     gDPScrollTextureBlockHalfHeight_4b((*gfxPos)++, raster, mainFmt, mainWidth, mainHeight, 0,
                                                        mainWrapW, mainWrapH, mainMasks, mainMaskt, G_TX_NOLOD, G_TX_NOLOD,
                                                        auxOffsetS, auxOffsetT, auxShiftS, auxShiftT);
+                    // Port: emit a second LoadBlock for the bottom half so the Fast3D interpreter
+                    // initializes loaded_texture[1]. The single LoadBlock in the macro above only
+                    // sets loaded_texture[0]; the second tile's non-zero tmem maps to index 1.
+                    {
+                        s32 halfH = mainHeight >> 1;
+                        s32 halfBytes = mainWidth * halfH / 2;
+                        s32 halfTmem = (halfBytes + 7) >> 3;
+                        gDPSetTextureImage((*gfxPos)++, mainFmt, G_IM_SIZ_16b, 1, raster + halfBytes);
+                        gDPSetTile((*gfxPos)++, mainFmt, G_IM_SIZ_16b, 0, halfTmem, G_TX_LOADTILE,
+                                   0, mainWrapH, mainMaskt, G_TX_NOLOD, mainWrapW, mainMasks, G_TX_NOLOD);
+                        gDPLoadSync((*gfxPos)++);
+                        gDPLoadBlock((*gfxPos)++, G_TX_LOADTILE, 0, 0,
+                                     (((mainWidth * halfH + 3) >> 2) - 1),
+                                     CALC_DXT_4b(mainWidth));
+                        gDPPipeSync((*gfxPos)++);
+                    }
                     break;
                 case G_IM_SIZ_8b:
                     gDPScrollTextureBlockHalfHeight((*gfxPos)++, raster, mainFmt, G_IM_SIZ_8b, mainWidth, mainHeight, 0,
                                                     mainWrapW, mainWrapH, mainMasks, mainMaskt, G_TX_NOLOD, G_TX_NOLOD,
                                                     auxOffsetS, auxOffsetT, auxShiftS, auxShiftT);
+                    {
+                        s32 halfH = mainHeight >> 1;
+                        s32 halfBytes = mainWidth * halfH;
+                        s32 halfTmem = (halfBytes + 7) >> 3;
+                        gDPSetTextureImage((*gfxPos)++, mainFmt, G_IM_SIZ_16b, 1, raster + halfBytes);
+                        gDPSetTile((*gfxPos)++, mainFmt, G_IM_SIZ_16b, 0, halfTmem, G_TX_LOADTILE,
+                                   0, mainWrapH, mainMaskt, G_TX_NOLOD, mainWrapW, mainMasks, G_TX_NOLOD);
+                        gDPLoadSync((*gfxPos)++);
+                        gDPLoadBlock((*gfxPos)++, G_TX_LOADTILE, 0, 0,
+                                     (((mainWidth * halfH + G_IM_SIZ_8b_INCR) >> G_IM_SIZ_8b_SHIFT) - 1),
+                                     CALC_DXT(mainWidth, G_IM_SIZ_8b_BYTES));
+                        gDPPipeSync((*gfxPos)++);
+                    }
                     break;
                 case G_IM_SIZ_16b:
                     gDPScrollTextureBlockHalfHeight((*gfxPos)++, raster, mainFmt, G_IM_SIZ_16b, mainWidth, mainHeight, 0,
                                                     mainWrapW, mainWrapH, mainMasks, mainMaskt, G_TX_NOLOD, G_TX_NOLOD,
                                                     auxOffsetS, auxOffsetT, auxShiftS, auxShiftT);
+                    {
+                        s32 halfH = mainHeight >> 1;
+                        s32 halfBytes = mainWidth * halfH * 2;
+                        s32 halfTmem = (halfBytes + 7) >> 3;
+                        gDPSetTextureImage((*gfxPos)++, mainFmt, G_IM_SIZ_16b, 1, raster + halfBytes);
+                        gDPSetTile((*gfxPos)++, mainFmt, G_IM_SIZ_16b, 0, halfTmem, G_TX_LOADTILE,
+                                   0, mainWrapH, mainMaskt, G_TX_NOLOD, mainWrapW, mainMasks, G_TX_NOLOD);
+                        gDPLoadSync((*gfxPos)++);
+                        gDPLoadBlock((*gfxPos)++, G_TX_LOADTILE, 0, 0,
+                                     (mainWidth * halfH - 1),
+                                     CALC_DXT(mainWidth, G_IM_SIZ_16b_BYTES));
+                        gDPPipeSync((*gfxPos)++);
+                    }
                     break;
                 case G_IM_SIZ_32b:
                     gDPScrollTextureBlockHalfHeight((*gfxPos)++, raster, mainFmt, G_IM_SIZ_32b, mainWidth, mainHeight, 0,
                                                     mainWrapW, mainWrapH, mainMasks, mainMaskt, G_TX_NOLOD, G_TX_NOLOD,
                                                     auxOffsetS, auxOffsetT, auxShiftS, auxShiftT);
+                    {
+                        s32 halfH = mainHeight >> 1;
+                        s32 halfBytes = mainWidth * halfH * 4;
+                        s32 halfTmem = (halfBytes + 7) >> 3;
+                        gDPSetTextureImage((*gfxPos)++, mainFmt, G_IM_SIZ_32b, 1, raster + halfBytes);
+                        gDPSetTile((*gfxPos)++, mainFmt, G_IM_SIZ_32b, 0, halfTmem, G_TX_LOADTILE,
+                                   0, mainWrapH, mainMaskt, G_TX_NOLOD, mainWrapW, mainMasks, G_TX_NOLOD);
+                        gDPLoadSync((*gfxPos)++);
+                        gDPLoadBlock((*gfxPos)++, G_TX_LOADTILE, 0, 0,
+                                     (mainWidth * halfH - 1),
+                                     CALC_DXT(mainWidth, G_IM_SIZ_32b_BYTES));
+                        gDPPipeSync((*gfxPos)++);
+                    }
                     break;
             }
             break;

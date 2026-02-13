@@ -24,6 +24,7 @@
 
 // Frame buffers (stubs - libultraship manages actual buffers)
 static u16 gFrameBufDummy[320 * 240];
+static u16 gZBufferDummy[320 * 240];
 u16* FrameBuf[3] = { gFrameBufDummy, gFrameBufDummy, gFrameBufDummy };
 
 // Graphics globals
@@ -106,20 +107,18 @@ void nuScCreateScheduler(u8 mode, u8 numFields) {
 // ============================================================================
 
 void nuGfxInit(void) {
-    // Initialize framebuffer pointer so osVirtualToPhysical(nuGfxCfb_ptr) returns valid address
-    // NOTE: Do NOT set nuGfxDisplay here - let game code control via nuGfxDisplayOn/Off
-    // (N64 boot_main calls nuGfxDisplayOff before nuGfxInit, then nuGfxDisplayOn later)
+    // Initialize framebuffer and z-buffer pointers so game code has valid buffers.
+    // Real rendering uses GPU-side buffers; these are CPU-side stubs for game code
+    // that reads/writes framebuffer or z-buffer data (e.g. is_point_visible depth queries).
     nuGfxCfb_ptr = gFrameBufDummy;
     nuGfxCfb = FrameBuf;
-    GameEngine_LogInfo("nuGfxInit: nuGfxCfb_ptr=%p, gFrameBufDummy=%p", (void*)nuGfxCfb_ptr, (void*)gFrameBufDummy);
+    nuGfxZBuffer = gZBufferDummy;
 }
 
 void nuGfxInitEX2(void) {
-    // Initialize framebuffer pointer so osVirtualToPhysical(nuGfxCfb_ptr) returns valid address
-    // NOTE: Do NOT set nuGfxDisplay here - let game code control via nuGfxDisplayOn/Off
     nuGfxCfb_ptr = gFrameBufDummy;
     nuGfxCfb = FrameBuf;
-    GameEngine_LogInfo("nuGfxInitEX2: nuGfxCfb_ptr=%p, gFrameBufDummy=%p", (void*)nuGfxCfb_ptr, (void*)gFrameBufDummy);
+    nuGfxZBuffer = gZBufferDummy;
 }
 
 void nuGfxThreadStart(void) {
@@ -177,7 +176,9 @@ void nuGfxSetCfb(u16** framebuf, u32 framebufnum) {
 }
 
 void nuGfxSetZBuffer(u16* zbuffer) {
-    // No-op - Z buffer managed by libultraship
+    // Game code reads from nuGfxZBuffer (e.g. is_point_visible depth queries).
+    // Real z-buffering is GPU-side, but we need a valid buffer to avoid crashes.
+    nuGfxZBuffer = gZBufferDummy;
 }
 
 void nuGfxSwapCfb(void* framebuffer) {

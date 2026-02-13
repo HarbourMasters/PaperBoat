@@ -1,5 +1,6 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 typedef struct LightningPreset {
     /* 0x00 */ u8 offset[12];
@@ -36,7 +37,6 @@ LightningPreset D_E00BCD38[] = {
 
 LightningPreset* D_E00BCE40[] = { D_E00BCC30, D_E00BCD38 };
 
-extern Gfx D_09001000_3BBEA0[];
 
 void lightning_bolt_init(EffectInstance* effect);
 void lightning_bolt_update(EffectInstance* effect);
@@ -214,7 +214,7 @@ void lightning_bolt_appendGfx(void* effect) {
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(gMainGfxPos++, 0, 0, data->outerColor.r, data->outerColor.g, data->outerColor.b, alpha);
     gDPSetEnvColor(gMainGfxPos++, data->innerColor.r, data->innerColor.g, data->innerColor.b, 128);
-    gSPDisplayList(gMainGfxPos++, D_09001000_3BBEA0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09001000_3BBEA0));
 
     temp_a0 = lifetime - 1;
     if (type != 2) {

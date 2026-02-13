@@ -1,8 +1,7 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_090003A0_38ED30[];
-extern Gfx D_09000420_38EDB0[];
 
 // perhaps additional, unused colors? 36 bytes would give 12 RGB colors
 s32 D_E008CAF0[] = {
@@ -213,7 +212,7 @@ void effect_46_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, D_09000420_38EDB0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000420_38EDB0));
 
     guTranslateF(mtxTransform, part->pos.x, part->pos.y, part->pos.z);
     guRotateF(mtxTemp, -gCameras[gCurrentCameraID].curYaw, 0.0f, 1.0f, 0.0f);
@@ -241,7 +240,7 @@ void effect_46_appendGfx(void* effect) {
         guMtxF2L(mtxTransform, &gDisplayContext->matrixStack[gMatrixListPos]);
 
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, D_090003A0_38ED30);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090003A0_38ED30));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 

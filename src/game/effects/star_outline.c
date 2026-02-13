@@ -1,13 +1,11 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000800_4147A0[];
-extern Gfx D_09000B20_414AC0[];
-extern Gfx D_09000B90_414B30[];
 
-Gfx* D_E0126BC0[] = { D_09000B90_414B30 };
-Gfx* D_E0126BC4[] = { D_09000B20_414AC0 };
-Gfx* D_E0126BC8[] = { D_09000800_4147A0 };
+const char* D_E0126BC0[] = { D_09000B90_414B30 };
+const char* D_E0126BC4[] = { D_09000B20_414AC0 };
+const char* D_E0126BC8[] = { D_09000800_4147A0 };
 
 void star_outline_init(EffectInstance* effect);
 void star_outline_update(EffectInstance* effect);
@@ -208,7 +206,7 @@ void star_outline_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, D_E0126BC8[0]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0126BC8[0]));
 
     if (unk_34 != 0) {
         guPositionF(sp20, 0.0f, -gCameras[gCurrentCameraID].curYaw, 0.0f, (f32) ((f64) data->unk_54 * 0.4), data->pos.x, data->pos.y, data->pos.z);
@@ -226,7 +224,7 @@ void star_outline_appendGfx(void* effect) {
 
         gDPSetPrimColor(gMainGfxPos++, 0, 0, unk_18, unk_1C, unk_20, unk_34 >> 1);
         gDPSetEnvColor(gMainGfxPos++, unk_28, unk_2C, unk_30, unk_34 >> 1);
-        gSPDisplayList(gMainGfxPos++, D_E0126BC4[0]);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0126BC4[0]));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 
@@ -243,7 +241,7 @@ void star_outline_appendGfx(void* effect) {
         } else {
             gDPSetRenderMode(gMainGfxPos++, G_RM_ZB_CLD_SURF, G_RM_ZB_CLD_SURF2);
         }
-        gSPDisplayList(gMainGfxPos++, D_E0126BC4[0]);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0126BC4[0]));
     }
 
     if (data->unk_00 == 0) {
@@ -254,6 +252,6 @@ void star_outline_appendGfx(void* effect) {
 
     gDPSetPrimColor(gMainGfxPos++, 0, 0, unk_18, unk_1C, unk_20, unk_24);
     gDPSetEnvColor(gMainGfxPos++, unk_28, unk_2C, unk_30, unk_24);
-    gSPDisplayList(gMainGfxPos++, D_E0126BC0[0]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0126BC0[0]));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }

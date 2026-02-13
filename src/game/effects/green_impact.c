@@ -1,10 +1,9 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000540_365EF0[];
-extern Gfx D_090005A0_365F50[];
 
-Gfx* D_E0064A60[] = { D_090005A0_365F50, D_090005A0_365F50 };
+const char* D_E0064A60[] = { D_090005A0_365F50, D_090005A0_365F50 };
 
 void green_impact_init(EffectInstance* effect);
 void green_impact_update(EffectInstance* effect);
@@ -131,8 +130,8 @@ void green_impact_render(EffectInstance* effect) {
 
 void green_impact_appendGfx(void* effect) {
     GreenImpactFXData* part = ((EffectInstance*)effect)->data.greenImpact;
-    Gfx* dlist = D_E0064A60[part->unk_00];
-    Gfx* dlist2;
+    const char* dlist = D_E0064A60[part->unk_00];
+    const char* dlist2;
     s32 alpha;
     s32 primR;
     s32 primG;
@@ -161,7 +160,7 @@ void green_impact_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, dlist);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
 
     guPositionF(sp20, 0.0f, -gCameras[gCurrentCameraID].curYaw, 0.0f, 1.0f, part->unk_04, part->unk_08, part->unk_0C);
     guMtxF2L(sp20, &gDisplayContext->matrixStack[gMatrixListPos]);
@@ -197,7 +196,7 @@ void green_impact_appendGfx(void* effect) {
             gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, 0, (s32) part->unk_3C, 252, (s32) part->unk_3C + 124);
             gDPSetTileSize(gMainGfxPos++, 1, 0, (s32) part->unk_44, 124, (s32) part->unk_44 + 124);
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, dlist2);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist2));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
     }

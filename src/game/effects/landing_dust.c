@@ -1,16 +1,10 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09002780_32B620[];
-extern Gfx D_09002868_32B708[];
-extern Gfx D_09002950_32B7F0[];
-extern Gfx D_09002A38_32B8D8[];
-extern Gfx D_09002B20_32B9C0[];
-extern Gfx D_09002B40_32B9E0[];
-extern Gfx D_09002B60_32BA00[];
 
-static Gfx* sDlists[] = { D_09002B20_32B9C0, D_09002B40_32B9E0, D_09002B60_32BA00, D_09002B60_32BA00, D_09002B60_32BA00 };
-static Gfx* sDlists2[] = { D_09002780_32B620, D_09002868_32B708, D_09002950_32B7F0, D_09002A38_32B8D8, D_09002A38_32B8D8 };
+static const char* sDlists[] = { D_09002B20_32B9C0, D_09002B40_32B9E0, D_09002B60_32BA00, D_09002B60_32BA00, D_09002B60_32BA00 };
+static const char* sDlists2[] = { D_09002780_32B620, D_09002868_32B708, D_09002950_32B7F0, D_09002A38_32B8D8, D_09002A38_32B8D8 };
 
 static s8 D_E000CC38[] = { 0x00, 0x01, 0x02, 0x1A, 0x03, 0x1B, 0x04, 0x1C, 0x05, 0x15, 0x35, 0x46, 0x46, 0x46, 0xFF,
                            0x00 };
@@ -268,8 +262,8 @@ void landing_dust_appendGfx(void* effect) {
     s32 spDC;
     s32 temp_lo;
     s32 envAlpha;
-    Gfx* dlist1;
-    Gfx* dlist2;
+    const char* dlist1;
+    const char* dlist2;
     s32 phi_a0;
     s32 temp;
     s32 i;
@@ -281,7 +275,7 @@ void landing_dust_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, dlist2);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist2));
 
     spD8 = temp_t0 & 7;
     spDC = temp_t0 & 0x40;
@@ -326,7 +320,7 @@ void landing_dust_appendGfx(void* effect) {
     }
 
     if (type == 2) {
-        gSPDisplayList(gMainGfxPos++, dlist1);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist1));
     }
 
     part++;
@@ -336,7 +330,7 @@ void landing_dust_appendGfx(void* effect) {
         guMtxF2L(mtx1, &gDisplayContext->matrixStack[gMatrixListPos]);
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
                   G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, dlist1);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist1));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 

@@ -55,6 +55,28 @@ static void ByteSwapTextureHeader(uint8_t* headerPtr) {
     *mainW = BSWAP16(*mainW);
     *auxH = BSWAP16(*auxH);
     *mainH = BSWAP16(*mainH);
+
+    // Fix bitfield byte layout for little-endian.
+    // On N64 (big-endian), GCC lays out the first-declared bitfield in the UPPER bits.
+    // On LE (ARM64/x86), the first-declared bitfield occupies the LOWER bits.
+    // The TextureHeader struct has paired bitfields within single bytes:
+    //   0x2A: auxCombineType:6, auxCombineSubType:2
+    //   0x2B: auxFmt:4, mainFmt:4
+    //   0x2C: auxBitDepth:4, mainBitDepth:4
+    //   0x2D: auxWrapW:4, mainWrapW:4
+    //   0x2E: auxWrapH:4, mainWrapH:4
+    // Without rearranging, the LE struct reads mainFmt where auxFmt should be (and vice versa).
+
+    // 0x2A: 6:2 split — N64 byte = (combineType << 2) | combineSubType
+    // LE needs: combineType | (combineSubType << 6)
+    uint8_t b = headerPtr[0x2A];
+    headerPtr[0x2A] = ((b >> 2) & 0x3F) | ((b & 0x03) << 6);
+
+    // 0x2B-0x2E: 4:4 splits — swap nibbles
+    for (int i = 0x2B; i <= 0x2E; i++) {
+        b = headerPtr[i];
+        headerPtr[i] = ((b & 0x0F) << 4) | ((b >> 4) & 0x0F);
+    }
 }
 
 // Calculate raster size for a texture (including mipmaps if present)

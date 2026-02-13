@@ -51,7 +51,7 @@ API_CALLABLE(N(ParadeSpriteHeapMalloc)) {
     s32 heapSize = evt_get_variable(script, *args++);
     s32 outVar = *args++;
 
-    evt_set_variable(script, outVar, (s32) _heap_malloc(&heap_spriteHead, heapSize));
+    evt_set_variable(script, outVar, (Bytecode) _heap_malloc(&heap_spriteHead, heapSize));
     return ApiStatus_DONE2;
 }
 

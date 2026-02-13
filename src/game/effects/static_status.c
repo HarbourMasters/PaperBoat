@@ -1,11 +1,10 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000280_3E1550[];
-extern Gfx D_090003A0_3E1670[];
 
-Gfx* D_E00E6880[] = { D_090003A0_3E1670, D_090003A0_3E1670 };
-Gfx* D_E00E6888[] = { D_09000280_3E1550, D_09000280_3E1550 };
+const char* D_E00E6880[] = { D_090003A0_3E1670, D_090003A0_3E1670 };
+const char* D_E00E6888[] = { D_09000280_3E1550, D_09000280_3E1550 };
 
 // number of frames in animation for type 0 and type 1
 s32 StaticEffectFrameCount[] = { 24, 12 };
@@ -207,7 +206,7 @@ void static_status_appendGfx(void* effect) {
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPMatrix(gMainGfxPos++, camera->mtxBillboard, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gSPDisplayList(gMainGfxPos++, D_E00E6888[unk_00]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00E6888[unk_00]));
 
     part++;
     for (i = 1; i < ((EffectInstance*)effect)->numParts; i++, part++) {
@@ -217,7 +216,7 @@ void static_status_appendGfx(void* effect) {
 
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
             gDPSetPrimColor(gMainGfxPos++, 0, 0, 0, 0, 0, (unk_30 * part->alpha) >> 8);
-            gSPDisplayList(gMainGfxPos++, D_E00E6880[unk_00]);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00E6880[unk_00]));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
     }

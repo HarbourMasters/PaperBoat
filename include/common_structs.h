@@ -449,7 +449,7 @@ typedef struct Evt {
     /* 0x110 */ s8 switchBlockState[8];
     /*       */ Bytecode switchBlockValue[8];
     /* 0x138 */ s32* buffer;
-    /* 0x13C */ s32* array;
+    /* 0x13C */ Bytecode* array;
     /* 0x140 */ s32* flagArray;
     /* 0x144 */ s32 id;
     /* 0x148 */ union {

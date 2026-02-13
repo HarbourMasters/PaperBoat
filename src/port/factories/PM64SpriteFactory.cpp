@@ -127,25 +127,10 @@ static void ByteSwapSpriteData(uint8_t* data, size_t size) {
         animListPtr++;
     }
 
-    // Byte-swap palette data (16-bit RGBA5551 values)
-    // Each palette is 16 colors (for CI4) = 32 bytes
-    if (palettesOffset > 0 && palettesOffset < size) {
-        uint32_t* paletteListPtr = reinterpret_cast<uint32_t*>(data + palettesOffset);
-        while (reinterpret_cast<uint8_t*>(paletteListPtr) < data + size) {
-            uint32_t palOffset = *paletteListPtr;
-            if (palOffset == 0xFFFFFFFF) {
-                break;
-            }
-
-            if (palOffset > 0 && palOffset < size - 32) {
-                uint16_t* palette = reinterpret_cast<uint16_t*>(data + palOffset);
-                for (int i = 0; i < 16 && reinterpret_cast<uint8_t*>(&palette[i]) < data + size; i++) {
-                    palette[i] = BSWAP16(palette[i]);
-                }
-            }
-            paletteListPtr++;
-        }
-    }
+    // Palette pixel data (RGBA5551) is NOT byte-swapped.
+    // The Fast3D interpreter reads palette bytes as big-endian:
+    //   col16 = (palette[idx*2] << 8) | palette[idx*2+1]
+    // so the raw ROM byte order must be preserved.
 }
 
 std::optional<std::shared_ptr<IParsedData>> PM64SpriteFactory::parse(std::vector<uint8_t>& buffer, YAML::Node& node) {

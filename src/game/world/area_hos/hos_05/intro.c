@@ -808,8 +808,7 @@ BSS f32 N(StarSpiritsPosZ)[7];
 BSS f32 N(AnimBowser_FlyOff_InitialY);
 BSS f32 N(AnimKammy_FlyOff_InitialY);
 BSS char N(D_8024F37C)[0x4];
-BSS s32 N(D_8024F380);
-BSS char N(D_8024F384)[0x74];
+BSS Bytecode N(D_8024F380)[26];
 
 typedef struct UnkHos05Path {
     /* 0x00 */ Vec3f startPoint;

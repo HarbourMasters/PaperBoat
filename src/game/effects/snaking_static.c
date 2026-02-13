@@ -1,13 +1,12 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 void snaking_static_update(EffectInstance*);
 void snaking_static_init(EffectInstance* effect);
 void snaking_static_render(EffectInstance* effect);
 void snaking_static_appendGfx(void* effect);
 
-extern Gfx D_09001000_3B3D90[];
-extern Gfx D_090010F8_3B3E88[];
 
 EffectInstance* snaking_static_main(s32 type, f32 posX, f32 posY, f32 posZ, f32 scale, s32 timeLeft) {
     EffectBlueprint effectBp;
@@ -182,7 +181,7 @@ void snaking_static_appendGfx(void* effect) {
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPMatrix(gMainGfxPos++, camera->mtxBillboard, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
     gDPSetEnvColor(gMainGfxPos++, data->envCol.r, data->envCol.g, data->envCol.b, 0);
-    gSPDisplayList(gMainGfxPos++, D_09001000_3B3D90);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09001000_3B3D90));
 
     data++;
     for (i = 1; i < ((EffectInstance*)effect)->numParts; i++, data++) {
@@ -199,7 +198,7 @@ void snaking_static_appendGfx(void* effect) {
         gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, data->unk_40 * 64, 0, (data->unk_40 * 64) | 0x3C, 0x007C);
         gDPSetTileSize(gMainGfxPos++, 1, (lifeTime * 12), 0, ((lifeTime * 3) + 0x1F) * 4, 0x007C);
 
-        gSPDisplayList(gMainGfxPos++, D_090010F8_3B3E88);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090010F8_3B3E88));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
     gDPSetAlphaCompare(gMainGfxPos++, G_AC_NONE);

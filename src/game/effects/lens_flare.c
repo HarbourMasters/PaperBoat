@@ -1,11 +1,10 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000240_345420[];
-extern Gfx D_090002E0_3454C0[];
 
-Gfx* D_E0034780[] = { D_090002E0_3454C0, D_090002E0_3454C0 };
-Gfx* D_E0034788[] = { D_09000240_345420, D_09000240_345420 };
+const char* D_E0034780[] = { D_090002E0_3454C0, D_090002E0_3454C0 };
+const char* D_E0034788[] = { D_09000240_345420, D_09000240_345420 };
 
 u8 D_E0034790[] = {
     255, 255,  82,
@@ -117,7 +116,7 @@ void lens_flare_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, D_E0034788[type]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0034788[type]));
 
     guTranslateF(mtxTransform, data->pos.x, data->pos.y, data->pos.z);
     guRotateF(mtxTemp, -gCameras[gCurrentCameraID].curYaw, 0.0f, 1.0f, 0.0f);
@@ -136,7 +135,7 @@ void lens_flare_appendGfx(void* effect) {
 
         gDPSetPrimColor(gMainGfxPos++, 0, 0, D_E0034790[idx], D_E0034790[idx + 1], D_E0034790[idx + 2], alpha);
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, D_E0034780[0]);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0034780[0]));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 
@@ -156,7 +155,7 @@ void lens_flare_appendGfx(void* effect) {
         gDPSetPrimColor(gMainGfxPos++, 0, 0, D_E0034790[idx], D_E0034790[idx + 1], D_E0034790[idx + 2], alpha);
         gDPSetPrimColor(gMainGfxPos++, 0, 0, 255, 255, 255, alpha);
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, D_E0034780[type]);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0034780[type]));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 

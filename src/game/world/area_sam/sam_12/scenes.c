@@ -44,7 +44,7 @@ API_CALLABLE(N(SpawnSleepBubble)) {
         temp_f26,
         &effect
     );
-    evt_set_variable(script, outVar, (s32) effect);
+    evt_set_variable(script, outVar, (Bytecode) effect);
     return ApiStatus_DONE2;
 }
 

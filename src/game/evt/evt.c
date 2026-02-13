@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern u32* gMapFlags;
-extern s32* gMapVars;
+extern Bytecode* gMapVars;
 
 extern char evtDebugPrintBuffer[0x100];
 
@@ -834,7 +834,7 @@ ApiStatus evt_handle_get_Nth_float(Evt* script) {
 }
 
 ApiStatus evt_handle_set_array(Evt* script) {
-    script->array = (s32*)evt_get_variable(script, *script->ptrReadPos);
+    script->array = (Bytecode*)evt_get_variable(script, *script->ptrReadPos);
     return ApiStatus_DONE2;
 }
 
@@ -848,7 +848,7 @@ ApiStatus evt_handle_allocate_array(Evt* script) {
     s32 size = evt_get_variable(script, *args++);
     Bytecode var = *args++;
 
-    script->array = (s32*)heap_malloc(size * 4);
+    script->array = (Bytecode*)heap_malloc(size * sizeof(Bytecode));
     evt_set_variable(script, var, (Bytecode)script->array);
     return ApiStatus_DONE2;
 }
@@ -1857,7 +1857,7 @@ s32 evt_get_variable_index_alt(s32 var) {
     return var;
 }
 
-Bytecode evt_set_variable(Evt* script, Bytecode var, s32 value) {
+Bytecode evt_set_variable(Evt* script, Bytecode var, Bytecode value) {
     s32 flagBitPos;
     Bytecode oldValue;
 

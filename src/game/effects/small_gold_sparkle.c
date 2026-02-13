@@ -1,15 +1,9 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_090002C0_392700[];
-extern Gfx D_09000330_392770[];
-extern Gfx D_09000370_3927B0[];
-extern Gfx D_090003B0_3927F0[];
-extern Gfx D_090003F0_392830[];
-extern Gfx D_09000430_392870[];
-extern Gfx D_09000470_3928B0[];
 
-static Gfx* sDlists[] = { D_09000430_392870, D_090003F0_392830, D_090003B0_3927F0, D_09000370_3927B0, D_09000330_392770 };
+static const char* sDlists[] = { D_09000430_392870, D_090003F0_392830, D_090003B0_3927F0, D_09000370_3927B0, D_09000330_392770 };
 
 static s32 sPartParams[4 * 5] = {
     1, 0, 0, 0, 100,
@@ -126,7 +120,7 @@ void small_gold_sparkle_appendGfx(void* effect) {
     guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gMainGfxPos++, D_090002C0_392700);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090002C0_392700));
     gDPSetPrimColor(gMainGfxPos++, 0, 0, 255, 255, 15, 255);
 
     part++;
@@ -143,8 +137,8 @@ void small_gold_sparkle_appendGfx(void* effect) {
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
                       G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
             gSPMatrix(gMainGfxPos++, spD8, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, sDlists[part->unk_04 >> 1]);
-            gSPDisplayList(gMainGfxPos++, D_09000470_3928B0);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(sDlists[part->unk_04 >> 1]));
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000470_3928B0));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
     }

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 #include "message_ids.h"
 
 typedef struct {
@@ -10,30 +11,9 @@ typedef struct {
     /* 0x0A */ s16 height;
 } UnkStruct; // size: 0xC
 
-extern Gfx D_0900BE40_3F7CA0[];
-extern Gfx D_0900BE88_3F7CE8[];
-extern Gfx D_0900BED0_3F7D30[];
-extern Gfx D_0900BF18_3F7D78[];
-extern Gfx D_0900BF60_3F7DC0[];
-extern Gfx D_0900BFA8_3F7E08[];
-extern Gfx D_0900BFF0_3F7E50[];
-extern Gfx D_0900C038_3F7E98[];
 #if VERSION_JP
-extern Gfx D_0900B900_3FFA20[];
-extern Gfx D_0900B9E8_3FFB08[];
-extern Gfx D_0900BA30_3FFB50[];
-extern Gfx D_0900BB18_3FFC38[];
 #else
-extern Gfx D_0900C080_3F7EE0[];
-extern Gfx D_0900C168_3F7FC8[];
-extern Gfx D_0900C1B0_3F8010[];
-extern Gfx D_0900C1F8_3F8058[];
-extern Gfx D_0900C240_3F80A0[];
-extern Gfx D_0900C328_3F8188[];
-extern Gfx D_0900C370_3F81D0[];
 #endif
-extern Gfx D_0900C458_3F82B8[];
-extern Gfx D_0900C540_3F83A0[];
 
 s32 D_E010E750[] = {
     -1,

@@ -1,21 +1,14 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09001580_3E03E0[];
-extern Gfx D_09001670_3E04D0[];
-extern Gfx D_09001768_3E05C8[];
-extern Gfx D_09001818_3E0678[];
-extern Gfx D_09001A20_3E0880[];
-extern Gfx D_09001A40_3E08A0[];
-extern Gfx D_09001A60_3E08C0[];
-extern Gfx D_09001A80_3E08E0[];
 
-Gfx* D_E00E4D90[] = {
+const char* D_E00E4D90[] = {
     D_09001A20_3E0880, D_09001A40_3E08A0, D_09001A60_3E08C0,
     D_09001A60_3E08C0, D_09001A80_3E08E0, D_09001A80_3E08E0
 };
 
-Gfx* D_E00E4DA8[] = {
+const char* D_E00E4DA8[] = {
     D_09001580_3E03E0, D_09001670_3E04D0, D_09001768_3E05C8,
     D_09001768_3E05C8, D_09001818_3E0678, D_09001818_3E0678
 };
@@ -309,7 +302,7 @@ void misc_particles_appendGfx(void* effect) {
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
     gDPSetEnvColor(gMainGfxPos++, particle->glowColor.r, particle->glowColor.g, particle->glowColor.b, particle->glowColor.a);
-    gSPDisplayList(gMainGfxPos++, D_E00E4DA8[variation]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00E4DA8[variation]));
 
     particle++;
     for (i = 1; i < ((EffectInstance*)effect)->numParts; i++, particle++) {
@@ -331,7 +324,7 @@ void misc_particles_appendGfx(void* effect) {
                     ((i & 0x1F) * 32 + 31) * 4, 31 * 4);
             }
 
-            gSPDisplayList(gMainGfxPos++, D_E00E4D90[variation]);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00E4D90[variation]));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
     }

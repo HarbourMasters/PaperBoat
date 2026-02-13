@@ -1,17 +1,9 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09000F20_338EE0[];
-extern Gfx D_090011C8_339188[];
-extern Gfx D_090011E0_3391A0[];
-extern Gfx D_090011F8_3391B8[];
-extern Gfx D_09001210_3391D0[];
-extern Gfx D_09001228_3391E8[];
-extern Gfx D_09001240_339200[];
-extern Gfx D_09001258_339218[];
-extern Gfx D_09001270_339230[];
 
-Gfx* D_E0074B60[] = {
+const char* D_E0074B60[] = {
     D_09001210_3391D0, D_09001228_3391E8, D_09001240_339200, D_09001258_339218,
     D_09001270_339230, D_090011C8_339188, D_090011E0_3391A0, D_090011F8_3391B8
 };
@@ -205,7 +197,7 @@ void shimmer_wave_appendGfx(void* effect) {
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetEnvColor(gMainGfxPos++, part->unk_40, part->unk_44, part->unk_48, part->unk_5C);
-    gSPDisplayList(gMainGfxPos++, D_09000F20_338EE0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000F20_338EE0));
 
     savedGfxPos = gMainGfxPos;
     gMainGfxPos++;
@@ -218,7 +210,7 @@ void shimmer_wave_appendGfx(void* effect) {
 
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
             gDPSetPrimColor(gMainGfxPos++, 0, 0, unk_50, unk_54, unk_58, part->unk_4C * temp_4C);
-            gSPDisplayList(gMainGfxPos++, D_E0074B60[i & 7]);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0074B60[i & 7]));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
     }

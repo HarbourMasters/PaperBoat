@@ -1,10 +1,9 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09001000_3DDD50[];
-extern Vtx_t D_090010A8_3DDDF8[];
 
-Gfx* D_E00E29F0[] = { D_09001000_3DDD50 };
+const char* D_E00E29F0[] = { D_09001000_3DDD50 };
 
 u8 D_E00E29F4[] = {
     120, 130, 140, 150, 160, 170, 180, 190, 200, 200,
@@ -134,7 +133,7 @@ void hieroglyphs_appendGfx(void* effect) {
     gSPMatrix(gMainGfxPos++, camera->mtxBillboard, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
     gDPSetPrimColor(gMainGfxPos++, 0, 0, data->unk_18, data->unk_1C, data->unk_20, unk_24);
     gDPSetEnvColor(gMainGfxPos++, data->unk_28, data->unk_2C, data->unk_30, data->unk_34);
-    gSPDisplayList(gMainGfxPos++, D_E00E29F0[0]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00E29F0[0]));
     gSPBranchList(gMainGfxPos, gMainGfxPos + 52);
 
     savedGfxPos = gMainGfxPos + 1;
@@ -158,7 +157,7 @@ void hieroglyphs_appendGfx(void* effect) {
         guMtxF2L(sp20, &gDisplayContext->matrixStack[gMatrixListPos]);
 
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPVertex(gMainGfxPos++, &D_090010A8_3DDDF8[i * 2], 2, i * 2);
+        gSPVertex(gMainGfxPos++, LOAD_ASSET(D_090010A8_3DDDF8[i * 2]), 2, i * 2);
     }
 
     for (i = 0; i < 15; i++) {

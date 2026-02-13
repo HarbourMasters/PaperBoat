@@ -1,8 +1,7 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx* D_09000440_34EBB0[];
-extern Gfx* D_090004E8_34EC58[];
 
 // RGB values? unused
 u8 D_E00389F0[] = {
@@ -182,7 +181,7 @@ void spiky_white_aura_appendGfx(void* effect) {
     s32 i;
 
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, D_09000440_34EBB0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000440_34EBB0));
     gDPSetPrimColor(gMainGfxPos++, 0, 0, 255, 255, 255, part->unk_24);
 
     for (i = 0; i < ((EffectInstance*)effect)->numParts; i++, part++) {
@@ -197,7 +196,7 @@ void spiky_white_aura_appendGfx(void* effect) {
 
         gDPPipeSync(gMainGfxPos++);
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, D_090004E8_34EC58);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090004E8_34EC58));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 }

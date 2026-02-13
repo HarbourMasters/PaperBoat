@@ -34,7 +34,7 @@ API_CALLABLE(N(LoadLilOinks)) {
     EffectInstance* effect = fx_lil_oink(0, 0.0f, 0.0f, 0.0f, 0.0f, 0);
     s32 i;
 
-    evt_set_variable(script, MV_LilOinkEffect, (s32) effect);
+    evt_set_variable(script, MV_LilOinkEffect, (Bytecode) effect);
 
     for (i = 0; i < numPigs; i++) {
         effect->data.lilOink->type[i] = evt_get_variable(nullptr, varBase + i);

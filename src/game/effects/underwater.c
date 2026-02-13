@@ -1,10 +1,8 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 #include "nu/nusys.h"
 
-extern Vtx D_09000428_3B9E98[];
-extern Gfx D_09000528_3B9F98[];
-extern Gfx D_09000570_3B9FE0[];
 
 void underwater_init(EffectInstance* effect);
 void underwater_update(EffectInstance* effect);
@@ -165,7 +163,7 @@ void underwater_appendGfx(void* effect) {
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
     gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(nuGfxZBuffer));
-    gSPDisplayList(gMainGfxPos++, D_09000528_3B9F98);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000528_3B9F98));
 
     // copy image from framebuffer to zbuffer
     for (i = 0; i < 40; i++) {
@@ -198,7 +196,7 @@ void underwater_appendGfx(void* effect) {
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     gSPClearGeometryMode(gMainGfxPos++, G_CULL_BOTH | G_LIGHTING);
     gSPSetGeometryMode(gMainGfxPos++, G_SHADE | G_SHADING_SMOOTH);
-    gSPVertex(gMainGfxPos++, D_09000428_3B9E98, 16, 0);
+    gSPVertex(gMainGfxPos++, LOAD_ASSET(D_09000428_3B9E98), 16, 0);
 
     for (j = 0; j < 12; j++) {
         y = j * 16 + 24;
@@ -281,7 +279,7 @@ void underwater_appendGfx(void* effect) {
     }
 
     gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(nuGfxZBuffer));
-    gSPDisplayList(gMainGfxPos++, D_09000570_3B9FE0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000570_3B9FE0));
     gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(nuGfxCfb_ptr));
     gDPPipeSync(gMainGfxPos++);
     gSPMatrix(gMainGfxPos++, &gDisplayContext->camPerspMatrix[gCurrentCameraID], G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);

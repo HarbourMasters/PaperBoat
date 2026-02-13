@@ -257,7 +257,7 @@ HitID player_test_move_without_slipping(PlayerStatus*, f32*, f32*, f32*, f32, f3
 HitID player_test_move_with_slipping(PlayerStatus* playerStatus, f32* posX, f32* posY, f32* posZ, f32 speed, f32 heading);
 
 Bytecode evt_get_variable(Evt* script, Bytecode var);
-Bytecode evt_set_variable(Evt* script, Bytecode var, s32 value);
+Bytecode evt_set_variable(Evt* script, Bytecode var, Bytecode value);
 f32 evt_get_float_variable(Evt* script, Bytecode var);
 f32 evt_set_float_variable(Evt* script, Bytecode var, f32 value);
 s32 evt_get_variable_index(Evt* script, s32 var);

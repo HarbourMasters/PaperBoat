@@ -62,7 +62,7 @@ API_CALLABLE(GetNpcPointer) {
     s32 npcID = evt_get_variable(script, *args++);
     Bytecode varNPC = *args++;
 
-    evt_set_variable(script, varNPC, (s32)get_npc_safe(npcID));
+    evt_set_variable(script, varNPC, (Bytecode)get_npc_safe(npcID));
     return ApiStatus_DONE2;
 }
 

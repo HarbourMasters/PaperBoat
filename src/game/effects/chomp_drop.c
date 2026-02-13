@@ -1,14 +1,12 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 void chomp_drop_init(EffectInstance* effect);
 void chomp_drop_update(EffectInstance* effect);
 void chomp_drop_render(EffectInstance* effect);
 void chomp_drop_appendGfx(void* effect);
 
-extern Gfx D_09001040_398080[];
-extern Gfx D_090010E8_398128[];
-extern Gfx D_09001190_3981D0[];
 
 EffectInstance* chomp_drop_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5, f32 arg6, s32 arg7,
                                 f32 arg8, s32 arg9)
@@ -164,16 +162,16 @@ void chomp_drop_appendGfx(void* effect) {
     );
 
     if (data->unk_2C == 1) {
-        gSPDisplayList(gMainGfxPos++, D_09001040_398080);
-        gSPDisplayList(gMainGfxPos++, D_09001190_3981D0);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09001040_398080));
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09001190_3981D0));
         gDPSetPrimColor(gMainGfxPos++, 0, 0, 0, 0, 0, ((30 - data->unk_30) * 255) / 30);
-        gSPDisplayList(gMainGfxPos++, D_090010E8_398128);
-        gSPDisplayList(gMainGfxPos++, D_09001190_3981D0);
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090010E8_398128));
+        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09001190_3981D0));
     } else {
         if (data->unk_2C > 0) {
-            gSPDisplayList(gMainGfxPos++, D_090010E8_398128);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090010E8_398128));
         } else {
-            gSPDisplayList(gMainGfxPos++, D_09001040_398080);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09001040_398080));
         }
 
         savedGfxPos = gMainGfxPos + 1;

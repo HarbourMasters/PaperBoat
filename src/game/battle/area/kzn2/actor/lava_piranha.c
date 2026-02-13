@@ -548,7 +548,7 @@ API_CALLABLE(N(CreateVineRenderer)) {
 }
 
 static s32 N(unused);
-static s32 N(unusedArray)[64];
+static Bytecode N(unusedArray)[64];
 
 EvtScript N(EVS_Init) = {
     UseArray(N(unusedArray))

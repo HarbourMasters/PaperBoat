@@ -73,7 +73,7 @@ API_CALLABLE(N(InitSplashes)) {
     SplashState* splash = heap_malloc(NUM_SPLASHES * sizeof(*splash));
     s32 i;
 
-    evt_set_variable(nullptr, MV_SplashState, (s32)splash);
+    evt_set_variable(nullptr, MV_SplashState, (Bytecode)splash);
 
     for (i = 0; i < NUM_SPLASHES; i++, splash++) {
         splash->pos.x = 0.0f;

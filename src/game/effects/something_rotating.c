@@ -1,28 +1,17 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09003F98_3FE448[];
-extern Gfx D_09004010_3FE4C0[];
-extern Gfx D_09004088_3FE538[];
-extern Gfx D_09004100_3FE5B0[];
-extern Gfx D_09004178_3FE628[];
-extern Gfx D_090041F0_3FE6A0[];
-extern Gfx D_09004268_3FE718[];
-extern Gfx D_090042E0_3FE790[];
-extern Gfx D_09004360_3FE810[];
-extern Gfx D_09004458_3FE908[];
-extern Gfx D_09004508_3FE9B8[];
-extern Gfx D_09004600_3FEAB0[];
 
-Gfx* D_E0116C60[] = { D_09004458_3FE908 };
+const char* D_E0116C60[] = { D_09004458_3FE908 };
 
-Gfx* D_E0116C64[] = { D_09004600_3FEAB0 };
+const char* D_E0116C64[] = { D_09004600_3FEAB0 };
 
-Gfx* D_E0116C68[] = { D_09004360_3FE810 };
+const char* D_E0116C68[] = { D_09004360_3FE810 };
 
-Gfx* D_E0116C6C[] = { D_09004508_3FE9B8 };
+const char* D_E0116C6C[] = { D_09004508_3FE9B8 };
 
-Gfx* D_E0116C70[] = {
+const char* D_E0116C70[] = {
     D_09003F98_3FE448, D_09004010_3FE4C0, D_09004088_3FE538,
     D_09004100_3FE5B0, D_09004178_3FE628, D_090041F0_3FE6A0,
     D_09004268_3FE718
@@ -287,7 +276,7 @@ void something_rotating_appendGfx(void* effect) {
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
 
-    gSPDisplayList(gMainGfxPos++, D_090042E0_3FE790);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090042E0_3FE790));
     gDPSetEnvColor(gMainGfxPos++, 0, 0, 0, 255);
 
     data++;
@@ -297,7 +286,7 @@ void something_rotating_appendGfx(void* effect) {
             if (data->primAlpha != 255) {
                 gDPSetPrimColor(gMainGfxPos++, 0, 0, 0, 0, 0, data->primAlpha);
                 gDPSetEnvColor(gMainGfxPos++, data->env.r, data->env.g, data->env.b, 0x78);
-                gSPDisplayList(gMainGfxPos++, D_E0116C6C[0]);
+                gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0116C6C[0]));
 
                 l = ((unk_14 * 4.0f) * 100.0f) * (1.0 / 1024);
                 t = ((unk_14 * 4.0f) * 40.0f) * (1.0 / 1024);
@@ -306,12 +295,12 @@ void something_rotating_appendGfx(void* effect) {
                 l = ((unk_14 * 4.0f) * 200.0f) * (1.0 / 1024);
                 t = ((unk_14 * 4.0f) * 90.0f) * (1.0 / 1024);
                 gDPSetTileSize(gMainGfxPos++, 1, l, t, l + 0xFC, t + 0xFC);
-                gSPDisplayList(gMainGfxPos++, D_E0116C64[0]);
+                gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0116C64[0]));
             } else {
-                gSPDisplayList(gMainGfxPos++, D_E0116C68[0]);
+                gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0116C68[0]));
                 gDPSetEnvColor(gMainGfxPos++, data->env.r, data->env.g, data->env.b, data->unk_25);
-                gSPDisplayList(gMainGfxPos++, D_E0116C70[i - 1]);
-                gSPDisplayList(gMainGfxPos++, D_E0116C60[0]);
+                gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0116C70[i - 1]));
+                gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0116C60[0]));
             }
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }

@@ -1,21 +1,15 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
-extern Gfx D_09002000_3DB100[];
-extern Gfx D_09002200_3DB300[];
-extern Gfx D_09002220_3DB320[];
-extern Gfx D_09002240_3DB340[];
-extern Gfx D_09002260_3DB360[];
-extern Gfx D_09002280_3DB380[];
-extern Gfx D_090022A0_3DB3A0[];
 
-Gfx* D_E00DE810[][5] = {
+const char* D_E00DE810[][5] = {
     { D_09002200_3DB300, D_09002220_3DB320, D_09002240_3DB340, D_09002260_3DB360, D_09002280_3DB380 },
     { D_09002200_3DB300, D_09002220_3DB320, D_09002240_3DB340, D_09002260_3DB360, D_09002280_3DB380 },
     { D_09002200_3DB300, D_09002220_3DB320, D_09002240_3DB340, D_09002260_3DB360, D_09002280_3DB380 }
 };
 
-Gfx* D_E00DE84C[] = {
+const char* D_E00DE84C[] = {
     D_09002000_3DB100, D_090022A0_3DB3A0, D_09002000_3DB100
 };
 
@@ -205,7 +199,7 @@ void cold_breath_appendGfx(void* effect) {
     gSPMatrix(gMainGfxPos++, camera->mtxBillboard, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
     gDPSetPrimColor(gMainGfxPos++, 0, 0, data->primCol.r, data->primCol.g, data->primCol.b, 0.5 * unk24);
     gDPSetAlphaDither(gMainGfxPos++, G_AD_NOISE);
-    gSPDisplayList(gMainGfxPos++, D_E00DE84C[unk00]);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00DE84C[unk00]));
 
     unkIndex = (unk14 < 30 ? unk14 : 29) + unk00 * 30;
     temp1 = D_E00DE96C[unkIndex];

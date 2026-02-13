@@ -1,5 +1,6 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 typedef struct UnkStruct {
     /* 0x00 */ u8 unk_00;
@@ -10,13 +11,6 @@ typedef struct UnkStruct {
     /* 0x08 */ Gfx* unk_08;
 } UnkStruct; // size = 0xC
 
-extern Gfx D_09001080_33AFE0[];
-extern Gfx D_09001128_33B088[];
-extern Gfx D_09001150_33B0B0[];
-extern Gfx D_09001178_33B0D8[];
-extern Gfx D_090011A0_33B100[];
-extern Gfx D_090011C8_33B128[];
-extern Gfx D_090011F0_33B150[];
 
 UnkStruct D_E0024CC0[] = {
     {   0, 255, 208,  26, D_09001128_33B088, D_090011A0_33B100 },
@@ -169,7 +163,7 @@ void shape_spell_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, D_09001080_33AFE0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09001080_33AFE0));
 
     savedGfxPos = gMainGfxPos++;
     savedGfxPos2 = gMainGfxPos;

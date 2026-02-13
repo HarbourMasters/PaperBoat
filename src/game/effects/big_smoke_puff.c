@@ -1,20 +1,14 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 static f32 D_E0002760[10] = { 10.0f, 40.0f, 80.0f, 170.0f, 140.0f, 100.0f, 25.0f, 155.0f, 60.0f, 120.0f };
 static f32 D_E0002788[10] = { 2.2f, 2.7f, 3.0f, 2.2f, 2.7f, 3.0f, 1.9f, 1.9f, 1.5f, 1.5f };
 static f32 sPartScales[10] = { 1.4f, 1.3f, 1.2f, 1.3f, 1.4f, 1.3f, 1.6f, 1.6f, 1.6f, 1.6f };
 static f32 sPartYaws[10] = { 0.0f, 234.0f, 468.0f, 702.0f, 936.0f, 1260.0f, 1404.0f, 1638.0f, 1902.0f, 1976.0f };
 
-extern Gfx D_09000FA0_3273B0[];
-extern Gfx D_09001060_327470[];
-extern Gfx D_09001120_327530[];
-extern Gfx D_090011E0_3275F0[];
-extern Gfx D_090012A0_3276B0[];
-extern Gfx D_09001360_327770[];
-extern Gfx D_09001420_327830[];
 
-static Gfx* sDlists[7] = {
+static const char* sDlists[7] = {
     D_09000FA0_3273B0, D_09001060_327470, D_09001120_327530, D_090011E0_3275F0, D_090012A0_3276B0, D_09001360_327770,
     D_09001420_327830
 };
@@ -139,7 +133,7 @@ void big_smoke_puff_appendGfx(void* effect) {
             s32 primAlpha = data->unk_02;
             f32 temp_f12;
             s32 envAlpha;
-            Gfx* dlist;
+            const char* dlist;
 
             if (primAlpha > 16) {
                 primAlpha = 16;
@@ -166,7 +160,7 @@ void big_smoke_puff_appendGfx(void* effect) {
 
             gDPSetPrimColor(gMainGfxPos++, 0, 0, 0, 0, 0, (u32)(primAlpha * 105) / 8);
             gDPSetEnvColor(gMainGfxPos++, 0, 0, 0, envAlpha);
-            gSPDisplayList(gMainGfxPos++, dlist);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
     }

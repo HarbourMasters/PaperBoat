@@ -1,15 +1,14 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 void snowfall_init(EffectInstance* effect);
 void snowfall_update(EffectInstance* effect);
 void snowfall_render(EffectInstance* effect);
 void snowfall_appendGfx(void* effect);
 
-extern Gfx D_09000C00_38DC70[];
-extern Gfx D_09000D50_38DDC0[];
 
-Gfx* D_E008AA50[] = { D_09000D50_38DDC0, D_09000D50_38DDC0 };
+const char* D_E008AA50[] = { D_09000D50_38DDC0, D_09000D50_38DDC0 };
 
 void func_E008A000(SnowfallFXData* data) {
     Camera* camera = &gCameras[gCurrentCameraID];
@@ -164,7 +163,7 @@ void snowfall_appendGfx(void* effect) {
     EffectInstance* effectTemp = effect;
     SnowfallFXData* data = effectTemp->data.snowfall;
     Matrix4f sp18;
-    Gfx* dlist;
+    const char* dlist;
     Mtx* mtx;
     u8 bgRGB;
     u8 bgAlpha;
@@ -186,7 +185,10 @@ void snowfall_appendGfx(void* effect) {
             gDPPipeSync(gMainGfxPos++);
             gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
 
-            gSPDisplayList(gMainGfxPos++, D_09000C00_38DC70);
+            // D_09000C00 was a 2-command fragment that fell through to D_09000C10 in ROM
+            gDPPipeSync(gMainGfxPos++);
+            gSPTexture(gMainGfxPos++, 0xFFFF, 0xFFFF, 2, G_TX_RENDERTILE, G_ON);
+            gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000C10_38DC80));
             gDPSetPrimColor(gMainGfxPos++, 0, 0, 255, 255, 255, unk_28);
 
             guRotateF(sp18, -gCameras[gCurrentCameraID].curYaw, 0.0f, 1.0f, 0.0f);
@@ -204,7 +206,7 @@ void snowfall_appendGfx(void* effect) {
                               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gSPMatrix(gMainGfxPos++, mtx,
                               G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-                    gSPDisplayList(gMainGfxPos++, dlist);
+                    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
                     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
                 }
             }

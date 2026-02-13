@@ -1,27 +1,14 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 
 void lil_oink_appendGfx(void* effect);
 void lil_oink_init(EffectInstance* effect);
 void lil_oink_update(EffectInstance* effect);
 void lil_oink_render(EffectInstance* effect);
 
-extern Gfx D_09002D70_401FC0[];
-extern Gfx D_09002DD8_402028[];
-extern Gfx D_09002E70_4020C0[];
-extern Gfx D_09002E98_4020E8[];
-extern Gfx D_09002F30_402180[];
-extern Gfx D_09002FC8_402218[];
-extern Gfx D_09003060_4022B0[];
-extern Gfx D_090030F8_402348[];
-extern Gfx D_09003190_4023E0[];
-extern Gfx D_09003228_402478[];
-extern Gfx D_090032C0_402510[];
-extern Gfx D_09003358_4025A8[];
-extern Gfx D_09003370_4025C0[];
-extern Gfx D_09003388_4025D8[];
 
-Gfx* lil_oink_FramesGfx[][3] = {
+const char* lil_oink_FramesGfx[][3] = {
     [LIL_OINK_TYPE_BLACK]       { D_09003358_4025A8, D_09003370_4025C0, D_09003388_4025D8 },
     [LIL_OINK_TYPE_WHITE]       { D_09003358_4025A8, D_09003370_4025C0, D_09003388_4025D8 },
     [LIL_OINK_TYPE_PINK]        { D_09003358_4025A8, D_09003370_4025C0, D_09003388_4025D8 },
@@ -34,7 +21,7 @@ Gfx* lil_oink_FramesGfx[][3] = {
     [LIL_OINK_TYPE_GOLD]        { D_09003358_4025A8, D_09003370_4025C0, D_09003388_4025D8 },
 };
 
-Gfx* D_E0114718[] = {
+const char* D_E0114718[] = {
     [LIL_OINK_TYPE_BLACK]       D_09002DD8_402028,
     [LIL_OINK_TYPE_WHITE]       D_09002E70_4020C0,
     [LIL_OINK_TYPE_PINK]        D_09002E98_4020E8,
@@ -178,7 +165,7 @@ void lil_oink_appendGfx(void* effect) {
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x9, VIRTUAL_TO_PHYSICAL(eff->shared->graphics));
 
-    gSPDisplayList(gMainGfxPos++, D_09002D70_401FC0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09002D70_401FC0));
     gSPLookAt(gMainGfxPos++, &gDisplayContext->lookAt);
 
     for (i = 0; i < MAX_LIL_OINKS; i++) {

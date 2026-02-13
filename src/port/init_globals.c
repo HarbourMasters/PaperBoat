@@ -80,7 +80,7 @@ extern EffectInstance* gEffectInstances[96];
 
 // Script system (from evt/script_list.c)
 extern u32* gMapFlags;
-extern s32* gMapVars;
+extern Bytecode* gMapVars;
 extern s32 gNumScripts;
 extern ScriptList gWorldScriptList;
 extern ScriptList gBattleScriptList;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "effects_internal.h"
+#include "assets/effects.h"
 #include "effects.h"
 
 void throw_spiny_appendGfx(void* effect);
@@ -8,11 +9,8 @@ void throw_spiny_init(EffectInstance* effect);
 void throw_spiny_update(EffectInstance* effect);
 void throw_spiny_render(EffectInstance* effect);
 
-extern Gfx D_09000800_3D02F0[];
-extern Gfx D_090008D8_3D03C8[];
-extern Gfx D_090009F0_3D04E0[];
 
-Gfx* D_E00C8710[2] = { D_09000800_3D02F0, D_090008D8_3D03C8 };
+const char* D_E00C8710[2] = { D_09000800_3D02F0, D_090008D8_3D03C8 };
 
 u8 D_E00C8718[8] = { 110, 150, 130, 110, 100, 95, 100, 0 };
 u8 D_E00C8720[8] = { 80, 60, 80, 100, 120, 110, 100, 0 };
@@ -178,7 +176,7 @@ void throw_spiny_appendGfx(void* effect) {
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPMatrix(gMainGfxPos++, camera->mtxBillboard, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
     gDPSetPrimColor(gMainGfxPos++, 0, 0, data->unk_30, data->unk_34, data->unk_38, temp_s5);
-    gSPDisplayList(gMainGfxPos++, D_E00C8710[temp_s6]);
-    gSPDisplayList(gMainGfxPos++, D_090009F0_3D04E0);
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00C8710[temp_s6]));
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090009F0_3D04E0));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }
