@@ -56,9 +56,12 @@ s32 gfx_frame_filter_pass_0(const u16* frameBuffer0, const u16* frameBuffer1, s3
     s32 pixel = SCREEN_WIDTH * y + x;
 
     out->a = (frameBuffer1[pixel] >> 2) & 0xF;
-    out->r = UNPACK_PAL_R(frameBuffer0[pixel]);
-    out->g = UNPACK_PAL_G(frameBuffer0[pixel]);
-    out->b = UNPACK_PAL_B(frameBuffer0[pixel]);
+    // Framebuffer pixels are native-endian RGBA5551, not BE palette data.
+    // Use raw bit extraction instead of UNPACK_PAL_* (which swap from BE).
+    u16 px = frameBuffer0[pixel];
+    out->r = (px >> 11) & 0x1F;
+    out->g = (px >> 6) & 0x1F;
+    out->b = (px >> 1) & 0x1F;
 }
 
 void gfx_frame_filter_pass_1(Color_RGBA8* filterBuf0, Color_RGBA8 filterBuf1, u16* out) {

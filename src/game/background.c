@@ -200,7 +200,7 @@ void appendGfx_background_texture(void) {
                         blendedB = blend_background_channel(UNPACK_PAL_B(palColor), fogB >> 3, fogA);
                         blendedG = blend_background_channel(UNPACK_PAL_G(palColor), fogG >> 3, fogA);
                         blendedR = blend_background_channel(UNPACK_PAL_R(palColor), fogR >> 3, fogA);
-                        gBackgroundPalette[i] = blendedB << 1 | blendedG << 6 | blendedR << 11 | 1;
+                        gBackgroundPalette[i] = PACK_PAL_RGBA(blendedR, blendedG, blendedB, 1);
                     }
                 }
                 break;
@@ -224,7 +224,7 @@ void appendGfx_background_texture(void) {
                     if (blendedR > 0x1F) {
                         blendedR = 0x1F;
                     }
-                    gBackgroundPalette[i] = blendedB << 1 | blendedG << 6 | blendedR << 11 | 1;
+                    gBackgroundPalette[i] = PACK_PAL_RGBA(blendedR, blendedG, blendedB, 1);
                 }
                 break;
         }

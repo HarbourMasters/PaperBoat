@@ -1,0 +1,61 @@
+
+imgfx_shock:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0x14358, symbol: imgfx_shock }
+
+imgfx_shiver:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0x18200, symbol: imgfx_shiver }
+
+imgfx_vertical_pipe_curl:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0x1A858, symbol: imgfx_vertical_pipe_curl }
+
+imgfx_horizontal_pipe_curl:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0x1E830, symbol: imgfx_horizontal_pipe_curl }
+
+imgfx_startle:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0x29458, symbol: imgfx_startle }
+
+imgfx_flutter_down:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0x314E0, symbol: imgfx_flutter_down }
+
+imgfx_unfurl:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0x33498, symbol: imgfx_unfurl }
+
+imgfx_get_in_bed:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0x38988, symbol: imgfx_get_in_bed }
+
+imgfx_spirit_capture:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0x39228, symbol: imgfx_spirit_capture }
+
+imgfx_unused_1:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0x5B7A8, symbol: imgfx_unused_1 }
+
+imgfx_unused_2:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0x7CF10, symbol: imgfx_unused_2 }
+
+imgfx_unused_3:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0x86490, symbol: imgfx_unused_3 }
+
+imgfx_tutankoopa_gather:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0x96258, symbol: imgfx_tutankoopa_gather }
+
+imgfx_tutankoopa_swirl_2:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0xA1820, symbol: imgfx_tutankoopa_swirl_2 }
+
+imgfx_tutankoopa_swirl_1:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0xACDE8, symbol: imgfx_tutankoopa_swirl_1 }
+
+imgfx_shuffle_cards:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0xBBF68, symbol: imgfx_shuffle_cards }
+
+imgfx_flip_card_1:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0xC0490, symbol: imgfx_flip_card_1 }
+
+imgfx_flip_card_2:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0xC49B8, symbol: imgfx_flip_card_2 }
+
+imgfx_flip_card_3:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0xC6150, symbol: imgfx_flip_card_3 }
+
+imgfx_cymbal_crush:
+  { type: PM64:IMGFX_ANIM, offset: 0x24B7F0, header_offset: 0xCA380, symbol: imgfx_cymbal_crush }
+

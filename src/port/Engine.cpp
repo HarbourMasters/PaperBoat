@@ -25,6 +25,7 @@
 #include "factories/PM64StoryImageFactory.h"
 #include "factories/PM64MessageFactory.h"
 #include "factories/PM64EffectGfxFactory.h"
+#include "factories/PM64ImgFXAnimFactory.h"
 
 namespace fs = std::filesystem;
 
@@ -75,6 +76,7 @@ static void ExtractAssets(const std::string& romPath, const std::string& outputP
     Companion::Instance->RegisterFactory("PM64:STORY_IMAGE", std::make_shared<PM64StoryImageFactory>());
     Companion::Instance->RegisterFactory("PM64:MESSAGE", std::make_shared<PM64MessageFactory>());
     Companion::Instance->RegisterFactory("PM64:EFFECT_GFX", std::make_shared<PM64EffectGfxFactory>());
+    Companion::Instance->RegisterFactory("PM64:IMGFX_ANIM", std::make_shared<PM64ImgFXAnimFactory>());
 
     Companion::Instance->Init(ExportType::Binary);
 }

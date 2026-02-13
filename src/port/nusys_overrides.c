@@ -320,31 +320,6 @@ u8 n_aspMainTextStart[1];
 u8 n_aspMainDataStart[1];
 
 // ============================================================================
-// ImgFX Animation Headers (stubs - data loaded from assets)
-// ============================================================================
-
-u8 shock_header[1];
-u8 shiver_header[1];
-u8 vertical_pipe_curl_header[1];
-u8 horizontal_pipe_curl_header[1];
-u8 startle_header[1];
-u8 flutter_down_header[1];
-u8 unfurl_header[1];
-u8 get_in_bed_header[1];
-u8 spirit_capture_header[1];
-u8 unused_1_header[1];
-u8 unused_2_header[1];
-u8 unused_3_header[1];
-u8 tutankoopa_gather_header[1];
-u8 tutankoopa_swirl_2_header[1];
-u8 tutankoopa_swirl_1_header[1];
-u8 shuffle_cards_header[1];
-u8 flip_card_1_header[1];
-u8 flip_card_2_header[1];
-u8 flip_card_3_header[1];
-u8 cymbal_crush_header[1];
-
-// ============================================================================
 // Effect Function Stubs
 // ============================================================================
 

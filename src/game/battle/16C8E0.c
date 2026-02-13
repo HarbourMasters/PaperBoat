@@ -753,7 +753,7 @@ void tattle_cam_pre_render(Camera* camera) {
         mdl_get_shroud_tint_params(&r1, &g1, &b1, &a1);
         if (fogA == 255) {
             for (i = 0; i < ARRAY_COUNT(gTattleBgPalette); i++) {
-                gTattleBgPalette[i] = 1;
+                gTattleBgPalette[i] = PACK_PAL_RGBA(0, 0, 0, 1);
             }
         } else {
             for (i = 0; i < ARRAY_COUNT(gTattleBgPalette); i++) {
@@ -761,7 +761,7 @@ void tattle_cam_pre_render(Camera* camera) {
                 u16 blendedB = blend_tattle_background_channel(UNPACK_PAL_B(palColor), fogB >> 3, fogA);
                 u16 blendedG = blend_tattle_background_channel(UNPACK_PAL_G(palColor), fogG >> 3, fogA);
                 u16 blendedR = blend_tattle_background_channel(UNPACK_PAL_R(palColor), fogR >> 3, fogA);
-                gTattleBgPalette[i] = blendedB << 1 | blendedG << 6 | blendedR << 11 | 1;
+                gTattleBgPalette[i] = PACK_PAL_RGBA(blendedR, blendedG, blendedB, 1);
             }
         }
     }

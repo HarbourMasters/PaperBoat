@@ -172,6 +172,11 @@ void bulb_glow_appendGfx(void* effect) {
     s32 j;
     u8 r, g, b;
 
+    // This effect samples from the framebuffer (nuGfxCfb_ptr) to create a
+    // screen-space distortion/glow. On the port the framebuffer is a zeroed
+    // dummy buffer, so skip rendering entirely to avoid black rectangles.
+    return;
+
     brightness = data->brightness;
     type = data->type;
     if (brightness > 127) {

@@ -9,25 +9,48 @@ typedef union ModelNodePropertyData {
     void* p;
 } ModelNodePropertyData;
 
-// In memory this is a list of ModelNodeProperty, but due to the way it uses
-// the fields (storing into the "type" field) we decided to make a struct for this
+// In memory this is a list of 6 ModelNodeProperty entries reinterpreted as a
+// bounding box. On N64 each property was 12 bytes (sizeof(void*)==4), making
+// the overlay 0x48 bytes. On 64-bit each property is 16 bytes
+// (sizeof(void*)==8), so the layout must account for the larger stride.
+//
+// Property mapping (field → property member):
+//   key        → prop[0].key
+//   halfSizeX  → prop[0].dataType   (computed and stored by mdl_create_model)
+//   minX       → prop[0].data.f
+//   halfSizeY  → prop[1].dataType
+//   minY       → prop[1].data.f
+//   halfSizeZ  → prop[2].dataType
+//   minZ       → prop[2].data.f
+//   maxX       → prop[3].data.f
+//   maxY       → prop[4].data.f
+//   maxZ       → prop[5].data.f
 typedef struct ModelBoundingBox {
-    /* 0x00 */ s32 key; // MODEL_PROP_KEY_BOUNDING_BOX
-    /* 0x04 */ s32 halfSizeX;
-    /* 0x08 */ f32 minX;
-    /* 0x0C */ char unk_0C[0x04];
-    /* 0x10 */ s32 halfSizeY;
-    /* 0x14 */ f32 minY;
-    /* 0x18 */ char unk_18[0x04];
-    /* 0x1C */ s32 halfSizeZ;
-    /* 0x20 */ f32 minZ;
-    /* 0x24 */ char unk_24[0x8];
-    /* 0x2C */ f32 maxX;
-    /* 0x30 */ char unk_30[0x8];
-    /* 0x38 */ f32 maxY;
-    /* 0x3C */ char unk_3C[0x8];
-    /* 0x44 */ f32 maxZ;
-} ModelBoundingBox; // size = 0x48?
+    /* prop[0] */ s32 key; // MODEL_PROP_KEY_BOUNDING_BOX
+    /* prop[0] */ s32 halfSizeX;
+    /* prop[0] */ f32 minX;
+                  char _pad0[sizeof(ModelNodePropertyData) - sizeof(f32)];
+    /* prop[1] */ s32 _key1;
+    /* prop[1] */ s32 halfSizeY;
+    /* prop[1] */ f32 minY;
+                  char _pad1[sizeof(ModelNodePropertyData) - sizeof(f32)];
+    /* prop[2] */ s32 _key2;
+    /* prop[2] */ s32 halfSizeZ;
+    /* prop[2] */ f32 minZ;
+                  char _pad2[sizeof(ModelNodePropertyData) - sizeof(f32)];
+    /* prop[3] */ s32 _key3;
+    /* prop[3] */ s32 _type3;
+    /* prop[3] */ f32 maxX;
+                  char _pad3[sizeof(ModelNodePropertyData) - sizeof(f32)];
+    /* prop[4] */ s32 _key4;
+    /* prop[4] */ s32 _type4;
+    /* prop[4] */ f32 maxY;
+                  char _pad4[sizeof(ModelNodePropertyData) - sizeof(f32)];
+    /* prop[5] */ s32 _key5;
+    /* prop[5] */ s32 _type5;
+    /* prop[5] */ f32 maxZ;
+                  char _pad5[sizeof(ModelNodePropertyData) - sizeof(f32)];
+} ModelBoundingBox; // size = 6 * sizeof(ModelNodeProperty)
 
 typedef struct ModelNodeProperty {
     /* 0x0 */ s32 key;

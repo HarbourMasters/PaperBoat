@@ -13,6 +13,7 @@
 #define F3DEX2_G_VTX     0x01
 #define F3DEX2_G_DL      0xDE
 #define F3DEX2_G_SETTIMG 0xFD
+#define F3DEX2_G_MOVEMEM 0xDC
 
 // Walk a display list at the given offset, byte-swap commands from BE to native,
 // collect them, and recursively process nested display lists.
@@ -44,6 +45,11 @@ static void WalkDisplayList(const uint8_t* data, uint32_t offset, size_t bufferS
 
         // G_SETTIMG: w1 is a segment 9 address, convert to offset
         if (opcode == F3DEX2_G_SETTIMG) {
+            w1 = w1 & 0x00FFFFFF;
+        }
+
+        // G_MOVEMEM: w1 is a segment 9 address pointing to light/viewport data
+        if (opcode == F3DEX2_G_MOVEMEM) {
             w1 = w1 & 0x00FFFFFF;
         }
 
@@ -156,9 +162,26 @@ static void ExportEffectDisplayList(const std::string& effectName, const PM64Eff
 
             uint32_t newW0 = (G_VTX_OTR_HASH << 24) | (w0 & 0x00FFFFFF);
             writer.Write(newW0);
-            writer.Write(w1);  // Vertex offset within the blob
+            // w1 = 0: each vertex resource already starts at the correct offset,
+            // and the interpreter adds w1 as an offset to the resource pointer
+            writer.Write(static_cast<uint32_t>(0));
             writer.Write(static_cast<uint32_t>(vtxHash >> 32));
             writer.Write(static_cast<uint32_t>(vtxHash & 0xFFFFFFFF));
+        } else if (opcode == F3DEX2_G_MOVEMEM) {
+            // Convert G_MOVEMEM to G_MOVEMEM_OTR_HASH
+            char mmPath[256];
+            snprintf(mmPath, sizeof(mmPath), "%s/mm_%X", effectName.c_str(), w1);
+            std::string fullMmPath = Companion::Instance->RelativePath(mmPath);
+            uint64_t mmHash = CRC64(fullMmPath.c_str());
+
+            // Extract index and compute actual offset from N64 command encoding
+            uint8_t index = w0 & 0xFF;
+            uint8_t offset = ((w0 >> 8) & 0xFF) * 8;
+
+            writer.Write(static_cast<uint32_t>(G_MOVEMEM_OTR_HASH << 24));
+            writer.Write(static_cast<uint32_t>((index << 24) | (offset << 16)));
+            writer.Write(static_cast<uint32_t>(mmHash >> 32));
+            writer.Write(static_cast<uint32_t>(mmHash & 0xFFFFFFFF));
         } else if (opcode == F3DEX2_G_DL) {
             // Convert G_DL to G_DL_OTR_HASH
             char nestedPath[256];
@@ -278,11 +301,41 @@ static void ExportTextureResource(const std::string& effectName, const uint8_t* 
     writer.Write(N64FmtSizToTextureType(fmt, siz));   // Type
     writer.Write(width);                               // Width
     writer.Write(height);                              // Height
-    writer.Write(static_cast<uint32_t>(1));            // Flags: TEX_FLAG_LOAD_AS_RAW
+    writer.Write(static_cast<uint32_t>(0));            // Flags: none (use tile format for conversion)
     writer.Write(1.0f);                                // HByteScale
     writer.Write(1.0f);                                // VPixelScale
     writer.Write(static_cast<uint32_t>(size));         // ImageDataSize
     writer.Write(const_cast<char*>(reinterpret_cast<const char*>(data + offset)), size);
+
+    std::stringstream ss;
+    writer.Finish(ss);
+    std::string str = ss.str();
+    std::vector<char> fileData(str.begin(), str.end());
+    Companion::Instance->RegisterCompanionFile(path, fileData);
+}
+
+// Export G_MOVEMEM data (lights, viewports) as a Blob resource
+static void ExportMovememBlob(const std::string& effectName, const uint8_t* data,
+                               uint32_t offset, uint32_t size, uint8_t index) {
+    std::vector<uint8_t> mmData(data + offset, data + offset + size);
+
+    // Viewport data has s16 fields that need byte-swap
+    if (index == 0x08) { // G_MV_VIEWPORT
+        for (uint32_t i = 0; i + 2 <= size; i += 2) {
+            uint16_t* v = reinterpret_cast<uint16_t*>(mmData.data() + i);
+            *v = BSWAP16(*v);
+        }
+    }
+    // Light data is all u8/s8 fields, no swap needed
+
+    char pathBuf[256];
+    snprintf(pathBuf, sizeof(pathBuf), "%s/mm_%X", effectName.c_str(), offset);
+    std::string path = pathBuf;
+
+    auto writer = LUS::BinaryWriter();
+    BaseExporter::WriteHeader(writer, Torch::ResourceType::Blob, 0);
+    writer.Write(static_cast<uint32_t>(size));
+    writer.Write(reinterpret_cast<char*>(mmData.data()), size);
 
     std::stringstream ss;
     writer.Finish(ss);
@@ -317,6 +370,9 @@ ExportResult PM64EffectGfxBinaryExporter::Export(std::ostream& write, std::share
                 if (texInfo.find(w1) == texInfo.end()) {
                     texInfo[w1] = w0;  // Store w0 for format/size/width info
                 }
+            } else if (opcode == F3DEX2_G_MOVEMEM) {
+                // Collect movemem references (lights, viewports)
+                // Will be exported as blob resources
             }
         }
     }
@@ -382,6 +438,29 @@ ExportResult PM64EffectGfxBinaryExporter::Export(std::ostream& write, std::share
         }
         if (texOff + texSize <= effectData->mBuffer.size()) {
             ExportTextureResource(effectName, effectData->mBuffer.data(), texOff, texSize, "tex", texInfo[texOff]);
+        }
+    }
+
+    // Export movemem data blobs (lights, viewports)
+    std::unordered_map<uint32_t, uint32_t> mmInfo;  // offset → w0
+    for (const auto& dl : effectData->mDisplayLists) {
+        for (size_t i = 0; i < dl.commands.size(); i += 2) {
+            uint32_t w0 = dl.commands[i];
+            uint32_t w1 = dl.commands[i + 1];
+            uint8_t opcode = (w0 >> 24) & 0xFF;
+            if (opcode == F3DEX2_G_MOVEMEM) {
+                if (mmInfo.find(w1) == mmInfo.end()) {
+                    mmInfo[w1] = w0;
+                }
+            }
+        }
+    }
+    for (const auto& [mmOff, mmW0] : mmInfo) {
+        uint8_t index = mmW0 & 0xFF;
+        uint32_t sizeField = (mmW0 >> 19) & 0x1F;
+        uint32_t dataSize = (sizeField + 1) * 8;
+        if (mmOff + dataSize <= effectData->mBuffer.size()) {
+            ExportMovememBlob(effectName, effectData->mBuffer.data(), mmOff, dataSize, index);
         }
     }
 

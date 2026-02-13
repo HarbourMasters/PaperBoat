@@ -279,12 +279,18 @@ typedef s32 Difficulty2D[AC_DIFFICULTY_LEN][2];
     } \
 };
 
-#define UNPACK_PAL_R(color) (((color) >> 11) & 0x1F)
-#define UNPACK_PAL_G(color) (((color) >> 6) & 0x1F)
-#define UNPACK_PAL_B(color) (((color) >> 1) & 0x1F)
-#define UNPACK_PAL_A(color) ((color) & 1)
+// Palette data (RGBA5551) is stored in big-endian byte order in OTR blobs.
+// On little-endian systems, reading as u16 gives byte-swapped values.
+// These macros transparently handle the BE↔native conversion so that
+// UNPACK extracts correct channels and PACK produces BE output for Fast3D.
+#define _PAL_BSWAP16(x) ((u16)(((u16)(x) >> 8) | ((u16)(x) << 8)))
 
-#define PACK_PAL_RGBA(r, g, b, a) (((r) << 11) | ((g) << 6) | ((b) << 1) | (a));
+#define UNPACK_PAL_R(color) ((_PAL_BSWAP16(color) >> 11) & 0x1F)
+#define UNPACK_PAL_G(color) ((_PAL_BSWAP16(color) >> 6) & 0x1F)
+#define UNPACK_PAL_B(color) ((_PAL_BSWAP16(color) >> 1) & 0x1F)
+#define UNPACK_PAL_A(color) (_PAL_BSWAP16(color) & 1)
+
+#define PACK_PAL_RGBA(r, g, b, a) _PAL_BSWAP16(((r) << 11) | ((g) << 6) | ((b) << 1) | (a))
 
 #define PM_RM_SHROUD    GBL_c1(G_BL_CLR_BL, G_BL_A_FOG, G_BL_CLR_IN, G_BL_1MA)
 
