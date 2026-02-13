@@ -6,6 +6,7 @@
 #include "sprite.h"
 #include "game_modes.h"
 #include "ld_addrs.h"
+#include "Engine.h"
 
 #if VERSION_JP
 #define TITLE_WIDTH 272
@@ -116,13 +117,6 @@ s32 StartGame_PosX[] = { 116,  120,   88,  106 };
 s32 Languages_PosX[] = { 121,  124,  130,  132 };
 #endif
 
-typedef struct TitleDataStruct {
-    /* 0x0 */ s32 logo;
-    /* 0x4 */ s32 copyright;
-    /* 0x8 */ s32 pressStart;
-    /* 0xC */ s32 copyrightPalette;
-} TitleDataStruct; // size = 0x10
-
 typedef struct TitleMenuDataStruct {
     /* 0x0 */ IMG_BIN *startGame;
     /* 0x4 */ IMG_BIN *languages;
@@ -135,7 +129,6 @@ typedef struct TitleMenuDataStruct {
 #endif
 
 BSS s16 TitleScreen_AppearDelay;
-BSS TitleDataStruct* TitleScreen_ImgList;
 BSS s32* TitleScreen_ImgList_Logo;
 BSS u8 (*TitleScreen_ImgList_Copyright)[COPYRIGHT_WIDTH];
 BSS s32* TitleScreen_ImgList_PressStart;
@@ -159,10 +152,6 @@ void title_screen_draw_menu(void);
 void title_screen_draw_copyright(f32);
 
 void state_init_title_screen(void) {
-    s32 titleDataSize;
-    void* titleDataDst;
-    void* titleData;
-
     gOverrideFlags = 0;
     gTimeFreezeMode = TIME_FREEZE_NONE;
     D_8014C248 = true;
@@ -174,23 +163,10 @@ void state_init_title_screen(void) {
     gGameStatusPtr->context = CONTEXT_WORLD;
     gGameStatusPtr->introPart = INTRO_PART_NONE;
     startup_fade_screen_update();
-    titleData = load_asset_by_name("title_data", &titleDataSize);
-    titleDataDst = TitleScreen_ImgList = heap_malloc(titleDataSize);
-    decode_yay0(titleData, titleDataDst);
-    general_heap_free(titleData);
 
-    TitleScreen_ImgList_Logo = (s32*)(TitleScreen_ImgList->logo + (s32) TitleScreen_ImgList);
-    TitleScreen_ImgList_Copyright = (u8 (*)[COPYRIGHT_WIDTH]) ((s32*)(TitleScreen_ImgList->copyright + (s32) TitleScreen_ImgList));
-    TitleScreen_ImgList_PressStart = (s32*)(TitleScreen_ImgList->pressStart + (s32) TitleScreen_ImgList);
-#if VERSION_JP
-    TitleScreen_ImgList_CopyrightPalette = (s32*)(TitleScreen_ImgList->copyrightPalette + (s32) TitleScreen_ImgList);
-#endif
-#if VERSION_PAL
-    TitleMenu_ImgList = heap_malloc((s32)titlemenu_DATA_SIZE);
-    dma_copy(titlemenu_ROM_START, titlemenu_ROM_END, TitleMenu_ImgList);
-    TitleMenu_ImgList_StartGame = (u8*)(TitleMenu_ImgList[gCurrentLanguage].startGame + (s32) TitleMenu_ImgList);
-    TitleMenu_ImgList_Languages = (u8*)(TitleMenu_ImgList[gCurrentLanguage].languages + (s32) TitleMenu_ImgList);
-#endif
+    TitleScreen_ImgList_Logo = (s32*) ResourceGetDataByName("__OTR__title_screen/title_logo");
+    TitleScreen_ImgList_Copyright = (u8 (*)[COPYRIGHT_WIDTH]) ResourceGetDataByName("__OTR__title_screen/title_copyright");
+    TitleScreen_ImgList_PressStart = (s32*) ResourceGetDataByName("__OTR__title_screen/title_press_start");
 
     create_cameras();
     gCameras[CAM_DEFAULT].updateMode = CAM_UPDATE_NO_INTERP;

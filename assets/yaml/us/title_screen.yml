@@ -1,0 +1,11 @@
+
+# Offset 0x27DA76C found from mapfs asset table at 0x1E40020
+
+title_logo:
+  { type: PM64:TITLE_DATA, offset: 0x27DA76C, sub_offset: 0x2210, size: 89600, symbol: title_logo }
+
+title_copyright:
+  { type: PM64:TITLE_DATA, offset: 0x27DA76C, sub_offset: 0x0010, size: 4608, symbol: title_copyright }
+
+title_press_start:
+  { type: PM64:TITLE_DATA, offset: 0x27DA76C, sub_offset: 0x1210, size: 4096, symbol: title_press_start }
