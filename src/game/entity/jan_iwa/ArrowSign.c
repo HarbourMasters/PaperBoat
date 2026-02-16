@@ -1,10 +1,8 @@
 #include "common.h"
 #include "entity.h"
 #include "ld_addrs.h"
-
-extern Gfx Entity_ArrowSign_Render[];
-extern Gfx Entity_ArrowSign_RenderRotatedSign[];
-extern Mtx Entity_ArrowSign_mtxSign;
+#include "assets/entities.h"
+#include "Engine.h"
 
 void entity_ArrowSign_setupGfx(s32 entityIndex) {
     Gfx* gfxPos = gMainGfxPos;
@@ -14,13 +12,13 @@ void entity_ArrowSign_setupGfx(s32 entityIndex) {
     Matrix4f sp58;
     Gfx* gfx;
 
-    guMtxL2F(sp18, ENTITY_ADDR(entity, Mtx*, &Entity_ArrowSign_mtxSign));
+    guMtxL2F(sp18, (Mtx*) LOAD_ASSET(Entity_ArrowSign_mtxSign));
     guRotateF(sp58, clamp_angle(data->angle - 90.0f), 0.0f, 0.0f, 1.0f);
     guMtxCatF(sp58, sp18, sp18);
     guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
 
     gSPMatrix(gfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gfx = ENTITY_ADDR(entity, Gfx*, Entity_ArrowSign_RenderRotatedSign);
+    gfx = (Gfx*) LOAD_ASSET(Entity_ArrowSign_RenderRotatedSign);
     gSPDisplayList(gfxPos++, gfx);
     gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
     gMainGfxPos = gfxPos;

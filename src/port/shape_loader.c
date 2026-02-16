@@ -123,9 +123,12 @@ static ModelNode* ConvertModelNode(u8* base, u32 offset) {
 static char** ConvertNameTable(u8* base, u32 offset) {
     if (offset == 0) return NULL;
 
+    // Name tables are terminated by an entry pointing to the string "db"
     u32* rawOffsets = (u32*)(base + offset);
     s32 count = 0;
     while (rawOffsets[count] != 0) {
+        char* str = (char*)(base + rawOffsets[count]);
+        if (str[0] == 'd' && str[1] == 'b' && str[2] == '\0') break;
         count++;
     }
     if (count == 0) return NULL;
@@ -171,8 +174,6 @@ void Shape_LoadFromRawData(ShapeFile* shapeFile, const u8* rawData, size_t rawSi
     shapeFile->header.colliderNames = ConvertNameTable(base, rawHeader->colliderNamesOffset);
     shapeFile->header.zoneNames = ConvertNameTable(base, rawHeader->zoneNamesOffset);
 
-    GameEngine_LogInfo("[Shape] %s: rawSize=0x%zX, arena used=0x%zX/0x%zX",
-                      shapeName, rawSize, sArenaPos, sArenaSize);
 
     gCurrentShapeName = NULL;
 }

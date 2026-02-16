@@ -1,6 +1,8 @@
 #include "common.h"
 #include "ld_addrs.h"
 #include "entity.h"
+#include "assets/entities.h"
+#include "Engine.h"
 
 s32 entity_HiddenPanel_is_item_on_top(Entity*);
 void entity_HiddenPanel_flip_over(Entity*);
@@ -9,12 +11,6 @@ void mdl_project_tex_coords(s32 modelID, Gfx* destGfx, Matrix4f destMtx, void* d
 s32 npc_find_standing_on_entity(s32 entityIndex);
 
 extern EntityModelScript ERS_AltHiddenPanel;
-
-extern Gfx Gfx_HiddenPanel_RenderTop[];
-extern Gfx Gfx_AltHiddenPanel_RenderTop[];
-extern Gfx Gfx_HiddenPanel_RenderHole[];
-extern Gfx Gfx_HiddenPanel_Render[];
-extern Gfx Gfx_HiddenPanel_Render2[];
 
 void entity_HiddenPanel_setupGfx(s32 entityIndex) {
     Entity* entity = get_entity_by_index(entityIndex);
@@ -28,7 +24,7 @@ void entity_HiddenPanel_setupGfx(s32 entityIndex) {
         guMtxCatF(tempMtx, rotMtx, tempMtx);
         guMtxF2L(tempMtx, &gDisplayContext->matrixStack[gMatrixListPos]);
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, ENTITY_ADDR(entity, Gfx*, Gfx_HiddenPanel_RenderHole));
+        gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(Gfx_HiddenPanel_RenderHole));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
     mdl_project_tex_coords(data->modelID, data->renderDList, data->entityMatrix, entity->gfxBaseAddr);
@@ -325,7 +321,7 @@ void entity_HiddenPanel_init(Entity* entity) {
     } else {
         dlist = Gfx_HiddenPanel_RenderTop;
     }
-    data->renderDList = ENTITY_ADDR(entity, Gfx*, dlist);
+    data->renderDList = (Gfx*) LOAD_ASSET(dlist);
 
     mdl_project_tex_coords(data->modelID, data->renderDList, data->entityMatrix, entity->gfxBaseAddr);
     gCurrentHiddenPanels.panelsCount++;

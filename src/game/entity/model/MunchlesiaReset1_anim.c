@@ -1,8 +1,7 @@
 #include "common.h"
 #include "animation_script.h"
 
-extern Vtx D_0A000000_E91890[];
-extern Gfx Entity_MunchlesiaReset1_Render[];
+#include "assets/entities.h"
 
 AnimScript Entity_MunchlesiaReset1_Animation = {
     as_SetRotation(1, 0.0, 0.0, 0.0)
@@ -209,7 +208,7 @@ StaticAnimatorNode Entity_MunchlesiaReset1_Node1 = {
     .displayList = ENTITY_ANIM_NULL,
     .sibling = ENTITY_ANIM_NULL,
     .child = &Entity_MunchlesiaReset1_Node2,
-    .vertexStartOffset = (s32)ENTITY_ANIM_NULL,
+    .vertexStartOffset = -1,
     .vtxList = ENTITY_ANIM_NULL,
 };
 

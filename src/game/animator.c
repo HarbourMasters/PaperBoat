@@ -1,6 +1,7 @@
 #include "model.h"
 #include "animation_script.h"
 #include "model.h"
+#include "Engine.h"
 
 // Display list context tracking for debugging
 extern void GameEngine_SetDisplayListContext(const char* context);
@@ -888,9 +889,10 @@ void appendGfx_animator_node(ModelAnimator* animator, AnimatorNode* node, Matrix
     gDPPipeSync(gMainGfxPos++);
 
     if (node->displayList != nullptr) {
+        Gfx* resolvedDL = (Gfx*) LOAD_ASSET(node->displayList);
         if (node->vertexStartOffset < 0) {
             GameEngine_SetDisplayListContext("animator_node_displaylist");
-            gSPDisplayList(gMainGfxPos++, node->displayList);
+            gSPDisplayList(gMainGfxPos++, resolvedDL);
             GameEngine_SetDisplayListContext(NULL);
         } else {
             Gfx* gfxPos;
@@ -898,8 +900,8 @@ void appendGfx_animator_node(ModelAnimator* animator, AnimatorNode* node, Matrix
             s32 j = 0;
             s32 k;
 
-            if ((node->displayList[0].words.w0 >> 0x18) != G_ENDDL) {
-                Gfx* gfxPtr = node->displayList;
+            if ((resolvedDL[0].words.w0 >> 0x18) != G_ENDDL) {
+                Gfx* gfxPtr = resolvedDL;
                 s32 endDL = G_ENDDL;
 
                 for(;; j++) {
@@ -928,8 +930,8 @@ void appendGfx_animator_node(ModelAnimator* animator, AnimatorNode* node, Matrix
             dlIdx = 0;
 
             do {
-                w0 = ((s32*)node->displayList)[dlIdx++];
-                w1 = ((s32*)node->displayList)[dlIdx++];
+                w0 = ((s32*)resolvedDL)[dlIdx++];
+                w1 = ((s32*)resolvedDL)[dlIdx++];
                 cmd = w0 >> 0x18;
                 if (cmd == G_ENDDL) {
                     break;

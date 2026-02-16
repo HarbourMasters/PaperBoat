@@ -1,8 +1,8 @@
 #include "common.h"
 #include "ld_addrs.h"
 #include "entity.h"
-
-extern Gfx Entity_Signpost_Render[];
+#include "assets/entities.h"
+#include "Engine.h"
 
 void entity_Signpost_idle(Entity* entity) {
     PlayerStatus* playerStatus = &gPlayerStatus;

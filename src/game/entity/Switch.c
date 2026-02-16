@@ -2,13 +2,11 @@
 #include "effects.h"
 #include "ld_addrs.h"
 #include "entity.h"
+#include "assets/entities.h"
+#include "Engine.h"
 
 #define REFLECTED_SWITCH_HIDDEN 1
 #define REFLECTED_SWITCH_LINKED 2
-
-extern Gfx Entity_RedSwitch_Render[];
-extern Gfx Entity_BlueSwitch_Render[];
-extern Gfx Entity_GreenStompSwitch_Render[];
 
 BSS Entity* SwitchToLink;
 

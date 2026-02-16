@@ -90,6 +90,15 @@ static bool IsValidOffset(uint32_t offset, size_t size) {
 #define F3DEX2_G_DL      0xDE
 #define F3DEX2_G_SETTIMG 0xFD
 
+// Check if an opcode is a valid F3DEX2 GBI command.
+// Valid ranges: 0x00-0x07 (geometry), 0xD7-0xDF (matrix/mode), 0xE4-0xFF (RDP).
+static bool IsValidF3DEX2Opcode(uint8_t opcode) {
+    if (opcode <= 0x07) return true;                    // G_NOOP..G_QUAD
+    if (opcode >= 0xD7 && opcode <= 0xDF) return true;  // G_TEXTURE..G_ENDDL
+    if (opcode >= 0xE4) return true;                    // G_TEXRECT..G_SETCIMG
+    return false;
+}
+
 // Byte-swap display list commands, convert embedded N64 addresses to file offsets,
 // and collect the display list for separate resource export
 static void ByteSwapDisplayList(uint8_t* data, uint32_t offset, size_t size) {
@@ -112,6 +121,14 @@ static void ByteSwapDisplayList(uint8_t* data, uint32_t offset, size_t size) {
         uint32_t w1 = BSWAP32(words[1]);
 
         uint8_t opcode = (w0 >> 24) & 0xFF;
+
+        // Stop if we hit a non-F3DEX2 opcode — we've overrun past the display list
+        // into adjacent data (e.g., string data, vertex data, padding).
+        if (!IsValidF3DEX2Opcode(opcode)) {
+            SPDLOG_WARN("DL at 0x{:X}: invalid opcode 0x{:02X} at offset 0x{:X}, stopping",
+                        offset, opcode, (uint32_t)(ptr - data));
+            break;
+        }
 
         // Handle G_VTX - convert vertex address to vertex-table-relative offset
         if (opcode == F3DEX2_G_VTX) {
@@ -176,7 +193,8 @@ static void ByteSwapModelNodeProperty(uint8_t* data, uint32_t offset, size_t siz
     // For texture name properties, convert N64 address to file offset
     if (key == MODEL_PROP_KEY_TEXTURE_NAME) {
         uint32_t dataAddr = BSWAP32(prop[2]);
-        prop[2] = N64AddrToOffset(dataAddr);
+        uint32_t strOffset = N64AddrToOffset(dataAddr);
+        prop[2] = strOffset;
     } else {
         prop[2] = BSWAP32(prop[2]); // data (scalar value)
     }
@@ -445,17 +463,29 @@ static void ByteSwapShapeData(uint8_t* data, size_t size, std::vector<PM64Displa
         }
     }
 
-    // Byte-swap name table pointers (arrays of char* terminated by null)
-    // Also convert N64 addresses to offsets
+    // Byte-swap name table pointers (arrays of char* terminated by "db" sentinel string)
+    // Each table is an array of BE u32 pointers to null-terminated strings.
+    // The terminator is an entry whose pointed-to string content is literally "db".
     auto swapNameTable = [&](uint32_t tableOffset) {
         if (!IsValidOffset(tableOffset, size - 4)) return;
 
         uint32_t* names = reinterpret_cast<uint32_t*>(data + tableOffset);
         while (reinterpret_cast<uint8_t*>(names) < data + size - 4) {
             uint32_t nameAddr = BSWAP32(*names);
+            if (nameAddr == 0) {
+                *names = 0;
+                break;
+            }
             uint32_t nameOffset = N64AddrToOffset(nameAddr);
+            // Check if the pointed-to string is "db" (the sentinel terminator)
+            if (nameOffset < size - 2) {
+                const char* str = reinterpret_cast<const char*>(data + nameOffset);
+                if (str[0] == 'd' && str[1] == 'b' && str[2] == '\0') {
+                    *names = nameOffset; // still convert, runtime needs the offset
+                    break;
+                }
+            }
             *names = nameOffset;
-            if (nameAddr == 0) break;
             names++;
         }
     };

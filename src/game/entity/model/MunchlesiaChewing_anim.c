@@ -1,7 +1,7 @@
 #include "common.h"
 #include "animation_script.h"
 
-extern Gfx Entity_MunchlesiaChewing_Render[];
+#include "assets/entities.h"
 
 StaticAnimatorNode Entity_MunchlesiaChewing_Node1 = {
     .displayList = Entity_MunchlesiaChewing_Render,

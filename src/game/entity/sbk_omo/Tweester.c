@@ -1,6 +1,8 @@
 #include "common.h"
 #include "entity.h"
 #include "ld_addrs.h"
+#include "assets/entities.h"
+#include "Engine.h"
 
 u8 Entity_Tweester_FaceAnimationData[] = {
       0,  2,
@@ -11,16 +13,6 @@ u8 Entity_Tweester_FaceAnimationData[] = {
     255,  0
 };
 
-extern unsigned char D_0A000BF0_E57A50[];
-extern unsigned char D_0A000FF0_E57E50[];
-extern unsigned char D_0A0018A0_E58700[];
-extern unsigned char D_0A0014A0_E58300[];
-extern Mtx Entity_Tweester_mtxInnerWhirl;
-extern Mtx Entity_Tweester_mtxOuterWhirl;
-extern Gfx Entity_Tweester_RenderInnerWhirl[];
-extern Gfx Entity_Tweester_RenderOuterWhirl[];
-extern Gfx Entity_Tweester_Render[];
-
 void entity_Tweester_render_inner_whirl(s32 entityIndex) {
     Entity* entity = get_entity_by_index(entityIndex);
     TweesterData* data = entity->dataBuf.tweester;
@@ -28,13 +20,13 @@ void entity_Tweester_render_inner_whirl(s32 entityIndex) {
     Matrix4f sp58;
     Gfx* gfx;
 
-    guMtxL2F(sp18, ENTITY_ADDR(entity, Mtx*, &Entity_Tweester_mtxInnerWhirl));
+    guMtxL2F(sp18, (Mtx*) LOAD_ASSET(Entity_Tweester_mtxInnerWhirl));
     guRotateF(sp58, data->innerWhirlRotY, 0.0f, 1.0f, 0.0f);
     guMtxCatF(sp58, sp18, sp18);
     guMtxF2L(sp18, &data->mtxInnerWhirl);
     gDisplayContext->matrixStack[gMatrixListPos] = data->mtxInnerWhirl;
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gfx = ENTITY_ADDR(entity, Gfx*, Entity_Tweester_RenderInnerWhirl);
+    gfx = (Gfx*) LOAD_ASSET(Entity_Tweester_RenderInnerWhirl);
     gSPDisplayList(gMainGfxPos++, gfx);
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }
@@ -46,13 +38,13 @@ void entity_Tweester_render_outer_whirl(s32 entityIndex) {
     Matrix4f sp58;
     Gfx* gfx;
 
-    guMtxL2F(sp18, ENTITY_ADDR(entity, Mtx*, &Entity_Tweester_mtxOuterWhirl));
+    guMtxL2F(sp18, (Mtx*) LOAD_ASSET(Entity_Tweester_mtxOuterWhirl));
     guRotateF(sp58, data->outerWhirlRotY, 0.0f, 1.0f, 0.0f);
     guMtxCatF(sp58, sp18, sp18);
     guMtxF2L(sp18, &data->mtxOuterWhirl);
     gDisplayContext->matrixStack[gMatrixListPos] = data->mtxOuterWhirl;
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gfx = ENTITY_ADDR(entity, Gfx*, Entity_Tweester_RenderOuterWhirl);
+    gfx = (Gfx*) LOAD_ASSET(Entity_Tweester_RenderOuterWhirl);
     gSPDisplayList(gMainGfxPos++, gfx);
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }
@@ -63,12 +55,12 @@ void entity_Tweester_render_face(s32 entityIndex) {
 
     gDPPipeSync(gMainGfxPos++);
     gDPSetTextureLUT(gMainGfxPos++, G_TT_RGBA16);
-    gDPLoadTLUT_pal16(gMainGfxPos++, 0, D_0A0018A0_E58700);
+    gDPLoadTLUT_pal16(gMainGfxPos++, 0, (u8*) LOAD_ASSET(D_0A0018A0_E58700));
     gSPTexture(gMainGfxPos++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
     gDPSetCombineMode(gMainGfxPos++, G_CC_MODULATEIA, G_CC_MODULATEIA);
     gDPSetTextureDetail(gMainGfxPos++, G_TD_CLAMP);
     gDPSetTextureLOD(gMainGfxPos++, G_TL_TILE);
-    gDPLoadTextureBlock_4b(gMainGfxPos++, D_0A0014A0_E58300, G_IM_FMT_CI, 64, 32, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_CLAMP, 6, 5, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock_4b(gMainGfxPos++, (u8*) LOAD_ASSET(D_0A0014A0_E58300), G_IM_FMT_CI, 64, 32, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_CLAMP, 6, 5, G_TX_NOLOD, G_TX_NOLOD);
     gDPSetTexturePersp(gMainGfxPos++, G_TP_PERSP);
     gDPSetTextureFilter(gMainGfxPos++, G_TF_BILERP);
     gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, data->faceAnimTexOffset * 4, 0, (data->faceAnimTexOffset + 124) * 4, 31 * 4);
@@ -84,14 +76,14 @@ void entity_Tweester_setupGfx(s32 entityIndex) {
     gDPSetCombineMode(gMainGfxPos++, PM_CC_ALT_INTERFERENCE, G_CC_MODULATEIA2);
     gDPSetTextureDetail(gMainGfxPos++, G_TD_CLAMP);
     gDPSetTextureLOD(gMainGfxPos++, G_TL_TILE);
-    gDPSetTextureImage(gMainGfxPos++, G_IM_FMT_I, G_IM_SIZ_8b, 32, D_0A000BF0_E57A50);
+    gDPSetTextureImage(gMainGfxPos++, G_IM_FMT_I, G_IM_SIZ_8b, 32, (u8*) LOAD_ASSET(D_0A000BF0_E57A50));
     gDPSetTile(gMainGfxPos++, G_IM_FMT_I, G_IM_SIZ_8b, 4, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, 5, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 5, G_TX_NOLOD);
     gDPLoadSync(gMainGfxPos++);
     gDPLoadTile(gMainGfxPos++, G_TX_LOADTILE, 0, 0, 0x007C, 0x007C);
     gDPPipeSync(gMainGfxPos++);
     gDPSetTile(gMainGfxPos++, G_IM_FMT_I, G_IM_SIZ_8b, 4, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, 5, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 5, G_TX_NOLOD);
     gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, 0, 0, 0x007C, 0x007C);
-    gDPSetTextureImage(gMainGfxPos++, G_IM_FMT_I, G_IM_SIZ_8b, 32, D_0A000FF0_E57E50);
+    gDPSetTextureImage(gMainGfxPos++, G_IM_FMT_I, G_IM_SIZ_8b, 32, (u8*) LOAD_ASSET(D_0A000FF0_E57E50));
     gDPSetTile(gMainGfxPos++, G_IM_FMT_I, G_IM_SIZ_8b, 4, 0x0080, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, 5, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 5, G_TX_NOLOD);
     gDPLoadSync(gMainGfxPos++);
     gDPLoadTile(gMainGfxPos++, G_TX_LOADTILE, 0, 0, 0x007C, 0x007C);

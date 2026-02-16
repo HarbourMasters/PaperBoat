@@ -1,5 +1,6 @@
 #include "common.h"
 #include "entity.h"
+#include "Engine.h"
 
 void entity_shattering_setupGfx(s32 entityIndex);
 
@@ -7,7 +8,7 @@ void entity_BrickBlock_idle(Entity* entity) {
     entity_base_block_idle(entity);
 }
 
-void entity_shattering_init_pieces(Entity* entity, Gfx** dlists, Mtx* matrices) {
+void entity_shattering_init_pieces(Entity* entity, void** dlists, Mtx* matrices) {
     ShatteringBlockData* data = entity->dataBuf.shatteringBlock;
     s32 s7;
     s32 i;
@@ -16,7 +17,7 @@ void entity_shattering_init_pieces(Entity* entity, Gfx** dlists, Mtx* matrices) 
     s32 rotSpeed;
     f32 fallSpeed;
 
-    data->fragmentDisplayLists = ENTITY_ADDR(entity, Gfx**, dlists);
+    data->fragmentDisplayLists = dlists;
     entity->renderSetupFunc = entity_shattering_setupGfx;
     entity->alpha = 255;
     entity->pos.y = data->originalPosY;
@@ -31,7 +32,7 @@ void entity_shattering_init_pieces(Entity* entity, Gfx** dlists, Mtx* matrices) 
     data->alpha = 255;
 
     for (i = 0; i < 24; i++) {
-        guMtxL2F(mtxFragment, ENTITY_ADDR(entity, Mtx*, matrices++));
+        guMtxL2F(mtxFragment, matrices++);
         guMtxCatF(mtxTrans, mtxFragment, mtxFragment);
         data->fragmentPosX[i] = mtxFragment[3][0];
         data->fragmentPosY[i] = mtxFragment[3][1];
@@ -164,7 +165,7 @@ void entity_shattering_setupGfx(s32 entityIndex) {
     Entity* entity = get_entity_by_index(entityIndex);
     ShatteringBlockData* data = entity->dataBuf.shatteringBlock;
     Gfx* fragmentDlist;
-    Gfx** gfx = data->fragmentDisplayLists;
+    void** gfx = data->fragmentDisplayLists;
 
     x_inv = -entity->pos.x;
     y_inv = -entity->pos.y;
@@ -189,7 +190,7 @@ void entity_shattering_setupGfx(s32 entityIndex) {
         guMtxF2L(mtx, &gDisplayContext->matrixStack[gMatrixListPos]);
 
         gSPMatrix(gfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        fragmentDlist = ENTITY_ADDR(entity, Gfx*, *gfx++);
+        { void* _dl = *gfx++; fragmentDlist = LOAD_ASSET(_dl); }
         gSPDisplayList(gfxPos++, fragmentDlist);
         gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
     }

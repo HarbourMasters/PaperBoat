@@ -52,7 +52,8 @@ void N(foliage_setup_shear_mtx)(Matrix4f mtx, f32 scale, f32 xAmount, f32 zAmoun
 /// @apiparam float dz
 API_CALLABLE(N(TransformFoliage)) {
     Bytecode* args = script->ptrReadPos;
-    s32 modelListIndex = get_model_list_index_from_tree_index(evt_get_variable(script, *args++));
+    s32 treeIndex = evt_get_variable(script, *args++);
+    s32 modelListIndex = get_model_list_index_from_tree_index(treeIndex);
     f32 scale = evt_get_float_variable(script, *args++);
     f32 dx = evt_get_float_variable(script, *args++);
     f32 dy = evt_get_float_variable(script, *args++);

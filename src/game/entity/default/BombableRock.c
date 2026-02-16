@@ -2,14 +2,16 @@
 #include "effects.h"
 #include "entity.h"
 #include "ld_addrs.h"
+#include "Engine.h"
+#include "assets/entities.h"
 
 extern Gfx Entity_RenderNone[];
-extern Gfx* Entity_BombableRock_FragmentsRender[];
+extern void* Entity_BombableRock_FragmentsRender[];
 extern Mtx Entity_BombableRock_FragmentMatrices[];
 
 void entity_BombableRock_setupGfx(s32);
 
-void entity_BombableRock_init_fragments(Entity* entity, Gfx** dlists, Mtx* matrices) {
+void entity_BombableRock_init_fragments(Entity* entity, void** dlists, Mtx* matrices) {
     BombableRockData* data = entity->dataBuf.bombableRock;
     Matrix4f mtxFragment;
     Matrix4f mtxTrans;
@@ -18,14 +20,14 @@ void entity_BombableRock_init_fragments(Entity* entity, Gfx** dlists, Mtx* matri
     s32 moveAngle = 0;
     s32 lateralSpeed = 0;
 
-    data->fragmentsGfx = ENTITY_ADDR(entity, Gfx**, dlists);
+    data->fragmentsGfx = dlists;
     entity->renderSetupFunc = entity_BombableRock_setupGfx;
     entity->alpha = 255;
     entity->pos.y = data->inititalY;
     guTranslateF(mtxTrans, entity->pos.x, entity->pos.y, entity->pos.z);
 
     for (i = 0; i < 5; i++) {
-        guMtxL2F(mtxFragment, ENTITY_ADDR(entity, Mtx*, matrices++));
+        guMtxL2F(mtxFragment, matrices++);
         guMtxCatF(mtxTrans, mtxFragment, mtxFragment);
         data->fragmentPosX[i] = mtxFragment[3][0];
         data->fragmentPosY[i] = mtxFragment[3][1];
@@ -195,7 +197,7 @@ void entity_BombableRock_setupGfx(s32 entityIndex) {
     Entity* entity = get_entity_by_index(entityIndex);
     BombableRockData* data = entity->dataBuf.bombableRock;
     Gfx* fragmentDlist;
-    Gfx** gfx = data->fragmentsGfx;
+    void** gfx = data->fragmentsGfx;
 
     x_inv = -entity->pos.x;
     y_inv = -entity->pos.y;
@@ -220,7 +222,7 @@ void entity_BombableRock_setupGfx(s32 entityIndex) {
         guMtxF2L(mtx, &gDisplayContext->matrixStack[gMatrixListPos]);
 
         gSPMatrix(gfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        fragmentDlist = ENTITY_ADDR(entity, Gfx*, *gfx++);
+        { void* _dl = *gfx++; fragmentDlist = LOAD_ASSET(_dl); }
         gSPDisplayList(gfxPos++, fragmentDlist);
         gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
     }

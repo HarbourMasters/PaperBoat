@@ -1,8 +1,7 @@
 #include "common.h"
 #include "animation_script.h"
 
-extern Gfx Entity_HitFloatingYellowBlock_RenderBlock2[];
-extern Gfx Entity_HitFloatingYellowBlock_RenderBlock1[];
+#include "assets/entities.h"
 
 StaticAnimatorNode Entity_HitFloatingYellowBlock_NodeBlock2 = {
     .displayList = Entity_HitFloatingYellowBlock_RenderBlock2,

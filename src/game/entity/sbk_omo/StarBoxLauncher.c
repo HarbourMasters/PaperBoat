@@ -2,11 +2,8 @@
 #include "effects.h"
 #include "entity.h"
 #include "ld_addrs.h"
-
-extern Gfx Entity_StarBoxLauncher_RenderBottom[];
-extern Gfx Entity_StarBoxLauncher_RenderTop[];
-extern unsigned char D_0A000D08_E56748[];
-extern unsigned char D_0A000508_E55F48[];
+#include "assets/entities.h"
+#include "Engine.h"
 
 u8 D_802BCAA0_E313F0[] = {
     0x00, 0x02,
@@ -41,17 +38,28 @@ void entity_StarBoxLauncher_setupGfx(s32 entityIndex) {
     guMtxCatF(sp50, sp10, sp50);
     guMtxF2L(sp50, &gDisplayContext->matrixStack[gMatrixListPos]);
     gSPMatrix(gfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxPos++, ENTITY_ADDR(entity, Gfx*, Entity_StarBoxLauncher_RenderBottom));
+    // Inline Entity_StarBoxLauncher_RenderBottom/RenderBox (wrapper DLs not in OTR)
+    gDPPipeSync(gfxPos++);
+    gDPSetCycleType(gfxPos++, G_CYC_1CYCLE);
+    gDPSetRenderMode(gfxPos++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
+    gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_StarBoxLauncher_LoadTextureBox));
+    gSPClearGeometryMode(gfxPos++, G_CULL_BACK | G_LIGHTING);
+    gSPSetGeometryMode(gfxPos++, G_SHADING_SMOOTH);
+    gSPVertex(gfxPos++, (Vtx*) LOAD_ASSET(D_0A000000_E55A40), 15, 0);
+    gSP2Triangles(gfxPos++, 0, 1, 2, 0, 0, 2, 3, 0);
+    gSP2Triangles(gfxPos++, 4, 5, 6, 0, 4, 6, 7, 0);
+    gSP2Triangles(gfxPos++, 7, 8, 9, 0, 7, 9, 10, 0);
+    gSP2Triangles(gfxPos++, 11, 12, 13, 0, 11, 13, 14, 0);
     gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
 
     gDPPipeSync(gfxPos++);
     gDPSetTextureLUT(gfxPos++, G_TT_RGBA16);
-    gDPLoadTLUT_pal16(gfxPos++, 0, D_0A000D08_E56748);
+    gDPLoadTLUT_pal16(gfxPos++, 0, (u8*) LOAD_ASSET(D_0A000D08_E56748));
     gSPTexture(gfxPos++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
     gDPSetCombineMode(gfxPos++, G_CC_MODULATEIA, G_CC_MODULATEIA);
     gDPSetTextureDetail(gfxPos++, G_TD_CLAMP);
     gDPSetTextureLOD(gfxPos++, G_TL_TILE);
-    gDPLoadTextureBlock_4b(gfxPos++, D_0A000508_E55F48, G_IM_FMT_CI, 128, 32, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 7, 5, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock_4b(gfxPos++, (u8*) LOAD_ASSET(D_0A000508_E55F48), G_IM_FMT_CI, 128, 32, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 7, 5, G_TX_NOLOD, G_TX_NOLOD);
     gDPSetTexturePersp(gfxPos++, G_TP_PERSP);
     gDPSetTextureFilter(gfxPos++, G_TF_BILERP);
     gDPSetTileSize(gfxPos++, G_TX_RENDERTILE, data->faceTexOffset * 4, 0, (data->faceTexOffset + 124) * 4, 31 * 4);

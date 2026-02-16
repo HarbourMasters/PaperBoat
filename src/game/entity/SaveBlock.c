@@ -3,11 +3,8 @@
 #include "ld_addrs.h"
 #include "entity.h"
 #include "message_ids.h"
-
-extern Mtx Entity_SaveBlock_Mtx;
-extern Gfx Entity_SaveBlock_RenderContent[];
-extern Gfx Entity_SaveBlock_RenderBlock[];
-extern Gfx Entity_SaveBlock_RenderNone[];
+#include "assets/entities.h"
+#include "Engine.h"
 
 extern EntityScript Entity_SaveBlock_ScriptResume;
 
@@ -17,20 +14,18 @@ BSS MessagePrintState* SaveBlockTutorialPrinter;
 BSS MessagePrintState* SaveBlockResultPrinter;
 
 #if VERSION_PAL
-extern Gfx Entity_SaveBlock_RenderBlock_es[];
 extern s32 gCurrentLanguage;
 #endif
 
 void entity_SaveBlock_setupGfx(s32 index) {
     Gfx* gfxPos = gMainGfxPos;
-    Gfx* dlist = Entity_SaveBlock_RenderContent;
     Entity* entity = get_entity_by_index(index);
     SaveBlockData* blockData = entity->dataBuf.saveBlock;
     s32 alpha = 128;
     Matrix4f sp18;
     Matrix4f sp58;
 
-    guMtxL2F(sp18, ENTITY_ADDR(entity, Mtx*, &Entity_SaveBlock_Mtx));
+    guMtxL2F(sp18, (Mtx*) LOAD_ASSET(Entity_SaveBlock_Mtx));
     sp18[3][1] += 12.5f;
     guRotateF(sp58, blockData->angle, 0.0f, 1.0f, 0.0f);
     guMtxCatF(sp58, sp18, sp58);
@@ -40,23 +35,11 @@ void entity_SaveBlock_setupGfx(s32 index) {
     gDPSetRenderMode(gfxPos++, G_RM_ZB_CLD_SURF, G_RM_ZB_CLD_SURF2);
     gDPSetCombineMode(gfxPos++, PM_CC_01, PM_CC_02);
     gDPSetPrimColor(gfxPos++, 0, 0, 0, 0, 0, alpha);
-    gSPDisplayList(gfxPos++, dlist);
+    // Entity_SaveBlock_RenderContent was a wrapper that just called RenderStar
+    gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderStar));
     gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
 
-#if VERSION_PAL
-    switch (gCurrentLanguage) {
-        default:
-            dlist = ENTITY_ADDR(entity, Gfx*, Entity_SaveBlock_RenderBlock);
-            break;
-
-        case LANGUAGE_ES:
-            dlist = ENTITY_ADDR(entity, Gfx*, Entity_SaveBlock_RenderBlock_es);
-            break;
-    }
-#else
-    dlist = ENTITY_ADDR(entity, Gfx*, Entity_SaveBlock_RenderBlock);
-#endif
-    guMtxL2F(sp58, ENTITY_ADDR(entity, Mtx*, &Entity_SaveBlock_Mtx));
+    guMtxL2F(sp58, (Mtx*) LOAD_ASSET(Entity_SaveBlock_Mtx));
     sp58[3][1] += 12.5f;
     gDPPipeSync(gfxPos++);
     guMtxF2L(sp58, &gDisplayContext->matrixStack[gMatrixListPos]);
@@ -65,7 +48,21 @@ void entity_SaveBlock_setupGfx(s32 index) {
     gDPSetRenderMode(gfxPos++, G_RM_AA_XLU_SURF | Z_CMP, G_RM_AA_XLU_SURF2 | Z_CMP);
     gDPSetCombineMode(gfxPos++, PM_CC_01, PM_CC_02);
     gDPSetPrimColor(gfxPos++, 0, 0, 0, 0, 0, alpha);
-    gSPDisplayList(gfxPos++, dlist);
+    // Entity_SaveBlock_RenderBlock was a wrapper calling RenderFaces + letter DL
+#if VERSION_PAL
+    gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderFaces));
+    switch (gCurrentLanguage) {
+        default:
+            gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderLetterS));
+            break;
+        case LANGUAGE_ES:
+            gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderLetterG));
+            break;
+    }
+#else
+    gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderFaces));
+    gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderLetterS));
+#endif
     gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
 
     gMainGfxPos = gfxPos;
@@ -180,7 +177,9 @@ EntityScript Entity_SaveBlock_ScriptResume = {
     es_End
 };
 
-EntityModelScript Entity_SaveBlock_RenderScript = STANDARD_ENTITY_MODEL_SCRIPT(Entity_SaveBlock_RenderNone, RENDER_MODE_SURFACE_XLU_LAYER3);
+extern Gfx Entity_RenderNone[];
+
+EntityModelScript Entity_SaveBlock_RenderScript = STANDARD_ENTITY_MODEL_SCRIPT(Entity_RenderNone, RENDER_MODE_SURFACE_XLU_LAYER3);
 
 EntityBlueprint Entity_SavePoint = {
     .flags = ENTITY_FLAG_4000 | ENTITY_FLAG_FIXED_SHADOW_SIZE,

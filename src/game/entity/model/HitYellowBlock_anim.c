@@ -1,8 +1,7 @@
 #include "common.h"
 #include "animation_script.h"
 
-extern Gfx Entity_HitYellowBlock_RenderBlock2[];
-extern Gfx Entity_HitYellowBlock_RenderBlock1[];
+#include "assets/entities.h"
 
 StaticAnimatorNode Entity_HitYellowBlock_NodeBlock2 = {
     .displayList = Entity_HitYellowBlock_RenderBlock2,

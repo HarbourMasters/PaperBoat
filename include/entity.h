@@ -61,7 +61,6 @@ enum {
         ems_End \
     }
 
-#define ENTITY_ADDR(entity, type, data) (type)((s32)(entity->gfxBaseAddr) + ((s32)(data) & 0xFFFF))
 #define ENTITY_ROM(name) { entity_model_##name##_ROM_START, entity_model_##name##_ROM_END }
 
 #define BLOCK_GRID_SIZE 25
@@ -91,7 +90,7 @@ typedef struct SwitchData {
 
 typedef struct ShatteringBlockData {
     /* 0x000 */ u16 fragmentFlags[25];
-    /* 0x034 */ Gfx** fragmentDisplayLists;
+    /* 0x034 */ void** fragmentDisplayLists;
     /* 0x038 */ f32 originalPosY;
     /* 0x03C */ s16 alpha;
     /* 0x03E */ s16 fadeOutCounter;
@@ -174,7 +173,7 @@ typedef struct WoodenCrateData {
     /* 0x000 */ s32 itemID;
     /* 0x004 */ u16 globalFlagIndex;
     /* 0x006 */ u8 unk_06[2];
-    /* 0x008 */ Gfx** fragmentsGfx;
+    /* 0x008 */ void** fragmentsGfx;
     /* 0x00C */ f32 basePosY;
     /* 0x010 */ s8 fragmentRebounds[36];
     /* 0x034 */ u8 fragmentMoveAngle[36]; // X,Z plane -- scaled to map [0,255] -> [0,360], also used as fragment alpha
@@ -266,7 +265,7 @@ typedef struct PadlockData {
 #define FRAGMENT_BUF_SIZE 13
 
 typedef struct BoardedFloorData {
-    /* 0x000 */ Gfx** fragmentsGfx;
+    /* 0x000 */ void** fragmentsGfx;
     /* 0x004 */ f32 inititalY;
     /* 0x008 */ s8 fragmentRebounds[FRAGMENT_BUF_SIZE];
     /* 0x015 */ u8 fragmentMoveAngle[FRAGMENT_BUF_SIZE];
@@ -281,7 +280,7 @@ typedef struct BoardedFloorData {
 } BoardedFloorData; // size = 0x150
 
 typedef struct BombableRockData {
-    /* 0x00 */ Gfx** fragmentsGfx;
+    /* 0x00 */ void** fragmentsGfx;
     /* 0x04 */ f32 inititalY;
     /* 0x08 */ s8 fragmentRebounds[6];
     /* 0x0E */ u8 fragmentMoveAngle[6];
@@ -445,24 +444,24 @@ extern EntityBlueprint Entity_Munchlesia;
 extern EntityBlueprint Entity_ArrowSign;
 
 typedef struct EntityModel {
-    /* 0x00 */ s32 flags;
-    /* 0x04 */ s8 renderMode;
-    /* 0x05 */ u8 unk_05;
-    /* 0x06 */ u8 unk_06;
-    /* 0x07 */ u8 unk_07;
-    /* 0x08 */ f32 nextFrameTime; ///< Set to 1.0 after each update
-    /* 0x0C */ f32 timeScale; ///< Default is 1.0
-    /* 0x10 */ EntityModelScript* cmdListReadPos;
-    /* 0x14 */ union {
-                    Gfx* displayList;
-                    SpriteRasterInfo* imageData;
-               } gfx;
-    /* 0x18 */ Mtx transform;
-    /* 0x58 */ EntityModelScript* cmdListSavedPos;
-    /* 0x5C */ Vec3s* vertexArray;
-    /* 0x60 */ void (*fpSetupGfxCallback)(void*);
-    /* 0x64 */ void* setupGfxCallbackArg0;
-} EntityModel; // size = 0x68
+    /* N64:0x00  64:0x00 */ s32 flags;
+    /* N64:0x04  64:0x04 */ s8 renderMode;
+    /* N64:0x05  64:0x05 */ u8 unk_05;
+    /* N64:0x06  64:0x06 */ u8 unk_06;
+    /* N64:0x07  64:0x07 */ u8 unk_07;
+    /* N64:0x08  64:0x08 */ f32 nextFrameTime; ///< Set to 1.0 after each update
+    /* N64:0x0C  64:0x0C */ f32 timeScale; ///< Default is 1.0
+    /* N64:0x10  64:0x10 */ EntityModelScript* cmdListReadPos;
+    /* N64:0x14  64:0x18 */ union {
+                                Gfx* displayList;
+                                SpriteRasterInfo* imageData;
+                            } gfx;
+    /* N64:0x18  64:0x20 */ Mtx transform;
+    /* N64:0x58  64:0x60 */ EntityModelScript* cmdListSavedPos;
+    /* N64:0x5C  64:0x68 */ Vec3s* vertexArray;
+    /* N64:0x60  64:0x70 */ void (*fpSetupGfxCallback)(void*);
+    /* N64:0x64  64:0x78 */ void* setupGfxCallbackArg0;
+} EntityModel; // N64 size = 0x68, 64-bit size = 0x80
 
 typedef EntityModel* EntityModelList[MAX_ENTITY_MODELS];
 

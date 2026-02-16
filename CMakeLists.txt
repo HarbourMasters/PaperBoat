@@ -70,6 +70,7 @@ set(PORT_SOURCES
     src/port/factories/PM64EffectGfxFactory.cpp
     src/port/factories/PM64ImgFXAnimFactory.cpp
     src/port/factories/PM64TitleDataFactory.cpp
+    src/port/factories/PM64EntityGfxFactory.cpp
     src/port/sprite/SpriteLoader.cpp
     src/port/nusys_overrides.c
     src/port/gu.c

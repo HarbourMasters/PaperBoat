@@ -507,20 +507,20 @@ typedef struct DmaEntry {
 } DmaEntry;
 
 typedef struct EntityBlueprint {
-    /* 0x00 */ u16 flags;
-    /* 0x02 */ u16 typeDataSize;
-    /* 0x04 */ UNK_PTR renderCommandList;
-    /* 0x08 */ UNK_PTR modelAnimationNodes;
-    /* 0x0C */ void (*fpInit)(struct Entity*);
-    /* 0x10 */ UNK_PTR updateEntityScript;
-    /* 0x14 */ EntityCallback fpHandleCollision;
-    /* 0x18 */ union {
-                DmaEntry dma;
-                DmaEntry* dmaList;
-               };
-    /* 0x20 */ u8 entityType;
-    /* 0x21 */ u8 aabbSize[3];
-} EntityBlueprint; // size = 0x24
+    /* N64:0x00  64:0x00 */ u16 flags;
+    /* N64:0x02  64:0x02 */ u16 typeDataSize;
+    /* N64:0x04  64:0x08 */ UNK_PTR renderCommandList;
+    /* N64:0x08  64:0x10 */ UNK_PTR modelAnimationNodes;
+    /* N64:0x0C  64:0x18 */ void (*fpInit)(struct Entity*);
+    /* N64:0x10  64:0x20 */ UNK_PTR updateEntityScript;
+    /* N64:0x14  64:0x28 */ EntityCallback fpHandleCollision;
+    /* N64:0x18  64:0x30 */ union {
+                                DmaEntry dma;
+                                DmaEntry* dmaList;
+                            };
+    /* N64:0x20  64:0x40 */ u8 entityType;
+    /* N64:0x21  64:0x41 */ u8 aabbSize[3];
+} EntityBlueprint; // N64 size = 0x24, 64-bit size = 0x44
 
 typedef union {
     s32* any;
@@ -550,38 +550,38 @@ typedef union {
 } EntityData;
 
 typedef struct Entity {
-    /* 0x00 */ s32 flags;
-    /* 0x04 */ u8 listIndex;
-    /* 0x05 */ s8 unk_05;
-    /* 0x06 */ u8 collisionFlags;
-    /* 0x07 */ s8 collisionTimer;
-    /* 0x08 */ u8 unk_08;
-    /* 0x09 */ u8 scriptDelay;
-    /* 0x0A */ u8 type;
-    /* 0x0B */ u8 alpha;
-    /* 0x0C */ Vec3s aabb;
-    /* 0x12 */ s16 vertexSegment;
-    /* 0x14 */ s16 virtualModelIndex;
-    /* 0x16 */ s16 shadowIndex;
-    /* 0x18 */ s32* scriptReadPos;
-    /* 0x1C */ EntityCallback updateScriptCallback;
-    /* 0x20 */ EntityCallback updateMatrixOverride;
-    /* 0x24 */ Evt* boundScript;
-    /* 0x28 */ EvtScript* boundScriptBytecode;
-    /* 0x2C */ s32* savedReadPos[3];
-    /* 0x38 */ EntityBlueprint* blueprint;
-    /* 0x3C */ void (*renderSetupFunc)(s32);
-    /* 0x40 */ EntityData dataBuf;
-    /* 0x44 */ void* gfxBaseAddr;
-    /* 0x48 */ Vec3f pos;
-    /* 0x54 */ Vec3f scale;
-    /* 0x60 */ Vec3f rot;
-    /* 0x6C */ f32 shadowPosY;
-    /* 0x70 */ Matrix4f inverseTransformMatrix; /* world-to-local */
-    /* 0xB0 */ f32 effectiveSize;
-    /* 0xB4 */ char unk_B4[4];
-    /* 0xB8 */ Mtx transformMatrix;
-} Entity; // size = 0xF8
+    /* N64:0x00  64:0x00 */ s32 flags;
+    /* N64:0x04  64:0x04 */ u8 listIndex;
+    /* N64:0x05  64:0x05 */ s8 unk_05;
+    /* N64:0x06  64:0x06 */ u8 collisionFlags;
+    /* N64:0x07  64:0x07 */ s8 collisionTimer;
+    /* N64:0x08  64:0x08 */ u8 unk_08;
+    /* N64:0x09  64:0x09 */ u8 scriptDelay;
+    /* N64:0x0A  64:0x0A */ u8 type;
+    /* N64:0x0B  64:0x0B */ u8 alpha;
+    /* N64:0x0C  64:0x0C */ Vec3s aabb;
+    /* N64:0x12  64:0x12 */ s16 vertexSegment;
+    /* N64:0x14  64:0x14 */ s16 virtualModelIndex;
+    /* N64:0x16  64:0x16 */ s16 shadowIndex;
+    /* N64:0x18  64:0x18 */ intptr_t* scriptReadPos;
+    /* N64:0x1C  64:0x20 */ EntityCallback updateScriptCallback;
+    /* N64:0x20  64:0x28 */ EntityCallback updateMatrixOverride;
+    /* N64:0x24  64:0x30 */ Evt* boundScript;
+    /* N64:0x28  64:0x38 */ EvtScript* boundScriptBytecode;
+    /* N64:0x2C  64:0x40 */ intptr_t* savedReadPos[3];
+    /* N64:0x38  64:0x58 */ EntityBlueprint* blueprint;
+    /* N64:0x3C  64:0x60 */ void (*renderSetupFunc)(s32);
+    /* N64:0x40  64:0x68 */ EntityData dataBuf;
+    /* N64:0x44  64:0x70 */ void* gfxBaseAddr;
+    /* N64:0x48  64:0x78 */ Vec3f pos;
+    /* N64:0x54  64:0x84 */ Vec3f scale;
+    /* N64:0x60  64:0x90 */ Vec3f rot;
+    /* N64:0x6C  64:0x9C */ f32 shadowPosY;
+    /* N64:0x70  64:0xA0 */ Matrix4f inverseTransformMatrix; /* world-to-local */
+    /* N64:0xB0  64:0xE0 */ f32 effectiveSize;
+    /* N64:0xB4  64:0xE4 */ char unk_B4[4];
+    /* N64:0xB8  64:0xE8 */ Mtx transformMatrix;
+} Entity; // N64 size = 0xF8, 64-bit size = 0x128
 
 typedef Entity* EntityList[MAX_ENTITIES];
 

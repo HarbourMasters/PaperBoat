@@ -99,14 +99,13 @@ enum {
     RENDER_CLASS_2CYC_DEPTH     = 11,
 };
 
-#define WORLD_TEXTURE_MEMORY_SIZE 0x20000
-#define BATTLE_TEXTURE_MEMORY_SIZE 0x8000
 
 u8* gBackgroundTintModePtr; // NOTE: the type for this u8 is TintMode, as shown in SetModelTintMode
 ModelList* gCurrentModels;
 ModelTreeInfoList* gCurrentModelTreeNodeInfo;
 
-extern Addr TextureHeap;
+// Maximum size for generated texture display list commands (64 Gfx entries)
+#define MAX_TEXTURE_GFX_CMDS 64
 
 typedef struct FogSettings {
     /* 0x00 */ s32 enabled;
@@ -563,7 +562,9 @@ Gfx AlphaTestCombineModes[][5] = {
     },
 };
 
-void* TextureHeapBase = (void*) &TextureHeap;
+// Static scratch buffer for mdl_get_next_texture_address (render-to-texture)
+static u8* sScratchBuffer = nullptr;
+static s32 sScratchBufferSize = 0;
 
 u8 ShroudTintAmt = 0;
 u8 ShroudTintR = 0;
@@ -1347,7 +1348,6 @@ BSS s32 texPannerMainU[MAX_TEX_PANNERS];
 BSS s32 texPannerMainV[MAX_TEX_PANNERS];
 BSS s32 texPannerAuxU[MAX_TEX_PANNERS];
 BSS s32 texPannerAuxV[MAX_TEX_PANNERS];
-BSS void* TextureHeapPos;
 BSS u16 mtg_IterIdx;
 BSS u16 mtg_SearchModelID;
 BSS ModelNode* mtg_FoundModelNode;
@@ -1408,6 +1408,13 @@ void appendGfx_model(void* data) {
         if (textureHandle->gfx != nullptr) {
             extraTileType = textureHandle->header.extraTiles;
         } else {
+            // Log once per model that has a textureID but no loaded gfx
+            static s32 sTexWarnCount = 0;
+            if (sTexWarnCount < 20) {
+                GameEngine_LogInfo("[Render] model %d: textureID=%d+%d but gfx=NULL!",
+                                   model->modelID, model->textureID, model->textureVariation);
+                sTexWarnCount++;
+            }
             textureHeader = nullptr;
         }
     } else {
@@ -2050,41 +2057,37 @@ void appendGfx_model(void* data) {
 }
 
 void load_texture_impl(u8* srcData, TextureHandle* handle, TextureHeader* header, s32 mainSize, s32 mainPalSize, s32 auxSize, s32 auxPalSize) {
-    Gfx** temp;
+    Gfx* gfxCursor;
 
-    // load main img + palette to texture heap
-    handle->raster = (IMG_PTR) TextureHeapPos;
+    // point raster/palette directly into OTR blob data (no copy needed)
+    handle->raster = (IMG_PTR) srcData;
     if (mainPalSize != 0) {
-        handle->palette = (PAL_PTR) (TextureHeapPos + mainSize);
+        handle->palette = (PAL_PTR) (srcData + mainSize);
     } else {
         handle->palette = nullptr;
     }
-    memcpy(TextureHeapPos, srcData, mainSize + mainPalSize);
     srcData += mainSize + mainPalSize;
-    TextureHeapPos += mainSize + mainPalSize;
 
-    // load aux img + palette to texture heap
+    // point aux img + palette directly into OTR blob data
     if (auxSize != 0) {
-        handle->auxRaster = (IMG_PTR) TextureHeapPos;
+        handle->auxRaster = (IMG_PTR) srcData;
         if (auxPalSize != 0) {
-            handle->auxPalette = (PAL_PTR) (TextureHeapPos + auxSize);
+            handle->auxPalette = (PAL_PTR) (srcData + auxSize);
         } else {
             handle->auxPalette = nullptr;
         }
-        memcpy(TextureHeapPos, srcData, auxSize + auxPalSize);
-        TextureHeapPos += auxSize + auxPalSize;
     } else {
         handle->auxPalette = nullptr;
         handle->auxRaster = nullptr;
     }
 
-    // copy header data and create a display list for the texture
-    handle->gfx = (Gfx*) TextureHeapPos;
+    // allocate display list buffer and build texture gfx commands
+    handle->gfx = (Gfx*) malloc(MAX_TEXTURE_GFX_CMDS * sizeof(Gfx));
+    gfxCursor = handle->gfx;
     memcpy(&handle->header, header, sizeof(*header));
-    make_texture_gfx(header, (Gfx**) &TextureHeapPos, handle->raster, handle->palette, handle->auxRaster, handle->auxPalette, 0, 0, 0, 0);
+    make_texture_gfx(header, &gfxCursor, handle->raster, handle->palette, handle->auxRaster, handle->auxPalette, 0, 0, 0, 0);
 
-    temp = (Gfx**) &TextureHeapPos;
-    gSPEndDisplayList((*temp)++);
+    gSPEndDisplayList(gfxCursor++);
 }
 
 void load_texture_by_name(ModelNodeProperty* propertyName, u8* textureData, s32 size) {
@@ -2197,6 +2200,8 @@ void load_texture_by_name(ModelNodeProperty* propertyName, u8* textureData, s32 
 
     if (currentOffset >= 0x40000) {
         // did not find the texture with `textureName`
+        GameEngine_LogInfo("[Texture] WARNING: texture '%s' not found in blob (searched %d entries, offset=0x%X)",
+                           textureName, textureIdx, currentOffset);
         (*gCurrentModelTreeNodeInfo)[TreeIterPos].textureID = 0;
         return;
     }
@@ -2386,22 +2391,17 @@ void load_next_model_textures(ModelNode* model, u8* textureData, s32 texSize) {
 
 // load all textures used by models, starting from the root
 void mdl_load_all_textures(ModelNode* rootModel, u8* textureData, s32 size) {
-    s32 baseOffset = 0;
+    s32 i;
 
-    // textures are loaded to the upper half of the texture heap when not in the world
-    if (gGameStatusPtr->context != CONTEXT_WORLD) {
-        baseOffset = WORLD_TEXTURE_MEMORY_SIZE;
-    }
-
-    TextureHeapPos = TextureHeapBase + baseOffset;
-
-    if (rootModel != nullptr && textureData != NULL && size != 0) {
-        s32 i;
-
-        for (i = 0; i < ARRAY_COUNT(TextureHandles); i++) {
+    // free previously allocated gfx display lists
+    for (i = 0; i < ARRAY_COUNT(TextureHandles); i++) {
+        if (TextureHandles[i].gfx != nullptr) {
+            free(TextureHandles[i].gfx);
             TextureHandles[i].gfx = nullptr;
         }
+    }
 
+    if (rootModel != nullptr && textureData != NULL && size != 0) {
         TreeIterPos = 0;
         if (rootModel != nullptr) {
             load_next_model_textures(rootModel, textureData, size);
@@ -4643,15 +4643,13 @@ void mdl_draw_hidden_panel_surface(Gfx** arg0, u16 treeIndex) {
 }
 
 void* mdl_get_next_texture_address(s32 size) {
-    u32 offset = TextureHeapPos - TextureHeapBase + 0x3F;
-
-    offset = (offset >> 6) << 6;
-
-    if (size + offset > WORLD_TEXTURE_MEMORY_SIZE + BATTLE_TEXTURE_MEMORY_SIZE) {
-        return nullptr;
-    } else {
-        return TextureHeapBase + offset;
+    // reuse scratch buffer if large enough, otherwise reallocate
+    if (size > sScratchBufferSize) {
+        free(sScratchBuffer);
+        sScratchBuffer = (u8*) malloc(size);
+        sScratchBufferSize = size;
     }
+    return sScratchBuffer;
 }
 
 void mdl_set_all_tint_type(s32 tintType) {

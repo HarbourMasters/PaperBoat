@@ -1,14 +1,7 @@
 #include "common.h"
 #include "animation_script.h"
 
-extern Gfx Entity_CymbalPlant_RenderNode10[];
-extern Gfx Entity_CymbalPlant_RenderNode9[];
-extern Gfx Entity_CymbalPlant_RenderNode8[];
-extern Gfx Entity_CymbalPlant_RenderNode7[];
-extern Gfx Entity_CymbalPlant_RenderNode5[];
-extern Gfx Entity_CymbalPlant_RenderNode4[];
-extern Gfx Entity_CymbalPlant_RenderNode3[];
-extern Gfx Entity_CymbalPlant_RenderNode1[];
+#include "assets/entities.h"
 
 StaticAnimatorNode Entity_CymbalPlant_Node10 = {
     .displayList = Entity_CymbalPlant_RenderNode10,

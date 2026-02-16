@@ -3,19 +3,8 @@
 #include "effects.h"
 #include "ld_addrs.h"
 #include "sprite/player.h"
-
-extern Gfx Entity_Padlock_Render[];
-extern Gfx Entity_Padlock_RenderShackle[];
-extern Mtx Entity_Padlock_mtxShackle;
-extern Gfx Entity_PadlockRedFrame_Render[];
-extern Gfx Entity_PadlockRedFrame_RenderShackle[];
-extern Mtx Entity_PadlockRedFrame_mtxShackle;
-extern Gfx Entity_PadlockRedFace_Render[];
-extern Gfx Entity_PadlockRedFace_RenderShackle[];
-extern Mtx Entity_PadlockRedFace_mtxShackle;
-extern Gfx Entity_PadlockBlueFace_Render[];
-extern Gfx Entity_PadlockBlueFace_RenderShackle[];
-extern Mtx Entity_PadlockBlueFace_mtxShackle;
+#include "assets/entities.h"
+#include "Engine.h"
 
 void entity_Padlock_setupGfx(s32 entityIndex) {
     Entity* entity = get_entity_by_index(entityIndex);
@@ -195,7 +184,7 @@ void entity_Padlock_init(Entity* entity) {
 
     entity->renderSetupFunc = entity_Padlock_setupGfx;
     data = entity->dataBuf.padlock;
-    data->shackleMtx = ENTITY_ADDR(entity, Mtx*, &Entity_Padlock_mtxShackle);
+    data->shackleMtx = (Mtx*) LOAD_ASSET(Entity_Padlock_mtxShackle);
     data->shackleGfx = Entity_Padlock_RenderShackle;
 }
 
@@ -204,7 +193,7 @@ void entity_PadlockRedFrame_init(Entity* entity) {
 
     entity->renderSetupFunc = entity_Padlock_setupGfx;
     data = entity->dataBuf.padlock;
-    data->shackleMtx = ENTITY_ADDR(entity, Mtx*, &Entity_PadlockRedFrame_mtxShackle);
+    data->shackleMtx = (Mtx*) LOAD_ASSET(Entity_PadlockRedFrame_mtxShackle);
     data->shackleGfx = Entity_PadlockRedFrame_RenderShackle;
 }
 
@@ -213,7 +202,7 @@ void entity_PadlockRedFace_init(Entity* entity) {
 
     entity->renderSetupFunc = entity_Padlock_setupGfx;
     data = entity->dataBuf.padlock;
-    data->shackleMtx = ENTITY_ADDR(entity, Mtx*, &Entity_PadlockRedFace_mtxShackle);
+    data->shackleMtx = (Mtx*) LOAD_ASSET(Entity_PadlockRedFace_mtxShackle);
     data->shackleGfx = Entity_PadlockRedFace_RenderShackle;
 }
 
@@ -222,7 +211,7 @@ void entity_PadlockBlueFace_init(Entity* entity) {
 
     entity->renderSetupFunc = entity_Padlock_setupGfx;
     data = entity->dataBuf.padlock;
-    data->shackleMtx = ENTITY_ADDR(entity, Mtx*, &Entity_PadlockBlueFace_mtxShackle);
+    data->shackleMtx = (Mtx*) LOAD_ASSET(Entity_PadlockBlueFace_mtxShackle);
     data->shackleGfx = Entity_PadlockBlueFace_RenderShackle;
 }
 

@@ -45,5 +45,5 @@ enum {
 #define AS_NULL_MODEL 0
 
 // used in entity models
-#define ENTITY_ANIM_NULL (void*)(0xFFFFFFFF)
+#define ENTITY_ANIM_NULL NULL
 #endif

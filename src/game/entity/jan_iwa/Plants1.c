@@ -5,8 +5,10 @@
 #include "ld_addrs.h"
 #include "model.h"
 #include "sprite/player.h"
+#include "assets/entities.h"
+#include "Engine.h"
 
-extern Gfx Entity_RenderNone[];
+extern Gfx Entity_RenderNone[]; // not in entities.h - defined elsewhere
 extern AnimScript Entity_CymbalPlant_AnimationIdle;
 extern AnimScript Entity_CymbalPlant_AnimationGrab;
 extern AnimScript Entity_PinkFlower_AnimationLightUp;
@@ -14,11 +16,6 @@ extern StaticAnimatorNode* Entity_CymbalPlant_Mesh[];
 extern EntityBlueprint Entity_PinkFlowerLight;
 extern StaticAnimatorNode* Entity_PinkFlower_Mesh[];
 extern AnimScript Entity_PinkFlower_AnimationIdle;
-extern Mtx D_0A001098_E9C598;
-extern Gfx D_0A0013B8_E9C8B8[];
-extern Mtx D_0A000B70_E9D470;
-extern Gfx D_0A000D18_E9D618[];
-extern Gfx Entity_SpinningFlower_Render[];
 
 BSS f32 D_802BCE20;
 BSS f32 D_802BCE24[3]; // unused
@@ -35,7 +32,7 @@ void entity_SpinningFlower_setupGfx(s32 entityIndex) {
     Matrix4f sp98;
     Gfx* gfx;
 
-    guMtxL2F(sp18, ENTITY_ADDR(entity, Mtx*, &D_0A000B70_E9D470));
+    guMtxL2F(sp18, (Mtx*) LOAD_ASSET(D_0A000B70_E9D470));
     guRotateF(sp58, data->rot.x, 1.0f, 0.0f, 0.0f);
     guRotateF(sp98, data->rot.z, 0.0f, 0.0f, 1.0f);
     guMtxCatF(sp58, sp98, sp98);
@@ -45,7 +42,7 @@ void entity_SpinningFlower_setupGfx(s32 entityIndex) {
     guMtxF2L(sp18, &data->unk_30);
     gDisplayContext->matrixStack[gMatrixListPos] = data->unk_30;
     gSPMatrix(gfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gfx = ENTITY_ADDR(entity, Gfx*, D_0A000D18_E9D618);
+    gfx = (Gfx*) LOAD_ASSET(D_0A000D18_E9D618);
     gSPDisplayList(gfxPos++, gfx);
     gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
     gMainGfxPos = gfxPos;
@@ -158,7 +155,7 @@ void entity_PinkFlowerLight_setupGfx(s32 entityIndex) {
     guRotateF(sp58, entity->rot.y, 0.0f, 1.0f, 0.0f);
     guScaleF(sp18, entity->scale.x, entity->scale.x, entity->scale.x);
     guMtxCatF(sp18, sp58, sp58);
-    guMtxL2F(sp18, ENTITY_ADDR(entity, Mtx*, &D_0A001098_E9C598));
+    guMtxL2F(sp18, (Mtx*) LOAD_ASSET(D_0A001098_E9C598));
     sin_cos_rad(DEG_TO_RAD(gCameras[CAM_DEFAULT].curYaw + 180.0f), &sinAngle, &cosAngle);
     sp18[3][1] += 10.0f;
     sp18[3][2] -= 10.0f;
@@ -173,7 +170,7 @@ void entity_PinkFlowerLight_setupGfx(s32 entityIndex) {
     gDPSetPrimColor(gfxPos++, 0, 0, 0, 0, 0, entity->alpha);
     guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
     gSPMatrix(gfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxPos++, D_0A0013B8_E9C8B8);
+    gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(D_0A0013B8_E9C8B8));
     gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
     gMainGfxPos = gfxPos;
 }

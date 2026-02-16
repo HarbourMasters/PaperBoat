@@ -4,9 +4,8 @@
 #include "ld_addrs.h"
 #include "entity.h"
 #include "sprite/player.h"
-
-extern Gfx Entity_BlueWarpPipe_RenderPipe[];
-extern Gfx Entity_BlueWarpPipe_RenderBase[];
+#include "assets/entities.h"
+#include "Engine.h"
 
 void entity_BlueWarpPipe_setupGfx(s32 entityIndex);
 
