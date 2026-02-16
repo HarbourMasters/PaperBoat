@@ -97,10 +97,10 @@ API_CALLABLE(N(UpdateMonstarSpriteEffects)) {
 
     if (enemy->varTable[3] == 255) {
         npc->renderMode = RENDER_MODE_ALPHATEST;
-        set_npc_imgfx_comp(npc->spriteInstanceID, 1, IMGFX_OVERLAY, (s32) &N(MonstarDetailTexture), 255, 0, 255, 0);
+        set_npc_imgfx_comp(npc->spriteInstanceID, 1, IMGFX_OVERLAY, (intptr_t) &N(MonstarDetailTexture), 255, 0, 255, 0);
     } else {
         npc->renderMode = RENDER_MODE_SURFACE_XLU_LAYER2;
-        set_npc_imgfx_comp(npc->spriteInstanceID, 1, IMGFX_OVERLAY, (s32) &N(MonstarDetailTexture),
+        set_npc_imgfx_comp(npc->spriteInstanceID, 1, IMGFX_OVERLAY, (intptr_t) &N(MonstarDetailTexture),
                             enemy->varTable[3], 0, enemy->varTable[3], 0);
     }
     return ApiStatus_BLOCK;

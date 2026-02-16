@@ -1246,7 +1246,7 @@ s32 get_npc_comp_imgfx_idx(s32 spriteIdx, s32 compIdx) {
     }
 }
 
-void set_npc_imgfx_comp(s32 spriteIdx, s32 compIdx, ImgFXType imgfx, s32 imgfxArg1, s32 imgfxArg2, s32 imgfxArg3, s32 imgfxArg4, s32 imgfxArg5) {
+void set_npc_imgfx_comp(s32 spriteIdx, s32 compIdx, ImgFXType imgfx, intptr_t imgfxArg1, s32 imgfxArg2, s32 imgfxArg3, s32 imgfxArg4, s32 imgfxArg5) {
     SpriteInstance* sprite = &SpriteInstances[spriteIdx];
     SpriteComponent** componentList;
     s32 i;
@@ -1272,7 +1272,7 @@ void set_npc_imgfx_comp(s32 spriteIdx, s32 compIdx, ImgFXType imgfx, s32 imgfxAr
     }
 }
 
-void set_npc_imgfx_all(s32 spriteIdx, ImgFXType imgfxType, s32 imgfxArg1, s32 imgfxArg2, s32 imgfxArg3, s32 imgfxArg4, s32 imgfxArg5) {
+void set_npc_imgfx_all(s32 spriteIdx, ImgFXType imgfxType, intptr_t imgfxArg1, s32 imgfxArg2, s32 imgfxArg3, s32 imgfxArg4, s32 imgfxArg5) {
     set_npc_imgfx_comp(spriteIdx, -1, imgfxType, imgfxArg1, imgfxArg2, imgfxArg3, imgfxArg4, imgfxArg5);
 }
 

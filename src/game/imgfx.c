@@ -472,7 +472,7 @@ void imgfx_init_instance(ImgFXState* state) {
     }
 }
 
-void imgfx_update(u32 idx, ImgFXType type, s32 imgfxArg1, s32 imgfxArg2, s32 imgfxArg3, s32 imgfxArg4, s32 flags) {
+void imgfx_update(u32 idx, ImgFXType type, intptr_t imgfxArg1, s32 imgfxArg2, s32 imgfxArg3, s32 imgfxArg4, s32 flags) {
     ImgFXState* state = &(*ImgFXInstances)[idx];
     s32 oldFlags;
     s32 t1;
@@ -523,7 +523,7 @@ void imgfx_update(u32 idx, ImgFXType type, s32 imgfxArg1, s32 imgfxArg2, s32 img
         case IMGFX_OVERLAY:
         case IMGFX_OVERLAY_XLU:
             if (type == state->lastColorCmd
-                && imgfxArg1 == (s32) state->ints.overlay.pattern
+                && imgfxArg1 == (intptr_t) state->ints.overlay.pattern
                 && imgfxArg2 == state->ints.overlay.alpha
             ) {
                 // no paramaters have changed
@@ -561,10 +561,15 @@ void imgfx_update(u32 idx, ImgFXType type, s32 imgfxArg1, s32 imgfxArg2, s32 img
         state->ints.args.anim[3] = imgfxArg4;
     } else if (type >= IMGFX_SET_COLOR && type <= IMGFX_OVERLAY_XLU) {
         state->lastColorCmd = type;
-        state->ints.args.color[0] = imgfxArg1;
-        state->ints.args.color[1] = imgfxArg2;
-        state->ints.args.color[2] = imgfxArg3;
-        state->ints.args.color[3] = imgfxArg4;
+        if (type == IMGFX_OVERLAY || type == IMGFX_OVERLAY_XLU) {
+            state->ints.overlay.pattern = (ImgFXOverlayTexture*)imgfxArg1;
+            state->ints.overlay.alpha = imgfxArg2;
+        } else {
+            state->ints.args.color[0] = imgfxArg1;
+            state->ints.args.color[1] = imgfxArg2;
+            state->ints.args.color[2] = imgfxArg3;
+            state->ints.args.color[3] = imgfxArg4;
+        }
     }
 
     state->flags &= IMGFX_FLAG_VALID;
@@ -1852,15 +1857,15 @@ void imgfx_mesh_make_wavy(ImgFXState* state) {
         angle3 = state->floats.wavy.phase3 + (angleInc * 45) + (sign * 180);
 
         //TODO find better match
-        v1 = (Vtx*)((state->firstVtxIdx + i) * sizeof(Vtx) + (s32)imgfx_vtxBuf);
+        v1 = (Vtx*)((state->firstVtxIdx + i) * sizeof(Vtx) + (uintptr_t)imgfx_vtxBuf);
         vx = v1->v.ob[0];
         v1->v.ob[0] = (vx + (sin_rad(angle1) * state->ints.wavy.mag.x)); /// @bug? should be sin_deg?
 
-        v2 = (Vtx*)((state->firstVtxIdx + i) * sizeof(Vtx) + (s32)imgfx_vtxBuf);
+        v2 = (Vtx*)((state->firstVtxIdx + i) * sizeof(Vtx) + (uintptr_t)imgfx_vtxBuf);
         vy = v2->v.ob[1];
         v2->v.ob[1] = (vy + (sin_rad(angle2) * state->ints.wavy.mag.y));
 
-        v3 = (Vtx*)((state->firstVtxIdx + i) * sizeof(Vtx) + (s32)imgfx_vtxBuf);
+        v3 = (Vtx*)((state->firstVtxIdx + i) * sizeof(Vtx) + (uintptr_t)imgfx_vtxBuf);
         vz = v3->v.ob[2];
         v3->v.ob[2] = (vz + (sin_rad(angle3) * state->ints.wavy.mag.z));
 

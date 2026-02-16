@@ -173,7 +173,7 @@ API_CALLABLE(N(UpdateMonstarImgFX)) {
         set_npc_imgfx_comp(part->spriteInstanceID, 0, IMGFX_ALLOC_COLOR_BUF, 20, 0, 0, 255, 0);
     }
 
-    set_npc_imgfx_comp(part->spriteInstanceID, 1, IMGFX_OVERLAY, (s32)&N(MonstarDetailTexture), 255, 0, 255, 0);
+    set_npc_imgfx_comp(part->spriteInstanceID, 1, IMGFX_OVERLAY, (intptr_t)&N(MonstarDetailTexture), 255, 0, 255, 0);
     script->functionTemp[1] += 10;
     if (script->functionTemp[1] >= 360) {
         script->functionTemp[1] %= 360;

@@ -130,8 +130,6 @@ void load_battle_section(void) {
     BattleArea* battleArea = &gBattleAreas[UNPACK_BTL_AREA(gCurrentBattleID)];
     s32 battleIdx = UNPACK_BTL_INDEX(gCurrentBattleID);
 
-    dma_copy(battleArea->dmaStart, battleArea->dmaEnd, battleArea->dmaDest);
-
     gCurrentBattlePtr = &(*battleArea->battles)[battleIdx];
 
     if (gCurrentStageID < 0) {

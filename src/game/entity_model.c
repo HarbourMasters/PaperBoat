@@ -385,9 +385,9 @@ void appendGfx_entity_model(EntityModel* model) {
         GameEngine_SetDisplayListContext("entity_model_displaylist");
         if (model->gfx.displayList != NULL) {
             Gfx* dl = model->gfx.displayList;
-            fprintf(stderr, "[appendGfx_entity] DL=%p w0=0x%08X w1=0x%08X flags=0x%X renderMode=%d\n",
-                (void*)dl, dl->words.w0, dl->words.w1, model->flags, model->renderMode);
-            fflush(stderr);
+            //fprintf(stderr, "[appendGfx_entity] DL=%p w0=0x%08X w1=0x%08X flags=0x%X renderMode=%d\n",
+            //    (void*)dl, dl->words.w0, dl->words.w1, model->flags, model->renderMode);
+            //fflush(stderr);
             gSPDisplayList(gMainGfxPos++, dl);
         }
         GameEngine_SetDisplayListContext(NULL);

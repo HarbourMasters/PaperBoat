@@ -9,6 +9,7 @@
 #include "model.h"
 #include "game_modes.h"
 #include "port/Engine.h"
+#include "port/shape_loader.h"
 
 extern StageListRow* gCurrentStagePtr;
 
@@ -194,9 +195,7 @@ void btl_state_update_normal_start(void) {
     EncounterStatus* currentEncounter = &gCurrentEncounter;
     Battle* battle;
     Stage* stage;
-    s32 size;
     StatusBar* statusBar;
-    void* compressedAsset;
     ModelNode* rootModel;
     Actor* actor;
     Evt* script;
@@ -223,17 +222,19 @@ void btl_state_update_normal_start(void) {
         case BTL_SUBSTATE_NORMAL_START_INIT:
             BattleEnemiesCreated = battle->formationSize;
             set_screen_overlay_params_back(OVERLAY_NONE, -1.0f);
-            compressedAsset = load_asset_by_name(stage->shape, &size);
-            decode_yay0(compressedAsset, &gMapShapeData);
-            general_heap_free(compressedAsset);
-
-            ASSERT(size <= 0x8000);
+            {
+                char shapeAssetPath[64];
+                snprintf(shapeAssetPath, sizeof(shapeAssetPath), "__OTR__shapes/%s", stage->shape);
+                u8* shapeData = (u8*)LOAD_ASSET(shapeAssetPath);
+                size_t shapeSize = ResourceGetSizeByName(shapeAssetPath);
+                Shape_LoadFromRawData(&gMapShapeData, shapeData, shapeSize, stage->shape);
+            }
 
             rootModel = gMapShapeData.header.root;
             {
                 char texAssetPath[64];
                 snprintf(texAssetPath, sizeof(texAssetPath), "__OTR__textures/%s", stage->texture);
-                u8* textureData = ResourceGetDataByName(texAssetPath);
+                u8* textureData = (u8*)LOAD_ASSET(texAssetPath);
                 size_t textureSize = ResourceGetSizeByName(texAssetPath);
                 if (rootModel != nullptr) {
                     load_data_for_models(rootModel, textureData, textureSize);

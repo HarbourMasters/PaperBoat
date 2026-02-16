@@ -89,7 +89,8 @@ void state_step_startup(void) {
 #endif
 
     gOverrideFlags &= ~GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME;
-    set_game_mode(GAME_MODE_LOGOS);
+    //set_game_mode(GAME_MODE_LOGOS);
+    set_game_mode(GAME_MODE_TITLE_SCREEN);
 }
 
 void state_drawUI_startup(void) {

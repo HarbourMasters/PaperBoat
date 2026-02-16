@@ -281,7 +281,7 @@ void phys_update_action_state(void) {
 
             if (dmaStart != nullptr && dmaStart != D_8010C924) {
                 D_8010C924 = dmaStart;
-                dma_copy(dmaStart, PlayerActionsTable[playerStatus->actionState].dmaEnd, PLAYER_ACTION_VRAM_DEF);
+                //dma_copy(dmaStart, PlayerActionsTable[playerStatus->actionState].dmaEnd, PLAYER_ACTION_VRAM_DEF);
             }
         }
         PlayerActionsTable[playerStatus->actionState].update();
