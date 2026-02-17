@@ -22,5 +22,3 @@ u8 obfuscated_create_audio_system[1] = { 0 };
 
 s8 obfuscated_obfuscation_shims_VRAM[1] = { 0 };
 s8 obfuscated_obfuscation_shims_ROM_START[1] = { 0 };
-
-u8 sprite_shading_profiles_data_ROM_START[1] = { 0 };

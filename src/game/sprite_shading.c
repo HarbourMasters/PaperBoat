@@ -384,31 +384,17 @@ void appendGfx_shading_palette(
         highlightB = 255;
     }
 
-    gDPSetPrimColor(gMainGfxPos++, 0, 0, shadowR, shadowG, shadowB, alpha);
-    gDPSetCombineMode(gMainGfxPos++, PM_CC_53, PM_CC_54);
-    gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, SpriteShadingPalette);
-    gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, 0, 0, 16, 1);
-
-    gSPSetOtherMode(gMainGfxPos++, G_SETOTHERMODE_H, 4, 18,
-                    G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
-                    G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE);
-
-    gDPSetRenderMode(gMainGfxPos++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
-
-    gDPSetPrimColor(gMainGfxPos++, 0, 0, shadowR, shadowG, shadowB, alpha);
-    gDPSetEnvColor(gMainGfxPos++, highlightR, highlightG, highlightB, 0);
-    gDPSetCombineMode(gMainGfxPos++, PM_CC_55, PM_CC_55);
-    gSPTextureRectangle(gMainGfxPos++, 0, 0, 16 << 2, 1 << 2, 2, 0, 0, 4 << 10, 1 << 10);
-    gDPPipeSync(gMainGfxPos++);
-    gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(nuGfxCfb_ptr));
-
-    gDPSetScissor(
-        gMainGfxPos++, 0,
-        camera->viewportStartX,
-        camera->viewportStartY,
-        camera->viewportStartX + camera->viewportW,
-        camera->viewportStartY + camera->viewportH
-    );
+    // Generate shading palette on CPU (N64 used RDP render-to-palette which doesn't work on port)
+    {
+        s32 j;
+        for (j = 0; j < 16; j++) {
+            s32 r = shadowR + (highlightR - shadowR) * j / 15;
+            s32 g = shadowG + (highlightG - shadowG) * j / 15;
+            s32 b = shadowB + (highlightB - shadowB) * j / 15;
+            u16 rgba = ((r >> 3) << 11) | ((g >> 3) << 6) | ((b >> 3) << 1) | 1;
+            SpriteShadingPalette[j] = _PAL_BSWAP16(rgba);
+        }
+    }
 
     gDPLoadTLUT_pal16(gMainGfxPos++, 1, SpriteShadingPalette);
 

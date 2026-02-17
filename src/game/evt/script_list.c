@@ -74,7 +74,7 @@ BSS s32 D_PAL_BSS_802E1E34[0x3]; // TODO: probably just alignment
 // demo_api
 BSS s32 gSpriteShadingHeader;
 BSS s32 D_802DBB64; // unused?
-BSS s32 gSpriteShadingData;
+BSS u8 gSpriteShadingData[0x100];
 BSS s32 D_802DB8B6C; // unused?
 BSS char D_802DBB70[0x100];
 

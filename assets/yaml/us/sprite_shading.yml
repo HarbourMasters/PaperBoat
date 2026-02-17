@@ -1,0 +1,269 @@
+# Sprite shading profiles - individual per-profile blobs
+
+g0_p0:
+  { type: BLOB, offset: 0x315D50, size: 0x6, symbol: shading_g0_p0 }
+
+g0_p1:
+  { type: BLOB, offset: 0x315D56, size: 0x6, symbol: shading_g0_p1 }
+
+g0_p2:
+  { type: BLOB, offset: 0x315D5C, size: 0x6, symbol: shading_g0_p2 }
+
+g0_p3:
+  { type: BLOB, offset: 0x315D62, size: 0x6, symbol: shading_g0_p3 }
+
+g0_p4:
+  { type: BLOB, offset: 0x315D68, size: 0x6, symbol: shading_g0_p4 }
+
+g0_p5:
+  { type: BLOB, offset: 0x315D6E, size: 0x6, symbol: shading_g0_p5 }
+
+g0_p6:
+  { type: BLOB, offset: 0x315D74, size: 0x6, symbol: shading_g0_p6 }
+
+g0_p7:
+  { type: BLOB, offset: 0x315D7A, size: 0x6, symbol: shading_g0_p7 }
+
+g0_p8:
+  { type: BLOB, offset: 0x315D80, size: 0x6, symbol: shading_g0_p8 }
+
+g0_p9:
+  { type: BLOB, offset: 0x315D86, size: 0x6, symbol: shading_g0_p9 }
+
+g0_p10:
+  { type: BLOB, offset: 0x315D8C, size: 0x6, symbol: shading_g0_p10 }
+
+g0_p11:
+  { type: BLOB, offset: 0x315D92, size: 0x6, symbol: shading_g0_p11 }
+
+g0_p12:
+  { type: BLOB, offset: 0x315D98, size: 0x6, symbol: shading_g0_p12 }
+
+g0_p13:
+  { type: BLOB, offset: 0x315D9E, size: 0x6, symbol: shading_g0_p13 }
+
+g0_p14:
+  { type: BLOB, offset: 0x315DA4, size: 0x6, symbol: shading_g0_p14 }
+
+g0_p15:
+  { type: BLOB, offset: 0x315DAA, size: 0x6, symbol: shading_g0_p15 }
+
+g0_p16:
+  { type: BLOB, offset: 0x315DB0, size: 0x6, symbol: shading_g0_p16 }
+
+g0_p17:
+  { type: BLOB, offset: 0x315DB6, size: 0x6, symbol: shading_g0_p17 }
+
+g0_p18:
+  { type: BLOB, offset: 0x315DBC, size: 0x6, symbol: shading_g0_p18 }
+
+g0_p19:
+  { type: BLOB, offset: 0x315DC2, size: 0x6, symbol: shading_g0_p19 }
+
+g1_p0:
+  { type: BLOB, offset: 0x315DC8, size: 0x16, symbol: shading_g1_p0 }
+
+g2_p0:
+  { type: BLOB, offset: 0x315DDE, size: 0x56, symbol: shading_g2_p0 }
+
+g2_p1:
+  { type: BLOB, offset: 0x315E34, size: 0x56, symbol: shading_g2_p1 }
+
+g2_p2:
+  { type: BLOB, offset: 0x315E8A, size: 0x16, symbol: shading_g2_p2 }
+
+g2_p3:
+  { type: BLOB, offset: 0x315EA0, size: 0x46, symbol: shading_g2_p3 }
+
+g2_p4:
+  { type: BLOB, offset: 0x315EE6, size: 0x76, symbol: shading_g2_p4 }
+
+g2_p5:
+  { type: BLOB, offset: 0x315F5C, size: 0x46, symbol: shading_g2_p5 }
+
+g2_p6:
+  { type: BLOB, offset: 0x315FA2, size: 0x76, symbol: shading_g2_p6 }
+
+g2_p7:
+  { type: BLOB, offset: 0x316018, size: 0x36, symbol: shading_g2_p7 }
+
+g2_p8:
+  { type: BLOB, offset: 0x31604E, size: 0x76, symbol: shading_g2_p8 }
+
+g2_p9:
+  { type: BLOB, offset: 0x3160C4, size: 0x76, symbol: shading_g2_p9 }
+
+g2_p10:
+  { type: BLOB, offset: 0x31613A, size: 0x26, symbol: shading_g2_p10 }
+
+g2_p11:
+  { type: BLOB, offset: 0x316160, size: 0x26, symbol: shading_g2_p11 }
+
+g2_p12:
+  { type: BLOB, offset: 0x316186, size: 0x36, symbol: shading_g2_p12 }
+
+g2_p13:
+  { type: BLOB, offset: 0x3161BC, size: 0x36, symbol: shading_g2_p13 }
+
+g2_p14:
+  { type: BLOB, offset: 0x3161F2, size: 0x76, symbol: shading_g2_p14 }
+
+g2_p15:
+  { type: BLOB, offset: 0x316268, size: 0x26, symbol: shading_g2_p15 }
+
+g3_p0:
+  { type: BLOB, offset: 0x31628E, size: 0x76, symbol: shading_g3_p0 }
+
+g4_p0:
+  { type: BLOB, offset: 0x316304, size: 0x66, symbol: shading_g4_p0 }
+
+g5_p0:
+  { type: BLOB, offset: 0x31636A, size: 0x26, symbol: shading_g5_p0 }
+
+g5_p1:
+  { type: BLOB, offset: 0x316390, size: 0x36, symbol: shading_g5_p1 }
+
+g5_p2:
+  { type: BLOB, offset: 0x3163C6, size: 0x36, symbol: shading_g5_p2 }
+
+g5_p3:
+  { type: BLOB, offset: 0x3163FC, size: 0x56, symbol: shading_g5_p3 }
+
+g5_p4:
+  { type: BLOB, offset: 0x316452, size: 0x16, symbol: shading_g5_p4 }
+
+g5_p5:
+  { type: BLOB, offset: 0x316468, size: 0x16, symbol: shading_g5_p5 }
+
+g5_p6:
+  { type: BLOB, offset: 0x31647E, size: 0x56, symbol: shading_g5_p6 }
+
+g5_p7:
+  { type: BLOB, offset: 0x3164D4, size: 0x6, symbol: shading_g5_p7 }
+
+g5_p8:
+  { type: BLOB, offset: 0x3164DA, size: 0x6, symbol: shading_g5_p8 }
+
+g5_p9:
+  { type: BLOB, offset: 0x3164E0, size: 0x6, symbol: shading_g5_p9 }
+
+g5_p10:
+  { type: BLOB, offset: 0x3164E6, size: 0x16, symbol: shading_g5_p10 }
+
+g5_p11:
+  { type: BLOB, offset: 0x3164FC, size: 0x56, symbol: shading_g5_p11 }
+
+g6_p0:
+  { type: BLOB, offset: 0x316552, size: 0x36, symbol: shading_g6_p0 }
+
+g6_p1:
+  { type: BLOB, offset: 0x316588, size: 0x36, symbol: shading_g6_p1 }
+
+g7_p0:
+  { type: BLOB, offset: 0x3165BE, size: 0x6, symbol: shading_g7_p0 }
+
+g7_p1:
+  { type: BLOB, offset: 0x3165C4, size: 0x6, symbol: shading_g7_p1 }
+
+g7_p2:
+  { type: BLOB, offset: 0x3165CA, size: 0x6, symbol: shading_g7_p2 }
+
+g7_p3:
+  { type: BLOB, offset: 0x3165D0, size: 0x6, symbol: shading_g7_p3 }
+
+g7_p4:
+  { type: BLOB, offset: 0x3165D6, size: 0x6, symbol: shading_g7_p4 }
+
+g7_p5:
+  { type: BLOB, offset: 0x3165DC, size: 0x6, symbol: shading_g7_p5 }
+
+g7_p6:
+  { type: BLOB, offset: 0x3165E2, size: 0x6, symbol: shading_g7_p6 }
+
+g7_p7:
+  { type: BLOB, offset: 0x3165E8, size: 0x6, symbol: shading_g7_p7 }
+
+g7_p8:
+  { type: BLOB, offset: 0x3165EE, size: 0x6, symbol: shading_g7_p8 }
+
+g7_p9:
+  { type: BLOB, offset: 0x3165F4, size: 0x6, symbol: shading_g7_p9 }
+
+g7_p10:
+  { type: BLOB, offset: 0x3165FA, size: 0x6, symbol: shading_g7_p10 }
+
+g8_p0:
+  { type: BLOB, offset: 0x316600, size: 0x16, symbol: shading_g8_p0 }
+
+g8_p1:
+  { type: BLOB, offset: 0x316616, size: 0x6, symbol: shading_g8_p1 }
+
+g8_p2:
+  { type: BLOB, offset: 0x31661C, size: 0x16, symbol: shading_g8_p2 }
+
+g8_p3:
+  { type: BLOB, offset: 0x316632, size: 0x6, symbol: shading_g8_p3 }
+
+g8_p4:
+  { type: BLOB, offset: 0x316638, size: 0x6, symbol: shading_g8_p4 }
+
+g9_p0:
+  { type: BLOB, offset: 0x31663E, size: 0x16, symbol: shading_g9_p0 }
+
+g10_p0:
+  { type: BLOB, offset: 0x316654, size: 0x26, symbol: shading_g10_p0 }
+
+g10_p1:
+  { type: BLOB, offset: 0x31667A, size: 0x46, symbol: shading_g10_p1 }
+
+g10_p2:
+  { type: BLOB, offset: 0x3166C0, size: 0x56, symbol: shading_g10_p2 }
+
+g10_p3:
+  { type: BLOB, offset: 0x316716, size: 0x46, symbol: shading_g10_p3 }
+
+g10_p4:
+  { type: BLOB, offset: 0x31675C, size: 0x16, symbol: shading_g10_p4 }
+
+g10_p5:
+  { type: BLOB, offset: 0x316772, size: 0x26, symbol: shading_g10_p5 }
+
+g10_p6:
+  { type: BLOB, offset: 0x316798, size: 0x36, symbol: shading_g10_p6 }
+
+g10_p7:
+  { type: BLOB, offset: 0x3167CE, size: 0x46, symbol: shading_g10_p7 }
+
+g10_p8:
+  { type: BLOB, offset: 0x316814, size: 0x26, symbol: shading_g10_p8 }
+
+g10_p9:
+  { type: BLOB, offset: 0x31683A, size: 0x36, symbol: shading_g10_p9 }
+
+g10_p10:
+  { type: BLOB, offset: 0x316870, size: 0x36, symbol: shading_g10_p10 }
+
+g10_p11:
+  { type: BLOB, offset: 0x3168A6, size: 0x36, symbol: shading_g10_p11 }
+
+g10_p12:
+  { type: BLOB, offset: 0x3168DC, size: 0x36, symbol: shading_g10_p12 }
+
+g10_p13:
+  { type: BLOB, offset: 0x316912, size: 0x36, symbol: shading_g10_p13 }
+
+g10_p14:
+  { type: BLOB, offset: 0x316948, size: 0x16, symbol: shading_g10_p14 }
+
+g10_p15:
+  { type: BLOB, offset: 0x31695E, size: 0x36, symbol: shading_g10_p15 }
+
+g10_p16:
+  { type: BLOB, offset: 0x316994, size: 0x16, symbol: shading_g10_p16 }
+
+g11_p0:
+  { type: BLOB, offset: 0x3169AA, size: 0x16, symbol: shading_g11_p0 }
+
+g12_p0:
+  { type: BLOB, offset: 0x3169C0, size: 0x26, symbol: shading_g12_p0 }
+

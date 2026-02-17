@@ -9,6 +9,13 @@ extern void GameEngine_SetDisplayListContext(const char* context);
 extern HeapNode heap_generalHead;
 extern HeapNode heap_spriteHead;
 
+// Pool of combined palettes for sprite shading (one per shaded sprite per frame).
+// The Fast3D interpreter stores palette pointers (not copies), so each sprite
+// needs its own buffer that persists until the display list is flushed.
+#define MAX_SHADED_SPRITES 64
+BSS PAL_BIN sShadingPalettePool[MAX_SHADED_SPRITES][32];
+BSS s32 sShadingPaletteIdx;
+
 BSS s32 D_802DF520; // unused?
 BSS bool SpriteUseGeneralHeap;
 BSS s32 D_802DF528[2]; // unused?
@@ -235,7 +242,7 @@ void spr_appendGfx_component_flat(
     s32 alpha
 ) {
     gDPLoadTLUT_pal16(gMainGfxPos++, 0, palette);
-    if (gSpriteShadingProfile->flags & SPR_SHADING_FLAG_ENABLED) {
+    if ((gSpriteShadingProfile->flags & SPR_SHADING_FLAG_ENABLED)) {
         gDPScrollMultiTile2_4b(gMainGfxPos++, raster, G_IM_FMT_CI, width, height,
                               0, 0, width - 1, height - 1, 0,
                               G_TX_CLAMP, G_TX_CLAMP, 8, 8, G_TX_NOLOD, G_TX_NOLOD,
@@ -265,6 +272,24 @@ void spr_appendGfx_component_flat(
             gDPPipeSync(gMainGfxPos++);
         }
         create_shading_palette(mtx, 0, 0, width, height, alpha, alpha == 255 ? 0x111238 : 0x104B50); // TODO make macro for render mode
+
+        // Fix: Fast3D interpreter stores pal16(pal=1) in palettes[1], but
+        // CI4 lookup with palette index 1 reads from palettes[0]+32.
+        // Emit a combined 32-entry load so both palettes are in palettes[0].
+        // Each sprite needs its own buffer since the interpreter stores pointers.
+        {
+            extern PAL_BIN SpriteShadingPalette[];
+            PAL_BIN* combinedPal = sShadingPalettePool[sShadingPaletteIdx % MAX_SHADED_SPRITES];
+            sShadingPaletteIdx++;
+            memcpy(&combinedPal[0], palette, 16 * sizeof(PAL_BIN));
+            memcpy(&combinedPal[16], SpriteShadingPalette, 16 * sizeof(PAL_BIN));
+            gDPSetTextureImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, combinedPal);
+            gDPTileSync(gMainGfxPos++);
+            gDPSetTile(gMainGfxPos++, 0, 0, 0, 256, G_TX_LOADTILE, 0, 0, 0, 0, 0, 0, 0);
+            gDPLoadSync(gMainGfxPos++);
+            gDPLoadTLUTCmd(gMainGfxPos++, G_TX_LOADTILE, 31);
+            gDPPipeSync(gMainGfxPos++);
+        }
     } else {
         gDPScrollTextureBlock_4b(gMainGfxPos++, raster, G_IM_FMT_CI, width, height, 0,
                                  G_TX_CLAMP, G_TX_CLAMP, 8, 8, G_TX_NOLOD, G_TX_NOLOD,
@@ -361,7 +386,7 @@ void spr_appendGfx_component(
     gSPMatrix(gMainGfxPos++, VIRTUAL_TO_PHYSICAL(&gDisplayContext->matrixStack[gMatrixListPos++]),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (gSpriteShadingProfile->flags & SPR_SHADING_FLAG_ENABLED) {
+    if ((gSpriteShadingProfile->flags & SPR_SHADING_FLAG_ENABLED)) {
         if ((u8) opacity == 255) {
             GameEngine_SetDisplayListContext("sprite_opaque_shaded");
             gSPDisplayList(gMainGfxPos++, OpaqueShadedSpriteGfx);
@@ -833,6 +858,7 @@ void spr_init_sprites(s32 playerSpriteSet) {
 void spr_render_init(void) {
     spr_update_player_raster_cache();
     spr_clear_quad_cache();
+    sShadingPaletteIdx = 0;
 }
 
 s32 spr_unused_nop(void) {

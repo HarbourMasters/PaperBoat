@@ -381,7 +381,7 @@ typedef struct Trigger {
     /* 0x00 */ s32 flags;
     /* 0x04 */ s32 varIndex;
     /* 0x08 */ union {
-    /*      */     s32 colliderID;
+    /*      */     intptr_t colliderID;
     /*      */     struct BombTrigger* blast;
     /*      */ } location;
     /* 0x0C */ s32 (*onActivateFunc)(struct Trigger*);
@@ -406,7 +406,7 @@ typedef struct TriggerBlueprint {
     /* 0x00 */ s32 flags;
     /* 0x04 */ s16 varIndex;
     /* 0x06 */ char unk_06[2];
-    /* 0x08 */ s32 colliderID;
+    /* 0x08 */ intptr_t colliderID;
     /* 0x0C */ s32 (*onActivateFunc)(struct Trigger*);
     /* 0x10 */ char unk_10[4];
     /* 0x14 */ s32 tattleMsg;

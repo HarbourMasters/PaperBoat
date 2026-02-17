@@ -778,7 +778,7 @@ s32 create_worker_scene(void (*updateFunc)(void), void (*renderFunc)(void));
 
 void init_entity_models(void);
 f32 phys_get_spin_history(s32 lag, s32* x, s32* y, s32* z);
-void imgfx_update(u32, ImgFXType, s32, s32, s32, s32, s32);
+void imgfx_update(u32, ImgFXType, intptr_t, s32, s32, s32, s32);
 s32 imgfx_appendGfx_component(s32, ImgFXTexture*, u32, Matrix4f);
 void imgfx_update_cache(void);
 s32 imgfx_get_free_instances(s32);

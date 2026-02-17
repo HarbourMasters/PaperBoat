@@ -1,47 +1,32 @@
 #include "common.h"
-#include "ld_addrs.h"
+#include "port/Engine.h"
 
 // TODO: not sure where these go
 u8 ReflectWallPrevAlpha = 254;
 u8 ReflectFloorPrevAlpha = 254;
 u16 StarShrineLightBeamAlpha = 255;
 
-extern s32 gSpriteShadingHeader[2];
 extern u8 gSpriteShadingData[0x100];
-
-extern Addr sprite_shading_profiles_data_ROM_START;
 
 API_CALLABLE(SetSpriteShading) {
     Bytecode* args = script->ptrReadPos;
     s32 profileID = evt_get_variable(script, *args++);
-    s32 shadingGroupOffset = (profileID >> 0x10) * 8;
-    s32 shadingProfileOffset = (profileID & 0xFFFF) * 4;
-    s32 dataOffset;
     s32 i;
-    s32 romStart;
-    s32 romEnd;
     s32 count;
     s32 falloff;
-    s32 data;
     SpriteShadingProfile* profile;
+    char shadingPath[64];
 
     if (profileID == SHADING_NONE) {
         return ApiStatus_DONE2;
     }
 
-    // load shading group data
-    romStart = (s32)sprite_shading_profiles_ROM_START;
-    romEnd = romStart + 8;
-    dma_copy((u8*) shadingGroupOffset + romStart, (u8*) shadingGroupOffset + romEnd, gSpriteShadingHeader);
-
-    // load offset to shading data
-    romStart = shadingProfileOffset + (s32)sprite_shading_profiles_ROM_START;
-    data = gSpriteShadingHeader[0];
-    dma_copy((u8*)gSpriteShadingHeader[1] + romStart, (u8*)gSpriteShadingHeader[1] + romStart + 4, gSpriteShadingHeader);
-
-    // load shading data
-    dataOffset = (s32)sprite_shading_profiles_data_ROM_START + data + gSpriteShadingHeader[0];
-    dma_copy((u8*) dataOffset, (u8*) dataOffset + sizeof(gSpriteShadingData), &gSpriteShadingData);
+    // Build OTR path from profileID (upper 16 bits = group, lower 16 bits = index)
+    snprintf(shadingPath, sizeof(shadingPath), "__OTR__sprite_shading/g%d_p%d",
+             profileID >> 16, profileID & 0xFFFF);
+    u8* profileData = (u8*)LOAD_ASSET(shadingPath);
+    size_t profileSize = ResourceGetSizeByName(shadingPath);
+    memcpy(gSpriteShadingData, profileData, profileSize);
 
     profile = gSpriteShadingProfile;
     count = gSpriteShadingData[0];
