@@ -1,0 +1,1498 @@
+ui/no_controller:
+  { type: BLOB, offset: 0x51540, size: 0x1000, symbol: ui_no_controller_png }
+ui/input/a_button_unpressed:
+  { type: BLOB, offset: 0x919B0, size: 0x3C0, symbol: ui_input_a_button_unpressed_png }
+ui/input/a_button_unpressed.pal:
+  { type: BLOB, offset: 0x91D70, size: 0x20, symbol: ui_input_a_button_unpressed_pal }
+ui/input/a_button_pressed:
+  { type: BLOB, offset: 0x91D90, size: 0x3C0, symbol: ui_input_a_button_pressed_png }
+ui/input/a_button_pressed.pal:
+  { type: BLOB, offset: 0x92150, size: 0x20, symbol: ui_input_a_button_pressed_pal }
+ui/input/analog_stick:
+  { type: BLOB, offset: 0x92170, size: 0x200, symbol: ui_input_analog_stick_png }
+ui/input/analog_stick.pal:
+  { type: BLOB, offset: 0x92370, size: 0x20, symbol: ui_input_analog_stick_pal }
+ui/input/analog_stick_left:
+  { type: BLOB, offset: 0x92390, size: 0x280, symbol: ui_input_analog_stick_left_png }
+ui/input/analog_stick_left.pal:
+  { type: BLOB, offset: 0x92610, size: 0x20, symbol: ui_input_analog_stick_left_pal }
+ui/input/analog_stick2:
+  { type: BLOB, offset: 0x92630, size: 0x200, symbol: ui_input_analog_stick2_png }
+ui/input/analog_stick2.pal:
+  { type: BLOB, offset: 0x92830, size: 0x20, symbol: ui_input_analog_stick2_pal }
+ui/input/analog_stick_right:
+  { type: BLOB, offset: 0x92850, size: 0x280, symbol: ui_input_analog_stick_right_png }
+ui/input/analog_stick_right.pal:
+  { type: BLOB, offset: 0x92AD0, size: 0x20, symbol: ui_input_analog_stick_right_pal }
+ui/input/analog_stick3:
+  { type: BLOB, offset: 0x92AF0, size: 0x200, symbol: ui_input_analog_stick3_png }
+ui/input/analog_stick3.pal:
+  { type: BLOB, offset: 0x92CF0, size: 0x20, symbol: ui_input_analog_stick3_pal }
+ui/input/analog_stick_down:
+  { type: BLOB, offset: 0x92D10, size: 0x200, symbol: ui_input_analog_stick_down_png }
+ui/input/analog_stick_down.pal:
+  { type: BLOB, offset: 0x92F10, size: 0x20, symbol: ui_input_analog_stick_down_pal }
+ui/input/analog_stick_up:
+  { type: BLOB, offset: 0x92F30, size: 0x200, symbol: ui_input_analog_stick_up_png }
+ui/input/analog_stick_up.pal:
+  { type: BLOB, offset: 0x93130, size: 0x20, symbol: ui_input_analog_stick_up_pal }
+ui/input/mash_bar:
+  { type: BLOB, offset: 0x93150, size: 0x240, symbol: ui_input_mash_bar_png }
+ui/input/mash_bar.pal:
+  { type: BLOB, offset: 0x93390, size: 0x20, symbol: ui_input_mash_bar_pal }
+ui/ok:
+  { type: BLOB, offset: 0x933B0, size: 0xC0, symbol: ui_ok_png }
+ui/ok.pal:
+  { type: BLOB, offset: 0x93470, size: 0x20, symbol: ui_ok_pal }
+ui/input/start_button:
+  { type: BLOB, offset: 0x93490, size: 0x3C0, symbol: ui_input_start_button_png }
+ui/input/start_button.pal:
+  { type: BLOB, offset: 0x93850, size: 0x20, symbol: ui_input_start_button_pal }
+ui/input/start_button2:
+  { type: BLOB, offset: 0x93870, size: 0x3C0, symbol: ui_input_start_button2_png }
+ui/input/start_button2.pal:
+  { type: BLOB, offset: 0x93C30, size: 0x20, symbol: ui_input_start_button2_pal }
+ui/input/start_text:
+  { type: BLOB, offset: 0x93C50, size: 0x60, symbol: ui_input_start_text_png }
+ui/input/start_text.pal:
+  { type: BLOB, offset: 0x93CB0, size: 0x20, symbol: ui_input_start_text_pal }
+ui/hammer:
+  { type: BLOB, offset: 0x93CD0, size: 0x200, symbol: ui_hammer_png }
+ui/hammer.pal:
+  { type: BLOB, offset: 0x93ED0, size: 0x20, symbol: ui_hammer_pal }
+ui/hammer.disabled.pal:
+  { type: BLOB, offset: 0x93EF0, size: 0x20, symbol: ui_hammer_disabled_pal }
+ui/super_hammer:
+  { type: BLOB, offset: 0x93F10, size: 0x200, symbol: ui_super_hammer_png }
+ui/super_hammer.pal:
+  { type: BLOB, offset: 0x94110, size: 0x20, symbol: ui_super_hammer_pal }
+ui/super_hammer.disabled.pal:
+  { type: BLOB, offset: 0x94130, size: 0x20, symbol: ui_super_hammer_disabled_pal }
+ui/ultra_hammer:
+  { type: BLOB, offset: 0x94150, size: 0x200, symbol: ui_ultra_hammer_png }
+ui/ultra_hammer.pal:
+  { type: BLOB, offset: 0x94350, size: 0x20, symbol: ui_ultra_hammer_pal }
+ui/ultra_hammer.disabled.pal:
+  { type: BLOB, offset: 0x94370, size: 0x20, symbol: ui_ultra_hammer_disabled_pal }
+ui/boots:
+  { type: BLOB, offset: 0x94390, size: 0x200, symbol: ui_boots_png }
+ui/boots.pal:
+  { type: BLOB, offset: 0x94590, size: 0x20, symbol: ui_boots_pal }
+ui/boots.disabled.pal:
+  { type: BLOB, offset: 0x945B0, size: 0x20, symbol: ui_boots_disabled_pal }
+ui/super_boots:
+  { type: BLOB, offset: 0x945D0, size: 0x200, symbol: ui_super_boots_png }
+ui/super_boots.pal:
+  { type: BLOB, offset: 0x947D0, size: 0x20, symbol: ui_super_boots_pal }
+ui/super_boots.disabled.pal:
+  { type: BLOB, offset: 0x947F0, size: 0x20, symbol: ui_super_boots_disabled_pal }
+ui/ultra_boots:
+  { type: BLOB, offset: 0x94810, size: 0x200, symbol: ui_ultra_boots_png }
+ui/ultra_boots.pal:
+  { type: BLOB, offset: 0x94A10, size: 0x20, symbol: ui_ultra_boots_pal }
+ui/ultra_boots.disabled.pal:
+  { type: BLOB, offset: 0x94A30, size: 0x20, symbol: ui_ultra_boots_disabled_pal }
+ui/item:
+  { type: BLOB, offset: 0x94A50, size: 0x200, symbol: ui_item_png }
+ui/item.pal:
+  { type: BLOB, offset: 0x94C50, size: 0x20, symbol: ui_item_pal }
+ui/item.disabled.pal:
+  { type: BLOB, offset: 0x94C70, size: 0x20, symbol: ui_item_disabled_pal }
+ui/star_spirit:
+  { type: BLOB, offset: 0x94C90, size: 0x200, symbol: ui_star_spirit_png }
+ui/star_spirit.pal:
+  { type: BLOB, offset: 0x94E90, size: 0x20, symbol: ui_star_spirit_pal }
+ui/star_spirit.disabled.pal:
+  { type: BLOB, offset: 0x94EB0, size: 0x20, symbol: ui_star_spirit_disabled_pal }
+ui/arrow_left:
+  { type: BLOB, offset: 0x94ED0, size: 0x80, symbol: ui_arrow_left_png }
+ui/arrow_left.pal:
+  { type: BLOB, offset: 0x94F50, size: 0x20, symbol: ui_arrow_left_pal }
+ui/arrow_right:
+  { type: BLOB, offset: 0x94F70, size: 0x80, symbol: ui_arrow_right_png }
+ui/arrow_right.pal:
+  { type: BLOB, offset: 0x94FF0, size: 0x20, symbol: ui_arrow_right_pal }
+ui/point_right:
+  { type: BLOB, offset: 0x95010, size: 0x80, symbol: ui_point_right_png }
+ui/point_right.pal:
+  { type: BLOB, offset: 0x95090, size: 0x20, symbol: ui_point_right_pal }
+ui/pip:
+  { type: BLOB, offset: 0x950B0, size: 0x20, symbol: ui_pip_png }
+ui/pip.pal:
+  { type: BLOB, offset: 0x950D0, size: 0x20, symbol: ui_pip_pal }
+ui/pip2:
+  { type: BLOB, offset: 0x950F0, size: 0x20, symbol: ui_pip2_png }
+ui/pip2.pal:
+  { type: BLOB, offset: 0x95110, size: 0x20, symbol: ui_pip2_pal }
+ui/coin_sparkle_0:
+  { type: BLOB, offset: 0x95130, size: 0x20, symbol: ui_coin_sparkle_0_png }
+ui/coin_sparkle_0.pal:
+  { type: BLOB, offset: 0x95150, size: 0x20, symbol: ui_coin_sparkle_0_pal }
+ui/coin_sparkle_1:
+  { type: BLOB, offset: 0x95170, size: 0x20, symbol: ui_coin_sparkle_1_png }
+ui/coin_sparkle_1.pal:
+  { type: BLOB, offset: 0x95190, size: 0x20, symbol: ui_coin_sparkle_1_pal }
+ui/coin_sparkle_2:
+  { type: BLOB, offset: 0x951B0, size: 0x20, symbol: ui_coin_sparkle_2_png }
+ui/coin_sparkle_2.pal:
+  { type: BLOB, offset: 0x951D0, size: 0x20, symbol: ui_coin_sparkle_2_pal }
+ui/coin_sparkle_3:
+  { type: BLOB, offset: 0x951F0, size: 0x20, symbol: ui_coin_sparkle_3_png }
+ui/coin_sparkle_3.pal:
+  { type: BLOB, offset: 0x95210, size: 0x20, symbol: ui_coin_sparkle_3_pal }
+ui/coin_sparkle_4:
+  { type: BLOB, offset: 0x95230, size: 0x20, symbol: ui_coin_sparkle_4_png }
+ui/coin_sparkle_4.pal:
+  { type: BLOB, offset: 0x95250, size: 0x20, symbol: ui_coin_sparkle_4_pal }
+ui/coin_sparkle_5:
+  { type: BLOB, offset: 0x95270, size: 0x20, symbol: ui_coin_sparkle_5_png }
+ui/coin_sparkle_5.pal:
+  { type: BLOB, offset: 0x95290, size: 0x20, symbol: ui_coin_sparkle_5_pal }
+ui/coin_sparkle_none:
+  { type: BLOB, offset: 0x952B0, size: 0x20, symbol: ui_coin_sparkle_none_png }
+ui/coin_sparkle_none.pal:
+  { type: BLOB, offset: 0x952D0, size: 0x20, symbol: ui_coin_sparkle_none_pal }
+ui/status/star_point_shine:
+  { type: BLOB, offset: 0x952F0, size: 0x240, symbol: ui_status_star_point_shine_png }
+ui/status/star_piece_0:
+  { type: BLOB, offset: 0x95530, size: 0x80, symbol: ui_status_star_piece_0_png }
+ui/status/star_piece_0.pal:
+  { type: BLOB, offset: 0x955B0, size: 0x20, symbol: ui_status_star_piece_0_pal }
+ui/status/star_piece_1:
+  { type: BLOB, offset: 0x955D0, size: 0x80, symbol: ui_status_star_piece_1_png }
+ui/status/star_piece_1.pal:
+  { type: BLOB, offset: 0x95650, size: 0x20, symbol: ui_status_star_piece_1_pal }
+ui/status/star_piece_2:
+  { type: BLOB, offset: 0x95670, size: 0x80, symbol: ui_status_star_piece_2_png }
+ui/status/star_piece_2.pal:
+  { type: BLOB, offset: 0x956F0, size: 0x20, symbol: ui_status_star_piece_2_pal }
+ui/menu_times:
+  { type: BLOB, offset: 0x95710, size: 0x20, symbol: ui_menu_times_png }
+ui/menu_times.pal:
+  { type: BLOB, offset: 0x95730, size: 0x20, symbol: ui_menu_times_pal }
+ui/fp_cost:
+  { type: BLOB, offset: 0x95750, size: 0x40, symbol: ui_fp_cost_png }
+ui/fp_cost.pal:
+  { type: BLOB, offset: 0x95790, size: 0x20, symbol: ui_fp_cost_pal }
+ui/fp_cost.reduced.pal:
+  { type: BLOB, offset: 0x957B0, size: 0x20, symbol: ui_fp_cost_reduced_pal }
+ui/fp_cost.reduced_twice.pal:
+  { type: BLOB, offset: 0x957D0, size: 0x20, symbol: ui_fp_cost_reduced_twice_pal }
+ui/fp_cost.notenough.pal:
+  { type: BLOB, offset: 0x957F0, size: 0x20, symbol: ui_fp_cost_notenough_pal }
+ui/pow_cost:
+  { type: BLOB, offset: 0x95810, size: 0x40, symbol: ui_pow_cost_png }
+ui/pow_cost.pal:
+  { type: BLOB, offset: 0x95850, size: 0x20, symbol: ui_pow_cost_pal }
+ui/pow_cost.reduced.pal:
+  { type: BLOB, offset: 0x95870, size: 0x20, symbol: ui_pow_cost_reduced_pal }
+ui/pow_cost.reduced_twice.pal:
+  { type: BLOB, offset: 0x95890, size: 0x20, symbol: ui_pow_cost_reduced_twice_pal }
+ui/pow_cost.notenough.pal:
+  { type: BLOB, offset: 0x958B0, size: 0x20, symbol: ui_pow_cost_notenough_pal }
+ui/green_arrow_down:
+  { type: BLOB, offset: 0x958D0, size: 0x40, symbol: ui_green_arrow_down_png }
+ui/green_arrow_down.pal:
+  { type: BLOB, offset: 0x95910, size: 0x20, symbol: ui_green_arrow_down_pal }
+ui/green_arrow_up:
+  { type: BLOB, offset: 0x95930, size: 0x40, symbol: ui_green_arrow_up_png }
+ui/green_arrow_up.pal:
+  { type: BLOB, offset: 0x95970, size: 0x20, symbol: ui_green_arrow_up_pal }
+ui/kaime:
+  { type: BLOB, offset: 0x95990, size: 0x2A0, symbol: ui_kaime_png }
+ui/kaime.pal:
+  { type: BLOB, offset: 0x95C30, size: 0x20, symbol: ui_kaime_pal }
+ui/unused_1:
+  { type: BLOB, offset: 0x95C50, size: 0x80, symbol: ui_unused_1_png }
+ui/unused_1.pal:
+  { type: BLOB, offset: 0x95CD0, size: 0x20, symbol: ui_unused_1_pal }
+ui/unused_2:
+  { type: BLOB, offset: 0x95CF0, size: 0x80, symbol: ui_unused_2_png }
+ui/unused_2.pal:
+  { type: BLOB, offset: 0x95D70, size: 0x20, symbol: ui_unused_2_pal }
+ui/unused_3:
+  { type: BLOB, offset: 0x95D90, size: 0x80, symbol: ui_unused_3_png }
+ui/unused_3.pal:
+  { type: BLOB, offset: 0x95E10, size: 0x20, symbol: ui_unused_3_pal }
+ui/red_bar1:
+  { type: BLOB, offset: 0x95E30, size: 0x1C0, symbol: ui_red_bar1_png }
+ui/red_bar1.pal:
+  { type: BLOB, offset: 0x95FF0, size: 0x20, symbol: ui_red_bar1_pal }
+ui/empty_bar:
+  { type: BLOB, offset: 0x96010, size: 0x1C0, symbol: ui_empty_bar_png }
+ui/empty_bar.pal:
+  { type: BLOB, offset: 0x961D0, size: 0x20, symbol: ui_empty_bar_pal }
+ui/red_bar2:
+  { type: BLOB, offset: 0x961F0, size: 0x1A0, symbol: ui_red_bar2_png }
+ui/red_bar2.pal:
+  { type: BLOB, offset: 0x96390, size: 0x20, symbol: ui_red_bar2_pal }
+ui/eldstar:
+  { type: BLOB, offset: 0x963B0, size: 0x200, symbol: ui_eldstar_png }
+ui/eldstar.pal:
+  { type: BLOB, offset: 0x965B0, size: 0x20, symbol: ui_eldstar_pal }
+ui/eldstar.disabled.pal:
+  { type: BLOB, offset: 0x965D0, size: 0x20, symbol: ui_eldstar_disabled_pal }
+ui/mamar:
+  { type: BLOB, offset: 0x965F0, size: 0x200, symbol: ui_mamar_png }
+ui/mamar.pal:
+  { type: BLOB, offset: 0x967F0, size: 0x20, symbol: ui_mamar_pal }
+ui/mamar.disabled.pal:
+  { type: BLOB, offset: 0x96810, size: 0x20, symbol: ui_mamar_disabled_pal }
+ui/skolar:
+  { type: BLOB, offset: 0x96830, size: 0x200, symbol: ui_skolar_png }
+ui/skolar.pal:
+  { type: BLOB, offset: 0x96A30, size: 0x20, symbol: ui_skolar_pal }
+ui/skolar.disabled.pal:
+  { type: BLOB, offset: 0x96A50, size: 0x20, symbol: ui_skolar_disabled_pal }
+ui/muskular:
+  { type: BLOB, offset: 0x96A70, size: 0x200, symbol: ui_muskular_png }
+ui/muskular.pal:
+  { type: BLOB, offset: 0x96C70, size: 0x20, symbol: ui_muskular_pal }
+ui/muskular.disabled.pal:
+  { type: BLOB, offset: 0x96C90, size: 0x20, symbol: ui_muskular_disabled_pal }
+ui/misstar:
+  { type: BLOB, offset: 0x96CB0, size: 0x200, symbol: ui_misstar_png }
+ui/misstar.pal:
+  { type: BLOB, offset: 0x96EB0, size: 0x20, symbol: ui_misstar_pal }
+ui/misstar.disabled.pal:
+  { type: BLOB, offset: 0x96ED0, size: 0x20, symbol: ui_misstar_disabled_pal }
+ui/klevar:
+  { type: BLOB, offset: 0x96EF0, size: 0x200, symbol: ui_klevar_png }
+ui/klevar.pal:
+  { type: BLOB, offset: 0x970F0, size: 0x20, symbol: ui_klevar_pal }
+ui/klevar.disabled.pal:
+  { type: BLOB, offset: 0x97110, size: 0x20, symbol: ui_klevar_disabled_pal }
+ui/kalmar:
+  { type: BLOB, offset: 0x97130, size: 0x200, symbol: ui_kalmar_png }
+ui/kalmar.pal:
+  { type: BLOB, offset: 0x97330, size: 0x20, symbol: ui_kalmar_pal }
+ui/kalmar.disabled.pal:
+  { type: BLOB, offset: 0x97350, size: 0x20, symbol: ui_kalmar_disabled_pal }
+ui/star_beam:
+  { type: BLOB, offset: 0x97370, size: 0x200, symbol: ui_star_beam_png }
+ui/star_beam.pal:
+  { type: BLOB, offset: 0x97570, size: 0x20, symbol: ui_star_beam_pal }
+ui/star_beam.disabled.pal:
+  { type: BLOB, offset: 0x97590, size: 0x20, symbol: ui_star_beam_disabled_pal }
+ui/peach_beam:
+  { type: BLOB, offset: 0x975B0, size: 0x200, symbol: ui_peach_beam_png }
+ui/peach_beam.pal:
+  { type: BLOB, offset: 0x977B0, size: 0x20, symbol: ui_peach_beam_pal }
+ui/peach_beam.disabled.pal:
+  { type: BLOB, offset: 0x977D0, size: 0x20, symbol: ui_peach_beam_disabled_pal }
+ui/mario_head:
+  { type: BLOB, offset: 0x977F0, size: 0x80, symbol: ui_mario_head_png }
+ui/mario_head.pal:
+  { type: BLOB, offset: 0x97870, size: 0x20, symbol: ui_mario_head_pal }
+ui/partner0:
+  { type: BLOB, offset: 0x97890, size: 0x200, symbol: ui_partner0_png }
+ui/partner0.pal:
+  { type: BLOB, offset: 0x97A90, size: 0x20, symbol: ui_partner0_pal }
+ui/partner0.disabled.pal:
+  { type: BLOB, offset: 0x97AB0, size: 0x20, symbol: ui_partner0_disabled_pal }
+ui/goombario:
+  { type: BLOB, offset: 0x97AD0, size: 0x200, symbol: ui_goombario_png }
+ui/goombario.pal:
+  { type: BLOB, offset: 0x97CD0, size: 0x20, symbol: ui_goombario_pal }
+ui/goombario.disabled.pal:
+  { type: BLOB, offset: 0x97CF0, size: 0x20, symbol: ui_goombario_disabled_pal }
+ui/kooper:
+  { type: BLOB, offset: 0x97D10, size: 0x200, symbol: ui_kooper_png }
+ui/kooper.pal:
+  { type: BLOB, offset: 0x97F10, size: 0x20, symbol: ui_kooper_pal }
+ui/kooper.disabled.pal:
+  { type: BLOB, offset: 0x97F30, size: 0x20, symbol: ui_kooper_disabled_pal }
+ui/bombette:
+  { type: BLOB, offset: 0x97F50, size: 0x200, symbol: ui_bombette_png }
+ui/bombette.pal:
+  { type: BLOB, offset: 0x98150, size: 0x20, symbol: ui_bombette_pal }
+ui/bombette.disabled.pal:
+  { type: BLOB, offset: 0x98170, size: 0x20, symbol: ui_bombette_disabled_pal }
+ui/parakarry:
+  { type: BLOB, offset: 0x98190, size: 0x200, symbol: ui_parakarry_png }
+ui/parakarry.pal:
+  { type: BLOB, offset: 0x98390, size: 0x20, symbol: ui_parakarry_pal }
+ui/parakarry.disabled.pal:
+  { type: BLOB, offset: 0x983B0, size: 0x20, symbol: ui_parakarry_disabled_pal }
+ui/bow:
+  { type: BLOB, offset: 0x983D0, size: 0x200, symbol: ui_bow_png }
+ui/bow.pal:
+  { type: BLOB, offset: 0x985D0, size: 0x20, symbol: ui_bow_pal }
+ui/bow.disabled.pal:
+  { type: BLOB, offset: 0x985F0, size: 0x20, symbol: ui_bow_disabled_pal }
+ui/watt:
+  { type: BLOB, offset: 0x98610, size: 0x200, symbol: ui_watt_png }
+ui/watt.pal:
+  { type: BLOB, offset: 0x98810, size: 0x20, symbol: ui_watt_pal }
+ui/watt.disabled.pal:
+  { type: BLOB, offset: 0x98830, size: 0x20, symbol: ui_watt_disabled_pal }
+ui/sushie:
+  { type: BLOB, offset: 0x98850, size: 0x200, symbol: ui_sushie_png }
+ui/sushie.pal:
+  { type: BLOB, offset: 0x98A50, size: 0x20, symbol: ui_sushie_pal }
+ui/sushie.disabled.pal:
+  { type: BLOB, offset: 0x98A70, size: 0x20, symbol: ui_sushie_disabled_pal }
+ui/lakilester:
+  { type: BLOB, offset: 0x98A90, size: 0x200, symbol: ui_lakilester_png }
+ui/lakilester.pal:
+  { type: BLOB, offset: 0x98C90, size: 0x20, symbol: ui_lakilester_pal }
+ui/lakilester.disabled.pal:
+  { type: BLOB, offset: 0x98CB0, size: 0x20, symbol: ui_lakilester_disabled_pal }
+ui/partner9:
+  { type: BLOB, offset: 0x98CD0, size: 0x200, symbol: ui_partner9_png }
+ui/partner9.pal:
+  { type: BLOB, offset: 0x98ED0, size: 0x20, symbol: ui_partner9_pal }
+ui/partner9.disabled.pal:
+  { type: BLOB, offset: 0x98EF0, size: 0x20, symbol: ui_partner9_disabled_pal }
+ui/partner10:
+  { type: BLOB, offset: 0x98F10, size: 0x200, symbol: ui_partner10_png }
+ui/partner10.pal:
+  { type: BLOB, offset: 0x99110, size: 0x20, symbol: ui_partner10_pal }
+ui/partner10.disabled.pal:
+  { type: BLOB, offset: 0x99130, size: 0x20, symbol: ui_partner10_disabled_pal }
+ui/partner11:
+  { type: BLOB, offset: 0x99150, size: 0x200, symbol: ui_partner11_png }
+ui/partner11.pal:
+  { type: BLOB, offset: 0x99350, size: 0x20, symbol: ui_partner11_pal }
+ui/partner11.disabled.pal:
+  { type: BLOB, offset: 0x99370, size: 0x20, symbol: ui_partner11_disabled_pal }
+ui/status/text_times:
+  { type: BLOB, offset: 0x99390, size: 0x20, symbol: ui_status_text_times_png }
+ui/status/text_times.pal:
+  { type: BLOB, offset: 0x993B0, size: 0x20, symbol: ui_status_text_times_pal }
+ui/status/text_slash:
+  { type: BLOB, offset: 0x993D0, size: 0x40, symbol: ui_status_text_slash_png }
+ui/status/text_slash.pal:
+  { type: BLOB, offset: 0x99410, size: 0x20, symbol: ui_status_text_slash_pal }
+ui/status/text_0:
+  { type: BLOB, offset: 0x99430, size: 0x80, symbol: ui_status_text_0_png }
+ui/status/text_0.pal:
+  { type: BLOB, offset: 0x994B0, size: 0x20, symbol: ui_status_text_0_pal }
+ui/status/text_1:
+  { type: BLOB, offset: 0x994D0, size: 0x80, symbol: ui_status_text_1_png }
+ui/status/text_1.pal:
+  { type: BLOB, offset: 0x99550, size: 0x20, symbol: ui_status_text_1_pal }
+ui/status/text_2:
+  { type: BLOB, offset: 0x99570, size: 0x80, symbol: ui_status_text_2_png }
+ui/status/text_2.pal:
+  { type: BLOB, offset: 0x995F0, size: 0x20, symbol: ui_status_text_2_pal }
+ui/status/text_3:
+  { type: BLOB, offset: 0x99610, size: 0x80, symbol: ui_status_text_3_png }
+ui/status/text_3.pal:
+  { type: BLOB, offset: 0x99690, size: 0x20, symbol: ui_status_text_3_pal }
+ui/status/text_4:
+  { type: BLOB, offset: 0x996B0, size: 0x80, symbol: ui_status_text_4_png }
+ui/status/text_4.pal:
+  { type: BLOB, offset: 0x99730, size: 0x20, symbol: ui_status_text_4_pal }
+ui/status/text_5:
+  { type: BLOB, offset: 0x99750, size: 0x80, symbol: ui_status_text_5_png }
+ui/status/text_5.pal:
+  { type: BLOB, offset: 0x997D0, size: 0x20, symbol: ui_status_text_5_pal }
+ui/status/text_6:
+  { type: BLOB, offset: 0x997F0, size: 0x80, symbol: ui_status_text_6_png }
+ui/status/text_6.pal:
+  { type: BLOB, offset: 0x99870, size: 0x20, symbol: ui_status_text_6_pal }
+ui/status/text_7:
+  { type: BLOB, offset: 0x99890, size: 0x80, symbol: ui_status_text_7_png }
+ui/status/text_7.pal:
+  { type: BLOB, offset: 0x99910, size: 0x20, symbol: ui_status_text_7_pal }
+ui/status/text_8:
+  { type: BLOB, offset: 0x99930, size: 0x80, symbol: ui_status_text_8_png }
+ui/status/text_8.pal:
+  { type: BLOB, offset: 0x999B0, size: 0x20, symbol: ui_status_text_8_pal }
+ui/status/text_9:
+  { type: BLOB, offset: 0x999D0, size: 0x80, symbol: ui_status_text_9_png }
+ui/status/text_9.pal:
+  { type: BLOB, offset: 0x99A50, size: 0x20, symbol: ui_status_text_9_pal }
+ui/status/text_hp:
+  { type: BLOB, offset: 0x99A70, size: 0x80, symbol: ui_status_text_hp_png }
+ui/status/text_hp.pal:
+  { type: BLOB, offset: 0x99AF0, size: 0x20, symbol: ui_status_text_hp_pal }
+ui/status/text_fp:
+  { type: BLOB, offset: 0x99B10, size: 0x80, symbol: ui_status_text_fp_png }
+ui/status/text_fp.pal:
+  { type: BLOB, offset: 0x99B90, size: 0x20, symbol: ui_status_text_fp_pal }
+ui/status/pow_unit_1:
+  { type: BLOB, offset: 0x99BB0, size: 0x20, symbol: ui_status_pow_unit_1_png }
+ui/status/pow_unit_1.pal:
+  { type: BLOB, offset: 0x99BD0, size: 0x20, symbol: ui_status_pow_unit_1_pal }
+ui/status/pow_unit_2:
+  { type: BLOB, offset: 0x99BF0, size: 0x20, symbol: ui_status_pow_unit_2_png }
+ui/status/pow_unit_2.pal:
+  { type: BLOB, offset: 0x99C10, size: 0x20, symbol: ui_status_pow_unit_2_pal }
+ui/status/pow_unit_3:
+  { type: BLOB, offset: 0x99C30, size: 0x20, symbol: ui_status_pow_unit_3_png }
+ui/status/pow_unit_3.pal:
+  { type: BLOB, offset: 0x99C50, size: 0x20, symbol: ui_status_pow_unit_3_pal }
+ui/status/pow_unit_4:
+  { type: BLOB, offset: 0x99C70, size: 0x20, symbol: ui_status_pow_unit_4_png }
+ui/status/pow_unit_4.pal:
+  { type: BLOB, offset: 0x99C90, size: 0x20, symbol: ui_status_pow_unit_4_pal }
+ui/status/pow_unit_5:
+  { type: BLOB, offset: 0x99CB0, size: 0x20, symbol: ui_status_pow_unit_5_png }
+ui/status/pow_unit_5.pal:
+  { type: BLOB, offset: 0x99CD0, size: 0x20, symbol: ui_status_pow_unit_5_pal }
+ui/status/pow_unit_6:
+  { type: BLOB, offset: 0x99CF0, size: 0x20, symbol: ui_status_pow_unit_6_png }
+ui/status/pow_unit_6.pal:
+  { type: BLOB, offset: 0x99D10, size: 0x20, symbol: ui_status_pow_unit_6_pal }
+ui/status/pow_unit_7:
+  { type: BLOB, offset: 0x99D30, size: 0x20, symbol: ui_status_pow_unit_7_png }
+ui/status/pow_unit_7.pal:
+  { type: BLOB, offset: 0x99D50, size: 0x20, symbol: ui_status_pow_unit_7_pal }
+ui/status/pow_unit_empty:
+  { type: BLOB, offset: 0x99D70, size: 0x20, symbol: ui_status_pow_unit_empty_png }
+ui/status/pow_unit_empty.pal:
+  { type: BLOB, offset: 0x99D90, size: 0x20, symbol: ui_status_pow_unit_empty_pal }
+ui/status/pow_star_1:
+  { type: BLOB, offset: 0x99DB0, size: 0x20, symbol: ui_status_pow_star_1_png }
+ui/status/pow_star_1.pal:
+  { type: BLOB, offset: 0x99DD0, size: 0x20, symbol: ui_status_pow_star_1_pal }
+ui/status/pow_star_2:
+  { type: BLOB, offset: 0x99DF0, size: 0x20, symbol: ui_status_pow_star_2_png }
+ui/status/pow_star_2.pal:
+  { type: BLOB, offset: 0x99E10, size: 0x20, symbol: ui_status_pow_star_2_pal }
+ui/status/pow_star_3:
+  { type: BLOB, offset: 0x99E30, size: 0x20, symbol: ui_status_pow_star_3_png }
+ui/status/pow_star_3.pal:
+  { type: BLOB, offset: 0x99E50, size: 0x20, symbol: ui_status_pow_star_3_pal }
+ui/status/pow_star_4:
+  { type: BLOB, offset: 0x99E70, size: 0x20, symbol: ui_status_pow_star_4_png }
+ui/status/pow_star_4.pal:
+  { type: BLOB, offset: 0x99E90, size: 0x20, symbol: ui_status_pow_star_4_pal }
+ui/status/pow_star_5:
+  { type: BLOB, offset: 0x99EB0, size: 0x20, symbol: ui_status_pow_star_5_png }
+ui/status/pow_star_5.pal:
+  { type: BLOB, offset: 0x99ED0, size: 0x20, symbol: ui_status_pow_star_5_pal }
+ui/status/pow_star_6:
+  { type: BLOB, offset: 0x99EF0, size: 0x20, symbol: ui_status_pow_star_6_png }
+ui/status/pow_star_6.pal:
+  { type: BLOB, offset: 0x99F10, size: 0x20, symbol: ui_status_pow_star_6_pal }
+ui/status/pow_star_7:
+  { type: BLOB, offset: 0x99F30, size: 0x20, symbol: ui_status_pow_star_7_png }
+ui/status/pow_star_7.pal:
+  { type: BLOB, offset: 0x99F50, size: 0x20, symbol: ui_status_pow_star_7_pal }
+ui/status/pow_star_empty:
+  { type: BLOB, offset: 0x99F70, size: 0x20, symbol: ui_status_pow_star_empty_png }
+ui/status/pow_star_empty.pal:
+  { type: BLOB, offset: 0x99F90, size: 0x20, symbol: ui_status_pow_star_empty_pal }
+ui/status/coin_0:
+  { type: BLOB, offset: 0x99FB0, size: 0x80, symbol: ui_status_coin_0_png }
+ui/status/coin_0.pal:
+  { type: BLOB, offset: 0x9A030, size: 0x20, symbol: ui_status_coin_0_pal }
+ui/status/coin_1:
+  { type: BLOB, offset: 0x9A050, size: 0x80, symbol: ui_status_coin_1_png }
+ui/status/coin_1.pal:
+  { type: BLOB, offset: 0x9A0D0, size: 0x20, symbol: ui_status_coin_1_pal }
+ui/status/coin_2:
+  { type: BLOB, offset: 0x9A0F0, size: 0x80, symbol: ui_status_coin_2_png }
+ui/status/coin_2.pal:
+  { type: BLOB, offset: 0x9A170, size: 0x20, symbol: ui_status_coin_2_pal }
+ui/status/coin_3:
+  { type: BLOB, offset: 0x9A190, size: 0x80, symbol: ui_status_coin_3_png }
+ui/status/coin_3.pal:
+  { type: BLOB, offset: 0x9A210, size: 0x20, symbol: ui_status_coin_3_pal }
+ui/status/coin_4:
+  { type: BLOB, offset: 0x9A230, size: 0x80, symbol: ui_status_coin_4_png }
+ui/status/coin_4.pal:
+  { type: BLOB, offset: 0x9A2B0, size: 0x20, symbol: ui_status_coin_4_pal }
+ui/status/coin_5:
+  { type: BLOB, offset: 0x9A2D0, size: 0x80, symbol: ui_status_coin_5_png }
+ui/status/coin_5.pal:
+  { type: BLOB, offset: 0x9A350, size: 0x20, symbol: ui_status_coin_5_pal }
+ui/status/coin_6:
+  { type: BLOB, offset: 0x9A370, size: 0x80, symbol: ui_status_coin_6_png }
+ui/status/coin_6.pal:
+  { type: BLOB, offset: 0x9A3F0, size: 0x20, symbol: ui_status_coin_6_pal }
+ui/status/coin_7:
+  { type: BLOB, offset: 0x9A410, size: 0x80, symbol: ui_status_coin_7_png }
+ui/status/coin_7.pal:
+  { type: BLOB, offset: 0x9A490, size: 0x20, symbol: ui_status_coin_7_pal }
+ui/status/coin_8:
+  { type: BLOB, offset: 0x9A4B0, size: 0x80, symbol: ui_status_coin_8_png }
+ui/status/coin_8.pal:
+  { type: BLOB, offset: 0x9A530, size: 0x20, symbol: ui_status_coin_8_pal }
+ui/status/coin_9:
+  { type: BLOB, offset: 0x9A550, size: 0x80, symbol: ui_status_coin_9_png }
+ui/status/coin_9.pal:
+  { type: BLOB, offset: 0x9A5D0, size: 0x20, symbol: ui_status_coin_9_pal }
+ui/status/star_point_0:
+  { type: BLOB, offset: 0x9A5F0, size: 0x80, symbol: ui_status_star_point_0_png }
+ui/status/star_point_0.pal:
+  { type: BLOB, offset: 0x9A670, size: 0x20, symbol: ui_status_star_point_0_pal }
+ui/status/star_point_1:
+  { type: BLOB, offset: 0x9A690, size: 0x80, symbol: ui_status_star_point_1_png }
+ui/status/star_point_1.pal:
+  { type: BLOB, offset: 0x9A710, size: 0x20, symbol: ui_status_star_point_1_pal }
+ui/status/star_point_2:
+  { type: BLOB, offset: 0x9A730, size: 0x80, symbol: ui_status_star_point_2_png }
+ui/status/star_point_2.pal:
+  { type: BLOB, offset: 0x9A7B0, size: 0x20, symbol: ui_status_star_point_2_pal }
+ui/status/star_point_3:
+  { type: BLOB, offset: 0x9A7D0, size: 0x80, symbol: ui_status_star_point_3_png }
+ui/status/star_point_3.pal:
+  { type: BLOB, offset: 0x9A850, size: 0x20, symbol: ui_status_star_point_3_pal }
+ui/status/star_point_4:
+  { type: BLOB, offset: 0x9A870, size: 0x80, symbol: ui_status_star_point_4_png }
+ui/status/star_point_4.pal:
+  { type: BLOB, offset: 0x9A8F0, size: 0x20, symbol: ui_status_star_point_4_pal }
+ui/status/star_point_5:
+  { type: BLOB, offset: 0x9A910, size: 0x80, symbol: ui_status_star_point_5_png }
+ui/status/star_point_5.pal:
+  { type: BLOB, offset: 0x9A990, size: 0x20, symbol: ui_status_star_point_5_pal }
+ui/status/star_point_6:
+  { type: BLOB, offset: 0x9A9B0, size: 0x80, symbol: ui_status_star_point_6_png }
+ui/status/star_point_6.pal:
+  { type: BLOB, offset: 0x9AA30, size: 0x20, symbol: ui_status_star_point_6_pal }
+ui/status/star_point_7:
+  { type: BLOB, offset: 0x9AA50, size: 0x80, symbol: ui_status_star_point_7_png }
+ui/status/star_point_7.pal:
+  { type: BLOB, offset: 0x9AAD0, size: 0x20, symbol: ui_status_star_point_7_pal }
+ui/bluepip:
+  { type: BLOB, offset: 0x9AAF0, size: 0x80, symbol: ui_bluepip_png }
+ui/bluepip.pal:
+  { type: BLOB, offset: 0x9AB70, size: 0x20, symbol: ui_bluepip_pal }
+ui/bluepip2:
+  { type: BLOB, offset: 0x9AB90, size: 0x80, symbol: ui_bluepip2_png }
+ui/bluepip2.pal:
+  { type: BLOB, offset: 0x9AC10, size: 0x20, symbol: ui_bluepip2_pal }
+ui/battle/status/charge_jump:
+  { type: BLOB, offset: 0x9AC30, size: 0x120, symbol: ui_battle_status_charge_jump_png }
+ui/battle/status/charge_jump.pal:
+  { type: BLOB, offset: 0x9AD50, size: 0x20, symbol: ui_battle_status_charge_jump_pal }
+ui/battle/status/charge_hammer:
+  { type: BLOB, offset: 0x9AD70, size: 0x120, symbol: ui_battle_status_charge_hammer_png }
+ui/battle/status/charge_hammer.pal:
+  { type: BLOB, offset: 0x9AE90, size: 0x20, symbol: ui_battle_status_charge_hammer_pal }
+ui/battle/status/charge_goombario:
+  { type: BLOB, offset: 0x9AEB0, size: 0x120, symbol: ui_battle_status_charge_goombario_png }
+ui/battle/status/charge_goombario.pal:
+  { type: BLOB, offset: 0x9AFD0, size: 0x20, symbol: ui_battle_status_charge_goombario_pal }
+ui/battle/status/exclamation:
+  { type: BLOB, offset: 0x9AFF0, size: 0x120, symbol: ui_battle_status_exclamation_png }
+ui/battle/status/exclamation.pal:
+  { type: BLOB, offset: 0x9B110, size: 0x20, symbol: ui_battle_status_exclamation_pal }
+ui/battle/status/sleep_0:
+  { type: BLOB, offset: 0x9B130, size: 0x80, symbol: ui_battle_status_sleep_0_png }
+ui/battle/status/sleep_0.pal:
+  { type: BLOB, offset: 0x9B1B0, size: 0x20, symbol: ui_battle_status_sleep_0_pal }
+ui/battle/status/sleep_1:
+  { type: BLOB, offset: 0x9B1D0, size: 0x80, symbol: ui_battle_status_sleep_1_png }
+ui/battle/status/sleep_1.pal:
+  { type: BLOB, offset: 0x9B250, size: 0x20, symbol: ui_battle_status_sleep_1_pal }
+ui/battle/status/sleep_2:
+  { type: BLOB, offset: 0x9B270, size: 0x80, symbol: ui_battle_status_sleep_2_png }
+ui/battle/status/sleep_2.pal:
+  { type: BLOB, offset: 0x9B2F0, size: 0x20, symbol: ui_battle_status_sleep_2_pal }
+ui/battle/status/static_0:
+  { type: BLOB, offset: 0x9B310, size: 0x80, symbol: ui_battle_status_static_0_png }
+ui/battle/status/static_0.pal:
+  { type: BLOB, offset: 0x9B390, size: 0x20, symbol: ui_battle_status_static_0_pal }
+ui/battle/status/static_1:
+  { type: BLOB, offset: 0x9B3B0, size: 0x80, symbol: ui_battle_status_static_1_png }
+ui/battle/status/static_1.pal:
+  { type: BLOB, offset: 0x9B430, size: 0x20, symbol: ui_battle_status_static_1_pal }
+ui/battle/status/paralyze_0:
+  { type: BLOB, offset: 0x9B450, size: 0x80, symbol: ui_battle_status_paralyze_0_png }
+ui/battle/status/paralyze_0.pal:
+  { type: BLOB, offset: 0x9B4D0, size: 0x20, symbol: ui_battle_status_paralyze_0_pal }
+ui/battle/status/paralyze_1:
+  { type: BLOB, offset: 0x9B4F0, size: 0x80, symbol: ui_battle_status_paralyze_1_png }
+ui/battle/status/paralyze_1.pal:
+  { type: BLOB, offset: 0x9B570, size: 0x20, symbol: ui_battle_status_paralyze_1_pal }
+ui/battle/status/dizzy_0:
+  { type: BLOB, offset: 0x9B590, size: 0x80, symbol: ui_battle_status_dizzy_0_png }
+ui/battle/status/dizzy_0.pal:
+  { type: BLOB, offset: 0x9B610, size: 0x20, symbol: ui_battle_status_dizzy_0_pal }
+ui/battle/status/dizzy_1:
+  { type: BLOB, offset: 0x9B630, size: 0x80, symbol: ui_battle_status_dizzy_1_png }
+ui/battle/status/dizzy_1.pal:
+  { type: BLOB, offset: 0x9B6B0, size: 0x20, symbol: ui_battle_status_dizzy_1_pal }
+ui/battle/status/dizzy_2:
+  { type: BLOB, offset: 0x9B6D0, size: 0x80, symbol: ui_battle_status_dizzy_2_png }
+ui/battle/status/dizzy_2.pal:
+  { type: BLOB, offset: 0x9B750, size: 0x20, symbol: ui_battle_status_dizzy_2_pal }
+ui/battle/status/dizzy_3:
+  { type: BLOB, offset: 0x9B770, size: 0x80, symbol: ui_battle_status_dizzy_3_png }
+ui/battle/status/dizzy_3.pal:
+  { type: BLOB, offset: 0x9B7F0, size: 0x20, symbol: ui_battle_status_dizzy_3_pal }
+ui/battle/status/poison_0:
+  { type: BLOB, offset: 0x9B810, size: 0x80, symbol: ui_battle_status_poison_0_png }
+ui/battle/status/poison_0.pal:
+  { type: BLOB, offset: 0x9B890, size: 0x20, symbol: ui_battle_status_poison_0_pal }
+ui/battle/status/poison_1:
+  { type: BLOB, offset: 0x9B8B0, size: 0x80, symbol: ui_battle_status_poison_1_png }
+ui/battle/status/poison_1.pal:
+  { type: BLOB, offset: 0x9B930, size: 0x20, symbol: ui_battle_status_poison_1_pal }
+ui/battle/status/frozen_0:
+  { type: BLOB, offset: 0x9B950, size: 0x80, symbol: ui_battle_status_frozen_0_png }
+ui/battle/status/frozen_0.pal:
+  { type: BLOB, offset: 0x9B9D0, size: 0x20, symbol: ui_battle_status_frozen_0_pal }
+ui/battle/status/frozen_1:
+  { type: BLOB, offset: 0x9B9F0, size: 0x80, symbol: ui_battle_status_frozen_1_png }
+ui/battle/status/frozen_1.pal:
+  { type: BLOB, offset: 0x9BA70, size: 0x20, symbol: ui_battle_status_frozen_1_pal }
+ui/battle/status/frozen_2:
+  { type: BLOB, offset: 0x9BA90, size: 0x80, symbol: ui_battle_status_frozen_2_png }
+ui/battle/status/frozen_2.pal:
+  { type: BLOB, offset: 0x9BB10, size: 0x20, symbol: ui_battle_status_frozen_2_pal }
+ui/battle/status/frozen_3:
+  { type: BLOB, offset: 0x9BB30, size: 0x80, symbol: ui_battle_status_frozen_3_png }
+ui/battle/status/frozen_3.pal:
+  { type: BLOB, offset: 0x9BBB0, size: 0x20, symbol: ui_battle_status_frozen_3_pal }
+ui/battle/status/stop_0:
+  { type: BLOB, offset: 0x9BBD0, size: 0x80, symbol: ui_battle_status_stop_0_png }
+ui/battle/status/stop_0.pal:
+  { type: BLOB, offset: 0x9BC50, size: 0x20, symbol: ui_battle_status_stop_0_pal }
+ui/battle/status/stop_1:
+  { type: BLOB, offset: 0x9BC70, size: 0x80, symbol: ui_battle_status_stop_1_png }
+ui/battle/status/stop_1.pal:
+  { type: BLOB, offset: 0x9BCF0, size: 0x20, symbol: ui_battle_status_stop_1_pal }
+ui/battle/status/stop_2:
+  { type: BLOB, offset: 0x9BD10, size: 0x80, symbol: ui_battle_status_stop_2_png }
+ui/battle/status/stop_2.pal:
+  { type: BLOB, offset: 0x9BD90, size: 0x20, symbol: ui_battle_status_stop_2_pal }
+ui/battle/status/stop_3:
+  { type: BLOB, offset: 0x9BDB0, size: 0x80, symbol: ui_battle_status_stop_3_png }
+ui/battle/status/stop_3.pal:
+  { type: BLOB, offset: 0x9BE30, size: 0x20, symbol: ui_battle_status_stop_3_pal }
+ui/battle/status/pdown_0:
+  { type: BLOB, offset: 0x9BE50, size: 0x80, symbol: ui_battle_status_pdown_0_png }
+ui/battle/status/pdown_0.pal:
+  { type: BLOB, offset: 0x9BED0, size: 0x20, symbol: ui_battle_status_pdown_0_pal }
+ui/battle/status/pdown_1:
+  { type: BLOB, offset: 0x9BEF0, size: 0x80, symbol: ui_battle_status_pdown_1_png }
+ui/battle/status/pdown_1.pal:
+  { type: BLOB, offset: 0x9BF70, size: 0x20, symbol: ui_battle_status_pdown_1_pal }
+ui/battle/status/shrink_0:
+  { type: BLOB, offset: 0x9BF90, size: 0x80, symbol: ui_battle_status_shrink_0_png }
+ui/battle/status/shrink_0.pal:
+  { type: BLOB, offset: 0x9C010, size: 0x20, symbol: ui_battle_status_shrink_0_pal }
+ui/battle/status/shrink_1:
+  { type: BLOB, offset: 0x9C030, size: 0x80, symbol: ui_battle_status_shrink_1_png }
+ui/battle/status/shrink_1.pal:
+  { type: BLOB, offset: 0x9C0B0, size: 0x20, symbol: ui_battle_status_shrink_1_pal }
+ui/battle/status/shrink_2:
+  { type: BLOB, offset: 0x9C0D0, size: 0x80, symbol: ui_battle_status_shrink_2_png }
+ui/battle/status/shrink_2.pal:
+  { type: BLOB, offset: 0x9C150, size: 0x20, symbol: ui_battle_status_shrink_2_pal }
+ui/battle/status/shrink_3:
+  { type: BLOB, offset: 0x9C170, size: 0x80, symbol: ui_battle_status_shrink_3_png }
+ui/battle/status/shrink_3.pal:
+  { type: BLOB, offset: 0x9C1F0, size: 0x20, symbol: ui_battle_status_shrink_3_pal }
+ui/battle/status/transparent_0:
+  { type: BLOB, offset: 0x9C210, size: 0x80, symbol: ui_battle_status_transparent_0_png }
+ui/battle/status/transparent_0.pal:
+  { type: BLOB, offset: 0x9C290, size: 0x20, symbol: ui_battle_status_transparent_0_pal }
+ui/battle/status/transparent_1:
+  { type: BLOB, offset: 0x9C2B0, size: 0x80, symbol: ui_battle_status_transparent_1_png }
+ui/battle/status/transparent_1.pal:
+  { type: BLOB, offset: 0x9C330, size: 0x20, symbol: ui_battle_status_transparent_1_pal }
+ui/battle/status/transparent_2:
+  { type: BLOB, offset: 0x9C350, size: 0x80, symbol: ui_battle_status_transparent_2_png }
+ui/battle/status/transparent_2.pal:
+  { type: BLOB, offset: 0x9C3D0, size: 0x20, symbol: ui_battle_status_transparent_2_pal }
+ui/battle/status/transparent_3:
+  { type: BLOB, offset: 0x9C3F0, size: 0x80, symbol: ui_battle_status_transparent_3_png }
+ui/battle/status/transparent_3.pal:
+  { type: BLOB, offset: 0x9C470, size: 0x20, symbol: ui_battle_status_transparent_3_pal }
+ui/battle/status/transparent_4:
+  { type: BLOB, offset: 0x9C490, size: 0x80, symbol: ui_battle_status_transparent_4_png }
+ui/battle/status/transparent_4.pal:
+  { type: BLOB, offset: 0x9C510, size: 0x20, symbol: ui_battle_status_transparent_4_pal }
+ui/battle/status/transparent_5:
+  { type: BLOB, offset: 0x9C530, size: 0x80, symbol: ui_battle_status_transparent_5_png }
+ui/battle/status/transparent_5.pal:
+  { type: BLOB, offset: 0x9C5B0, size: 0x20, symbol: ui_battle_status_transparent_5_pal }
+ui/battle/status/peril:
+  { type: BLOB, offset: 0x9C5D0, size: 0x140, symbol: ui_battle_status_peril_png }
+ui/battle/status/peril.pal:
+  { type: BLOB, offset: 0x9C710, size: 0x20, symbol: ui_battle_status_peril_pal }
+ui/battle/status/danger:
+  { type: BLOB, offset: 0x9C730, size: 0x140, symbol: ui_battle_status_danger_png }
+ui/battle/status/danger.pal:
+  { type: BLOB, offset: 0x9C870, size: 0x20, symbol: ui_battle_status_danger_pal }
+ui/battle/status/refund:
+  { type: BLOB, offset: 0x9C890, size: 0x1E0, symbol: ui_battle_status_refund_png }
+ui/battle/status/refund.pal:
+  { type: BLOB, offset: 0x9CA70, size: 0x20, symbol: ui_battle_status_refund_pal }
+ui/battle/status/happy:
+  { type: BLOB, offset: 0x9CA90, size: 0x140, symbol: ui_battle_status_happy_png }
+ui/battle/status/happy.pal:
+  { type: BLOB, offset: 0x9CBD0, size: 0x20, symbol: ui_battle_status_happy_pal }
+ui/battle/status/hp_drain:
+  { type: BLOB, offset: 0x9CBF0, size: 0x140, symbol: ui_battle_status_hp_drain_png }
+ui/battle/status/hp_drain.pal:
+  { type: BLOB, offset: 0x9CD30, size: 0x20, symbol: ui_battle_status_hp_drain_pal }
+ui/move_basic:
+  { type: BLOB, offset: 0x9CD50, size: 0x200, symbol: ui_move_basic_png }
+ui/move_basic.pal:
+  { type: BLOB, offset: 0x9CF50, size: 0x20, symbol: ui_move_basic_pal }
+ui/move_basic.disabled.pal:
+  { type: BLOB, offset: 0x9CF70, size: 0x20, symbol: ui_move_basic_disabled_pal }
+ui/move_partner_1:
+  { type: BLOB, offset: 0x9CF90, size: 0x200, symbol: ui_move_partner_1_png }
+ui/move_partner_1.pal:
+  { type: BLOB, offset: 0x9D190, size: 0x20, symbol: ui_move_partner_1_pal }
+ui/move_partner_1.disabled.pal:
+  { type: BLOB, offset: 0x9D1B0, size: 0x20, symbol: ui_move_partner_1_disabled_pal }
+ui/move_partner_2:
+  { type: BLOB, offset: 0x9D1D0, size: 0x200, symbol: ui_move_partner_2_png }
+ui/move_partner_2.pal:
+  { type: BLOB, offset: 0x9D3D0, size: 0x20, symbol: ui_move_partner_2_pal }
+ui/move_partner_2.disabled.pal:
+  { type: BLOB, offset: 0x9D3F0, size: 0x20, symbol: ui_move_partner_2_disabled_pal }
+ui/move_partner_3:
+  { type: BLOB, offset: 0x9D410, size: 0x200, symbol: ui_move_partner_3_png }
+ui/move_partner_3.pal:
+  { type: BLOB, offset: 0x9D610, size: 0x20, symbol: ui_move_partner_3_pal }
+ui/move_partner_3.disabled.pal:
+  { type: BLOB, offset: 0x9D630, size: 0x20, symbol: ui_move_partner_3_disabled_pal }
+ui/stat_heart:
+  { type: BLOB, offset: 0x9D658, size: 0x400, symbol: ui_stat_heart_png }
+ui/stat_flower:
+  { type: BLOB, offset: 0x9DA60, size: 0x400, symbol: ui_stat_flower_png }
+ui/status/shimmer_particle:
+  { type: BLOB, offset: 0xA2960, size: 0x200, symbol: ui_status_shimmer_particle_png }
+ui/box/corners9:
+  { type: BLOB, offset: 0xA2E90, size: 0x400, symbol: ui_box_corners9_png }
+ui/box/corners8:
+  { type: BLOB, offset: 0xA3290, size: 0x900, symbol: ui_box_corners8_png }
+ui/box/corners6:
+  { type: BLOB, offset: 0xA3B90, size: 0x280, symbol: ui_box_corners6_png }
+ui/box/corners7:
+  { type: BLOB, offset: 0xA3E10, size: 0x200, symbol: ui_box_corners7_png }
+ui/box/corners3:
+  { type: BLOB, offset: 0xA4010, size: 0x600, symbol: ui_box_corners3_png }
+ui/box/corners5:
+  { type: BLOB, offset: 0xA4610, size: 0x200, symbol: ui_box_corners5_png }
+ui/box/corners4:
+  { type: BLOB, offset: 0xA4810, size: 0x100, symbol: ui_box_corners4_png }
+ui/box/bg_tile:
+  { type: BLOB, offset: 0xA4910, size: 0x80, symbol: ui_box_bg_tile_png }
+ui/box/corners1:
+  { type: BLOB, offset: 0xA4990, size: 0x400, symbol: ui_box_corners1_png }
+ui/box/corners2:
+  { type: BLOB, offset: 0xA4D90, size: 0x200, symbol: ui_box_corners2_png }
+ui/box/bg_flat:
+  { type: BLOB, offset: 0xA4F90, size: 0x8, symbol: ui_box_bg_flat_png }
+ui/stencil/star:
+  { type: BLOB, offset: 0xE2E00, size: 0x400, symbol: ui_stencil_star_png }
+ui/stencil/mario:
+  { type: BLOB, offset: 0xE3200, size: 0x800, symbol: ui_stencil_mario_png }
+ui/stencil/sharp_circle:
+  { type: BLOB, offset: 0xE3A00, size: 0x200, symbol: ui_stencil_sharp_circle_png }
+ui/stencil/blurry_circle:
+  { type: BLOB, offset: 0xE3C00, size: 0x1000, symbol: ui_stencil_blurry_circle_png }
+ui/msg/bubble_left:
+  { type: BLOB, offset: 0x10CEB0, size: 0x400, symbol: ui_msg_bubble_left_png }
+ui/msg/bubble_mid:
+  { type: BLOB, offset: 0x10D2B0, size: 0x100, symbol: ui_msg_bubble_mid_png }
+ui/msg/bubble_right:
+  { type: BLOB, offset: 0x10D3B0, size: 0x400, symbol: ui_msg_bubble_right_png }
+ui/msg/arrow:
+  { type: BLOB, offset: 0x10D7B0, size: 0x80, symbol: ui_msg_arrow_png }
+ui/msg/frame_a_1_1:
+  { type: BLOB, offset: 0x10D830, size: 0x20, symbol: ui_msg_frame_a_1_1_png }
+ui/msg/frame_a_1_2:
+  { type: BLOB, offset: 0x10D850, size: 0x20, symbol: ui_msg_frame_a_1_2_png }
+ui/msg/frame_a_1_3:
+  { type: BLOB, offset: 0x10D870, size: 0x20, symbol: ui_msg_frame_a_1_3_png }
+ui/msg/frame_a_1_4:
+  { type: BLOB, offset: 0x10D890, size: 0x20, symbol: ui_msg_frame_a_1_4_png }
+ui/msg/frame_a_1_5:
+  { type: BLOB, offset: 0x10D8B0, size: 0x20, symbol: ui_msg_frame_a_1_5_png }
+ui/msg/frame_a_2_1:
+  { type: BLOB, offset: 0x10D8D0, size: 0x20, symbol: ui_msg_frame_a_2_1_png }
+ui/msg/frame_a_2_5:
+  { type: BLOB, offset: 0x10D8F0, size: 0x20, symbol: ui_msg_frame_a_2_5_png }
+ui/msg/frame_a_3_1:
+  { type: BLOB, offset: 0x10D910, size: 0x20, symbol: ui_msg_frame_a_3_1_png }
+ui/msg/frame_a_3_5:
+  { type: BLOB, offset: 0x10D930, size: 0x20, symbol: ui_msg_frame_a_3_5_png }
+ui/msg/frame_a_4_1:
+  { type: BLOB, offset: 0x10D950, size: 0x20, symbol: ui_msg_frame_a_4_1_png }
+ui/msg/frame_a_4_5:
+  { type: BLOB, offset: 0x10D970, size: 0x20, symbol: ui_msg_frame_a_4_5_png }
+ui/msg/frame_a_5_1:
+  { type: BLOB, offset: 0x10D990, size: 0x20, symbol: ui_msg_frame_a_5_1_png }
+ui/msg/frame_a_5_2:
+  { type: BLOB, offset: 0x10D9B0, size: 0x20, symbol: ui_msg_frame_a_5_2_png }
+ui/msg/frame_a_5_3:
+  { type: BLOB, offset: 0x10D9D0, size: 0x20, symbol: ui_msg_frame_a_5_3_png }
+ui/msg/frame_a_5_4:
+  { type: BLOB, offset: 0x10D9F0, size: 0x20, symbol: ui_msg_frame_a_5_4_png }
+ui/msg/frame_a_5_5:
+  { type: BLOB, offset: 0x10DA10, size: 0x20, symbol: ui_msg_frame_a_5_5_png }
+ui/msg/frame_b_1_1:
+  { type: BLOB, offset: 0x10DA30, size: 0x20, symbol: ui_msg_frame_b_1_1_png }
+ui/msg/frame_b_1_2:
+  { type: BLOB, offset: 0x10DA50, size: 0x20, symbol: ui_msg_frame_b_1_2_png }
+ui/msg/frame_b_1_3:
+  { type: BLOB, offset: 0x10DA70, size: 0x20, symbol: ui_msg_frame_b_1_3_png }
+ui/msg/frame_b_1_4:
+  { type: BLOB, offset: 0x10DA90, size: 0x20, symbol: ui_msg_frame_b_1_4_png }
+ui/msg/frame_b_1_5:
+  { type: BLOB, offset: 0x10DAB0, size: 0x20, symbol: ui_msg_frame_b_1_5_png }
+ui/msg/frame_b_2_1:
+  { type: BLOB, offset: 0x10DAD0, size: 0x20, symbol: ui_msg_frame_b_2_1_png }
+ui/msg/frame_b_2_5:
+  { type: BLOB, offset: 0x10DAF0, size: 0x20, symbol: ui_msg_frame_b_2_5_png }
+ui/msg/frame_b_3_1:
+  { type: BLOB, offset: 0x10DB10, size: 0x20, symbol: ui_msg_frame_b_3_1_png }
+ui/msg/frame_b_3_5:
+  { type: BLOB, offset: 0x10DB30, size: 0x20, symbol: ui_msg_frame_b_3_5_png }
+ui/msg/frame_b_4_1:
+  { type: BLOB, offset: 0x10DB50, size: 0x20, symbol: ui_msg_frame_b_4_1_png }
+ui/msg/frame_b_4_5:
+  { type: BLOB, offset: 0x10DB70, size: 0x20, symbol: ui_msg_frame_b_4_5_png }
+ui/msg/frame_b_5_1:
+  { type: BLOB, offset: 0x10DB90, size: 0x20, symbol: ui_msg_frame_b_5_1_png }
+ui/msg/frame_b_5_2:
+  { type: BLOB, offset: 0x10DBB0, size: 0x20, symbol: ui_msg_frame_b_5_2_png }
+ui/msg/frame_b_5_3:
+  { type: BLOB, offset: 0x10DBD0, size: 0x20, symbol: ui_msg_frame_b_5_3_png }
+ui/msg/frame_b_5_4:
+  { type: BLOB, offset: 0x10DBF0, size: 0x20, symbol: ui_msg_frame_b_5_4_png }
+ui/msg/frame_b_5_5:
+  { type: BLOB, offset: 0x10DC10, size: 0x20, symbol: ui_msg_frame_b_5_5_png }
+ui/msg/bubble_left.pal:
+  { type: BLOB, offset: 0x10DC30, size: 0x200, symbol: ui_msg_bubble_left_pal }
+ui/msg/sign_corner_topleft:
+  { type: BLOB, offset: 0x10DE30, size: 0x80, symbol: ui_msg_sign_corner_topleft_png }
+ui/msg/sign_corner_topright:
+  { type: BLOB, offset: 0x10DEB0, size: 0x80, symbol: ui_msg_sign_corner_topright_png }
+ui/msg/sign_corner_bottomleft:
+  { type: BLOB, offset: 0x10DF30, size: 0x80, symbol: ui_msg_sign_corner_bottomleft_png }
+ui/msg/sign_corner_bottomright:
+  { type: BLOB, offset: 0x10DFB0, size: 0x80, symbol: ui_msg_sign_corner_bottomright_png }
+ui/msg/lamppost_corner_bottomright:
+  { type: BLOB, offset: 0x10E030, size: 0x80, symbol: ui_msg_lamppost_corner_bottomright_png }
+ui/msg/sign_side_top:
+  { type: BLOB, offset: 0x10E0B0, size: 0x100, symbol: ui_msg_sign_side_top_png }
+ui/msg/sign_side_left:
+  { type: BLOB, offset: 0x10E1B0, size: 0x140, symbol: ui_msg_sign_side_left_png }
+ui/msg/sign_side_right:
+  { type: BLOB, offset: 0x10E2F0, size: 0x140, symbol: ui_msg_sign_side_right_png }
+ui/msg/sign_side_bottom:
+  { type: BLOB, offset: 0x10E430, size: 0x100, symbol: ui_msg_sign_side_bottom_png }
+ui/msg/sign_fill:
+  { type: BLOB, offset: 0x10E530, size: 0x20, symbol: ui_msg_sign_fill_png }
+ui/msg/sign_corner_topleft.pal:
+  { type: BLOB, offset: 0x10E550, size: 0x20, symbol: ui_msg_sign_corner_topleft_pal }
+ui/msg/lamppost_corner_bottomright.pal:
+  { type: BLOB, offset: 0x10E570, size: 0x20, symbol: ui_msg_lamppost_corner_bottomright_pal }
+ui/msg/background:
+  { type: BLOB, offset: 0x10E590, size: 0x800, symbol: ui_msg_background_png }
+ui/msg/rewind_arrow:
+  { type: BLOB, offset: 0x10ED90, size: 0x120, symbol: ui_msg_rewind_arrow_png }
+ui/msg/rewind_arrow.pal:
+  { type: BLOB, offset: 0x10EEB0, size: 0x20, symbol: ui_msg_rewind_arrow_pal }
+ui/msg/star:
+  { type: BLOB, offset: 0x10EED0, size: 0x240, symbol: ui_msg_star_png }
+ui/msg/star_silhouette:
+  { type: BLOB, offset: 0x10F110, size: 0xA0, symbol: ui_msg_star_silhouette_png }
+ui/pause/unused_badge_points:
+  { type: BLOB, offset: 0x0, size: 0x120, symbol: ui_pause_unused_badge_points_png }
+ui/pause/unused_badge_points.pal:
+  { type: BLOB, offset: 0x120, size: 0x20, symbol: ui_pause_unused_badge_points_pal }
+ui/pause/unused_badge_points.disabled.pal:
+  { type: BLOB, offset: 0x140, size: 0x20, symbol: ui_pause_unused_badge_points_disabled_pal }
+ui/pause/unused_compass:
+  { type: BLOB, offset: 0x160, size: 0x120, symbol: ui_pause_unused_compass_png }
+ui/pause/unused_compass.pal:
+  { type: BLOB, offset: 0x280, size: 0x20, symbol: ui_pause_unused_compass_pal }
+ui/pause/unused_compass.disabled.pal:
+  { type: BLOB, offset: 0x2A0, size: 0x20, symbol: ui_pause_unused_compass_disabled_pal }
+ui/pause/cursor_hand:
+  { type: BLOB, offset: 0x2C0, size: 0x80, symbol: ui_pause_cursor_hand_png }
+ui/pause/cursor_hand.pal:
+  { type: BLOB, offset: 0x340, size: 0x20, symbol: ui_pause_cursor_hand_pal }
+ui/files/filename_caret:
+  { type: BLOB, offset: 0x360, size: 0x80, symbol: ui_files_filename_caret_png }
+ui/files/filename_caret.pal:
+  { type: BLOB, offset: 0x3E0, size: 0x20, symbol: ui_files_filename_caret_pal }
+ui/files/filename_space:
+  { type: BLOB, offset: 0x400, size: 0x20, symbol: ui_files_filename_space_png }
+ui/files/filename_space.pal:
+  { type: BLOB, offset: 0x420, size: 0x20, symbol: ui_files_filename_space_pal }
+ui/pause/label_stats:
+  { type: BLOB, offset: 0x440, size: 0x180, symbol: ui_pause_label_stats_png }
+ui/pause/label_stats.pal:
+  { type: BLOB, offset: 0x5C0, size: 0x20, symbol: ui_pause_label_stats_pal }
+ui/pause/label_badges:
+  { type: BLOB, offset: 0x5E0, size: 0x180, symbol: ui_pause_label_badges_png }
+ui/pause/label_badges.pal:
+  { type: BLOB, offset: 0x760, size: 0x20, symbol: ui_pause_label_badges_pal }
+ui/pause/label_items:
+  { type: BLOB, offset: 0x780, size: 0x180, symbol: ui_pause_label_items_png }
+ui/pause/label_items.pal:
+  { type: BLOB, offset: 0x900, size: 0x20, symbol: ui_pause_label_items_pal }
+ui/pause/label_party:
+  { type: BLOB, offset: 0x920, size: 0x180, symbol: ui_pause_label_party_png }
+ui/pause/label_party.pal:
+  { type: BLOB, offset: 0xAA0, size: 0x20, symbol: ui_pause_label_party_pal }
+ui/pause/label_spirits:
+  { type: BLOB, offset: 0xAC0, size: 0x180, symbol: ui_pause_label_spirits_png }
+ui/pause/label_spirits.pal:
+  { type: BLOB, offset: 0xC40, size: 0x20, symbol: ui_pause_label_spirits_pal }
+ui/pause/label_map:
+  { type: BLOB, offset: 0xC60, size: 0x180, symbol: ui_pause_label_map_png }
+ui/pause/label_map.pal:
+  { type: BLOB, offset: 0xDE0, size: 0x20, symbol: ui_pause_label_map_pal }
+ui/pause/small_digit_0:
+  { type: BLOB, offset: 0xE00, size: 0x20, symbol: ui_pause_small_digit_0_png }
+ui/pause/small_digit_0.pal:
+  { type: BLOB, offset: 0xE20, size: 0x20, symbol: ui_pause_small_digit_0_pal }
+ui/pause/small_digit_1:
+  { type: BLOB, offset: 0xE40, size: 0x20, symbol: ui_pause_small_digit_1_png }
+ui/pause/small_digit_1.pal:
+  { type: BLOB, offset: 0xE60, size: 0x20, symbol: ui_pause_small_digit_1_pal }
+ui/pause/small_digit_2:
+  { type: BLOB, offset: 0xE80, size: 0x20, symbol: ui_pause_small_digit_2_png }
+ui/pause/small_digit_2.pal:
+  { type: BLOB, offset: 0xEA0, size: 0x20, symbol: ui_pause_small_digit_2_pal }
+ui/pause/small_digit_3:
+  { type: BLOB, offset: 0xEC0, size: 0x20, symbol: ui_pause_small_digit_3_png }
+ui/pause/small_digit_3.pal:
+  { type: BLOB, offset: 0xEE0, size: 0x20, symbol: ui_pause_small_digit_3_pal }
+ui/pause/small_digit_4:
+  { type: BLOB, offset: 0xF00, size: 0x20, symbol: ui_pause_small_digit_4_png }
+ui/pause/small_digit_4.pal:
+  { type: BLOB, offset: 0xF20, size: 0x20, symbol: ui_pause_small_digit_4_pal }
+ui/pause/small_digit_5:
+  { type: BLOB, offset: 0xF40, size: 0x20, symbol: ui_pause_small_digit_5_png }
+ui/pause/small_digit_5.pal:
+  { type: BLOB, offset: 0xF60, size: 0x20, symbol: ui_pause_small_digit_5_pal }
+ui/pause/small_digit_6:
+  { type: BLOB, offset: 0xF80, size: 0x20, symbol: ui_pause_small_digit_6_png }
+ui/pause/small_digit_6.pal:
+  { type: BLOB, offset: 0xFA0, size: 0x20, symbol: ui_pause_small_digit_6_pal }
+ui/pause/small_digit_7:
+  { type: BLOB, offset: 0xFC0, size: 0x20, symbol: ui_pause_small_digit_7_png }
+ui/pause/small_digit_7.pal:
+  { type: BLOB, offset: 0xFE0, size: 0x20, symbol: ui_pause_small_digit_7_pal }
+ui/pause/small_digit_8:
+  { type: BLOB, offset: 0x1000, size: 0x20, symbol: ui_pause_small_digit_8_png }
+ui/pause/small_digit_8.pal:
+  { type: BLOB, offset: 0x1020, size: 0x20, symbol: ui_pause_small_digit_8_pal }
+ui/pause/small_digit_9:
+  { type: BLOB, offset: 0x1040, size: 0x20, symbol: ui_pause_small_digit_9_png }
+ui/pause/small_digit_9.pal:
+  { type: BLOB, offset: 0x1060, size: 0x20, symbol: ui_pause_small_digit_9_pal }
+ui/pause/small_text_bp:
+  { type: BLOB, offset: 0x1080, size: 0x20, symbol: ui_pause_small_text_bp_png }
+ui/pause/small_text_bp.pal:
+  { type: BLOB, offset: 0x10A0, size: 0x20, symbol: ui_pause_small_text_bp_pal }
+ui/pause/label_jp_file:
+  { type: BLOB, offset: 0x10C0, size: 0x100, symbol: ui_pause_label_jp_file_png }
+ui/pause/label_jp_file.pal:
+  { type: BLOB, offset: 0x11C0, size: 0x20, symbol: ui_pause_label_jp_file_pal }
+ui/pause/label_jp_file_disabled:
+  { type: BLOB, offset: 0x11E0, size: 0x100, symbol: ui_pause_label_jp_file_disabled_png }
+ui/pause/label_jp_file_disabled.pal:
+  { type: BLOB, offset: 0x12E0, size: 0x20, symbol: ui_pause_label_jp_file_disabled_pal }
+ui/files/option_mono_on:
+  { type: BLOB, offset: 0x1300, size: 0x200, symbol: ui_files_option_mono_on_png }
+ui/files/option_mono_on.pal:
+  { type: BLOB, offset: 0x1500, size: 0x20, symbol: ui_files_option_mono_on_pal }
+ui/files/option_mono_off:
+  { type: BLOB, offset: 0x1520, size: 0x200, symbol: ui_files_option_mono_off_png }
+ui/files/option_mono_off.pal:
+  { type: BLOB, offset: 0x1720, size: 0x20, symbol: ui_files_option_mono_off_pal }
+ui/files/option_stereo_on:
+  { type: BLOB, offset: 0x1740, size: 0x200, symbol: ui_files_option_stereo_on_png }
+ui/files/option_stereo_on.pal:
+  { type: BLOB, offset: 0x1940, size: 0x20, symbol: ui_files_option_stereo_on_pal }
+ui/files/option_stereo_off:
+  { type: BLOB, offset: 0x1960, size: 0x200, symbol: ui_files_option_stereo_off_png }
+ui/files/option_stereo_off.pal:
+  { type: BLOB, offset: 0x1B60, size: 0x20, symbol: ui_files_option_stereo_off_pal }
+ui/files/eldstar:
+  { type: BLOB, offset: 0x1B80, size: 0x80, symbol: ui_files_eldstar_png }
+ui/files/eldstar.pal:
+  { type: BLOB, offset: 0x1C00, size: 0x20, symbol: ui_files_eldstar_pal }
+ui/files/eldstar_silhouette:
+  { type: BLOB, offset: 0x1C20, size: 0x80, symbol: ui_files_eldstar_silhouette_png }
+ui/files/eldstar_silhouette.pal:
+  { type: BLOB, offset: 0x1CA0, size: 0x20, symbol: ui_files_eldstar_silhouette_pal }
+ui/files/mamar:
+  { type: BLOB, offset: 0x1CC0, size: 0x80, symbol: ui_files_mamar_png }
+ui/files/mamar.pal:
+  { type: BLOB, offset: 0x1D40, size: 0x20, symbol: ui_files_mamar_pal }
+ui/files/mamar_silhouette:
+  { type: BLOB, offset: 0x1D60, size: 0x80, symbol: ui_files_mamar_silhouette_png }
+ui/files/mamar_silhouette.pal:
+  { type: BLOB, offset: 0x1DE0, size: 0x20, symbol: ui_files_mamar_silhouette_pal }
+ui/files/skolar:
+  { type: BLOB, offset: 0x1E00, size: 0x80, symbol: ui_files_skolar_png }
+ui/files/skolar.pal:
+  { type: BLOB, offset: 0x1E80, size: 0x20, symbol: ui_files_skolar_pal }
+ui/files/skolar_silhouette:
+  { type: BLOB, offset: 0x1EA0, size: 0x80, symbol: ui_files_skolar_silhouette_png }
+ui/files/skolar_silhouette.pal:
+  { type: BLOB, offset: 0x1F20, size: 0x20, symbol: ui_files_skolar_silhouette_pal }
+ui/files/muskular:
+  { type: BLOB, offset: 0x1F40, size: 0x80, symbol: ui_files_muskular_png }
+ui/files/muskular.pal:
+  { type: BLOB, offset: 0x1FC0, size: 0x20, symbol: ui_files_muskular_pal }
+ui/files/muskular_silhouette:
+  { type: BLOB, offset: 0x1FE0, size: 0x80, symbol: ui_files_muskular_silhouette_png }
+ui/files/muskular_silhouette.pal:
+  { type: BLOB, offset: 0x2060, size: 0x20, symbol: ui_files_muskular_silhouette_pal }
+ui/files/misstar:
+  { type: BLOB, offset: 0x2080, size: 0x80, symbol: ui_files_misstar_png }
+ui/files/misstar.pal:
+  { type: BLOB, offset: 0x2100, size: 0x20, symbol: ui_files_misstar_pal }
+ui/files/misstar_silhouette:
+  { type: BLOB, offset: 0x2120, size: 0x80, symbol: ui_files_misstar_silhouette_png }
+ui/files/misstar_silhouette.pal:
+  { type: BLOB, offset: 0x21A0, size: 0x20, symbol: ui_files_misstar_silhouette_pal }
+ui/files/klevar:
+  { type: BLOB, offset: 0x21C0, size: 0x80, symbol: ui_files_klevar_png }
+ui/files/klevar.pal:
+  { type: BLOB, offset: 0x2240, size: 0x20, symbol: ui_files_klevar_pal }
+ui/files/klevar_silhouette:
+  { type: BLOB, offset: 0x2260, size: 0x80, symbol: ui_files_klevar_silhouette_png }
+ui/files/klevar_silhouette.pal:
+  { type: BLOB, offset: 0x22E0, size: 0x20, symbol: ui_files_klevar_silhouette_pal }
+ui/files/kalmar:
+  { type: BLOB, offset: 0x2300, size: 0x80, symbol: ui_files_kalmar_png }
+ui/files/kalmar.pal:
+  { type: BLOB, offset: 0x2380, size: 0x20, symbol: ui_files_kalmar_pal }
+ui/files/kalmar_silhouette:
+  { type: BLOB, offset: 0x23A0, size: 0x80, symbol: ui_files_kalmar_silhouette_png }
+ui/files/kalmar_silhouette.pal:
+  { type: BLOB, offset: 0x2420, size: 0x20, symbol: ui_files_kalmar_silhouette_pal }
+ui/pause/map_walk0:
+  { type: BLOB, offset: 0x2440, size: 0x120, symbol: ui_pause_map_walk0_png }
+ui/pause/map_walk0.pal:
+  { type: BLOB, offset: 0x2560, size: 0x20, symbol: ui_pause_map_walk0_pal }
+ui/pause/map_walk1:
+  { type: BLOB, offset: 0x2580, size: 0x120, symbol: ui_pause_map_walk1_png }
+ui/pause/map_walk1.pal:
+  { type: BLOB, offset: 0x26A0, size: 0x20, symbol: ui_pause_map_walk1_pal }
+ui/pause/map_walk2:
+  { type: BLOB, offset: 0x26C0, size: 0x120, symbol: ui_pause_map_walk2_png }
+ui/pause/map_walk2.pal:
+  { type: BLOB, offset: 0x27E0, size: 0x20, symbol: ui_pause_map_walk2_pal }
+ui/pause/jp_super:
+  { type: BLOB, offset: 0x2800, size: 0x140, symbol: ui_pause_jp_super_png }
+ui/pause/jp_super.pal:
+  { type: BLOB, offset: 0x2940, size: 0x20, symbol: ui_pause_jp_super_pal }
+ui/pause/jp_ultra:
+  { type: BLOB, offset: 0x2960, size: 0x140, symbol: ui_pause_jp_ultra_png }
+ui/pause/jp_ultra.pal:
+  { type: BLOB, offset: 0x2AA0, size: 0x20, symbol: ui_pause_jp_ultra_pal }
+ui/pause/list_prev_page:
+  { type: BLOB, offset: 0x2AC0, size: 0x80, symbol: ui_pause_list_prev_page_png }
+ui/pause/list_prev_page.pal:
+  { type: BLOB, offset: 0x2B40, size: 0x20, symbol: ui_pause_list_prev_page_pal }
+ui/pause/list_next_page:
+  { type: BLOB, offset: 0x2B60, size: 0x80, symbol: ui_pause_list_next_page_png }
+ui/pause/list_next_page.pal:
+  { type: BLOB, offset: 0x2BE0, size: 0x20, symbol: ui_pause_list_next_page_pal }
+ui/pause/unused_z_up_arrow:
+  { type: BLOB, offset: 0x2C00, size: 0x80, symbol: ui_pause_unused_z_up_arrow_png }
+ui/pause/unused_z_up_arrow.pal:
+  { type: BLOB, offset: 0x2C80, size: 0x20, symbol: ui_pause_unused_z_up_arrow_pal }
+ui/pause/unused_r_down_arrow:
+  { type: BLOB, offset: 0x2CA0, size: 0x80, symbol: ui_pause_unused_r_down_arrow_png }
+ui/pause/unused_r_down_arrow.pal:
+  { type: BLOB, offset: 0x2D20, size: 0x20, symbol: ui_pause_unused_r_down_arrow_pal }
+ui/pause/desc_msg_prev:
+  { type: BLOB, offset: 0x2D40, size: 0x80, symbol: ui_pause_desc_msg_prev_png }
+ui/pause/desc_msg_prev.pal:
+  { type: BLOB, offset: 0x2DC0, size: 0x20, symbol: ui_pause_desc_msg_prev_pal }
+ui/pause/desc_msg_next:
+  { type: BLOB, offset: 0x2DE0, size: 0x80, symbol: ui_pause_desc_msg_next_png }
+ui/pause/desc_msg_next.pal:
+  { type: BLOB, offset: 0x2E60, size: 0x20, symbol: ui_pause_desc_msg_next_pal }
+ui/pause/bp_needed:
+  { type: BLOB, offset: 0x2E80, size: 0xC0, symbol: ui_pause_bp_needed_png }
+ui/pause/bp_needed.pal:
+  { type: BLOB, offset: 0x2F40, size: 0x20, symbol: ui_pause_bp_needed_pal }
+ui/pause/mario_large:
+  { type: BLOB, offset: 0x2F60, size: 0x200, symbol: ui_pause_mario_large_png }
+ui/pause/mario_large.pal:
+  { type: BLOB, offset: 0x3160, size: 0x20, symbol: ui_pause_mario_large_pal }
+ui/pause/dash:
+  { type: BLOB, offset: 0x3180, size: 0x40, symbol: ui_pause_dash_png }
+ui/pause/dash.pal:
+  { type: BLOB, offset: 0x31C0, size: 0x20, symbol: ui_pause_dash_pal }
+ui/pause/stat_bp:
+  { type: BLOB, offset: 0x31E0, size: 0x80, symbol: ui_pause_stat_bp_png }
+ui/pause/stat_bp.pal:
+  { type: BLOB, offset: 0x3260, size: 0x20, symbol: ui_pause_stat_bp_pal }
+ui/pause/stat_mario:
+  { type: BLOB, offset: 0x3280, size: 0x80, symbol: ui_pause_stat_mario_png }
+ui/pause/stat_mario.pal:
+  { type: BLOB, offset: 0x3300, size: 0x20, symbol: ui_pause_stat_mario_pal }
+ui/pause/stat_time:
+  { type: BLOB, offset: 0x3320, size: 0x80, symbol: ui_pause_stat_time_png }
+ui/pause/stat_time.pal:
+  { type: BLOB, offset: 0x33A0, size: 0x20, symbol: ui_pause_stat_time_pal }
+ui/pause/stat_star_piece0:
+  { type: BLOB, offset: 0x33C0, size: 0x80, symbol: ui_pause_stat_star_piece0_png }
+ui/pause/stat_star_piece0.pal:
+  { type: BLOB, offset: 0x3440, size: 0x20, symbol: ui_pause_stat_star_piece0_pal }
+ui/pause/stat_star_piece1:
+  { type: BLOB, offset: 0x3460, size: 0x80, symbol: ui_pause_stat_star_piece1_png }
+ui/pause/stat_star_piece1.pal:
+  { type: BLOB, offset: 0x34E0, size: 0x20, symbol: ui_pause_stat_star_piece1_pal }
+ui/pause/stat_star_piece2:
+  { type: BLOB, offset: 0x3500, size: 0x80, symbol: ui_pause_stat_star_piece2_png }
+ui/pause/stat_star_piece2.pal:
+  { type: BLOB, offset: 0x3580, size: 0x20, symbol: ui_pause_stat_star_piece2_pal }
+ui/pause/stat_fp:
+  { type: BLOB, offset: 0x35A0, size: 0x80, symbol: ui_pause_stat_fp_png }
+ui/pause/stat_fp.pal:
+  { type: BLOB, offset: 0x3620, size: 0x20, symbol: ui_pause_stat_fp_pal }
+ui/pause/stat_times:
+  { type: BLOB, offset: 0x3640, size: 0x20, symbol: ui_pause_stat_times_png }
+ui/pause/stat_times.pal:
+  { type: BLOB, offset: 0x3660, size: 0x20, symbol: ui_pause_stat_times_pal }
+ui/pause/stat_boots0:
+  { type: BLOB, offset: 0x3680, size: 0x80, symbol: ui_pause_stat_boots0_png }
+ui/pause/stat_boots0.pal:
+  { type: BLOB, offset: 0x3700, size: 0x20, symbol: ui_pause_stat_boots0_pal }
+ui/pause/stat_boots1:
+  { type: BLOB, offset: 0x3720, size: 0x80, symbol: ui_pause_stat_boots1_png }
+ui/pause/stat_boots1.pal:
+  { type: BLOB, offset: 0x37A0, size: 0x20, symbol: ui_pause_stat_boots1_pal }
+ui/pause/stat_boots2:
+  { type: BLOB, offset: 0x37C0, size: 0x80, symbol: ui_pause_stat_boots2_png }
+ui/pause/stat_boots2.pal:
+  { type: BLOB, offset: 0x3840, size: 0x20, symbol: ui_pause_stat_boots2_pal }
+ui/pause/stat_boots3:
+  { type: BLOB, offset: 0x3860, size: 0x80, symbol: ui_pause_stat_boots3_png }
+ui/pause/stat_boots3.pal:
+  { type: BLOB, offset: 0x38E0, size: 0x20, symbol: ui_pause_stat_boots3_pal }
+ui/pause/stat_hammer0:
+  { type: BLOB, offset: 0x3900, size: 0x80, symbol: ui_pause_stat_hammer0_png }
+ui/pause/stat_hammer0.pal:
+  { type: BLOB, offset: 0x3980, size: 0x20, symbol: ui_pause_stat_hammer0_pal }
+ui/pause/stat_hammer1:
+  { type: BLOB, offset: 0x39A0, size: 0x80, symbol: ui_pause_stat_hammer1_png }
+ui/pause/stat_hammer1.pal:
+  { type: BLOB, offset: 0x3A20, size: 0x20, symbol: ui_pause_stat_hammer1_pal }
+ui/pause/stat_hammer2:
+  { type: BLOB, offset: 0x3A40, size: 0x80, symbol: ui_pause_stat_hammer2_png }
+ui/pause/stat_hammer2.pal:
+  { type: BLOB, offset: 0x3AC0, size: 0x20, symbol: ui_pause_stat_hammer2_pal }
+ui/pause/stat_hammer3:
+  { type: BLOB, offset: 0x3AE0, size: 0x80, symbol: ui_pause_stat_hammer3_png }
+ui/pause/stat_hammer3.pal:
+  { type: BLOB, offset: 0x3B60, size: 0x20, symbol: ui_pause_stat_hammer3_pal }
+ui/pause/partner_rank:
+  { type: BLOB, offset: 0x3B80, size: 0x80, symbol: ui_pause_partner_rank_png }
+ui/pause/partner_rank.pal:
+  { type: BLOB, offset: 0x3C00, size: 0x20, symbol: ui_pause_partner_rank_pal }
+ui/pause/unused_bubble:
+  { type: BLOB, offset: 0x3C20, size: 0x1C0, symbol: ui_pause_unused_bubble_png }
+ui/pause/unused_bubble.pal:
+  { type: BLOB, offset: 0x3DE0, size: 0x20, symbol: ui_pause_unused_bubble_pal }
+ui/battle/cursor_hand:
+  { type: BLOB, offset: 0x1B21E0, size: 0x200, symbol: ui_battle_cursor_hand_png }
+ui/battle/cursor_hand.pal:
+  { type: BLOB, offset: 0x1B23E0, size: 0x20, symbol: ui_battle_cursor_hand_pal }
+ui/battle/menu/unused:
+  { type: BLOB, offset: 0x1B7CE0, size: 0x200, symbol: ui_battle_menu_unused_png }
+ui/battle/menu/unused.pal:
+  { type: BLOB, offset: 0x1B7EE0, size: 0x20, symbol: ui_battle_menu_unused_pal }
+ui/battle/menu/unused.disabled.pal:
+  { type: BLOB, offset: 0x1B7F00, size: 0x20, symbol: ui_battle_menu_unused_disabled_pal }
+ui/battle/menu/flee:
+  { type: BLOB, offset: 0x1B7F20, size: 0x200, symbol: ui_battle_menu_flee_png }
+ui/battle/menu/flee.pal:
+  { type: BLOB, offset: 0x1B8120, size: 0x20, symbol: ui_battle_menu_flee_pal }
+ui/battle/menu/flee.disabled.pal:
+  { type: BLOB, offset: 0x1B8140, size: 0x20, symbol: ui_battle_menu_flee_disabled_pal }
+ui/battle/menu/defend:
+  { type: BLOB, offset: 0x1B8160, size: 0x200, symbol: ui_battle_menu_defend_png }
+ui/battle/menu/defend.pal:
+  { type: BLOB, offset: 0x1B8360, size: 0x20, symbol: ui_battle_menu_defend_pal }
+ui/battle/menu/defend.disabled.pal:
+  { type: BLOB, offset: 0x1B8380, size: 0x20, symbol: ui_battle_menu_defend_disabled_pal }
+ui/battle/menu/strategies:
+  { type: BLOB, offset: 0x1B83A0, size: 0x200, symbol: ui_battle_menu_strategies_png }
+ui/battle/menu/strategies.pal:
+  { type: BLOB, offset: 0x1B85A0, size: 0x20, symbol: ui_battle_menu_strategies_pal }
+ui/battle/menu/strategies.disabled.pal:
+  { type: BLOB, offset: 0x1B85C0, size: 0x20, symbol: ui_battle_menu_strategies_disabled_pal }
+ui/battle/menu/nothing:
+  { type: BLOB, offset: 0x1B85E0, size: 0x200, symbol: ui_battle_menu_nothing_png }
+ui/battle/menu/nothing.pal:
+  { type: BLOB, offset: 0x1B87E0, size: 0x20, symbol: ui_battle_menu_nothing_pal }
+ui/battle/menu/nothing.disabled.pal:
+  { type: BLOB, offset: 0x1B8800, size: 0x20, symbol: ui_battle_menu_nothing_disabled_pal }
+ui/battle/menu/pouch:
+  { type: BLOB, offset: 0x1B8820, size: 0x200, symbol: ui_battle_menu_pouch_png }
+ui/battle/menu/pouch.pal:
+  { type: BLOB, offset: 0x1B8A20, size: 0x20, symbol: ui_battle_menu_pouch_pal }
+ui/battle/menu/pouch.disabled.pal:
+  { type: BLOB, offset: 0x1B8A40, size: 0x20, symbol: ui_battle_menu_pouch_disabled_pal }
+ui/battle/swap_Z:
+  { type: BLOB, offset: 0x1B8A60, size: 0x80, symbol: ui_battle_swap_Z_png }
+ui/battle/swap_Z.pal:
+  { type: BLOB, offset: 0x1B8AE0, size: 0x20, symbol: ui_battle_swap_Z_pal }
+ui/battle/swap_arrow_left:
+  { type: BLOB, offset: 0x1B8B00, size: 0x40, symbol: ui_battle_swap_arrow_left_png }
+ui/battle/swap_arrow_left.pal:
+  { type: BLOB, offset: 0x1B8B40, size: 0x20, symbol: ui_battle_swap_arrow_left_pal }
+ui/battle/swap_arrow_right:
+  { type: BLOB, offset: 0x1B8B60, size: 0x40, symbol: ui_battle_swap_arrow_right_png }
+ui/battle/swap_arrow_right.pal:
+  { type: BLOB, offset: 0x1B8BA0, size: 0x190, symbol: ui_battle_swap_arrow_right_pal }
+ui/battle/menu/spirits:
+  { type: BLOB, offset: 0x1B8D40, size: 0x200, symbol: ui_battle_menu_spirits_png }
+ui/battle/menu/spirits.pal:
+  { type: BLOB, offset: 0x1B8F40, size: 0x20, symbol: ui_battle_menu_spirits_pal }
+ui/battle/yellow_arrow:
+  { type: BLOB, offset: 0x1B8F60, size: 0x80, symbol: ui_battle_yellow_arrow_png }
+ui/battle/yellow_arrow.pal:
+  { type: BLOB, offset: 0x1B8FE0, size: 0x140, symbol: ui_battle_yellow_arrow_pal }
+ui/battle/hp_bar:
+  { type: BLOB, offset: 0x1B9120, size: 0x100, symbol: ui_battle_hp_bar_png }
+ui/battle/hp_bar.pal:
+  { type: BLOB, offset: 0x1B9220, size: 0x20, symbol: ui_battle_hp_bar_pal }
+ui/battle/hp_0:
+  { type: BLOB, offset: 0x1B9240, size: 0x20, symbol: ui_battle_hp_0_png }
+ui/battle/hp_0.pal:
+  { type: BLOB, offset: 0x1B9260, size: 0x20, symbol: ui_battle_hp_0_pal }
+ui/battle/hp_1:
+  { type: BLOB, offset: 0x1B9280, size: 0x20, symbol: ui_battle_hp_1_png }
+ui/battle/hp_1.pal:
+  { type: BLOB, offset: 0x1B92A0, size: 0x20, symbol: ui_battle_hp_1_pal }
+ui/battle/hp_2:
+  { type: BLOB, offset: 0x1B92C0, size: 0x20, symbol: ui_battle_hp_2_png }
+ui/battle/hp_2.pal:
+  { type: BLOB, offset: 0x1B92E0, size: 0x20, symbol: ui_battle_hp_2_pal }
+ui/battle/hp_3:
+  { type: BLOB, offset: 0x1B9300, size: 0x20, symbol: ui_battle_hp_3_png }
+ui/battle/hp_3.pal:
+  { type: BLOB, offset: 0x1B9320, size: 0x20, symbol: ui_battle_hp_3_pal }
+ui/battle/hp_4:
+  { type: BLOB, offset: 0x1B9340, size: 0x20, symbol: ui_battle_hp_4_png }
+ui/battle/hp_4.pal:
+  { type: BLOB, offset: 0x1B9360, size: 0x20, symbol: ui_battle_hp_4_pal }
+ui/battle/hp_5:
+  { type: BLOB, offset: 0x1B9380, size: 0x20, symbol: ui_battle_hp_5_png }
+ui/battle/hp_5.pal:
+  { type: BLOB, offset: 0x1B93A0, size: 0x20, symbol: ui_battle_hp_5_pal }
+ui/battle/hp_6:
+  { type: BLOB, offset: 0x1B93C0, size: 0x20, symbol: ui_battle_hp_6_png }
+ui/battle/hp_6.pal:
+  { type: BLOB, offset: 0x1B93E0, size: 0x20, symbol: ui_battle_hp_6_pal }
+ui/battle/hp_7:
+  { type: BLOB, offset: 0x1B9400, size: 0x20, symbol: ui_battle_hp_7_png }
+ui/battle/hp_7.pal:
+  { type: BLOB, offset: 0x1B9420, size: 0x20, symbol: ui_battle_hp_7_pal }
+ui/battle/hp_8:
+  { type: BLOB, offset: 0x1B9440, size: 0x20, symbol: ui_battle_hp_8_png }
+ui/battle/hp_8.pal:
+  { type: BLOB, offset: 0x1B9460, size: 0x20, symbol: ui_battle_hp_8_pal }
+ui/battle/hp_9:
+  { type: BLOB, offset: 0x1B9480, size: 0x20, symbol: ui_battle_hp_9_png }
+ui/battle/hp_9.pal:
+  { type: BLOB, offset: 0x1B94A0, size: 0x20, symbol: ui_battle_hp_9_pal }
+ui/battle/cont/b_up:
+  { type: BLOB, offset: 0x1B94C0, size: 0x3C0, symbol: ui_battle_cont_b_up_png }
+ui/battle/cont/b_up.pal:
+  { type: BLOB, offset: 0x1B9880, size: 0x20, symbol: ui_battle_cont_b_up_pal }
+ui/battle/cont/b_down:
+  { type: BLOB, offset: 0x1B98A0, size: 0x3C0, symbol: ui_battle_cont_b_down_png }
+ui/battle/cont/b_down.pal:
+  { type: BLOB, offset: 0x1B9C60, size: 0x20, symbol: ui_battle_cont_b_down_pal }
+ui/battle/cont/c_left_up:
+  { type: BLOB, offset: 0x1B9C80, size: 0x2A8, symbol: ui_battle_cont_c_left_up_png }
+ui/battle/cont/c_left_up.pal:
+  { type: BLOB, offset: 0x1B9F28, size: 0x20, symbol: ui_battle_cont_c_left_up_pal }
+ui/battle/cont/c_left_down:
+  { type: BLOB, offset: 0x1B9F48, size: 0x2A8, symbol: ui_battle_cont_c_left_down_png }
+ui/battle/cont/c_left_down.pal:
+  { type: BLOB, offset: 0x1BA1F0, size: 0x20, symbol: ui_battle_cont_c_left_down_pal }
+ui/battle/cont/c_right_up:
+  { type: BLOB, offset: 0x1BA210, size: 0x2A8, symbol: ui_battle_cont_c_right_up_png }
+ui/battle/cont/c_right_up.pal:
+  { type: BLOB, offset: 0x1BA4B8, size: 0x20, symbol: ui_battle_cont_c_right_up_pal }
+ui/battle/cont/c_right_down:
+  { type: BLOB, offset: 0x1BA4D8, size: 0x2A8, symbol: ui_battle_cont_c_right_down_png }
+ui/battle/cont/c_right_down.pal:
+  { type: BLOB, offset: 0x1BA780, size: 0x20, symbol: ui_battle_cont_c_right_down_pal }
+ui/battle/cont/c_up_up:
+  { type: BLOB, offset: 0x1BA7A0, size: 0x2A8, symbol: ui_battle_cont_c_up_up_png }
+ui/battle/cont/c_up_up.pal:
+  { type: BLOB, offset: 0x1BAA48, size: 0x20, symbol: ui_battle_cont_c_up_up_pal }
+ui/battle/cont/c_up_down:
+  { type: BLOB, offset: 0x1BAA68, size: 0x2A8, symbol: ui_battle_cont_c_up_down_png }
+ui/battle/cont/c_up_down.pal:
+  { type: BLOB, offset: 0x1BAD10, size: 0x20, symbol: ui_battle_cont_c_up_down_pal }
+ui/battle/cont/c_down_up:
+  { type: BLOB, offset: 0x1BAD30, size: 0x2A8, symbol: ui_battle_cont_c_down_up_png }
+ui/battle/cont/c_down_up.pal:
+  { type: BLOB, offset: 0x1BAFD8, size: 0x20, symbol: ui_battle_cont_c_down_up_pal }
+ui/battle/cont/c_down_down:
+  { type: BLOB, offset: 0x1BAFF8, size: 0x2A8, symbol: ui_battle_cont_c_down_down_png }
+ui/battle/cont/c_down_down.pal:
+  { type: BLOB, offset: 0x1BB2A0, size: 0x20, symbol: ui_battle_cont_c_down_down_pal }
+ui/battle/cmd/timing_1_chance:
+  { type: BLOB, offset: 0x1BB2C0, size: 0x360, symbol: ui_battle_cmd_timing_1_chance_png }
+ui/battle/cmd/timing_1_chance.pal:
+  { type: BLOB, offset: 0x1BB620, size: 0x20, symbol: ui_battle_cmd_timing_1_chance_pal }
+ui/battle/cmd/timing_ready:
+  { type: BLOB, offset: 0x1BB640, size: 0x80, symbol: ui_battle_cmd_timing_ready_png }
+ui/battle/cmd/timing_ready.pal:
+  { type: BLOB, offset: 0x1BB6C0, size: 0x20, symbol: ui_battle_cmd_timing_ready_pal }
+ui/battle/cmd/timing_wait:
+  { type: BLOB, offset: 0x1BB6E0, size: 0x80, symbol: ui_battle_cmd_timing_wait_png }
+ui/battle/cmd/timing_wait.pal:
+  { type: BLOB, offset: 0x1BB760, size: 0x20, symbol: ui_battle_cmd_timing_wait_pal }
+ui/battle/cmd/charge_1:
+  { type: BLOB, offset: 0x1BB780, size: 0x20, symbol: ui_battle_cmd_charge_1_png }
+ui/battle/cmd/charge_1.pal:
+  { type: BLOB, offset: 0x1BB7A0, size: 0x20, symbol: ui_battle_cmd_charge_1_pal }
+ui/battle/cmd/charge_2:
+  { type: BLOB, offset: 0x1BB7C0, size: 0x20, symbol: ui_battle_cmd_charge_2_png }
+ui/battle/cmd/charge_2.pal:
+  { type: BLOB, offset: 0x1BB7E0, size: 0x20, symbol: ui_battle_cmd_charge_2_pal }
+ui/battle/cmd/charge_3:
+  { type: BLOB, offset: 0x1BB800, size: 0x20, symbol: ui_battle_cmd_charge_3_png }
+ui/battle/cmd/charge_3.pal:
+  { type: BLOB, offset: 0x1BB820, size: 0x20, symbol: ui_battle_cmd_charge_3_pal }
+ui/battle/cmd/charge_4:
+  { type: BLOB, offset: 0x1BB840, size: 0x20, symbol: ui_battle_cmd_charge_4_png }
+ui/battle/cmd/charge_4.pal:
+  { type: BLOB, offset: 0x1BB860, size: 0x20, symbol: ui_battle_cmd_charge_4_pal }
+ui/battle/cmd/timing_3_chances:
+  { type: BLOB, offset: 0x1BB880, size: 0x480, symbol: ui_battle_cmd_timing_3_chances_png }
+ui/battle/cmd/timing_3_chances.pal:
+  { type: BLOB, offset: 0x1BBD00, size: 0x20, symbol: ui_battle_cmd_timing_3_chances_pal }
+ui/battle/cmd/gauge_result:
+  { type: BLOB, offset: 0x1BBD20, size: 0x180, symbol: ui_battle_cmd_gauge_result_png }
+ui/battle/cmd/gauge_result.pal:
+  { type: BLOB, offset: 0x1BBEA0, size: 0x20, symbol: ui_battle_cmd_gauge_result_pal }
+ui/battle/cmd/timing_ok:
+  { type: BLOB, offset: 0x1BBEC0, size: 0x120, symbol: ui_battle_cmd_timing_ok_png }
+ui/battle/cmd/timing_ok.pal:
+  { type: BLOB, offset: 0x1BBFE0, size: 0x20, symbol: ui_battle_cmd_timing_ok_pal }
+ui/battle/cmd/timing_miss:
+  { type: BLOB, offset: 0x1BC000, size: 0x120, symbol: ui_battle_cmd_timing_miss_png }
+ui/battle/cmd/timing_miss.pal:
+  { type: BLOB, offset: 0x1BC120, size: 0x20, symbol: ui_battle_cmd_timing_miss_pal }
+ui/battle/cmd/flee_0:
+  { type: BLOB, offset: 0x1BC140, size: 0xC0, symbol: ui_battle_cmd_flee_0_png }
+ui/battle/cmd/flee_0.pal:
+  { type: BLOB, offset: 0x1BC200, size: 0x20, symbol: ui_battle_cmd_flee_0_pal }
+ui/battle/cmd/flee_1:
+  { type: BLOB, offset: 0x1BC220, size: 0xC0, symbol: ui_battle_cmd_flee_1_png }
+ui/battle/cmd/flee_1.pal:
+  { type: BLOB, offset: 0x1BC2E0, size: 0x20, symbol: ui_battle_cmd_flee_1_pal }
+ui/battle/cmd/flee_2:
+  { type: BLOB, offset: 0x1BC300, size: 0xC0, symbol: ui_battle_cmd_flee_2_png }
+ui/battle/cmd/flee_2.pal:
+  { type: BLOB, offset: 0x1BC3C0, size: 0x20, symbol: ui_battle_cmd_flee_2_pal }
+ui/battle/cmd/100pct:
+  { type: BLOB, offset: 0x1BC3E0, size: 0x600, symbol: ui_battle_cmd_100pct_png }
+ui/battle/cmd/100pct.pal:
+  { type: BLOB, offset: 0x1BC9E0, size: 0x20, symbol: ui_battle_cmd_100pct_pal }
+ui/battle/cmd/right_on:
+  { type: BLOB, offset: 0x1BCA00, size: 0x2A0, symbol: ui_battle_cmd_right_on_png }
+ui/battle/cmd/right_on.pal:
+  { type: BLOB, offset: 0x1BCCA0, size: 0x20, symbol: ui_battle_cmd_right_on_pal }
+ui/battle/cmd/fill_result:
+  { type: BLOB, offset: 0x1BCCC0, size: 0x180, symbol: ui_battle_cmd_fill_result_png }
+ui/battle/cmd/fill_result.pal:
+  { type: BLOB, offset: 0x1BCE40, size: 0x20, symbol: ui_battle_cmd_fill_result_pal }
+ui/battle/cmd/aim/marker_0:
+  { type: BLOB, offset: 0x1BCE60, size: 0x80, symbol: ui_battle_cmd_aim_marker_0_png }
+ui/battle/cmd/aim/marker_0.pal:
+  { type: BLOB, offset: 0x1BCEE0, size: 0x20, symbol: ui_battle_cmd_aim_marker_0_pal }
+ui/battle/cmd/aim/marker_1:
+  { type: BLOB, offset: 0x1BCF00, size: 0x80, symbol: ui_battle_cmd_aim_marker_1_png }
+ui/battle/cmd/aim/marker_1.pal:
+  { type: BLOB, offset: 0x1BCF80, size: 0x20, symbol: ui_battle_cmd_aim_marker_1_pal }
+ui/battle/cmd/aim/marker_2:
+  { type: BLOB, offset: 0x1BCFA0, size: 0x80, symbol: ui_battle_cmd_aim_marker_2_png }
+ui/battle/cmd/aim/marker_2.pal:
+  { type: BLOB, offset: 0x1BD020, size: 0x20, symbol: ui_battle_cmd_aim_marker_2_pal }
+ui/battle/cmd/aim/marker_3:
+  { type: BLOB, offset: 0x1BD040, size: 0x80, symbol: ui_battle_cmd_aim_marker_3_png }
+ui/battle/cmd/aim/marker_3.pal:
+  { type: BLOB, offset: 0x1BD0C0, size: 0x20, symbol: ui_battle_cmd_aim_marker_3_pal }
+ui/battle/cmd/aim/marker_4:
+  { type: BLOB, offset: 0x1BD0E0, size: 0x80, symbol: ui_battle_cmd_aim_marker_4_png }
+ui/battle/cmd/aim/marker_4.pal:
+  { type: BLOB, offset: 0x1BD160, size: 0x20, symbol: ui_battle_cmd_aim_marker_4_pal }
+ui/battle/cmd/aim/marker_5:
+  { type: BLOB, offset: 0x1BD180, size: 0x80, symbol: ui_battle_cmd_aim_marker_5_png }
+ui/battle/cmd/aim/marker_5.pal:
+  { type: BLOB, offset: 0x1BD200, size: 0x20, symbol: ui_battle_cmd_aim_marker_5_pal }
+ui/battle/cmd/aim/marker_6:
+  { type: BLOB, offset: 0x1BD220, size: 0x80, symbol: ui_battle_cmd_aim_marker_6_png }
+ui/battle/cmd/aim/marker_6.pal:
+  { type: BLOB, offset: 0x1BD2A0, size: 0x20, symbol: ui_battle_cmd_aim_marker_6_pal }
+ui/battle/cmd/aim/marker_7:
+  { type: BLOB, offset: 0x1BD2C0, size: 0x80, symbol: ui_battle_cmd_aim_marker_7_png }
+ui/battle/cmd/aim/marker_7.pal:
+  { type: BLOB, offset: 0x1BD340, size: 0x20, symbol: ui_battle_cmd_aim_marker_7_pal }
+ui/battle/cmd/aim/shimmer_0:
+  { type: BLOB, offset: 0x1BD360, size: 0x80, symbol: ui_battle_cmd_aim_shimmer_0_png }
+ui/battle/cmd/aim/shimmer_0.pal:
+  { type: BLOB, offset: 0x1BD3E0, size: 0x20, symbol: ui_battle_cmd_aim_shimmer_0_pal }
+ui/battle/cmd/aim/shimmer_1:
+  { type: BLOB, offset: 0x1BD400, size: 0x80, symbol: ui_battle_cmd_aim_shimmer_1_png }
+ui/battle/cmd/aim/shimmer_1.pal:
+  { type: BLOB, offset: 0x1BD480, size: 0x20, symbol: ui_battle_cmd_aim_shimmer_1_pal }
+ui/battle/cmd/aim/shimmer_2:
+  { type: BLOB, offset: 0x1BD4A0, size: 0x80, symbol: ui_battle_cmd_aim_shimmer_2_png }
+ui/battle/cmd/aim/shimmer_2.pal:
+  { type: BLOB, offset: 0x1BD520, size: 0x20, symbol: ui_battle_cmd_aim_shimmer_2_pal }
+ui/battle/cmd/aim/shimmer_3:
+  { type: BLOB, offset: 0x1BD540, size: 0x80, symbol: ui_battle_cmd_aim_shimmer_3_png }
+ui/battle/cmd/aim/shimmer_3.pal:
+  { type: BLOB, offset: 0x1BD5C0, size: 0x20, symbol: ui_battle_cmd_aim_shimmer_3_pal }
+ui/battle/cmd/aim/shimmer_4:
+  { type: BLOB, offset: 0x1BD5E0, size: 0x80, symbol: ui_battle_cmd_aim_shimmer_4_png }
+ui/battle/cmd/aim/shimmer_4.pal:
+  { type: BLOB, offset: 0x1BD660, size: 0x20, symbol: ui_battle_cmd_aim_shimmer_4_pal }
+ui/battle/cmd/aim/shimmer_5:
+  { type: BLOB, offset: 0x1BD680, size: 0x80, symbol: ui_battle_cmd_aim_shimmer_5_png }
+ui/battle/cmd/aim/shimmer_5.pal:
+  { type: BLOB, offset: 0x1BD700, size: 0x20, symbol: ui_battle_cmd_aim_shimmer_5_pal }
+ui/battle/cmd/aim/shimmer_6:
+  { type: BLOB, offset: 0x1BD720, size: 0x80, symbol: ui_battle_cmd_aim_shimmer_6_png }
+ui/battle/cmd/aim/shimmer_6.pal:
+  { type: BLOB, offset: 0x1BD7A0, size: 0x20, symbol: ui_battle_cmd_aim_shimmer_6_pal }
+ui/battle/cmd/aim/shimmer_7:
+  { type: BLOB, offset: 0x1BD7C0, size: 0x80, symbol: ui_battle_cmd_aim_shimmer_7_png }
+ui/battle/cmd/aim/shimmer_7.pal:
+  { type: BLOB, offset: 0x1BD840, size: 0x20, symbol: ui_battle_cmd_aim_shimmer_7_pal }
+ui/battle/cmd/aim/reticle_0:
+  { type: BLOB, offset: 0x1BD860, size: 0x200, symbol: ui_battle_cmd_aim_reticle_0_png }
+ui/battle/cmd/aim/reticle_0.pal:
+  { type: BLOB, offset: 0x1BDA60, size: 0x20, symbol: ui_battle_cmd_aim_reticle_0_pal }
+ui/battle/cmd/aim/reticle_1:
+  { type: BLOB, offset: 0x1BDA80, size: 0x200, symbol: ui_battle_cmd_aim_reticle_1_png }
+ui/battle/cmd/aim/reticle_1.pal:
+  { type: BLOB, offset: 0x1BDC80, size: 0x20, symbol: ui_battle_cmd_aim_reticle_1_pal }
+ui/battle/cmd/aim/target_0:
+  { type: BLOB, offset: 0x1BDCA0, size: 0x120, symbol: ui_battle_cmd_aim_target_0_png }
+ui/battle/cmd/aim/target_0.pal:
+  { type: BLOB, offset: 0x1BDDC0, size: 0x20, symbol: ui_battle_cmd_aim_target_0_pal }
+ui/battle/cmd/aim/target_1:
+  { type: BLOB, offset: 0x1BDDE0, size: 0x120, symbol: ui_battle_cmd_aim_target_1_png }
+ui/battle/cmd/aim/target_1.pal:
+  { type: BLOB, offset: 0x1BDF00, size: 0x20, symbol: ui_battle_cmd_aim_target_1_pal }
+ui/battle/solid_star:
+  { type: BLOB, offset: 0x1BDF20, size: 0x200, symbol: ui_battle_solid_star_png }
+ui/battle/solid_star.pal:
+  { type: BLOB, offset: 0x1BE120, size: 0x20, symbol: ui_battle_solid_star_pal }
+ui/battle/projector_spot:
+  { type: BLOB, offset: 0x1BE148, size: 0x400, symbol: ui_battle_projector_spot_png }
+ui/battle/projector_beam:
+  { type: BLOB, offset: 0x1BE550, size: 0x1000, symbol: ui_battle_projector_beam_png }
+ui/battle/projector_reel:
+  { type: BLOB, offset: 0x1BF558, size: 0x1000, symbol: ui_battle_projector_reel_png }
+ui/battle/swap_background:
+  { type: BLOB, offset: 0x1C0560, size: 0x300, symbol: ui_battle_swap_background_png }

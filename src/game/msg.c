@@ -114,10 +114,6 @@ PAL_BIN D_8015C7E0[0x10];
 
 extern s16 MsgStyleVerticalLineOffsets[];
 
-extern IMG_BIN ui_msg_rewind_arrow_png[];
-extern PAL_BIN ui_msg_rewind_arrow_pal[];
-extern IMG_BIN ui_msg_star_png[];
-extern IMG_BIN ui_msg_star_silhouette_png[];
 
 extern IMG_BIN MsgCharImgTitle[];
 extern IMG_BIN MsgCharImgNormal[];
@@ -131,8 +127,7 @@ extern IMG_BIN MsgCharImgMenuKana[];
 extern IMG_BIN MsgCharImgMenuLatin[];
 #endif
 
-extern IMG_BIN ui_point_right_png[];
-extern PAL_BIN ui_point_right_pal[];
+#include "assets/ui.h"
 
 MessageNumber gMsgNumbers[] = {
 #if VERSION_JP
@@ -2133,8 +2128,10 @@ void msg_update_rewind_arrow(s32 printerIndex) {
 
     guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
     gSPMatrix(gMainGfxPos++, VIRTUAL_TO_PHYSICAL(&gDisplayContext->matrixStack[gMatrixListPos++]), G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPLoadTextureTile(gMainGfxPos++, ui_msg_star_png, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, 15, 17, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 4, 4, G_TX_NOLOD, G_TX_NOLOD);
-    gDPLoadMultiTile_4b(gMainGfxPos++, ui_msg_star_silhouette_png, 0x0100, 1, G_IM_FMT_I, 16, 0, 0, 0, 15, 18, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 4, 5, G_TX_NOLOD, G_TX_NOLOD);
+    IMG_BIN* starImg = (IMG_BIN*)LOAD_ASSET(ui_msg_star_png);
+    IMG_BIN* starSilhouette = (IMG_BIN*)LOAD_ASSET(ui_msg_star_silhouette_png);
+    gDPLoadTextureTile(gMainGfxPos++, starImg, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, 15, 17, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 4, 4, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadMultiTile_4b(gMainGfxPos++, starSilhouette, 0x0100, 1, G_IM_FMT_I, 16, 0, 0, 0, 15, 18, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 4, 5, G_TX_NOLOD, G_TX_NOLOD);
     gSPVertex(gMainGfxPos++, gRewindArrowQuad, 4, 0);
     gSP2Triangles(gMainGfxPos++, 0, 2, 1, 0, 1, 2, 3, 0);
 }
@@ -2143,7 +2140,9 @@ void msg_draw_rewind_arrow(s32 printerIndex) {
     MessagePrintState* printer = &gMessagePrinters[printerIndex];
 
     if (printer->rewindArrowCounter < 6) {
-        draw_ci_image_with_clipping(ui_msg_rewind_arrow_png, 24, 24, G_IM_FMT_CI, G_IM_SIZ_4b, ui_msg_rewind_arrow_pal, printer->rewindArrowPos.x,
+        IMG_BIN* rewindImg = (IMG_BIN*)LOAD_ASSET(ui_msg_rewind_arrow_png);
+        PAL_BIN* rewindPal = (PAL_BIN*)LOAD_ASSET(ui_msg_rewind_arrow_pal);
+        draw_ci_image_with_clipping(rewindImg, 24, 24, G_IM_FMT_CI, G_IM_SIZ_4b, rewindPal, printer->rewindArrowPos.x,
                                     printer->rewindArrowPos.y, 10, 10, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, 255);
     }
 
@@ -2187,14 +2186,17 @@ void msg_draw_choice_pointer(MessagePrintState* printer) {
         shadowAlpha = opacity;
     }
 
+    IMG_BIN* pointerImg = (IMG_BIN*)LOAD_ASSET(ui_point_right_png);
+    PAL_BIN* pointerPal = (PAL_BIN*)LOAD_ASSET(ui_point_right_pal);
+
     gDPPipeSync(gMainGfxPos++);
     gDPSetTextureLUT(gMainGfxPos++, G_TT_RGBA16);
-    gDPLoadTLUT_pal16(gMainGfxPos++, 0, ui_point_right_pal);
+    gDPLoadTLUT_pal16(gMainGfxPos++, 0, pointerPal);
     gDPSetRenderMode(gMainGfxPos++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     gDPSetCombineMode(gMainGfxPos++, PM_CC_07, PM_CC_07);
     gDPSetPrimColor(gMainGfxPos++, 0, 0, 40, 40, 40, shadowAlpha);
-    draw_image_with_clipping(ui_point_right_png, 16, 16, G_IM_FMT_CI, G_IM_SIZ_4b, posX + 2, posY + 2, 10, 10, 300, 220);
-    draw_ci_image_with_clipping(ui_point_right_png, 16, 16, G_IM_FMT_CI, G_IM_SIZ_4b, ui_point_right_pal, posX, posY, 20, 20, 300, 200, pointerAlpha);
+    draw_image_with_clipping(pointerImg, 16, 16, G_IM_FMT_CI, G_IM_SIZ_4b, posX + 2, posY + 2, 10, 10, 300, 220);
+    draw_ci_image_with_clipping(pointerImg, 16, 16, G_IM_FMT_CI, G_IM_SIZ_4b, pointerPal, posX, posY, 20, 20, 300, 200, pointerAlpha);
 }
 
 void draw_digit(IMG_PTR img, s32 charset, s32 posX, s32 posY) {

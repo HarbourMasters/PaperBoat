@@ -1,7 +1,5 @@
 #include "common.h"
-
-extern s8 ui_box_bg_tile_png[];
-extern s8 ui_box_corners4_png[];
+#include "assets/ui.h"
 extern s8 pause_image_1439F0_png[];
 extern s8 pause_image_143BF0_png[];
 extern s8 pause_image_143FF0_png[];
@@ -35,7 +33,7 @@ WindowStyleCustom gPauseWS_0 = {
 };
 WindowStyleCustom gPauseWS_1 = {
     .background = {
-        .imgData = ui_box_bg_tile_png,
+        .imgData = (u8*)ui_box_bg_tile_png,
         .fmt = G_IM_FMT_I,
         .bitDepth = G_IM_SIZ_4b,
         .width = 16,
@@ -44,7 +42,7 @@ WindowStyleCustom gPauseWS_1 = {
         .size = 128
     },
     .corners = {
-        .imgData = ui_box_corners4_png,
+        .imgData = (u8*)ui_box_corners4_png,
         .fmt = G_IM_FMT_IA,
         .bitDepth = G_IM_SIZ_8b,
         .size1 = { .x = 8, .y = 8},
@@ -321,7 +319,7 @@ WindowStyleCustom gPauseWS_11 = {
 };
 WindowStyleCustom gPauseWS_12 = {
     .background = {
-        .imgData = ui_box_bg_tile_png,
+        .imgData = (u8*)ui_box_bg_tile_png,
         .fmt = G_IM_FMT_I,
         .bitDepth = G_IM_SIZ_4b,
         .width = 16,
@@ -330,7 +328,7 @@ WindowStyleCustom gPauseWS_12 = {
         .size = 128
     },
     .corners = {
-        .imgData = ui_box_corners4_png,
+        .imgData = (u8*)ui_box_corners4_png,
         .fmt = G_IM_FMT_IA,
         .bitDepth = G_IM_SIZ_8b,
         .size1 = { .x = 8, .y = 8 },
@@ -399,7 +397,7 @@ WindowStyleCustom gPauseWS_14 = {
 };
 WindowStyleCustom gPauseWS_15 = {
     .background = {
-        .imgData = ui_box_bg_tile_png,
+        .imgData = (u8*)ui_box_bg_tile_png,
         .fmt = G_IM_FMT_I,
         .bitDepth = G_IM_SIZ_4b,
         .width = 16,
@@ -408,7 +406,7 @@ WindowStyleCustom gPauseWS_15 = {
         .size = 128
     },
     .corners = {
-        .imgData = ui_box_corners4_png,
+        .imgData = (u8*)ui_box_corners4_png,
         .fmt = G_IM_FMT_IA,
         .bitDepth = G_IM_SIZ_8b,
         .size1 = { .x = 8, .y = 8 },
@@ -425,7 +423,7 @@ WindowStyleCustom gPauseWS_15 = {
 };
 WindowStyleCustom gPauseWS_16 = {
     .background = {
-        .imgData = ui_box_bg_tile_png,
+        .imgData = (u8*)ui_box_bg_tile_png,
         .fmt = G_IM_FMT_I,
         .bitDepth = G_IM_SIZ_4b,
         .width = 16,
@@ -434,7 +432,7 @@ WindowStyleCustom gPauseWS_16 = {
         .size = 128
     },
     .corners = {
-        .imgData = ui_box_corners4_png,
+        .imgData = (u8*)ui_box_corners4_png,
         .fmt = G_IM_FMT_IA,
         .bitDepth = G_IM_SIZ_8b,
         .size1 = { .x = 8, .y = 8 },
@@ -477,7 +475,7 @@ WindowStyleCustom gPauseWS_17 = {
 };
 WindowStyleCustom gPauseWS_18 = {
     .background = {
-        .imgData = ui_box_bg_tile_png,
+        .imgData = (u8*)ui_box_bg_tile_png,
         .fmt = G_IM_FMT_I,
         .bitDepth = G_IM_SIZ_4b,
         .width = 16,
@@ -486,7 +484,7 @@ WindowStyleCustom gPauseWS_18 = {
         .size = 128
     },
     .corners = {
-        .imgData = ui_box_corners4_png,
+        .imgData = (u8*)ui_box_corners4_png,
         .fmt = G_IM_FMT_IA,
         .bitDepth = G_IM_SIZ_8b,
         .size1 = { .x = 8, .y = 8 },
@@ -503,7 +501,7 @@ WindowStyleCustom gPauseWS_18 = {
 };
 WindowStyleCustom gPauseWS_19 = {
     .background = {
-        .imgData = ui_box_bg_tile_png,
+        .imgData = (u8*)ui_box_bg_tile_png,
         .fmt = G_IM_FMT_I,
         .bitDepth = G_IM_SIZ_4b,
         .width = 16,
@@ -512,7 +510,7 @@ WindowStyleCustom gPauseWS_19 = {
         .size = 128
     },
     .corners = {
-        .imgData = ui_box_corners4_png,
+        .imgData = (u8*)ui_box_corners4_png,
         .fmt = G_IM_FMT_IA,
         .bitDepth = G_IM_SIZ_8b,
         .size1 = { .x = 8, .y = 8 },
@@ -529,7 +527,7 @@ WindowStyleCustom gPauseWS_19 = {
 };
 WindowStyleCustom gPauseWS_20 = {
     .background = {
-        .imgData = ui_box_bg_tile_png,
+        .imgData = (u8*)ui_box_bg_tile_png,
         .fmt = G_IM_FMT_I,
         .bitDepth = G_IM_SIZ_4b,
         .width = 16,
@@ -538,7 +536,7 @@ WindowStyleCustom gPauseWS_20 = {
         .size = 128
     },
     .corners = {
-        .imgData = ui_box_corners4_png,
+        .imgData = (u8*)ui_box_corners4_png,
         .fmt = G_IM_FMT_IA,
         .bitDepth = G_IM_SIZ_8b,
         .size1 = { .x = 8, .y = 8 },
@@ -555,7 +553,7 @@ WindowStyleCustom gPauseWS_20 = {
 };
 WindowStyleCustom gPauseWS_21 = {
     .background = {
-        .imgData = ui_box_bg_tile_png,
+        .imgData = (u8*)ui_box_bg_tile_png,
         .fmt = G_IM_FMT_I,
         .bitDepth = G_IM_SIZ_4b,
         .width = 16,
@@ -607,7 +605,7 @@ WindowStyleCustom gPauseWS_22 = {
 };
 WindowStyleCustom gPauseWS_23 = {
     .background = {
-        .imgData = ui_box_bg_tile_png,
+        .imgData = (u8*)ui_box_bg_tile_png,
         .fmt = G_IM_FMT_I,
         .bitDepth = G_IM_SIZ_4b,
         .width = 16,
@@ -616,7 +614,7 @@ WindowStyleCustom gPauseWS_23 = {
         .size = 128
     },
     .corners = {
-        .imgData = ui_box_corners4_png,
+        .imgData = (u8*)ui_box_corners4_png,
         .fmt = G_IM_FMT_IA,
         .bitDepth = G_IM_SIZ_8b,
         .size1 = { .x = 8, .y = 8 },
@@ -659,7 +657,7 @@ WindowStyleCustom gPauseWS_24 = {
 };
 WindowStyleCustom gPauseWS_25 = {
     .background = {
-        .imgData = ui_box_bg_tile_png,
+        .imgData = (u8*)ui_box_bg_tile_png,
         .fmt = G_IM_FMT_I,
         .bitDepth = G_IM_SIZ_4b,
         .width = 16,
@@ -685,7 +683,7 @@ WindowStyleCustom gPauseWS_25 = {
 };
 WindowStyleCustom gPauseWS_26 = {
     .background = {
-        .imgData = ui_box_bg_tile_png,
+        .imgData = (u8*)ui_box_bg_tile_png,
         .fmt = G_IM_FMT_I,
         .bitDepth = G_IM_SIZ_4b,
         .width = 16,
@@ -694,7 +692,7 @@ WindowStyleCustom gPauseWS_26 = {
         .size = 128
     },
     .corners = {
-        .imgData = ui_box_corners4_png,
+        .imgData = (u8*)ui_box_corners4_png,
         .fmt = G_IM_FMT_IA,
         .bitDepth = G_IM_SIZ_8b,
         .size1 = { .x = 8, .y = 8 },
@@ -711,7 +709,7 @@ WindowStyleCustom gPauseWS_26 = {
 };
 WindowStyleCustom gPauseWS_27 = {
     .background = {
-        .imgData = ui_box_bg_tile_png,
+        .imgData = (u8*)ui_box_bg_tile_png,
         .fmt = G_IM_FMT_I,
         .bitDepth = G_IM_SIZ_4b,
         .width = 16,

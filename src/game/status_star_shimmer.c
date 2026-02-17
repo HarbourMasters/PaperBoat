@@ -1,7 +1,5 @@
 #include "common.h"
-#include "include_asset.h"
-
-INCLUDE_IMG("ui/status/shimmer_particle.png", ui_status_shimmer_particle_png);
+#include "assets/ui.h"
 
 Vp ShimmerViewport = {
     .vp = {

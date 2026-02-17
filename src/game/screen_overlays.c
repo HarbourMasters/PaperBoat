@@ -1,6 +1,6 @@
 #include "common.h"
 #include "overlay.h"
-#include "include_asset.h"
+#include "assets/ui.h"
 
 extern void GameEngine_SetDisplayListContext(const char* context);
 
@@ -16,13 +16,6 @@ ScreenTransition CurrentScreenTransition = TRANSITION_END_DEMO_SCENE_BLACK;
 // padding?
 s32 D_8014C6F4[] = { 0x00000000, 0x00000000, 0x00000000 };
 
-INCLUDE_IMG("ui/stencil/star.png", ui_stencil_star_png);
-
-INCLUDE_IMG("ui/stencil/mario.png", ui_stencil_mario_png);
-
-INCLUDE_IMG("ui/stencil/sharp_circle.png", ui_stencil_sharp_circle_png);
-
-INCLUDE_IMG("ui/stencil/blurry_circle.png", ui_stencil_blurry_circle_png);
 
 #include "vtx/stencil1.vtx.inc.c"
 

@@ -2,6 +2,7 @@
 #include "hud_element.h"
 #include "nu/nusys.h"
 #include "ld_addrs.h"
+#include "port/Engine.h"
 
 extern void GameEngine_SetDisplayListContext(const char* context);
 
@@ -852,12 +853,11 @@ s32 hud_element_update(HudElement* hudElement) {
             return true;
         case HUD_ELEMENT_OP_SetRGBA:
             hudElement->updateTimer = *nextPos++;
-            hudElement->imageAddr = (u8*)*nextPos++;
-            hudElement->readPos = (HudScript*)nextPos;
-
-            if (hudElement->flags & HUD_ELEMENT_FLAG_MEMOFFSET) {
-                hudElement->imageAddr += hudElement->memOffset;
+            {
+                const char* imagePath = (const char*)*nextPos++;
+                hudElement->imageAddr = (u8*)LOAD_ASSET(imagePath);
             }
+            hudElement->readPos = (HudScript*)nextPos;
 
             if (hudElement->flags & HUD_ELEMENT_FLAG_FIXEDSCALE) {
                 if (!(hudElement->flags & HUD_ELEMENT_FLAG_CUSTOM_SIZE)) {
@@ -891,14 +891,13 @@ s32 hud_element_update(HudElement* hudElement) {
             break;
         case HUD_ELEMENT_OP_SetCI:
             hudElement->updateTimer = *nextPos++;
-            hudElement->imageAddr = (u8*)*nextPos++;
-            hudElement->paletteAddr = (u8*)*nextPos++;
-            hudElement->readPos = (HudScript*)nextPos;
-
-            if (hudElement->flags & HUD_ELEMENT_FLAG_MEMOFFSET) {
-                hudElement->imageAddr += hudElement->memOffset;
-                hudElement->paletteAddr += hudElement->memOffset;
+            {
+                const char* rasterPath = (const char*)*nextPos++;
+                const char* palPath = (const char*)*nextPos++;
+                hudElement->imageAddr = (u8*)LOAD_ASSET(rasterPath);
+                hudElement->paletteAddr = (u8*)LOAD_ASSET(palPath);
             }
+            hudElement->readPos = (HudScript*)nextPos;
 
             if (hudElement->flags & HUD_ELEMENT_FLAG_FIXEDSCALE) {
                 if (!(hudElement->flags & HUD_ELEMENT_FLAG_CUSTOM_SIZE)) {

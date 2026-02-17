@@ -1,6 +1,7 @@
 #include "common.h"
 #include "nu/nusys.h"
-#include "include_asset.h"
+#include "assets/ui.h"
+#include "Engine.h"
 
 #define INTEGER_LOG2(x) ((x) <= 1 ? 0 : (x) <= 2 ? 1 : (x) <= 4 ? 2 : (x) <= 8 ? 3 : (x) <= 16 ? 4 : (x) <= 32 ? 5 : (x) <= 64 ? 6 : (x) <= 128 ? 7 : (x) <= 256 ? 8 : (x) <= 512 ? 9 : 10)
 
@@ -179,21 +180,10 @@ DefaultWindowStyle gBoxDefaultStyles[] = {
     }
 };
 
-INCLUDE_IMG("ui/box/corners9.png", ui_box_corners9_png);
-INCLUDE_IMG("ui/box/corners8.png", ui_box_corners8_png);
-INCLUDE_IMG("ui/box/corners6.png", ui_box_corners6_png);
-INCLUDE_IMG("ui/box/corners7.png", ui_box_corners7_png);
-INCLUDE_IMG("ui/box/corners3.png", ui_box_corners3_png);
-INCLUDE_IMG("ui/box/corners5.png", ui_box_corners5_png);
-INCLUDE_IMG("ui/box/corners4.png", ui_box_corners4_png);
-INCLUDE_IMG("ui/box/bg_tile.png", ui_box_bg_tile_png);
-INCLUDE_IMG("ui/box/corners1.png", ui_box_corners1_png);
-INCLUDE_IMG("ui/box/corners2.png", ui_box_corners2_png);
-INCLUDE_IMG("ui/box/bg_flat.png", ui_box_bg_flat_png);
 
 WindowBackground gBoxBackground[] = {
     {
-        .imgData = ui_box_bg_tile_png,
+        .imgData = (u8*)ui_box_bg_tile_png,
         .fmt = G_IM_FMT_I,
         .bitDepth = G_IM_SIZ_4b,
         .width = 16,
@@ -202,7 +192,7 @@ WindowBackground gBoxBackground[] = {
         .size = 128
     },
     {
-        .imgData = ui_box_bg_flat_png,
+        .imgData = (u8*)ui_box_bg_flat_png,
         .fmt = G_IM_FMT_I,
         .bitDepth = G_IM_SIZ_4b,
         .width = 16,
@@ -214,7 +204,7 @@ WindowBackground gBoxBackground[] = {
 
 WindowCorners gBoxCorners[] = {
     {
-        .imgData = ui_box_corners1_png,
+        .imgData = (u8*)ui_box_corners1_png,
         .fmt = G_IM_FMT_IA,
         .bitDepth = G_IM_SIZ_8b,
         .size1 = { 16, 16},
@@ -224,7 +214,7 @@ WindowCorners gBoxCorners[] = {
         .unk_0D = { 0, 0, 0}
     },
     {
-        .imgData = ui_box_corners2_png,
+        .imgData = (u8*)ui_box_corners2_png,
         .fmt = G_IM_FMT_I,
         .bitDepth = G_IM_SIZ_4b,
         .size1 = { 16, 16},
@@ -234,7 +224,7 @@ WindowCorners gBoxCorners[] = {
         .unk_0D = { 0, 0, 0}
     },
     {
-        .imgData = ui_box_corners3_png,
+        .imgData = (u8*)ui_box_corners3_png,
         .fmt = G_IM_FMT_IA,
         .bitDepth = G_IM_SIZ_8b,
         .size1 = { 16, 32},
@@ -244,7 +234,7 @@ WindowCorners gBoxCorners[] = {
         .unk_0D = { 0, 0, 0}
     },
     {
-        .imgData = ui_box_corners4_png,
+        .imgData = (u8*)ui_box_corners4_png,
         .fmt = G_IM_FMT_IA,
         .bitDepth = G_IM_SIZ_8b,
         .size1 = { 8, 8},
@@ -254,7 +244,7 @@ WindowCorners gBoxCorners[] = {
         .unk_0D = { 0, 0, 0}
     },
     {
-        .imgData = ui_box_corners5_png,
+        .imgData = (u8*)ui_box_corners5_png,
         .fmt = G_IM_FMT_IA,
         .bitDepth = G_IM_SIZ_8b,
         .size1 = { 16, 8},
@@ -264,7 +254,7 @@ WindowCorners gBoxCorners[] = {
         .unk_0D = { 0, 0, 0}
     },
     {
-        .imgData = ui_box_corners6_png,
+        .imgData = (u8*)ui_box_corners6_png,
         .fmt = G_IM_FMT_IA,
         .bitDepth = G_IM_SIZ_8b,
         .size1 = { 16, 8},
@@ -274,7 +264,7 @@ WindowCorners gBoxCorners[] = {
         .unk_0D = { 0, 0, 0}
     },
     {
-        .imgData = ui_box_corners7_png,
+        .imgData = (u8*)ui_box_corners7_png,
         .fmt = G_IM_FMT_IA,
         .bitDepth = G_IM_SIZ_8b,
         .size1 = { 16, 8},
@@ -284,7 +274,7 @@ WindowCorners gBoxCorners[] = {
         .unk_0D = { 0, 0, 0}
     },
     {
-        .imgData = ui_box_corners8_png,
+        .imgData = (u8*)ui_box_corners8_png,
         .fmt = G_IM_FMT_IA,
         .bitDepth = G_IM_SIZ_8b,
         .size1 = { 24, 24},
@@ -294,7 +284,7 @@ WindowCorners gBoxCorners[] = {
         .unk_0D = { 0, 0, 0}
     },
     {
-        .imgData = ui_box_corners9_png,
+        .imgData = (u8*)ui_box_corners9_png,
         .fmt = G_IM_FMT_IA,
         .bitDepth = G_IM_SIZ_8b,
         .size1 = { 16, 16},
@@ -398,12 +388,12 @@ s32 draw_box(s32 flags, void* windowStyle, s32 posX, s32 posY, s32 posZ, s32 wid
         Mtx* sp154;
 
         bgFmt = background->fmt;
-        cornersImage = corners->imgData;
+        cornersImage = (u8*)LOAD_ASSET(corners->imgData);
 
         do {} while (0);
 
         bgWidth = background->width;
-        bgImage = background->imgData;
+        bgImage = (u8*)LOAD_ASSET(background->imgData);
         bgHeight = background->height;
 
         bgMasks = INTEGER_LOG2(bgWidth);
