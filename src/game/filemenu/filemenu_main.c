@@ -941,19 +941,19 @@ void filemenu_main_handle_input(MenuPanel* menu) {
                         filemenu_filename[i] = MSG_CHAR_READ_SPACE;
                     }
                     filemenu_filename_pos = 0;
-                    set_window_update(WIN_FILES_INPUT_FIELD, (s32)filemenu_update_show_name_input);
-                    set_window_update(WIN_FILES_INPUT_KEYBOARD, (s32)filemenu_update_show_name_input);
-                    set_window_update(WIN_FILES_TITLE, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_STEREO, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_MONO, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_OPTION_LEFT, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_OPTION_CENTER, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_OPTION_RIGHT, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_OPTION_LEFT, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_SLOT1_BODY, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_SLOT2_BODY, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_SLOT3_BODY, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_SLOT4_BODY, (s32)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_INPUT_FIELD, (intptr_t)filemenu_update_show_name_input);
+                    set_window_update(WIN_FILES_INPUT_KEYBOARD, (intptr_t)filemenu_update_show_name_input);
+                    set_window_update(WIN_FILES_TITLE, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_STEREO, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_MONO, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_OPTION_LEFT, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_OPTION_CENTER, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_OPTION_RIGHT, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_OPTION_LEFT, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_SLOT1_BODY, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_SLOT2_BODY, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_SLOT3_BODY, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_SLOT4_BODY, (intptr_t)filemenu_update_hidden_with_rotation);
                     sfx_play_sound(SOUND_MENU_NEXT);
                     filemenu_currentMenu = FILE_MENU_INPUT_NAME;
                     inputMenu = filemenu_menus[FILE_MENU_INPUT_NAME];
@@ -964,16 +964,16 @@ void filemenu_main_handle_input(MenuPanel* menu) {
 
                 if (menu->selected == FM_MAIN_OPT_CANCEL) {
                     // selected "Cancel" button
-                    set_window_update(WIN_FILES_STEREO, (s32)filemenu_update_hidden_options_left);
-                    set_window_update(WIN_FILES_MONO, (s32)filemenu_update_hidden_options_right);
-                    set_window_update(WIN_FILES_OPTION_LEFT, (s32)filemenu_update_hidden_options_bottom);
-                    set_window_update(WIN_FILES_OPTION_CENTER, (s32)filemenu_update_hidden_options_bottom);
-                    set_window_update(WIN_FILES_OPTION_RIGHT, (s32)filemenu_update_hidden_options_bottom);
-                    set_window_update(WIN_FILES_SLOT1_BODY, (s32)filemenu_update_hidden_options_left);
-                    set_window_update(WIN_FILES_SLOT2_BODY, (s32)filemenu_update_hidden_options_right);
-                    set_window_update(WIN_FILES_SLOT3_BODY, (s32)filemenu_update_hidden_options_left);
-                    set_window_update(WIN_FILES_SLOT4_BODY, (s32)filemenu_update_hidden_options_right);
-                    set_window_update(WIN_FILES_TITLE, (s32)filemenu_update_hidden_title);
+                    set_window_update(WIN_FILES_STEREO, (intptr_t)filemenu_update_hidden_options_left);
+                    set_window_update(WIN_FILES_MONO, (intptr_t)filemenu_update_hidden_options_right);
+                    set_window_update(WIN_FILES_OPTION_LEFT, (intptr_t)filemenu_update_hidden_options_bottom);
+                    set_window_update(WIN_FILES_OPTION_CENTER, (intptr_t)filemenu_update_hidden_options_bottom);
+                    set_window_update(WIN_FILES_OPTION_RIGHT, (intptr_t)filemenu_update_hidden_options_bottom);
+                    set_window_update(WIN_FILES_SLOT1_BODY, (intptr_t)filemenu_update_hidden_options_left);
+                    set_window_update(WIN_FILES_SLOT2_BODY, (intptr_t)filemenu_update_hidden_options_right);
+                    set_window_update(WIN_FILES_SLOT3_BODY, (intptr_t)filemenu_update_hidden_options_left);
+                    set_window_update(WIN_FILES_SLOT4_BODY, (intptr_t)filemenu_update_hidden_options_right);
+                    set_window_update(WIN_FILES_TITLE, (intptr_t)filemenu_update_hidden_title);
                     sfx_play_sound(SOUND_FILE_MENU_OUT);
                     set_game_mode(GAME_MODE_END_FILE_SELECT);
                 } else if (menu->selected == FM_MAIN_OPT_DELETE) {
@@ -981,34 +981,34 @@ void filemenu_main_handle_input(MenuPanel* menu) {
                     sfx_play_sound(SOUND_MENU_NEXT);
                     menu->state = FM_MAIN_SELECT_DELETE;
                     filemenu_set_selected(menu, 1, 2);
-                    set_window_update(WIN_FILES_STEREO, (s32)filemenu_update_hidden_options_left);
-                    set_window_update(WIN_FILES_MONO, (s32)filemenu_update_hidden_options_right);
-                    set_window_update(WIN_FILES_OPTION_LEFT, (s32)filemenu_update_hidden_options_bottom);
-                    set_window_update(WIN_FILES_OPTION_RIGHT, (s32)filemenu_update_hidden_options_bottom);
+                    set_window_update(WIN_FILES_STEREO, (intptr_t)filemenu_update_hidden_options_left);
+                    set_window_update(WIN_FILES_MONO, (intptr_t)filemenu_update_hidden_options_right);
+                    set_window_update(WIN_FILES_OPTION_LEFT, (intptr_t)filemenu_update_hidden_options_bottom);
+                    set_window_update(WIN_FILES_OPTION_RIGHT, (intptr_t)filemenu_update_hidden_options_bottom);
                 } else if (menu->selected == FM_MAIN_OPT_COPY) {
                     sfx_play_sound(SOUND_MENU_NEXT);
                     menu->state = FM_MAIN_SELECT_COPY_FROM;
                     filemenu_set_selected(menu, 1, 2);
-                    set_window_update(WIN_FILES_STEREO, (s32)filemenu_update_hidden_options_left);
-                    set_window_update(WIN_FILES_MONO, (s32)filemenu_update_hidden_options_right);
-                    set_window_update(WIN_FILES_OPTION_LEFT, (s32)filemenu_update_hidden_options_bottom);
-                    set_window_update(WIN_FILES_OPTION_RIGHT, (s32)filemenu_update_hidden_options_bottom);
+                    set_window_update(WIN_FILES_STEREO, (intptr_t)filemenu_update_hidden_options_left);
+                    set_window_update(WIN_FILES_MONO, (intptr_t)filemenu_update_hidden_options_right);
+                    set_window_update(WIN_FILES_OPTION_LEFT, (intptr_t)filemenu_update_hidden_options_bottom);
+                    set_window_update(WIN_FILES_OPTION_RIGHT, (intptr_t)filemenu_update_hidden_options_bottom);
                 } else if (menu->selected <= FM_MAIN_OPT_FILE_4) {
                     MenuPanel* confirmMenu;
 
                     sfx_play_sound(SOUND_MENU_NEXT);
-                    set_window_update(WIN_FILES_TITLE, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_STEREO, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_MONO, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_OPTION_LEFT, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_OPTION_CENTER, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_OPTION_RIGHT, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_OPTION_LEFT, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_SLOT1_BODY, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_SLOT2_BODY, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_SLOT3_BODY, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(WIN_FILES_SLOT4_BODY, (s32)filemenu_update_hidden_with_rotation);
-                    set_window_update(menu->selected + WIN_FILES_SLOT1_BODY, (s32)filemenu_update_select_file);
+                    set_window_update(WIN_FILES_TITLE, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_STEREO, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_MONO, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_OPTION_LEFT, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_OPTION_CENTER, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_OPTION_RIGHT, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_OPTION_LEFT, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_SLOT1_BODY, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_SLOT2_BODY, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_SLOT3_BODY, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(WIN_FILES_SLOT4_BODY, (intptr_t)filemenu_update_hidden_with_rotation);
+                    set_window_update(menu->selected + WIN_FILES_SLOT1_BODY, (intptr_t)filemenu_update_select_file);
                     sfx_play_sound(SOUND_MENU_NEXT);
                     set_window_update(WIN_FILES_CONFIRM_OPTIONS, WINDOW_UPDATE_SHOW);
 
@@ -1036,10 +1036,10 @@ void filemenu_main_handle_input(MenuPanel* menu) {
                     // selected "Cancel" button
                     sfx_play_sound(SOUND_MENU_NEXT);
                     menu->state = FM_MAIN_SELECT_FILE;
-                    set_window_update(WIN_FILES_STEREO, (s32)filemenu_update_show_options_left);
-                    set_window_update(WIN_FILES_MONO, (s32)filemenu_update_show_options_right);
-                    set_window_update(WIN_FILES_OPTION_LEFT, (s32)filemenu_update_show_options_bottom);
-                    set_window_update(WIN_FILES_OPTION_RIGHT, (s32)filemenu_update_show_options_bottom);
+                    set_window_update(WIN_FILES_STEREO, (intptr_t)filemenu_update_show_options_left);
+                    set_window_update(WIN_FILES_MONO, (intptr_t)filemenu_update_show_options_right);
+                    set_window_update(WIN_FILES_OPTION_LEFT, (intptr_t)filemenu_update_show_options_bottom);
+                    set_window_update(WIN_FILES_OPTION_RIGHT, (intptr_t)filemenu_update_show_options_bottom);
                     filemenu_set_selected(menu, 0, 2);
                 } else if (menu->selected <= FM_MAIN_OPT_FILE_4) {
                     // selected a file
@@ -1047,7 +1047,7 @@ void filemenu_main_handle_input(MenuPanel* menu) {
                         MenuPanel* confirmMenu;
 
                         sfx_play_sound(SOUND_MENU_NEXT);
-                        set_window_update(WIN_FILES_CONFIRM_OPTIONS, (s32)filemenu_update_show_name_confirm);
+                        set_window_update(WIN_FILES_CONFIRM_OPTIONS, (intptr_t)filemenu_update_show_name_confirm);
 
                         gWindows[WIN_FILES_CONFIRM_OPTIONS].pos.y = 121;
                         gWindows[WIN_FILES_CONFIRM_OPTIONS].width = 69;
@@ -1073,10 +1073,10 @@ void filemenu_main_handle_input(MenuPanel* menu) {
                     // selected "Cancel" button
                     sfx_play_sound(SOUND_MENU_NEXT);
                     menu->state = FM_MAIN_SELECT_FILE;
-                    set_window_update(WIN_FILES_STEREO, (s32)filemenu_update_show_options_left);
-                    set_window_update(WIN_FILES_MONO, (s32)filemenu_update_show_options_right);
-                    set_window_update(WIN_FILES_OPTION_LEFT, (s32)filemenu_update_show_options_bottom);
-                    set_window_update(WIN_FILES_OPTION_RIGHT, (s32)filemenu_update_show_options_bottom);
+                    set_window_update(WIN_FILES_STEREO, (intptr_t)filemenu_update_show_options_left);
+                    set_window_update(WIN_FILES_MONO, (intptr_t)filemenu_update_show_options_right);
+                    set_window_update(WIN_FILES_OPTION_LEFT, (intptr_t)filemenu_update_show_options_bottom);
+                    set_window_update(WIN_FILES_OPTION_RIGHT, (intptr_t)filemenu_update_show_options_bottom);
                     filemenu_set_selected(menu, 0, 1);
                 } else if (menu->selected <= FM_MAIN_OPT_FILE_4) {
                     // selected a file
@@ -1128,7 +1128,7 @@ void filemenu_main_handle_input(MenuPanel* menu) {
                             MenuPanel* confirmMenu;
 
                             sfx_play_sound(SOUND_MENU_NEXT);
-                            set_window_update(WIN_FILES_CONFIRM_OPTIONS, (s32)filemenu_update_show_name_confirm);
+                            set_window_update(WIN_FILES_CONFIRM_OPTIONS, (intptr_t)filemenu_update_show_name_confirm);
                             gWindows[WIN_FILES_CONFIRM_OPTIONS].pos.y = 121;
                             gWindows[WIN_FILES_CONFIRM_OPTIONS].width = 69;
                             gWindows[WIN_FILES_CONFIRM_OPTIONS].height = 44;
@@ -1159,7 +1159,7 @@ void filemenu_main_handle_input(MenuPanel* menu) {
                         sfx_play_sound(SOUND_MENU_NEXT);
                         filemenu_currentMenu = FILE_MENU_MESSAGE;
                         filemenu_menus[filemenu_currentMenu]->state = FM_MESSAGE_DUMMY;
-                        set_window_update(WIN_FILES_MAIN, (s32)main_menu_window_update);
+                        set_window_update(WIN_FILES_MAIN, (intptr_t)main_menu_window_update);
                         set_window_update(WIN_FILES_MESSAGE, WINDOW_UPDATE_SHOW);
                         set_window_update(WIN_FILES_CONFIRM_OPTIONS, WINDOW_UPDATE_HIDE);
                         fio_save_game(menu->selected);
@@ -1168,7 +1168,7 @@ void filemenu_main_handle_input(MenuPanel* menu) {
                         MenuPanel* confirmMenu;
 
                         sfx_play_sound(SOUND_MENU_NEXT);
-                        set_window_update(WIN_FILES_CONFIRM_OPTIONS, (s32)filemenu_update_show_name_confirm);
+                        set_window_update(WIN_FILES_CONFIRM_OPTIONS, (intptr_t)filemenu_update_show_name_confirm);
                         gWindows[WIN_FILES_CONFIRM_OPTIONS].pos.y = 127;
                         gWindows[WIN_FILES_CONFIRM_OPTIONS].width = 69;
                         gWindows[WIN_FILES_CONFIRM_OPTIONS].height = 44;
@@ -1215,35 +1215,35 @@ void filemenu_main_handle_input(MenuPanel* menu) {
 
         switch (menu->state) {
             case FM_MAIN_SELECT_FILE:
-                set_window_update(WIN_FILES_STEREO, (s32)filemenu_update_hidden_options_left);
-                set_window_update(WIN_FILES_MONO, (s32)filemenu_update_hidden_options_right);
-                set_window_update(WIN_FILES_OPTION_LEFT, (s32)filemenu_update_hidden_options_bottom);
-                set_window_update(WIN_FILES_OPTION_CENTER, (s32)filemenu_update_hidden_options_bottom);
-                set_window_update(WIN_FILES_OPTION_RIGHT, (s32)filemenu_update_hidden_options_bottom);
-                set_window_update(WIN_FILES_SLOT1_BODY, (s32)filemenu_update_hidden_options_left);
-                set_window_update(WIN_FILES_SLOT2_BODY, (s32)filemenu_update_hidden_options_right);
-                set_window_update(WIN_FILES_SLOT3_BODY, (s32)filemenu_update_hidden_options_left);
-                set_window_update(WIN_FILES_SLOT4_BODY, (s32)filemenu_update_hidden_options_right);
-                set_window_update(WIN_FILES_TITLE, (s32)filemenu_update_hidden_title);
+                set_window_update(WIN_FILES_STEREO, (intptr_t)filemenu_update_hidden_options_left);
+                set_window_update(WIN_FILES_MONO, (intptr_t)filemenu_update_hidden_options_right);
+                set_window_update(WIN_FILES_OPTION_LEFT, (intptr_t)filemenu_update_hidden_options_bottom);
+                set_window_update(WIN_FILES_OPTION_CENTER, (intptr_t)filemenu_update_hidden_options_bottom);
+                set_window_update(WIN_FILES_OPTION_RIGHT, (intptr_t)filemenu_update_hidden_options_bottom);
+                set_window_update(WIN_FILES_SLOT1_BODY, (intptr_t)filemenu_update_hidden_options_left);
+                set_window_update(WIN_FILES_SLOT2_BODY, (intptr_t)filemenu_update_hidden_options_right);
+                set_window_update(WIN_FILES_SLOT3_BODY, (intptr_t)filemenu_update_hidden_options_left);
+                set_window_update(WIN_FILES_SLOT4_BODY, (intptr_t)filemenu_update_hidden_options_right);
+                set_window_update(WIN_FILES_TITLE, (intptr_t)filemenu_update_hidden_title);
                 sfx_play_sound(SOUND_FILE_MENU_OUT);
                 set_game_mode(GAME_MODE_END_FILE_SELECT);
                 break;
             case FM_MAIN_SELECT_DELETE:
                 menu->state = FM_MAIN_SELECT_FILE;
                 filemenu_set_selected(menu, 0, 2);
-                set_window_update(WIN_FILES_STEREO, (s32)filemenu_update_show_options_left);
-                set_window_update(WIN_FILES_MONO, (s32)filemenu_update_show_options_right);
-                set_window_update(WIN_FILES_OPTION_LEFT, (s32)filemenu_update_show_options_bottom);
-                set_window_update(WIN_FILES_OPTION_RIGHT, (s32)filemenu_update_show_options_bottom);
+                set_window_update(WIN_FILES_STEREO, (intptr_t)filemenu_update_show_options_left);
+                set_window_update(WIN_FILES_MONO, (intptr_t)filemenu_update_show_options_right);
+                set_window_update(WIN_FILES_OPTION_LEFT, (intptr_t)filemenu_update_show_options_bottom);
+                set_window_update(WIN_FILES_OPTION_RIGHT, (intptr_t)filemenu_update_show_options_bottom);
                 sfx_play_sound(SOUND_MENU_BACK);
                 break;
             case FM_MAIN_SELECT_COPY_FROM:
                 menu->state = FM_MAIN_SELECT_FILE;
                 filemenu_set_selected(menu, 1, 2);
-                set_window_update(WIN_FILES_STEREO, (s32)filemenu_update_show_options_left);
-                set_window_update(WIN_FILES_MONO, (s32)filemenu_update_show_options_right);
-                set_window_update(WIN_FILES_OPTION_LEFT, (s32)filemenu_update_show_options_bottom);
-                set_window_update(WIN_FILES_OPTION_RIGHT, (s32)filemenu_update_show_options_bottom);
+                set_window_update(WIN_FILES_STEREO, (intptr_t)filemenu_update_show_options_left);
+                set_window_update(WIN_FILES_MONO, (intptr_t)filemenu_update_show_options_right);
+                set_window_update(WIN_FILES_OPTION_LEFT, (intptr_t)filemenu_update_show_options_bottom);
+                set_window_update(WIN_FILES_OPTION_RIGHT, (intptr_t)filemenu_update_show_options_bottom);
                 sfx_play_sound(SOUND_MENU_BACK);
                 break;
             case FM_MAIN_SELECT_COPY_TO:

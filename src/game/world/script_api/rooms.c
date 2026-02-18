@@ -190,11 +190,11 @@ API_CALLABLE(CreateMapRoom) {
     room->bgColor[1] = gCameras[CAM_DEFAULT].bgColor[1];
     room->bgColor[2] = gCameras[CAM_DEFAULT].bgColor[2];
 
-    bind_trigger_1(&EVS_EnterRoomDoor, TRIGGER_WALL_PRESS_A, colliderID, 0, (s32) room, 3);
+    bind_trigger_1(&EVS_EnterRoomDoor, TRIGGER_WALL_PRESS_A, colliderID, 0, (intptr_t) room, 3);
     if (roomFlags & ROOM_FLAG_EXIT_DOOR_DROPS) {
-        bind_trigger_1(&EVS_ExitRoomDoor, TRIGGER_WALL_PUSH, triggerColliderID, 1, (s32) room, 3);
+        bind_trigger_1(&EVS_ExitRoomDoor, TRIGGER_WALL_PUSH, triggerColliderID, 1, (intptr_t) room, 3);
     } else {
-        bind_trigger_1(&EVS_ExitRoomDoor, TRIGGER_WALL_PRESS_A, triggerColliderID, 1, (s32) room, 3);
+        bind_trigger_1(&EVS_ExitRoomDoor, TRIGGER_WALL_PRESS_A, triggerColliderID, 1, (intptr_t) room, 3);
     }
     return ApiStatus_DONE2;
 }

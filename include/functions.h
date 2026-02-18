@@ -517,7 +517,7 @@ void clear_item_entity_flags(s32 index, s32 flags);
 
 s32 create_worker_frontUI(void (*updateFunc)(void), void (*drawFunc)(void));
 Worker* get_worker(s32 idx);
-Trigger* bind_trigger_1(EvtScript* script, s32 flags, s32 triggerFlagIndex, s32 triggerVar0, s32 triggerVar1, s32 priority);
+Trigger* bind_trigger_1(EvtScript* script, s32 flags, s32 triggerFlagIndex, intptr_t triggerVar0, intptr_t triggerVar1, s32 priority);
 
 void set_cam_viewport(s16 id, s16 x, s16 y, s16 width, s16 height);
 
@@ -839,7 +839,7 @@ void func_800EF3E4(void);
 void enable_player_shadow(void);
 s32 get_msg_lines(intptr_t messageID);
 void set_window_properties(s32 panelID, s32 posX, s32 posY, s32 width, s32 height, u8, void* drawContents, void* drawContentsArg, s8 parent);
-void set_window_update(s32 panelID, s32);
+void set_window_update(s32 panelID, intptr_t);
 void set_windows_visible(s32 groupIdx);
 
 void partner_disable_input(void);

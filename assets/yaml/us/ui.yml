@@ -1,13 +1,13 @@
 ui/no_controller:
   { type: BLOB, offset: 0x51540, size: 0x1000, symbol: ui_no_controller_png }
 ui/input/a_button_unpressed:
-  { type: BLOB, offset: 0x919B0, size: 0x3C0, symbol: ui_input_a_button_unpressed_png }
+  { type: TEXTURE, format: CI4, offset: 0x919B0, width: 48, height: 40, tlut: 0x91D70, symbol: ui_input_a_button_unpressed_png }
 ui/input/a_button_unpressed.pal:
-  { type: BLOB, offset: 0x91D70, size: 0x20, symbol: ui_input_a_button_unpressed_pal }
+  { type: TEXTURE, format: TLUT, offset: 0x91D70, colors: 16, symbol: ui_input_a_button_unpressed_pal }
 ui/input/a_button_pressed:
-  { type: BLOB, offset: 0x91D90, size: 0x3C0, symbol: ui_input_a_button_pressed_png }
+  { type: TEXTURE, format: CI4, offset: 0x91D90, width: 48, height: 40, tlut: 0x92150, symbol: ui_input_a_button_pressed_png }
 ui/input/a_button_pressed.pal:
-  { type: BLOB, offset: 0x92150, size: 0x20, symbol: ui_input_a_button_pressed_pal }
+  { type: TEXTURE, format: TLUT, offset: 0x92150, colors: 16, symbol: ui_input_a_button_pressed_pal }
 ui/input/analog_stick:
   { type: BLOB, offset: 0x92170, size: 0x200, symbol: ui_input_analog_stick_png }
 ui/input/analog_stick.pal:

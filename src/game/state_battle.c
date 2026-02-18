@@ -33,6 +33,7 @@ BSS s32 D_800A0908;
 extern ShapeFile gMapShapeData;
 
 void state_init_battle(void) {
+    GameEngine_LogInfo("[BATTLE] state_init_battle");
     D_800A0900 = 5;
 }
 
@@ -41,9 +42,7 @@ void state_step_battle(void) {
     u32 currentBattleIndex;
 
     if (D_800A0900 == 5) {
-        if (nuGfxCfb[1] != nuGfxCfb_ptr) {
-            return;
-        }
+        // PORT: Skip N64 frame buffer sync check (nuGfxCfb_ptr never cycles on port)
         D_800A0900--;
         gOverrideFlags |= GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME;
         nuContRmbForceStop();
@@ -81,6 +80,7 @@ void state_step_battle(void) {
             spr_init_sprites(PLAYER_SPRITES_MARIO_BATTLE);
         }
 
+        GameEngine_LogInfo("[BATTLE] state_step_battle: initializing battle systems");
         clear_model_data();
         clear_sprite_shading_data();
         reset_background_settings();
@@ -95,9 +95,13 @@ void state_step_battle(void) {
         clear_npcs();
         clear_entity_data(true);
         clear_trigger_data();
+        GameEngine_LogInfo("[BATTLE] calling initialize_battle");
         initialize_battle();
+        GameEngine_LogInfo("[BATTLE] calling btl_save_world_cameras");
         btl_save_world_cameras();
+        GameEngine_LogInfo("[BATTLE] calling load_battle_section");
         load_battle_section();
+        GameEngine_LogInfo("[BATTLE] load_battle_section returned");
         D_800A0904 = gPlayerStatusPtr->animFlags;
         gPlayerStatusPtr->animFlags &= ~PA_FLAG_PULSE_STONE_VISIBLE;
         D_800A0908 = get_time_freeze_mode();

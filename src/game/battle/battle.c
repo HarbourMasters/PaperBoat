@@ -5,6 +5,7 @@
 #include "hud_element.h"
 #include "sprite.h"
 #include "game_modes.h"
+#include "port/Engine.h"
 
 extern s32 D_800DC060;
 extern StageListRow* gCurrentStagePtr;
@@ -215,6 +216,8 @@ void load_demo_battle(u32 index) {
     u32 mode;
     s32 battleID;
 
+    GameEngine_LogInfo("[DEMO_BATTLE] load_demo_battle(%d) start", index);
+
     gGameStatusPtr->demoBattleFlags = 0;
     gGameStatusPtr->areaID = 0;
     gGameStatusPtr->mapID = 0;
@@ -328,5 +331,7 @@ void load_demo_battle(u32 index) {
     set_battle_stage(BTL_STAGE_DEFAULT);
     gGameStatusPtr->demoBattleFlags |= DEMO_BTL_FLAG_ENABLED;
     gOverrideFlags &= ~GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME;
+    GameEngine_LogInfo("[DEMO_BATTLE] calling load_battle(0x%X) mode=%d", battleID, mode);
     load_battle(battleID);
+    GameEngine_LogInfo("[DEMO_BATTLE] load_battle returned");
 }

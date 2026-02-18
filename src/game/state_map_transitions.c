@@ -1,6 +1,7 @@
 #include "common.h"
 #include "nu/nusys.h"
 #include "game_modes.h"
+#include "port/Engine.h"
 
 BSS s16 gMapTransitionAlpha;
 BSS s16 gMapTransitionFadeRate;
@@ -149,6 +150,7 @@ void state_step_change_map(void) {
             break;
         case CHANGE_MAP_LOAD_MAP:
             if (gGameStatusPtr->demoState != DEMO_STATE_NONE) {
+                GameEngine_LogInfo("[DEMO] CHANGE_MAP_LOAD_MAP: switching to GAME_MODE_DEMO, demoState=%d", gGameStatusPtr->demoState);
                 set_game_mode(GAME_MODE_DEMO);
             }
 

@@ -389,7 +389,7 @@ typedef struct Trigger {
     /* 0x14 */ struct Evt* runningScript;
     /* 0x18 */ s32 priority;
     /* 0x1C */ union {
-    /*      */     s32 varTable[3];
+    /*      */     intptr_t varTable[3];
     /*      */     f32 varTableF[3];
     /*      */     void* varTablePtr[3];
     /*      */ };
@@ -2214,7 +2214,7 @@ typedef union {
 } WindowStyle TRANSPARENT_UNION;
 
 typedef union {
-    int i;
+    intptr_t i;
     void (*func)(s32 windowIndex, s32* flags, s32* posX, s32* posY, s32* posZ, f32* scaleX, f32* scaleY,
                                  f32* rotX, f32* rotY, f32* rotZ, s32* darkening, s32* opacity);
 } WindowUpdateFunc TRANSPARENT_UNION;

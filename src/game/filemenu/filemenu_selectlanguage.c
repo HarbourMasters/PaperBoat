@@ -319,11 +319,11 @@ void filemenu_selectlanguage_handle_input(MenuPanel* menu) {
     }
 
     if ((filemenu_pressedButtons & (BUTTON_A | BUTTON_START)) || (var_s1 != 0)) {
-        set_window_update(WIN_FILES_SLOT1_BODY, (s32) &filemenu_selectlanguage_80248018);
-        set_window_update(WIN_FILES_SLOT2_BODY, (s32) &filemenu_selectlanguage_80248018);
-        set_window_update(WIN_FILES_SLOT3_BODY, (s32) &filemenu_selectlanguage_80248018);
-        set_window_update(WIN_FILES_SLOT4_BODY, (s32) &filemenu_selectlanguage_80248018);
-        set_window_update(WIN_FILES_TITLE, (s32) filemenu_update_hidden_title);
+        set_window_update(WIN_FILES_SLOT1_BODY, (intptr_t)&filemenu_selectlanguage_80248018);
+        set_window_update(WIN_FILES_SLOT2_BODY, (intptr_t)&filemenu_selectlanguage_80248018);
+        set_window_update(WIN_FILES_SLOT3_BODY, (intptr_t)&filemenu_selectlanguage_80248018);
+        set_window_update(WIN_FILES_SLOT4_BODY, (intptr_t)&filemenu_selectlanguage_80248018);
+        set_window_update(WIN_FILES_TITLE, (intptr_t)filemenu_update_hidden_title);
         if (var_s1 == 0) {
             sfx_play_sound(SOUND_PLANTS_BELL);
         } else {

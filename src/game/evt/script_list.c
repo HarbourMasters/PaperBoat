@@ -779,7 +779,7 @@ void set_script_group(Evt* script, s32 groupFlags) {
     script->groupFlags = groupFlags;
 }
 
-Trigger* bind_trigger(EvtScript* script, s32 flags, s32 triggerFlagIndex, s32 triggerVar0, s32 triggerVar1,
+Trigger* bind_trigger(EvtScript* script, s32 flags, s32 triggerFlagIndex, intptr_t triggerVar0, intptr_t triggerVar1,
                       s32 priority, s32 arg6) {
     Trigger* trigger;
     TriggerBlueprint bp;
@@ -799,7 +799,7 @@ Trigger* bind_trigger(EvtScript* script, s32 flags, s32 triggerFlagIndex, s32 tr
     return trigger;
 }
 
-Trigger* bind_trigger_1(EvtScript* script, s32 flags, s32 triggerFlagIndex, s32 triggerVar0, s32 triggerVar1,
+Trigger* bind_trigger_1(EvtScript* script, s32 flags, s32 triggerFlagIndex, intptr_t triggerVar0, intptr_t triggerVar1,
                         s32 priority) {
     return bind_trigger(script, flags, triggerFlagIndex, triggerVar0, triggerVar1, priority, 1);
 }

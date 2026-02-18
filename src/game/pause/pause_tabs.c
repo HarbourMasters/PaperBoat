@@ -501,7 +501,7 @@ void pause_tabs_update(MenuPanel* tab) {
                                       fpUpdate.func == pause_update_page_active_2 ||
                                       fpUpdate.func == basic_window_update ||
                                       fpUpdate.i == 1)) {
-                    set_window_update(gPauseTabsPageWindowIDs[i], (s32)fpUpdateInactive);
+                    set_window_update(gPauseTabsPageWindowIDs[i], (intptr_t)fpUpdateInactive);
                     flag = true;
                 }
             }
@@ -516,7 +516,7 @@ void pause_tabs_update(MenuPanel* tab) {
                     gPauseDoBasicWindowUpdate = false;
                 }
 
-                set_window_update(gPauseTabsPageWindowIDs[tab->col], (s32)fpUpdateActive);
+                set_window_update(gPauseTabsPageWindowIDs[tab->col], (intptr_t)fpUpdateActive);
             }
         }
     }

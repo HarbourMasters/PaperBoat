@@ -2229,9 +2229,9 @@ block_47: // TODO required to match
             }
             if (item->state == ITEM_PICKUP_STATE_SHOW_TOO_MANY) {
                 func_801363A0(item);
-                set_window_update(WIN_PICKUP_HEADER, (s32) basic_window_update);
-                set_window_update(WIN_POPUP_TITLE_B, (s32) basic_window_update);
-                set_window_update(WIN_POPUP_DESC, (s32) basic_window_update);
+                set_window_update(WIN_PICKUP_HEADER, (intptr_t)basic_window_update);
+                set_window_update(WIN_POPUP_TITLE_B, (intptr_t)basic_window_update);
+                set_window_update(WIN_POPUP_DESC, (intptr_t)basic_window_update);
             }
             increment_status_bar_disabled();
             ItemPickupStateDelay = 10;
@@ -2290,9 +2290,9 @@ block_47: // TODO required to match
 
             if (ItemPickupStateDelay == 6) {
                 func_801363A0(item);
-                set_window_update(WIN_PICKUP_HEADER, (s32) basic_window_update);
+                set_window_update(WIN_PICKUP_HEADER, (intptr_t)basic_window_update);
                 if (item->itemID != ITEM_STAR_PIECE && item->itemID != ITEM_COIN) {
-                    set_window_update(WIN_POPUP_DESC, (s32) basic_window_update);
+                    set_window_update(WIN_POPUP_DESC, (intptr_t)basic_window_update);
                 }
             }
 
@@ -2316,8 +2316,8 @@ block_47: // TODO required to match
                 if (gItemTable[item->itemID].typeFlags & ITEM_TYPE_FLAG_GEAR) {
                     ItemPickupGotOutline->data.gotItemOutline->timeLeft = 10;
                 }
-                set_window_update(WIN_PICKUP_HEADER, (s32) basic_hidden_window_update);
-                set_window_update(WIN_POPUP_DESC, (s32) basic_hidden_window_update);
+                set_window_update(WIN_PICKUP_HEADER, (intptr_t)basic_hidden_window_update);
+                set_window_update(WIN_POPUP_DESC, (intptr_t)basic_hidden_window_update);
                 item->state = ITEM_PICKUP_STATE_HIDE_GOT_ITEM;
             }
             break;
@@ -2402,8 +2402,8 @@ block_47: // TODO required to match
                 menu->numEntries = numEntries;
                 menu->initialPos = 0;
                 create_standard_popup_menu(menu);
-                set_window_update(WIN_PICKUP_HEADER, (s32) basic_hidden_window_update);
-                set_window_update(WIN_POPUP_TITLE_B, (s32) basic_hidden_window_update);
+                set_window_update(WIN_PICKUP_HEADER, (intptr_t)basic_hidden_window_update);
+                set_window_update(WIN_POPUP_TITLE_B, (intptr_t)basic_hidden_window_update);
                 ItemPickupStateDelay = 0;
                 item->state = ITEM_PICKUP_STATE_HIDE_TOO_MANY;
             }
@@ -2449,14 +2449,14 @@ block_47: // TODO required to match
                 }
                 suggest_player_anim_always_forward(ANIM_MarioW1_Lift);
                 func_801363A0(item);
-                set_window_update(WIN_PICKUP_HEADER, (s32) basic_window_update);
+                set_window_update(WIN_PICKUP_HEADER, (intptr_t)basic_window_update);
                 ItemPickupStateDelay = 50;
                 item->state = ITEM_PICKUP_STATE_SHOW_THREW_AWAY;
             }
             break;
         case ITEM_PICKUP_STATE_SHOW_THREW_AWAY:
             if (gGameStatusPtr->pressedButtons[0] & BUTTON_A) {
-                set_window_update(WIN_PICKUP_HEADER, (s32) basic_hidden_window_update);
+                set_window_update(WIN_PICKUP_HEADER, (intptr_t)basic_hidden_window_update);
                 item->state = ITEM_PICKUP_STATE_HIDE_THREW_AWAY;
             }
             break;

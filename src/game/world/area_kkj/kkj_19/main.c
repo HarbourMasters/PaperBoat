@@ -42,11 +42,11 @@ API_CALLABLE(N(TryOpenIngredientWindows)) {
 
 void N(worker_update_ingredient_windows)(void) {
     if (N(IngredientWindowsOpen)) {
-        set_window_update(WIN_SHOP_ITEM_NAME, (s32)basic_window_update);
-        set_window_update(WIN_SHOP_ITEM_DESC, (s32)basic_window_update);
+        set_window_update(WIN_SHOP_ITEM_NAME, (intptr_t)basic_window_update);
+        set_window_update(WIN_SHOP_ITEM_DESC, (intptr_t)basic_window_update);
     } else {
-        set_window_update(WIN_SHOP_ITEM_NAME, (s32)basic_hidden_window_update);
-        set_window_update(WIN_SHOP_ITEM_DESC, (s32)basic_hidden_window_update);
+        set_window_update(WIN_SHOP_ITEM_NAME, (intptr_t)basic_hidden_window_update);
+        set_window_update(WIN_SHOP_ITEM_DESC, (intptr_t)basic_hidden_window_update);
     }
 
     if (N(IngredientWindowsDismissTime) > 0) {

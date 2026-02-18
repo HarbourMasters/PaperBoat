@@ -161,13 +161,13 @@ void hide_popup_menu(void) {
             case POPUP_MENU_READ_LETTER:
             case POPUP_MENU_TAKE_FROM_CHEST:
             case POPUP_MENU_USEKEY:
-                set_window_update(WIN_POPUP_CONTENT, (s32) basic_hidden_window_update);
-                set_window_update(WIN_POPUP_DESC, (s32) basic_hidden_window_update);
+                set_window_update(WIN_POPUP_CONTENT, (intptr_t)basic_hidden_window_update);
+                set_window_update(WIN_POPUP_DESC, (intptr_t)basic_hidden_window_update);
                 break;
             case POPUP_MENU_READ_DIARY_PAGE:
             case POPUP_MENU_READ_POSTCARD:
             case POPUP_MENU_POST_OFFICE:
-                set_window_update(WIN_POPUP_CONTENT, (s32) basic_hidden_window_update);
+                set_window_update(WIN_POPUP_CONTENT, (intptr_t)basic_hidden_window_update);
                 break;
         }
         set_window_update(WIN_POPUP_PROMPT, WINDOW_UPDATE_HIDE);
@@ -196,15 +196,15 @@ void hide_popup_menu(void) {
     }
 
     if (gPopupMenu->popupType == POPUP_MENU_TRADE_FOR_BADGE) {
-        set_window_update(WIN_POPUP_COST, (s32) basic_hidden_window_update);
-        set_window_update(WIN_CURRENCY_COUNTER, (s32) basic_hidden_window_update);
+        set_window_update(WIN_POPUP_COST, (intptr_t)basic_hidden_window_update);
+        set_window_update(WIN_CURRENCY_COUNTER, (intptr_t)basic_hidden_window_update);
     }
     if (gPopupMenu->popupType == POPUP_MENU_UPGRADE_PARTNER) {
-        set_window_update(WIN_PARTNER_COST, (s32) basic_hidden_window_update);
+        set_window_update(WIN_PARTNER_COST, (intptr_t)basic_hidden_window_update);
     }
     if (gPopupMenu->popupType == POPUP_MENU_SELL_ITEM) {
-        set_window_update(WIN_POPUP_COST, (s32) basic_hidden_window_update);
-        set_window_update(WIN_CURRENCY_COUNTER, (s32) basic_hidden_window_update);
+        set_window_update(WIN_POPUP_COST, (intptr_t)basic_hidden_window_update);
+        set_window_update(WIN_CURRENCY_COUNTER, (intptr_t)basic_hidden_window_update);
     }
     gPopupState = POPUP_STATE_10;
     PopupDelayTime = PopupDelayLength;
@@ -263,24 +263,24 @@ void func_800F16CC(void) {
             case POPUP_MENU_READ_LETTER:
             case POPUP_MENU_TAKE_FROM_CHEST:
             case POPUP_MENU_USEKEY:
-                set_window_update(WIN_POPUP_CONTENT, (s32) basic_window_update);
+                set_window_update(WIN_POPUP_CONTENT, (intptr_t)basic_window_update);
                 sfx_play_sound(SOUND_OPEN_POPUP_1);
-                set_window_update(WIN_POPUP_DESC, (s32) basic_window_update);
+                set_window_update(WIN_POPUP_DESC, (intptr_t)basic_window_update);
                 break;
             case POPUP_MENU_SWITCH_PARTNER:
             case POPUP_MENU_UPGRADE_PARTNER:
-                set_window_update(WIN_POPUP_CONTENT, (s32) basic_window_update);
+                set_window_update(WIN_POPUP_CONTENT, (intptr_t)basic_window_update);
                 sfx_play_sound(SOUND_OPEN_POPUP_2);
-                set_window_update(WIN_POPUP_DESC, (s32) basic_window_update);
+                set_window_update(WIN_POPUP_DESC, (intptr_t)basic_window_update);
                 break;
             case POPUP_MENU_READ_DIARY_PAGE:
             case POPUP_MENU_READ_POSTCARD:
             case POPUP_MENU_POST_OFFICE:
-                set_window_update(WIN_POPUP_CONTENT, (s32) basic_window_update);
+                set_window_update(WIN_POPUP_CONTENT, (intptr_t)basic_window_update);
                 sfx_play_sound(SOUND_OPEN_POPUP_1);
                 break;
         }
-        set_window_update(WIN_POPUP_PROMPT, (s32) basic_window_update);
+        set_window_update(WIN_POPUP_PROMPT, (intptr_t)basic_window_update);
     } else {
         switch (gPopupMenu->popupType) {
             case POPUP_MENU_USE_ITEM:
@@ -309,14 +309,14 @@ void func_800F16CC(void) {
     }
 
     if (gPopupMenu->popupType == POPUP_MENU_TRADE_FOR_BADGE) {
-        set_window_update(WIN_POPUP_COST, (s32) basic_window_update);
-        set_window_update(WIN_CURRENCY_COUNTER, (s32) basic_window_update);
+        set_window_update(WIN_POPUP_COST, (intptr_t)basic_window_update);
+        set_window_update(WIN_CURRENCY_COUNTER, (intptr_t)basic_window_update);
     }
     if (gPopupMenu->popupType == POPUP_MENU_UPGRADE_PARTNER) {
-        set_window_update(WIN_PARTNER_COST, (s32) basic_window_update);
+        set_window_update(WIN_PARTNER_COST, (intptr_t)basic_window_update);
     }
     if (gPopupMenu->popupType == POPUP_MENU_SELL_ITEM) {
-        set_window_update(WIN_POPUP_COST, (s32) basic_window_update);
+        set_window_update(WIN_POPUP_COST, (intptr_t)basic_window_update);
     }
     hud_element_set_tint(PopupMenu_EmptybarHID, 255, 255, 255);
     hud_element_set_tint(PopupMenu_EntryIconHID, 255, 255, 255);
@@ -907,20 +907,20 @@ s32 popup_menu_update(void) {
                     case POPUP_MENU_READ_LETTER:
                     case POPUP_MENU_TAKE_FROM_CHEST:
                     case POPUP_MENU_USEKEY:
-                        set_window_update(WIN_POPUP_CONTENT, (s32)basic_window_update);
+                        set_window_update(WIN_POPUP_CONTENT, (intptr_t)basic_window_update);
                         sfx_play_sound(SOUND_OPEN_POPUP_1);
-                        set_window_update(WIN_POPUP_DESC, (s32)basic_window_update);
+                        set_window_update(WIN_POPUP_DESC, (intptr_t)basic_window_update);
                         break;
                     case POPUP_MENU_SWITCH_PARTNER:
                     case POPUP_MENU_UPGRADE_PARTNER:
-                        set_window_update(WIN_POPUP_CONTENT, (s32)basic_window_update);
+                        set_window_update(WIN_POPUP_CONTENT, (intptr_t)basic_window_update);
                         sfx_play_sound(SOUND_OPEN_POPUP_2);
-                        set_window_update(WIN_POPUP_DESC, (s32)basic_window_update);
+                        set_window_update(WIN_POPUP_DESC, (intptr_t)basic_window_update);
                         break;
                     case POPUP_MENU_READ_DIARY_PAGE:
                     case POPUP_MENU_READ_POSTCARD:
                     case POPUP_MENU_POST_OFFICE:
-                        set_window_update(WIN_POPUP_CONTENT, (s32)basic_window_update);
+                        set_window_update(WIN_POPUP_CONTENT, (intptr_t)basic_window_update);
                         sfx_play_sound(SOUND_OPEN_POPUP_1);
                         break;
                 }
@@ -928,14 +928,14 @@ s32 popup_menu_update(void) {
             }
 
             if (gPopupMenu->popupType == POPUP_MENU_TRADE_FOR_BADGE) {
-                set_window_update(WIN_POPUP_COST, (s32)basic_window_update);
-                set_window_update(WIN_CURRENCY_COUNTER, (s32)basic_window_update);
+                set_window_update(WIN_POPUP_COST, (intptr_t)basic_window_update);
+                set_window_update(WIN_CURRENCY_COUNTER, (intptr_t)basic_window_update);
             }
             if (gPopupMenu->popupType == POPUP_MENU_UPGRADE_PARTNER) {
-                set_window_update(WIN_PARTNER_COST, (s32)basic_window_update);
+                set_window_update(WIN_PARTNER_COST, (intptr_t)basic_window_update);
             }
             if (gPopupMenu->popupType == POPUP_MENU_SELL_ITEM) {
-                set_window_update(WIN_POPUP_COST, (s32)basic_window_update);
+                set_window_update(WIN_POPUP_COST, (intptr_t)basic_window_update);
             }
             gPopupState = POPUP_STATE_CHOOSING;
             break;

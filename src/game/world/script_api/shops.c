@@ -825,11 +825,11 @@ void draw_shop_items(void) {
     ShopItemEntity* shopItemEntities;
 
     if (shop->flags & SHOP_FLAG_SHOWING_ITEM_INFO) {
-        set_window_update(WIN_SHOP_ITEM_NAME, (s32) basic_window_update);
-        set_window_update(WIN_SHOP_ITEM_DESC, (s32) basic_window_update);
+        set_window_update(WIN_SHOP_ITEM_NAME, (intptr_t)basic_window_update);
+        set_window_update(WIN_SHOP_ITEM_DESC, (intptr_t)basic_window_update);
     } else {
-        set_window_update(WIN_SHOP_ITEM_NAME, (s32) basic_hidden_window_update);
-        set_window_update(WIN_SHOP_ITEM_DESC, (s32) basic_hidden_window_update);
+        set_window_update(WIN_SHOP_ITEM_NAME, (intptr_t)basic_hidden_window_update);
+        set_window_update(WIN_SHOP_ITEM_DESC, (intptr_t)basic_hidden_window_update);
     }
 
     if (shop->flags & SHOP_FLAG_SHOWING_ITEM_INFO) {
@@ -893,10 +893,10 @@ API_CALLABLE(MakeShop) {
     f32 centerX;
     f32 centerY;
     f32 centerZ;
-    s32 var1;
-    s32 var2;
-    s32 var3;
-    s32 var4;
+    Bytecode var1;
+    Bytecode var2;
+    Bytecode var3;
+    Bytecode var4;
     f32 sizeX;
     f32 sizeY;
     f32 sizeZ;

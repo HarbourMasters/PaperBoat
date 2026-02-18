@@ -232,7 +232,7 @@ void render_windows(s32* windowsArray, s32 parent, s32 flags, s32 baseX, s32 bas
     s32 boxFlags;
     s32 boxTranslateX;
     s32 boxTranslateY;
-    s32 fpUpdateIdx;
+    intptr_t fpUpdateIdx;
     s32 width, height;
     s32 (*fpUpdateFunc)(s32 windowIndex, s32* flags, s32* posX, s32* posY, s32* posZ, f32* scaleX, f32* scaleY,
                                  f32* rotX, f32* rotY, f32* rotZ, s32* darkening, s32* opacity);
@@ -441,7 +441,7 @@ void replace_window_update(s32 windowID, s8 priority, WindowUpdateFunc pendingFu
     }
 }
 
-void set_window_update(s32 windowID, s32 func) {
+void set_window_update(s32 windowID, intptr_t func) {
     if (gWindows[windowID].flags & WINDOW_FLAG_INITIALIZED) {
         if (func == gWindows[windowID].fpUpdate.i) {
             gWindows[windowID].flags &= ~WINDOW_FLAG_FPUPDATE_CHANGED;
