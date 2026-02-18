@@ -198,8 +198,13 @@ void nuGfxSetUcodeFifo(void* fifoBufPtr, s32 size) {
 // ============================================================================
 
 u8 nuContInit(void) {
-    // Return 1 controller connected
-    // libultraship ControlDeck handles actual input
+    // Initialize libultraship's ControlDeck: loads SDL gamepad support,
+    // gamecontrollerdb.txt, and default keyboard/gamepad mappings.
+    OSMesgQueue dummyMq = { 0 };
+    OSContStatus dummyStatus = { 0 };
+    u8 controllerBits = 0;
+    osContInit(&dummyMq, &controllerBits, &dummyStatus);
+    // Always report controller 1 connected regardless of physical device
     return 1;
 }
 
@@ -242,32 +247,46 @@ void nuContRmbStart(u32 port, u16 freq, u16 frame) {
     // TODO: Call libultraship rumble start
 }
 
-void nuContDataGet(OSContPad* contdata, u32 padno) {
-    // TODO: Read from libultraship ControlDeck
-    contdata->button = 0;
-    contdata->stick_x = 0;
-    contdata->stick_y = 0;
-    contdata->err_no = 0;
-}
+// Static pad buffer shared across nuContDataGet/nuContDataGetAll
+static OSContPad sContPads[MAXCONTROLLERS];
 
-void nuContDataGetAll(OSContPad* contdata) {
-    for (int i = 0; i < 4; i++) {
-        nuContDataGet(&contdata[i], i);
+void nuContDataGet(OSContPad* contdata, u32 padno) {
+    memset(sContPads, 0, sizeof(sContPads));
+    GameEngine_ReadController(sContPads);
+    if (padno < MAXCONTROLLERS) {
+        *contdata = sContPads[padno];
     }
 }
 
+void nuContDataGetAll(OSContPad* contdata) {
+    memset(contdata, 0, sizeof(OSContPad) * MAXCONTROLLERS);
+    GameEngine_ReadController(contdata);
+}
+
 void nuContDataGetEx(NUContData* contdata, u32 padno) {
-    // TODO: Read from libultraship ControlDeck
-    contdata->button = 0;
-    contdata->stick_x = 0;
-    contdata->stick_y = 0;
+    OSContPad pad;
+    memset(&pad, 0, sizeof(pad));
+    memset(sContPads, 0, sizeof(sContPads));
+    GameEngine_ReadController(sContPads);
+    if (padno < MAXCONTROLLERS) {
+        pad = sContPads[padno];
+    }
+    contdata->button = pad.button;
+    contdata->stick_x = pad.stick_x;
+    contdata->stick_y = pad.stick_y;
     contdata->trigger = 0;
-    contdata->errno = 0;
+    contdata->errno = pad.err_no;
 }
 
 void nuContDataGetExAll(NUContData* contdata) {
-    for (int i = 0; i < 4; i++) {
-        nuContDataGetEx(&contdata[i], i);
+    memset(sContPads, 0, sizeof(sContPads));
+    GameEngine_ReadController(sContPads);
+    for (int i = 0; i < MAXCONTROLLERS; i++) {
+        contdata[i].button = sContPads[i].button;
+        contdata[i].stick_x = sContPads[i].stick_x;
+        contdata[i].stick_y = sContPads[i].stick_y;
+        contdata[i].trigger = 0;
+        contdata[i].errno = sContPads[i].err_no;
     }
 }
 

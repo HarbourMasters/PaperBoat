@@ -170,6 +170,11 @@ void GameEngine::Destroy() {
 }
 
 void GameEngine::StartFrame() const {
+    // Process window events (keyboard/mouse/gamepad) BEFORE game logic reads input.
+    // This fires the keyboard callbacks that set mKeyPressed state in ControlDeck,
+    // so that WriteToPad() sees current key state when called from update_input().
+    this->context->GetWindow()->HandleEvents();
+
     using Ship::KbScancode;
     const int32_t dwScancode = this->context->GetWindow()->GetLastScancode();
     this->context->GetWindow()->SetLastScancode(-1);
@@ -352,6 +357,14 @@ extern "C" void GameEngine_ProcessGfxCommands(Gfx* commands) {
     std::vector<std::unordered_map<Mtx*, MtxF>> mtx_replacements;
     mtx_replacements.push_back({});  // Empty map for now, interpolation can be added later
     GameEngine::RunCommands(commands, mtx_replacements);
+}
+
+// C-callable controller input reader
+extern "C" void GameEngine_ReadController(OSContPad* pads) {
+    auto controlDeck = Ship::Context::GetInstance()->GetControlDeck();
+    if (controlDeck != nullptr) {
+        controlDeck->WriteToPad(pads);
+    }
 }
 
 // C-callable memory allocator

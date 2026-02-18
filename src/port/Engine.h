@@ -87,6 +87,9 @@ void GameEngine_ProcessGfxCommands(Gfx* commands);
 void GameEngine_LogInfo(const char* fmt, ...);
 void GameEngine_LogStackTrace(const char* label);
 
+// Controller input - reads all 4 pads from libultraship ControlDeck
+void GameEngine_ReadController(OSContPad* pads);
+
 // C-callable context tracking for display list debugging
 void GameEngine_SetDisplayListContext(const char* context);
 const char* GameEngine_GetDisplayListContext(void);

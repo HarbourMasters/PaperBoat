@@ -94,6 +94,10 @@ void init_game_globals(void) {
     // This is normally done by boot_main() -> nuGfxInit(), but the port doesn't call boot_main
     nuGfxInit();
 
+    // Initialize controller input (normally boot_main -> nuContInit -> osContInit).
+    // This loads SDL gamepad support and default keyboard/gamepad mappings in libultraship.
+    nuContInit();
+
     // Player state
     mem_clear(&gPlayerData, sizeof(gPlayerData));
     mem_clear(&gPlayerStatus, sizeof(gPlayerStatus));
@@ -146,6 +150,7 @@ void init_game_globals(void) {
 
     // Game status (only partially initialized at definition)
     mem_clear(&gGameStatus, sizeof(gGameStatus));
+    gGameStatus.contBitPattern = 1; // Controller 1 connected (port skips boot_main)
 
     // Entity/Worker lists
     mem_clear(&gWorldWorkerList, sizeof(gWorldWorkerList));
