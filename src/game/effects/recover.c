@@ -176,9 +176,9 @@ void func_E0080448(EffectInstance* effect) {
                 gDPSetCombineMode(gMainGfxPos++, PM_CC_49, PM_CC_49);
             }
 
-            gSPDisplayList(gMainGfxPos++, (type == 0 || type == 2) ?
+            gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET((type == 0 || type == 2) ?
                 (unk_44 == 0 ? D_09003200_385000 : D_09003298_385098) :
-                D_09003330_385130);
+                D_09003330_385130));
 
             guTranslateF(sp18, part->pos.x + part->offsetX, part->pos.y, part->pos.z);
             guScaleF(sp58, part->scaleX, part->scaleY, 1.0f);

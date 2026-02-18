@@ -1281,7 +1281,6 @@ void check_for_interactables(void) {
     }
 
     if (InteractNotificationCallback == nullptr) {
-        DMA_COPY_SEGMENT(inspect_icon);
         InteractNotificationCallback = interact_inspect_setup;
 
     }

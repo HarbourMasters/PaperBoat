@@ -155,7 +155,7 @@ void entity_BlueWarpPipe_setupGfx(s32 entityIndex) {
     guMtxCatF(sp10, sp50, sp50);
     guMtxF2L(sp50, &gDisplayContext->matrixStack[gMatrixListPos]);
     gSPMatrix(gfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxPos++, Entity_BlueWarpPipe_RenderBase);
+    gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_BlueWarpPipe_RenderBase));
     gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
     gMainGfxPos = gfxPos;
 }

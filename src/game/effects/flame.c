@@ -249,7 +249,7 @@ void flame_appendGfx(void* effect) {
         LastFlameRenderFrame = gGameStatusPtr->frameCounter;
         gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000918_3544C8));
         gDPSetTileSize(gMainGfxPos++, 1, uls, ult, uls + 128, ult + 256);
-        gSPDisplayList(gMainGfxPos++, D_090009E0_354590);
+        gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(D_090009E0_354590));
         gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, VIRTUAL_TO_PHYSICAL(nuGfxCfb_ptr));
         gDPSetScissorFrac(gMainGfxPos++, G_SC_NON_INTERLACE,
             camera->viewportStartX * 4.0f,
@@ -260,7 +260,7 @@ void flame_appendGfx(void* effect) {
 
     preset = &FlamePresets[type];
 
-    gSPDisplayList(gMainGfxPos++, preset->dlist);
+    gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(preset->dlist));
     gDPSetKeyR(gMainGfxPos++, preset->keyCenter, preset->colorScale.r, 0);
     gDPSetKeyGB(gMainGfxPos++, preset->keyCenter, preset->colorScale.g, 0, preset->keyCenter, preset->colorScale.b, 0);
     gDPSetPrimColor(gMainGfxPos++, 0, 0, preset->primIntensity, preset->primIntensity, preset->primIntensity, 0);

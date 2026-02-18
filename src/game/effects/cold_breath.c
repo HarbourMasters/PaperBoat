@@ -222,7 +222,7 @@ void cold_breath_appendGfx(void* effect) {
             gDPSetTileSize(gMainGfxPos++, 1, 0, 0, 31 << 2, 127 << 2);
         }
         gDPSetEnvColor(gMainGfxPos++, data->envCol.r, data->envCol.g, data->envCol.b, envAlpha);
-        gSPDisplayList(gMainGfxPos++, D_E00DE810[unk00][temp_s32]);
+        gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(D_E00DE810[unk00][temp_s32]));
     }
 
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);

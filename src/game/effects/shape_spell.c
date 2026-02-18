@@ -240,8 +240,8 @@ void shape_spell_appendGfx(void* effect) {
                 func_E0024324(D_E0024CC0[j].unk_02, D_E0024CC0[j].unk_00),
                 func_E0024324(D_E0024CC0[j].unk_03, D_E0024CC0[j].unk_00),
                 255);
-            gSPDisplayList(gMainGfxPos++, !isChild ?
-                D_E0024CC0[j].unk_04 : D_E0024CC0[j].unk_08);
+            gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(!isChild ?
+                D_E0024CC0[j].unk_04 : D_E0024CC0[j].unk_08));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
 

@@ -176,14 +176,14 @@ void lil_oink_appendGfx(void* effect) {
 
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
                       G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, D_E0114718[data->type[i]]);
+            gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(D_E0114718[data->type[i]]));
             if (data->type[i] == LIL_OINK_TYPE_SILVER || data->type[i] == LIL_OINK_TYPE_GOLD) {
                 f32 shineVariation = sin_deg(angle) * 63.0f;
                 s8 primColor = shineVariation + 63.0f;
 
                 gDPSetPrimColor(gMainGfxPos++, 0, 0, primColor, primColor, primColor, 0);
             }
-            gSPDisplayList(gMainGfxPos++, lil_oink_FramesGfx[data->type[i]][data->gfxFrame[i]]);
+            gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(lil_oink_FramesGfx[data->type[i]][data->gfxFrame[i]]));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
         angle += 20;
