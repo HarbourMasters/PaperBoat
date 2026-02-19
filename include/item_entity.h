@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-typedef s32 ItemScript[];
+typedef intptr_t ItemScript[];
 
 enum {
     ITEM_SCRIPT_OP_End,
@@ -14,7 +14,7 @@ enum {
 };
 
 #define is_End ITEM_SCRIPT_OP_End,
-#define is_SetIcon(time, icon) ITEM_SCRIPT_OP_SetImage, time, ICON_##icon##_raster, ICON_##icon##_palette, 0, 0,
+#define is_SetIcon(time, icon) ITEM_SCRIPT_OP_SetImage, time, (intptr_t)ICON_##icon##_raster, (intptr_t)ICON_##icon##_palette, 0, 0,
 #define is_Restart ITEM_SCRIPT_OP_Restart,
 #define is_Loop ITEM_SCRIPT_OP_Loop,
 #define is_RandomRestart(max, cutoff) ITEM_SCRIPT_OP_RandomRestart, max, cutoff,

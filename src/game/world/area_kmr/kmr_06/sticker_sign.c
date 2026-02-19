@@ -1,8 +1,8 @@
 #include "kmr_06.h"
-#include "ld_addrs.h"
+#include "port/Engine.h"
 
-extern s32 gItemIconRasterOffsets[];
-extern s32 gItemIconPaletteOffsets[];
+extern intptr_t gItemIconRasterOffsets[];
+extern intptr_t gItemIconPaletteOffsets[];
 
 typedef struct StickerData {
     /* 0x00 */ s32 imgfxIdx;
@@ -74,12 +74,8 @@ API_CALLABLE(N(CreateSticker)) {
     s32 itemID = evt_get_variable(script, *args++);
 
     StickerData* sticker = (StickerData*) heap_malloc(sizeof(*sticker));
-    IMG_PTR iconImg = heap_malloc(0x200);
-    PAL_PTR iconPal = heap_malloc(0x20);
-
-    s32 iconBase = (s32) icon_ROM_START;
-    s32 iconImgEnd = iconBase + 0x200;
-    s32 iconPalEnd = iconBase + 0x20;
+    IMG_PTR iconImg = (IMG_PTR) LOAD_ASSET((const char*)gItemIconRasterOffsets[itemID]);
+    PAL_PTR iconPal = (PAL_PTR) LOAD_ASSET((const char*)gItemIconPaletteOffsets[itemID]);
 
     sticker->pos.x = 0.0f;
     sticker->pos.y = 0.0f;
@@ -98,14 +94,6 @@ API_CALLABLE(N(CreateSticker)) {
     sticker->scale.z = 1.0f;
 
     sticker->duration = 0;
-    dma_copy(
-        (u8*) (iconBase + gItemIconRasterOffsets[itemID]),
-        (u8*) (iconImgEnd + gItemIconRasterOffsets[itemID]),
-        iconImg);
-    dma_copy(
-        (u8*) (iconBase + gItemIconPaletteOffsets[itemID]),
-        (u8*) (iconPalEnd + gItemIconPaletteOffsets[itemID]),
-        iconPal);
 
     sticker->imgfxIdx = imgfx_get_free_instances(1);
     sticker->workerID = create_worker_scene(nullptr, N(worker_render_sticker));

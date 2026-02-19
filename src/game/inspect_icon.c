@@ -1,5 +1,4 @@
 #include "common.h"
-#include "include_asset.h"
 
 #define NAMESPACE inspect_icon
 
@@ -25,10 +24,26 @@ enum {
     INSPECT_ICON_VANISH     = 3,
 };
 
-#include "inspect_icon.png.h"
-INCLUDE_IMG("inspect_icon.png", inspect_icon_img);
-INCLUDE_PAL("inspect_icon.pal", inspect_icon_pal);
-#include "inspect_icon.gfx.inc.c"
+#include "port/Engine.h"
+#include "assets/icons.h"
+
+Gfx inspect_icon_gfx[] = {
+    gsDPPipeSync(),
+    gsDPSetCycleType(G_CYC_1CYCLE),
+    gsSPClearGeometryMode(G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH),
+    gsSPSetGeometryMode(G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH),
+    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
+    gsDPSetTextureLOD(G_TL_TILE),
+    gsDPSetTextureLUT(G_TT_RGBA16),
+    gsDPSetTexturePersp(G_TP_PERSP),
+    gsDPSetTextureFilter(G_TF_BILERP),
+    gsDPSetColorDither(G_CD_DISABLE),
+    gsDPSetTextureDetail(G_TD_CLAMP),
+    gsDPSetTextureConvert(G_TC_FILT),
+    gsDPSetCombineKey(G_CK_NONE),
+    gsDPSetAlphaCompare(G_AC_NONE),
+    gsSPEndDisplayList(),
+};
 
 BSS InspectIconData InspectIcon;
 InspectIconData* InspectIconPtr = &InspectIcon;
@@ -74,10 +89,10 @@ void appendGfx_interact_prompt(void) {
                   G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gMainGfxPos++, &inspect_icon_gfx);
 
-        ifxImg.raster  = inspect_icon_img;
-        ifxImg.palette = inspect_icon_pal;
-        ifxImg.width   = inspect_icon_img_width;
-        ifxImg.height  = inspect_icon_img_height;
+        ifxImg.raster  = LOAD_ASSET(ICON_inspect_icon_img);
+        ifxImg.palette = LOAD_ASSET(ICON_inspect_icon_pal);
+        ifxImg.width   = 32;
+        ifxImg.height  = 32;
         ifxImg.xOffset = -16;
         ifxImg.yOffset = 26;
         ifxImg.alpha = 255;

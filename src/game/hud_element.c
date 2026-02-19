@@ -127,6 +127,7 @@ BSS s32 D_80159180;
 void hud_element_setup_cam(void);
 
 void hud_element_load_script(HudElement* hudElement, HudScript* anim) {
+    return; // PORT: temporarily disabled to isolate crash
     intptr_t* pos = (intptr_t*)anim;
     intptr_t raster;
     intptr_t palette;
@@ -192,28 +193,11 @@ void hud_element_load_script(HudElement* hudElement, HudScript* anim) {
                 while (true) {
                     if (entry->id == -1) {
                         entry->id = raster;
-                        entry->data = &gHudElementCacheBuffer[*gHudElementCacheSize];
-                        if (gGameStatusPtr->context == CONTEXT_WORLD) {
-                            capacity = gHudElementCacheCapacity;
-                        } else {
-                            capacity = gHudElementCacheCapacity / 2;
-                        }
-                        ASSERT(capacity > *gHudElementCacheSize + gHudElementSizes[preset].size);
-                        nuPiReadRom((s32)icon_ROM_START + raster, entry->data, gHudElementSizes[preset].size);
-                        *gHudElementCacheSize += gHudElementSizes[preset].size;
-                        if (gGameStatusPtr->context == CONTEXT_WORLD) {
-                            *pos = i;
-                        } else {
-                            *pos = (u16)(*pos) | (i << 16);
-                        }
+                        GameEngine_LogInfo("[HUD_CACHE] loading raster path='%s'", (const char*)raster);
+                        entry->data = (u8*)LOAD_ASSET((const char*)raster);
                         i++;
                         break;
                     } else if (entry->id == raster) {
-                        if (gGameStatusPtr->context == CONTEXT_WORLD) {
-                            *pos = i;
-                        } else {
-                            *pos = (u16)(*pos) | (i << 16);
-                        }
                         break;
                     }
                     entry++;
@@ -228,28 +212,11 @@ void hud_element_load_script(HudElement* hudElement, HudScript* anim) {
                 while (true) {
                     if (entry->id == -1) {
                         entry->id = palette;
-                        entry->data = &gHudElementCacheBuffer[*gHudElementCacheSize];
-                        if (gGameStatusPtr->context == CONTEXT_WORLD) {
-                            capacity = gHudElementCacheCapacity;
-                        } else {
-                            capacity = gHudElementCacheCapacity / 2;
-                        }
-                        ASSERT(capacity > *gHudElementCacheSize + 32);
-                        nuPiReadRom((s32)icon_ROM_START + palette, entry->data, 32);
-                        *gHudElementCacheSize += 32;
-                        if (gGameStatusPtr->context == CONTEXT_WORLD) {
-                            *pos = i;
-                        } else {
-                            *pos = (u16)(*pos) | (i << 16);
-                        }
+                        GameEngine_LogInfo("[HUD_CACHE] loading palette path='%s'", (const char*)palette);
+                        entry->data = (u8*)LOAD_ASSET((const char*)palette);
                         i++;
                         break;
                     } else if (entry->id == palette) {
-                        if (gGameStatusPtr->context == CONTEXT_WORLD) {
-                            *pos = i;
-                        } else {
-                            *pos = (u16)(*pos) | (i << 16);
-                        }
                         break;
                     }
                     entry++;
@@ -800,6 +767,7 @@ void update_hud_elements(void) {
 }
 
 s32 hud_element_update(HudElement* hudElement) {
+    return 0; // PORT: temporarily disabled to isolate crash
     HudCacheEntry* entryRaster;
     HudCacheEntry* entryPalette;
     s32 i;

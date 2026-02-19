@@ -1,4 +1,5 @@
 #include "common.h"
+#include "message_ids.h"
 #include "hud_element.h"
 #include "item_entity.h"
 #include "world/world.h"

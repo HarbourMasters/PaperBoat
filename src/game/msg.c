@@ -619,8 +619,8 @@ void msg_play_speech_sound(MessagePrintState* printer, u8 character) {
     }
 }
 
-extern s32 gItemIconRasterOffsets[];
-extern s32 gItemIconPaletteOffsets[];
+extern intptr_t gItemIconRasterOffsets[];
+extern intptr_t gItemIconPaletteOffsets[];
 extern MsgVoice MsgVoices[];
 
 void msg_copy_to_print_buffer(MessagePrintState* printer, s32 arg1, s32 arg2) {
@@ -978,11 +978,8 @@ void msg_copy_to_print_buffer(MessagePrintState* printer, s32 arg1, s32 arg2) {
                         offset = arg << 8 | argQ;
 
                         D_8015131C = D_80159B50;
-                        dma_copy(icon_ROM_START + gItemIconRasterOffsets[offset],
-                                icon_ROM_START + gItemIconRasterOffsets[offset] + 0x200, a2);
-                        romEnd = icon_ROM_START + gItemIconPaletteOffsets[offset] + 0x20;
-                        dma_copy(icon_ROM_START + gItemIconPaletteOffsets[offset],
-                                 romEnd, D_8015C7E0);
+                        memcpy(a2, LOAD_ASSET((const char*)gItemIconRasterOffsets[offset]), 0x200);
+                        memcpy(D_8015C7E0, LOAD_ASSET((const char*)gItemIconPaletteOffsets[offset]), 0x20);
                         printer->curPrintDelay = printer->printDelayTime;
                         if (--arg1 <= 0) {
                             printer->delayFlags |= MSG_DELAY_FLAG_1;

@@ -8,6 +8,7 @@
 #include "message_ids.h"
 #include "nu/nusys.h"
 #include "ld_addrs.h"
+#include "port/Engine.h"
 #include "sprite.h"
 #include "sprite/player.h"
 
@@ -285,14 +286,15 @@ void init_item_entity_list(void) {
     ItemEntityAlternatingSpawn = 0;
 }
 
-extern s32* gItemEntityScripts[];
+extern intptr_t* gItemEntityScripts[];
 
 void item_entity_load(ItemEntity* item) {
-    s32* pos;
+    return; // PORT: temporarily disabled to isolate crash
+    intptr_t* pos;
     HudCacheEntry* entry;
     s32 cond;
-    s32 raster;
-    s32 palette;
+    intptr_t raster;
+    intptr_t palette;
     s32 size;
     s32 i;
 
@@ -314,71 +316,40 @@ void item_entity_load(ItemEntity* item) {
                 raster = *pos++;
                 palette = *pos++;
 
-                // 32x32 or 24x24 (divided by 2 because these are ci4 iamges)
-                size = (item->flags & ITEM_ENTITY_FLAG_FULLSIZE) ? (32 * 32 / 2) : (24 * 24 / 2);
-
                 entry = gHudElementCacheTableRaster;
                 i = 0;
                 while (true) {
                     if (entry->id == -1) {
                         entry->id = raster;
-                        entry->data = &gHudElementCacheBuffer[*gHudElementCacheSize];
-
-                        ASSERT(*gHudElementCacheSize + size < 0x11000);
-                        nuPiReadRom((s32)icon_ROM_START + raster, entry->data, size);
-                        *gHudElementCacheSize += size;
-                        if (gGameStatusPtr->context == CONTEXT_WORLD) {
-                            *pos = i;
-                        } else {
-                            *pos = (u16)(*pos) | (i << 16);
-                        }
-                        pos++;
+                        GameEngine_LogInfo("[ITEM_CACHE] loading raster path='%s'", (const char*)raster);
+                        entry->data = (u8*)LOAD_ASSET((const char*)raster);
+                        i++;
                         break;
-                    } else {
-                        cond = entry->id == raster;  // TODO required to match
-                        if (cond) {
-                            if (gGameStatusPtr->context == CONTEXT_WORLD) {
-                                *pos = i;
-                            } else {
-                                *pos = (u16)(*pos) | (i << 16);
-                            }
-                            pos++;
-                            break;
-                       }
+                    } else if (entry->id == raster) {
+                        break;
                     }
                     entry++;
                     i++;
                 }
-                ASSERT(i < MAX_ITEM_ENTITIES);
+                pos++; // skip raster cache index field
+                ASSERT(i < 192);
 
                 entry = gHudElementCacheTablePalette;
                 i = 0;
                 while (true) {
                     if (entry->id == -1) {
                         entry->id = palette;
-                        entry->data = &gHudElementCacheBuffer[*gHudElementCacheSize];
-                        ASSERT(*gHudElementCacheSize + 0x20 < 0x11000);
-                        nuPiReadRom((s32)icon_ROM_START + palette, entry->data, 0x20);
-                        *gHudElementCacheSize += 0x20;
-                        if (gGameStatusPtr->context == CONTEXT_WORLD) {
-                            *pos = i;
-                        } else {
-                            *pos = (u16)(*pos) | (i << 16);
-                        }
-                        pos++;
+                        GameEngine_LogInfo("[ITEM_CACHE] loading palette path='%s'", (const char*)palette);
+                        entry->data = (u8*)LOAD_ASSET((const char*)palette);
+                        i++;
                         break;
                     } else if (entry->id == palette) {
-                        if (gGameStatusPtr->context == CONTEXT_WORLD) {
-                            *pos = i;
-                        } else {
-                            *pos = (u16)(*pos) | (i << 16);
-                        }
-                        pos++;
                         break;
                     }
                     entry++;
                     i++;
                 }
+                pos++; // skip palette cache index field
                 continue;
         }
         break;
@@ -773,7 +744,7 @@ s32 make_item_entity_at_player(s32 itemID, s32 category, s32 pickupMsgFlags) {
 }
 
 void item_entity_update(ItemEntity* entity) {
-    s32* args;
+    intptr_t* args;
     s32 max, threshold;
 
     entity->nextUpdate--;
@@ -788,18 +759,29 @@ void item_entity_update(ItemEntity* entity) {
                 entity->nextUpdate = 60;
                 return;
             case ITEM_SCRIPT_OP_SetImage:
+            {
+                s32 idx;
+
                 entity->nextUpdate = *args++;
-                *args++;
-                *args++;
-                if (gGameStatusPtr->context == CONTEXT_WORLD) {
-                    entity->lookupRasterIndex  = *args++;
-                    entity->lookupPaletteIndex = *args++;
-                } else {
-                    entity->lookupRasterIndex  = *args++ >> 16;
-                    entity->lookupPaletteIndex = *args++ >> 16;
+                intptr_t rasterVal = *args++;
+                intptr_t paletteVal = *args++;
+                args += 2; // skip cache index fields
+
+                idx = 0;
+                while (gHudElementCacheTableRaster[idx].id != rasterVal) {
+                    ASSERT(++idx < 192);
                 }
+                entity->lookupRasterIndex = idx;
+
+                idx = 0;
+                while (gHudElementCacheTablePalette[idx].id != paletteVal) {
+                    ASSERT(++idx < 192);
+                }
+                entity->lookupPaletteIndex = idx;
+
                 entity->readPos = args;
                 return;
+            }
             case ITEM_SCRIPT_OP_Restart:
                 entity->readPos = entity->savedReadPos;
                 break;

@@ -2,7 +2,7 @@
 #define HUD_ELEMENT_H
 
 #include "common_structs.h"
-#include "icon_offsets.h"
+#include "assets/icons.h"
 
 #define HUD_ELEMENT_BATTLE_ID_MASK 0x800
 
@@ -109,9 +109,9 @@ enum {
 };
 
 typedef struct HudCacheEntry {
-    /* 0x00 */ s32 id;
+    /* 0x00 */ intptr_t id;
     /* 0x04 */ u8* data;
-} HudCacheEntry; // size = 0x8;
+} HudCacheEntry;
 
 typedef struct PopupMenu {
     /* 0x000 */ HudScript* ptrIcon[32];

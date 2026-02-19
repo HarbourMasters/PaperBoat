@@ -1185,8 +1185,8 @@ typedef struct ItemEntity {
     /* 0x1E */ s16 spawnAngle; /* if < 0, a random screen-relative angle is chosen: left or right */
     /* 0x20 */ s16 shadowIndex;
     /* 0x22 */ char unk_22[2];
-    /* 0x24 */ u32* readPos;
-    /* 0x28 */ u32* savedReadPos;
+    /* 0x24 */ intptr_t* readPos;
+    /* 0x28 */ intptr_t* savedReadPos;
     /* 0x2C */ u8 lookupRasterIndex;
     /* 0x2D */ u8 lookupPaletteIndex;
     /* 0x2E */ u8 nextUpdate;

@@ -1,5 +1,4 @@
 #include "common.h"
-#include "include_asset.h"
 
 typedef struct ISpyNotification {
     /* 0x00 */ Vec3f pos;
@@ -19,12 +18,26 @@ enum {
     I_SPY_ANIMATE       = 3, // icon blinks for a second and a half and then vanishes
 };
 
-#include "ispy_icon.png.h"
-INCLUDE_IMG("ispy_icon.png", ispy_icon_img);
-INCLUDE_PAL("ispy_icon.pal", ispy_icon_1_pal);
-INCLUDE_PAL("ispy_icon.2.pal", ispy_icon_2_pal);
-INCLUDE_PAL("ispy_icon.3.pal", ispy_icon_3_pal);
-#include "ispy_icon.gfx.inc.c"
+#include "port/Engine.h"
+#include "assets/icons.h"
+
+Gfx ispy_icon_gfx[] = {
+    gsDPPipeSync(),
+    gsDPSetCycleType(G_CYC_1CYCLE),
+    gsSPClearGeometryMode(G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH),
+    gsSPSetGeometryMode(G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH),
+    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
+    gsDPSetTextureLOD(G_TL_TILE),
+    gsDPSetTextureLUT(G_TT_RGBA16),
+    gsDPSetTexturePersp(G_TP_PERSP),
+    gsDPSetTextureFilter(G_TF_BILERP),
+    gsDPSetColorDither(G_CD_DISABLE),
+    gsDPSetTextureDetail(G_TD_CLAMP),
+    gsDPSetTextureConvert(G_TC_FILT),
+    gsDPSetCombineKey(G_CK_NONE),
+    gsDPSetAlphaCompare(G_AC_NONE),
+    gsSPEndDisplayList(),
+};
 
 BSS ISpyNotification ISpyData;
 ISpyNotification* ISpyPtr = &ISpyData;
@@ -59,26 +72,26 @@ void appendGfx_ispy_icon(void) {
             case 1:
             case 2:
             case 3:
-                ifxImg.palette = ispy_icon_1_pal;
+                ifxImg.palette = LOAD_ASSET(ICON_ispy_icon_1_pal);
                 break;
             case 4:
             case 5:
             case 6:
             case 7:
-                ifxImg.palette = ispy_icon_2_pal;
+                ifxImg.palette = LOAD_ASSET(ICON_ispy_icon_2_pal);
                 break;
             case 8:
             case 9:
             case 10:
             case 11:
-                ifxImg.palette = ispy_icon_3_pal;
+                ifxImg.palette = LOAD_ASSET(ICON_ispy_icon_3_pal);
                 break;
         }
         imgfx_update(0, IMGFX_SET_ALPHA, 255, 255, 255, ISpyPtr->alpha, 0);
 
-        ifxImg.raster = ispy_icon_img;
-        ifxImg.width  = ispy_icon_img_width;
-        ifxImg.height = ispy_icon_img_height;
+        ifxImg.raster = LOAD_ASSET(ICON_ispy_icon_img);
+        ifxImg.width  = 56;
+        ifxImg.height = 56;
         ifxImg.xOffset = -28;
         ifxImg.yOffset = 46;
         ifxImg.alpha = 255;
