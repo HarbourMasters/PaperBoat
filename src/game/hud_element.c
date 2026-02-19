@@ -127,9 +127,9 @@ BSS s32 D_80159180;
 void hud_element_setup_cam(void);
 
 void hud_element_load_script(HudElement* hudElement, HudScript* anim) {
-    s32* pos = (s32*)anim;
-    s32 raster;
-    s32 palette;
+    intptr_t* pos = (intptr_t*)anim;
+    intptr_t raster;
+    intptr_t palette;
     s32 preset;
     Vec3s* size;
     HudCacheEntry* entry;
@@ -817,7 +817,7 @@ s32 hud_element_update(HudElement* hudElement) {
     HudScript* newReadPos;
 
     HudTransform* hudTransform = hudElement->hudTransform;
-    s32* nextPos = (s32*)hudElement->readPos;
+    intptr_t* nextPos = (intptr_t*)hudElement->readPos;
 
     switch (*nextPos++) {
         case HUD_ELEMENT_OP_End:

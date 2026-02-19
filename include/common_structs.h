@@ -2209,7 +2209,7 @@ typedef struct WindowStyleCustom {
 } WindowStyleCustom; // size = 0x38;
 
 typedef union {
-    int defaultStyleID;
+    intptr_t defaultStyleID;
     WindowStyleCustom* customStyle;
 } WindowStyle TRANSPARENT_UNION;
 

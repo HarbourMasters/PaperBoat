@@ -716,21 +716,21 @@ void filemenu_draw_message(u8* message, s32 x, s32 y, s32 alpha, s32 color, u32 
         y -= 2;
     }
 
-    if ((u32)message < 0x100) {
-        if ((u32)message - 0xA2 >= 0x4E) {
-            filemenu_draw_char((s32)message, x, y, flag1, color, flag2);
+    if ((uintptr_t)message < 0x100) {
+        if ((uintptr_t)message - 0xA2 >= 0x4E) {
+            filemenu_draw_char((s32)(uintptr_t)message, x, y, flag1, color, flag2);
             return;
         }
-        if ((s32) message >= 0xC6) {
+        if ((intptr_t) message >= 0xC6) {
 #if VERSION_PAL
-            message = (u8*) filemenu_specialSymbols[gCurrentLanguage][(s32) message - 0xC6];
+            message = (u8*) filemenu_specialSymbols[gCurrentLanguage][(intptr_t) message - 0xC6];
 #else
-            message = (u8*)filemenu_specialSymbols[(s32) message - 0xC6];
+            message = (u8*)filemenu_specialSymbols[(intptr_t) message - 0xC6];
 #endif
         }
     }
 
-    if ((s32) message < 0) {
+    if ((uintptr_t)message >= 0x100) {
         u8* tmp;
         filemenu_draw_char(0xF3, x, y, flag1, color, flag2);
         tmp = message;

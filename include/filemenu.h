@@ -2,7 +2,7 @@
 #define _FILEMENU_H_
 
 #include "common.h"
-#include "filemenu.h"
+#include "ui.h"
 
 #define CENTER_WINDOW_X(id) (((gWindows[id].parent != WIN_NONE) \
     ? (gWindows[gWindows[id].parent].width / 2) \

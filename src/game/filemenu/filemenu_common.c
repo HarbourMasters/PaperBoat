@@ -1028,8 +1028,6 @@ void filemenu_init(s32 mode) {
     MenuPanel* menu;
     s32 i;
 
-    DMA_COPY_SEGMENT(ui_images_filemenu_pause);
-
     for (i = 0; i < ARRAY_COUNT(filemenu_cursorHIDs); i++) {
         filemenu_cursorHIDs[i] = hud_element_create(filemenu_cursor_hudElemScripts[i]);
         hud_element_set_flags(filemenu_cursorHIDs[i], HUD_ELEMENT_FLAG_DROP_SHADOW | HUD_ELEMENT_FLAG_80);

@@ -326,10 +326,11 @@ Mtx gBoxMatrix = RDP_MATRIX(
 // prevent the overflow
 s32 draw_box(s32 flags, void* windowStyle, s32 posX, s32 posY, s32 posZ, s32 width, s32 height, u8 opacity,
               u8 darkening, f32 scaleX, f32 scaleY, f32 rotX, f32 rotY, f32 rotZ,
-              void (*fpDrawContents)(s32, s32, s32, s32, s32, s32, s32), void* drawContentsArg0, Matrix4f rotScaleMtx,
+              void (*fpDrawContents)(void*, s32, s32, s32, s32, s32, s32), void* drawContentsArg0, Matrix4f rotScaleMtx,
               s32 translateX, s32 translateY, Matrix4f outMtx)
 {
-    WindowStyle style = { .defaultStyleID = (int)(unsigned long)windowStyle };
+    WindowStyle style;
+    style.customStyle = (WindowStyleCustom*)windowStyle; // preserve full 64-bit pointer
     Matrix4f mtx1, mtx2, mtx3;
     u8 primR, primG, primB, primA, envR, envG, envB, envA;
     DefaultWindowStyle* defaultStyle = nullptr;
@@ -756,61 +757,16 @@ s32 draw_box(s32 flags, void* windowStyle, s32 posX, s32 posY, s32 posZ, s32 wid
         gDPSetTexturePersp(gMainGfxPos++, G_TP_NONE);
         gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);
         if(fpDrawContents != nullptr) {
-            if (quads != nullptr) {
-                void* mdl_address = mdl_get_next_texture_address(width * height * 2);
-                if(mdl_address != 0) {
-                    gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, OS_K0_TO_PHYSICAL(mdl_address));
-                    gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, 0, 0, width, height);
-                    gDPSetCycleType(gMainGfxPos++, G_CYC_FILL);
-                    gDPSetFillColor(gMainGfxPos++, PACK_FILL_COLOR(primR, primG, primB, 0));
-                    gDPSetRenderMode(gMainGfxPos++, G_RM_NOOP, G_RM_NOOP2);
-                    gDPFillRectangle(gMainGfxPos++, 0, 0, width - 1, height - 1);
-                    gDPPipeSync(gMainGfxPos++);
-                    gDPSetScissorFrac(gMainGfxPos++, G_SC_NON_INTERLACE, 4, 4, (width - 1) * 4.0f, (height - 1) * 4.0f);
-                    gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);
-
-                    fpDrawContents((s32)drawContentsArg0, 0, 0, width, height, opacity, darkening);
-
-                    gDPPipeSync(gMainGfxPos++);
-                    gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 320, OS_K0_TO_PHYSICAL(nuGfxCfb_ptr));
-                    gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, 0, 0, 320, 240);
-                    gSPViewport(gMainGfxPos++, &gBoxViewport);
-                    gSPMatrix(gMainGfxPos++, sp154, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
-                    gSPTexture(gMainGfxPos++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
-                    gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);
-                    gDPSetTextureLUT(gMainGfxPos++, G_TT_NONE);
-                    gDPSetCombineMode(gMainGfxPos++, G_CC_DECALRGBA, G_CC_DECALRGBA);
-                    gDPSetRenderMode(gMainGfxPos++, G_RM_CLD_SURF, G_RM_NOOP2);
-                    gDPSetTexturePersp(gMainGfxPos++, G_TP_PERSP);
-                    gDPSetTextureFilter(gMainGfxPos++, G_TF_BILERP);
-                    guTranslateF(mtx3, 0.0f, 6.0f, 0.0f);
-                    guMtxF2L(mtx3, &gBoxMatrix);
-                    guTranslateF(mtx3, 0.0f, -height / 2, 0.0f);
-                    guMtxF2L(mtx3, &gDisplayContext->matrixStack[gMatrixListPos]);
-                    gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-                    for (idx = 0; idx < height / 6; idx++) {
-                        s32 extraHeight, lineHeight;
-                        if (idx == height / 6 - 1) {
-                            extraHeight = 0;
-                            if (height % 6 != 0) {
-                                extraHeight = 1;
-                            }
-                        } else {
-                            extraHeight = 1;
-                        }
-                        lineHeight = extraHeight + 5;
-                        gDPLoadTextureTile(gMainGfxPos++, OS_K0_TO_PHYSICAL(mdl_address), G_IM_FMT_RGBA, G_IM_SIZ_16b, width, 0,
-                                        0, idx * 6, width - 1, idx * 6 + lineHeight, 0,
-                                        G_TX_CLAMP, G_TX_CLAMP, 9, 3, G_TX_NOLOD, G_TX_NOLOD);
-                        gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, (160 - width / 2) * 4, 0, ((160 - width / 2) + width - 1) * 4, lineHeight * 4);
-                        gSPVertex(gMainGfxPos++, &vtx_drawbox1, 4, 0);
-                        gSP2Triangles(gMainGfxPos++, 0, 3, 1, 0, 0, 2, 3, 0);
-                        gDPPipeSync(gMainGfxPos++);
-                        gSPMatrix(gMainGfxPos++, &gBoxMatrix, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-                    }
-                }
-            } else {
-                fpDrawContents((s32)drawContentsArg0, posX, posY, width, height, opacity, darkening);
+            // PORT: Skip render-to-texture during 3D rotation.
+            // The N64 RDP could render to arbitrary RAM via gDPSetColorImage and read it back
+            // as a texture. The Fast3D interpreter ignores color_image_address for rendering
+            // (GPU always draws to the screen framebuffer), so the scratch buffer would contain
+            // uninitialized memory, causing intermittent color artifacts on the rotated quads.
+            // Instead, draw contents directly. The box frame still rotates in 3D; contents
+            // simply aren't visible during the brief flip animation (backface-culled for most
+            // frames anyway) and appear normally once rotation completes.
+            if (quads == nullptr) {
+                fpDrawContents(drawContentsArg0, posX, posY, width, height, opacity, darkening);
             }
         }
         if (quads != nullptr) {

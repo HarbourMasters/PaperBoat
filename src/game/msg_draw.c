@@ -105,7 +105,7 @@ void msg_draw_speech_bubble(MessagePrintState* printer, s16 posX, s16 posY, s16 
                             s16 height, f32 scaleX, f32 scaleY, u8 opacity, s32 arg9);
 s32 msg_get_draw_char_width(s32 character, s32 charset, s32 variation, f32 msgScale, s32 overrideCharWidth, u16 flags);
 
-void drawbox_message_delegate(s32 data, s32 baseX, s32 baseY, s32 width, s32 height, s32 opacity, s32 darkening) {
+void drawbox_message_delegate(void* data, s32 baseX, s32 baseY, s32 width, s32 height, s32 opacity, s32 darkening) {
     MessagePrintState* printer = (MessagePrintState*)data;
 
     appendGfx_message(printer, 0, 0, 0, 0, 4, 0);

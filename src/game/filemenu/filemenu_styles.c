@@ -1,7 +1,5 @@
 #include "common.h"
-
-extern u8 D_8024A400[];
-extern u8 D_8024B400[];
+#include "assets/ui.h"
 
 WindowStyleCustom filemenu_windowStyles[] = {
     {

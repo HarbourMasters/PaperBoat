@@ -209,7 +209,7 @@ Npc* peach_make_disguise_npc(s32 peachDisguise);
 void peach_set_disguise_anim(AnimID);
 
 s32 draw_box(s32 flags, void* windowStyle, s32 posX, s32 posY, s32 posZ, s32 width, s32 height, u8 opacity,
-              u8 darkening, f32 scaleX, f32 scaleY, f32 rotX, f32 rotY, f32 rotZ, void (*fpDrawContents)(s32, s32, s32, s32, s32, s32, s32),
+              u8 darkening, f32 scaleX, f32 scaleY, f32 rotX, f32 rotY, f32 rotZ, void (*fpDrawContents)(void*, s32, s32, s32, s32, s32, s32),
               void* drawContentsArg0, Matrix4f rotScaleMtx, s32 translateX, s32 translateY, Matrix4f outMtx);
 s32 get_msg_width(intptr_t msgID, u16 charset);
 
@@ -266,8 +266,12 @@ f32 sin_deg(f32 x);
 f32 cos_deg(f32 x);
 f32 sin_rad(f32 x);
 f32 cos_rad(f32 x);
-s32 round(f32);
-f32 atan2(f32 startX, f32 startZ, f32 endX, f32 endZ);
+// Renamed to avoid shadowing C math library symbols (atan2, round)
+// which breaks std::atan2 / std::round in libultraship via linker symbol collision
+s32 pm64_round(f32);
+#define round pm64_round
+f32 pm64_atan2(f32 startX, f32 startZ, f32 endX, f32 endZ);
+#define atan2 pm64_atan2
 f32 clamp_angle(f32 theta);
 s32 sign(s32 value);
 
