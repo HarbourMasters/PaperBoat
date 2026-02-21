@@ -389,13 +389,11 @@ s32 draw_box(s32 flags, void* windowStyle, s32 posX, s32 posY, s32 posZ, s32 wid
         Mtx* sp154;
 
         bgFmt = background->fmt;
-        GameEngine_LogInfo("[DRAW_BOX] loading corners path='%s'", (const char*)corners->imgData);
         cornersImage = (u8*)LOAD_ASSET(corners->imgData);
 
         do {} while (0);
 
         bgWidth = background->width;
-        GameEngine_LogInfo("[DRAW_BOX] loading bg path='%s'", (const char*)background->imgData);
         bgImage = (u8*)LOAD_ASSET(background->imgData);
         bgHeight = background->height;
 

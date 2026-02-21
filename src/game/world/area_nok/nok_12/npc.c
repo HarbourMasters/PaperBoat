@@ -146,17 +146,17 @@ NpcData N(NpcData_KoopaTroopa_02) = {
 
 NpcData N(NpcData_KoopaTroopa_02_Demo) = {
     .id = NPC_KoopaTroopa_02,
-    .pos = { 600.0f, 50.0f, -75.0f },
+    .pos = { 650.0f, 50.0f, -75.0f },
     .yaw = 270,
     .territory = {
         .wander = {
             .isFlying = false,
             .moveSpeedOverride = NO_OVERRIDE_MOVEMENT_SPEED,
             .wanderShape = SHAPE_CYLINDER,
-            .centerPos  = { 563, 50, -43 },
+            .centerPos  = { 613, 50, -43 },
             .wanderSize = { 50 },
             .detectShape = SHAPE_CYLINDER,
-            .detectPos  = { 563, 50, -43 },
+            .detectPos  = { 613, 50, -43 },
             .detectSize = { 500 },
         }
     },

@@ -289,7 +289,6 @@ void init_item_entity_list(void) {
 extern intptr_t* gItemEntityScripts[];
 
 void item_entity_load(ItemEntity* item) {
-    return; // PORT: temporarily disabled to isolate crash
     intptr_t* pos;
     HudCacheEntry* entry;
     s32 cond;
@@ -321,7 +320,6 @@ void item_entity_load(ItemEntity* item) {
                 while (true) {
                     if (entry->id == -1) {
                         entry->id = raster;
-                        GameEngine_LogInfo("[ITEM_CACHE] loading raster path='%s'", (const char*)raster);
                         entry->data = (u8*)LOAD_ASSET((const char*)raster);
                         i++;
                         break;
@@ -339,7 +337,6 @@ void item_entity_load(ItemEntity* item) {
                 while (true) {
                     if (entry->id == -1) {
                         entry->id = palette;
-                        GameEngine_LogInfo("[ITEM_CACHE] loading palette path='%s'", (const char*)palette);
                         entry->data = (u8*)LOAD_ASSET((const char*)palette);
                         i++;
                         break;

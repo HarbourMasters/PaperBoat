@@ -127,7 +127,6 @@ BSS s32 D_80159180;
 void hud_element_setup_cam(void);
 
 void hud_element_load_script(HudElement* hudElement, HudScript* anim) {
-    return; // PORT: temporarily disabled to isolate crash
     intptr_t* pos = (intptr_t*)anim;
     intptr_t raster;
     intptr_t palette;
@@ -193,7 +192,6 @@ void hud_element_load_script(HudElement* hudElement, HudScript* anim) {
                 while (true) {
                     if (entry->id == -1) {
                         entry->id = raster;
-                        GameEngine_LogInfo("[HUD_CACHE] loading raster path='%s'", (const char*)raster);
                         entry->data = (u8*)LOAD_ASSET((const char*)raster);
                         i++;
                         break;
@@ -212,7 +210,6 @@ void hud_element_load_script(HudElement* hudElement, HudScript* anim) {
                 while (true) {
                     if (entry->id == -1) {
                         entry->id = palette;
-                        GameEngine_LogInfo("[HUD_CACHE] loading palette path='%s'", (const char*)palette);
                         entry->data = (u8*)LOAD_ASSET((const char*)palette);
                         i++;
                         break;
@@ -767,7 +764,6 @@ void update_hud_elements(void) {
 }
 
 s32 hud_element_update(HudElement* hudElement) {
-    return 0; // PORT: temporarily disabled to isolate crash
     HudCacheEntry* entryRaster;
     HudCacheEntry* entryPalette;
     s32 i;
