@@ -54,6 +54,7 @@ static std::unordered_set<uint32_t> gVisitedNodes;
 static std::unordered_set<uint32_t> gVisitedGroups;
 static std::unordered_set<uint32_t> gVisitedDisplayLists;
 static std::unordered_set<uint32_t> gVisitedDisplayData;
+static std::unordered_set<uint32_t> gVisitedProperties;
 
 // Collected display lists during parsing
 static std::vector<PM64DisplayListInfo>* gCollectedDisplayLists = nullptr;
@@ -299,8 +300,9 @@ static void ByteSwapModelNode(uint8_t* data, uint32_t offset, size_t size) {
         ByteSwapModelDisplayData(data, displayData, size);
     }
 
-    // Byte-swap properties
+    // Byte-swap properties and track their offsets for vertex byte-swap exclusion
     if (numProperties > 0 && IsValidOffset(propertyList, size)) {
+        gVisitedProperties.insert(propertyList);
         for (int i = 0; i < numProperties; i++) {
             ByteSwapModelNodeProperty(data, propertyList + (i * 0xC), size);
         }
@@ -353,6 +355,7 @@ static void ByteSwapShapeData(uint8_t* data, size_t size, std::vector<PM64Displa
     gVisitedGroups.clear();
     gVisitedDisplayLists.clear();
     gVisitedDisplayData.clear();
+    gVisitedProperties.clear();
 
     // Set up collection target
     gCollectedDisplayLists = &collectedDLs;
@@ -434,6 +437,9 @@ static void ByteSwapShapeData(uint8_t* data, size_t size, std::vector<PM64Displa
             if (off > vertexTable && off < minVisitedOffset) minVisitedOffset = off;
         }
         for (uint32_t off : gVisitedDisplayData) {
+            if (off > vertexTable && off < minVisitedOffset) minVisitedOffset = off;
+        }
+        for (uint32_t off : gVisitedProperties) {
             if (off > vertexTable && off < minVisitedOffset) minVisitedOffset = off;
         }
 
