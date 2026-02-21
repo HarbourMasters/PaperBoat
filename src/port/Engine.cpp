@@ -511,3 +511,13 @@ extern "C" const char* GameEngine_LookupTextureSource(const void* addr) {
     }
     return nullptr;
 }
+
+extern "C" int GameEngine_GetSaveFilePath(char* buf, int bufSize) {
+    std::string path = Ship::Context::GetPathRelativeToAppDirectory("default.sav");
+    if ((int)path.size() >= bufSize) {
+        return -1;
+    }
+    strncpy(buf, path.c_str(), bufSize);
+    buf[bufSize - 1] = '\0';
+    return 0;
+}
