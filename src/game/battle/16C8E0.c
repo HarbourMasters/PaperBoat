@@ -5,6 +5,7 @@
 #include "script_api/battle.h"
 #include "sprite.h"
 #include "effects.h"
+#include "port/Engine.h"
 
 f32 D_802809F0 = 0.0f;
 s8 D_802809F4 = 0;

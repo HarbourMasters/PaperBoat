@@ -26,53 +26,10 @@ Gfx Gfx_DarknessStencilQuad[] = {
     gsSPEndDisplayList(),
 };
 
+// PORT: nuGfxCfb_ptr never cycles on port and the Fast3D interpreter cannot
+// read back framebuffer pixels as texture data. This is a no-op on the port.
+// Still called by: OVERLAY_BLUR, firework_rocket effect, dizzy_dial item, effects shim.
 void appendGfx_draw_prev_frame_buffer(s32 x1, s32 y1, s32 x2, s32 y2, f32 alpha) {
-    s32 stripY, extraY;
-    s32 i;
-    u16* prevGfxCfb = nullptr;
-
-    // round the x positions
-    x1 = x1 - (x1 % 4);
-    x2 = x2 - (x2 % 4) + 4;
-    // can only load 6 rows of the color buffer at a time: 320*6*2 = 3840 bytes of the 4096 capacity
-    stripY = (y2 - y1) / 6;
-    extraY = (y2 - y1) % 6;
-
-    // get previous color buffer
-    for (i = 0; i < nuGfxCfbNum; i++) {
-        if (nuGfxCfb[i] == nuGfxCfb_ptr) {
-            prevGfxCfb = nuGfxCfb[(i + nuGfxCfbNum - 1) % nuGfxCfbNum];
-        }
-    }
-
-    gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);
-    gDPSetCombineMode(gMainGfxPos++, PM_CC_10, PM_CC_10);
-    gDPSetRenderMode(gMainGfxPos++, G_RM_CLD_SURF, G_RM_CLD_SURF2);
-    gDPSetColorDither(gMainGfxPos++, G_CD_DISABLE);
-    gDPSetAlphaDither(gMainGfxPos++, G_AD_NOISE);
-    gDPSetTextureFilter(gMainGfxPos++, G_TF_POINT);
-    gDPSetTexturePersp(gMainGfxPos++, G_TP_NONE);
-    gSPTexture(gMainGfxPos++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
-    gDPSetTextureLUT(gMainGfxPos++, G_TT_NONE);
-    gDPSetTextureDetail(gMainGfxPos++, G_TD_CLAMP);
-    gDPSetTextureLOD(gMainGfxPos++, G_TL_TILE);
-    gDPSetPrimColor(gMainGfxPos++, 0, 0, 255, 255, 255, alpha);
-
-    for (i = 0; i < stripY; i++) {
-        gDPLoadTextureTile(gMainGfxPos++, osVirtualToPhysical(prevGfxCfb), G_IM_FMT_RGBA, G_IM_SIZ_16b, 320, 6,
-                           x1, y1 + i * 6, x2 - 1, y1 + i * 6 + 5, 0,
-                           G_TX_WRAP, G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-        gSPTextureRectangle(gMainGfxPos++, x1 * 4, (y1 + i * 6) * 4, x2 * 4, (y1 + i * 6 + 6) * 4,
-                            G_TX_RENDERTILE, x1 * 32, (y1 + i * 6) * 32, 1024, 1024);
-    }
-
-    if (extraY != 0) {
-        gDPLoadTextureTile(gMainGfxPos++, osVirtualToPhysical(prevGfxCfb), G_IM_FMT_RGBA, G_IM_SIZ_16b, 320, extraY,
-                           x1, y1 + i * 6, x2 - 1, y1 + i * 6 + extraY - 1, 0,
-                           G_TX_WRAP, G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-        gSPTextureRectangle(gMainGfxPos++, x1 * 4, (y1 + i * 6) * 4, x2 * 4, (y1 + i * 6 + extraY) * 4,
-                            G_TX_RENDERTILE, x1 * 32, (y1 + i * 6) * 32, 1024, 1024);
-    }
 }
 
 void draw_prev_frame_buffer_at_screen_pos(s32 x1, s32 y1, s32 x2, s32 y2, f32 alpha) {

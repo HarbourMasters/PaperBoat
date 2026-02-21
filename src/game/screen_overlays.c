@@ -8,7 +8,6 @@ BSS s32 screen_overlay_frontType;
 BSS f32 screen_overlay_frontZoom;
 BSS s32 screen_overlay_backType;
 BSS f32 screen_overlay_backZoom;
-BSS s32 D_80156910;
 ScreenOverlay ScreenOverlays[2];
 
 ScreenTransition CurrentScreenTransition = TRANSITION_END_DEMO_SCENE_BLACK;
@@ -16,8 +15,6 @@ ScreenTransition CurrentScreenTransition = TRANSITION_END_DEMO_SCENE_BLACK;
 // padding?
 s32 D_8014C6F4[] = { 0x00000000, 0x00000000, 0x00000000 };
 
-
-#include "vtx/stencil1.vtx.inc.c"
 
 Gfx Gfx_LoadStencilTex_CommonParams[] = {
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
@@ -74,98 +71,10 @@ Gfx Gfx_LoadStencilTex_BlurryCircle[] = {
     gsSPEndDisplayList()
 };
 
-#include "vtx/stencil2.vtx.inc.c"
-
-Gfx D_8014E8F0[] = {
-    gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPPipeSync(),
-    gsDPSetCycleType(G_CYC_1CYCLE),
-    gsDPSetDepthSource(G_ZS_PRIM),
-    gsDPSetPrimDepth(0, 0),
-    gsDPSetRenderMode(Z_UPD | IM_RD | CVG_DST_SAVE | ZMODE_OPA | FORCE_BL | GBL_c1(G_BL_CLR_MEM, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA), Z_UPD | IM_RD | CVG_DST_SAVE | ZMODE_OPA | FORCE_BL | GBL_c2(G_BL_CLR_MEM, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA)),
-    gsDPSetCombineMode(PM_CC_SCREEN_OVERLAY, PM_CC_SCREEN_OVERLAY),
-    gsDPSetTexturePersp(G_TP_PERSP),
-    gsDPSetTextureDetail(G_TD_CLAMP),
-    gsDPSetTextureLOD(G_TL_TILE),
-    gsDPSetTextureLUT(G_TT_NONE),
-    gsDPSetTextureFilter(G_TF_BILERP),
-    gsDPSetTextureConvert(G_TC_FILT),
-    gsSPClearGeometryMode(G_CULL_BOTH | G_LIGHTING | G_SHADING_SMOOTH),
-    gsSPSetGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK),
-    gsSPVertex(&vtx_stencil1, 10, 0),
-    gsSP2Triangles(0, 1, 2, 0, 3, 0, 2, 0),
-    gsSP2Triangles(0, 4, 1, 0, 3, 5, 0, 0),
-    gsSP2Triangles(1, 6, 2, 0, 7, 3, 2, 0),
-    gsSP2Triangles(8, 7, 2, 0, 7, 9, 3, 0),
-    gsDPPipeSync(),
-    gsDPSetDepthSource(G_ZS_PIXEL),
-    gsSPEndDisplayList()
-};
-
-Gfx D_8014E9A8[] = {
-    gsDPPipeSync(),
-    gsDPSetDepthSource(G_ZS_PRIM),
-    gsDPSetPrimDepth(20, 0),
-    gsDPSetRenderMode(G_RM_ZB_XLU_SURF, G_RM_ZB_XLU_SURF2),
-    gsDPSetCombineMode(PM_CC_SCREEN_OVERLAY, PM_CC_SCREEN_OVERLAY),
-    gsSPClearGeometryMode(G_CULL_BOTH | G_LIGHTING | G_SHADING_SMOOTH),
-    gsSPSetGeometryMode(G_ZBUFFER | G_SHADE),
-    gsDPSetColorDither(G_CD_MAGICSQ),
-    gsDPSetCycleType(G_CYC_1CYCLE),
-    gsDPSetTextureFilter(G_TF_BILERP),
-    gsDPSetTexturePersp(G_TP_NONE),
-    gsDPSetTextureLOD(G_TL_TILE),
-    gsDPSetTextureLUT(G_TT_NONE),
-    gsDPSetTextureDetail(G_TD_CLAMP),
-    gsDPSetTextureConvert(G_TC_FILT),
-    gsDPFillRectangle(0, 0, 320, 240),
-    gsDPSetColorDither(G_CD_DISABLE),
-    gsDPPipeSync(),
-    gsDPSetDepthSource(G_ZS_PIXEL),
-    gsSPEndDisplayList()
-};
-
-Gfx D_8014EA48[] = {
-    gsDPSetDepthSource(G_ZS_PRIM),
-    gsDPSetPrimDepth(20, 0),
-    gsDPSetRenderMode(Z_CMP | CVG_DST_FULL | ZMODE_OPA | ALPHA_CVG_SEL | GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM), Z_CMP | CVG_DST_FULL | ZMODE_OPA | ALPHA_CVG_SEL | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM)),
-    gsSPClearGeometryMode(G_CULL_BOTH | G_LIGHTING),
-    gsSPClearGeometryMode(G_SHADING_SMOOTH),
-    gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON),
-    gsDPPipeSync(),
-    gsDPSetCombineMode(G_CC_MODULATEIA, G_CC_MODULATEIA),
-    gsDPSetTexturePersp(G_TP_PERSP),
-    gsDPSetTextureDetail(G_TD_CLAMP),
-    gsDPSetTextureLOD(G_TL_TILE),
-    gsDPSetTextureLUT(G_TT_NONE),
-    gsDPSetTextureFilter(G_TF_BILERP),
-    gsDPSetTextureConvert(G_TC_FILT),
-    gsSPVertex(&vtx_stencil2, 24, 0),
-    gsDPLoadTextureTile(&D_80156910, G_IM_FMT_RGBA, G_IM_SIZ_16b, 160, 0, 0, 0, 159, 11, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 8, 4, G_TX_NOLOD, G_TX_NOLOD),
-    gsSP2Triangles(0, 2, 1, 0, 3, 1, 2, 0),
-    gsDPLoadTextureTile(&D_80156910, G_IM_FMT_RGBA, G_IM_SIZ_16b, 160, 0, 0, 11, 159, 22, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 8, 4, G_TX_NOLOD, G_TX_NOLOD),
-    gsSP2Triangles(2, 4, 3, 0, 5, 3, 4, 0),
-    gsDPLoadTextureTile(&D_80156910, G_IM_FMT_RGBA, G_IM_SIZ_16b, 160, 0, 0, 22, 159, 33, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 8, 4, G_TX_NOLOD, G_TX_NOLOD),
-    gsSP2Triangles(4, 6, 5, 0, 7, 5, 6, 0),
-    gsDPLoadTextureTile(&D_80156910, G_IM_FMT_RGBA, G_IM_SIZ_16b, 160, 0, 0, 33, 159, 44, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 8, 4, G_TX_NOLOD, G_TX_NOLOD),
-    gsSP2Triangles(6, 8, 7, 0, 9, 7, 8, 0),
-    gsDPLoadTextureTile(&D_80156910, G_IM_FMT_RGBA, G_IM_SIZ_16b, 160, 0, 0, 44, 159, 55, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 8, 4, G_TX_NOLOD, G_TX_NOLOD),
-    gsSP2Triangles(8, 10, 9, 0, 11, 9, 10, 0),
-    gsDPLoadTextureTile(&D_80156910, G_IM_FMT_RGBA, G_IM_SIZ_16b, 160, 0, 0, 55, 159, 66, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 8, 4, G_TX_NOLOD, G_TX_NOLOD),
-    gsSP2Triangles(10, 12, 11, 0, 13, 11, 12, 0),
-    gsDPLoadTextureTile(&D_80156910, G_IM_FMT_RGBA, G_IM_SIZ_16b, 160, 0, 0, 66, 159, 77, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 8, 4, G_TX_NOLOD, G_TX_NOLOD),
-    gsSP2Triangles(12, 14, 13, 0, 15, 13, 14, 0),
-    gsDPLoadTextureTile(&D_80156910, G_IM_FMT_RGBA, G_IM_SIZ_16b, 160, 0, 0, 77, 159, 88, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 8, 4, G_TX_NOLOD, G_TX_NOLOD),
-    gsSP2Triangles(14, 16, 15, 0, 17, 15, 16, 0),
-    gsDPLoadTextureTile(&D_80156910, G_IM_FMT_RGBA, G_IM_SIZ_16b, 160, 0, 0, 88, 159, 99, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 8, 4, G_TX_NOLOD, G_TX_NOLOD),
-    gsSP2Triangles(16, 18, 17, 0, 19, 17, 18, 0),
-    gsDPLoadTextureTile(&D_80156910, G_IM_FMT_RGBA, G_IM_SIZ_16b, 160, 0, 0, 99, 159, 110, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 8, 4, G_TX_NOLOD, G_TX_NOLOD),
-    gsSP2Triangles(18, 20, 19, 0, 21, 19, 20, 0),
-    gsDPLoadTextureTile(&D_80156910, G_IM_FMT_RGBA, G_IM_SIZ_16b, 160, 0, 0, 110, 159, 119, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 8, 4, G_TX_NOLOD, G_TX_NOLOD),
-    gsSP2Triangles(20, 22, 21, 0, 23, 21, 22, 0),
-    gsDPPipeSync(),
-    gsDPSetDepthSource(G_ZS_PIXEL)
-};
+// PORT: D_8014E8F0, D_8014E9A8, D_8014EA48 display lists removed.
+// They used G_ZS_PRIM Z-buffer masking which is not implemented in the Fast3D interpreter.
+// OVERLAY_TYPE_2, OVERLAY_TYPE_9, and OVERLAY_START_BATTLE have been rewritten to use
+// stencil texture approach instead.
 
 void _render_transition_stencil(u8 stencilType, f32 progress, ScreenOverlay* overlay) {
     Camera* camera = &gCameras[gCurrentCameraID];
@@ -264,79 +173,23 @@ void _render_transition_stencil(u8 stencilType, f32 progress, ScreenOverlay* ove
             appendGfx_screen_transition_stencil(x1, y1, progress, 0, 0, 0, 0, -1);
             break;
         case OVERLAY_TYPE_2:
-            s0 = progress;
-            guTranslate(&matrixStack[gMatrixListPos], 80.0f, 120.0f, 0.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            guScale(&matrixStack[gMatrixListPos], (1.0f - s0 / 255.0f) * 0.8, (1.0f - s0 / 255.0f) * 0.8, 1.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            guRotate(&matrixStack[gMatrixListPos], s0 * 0.5f, 0.0f, 0.0f, 1.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, D_8014E8F0);
-            gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
-
-            guTranslate(&matrixStack[gMatrixListPos], 240.0f, 120.0f, 0.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            guScale(&matrixStack[gMatrixListPos], (1.0f - s0 / 255.0f) * 0.8, (1.0f - s0 / 255.0f) * 0.8, 1.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            guRotate(&matrixStack[gMatrixListPos], s0 * 0.5f, 0.0f, 0.0f, 1.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, D_8014E8F0);
-            gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
-
-            guTranslate(&matrixStack[gMatrixListPos], 0.0f, 0.0f, 0.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, D_8014EA48);
-            gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
+            // PORT: Original used G_ZS_PRIM Z-buffer masking (not implemented).
+            // Replaced with star stencil texture approach.
+            gSPDisplayList(gMainGfxPos++, Gfx_LoadStencilTex_Star);
+            appendGfx_screen_transition_stencil(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, progress, colR, colG, colB, progress * alpha / 255.0f, -1);
             break;
         case OVERLAY_TYPE_9:
-            s0 = progress;
-            gDPSetPrimColor(gMainGfxPos++, 0, 0, 0, 0, 0, 0);
-            guTranslate(&matrixStack[gMatrixListPos], x1, SCREEN_HEIGHT - y1, 0.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            guScale(&matrixStack[gMatrixListPos], (1.0f - s0 / 255.0f) * 0.8, (1.0f - s0 / 255.0f) * 0.8, 1.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            guRotate(&matrixStack[gMatrixListPos], -s0, 0.0f, 0.0f, 1.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, D_8014E8F0);
-            gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
-
-            guTranslate(&matrixStack[gMatrixListPos], x2, SCREEN_HEIGHT - y2, 0.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            guScale(&matrixStack[gMatrixListPos], (1.0f - s0 / 255.0f) * 0.8, (1.0f - s0 / 255.0f) * 0.8, 1.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            guRotate(&matrixStack[gMatrixListPos], -s0, 0.0f, 0.0f, 1.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, D_8014E8F0);
-            gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
-
-            guTranslate(&matrixStack[gMatrixListPos], 0.0f, 0.0f, 0.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gDPSetPrimColor(gMainGfxPos++, 0, 0, 0, 0, 0, alpha);
-            gSPDisplayList(gMainGfxPos++, D_8014E9A8);
-            gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
+            // PORT: Original used G_ZS_PRIM Z-buffer masking (not implemented).
+            // Replaced with star stencil texture approach.
+            gSPDisplayList(gMainGfxPos++, Gfx_LoadStencilTex_Star);
+            appendGfx_screen_transition_stencil(x1, y1, progress, 0, 0, 0, progress * alpha / 255.0f, -1);
             break;
         case OVERLAY_START_BATTLE:
-            s0 = progress;
-            gDPSetPrimColor(gMainGfxPos++, 0, 0, 0, 0, 0, 0);
-            guTranslate(&matrixStack[gMatrixListPos], x1, SCREEN_HEIGHT - y1, 0.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            guScale(&matrixStack[gMatrixListPos], (1.0f - s0 / 255.0f) * 0.8, (1.0f - s0 / 255.0f) * 0.8, 1.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            guRotate(&matrixStack[gMatrixListPos], (f32)(-s0) * 0.5, 0.0f, 0.0f, 1.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, D_8014E8F0);
-            gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
-
-            guTranslate(&matrixStack[gMatrixListPos], 0.0f, 0.0f, 0.0f);
-            gSPMatrix(gMainGfxPos++, &matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gDPSetPrimColor(gMainGfxPos++, 0, 0, 0, 0, 0, alpha);
-            gSPDisplayList(gMainGfxPos++, D_8014E9A8);
-            gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
-            v0 = progress + 40;
-            if (progress > 170) {
-                v0 = 170;
-            }
-            draw_prev_frame_buffer_at_screen_pos(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, v0);
+            // PORT: Original used G_ZS_PRIM Z-buffer masking (star writes Z=0, fill at Z=20
+            // only draws outside star) + framebuffer readback. Neither G_SETPRIMDEPTH nor
+            // framebuffer-as-texture work on the port. Use star stencil texture instead.
+            gSPDisplayList(gMainGfxPos++, Gfx_LoadStencilTex_Star);
+            appendGfx_screen_transition_stencil(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, progress, 0, 0, 0, progress * alpha / 255.0f, -1);
             break;
         case OVERLAY_WORLD_DARKNESS:
             gSPDisplayList(gMainGfxPos++, Gfx_LoadStencilTex_BlurryCircle);
