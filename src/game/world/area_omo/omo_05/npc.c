@@ -29,12 +29,12 @@ API_CALLABLE(N(SpinCameraAround)) {
 
     if (isInitialCall) {
         camera->flags |= CAMERA_FLAG_SHAKING;
-        script->functionTempF[0] = 0.0f;
+        script->functionTempF[0].f = 0.0f;
     }
-    script->functionTempF[0] += 10.0f;
-    guRotateF(camera->mtxViewShaking, script->functionTempF[0], 0.0f, 0.0f, -1.0f);
+    script->functionTempF[0].f += 10.0f;
+    guRotateF(camera->mtxViewShaking, script->functionTempF[0].f, 0.0f, 0.0f, -1.0f);
 
-    if (script->functionTempF[0] >= 360.0) {
+    if (script->functionTempF[0].f >= 360.0) {
         return ApiStatus_DONE2;
     } else {
         return ApiStatus_BLOCK;

@@ -289,7 +289,7 @@ API_CALLABLE(NpcMoveTo) {
 
 ApiStatus _npc_jump_to(Evt* script, s32 isInitialCall, s32 snapYaw) {
     Bytecode* args = script->ptrReadPos;
-    f32* yaw = &script->functionTempF[2];
+    f32* yaw = &script->functionTempF[2].f;
     Npc* npc;
 
     if (isInitialCall) {
@@ -467,8 +467,8 @@ API_CALLABLE(SetNpcYaw) {
 API_CALLABLE(InterpNpcYaw) {
     PlayerStatus* playerStatus = &gPlayerStatus;
     Bytecode* args = script->ptrReadPos;
-    f32* initialYaw = &script->functionTempF[1];
-    f32* deltaYaw = &script->functionTempF[2];
+    f32* initialYaw = &script->functionTempF[1].f;
+    f32* deltaYaw = &script->functionTempF[2].f;
     s32* turnTime = &script->functionTemp[3];
     Npc* npc;
 
@@ -515,8 +515,8 @@ API_CALLABLE(InterpNpcYaw) {
 API_CALLABLE(NpcFacePlayer) {
     PlayerStatus* playerStatus = &gPlayerStatus;
     Bytecode* args = script->ptrReadPos;
-    f32* initialYaw = &script->functionTempF[1];
-    f32* deltaYaw = &script->functionTempF[2];
+    f32* initialYaw = &script->functionTempF[1].f;
+    f32* deltaYaw = &script->functionTempF[2].f;
     s32* turnTime = &script->functionTemp[3];
     Npc* npc;
 
@@ -556,8 +556,8 @@ API_CALLABLE(NpcFacePlayer) {
 
 API_CALLABLE(NpcFaceNpc) {
     Bytecode* args = script->ptrReadPos;
-    f32* initialYaw = &script->functionTempF[1];
-    f32* deltaYaw = &script->functionTempF[2];
+    f32* initialYaw = &script->functionTempF[1].f;
+    f32* deltaYaw = &script->functionTempF[2].f;
     s32* turnTime = &script->functionTemp[3];
     Npc* targetNpc;
     Npc* turningNpc;

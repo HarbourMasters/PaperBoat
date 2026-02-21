@@ -49,7 +49,7 @@ NpcData N(NpcData_Goomba_02) = {
 };
 
 API_CALLABLE(N(GetAmbushEnemy)) {
-    script->varTablePtr[0] = get_enemy_safe(NPC_Goomba_Ambush);
+    script->varTablePtr[0].p = get_enemy_safe(NPC_Goomba_Ambush);
     return ApiStatus_DONE2;
 }
 

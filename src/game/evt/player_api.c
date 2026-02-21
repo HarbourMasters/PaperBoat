@@ -352,8 +352,8 @@ API_CALLABLE(PlayerJump2) {
 API_CALLABLE(InterpPlayerYaw) {
     Bytecode* args = script->ptrReadPos;
     PlayerStatus* playerStatus = &gPlayerStatus;
-    f32* initialYaw = &script->functionTempF[1];
-    f32* deltaYaw = &script->functionTempF[2];
+    f32* initialYaw = &script->functionTempF[1].f;
+    f32* deltaYaw = &script->functionTempF[2].f;
     s32* time = &script->functionTemp[3];
 
     if (isInitialCall) {
@@ -390,8 +390,8 @@ API_CALLABLE(InterpPlayerYaw) {
 API_CALLABLE(PlayerFaceNpc) {
     PlayerStatus* playerStatus = &gPlayerStatus;
     Bytecode* args = script->ptrReadPos;
-    f32* playerTargetYaw = &script->functionTempF[1];
-    f32* angle = &script->functionTempF[2];
+    f32* playerTargetYaw = &script->functionTempF[1].f;
+    f32* angle = &script->functionTempF[2].f;
     s32* ft3 = &script->functionTemp[3];
 
     if (isInitialCall) {
@@ -713,8 +713,8 @@ API_CALLABLE(SetPlayerImgFXFlags) {
 API_CALLABLE(FacePlayerTowardPoint) {
     Bytecode* args = script->ptrReadPos;
     PlayerStatus* playerStatus = &gPlayerStatus;
-    f32* initialYaw = &script->functionTempF[1];
-    f32* deltaYaw = &script->functionTempF[2];
+    f32* initialYaw = &script->functionTempF[1].f;
+    f32* deltaYaw = &script->functionTempF[2].f;
     s32* duration = &script->functionTemp[3];
 
     if (isInitialCall) {

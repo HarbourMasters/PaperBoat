@@ -13,7 +13,7 @@ API_CALLABLE(CheckUsingRideablePartner) {
             script->varTable[10] = 0;
         } else {
             script->varTable[10] = 1;
-            script->varTablePtr[11] = partner_get_enter_map_script();
+            script->varTablePtr[11].p = partner_get_enter_map_script();
             script->varTable[13] = playerStatus->targetYaw;
         }
     }
@@ -144,8 +144,8 @@ API_CALLABLE(SetupSingleDoor) {
         DoorModelsSwingCCW[0] = -1;
     }
 
-    script->varTablePtr[2] = &DoorModelsSwingCCW;
-    script->varTablePtr[3] = &DoorModelsSwingCW;
+    script->varTablePtr[2].p = &DoorModelsSwingCCW;
+    script->varTablePtr[3].p = &DoorModelsSwingCW;
 
     return ApiStatus_DONE2;
 }
@@ -163,8 +163,8 @@ API_CALLABLE(SetupSplitSingleDoor) {
         DoorModelsSwingCCW[0] = -1;
     }
 
-    script->varTablePtr[2] = &DoorModelsSwingCCW;
-    script->varTablePtr[3] = &DoorModelsSwingCW;
+    script->varTablePtr[2].p = &DoorModelsSwingCCW;
+    script->varTablePtr[3].p = &DoorModelsSwingCW;
 
     return ApiStatus_DONE2;
 }
@@ -176,8 +176,8 @@ API_CALLABLE(SetupDoubleDoors) {
     DoorModelsSwingCW[0] = script->varTable[3];
     DoorModelsSwingCW[1] = -1;
 
-    script->varTablePtr[3] = &DoorModelsSwingCW;
-    script->varTablePtr[2] = &DoorModelsSwingCCW;
+    script->varTablePtr[3].p = &DoorModelsSwingCW;
+    script->varTablePtr[2].p = &DoorModelsSwingCCW;
 
     return ApiStatus_DONE2;
 }
@@ -191,8 +191,8 @@ API_CALLABLE(SetupSplitDoubleDoors) {
     DoorModelsSwingCW[1] = script->varTable[5];
     DoorModelsSwingCW[2] = -1;
 
-    script->varTablePtr[3] = &DoorModelsSwingCW;
-    script->varTablePtr[2] = &DoorModelsSwingCCW;
+    script->varTablePtr[3].p = &DoorModelsSwingCW;
+    script->varTablePtr[2].p = &DoorModelsSwingCCW;
 
     return ApiStatus_DONE2;
 }

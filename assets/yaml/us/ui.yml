@@ -5,179 +5,179 @@ filemenu/corners_yellow:
 filemenu/corners_gray:
   { type: BLOB, offset: 0x16BC60, size: 0x200, symbol: ui_filemenu_corners_gray_png }
 no_controller:
-  { type: BLOB, offset: 0x51540, size: 0x1000, symbol: ui_no_controller_png }
+  { type: TEXTURE, format: IA8, offset: 0x51540, width: 128, height: 32, symbol: ui_no_controller_png }
 input/a_button_unpressed:
-  { type: BLOB, offset: 0x919B0, size: 0x3C0, symbol: ui_input_a_button_unpressed_png }
+  { type: TEXTURE, format: CI4, offset: 0x919B0, width: 48, height: 40, symbol: ui_input_a_button_unpressed_png }
 input/a_button_unpressed.pal:
   { type: BLOB, offset: 0x91D70, size: 0x20, symbol: ui_input_a_button_unpressed_pal }
 input/a_button_pressed:
-  { type: BLOB, offset: 0x91D90, size: 0x3C0, symbol: ui_input_a_button_pressed_png }
+  { type: TEXTURE, format: CI4, offset: 0x91D90, width: 48, height: 40, symbol: ui_input_a_button_pressed_png }
 input/a_button_pressed.pal:
   { type: BLOB, offset: 0x92150, size: 0x20, symbol: ui_input_a_button_pressed_pal }
 input/analog_stick:
-  { type: BLOB, offset: 0x92170, size: 0x200, symbol: ui_input_analog_stick_png }
+  { type: TEXTURE, format: CI4, offset: 0x92170, width: 32, height: 32, symbol: ui_input_analog_stick_png }
 input/analog_stick.pal:
   { type: BLOB, offset: 0x92370, size: 0x20, symbol: ui_input_analog_stick_pal }
 input/analog_stick_left:
-  { type: BLOB, offset: 0x92390, size: 0x280, symbol: ui_input_analog_stick_left_png }
+  { type: TEXTURE, format: CI4, offset: 0x92390, width: 40, height: 32, symbol: ui_input_analog_stick_left_png }
 input/analog_stick_left.pal:
   { type: BLOB, offset: 0x92610, size: 0x20, symbol: ui_input_analog_stick_left_pal }
 input/analog_stick2:
-  { type: BLOB, offset: 0x92630, size: 0x200, symbol: ui_input_analog_stick2_png }
+  { type: TEXTURE, format: CI4, offset: 0x92630, width: 32, height: 32, symbol: ui_input_analog_stick2_png }
 input/analog_stick2.pal:
   { type: BLOB, offset: 0x92830, size: 0x20, symbol: ui_input_analog_stick2_pal }
 input/analog_stick_right:
-  { type: BLOB, offset: 0x92850, size: 0x280, symbol: ui_input_analog_stick_right_png }
+  { type: TEXTURE, format: CI4, offset: 0x92850, width: 40, height: 32, symbol: ui_input_analog_stick_right_png }
 input/analog_stick_right.pal:
   { type: BLOB, offset: 0x92AD0, size: 0x20, symbol: ui_input_analog_stick_right_pal }
 input/analog_stick3:
-  { type: BLOB, offset: 0x92AF0, size: 0x200, symbol: ui_input_analog_stick3_png }
+  { type: TEXTURE, format: CI4, offset: 0x92AF0, width: 32, height: 32, symbol: ui_input_analog_stick3_png }
 input/analog_stick3.pal:
   { type: BLOB, offset: 0x92CF0, size: 0x20, symbol: ui_input_analog_stick3_pal }
 input/analog_stick_down:
-  { type: BLOB, offset: 0x92D10, size: 0x200, symbol: ui_input_analog_stick_down_png }
+  { type: TEXTURE, format: CI4, offset: 0x92D10, width: 32, height: 32, symbol: ui_input_analog_stick_down_png }
 input/analog_stick_down.pal:
   { type: BLOB, offset: 0x92F10, size: 0x20, symbol: ui_input_analog_stick_down_pal }
 input/analog_stick_up:
-  { type: BLOB, offset: 0x92F30, size: 0x200, symbol: ui_input_analog_stick_up_png }
+  { type: TEXTURE, format: CI4, offset: 0x92F30, width: 32, height: 32, symbol: ui_input_analog_stick_up_png }
 input/analog_stick_up.pal:
   { type: BLOB, offset: 0x93130, size: 0x20, symbol: ui_input_analog_stick_up_pal }
 input/mash_bar:
-  { type: BLOB, offset: 0x93150, size: 0x240, symbol: ui_input_mash_bar_png }
+  { type: TEXTURE, format: CI4, offset: 0x93150, width: 72, height: 16, symbol: ui_input_mash_bar_png }
 input/mash_bar.pal:
   { type: BLOB, offset: 0x93390, size: 0x20, symbol: ui_input_mash_bar_pal }
 ok:
-  { type: BLOB, offset: 0x933B0, size: 0xC0, symbol: ui_ok_png }
+  { type: TEXTURE, format: CI4, offset: 0x933B0, width: 24, height: 16, symbol: ui_ok_png }
 ok.pal:
   { type: BLOB, offset: 0x93470, size: 0x20, symbol: ui_ok_pal }
 input/start_button:
-  { type: BLOB, offset: 0x93490, size: 0x3C0, symbol: ui_input_start_button_png }
+  { type: TEXTURE, format: CI4, offset: 0x93490, width: 48, height: 40, symbol: ui_input_start_button_png }
 input/start_button.pal:
   { type: BLOB, offset: 0x93850, size: 0x20, symbol: ui_input_start_button_pal }
 input/start_button2:
-  { type: BLOB, offset: 0x93870, size: 0x3C0, symbol: ui_input_start_button2_png }
+  { type: TEXTURE, format: CI4, offset: 0x93870, width: 48, height: 40, symbol: ui_input_start_button2_png }
 input/start_button2.pal:
   { type: BLOB, offset: 0x93C30, size: 0x20, symbol: ui_input_start_button2_pal }
 input/start_text:
-  { type: BLOB, offset: 0x93C50, size: 0x60, symbol: ui_input_start_text_png }
+  { type: TEXTURE, format: CI4, offset: 0x93C50, width: 24, height: 8, symbol: ui_input_start_text_png }
 input/start_text.pal:
   { type: BLOB, offset: 0x93CB0, size: 0x20, symbol: ui_input_start_text_pal }
 hammer:
-  { type: BLOB, offset: 0x93CD0, size: 0x200, symbol: ui_hammer_png }
+  { type: TEXTURE, format: CI4, offset: 0x93CD0, width: 32, height: 32, symbol: ui_hammer_png }
 hammer.pal:
   { type: BLOB, offset: 0x93ED0, size: 0x20, symbol: ui_hammer_pal }
 hammer.disabled:
   { type: BLOB, offset: 0x93EF0, size: 0x20, symbol: ui_hammer_disabled_pal }
 super_hammer:
-  { type: BLOB, offset: 0x93F10, size: 0x200, symbol: ui_super_hammer_png }
+  { type: TEXTURE, format: CI4, offset: 0x93F10, width: 32, height: 32, symbol: ui_super_hammer_png }
 super_hammer.pal:
   { type: BLOB, offset: 0x94110, size: 0x20, symbol: ui_super_hammer_pal }
 super_hammer.disabled:
   { type: BLOB, offset: 0x94130, size: 0x20, symbol: ui_super_hammer_disabled_pal }
 ultra_hammer:
-  { type: BLOB, offset: 0x94150, size: 0x200, symbol: ui_ultra_hammer_png }
+  { type: TEXTURE, format: CI4, offset: 0x94150, width: 32, height: 32, symbol: ui_ultra_hammer_png }
 ultra_hammer.pal:
   { type: BLOB, offset: 0x94350, size: 0x20, symbol: ui_ultra_hammer_pal }
 ultra_hammer.disabled:
   { type: BLOB, offset: 0x94370, size: 0x20, symbol: ui_ultra_hammer_disabled_pal }
 boots:
-  { type: BLOB, offset: 0x94390, size: 0x200, symbol: ui_boots_png }
+  { type: TEXTURE, format: CI4, offset: 0x94390, width: 32, height: 32, symbol: ui_boots_png }
 boots.pal:
   { type: BLOB, offset: 0x94590, size: 0x20, symbol: ui_boots_pal }
 boots.disabled:
   { type: BLOB, offset: 0x945B0, size: 0x20, symbol: ui_boots_disabled_pal }
 super_boots:
-  { type: BLOB, offset: 0x945D0, size: 0x200, symbol: ui_super_boots_png }
+  { type: TEXTURE, format: CI4, offset: 0x945D0, width: 32, height: 32, symbol: ui_super_boots_png }
 super_boots.pal:
   { type: BLOB, offset: 0x947D0, size: 0x20, symbol: ui_super_boots_pal }
 super_boots.disabled:
   { type: BLOB, offset: 0x947F0, size: 0x20, symbol: ui_super_boots_disabled_pal }
 ultra_boots:
-  { type: BLOB, offset: 0x94810, size: 0x200, symbol: ui_ultra_boots_png }
+  { type: TEXTURE, format: CI4, offset: 0x94810, width: 32, height: 32, symbol: ui_ultra_boots_png }
 ultra_boots.pal:
   { type: BLOB, offset: 0x94A10, size: 0x20, symbol: ui_ultra_boots_pal }
 ultra_boots.disabled:
   { type: BLOB, offset: 0x94A30, size: 0x20, symbol: ui_ultra_boots_disabled_pal }
 item:
-  { type: BLOB, offset: 0x94A50, size: 0x200, symbol: ui_item_png }
+  { type: TEXTURE, format: CI4, offset: 0x94A50, width: 32, height: 32, symbol: ui_item_png }
 item.pal:
   { type: BLOB, offset: 0x94C50, size: 0x20, symbol: ui_item_pal }
 item.disabled:
   { type: BLOB, offset: 0x94C70, size: 0x20, symbol: ui_item_disabled_pal }
 star_spirit:
-  { type: BLOB, offset: 0x94C90, size: 0x200, symbol: ui_star_spirit_png }
+  { type: TEXTURE, format: CI4, offset: 0x94C90, width: 32, height: 32, symbol: ui_star_spirit_png }
 star_spirit.pal:
   { type: BLOB, offset: 0x94E90, size: 0x20, symbol: ui_star_spirit_pal }
 star_spirit.disabled:
   { type: BLOB, offset: 0x94EB0, size: 0x20, symbol: ui_star_spirit_disabled_pal }
 arrow_left:
-  { type: BLOB, offset: 0x94ED0, size: 0x80, symbol: ui_arrow_left_png }
+  { type: TEXTURE, format: CI4, offset: 0x94ED0, width: 16, height: 16, symbol: ui_arrow_left_png }
 arrow_left.pal:
   { type: BLOB, offset: 0x94F50, size: 0x20, symbol: ui_arrow_left_pal }
 arrow_right:
-  { type: BLOB, offset: 0x94F70, size: 0x80, symbol: ui_arrow_right_png }
+  { type: TEXTURE, format: CI4, offset: 0x94F70, width: 16, height: 16, symbol: ui_arrow_right_png }
 arrow_right.pal:
   { type: BLOB, offset: 0x94FF0, size: 0x20, symbol: ui_arrow_right_pal }
 point_right:
-  { type: BLOB, offset: 0x95010, size: 0x80, symbol: ui_point_right_png }
+  { type: TEXTURE, format: CI4, offset: 0x95010, width: 16, height: 16, symbol: ui_point_right_png }
 point_right.pal:
   { type: BLOB, offset: 0x95090, size: 0x20, symbol: ui_point_right_pal }
 pip:
-  { type: BLOB, offset: 0x950B0, size: 0x20, symbol: ui_pip_png }
+  { type: TEXTURE, format: CI4, offset: 0x950B0, width: 8, height: 8, symbol: ui_pip_png }
 pip.pal:
   { type: BLOB, offset: 0x950D0, size: 0x20, symbol: ui_pip_pal }
 pip2:
-  { type: BLOB, offset: 0x950F0, size: 0x20, symbol: ui_pip2_png }
+  { type: TEXTURE, format: CI4, offset: 0x950F0, width: 8, height: 8, symbol: ui_pip2_png }
 pip2.pal:
   { type: BLOB, offset: 0x95110, size: 0x20, symbol: ui_pip2_pal }
 coin_sparkle_0:
-  { type: BLOB, offset: 0x95130, size: 0x20, symbol: ui_coin_sparkle_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x95130, width: 8, height: 8, symbol: ui_coin_sparkle_0_png }
 coin_sparkle_0.pal:
   { type: BLOB, offset: 0x95150, size: 0x20, symbol: ui_coin_sparkle_0_pal }
 coin_sparkle_1:
-  { type: BLOB, offset: 0x95170, size: 0x20, symbol: ui_coin_sparkle_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x95170, width: 8, height: 8, symbol: ui_coin_sparkle_1_png }
 coin_sparkle_1.pal:
   { type: BLOB, offset: 0x95190, size: 0x20, symbol: ui_coin_sparkle_1_pal }
 coin_sparkle_2:
-  { type: BLOB, offset: 0x951B0, size: 0x20, symbol: ui_coin_sparkle_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x951B0, width: 8, height: 8, symbol: ui_coin_sparkle_2_png }
 coin_sparkle_2.pal:
   { type: BLOB, offset: 0x951D0, size: 0x20, symbol: ui_coin_sparkle_2_pal }
 coin_sparkle_3:
-  { type: BLOB, offset: 0x951F0, size: 0x20, symbol: ui_coin_sparkle_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x951F0, width: 8, height: 8, symbol: ui_coin_sparkle_3_png }
 coin_sparkle_3.pal:
   { type: BLOB, offset: 0x95210, size: 0x20, symbol: ui_coin_sparkle_3_pal }
 coin_sparkle_4:
-  { type: BLOB, offset: 0x95230, size: 0x20, symbol: ui_coin_sparkle_4_png }
+  { type: TEXTURE, format: CI4, offset: 0x95230, width: 8, height: 8, symbol: ui_coin_sparkle_4_png }
 coin_sparkle_4.pal:
   { type: BLOB, offset: 0x95250, size: 0x20, symbol: ui_coin_sparkle_4_pal }
 coin_sparkle_5:
-  { type: BLOB, offset: 0x95270, size: 0x20, symbol: ui_coin_sparkle_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x95270, width: 8, height: 8, symbol: ui_coin_sparkle_5_png }
 coin_sparkle_5.pal:
   { type: BLOB, offset: 0x95290, size: 0x20, symbol: ui_coin_sparkle_5_pal }
 coin_sparkle_none:
-  { type: BLOB, offset: 0x952B0, size: 0x20, symbol: ui_coin_sparkle_none_png }
+  { type: TEXTURE, format: CI4, offset: 0x952B0, width: 8, height: 8, symbol: ui_coin_sparkle_none_png }
 coin_sparkle_none.pal:
   { type: BLOB, offset: 0x952D0, size: 0x20, symbol: ui_coin_sparkle_none_pal }
 status/star_point_shine:
-  { type: BLOB, offset: 0x952F0, size: 0x240, symbol: ui_status_star_point_shine_png }
+  { type: TEXTURE, format: IA8, offset: 0x952F0, width: 24, height: 24, symbol: ui_status_star_point_shine_png }
 status/star_piece_0:
-  { type: BLOB, offset: 0x95530, size: 0x80, symbol: ui_status_star_piece_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x95530, width: 16, height: 16, symbol: ui_status_star_piece_0_png }
 status/star_piece_0.pal:
   { type: BLOB, offset: 0x955B0, size: 0x20, symbol: ui_status_star_piece_0_pal }
 status/star_piece_1:
-  { type: BLOB, offset: 0x955D0, size: 0x80, symbol: ui_status_star_piece_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x955D0, width: 16, height: 16, symbol: ui_status_star_piece_1_png }
 status/star_piece_1.pal:
   { type: BLOB, offset: 0x95650, size: 0x20, symbol: ui_status_star_piece_1_pal }
 status/star_piece_2:
-  { type: BLOB, offset: 0x95670, size: 0x80, symbol: ui_status_star_piece_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x95670, width: 16, height: 16, symbol: ui_status_star_piece_2_png }
 status/star_piece_2.pal:
   { type: BLOB, offset: 0x956F0, size: 0x20, symbol: ui_status_star_piece_2_pal }
 menu_times:
-  { type: BLOB, offset: 0x95710, size: 0x20, symbol: ui_menu_times_png }
+  { type: TEXTURE, format: CI4, offset: 0x95710, width: 8, height: 8, symbol: ui_menu_times_png }
 menu_times.pal:
   { type: BLOB, offset: 0x95730, size: 0x20, symbol: ui_menu_times_pal }
 fp_cost:
-  { type: BLOB, offset: 0x95750, size: 0x40, symbol: ui_fp_cost_png }
+  { type: TEXTURE, format: CI4, offset: 0x95750, width: 16, height: 8, symbol: ui_fp_cost_png }
 fp_cost.pal:
   { type: BLOB, offset: 0x95790, size: 0x20, symbol: ui_fp_cost_pal }
 fp_cost.reduced:
@@ -187,7 +187,7 @@ fp_cost.reduced_twice:
 fp_cost.notenough:
   { type: BLOB, offset: 0x957F0, size: 0x20, symbol: ui_fp_cost_notenough_pal }
 pow_cost:
-  { type: BLOB, offset: 0x95810, size: 0x40, symbol: ui_pow_cost_png }
+  { type: TEXTURE, format: CI4, offset: 0x95810, width: 16, height: 8, symbol: ui_pow_cost_png }
 pow_cost.pal:
   { type: BLOB, offset: 0x95850, size: 0x20, symbol: ui_pow_cost_pal }
 pow_cost.reduced:
@@ -197,1308 +197,1308 @@ pow_cost.reduced_twice:
 pow_cost.notenough:
   { type: BLOB, offset: 0x958B0, size: 0x20, symbol: ui_pow_cost_notenough_pal }
 green_arrow_down:
-  { type: BLOB, offset: 0x958D0, size: 0x40, symbol: ui_green_arrow_down_png }
+  { type: TEXTURE, format: CI4, offset: 0x958D0, width: 16, height: 8, symbol: ui_green_arrow_down_png }
 green_arrow_down.pal:
   { type: BLOB, offset: 0x95910, size: 0x20, symbol: ui_green_arrow_down_pal }
 green_arrow_up:
-  { type: BLOB, offset: 0x95930, size: 0x40, symbol: ui_green_arrow_up_png }
+  { type: TEXTURE, format: CI4, offset: 0x95930, width: 16, height: 8, symbol: ui_green_arrow_up_png }
 green_arrow_up.pal:
   { type: BLOB, offset: 0x95970, size: 0x20, symbol: ui_green_arrow_up_pal }
 kaime:
-  { type: BLOB, offset: 0x95990, size: 0x2A0, symbol: ui_kaime_png }
+  { type: TEXTURE, format: CI4, offset: 0x95990, width: 56, height: 24, symbol: ui_kaime_png }
 kaime.pal:
   { type: BLOB, offset: 0x95C30, size: 0x20, symbol: ui_kaime_pal }
 unused_1:
-  { type: BLOB, offset: 0x95C50, size: 0x80, symbol: ui_unused_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x95C50, width: 16, height: 16, symbol: ui_unused_1_png }
 unused_1.pal:
   { type: BLOB, offset: 0x95CD0, size: 0x20, symbol: ui_unused_1_pal }
 unused_2:
-  { type: BLOB, offset: 0x95CF0, size: 0x80, symbol: ui_unused_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x95CF0, width: 16, height: 16, symbol: ui_unused_2_png }
 unused_2.pal:
   { type: BLOB, offset: 0x95D70, size: 0x20, symbol: ui_unused_2_pal }
 unused_3:
-  { type: BLOB, offset: 0x95D90, size: 0x80, symbol: ui_unused_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x95D90, width: 16, height: 16, symbol: ui_unused_3_png }
 unused_3.pal:
   { type: BLOB, offset: 0x95E10, size: 0x20, symbol: ui_unused_3_pal }
 red_bar1:
-  { type: BLOB, offset: 0x95E30, size: 0x1C0, symbol: ui_red_bar1_png }
+  { type: TEXTURE, format: CI4, offset: 0x95E30, width: 112, height: 8, symbol: ui_red_bar1_png }
 red_bar1.pal:
   { type: BLOB, offset: 0x95FF0, size: 0x20, symbol: ui_red_bar1_pal }
 empty_bar:
-  { type: BLOB, offset: 0x96010, size: 0x1C0, symbol: ui_empty_bar_png }
+  { type: TEXTURE, format: CI4, offset: 0x96010, width: 112, height: 8, symbol: ui_empty_bar_png }
 empty_bar.pal:
   { type: BLOB, offset: 0x961D0, size: 0x20, symbol: ui_empty_bar_pal }
 red_bar2:
-  { type: BLOB, offset: 0x961F0, size: 0x1A0, symbol: ui_red_bar2_png }
+  { type: TEXTURE, format: CI4, offset: 0x961F0, width: 104, height: 8, symbol: ui_red_bar2_png }
 red_bar2.pal:
   { type: BLOB, offset: 0x96390, size: 0x20, symbol: ui_red_bar2_pal }
 eldstar:
-  { type: BLOB, offset: 0x963B0, size: 0x200, symbol: ui_eldstar_png }
+  { type: TEXTURE, format: CI4, offset: 0x963B0, width: 32, height: 32, symbol: ui_eldstar_png }
 eldstar.pal:
   { type: BLOB, offset: 0x965B0, size: 0x20, symbol: ui_eldstar_pal }
 eldstar.disabled:
   { type: BLOB, offset: 0x965D0, size: 0x20, symbol: ui_eldstar_disabled_pal }
 mamar:
-  { type: BLOB, offset: 0x965F0, size: 0x200, symbol: ui_mamar_png }
+  { type: TEXTURE, format: CI4, offset: 0x965F0, width: 32, height: 32, symbol: ui_mamar_png }
 mamar.pal:
   { type: BLOB, offset: 0x967F0, size: 0x20, symbol: ui_mamar_pal }
 mamar.disabled:
   { type: BLOB, offset: 0x96810, size: 0x20, symbol: ui_mamar_disabled_pal }
 skolar:
-  { type: BLOB, offset: 0x96830, size: 0x200, symbol: ui_skolar_png }
+  { type: TEXTURE, format: CI4, offset: 0x96830, width: 32, height: 32, symbol: ui_skolar_png }
 skolar.pal:
   { type: BLOB, offset: 0x96A30, size: 0x20, symbol: ui_skolar_pal }
 skolar.disabled:
   { type: BLOB, offset: 0x96A50, size: 0x20, symbol: ui_skolar_disabled_pal }
 muskular:
-  { type: BLOB, offset: 0x96A70, size: 0x200, symbol: ui_muskular_png }
+  { type: TEXTURE, format: CI4, offset: 0x96A70, width: 32, height: 32, symbol: ui_muskular_png }
 muskular.pal:
   { type: BLOB, offset: 0x96C70, size: 0x20, symbol: ui_muskular_pal }
 muskular.disabled:
   { type: BLOB, offset: 0x96C90, size: 0x20, symbol: ui_muskular_disabled_pal }
 misstar:
-  { type: BLOB, offset: 0x96CB0, size: 0x200, symbol: ui_misstar_png }
+  { type: TEXTURE, format: CI4, offset: 0x96CB0, width: 32, height: 32, symbol: ui_misstar_png }
 misstar.pal:
   { type: BLOB, offset: 0x96EB0, size: 0x20, symbol: ui_misstar_pal }
 misstar.disabled:
   { type: BLOB, offset: 0x96ED0, size: 0x20, symbol: ui_misstar_disabled_pal }
 klevar:
-  { type: BLOB, offset: 0x96EF0, size: 0x200, symbol: ui_klevar_png }
+  { type: TEXTURE, format: CI4, offset: 0x96EF0, width: 32, height: 32, symbol: ui_klevar_png }
 klevar.pal:
   { type: BLOB, offset: 0x970F0, size: 0x20, symbol: ui_klevar_pal }
 klevar.disabled:
   { type: BLOB, offset: 0x97110, size: 0x20, symbol: ui_klevar_disabled_pal }
 kalmar:
-  { type: BLOB, offset: 0x97130, size: 0x200, symbol: ui_kalmar_png }
+  { type: TEXTURE, format: CI4, offset: 0x97130, width: 32, height: 32, symbol: ui_kalmar_png }
 kalmar.pal:
   { type: BLOB, offset: 0x97330, size: 0x20, symbol: ui_kalmar_pal }
 kalmar.disabled:
   { type: BLOB, offset: 0x97350, size: 0x20, symbol: ui_kalmar_disabled_pal }
 star_beam:
-  { type: BLOB, offset: 0x97370, size: 0x200, symbol: ui_star_beam_png }
+  { type: TEXTURE, format: CI4, offset: 0x97370, width: 32, height: 32, symbol: ui_star_beam_png }
 star_beam.pal:
   { type: BLOB, offset: 0x97570, size: 0x20, symbol: ui_star_beam_pal }
 star_beam.disabled:
   { type: BLOB, offset: 0x97590, size: 0x20, symbol: ui_star_beam_disabled_pal }
 peach_beam:
-  { type: BLOB, offset: 0x975B0, size: 0x200, symbol: ui_peach_beam_png }
+  { type: TEXTURE, format: CI4, offset: 0x975B0, width: 32, height: 32, symbol: ui_peach_beam_png }
 peach_beam.pal:
   { type: BLOB, offset: 0x977B0, size: 0x20, symbol: ui_peach_beam_pal }
 peach_beam.disabled:
   { type: BLOB, offset: 0x977D0, size: 0x20, symbol: ui_peach_beam_disabled_pal }
 mario_head:
-  { type: BLOB, offset: 0x977F0, size: 0x80, symbol: ui_mario_head_png }
+  { type: TEXTURE, format: CI4, offset: 0x977F0, width: 16, height: 16, symbol: ui_mario_head_png }
 mario_head.pal:
   { type: BLOB, offset: 0x97870, size: 0x20, symbol: ui_mario_head_pal }
 partner0:
-  { type: BLOB, offset: 0x97890, size: 0x200, symbol: ui_partner0_png }
+  { type: TEXTURE, format: CI4, offset: 0x97890, width: 32, height: 32, symbol: ui_partner0_png }
 partner0.pal:
   { type: BLOB, offset: 0x97A90, size: 0x20, symbol: ui_partner0_pal }
 partner0.disabled:
   { type: BLOB, offset: 0x97AB0, size: 0x20, symbol: ui_partner0_disabled_pal }
 goombario:
-  { type: BLOB, offset: 0x97AD0, size: 0x200, symbol: ui_goombario_png }
+  { type: TEXTURE, format: CI4, offset: 0x97AD0, width: 32, height: 32, symbol: ui_goombario_png }
 goombario.pal:
   { type: BLOB, offset: 0x97CD0, size: 0x20, symbol: ui_goombario_pal }
 goombario.disabled:
   { type: BLOB, offset: 0x97CF0, size: 0x20, symbol: ui_goombario_disabled_pal }
 kooper:
-  { type: BLOB, offset: 0x97D10, size: 0x200, symbol: ui_kooper_png }
+  { type: TEXTURE, format: CI4, offset: 0x97D10, width: 32, height: 32, symbol: ui_kooper_png }
 kooper.pal:
   { type: BLOB, offset: 0x97F10, size: 0x20, symbol: ui_kooper_pal }
 kooper.disabled:
   { type: BLOB, offset: 0x97F30, size: 0x20, symbol: ui_kooper_disabled_pal }
 bombette:
-  { type: BLOB, offset: 0x97F50, size: 0x200, symbol: ui_bombette_png }
+  { type: TEXTURE, format: CI4, offset: 0x97F50, width: 32, height: 32, symbol: ui_bombette_png }
 bombette.pal:
   { type: BLOB, offset: 0x98150, size: 0x20, symbol: ui_bombette_pal }
 bombette.disabled:
   { type: BLOB, offset: 0x98170, size: 0x20, symbol: ui_bombette_disabled_pal }
 parakarry:
-  { type: BLOB, offset: 0x98190, size: 0x200, symbol: ui_parakarry_png }
+  { type: TEXTURE, format: CI4, offset: 0x98190, width: 32, height: 32, symbol: ui_parakarry_png }
 parakarry.pal:
   { type: BLOB, offset: 0x98390, size: 0x20, symbol: ui_parakarry_pal }
 parakarry.disabled:
   { type: BLOB, offset: 0x983B0, size: 0x20, symbol: ui_parakarry_disabled_pal }
 bow:
-  { type: BLOB, offset: 0x983D0, size: 0x200, symbol: ui_bow_png }
+  { type: TEXTURE, format: CI4, offset: 0x983D0, width: 32, height: 32, symbol: ui_bow_png }
 bow.pal:
   { type: BLOB, offset: 0x985D0, size: 0x20, symbol: ui_bow_pal }
 bow.disabled:
   { type: BLOB, offset: 0x985F0, size: 0x20, symbol: ui_bow_disabled_pal }
 watt:
-  { type: BLOB, offset: 0x98610, size: 0x200, symbol: ui_watt_png }
+  { type: TEXTURE, format: CI4, offset: 0x98610, width: 32, height: 32, symbol: ui_watt_png }
 watt.pal:
   { type: BLOB, offset: 0x98810, size: 0x20, symbol: ui_watt_pal }
 watt.disabled:
   { type: BLOB, offset: 0x98830, size: 0x20, symbol: ui_watt_disabled_pal }
 sushie:
-  { type: BLOB, offset: 0x98850, size: 0x200, symbol: ui_sushie_png }
+  { type: TEXTURE, format: CI4, offset: 0x98850, width: 32, height: 32, symbol: ui_sushie_png }
 sushie.pal:
   { type: BLOB, offset: 0x98A50, size: 0x20, symbol: ui_sushie_pal }
 sushie.disabled:
   { type: BLOB, offset: 0x98A70, size: 0x20, symbol: ui_sushie_disabled_pal }
 lakilester:
-  { type: BLOB, offset: 0x98A90, size: 0x200, symbol: ui_lakilester_png }
+  { type: TEXTURE, format: CI4, offset: 0x98A90, width: 32, height: 32, symbol: ui_lakilester_png }
 lakilester.pal:
   { type: BLOB, offset: 0x98C90, size: 0x20, symbol: ui_lakilester_pal }
 lakilester.disabled:
   { type: BLOB, offset: 0x98CB0, size: 0x20, symbol: ui_lakilester_disabled_pal }
 partner9:
-  { type: BLOB, offset: 0x98CD0, size: 0x200, symbol: ui_partner9_png }
+  { type: TEXTURE, format: CI4, offset: 0x98CD0, width: 32, height: 32, symbol: ui_partner9_png }
 partner9.pal:
   { type: BLOB, offset: 0x98ED0, size: 0x20, symbol: ui_partner9_pal }
 partner9.disabled:
   { type: BLOB, offset: 0x98EF0, size: 0x20, symbol: ui_partner9_disabled_pal }
 partner10:
-  { type: BLOB, offset: 0x98F10, size: 0x200, symbol: ui_partner10_png }
+  { type: TEXTURE, format: CI4, offset: 0x98F10, width: 32, height: 32, symbol: ui_partner10_png }
 partner10.pal:
   { type: BLOB, offset: 0x99110, size: 0x20, symbol: ui_partner10_pal }
 partner10.disabled:
   { type: BLOB, offset: 0x99130, size: 0x20, symbol: ui_partner10_disabled_pal }
 partner11:
-  { type: BLOB, offset: 0x99150, size: 0x200, symbol: ui_partner11_png }
+  { type: TEXTURE, format: CI4, offset: 0x99150, width: 32, height: 32, symbol: ui_partner11_png }
 partner11.pal:
   { type: BLOB, offset: 0x99350, size: 0x20, symbol: ui_partner11_pal }
 partner11.disabled:
   { type: BLOB, offset: 0x99370, size: 0x20, symbol: ui_partner11_disabled_pal }
 status/text_times:
-  { type: BLOB, offset: 0x99390, size: 0x20, symbol: ui_status_text_times_png }
+  { type: TEXTURE, format: CI4, offset: 0x99390, width: 8, height: 8, symbol: ui_status_text_times_png }
 status/text_times.pal:
   { type: BLOB, offset: 0x993B0, size: 0x20, symbol: ui_status_text_times_pal }
 status/text_slash:
-  { type: BLOB, offset: 0x993D0, size: 0x40, symbol: ui_status_text_slash_png }
+  { type: TEXTURE, format: CI4, offset: 0x993D0, width: 8, height: 16, symbol: ui_status_text_slash_png }
 status/text_slash.pal:
   { type: BLOB, offset: 0x99410, size: 0x20, symbol: ui_status_text_slash_pal }
 status/text_0:
-  { type: BLOB, offset: 0x99430, size: 0x80, symbol: ui_status_text_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x99430, width: 16, height: 16, symbol: ui_status_text_0_png }
 status/text_0.pal:
   { type: BLOB, offset: 0x994B0, size: 0x20, symbol: ui_status_text_0_pal }
 status/text_1:
-  { type: BLOB, offset: 0x994D0, size: 0x80, symbol: ui_status_text_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x994D0, width: 16, height: 16, symbol: ui_status_text_1_png }
 status/text_1.pal:
   { type: BLOB, offset: 0x99550, size: 0x20, symbol: ui_status_text_1_pal }
 status/text_2:
-  { type: BLOB, offset: 0x99570, size: 0x80, symbol: ui_status_text_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x99570, width: 16, height: 16, symbol: ui_status_text_2_png }
 status/text_2.pal:
   { type: BLOB, offset: 0x995F0, size: 0x20, symbol: ui_status_text_2_pal }
 status/text_3:
-  { type: BLOB, offset: 0x99610, size: 0x80, symbol: ui_status_text_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x99610, width: 16, height: 16, symbol: ui_status_text_3_png }
 status/text_3.pal:
   { type: BLOB, offset: 0x99690, size: 0x20, symbol: ui_status_text_3_pal }
 status/text_4:
-  { type: BLOB, offset: 0x996B0, size: 0x80, symbol: ui_status_text_4_png }
+  { type: TEXTURE, format: CI4, offset: 0x996B0, width: 16, height: 16, symbol: ui_status_text_4_png }
 status/text_4.pal:
   { type: BLOB, offset: 0x99730, size: 0x20, symbol: ui_status_text_4_pal }
 status/text_5:
-  { type: BLOB, offset: 0x99750, size: 0x80, symbol: ui_status_text_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x99750, width: 16, height: 16, symbol: ui_status_text_5_png }
 status/text_5.pal:
   { type: BLOB, offset: 0x997D0, size: 0x20, symbol: ui_status_text_5_pal }
 status/text_6:
-  { type: BLOB, offset: 0x997F0, size: 0x80, symbol: ui_status_text_6_png }
+  { type: TEXTURE, format: CI4, offset: 0x997F0, width: 16, height: 16, symbol: ui_status_text_6_png }
 status/text_6.pal:
   { type: BLOB, offset: 0x99870, size: 0x20, symbol: ui_status_text_6_pal }
 status/text_7:
-  { type: BLOB, offset: 0x99890, size: 0x80, symbol: ui_status_text_7_png }
+  { type: TEXTURE, format: CI4, offset: 0x99890, width: 16, height: 16, symbol: ui_status_text_7_png }
 status/text_7.pal:
   { type: BLOB, offset: 0x99910, size: 0x20, symbol: ui_status_text_7_pal }
 status/text_8:
-  { type: BLOB, offset: 0x99930, size: 0x80, symbol: ui_status_text_8_png }
+  { type: TEXTURE, format: CI4, offset: 0x99930, width: 16, height: 16, symbol: ui_status_text_8_png }
 status/text_8.pal:
   { type: BLOB, offset: 0x999B0, size: 0x20, symbol: ui_status_text_8_pal }
 status/text_9:
-  { type: BLOB, offset: 0x999D0, size: 0x80, symbol: ui_status_text_9_png }
+  { type: TEXTURE, format: CI4, offset: 0x999D0, width: 16, height: 16, symbol: ui_status_text_9_png }
 status/text_9.pal:
   { type: BLOB, offset: 0x99A50, size: 0x20, symbol: ui_status_text_9_pal }
 status/text_hp:
-  { type: BLOB, offset: 0x99A70, size: 0x80, symbol: ui_status_text_hp_png }
+  { type: TEXTURE, format: CI4, offset: 0x99A70, width: 16, height: 16, symbol: ui_status_text_hp_png }
 status/text_hp.pal:
   { type: BLOB, offset: 0x99AF0, size: 0x20, symbol: ui_status_text_hp_pal }
 status/text_fp:
-  { type: BLOB, offset: 0x99B10, size: 0x80, symbol: ui_status_text_fp_png }
+  { type: TEXTURE, format: CI4, offset: 0x99B10, width: 16, height: 16, symbol: ui_status_text_fp_png }
 status/text_fp.pal:
   { type: BLOB, offset: 0x99B90, size: 0x20, symbol: ui_status_text_fp_pal }
 status/pow_unit_1:
-  { type: BLOB, offset: 0x99BB0, size: 0x20, symbol: ui_status_pow_unit_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x99BB0, width: 8, height: 8, symbol: ui_status_pow_unit_1_png }
 status/pow_unit_1.pal:
   { type: BLOB, offset: 0x99BD0, size: 0x20, symbol: ui_status_pow_unit_1_pal }
 status/pow_unit_2:
-  { type: BLOB, offset: 0x99BF0, size: 0x20, symbol: ui_status_pow_unit_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x99BF0, width: 8, height: 8, symbol: ui_status_pow_unit_2_png }
 status/pow_unit_2.pal:
   { type: BLOB, offset: 0x99C10, size: 0x20, symbol: ui_status_pow_unit_2_pal }
 status/pow_unit_3:
-  { type: BLOB, offset: 0x99C30, size: 0x20, symbol: ui_status_pow_unit_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x99C30, width: 8, height: 8, symbol: ui_status_pow_unit_3_png }
 status/pow_unit_3.pal:
   { type: BLOB, offset: 0x99C50, size: 0x20, symbol: ui_status_pow_unit_3_pal }
 status/pow_unit_4:
-  { type: BLOB, offset: 0x99C70, size: 0x20, symbol: ui_status_pow_unit_4_png }
+  { type: TEXTURE, format: CI4, offset: 0x99C70, width: 8, height: 8, symbol: ui_status_pow_unit_4_png }
 status/pow_unit_4.pal:
   { type: BLOB, offset: 0x99C90, size: 0x20, symbol: ui_status_pow_unit_4_pal }
 status/pow_unit_5:
-  { type: BLOB, offset: 0x99CB0, size: 0x20, symbol: ui_status_pow_unit_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x99CB0, width: 8, height: 8, symbol: ui_status_pow_unit_5_png }
 status/pow_unit_5.pal:
   { type: BLOB, offset: 0x99CD0, size: 0x20, symbol: ui_status_pow_unit_5_pal }
 status/pow_unit_6:
-  { type: BLOB, offset: 0x99CF0, size: 0x20, symbol: ui_status_pow_unit_6_png }
+  { type: TEXTURE, format: CI4, offset: 0x99CF0, width: 8, height: 8, symbol: ui_status_pow_unit_6_png }
 status/pow_unit_6.pal:
   { type: BLOB, offset: 0x99D10, size: 0x20, symbol: ui_status_pow_unit_6_pal }
 status/pow_unit_7:
-  { type: BLOB, offset: 0x99D30, size: 0x20, symbol: ui_status_pow_unit_7_png }
+  { type: TEXTURE, format: CI4, offset: 0x99D30, width: 8, height: 8, symbol: ui_status_pow_unit_7_png }
 status/pow_unit_7.pal:
   { type: BLOB, offset: 0x99D50, size: 0x20, symbol: ui_status_pow_unit_7_pal }
 status/pow_unit_empty:
-  { type: BLOB, offset: 0x99D70, size: 0x20, symbol: ui_status_pow_unit_empty_png }
+  { type: TEXTURE, format: CI4, offset: 0x99D70, width: 8, height: 8, symbol: ui_status_pow_unit_empty_png }
 status/pow_unit_empty.pal:
   { type: BLOB, offset: 0x99D90, size: 0x20, symbol: ui_status_pow_unit_empty_pal }
 status/pow_star_1:
-  { type: BLOB, offset: 0x99DB0, size: 0x20, symbol: ui_status_pow_star_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x99DB0, width: 8, height: 8, symbol: ui_status_pow_star_1_png }
 status/pow_star_1.pal:
   { type: BLOB, offset: 0x99DD0, size: 0x20, symbol: ui_status_pow_star_1_pal }
 status/pow_star_2:
-  { type: BLOB, offset: 0x99DF0, size: 0x20, symbol: ui_status_pow_star_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x99DF0, width: 8, height: 8, symbol: ui_status_pow_star_2_png }
 status/pow_star_2.pal:
   { type: BLOB, offset: 0x99E10, size: 0x20, symbol: ui_status_pow_star_2_pal }
 status/pow_star_3:
-  { type: BLOB, offset: 0x99E30, size: 0x20, symbol: ui_status_pow_star_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x99E30, width: 8, height: 8, symbol: ui_status_pow_star_3_png }
 status/pow_star_3.pal:
   { type: BLOB, offset: 0x99E50, size: 0x20, symbol: ui_status_pow_star_3_pal }
 status/pow_star_4:
-  { type: BLOB, offset: 0x99E70, size: 0x20, symbol: ui_status_pow_star_4_png }
+  { type: TEXTURE, format: CI4, offset: 0x99E70, width: 8, height: 8, symbol: ui_status_pow_star_4_png }
 status/pow_star_4.pal:
   { type: BLOB, offset: 0x99E90, size: 0x20, symbol: ui_status_pow_star_4_pal }
 status/pow_star_5:
-  { type: BLOB, offset: 0x99EB0, size: 0x20, symbol: ui_status_pow_star_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x99EB0, width: 8, height: 8, symbol: ui_status_pow_star_5_png }
 status/pow_star_5.pal:
   { type: BLOB, offset: 0x99ED0, size: 0x20, symbol: ui_status_pow_star_5_pal }
 status/pow_star_6:
-  { type: BLOB, offset: 0x99EF0, size: 0x20, symbol: ui_status_pow_star_6_png }
+  { type: TEXTURE, format: CI4, offset: 0x99EF0, width: 8, height: 8, symbol: ui_status_pow_star_6_png }
 status/pow_star_6.pal:
   { type: BLOB, offset: 0x99F10, size: 0x20, symbol: ui_status_pow_star_6_pal }
 status/pow_star_7:
-  { type: BLOB, offset: 0x99F30, size: 0x20, symbol: ui_status_pow_star_7_png }
+  { type: TEXTURE, format: CI4, offset: 0x99F30, width: 8, height: 8, symbol: ui_status_pow_star_7_png }
 status/pow_star_7.pal:
   { type: BLOB, offset: 0x99F50, size: 0x20, symbol: ui_status_pow_star_7_pal }
 status/pow_star_empty:
-  { type: BLOB, offset: 0x99F70, size: 0x20, symbol: ui_status_pow_star_empty_png }
+  { type: TEXTURE, format: CI4, offset: 0x99F70, width: 8, height: 8, symbol: ui_status_pow_star_empty_png }
 status/pow_star_empty.pal:
   { type: BLOB, offset: 0x99F90, size: 0x20, symbol: ui_status_pow_star_empty_pal }
 status/coin_0:
-  { type: BLOB, offset: 0x99FB0, size: 0x80, symbol: ui_status_coin_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x99FB0, width: 16, height: 16, symbol: ui_status_coin_0_png }
 status/coin_0.pal:
   { type: BLOB, offset: 0x9A030, size: 0x20, symbol: ui_status_coin_0_pal }
 status/coin_1:
-  { type: BLOB, offset: 0x9A050, size: 0x80, symbol: ui_status_coin_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x9A050, width: 16, height: 16, symbol: ui_status_coin_1_png }
 status/coin_1.pal:
   { type: BLOB, offset: 0x9A0D0, size: 0x20, symbol: ui_status_coin_1_pal }
 status/coin_2:
-  { type: BLOB, offset: 0x9A0F0, size: 0x80, symbol: ui_status_coin_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x9A0F0, width: 16, height: 16, symbol: ui_status_coin_2_png }
 status/coin_2.pal:
   { type: BLOB, offset: 0x9A170, size: 0x20, symbol: ui_status_coin_2_pal }
 status/coin_3:
-  { type: BLOB, offset: 0x9A190, size: 0x80, symbol: ui_status_coin_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x9A190, width: 16, height: 16, symbol: ui_status_coin_3_png }
 status/coin_3.pal:
   { type: BLOB, offset: 0x9A210, size: 0x20, symbol: ui_status_coin_3_pal }
 status/coin_4:
-  { type: BLOB, offset: 0x9A230, size: 0x80, symbol: ui_status_coin_4_png }
+  { type: TEXTURE, format: CI4, offset: 0x9A230, width: 16, height: 16, symbol: ui_status_coin_4_png }
 status/coin_4.pal:
   { type: BLOB, offset: 0x9A2B0, size: 0x20, symbol: ui_status_coin_4_pal }
 status/coin_5:
-  { type: BLOB, offset: 0x9A2D0, size: 0x80, symbol: ui_status_coin_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x9A2D0, width: 16, height: 16, symbol: ui_status_coin_5_png }
 status/coin_5.pal:
   { type: BLOB, offset: 0x9A350, size: 0x20, symbol: ui_status_coin_5_pal }
 status/coin_6:
-  { type: BLOB, offset: 0x9A370, size: 0x80, symbol: ui_status_coin_6_png }
+  { type: TEXTURE, format: CI4, offset: 0x9A370, width: 16, height: 16, symbol: ui_status_coin_6_png }
 status/coin_6.pal:
   { type: BLOB, offset: 0x9A3F0, size: 0x20, symbol: ui_status_coin_6_pal }
 status/coin_7:
-  { type: BLOB, offset: 0x9A410, size: 0x80, symbol: ui_status_coin_7_png }
+  { type: TEXTURE, format: CI4, offset: 0x9A410, width: 16, height: 16, symbol: ui_status_coin_7_png }
 status/coin_7.pal:
   { type: BLOB, offset: 0x9A490, size: 0x20, symbol: ui_status_coin_7_pal }
 status/coin_8:
-  { type: BLOB, offset: 0x9A4B0, size: 0x80, symbol: ui_status_coin_8_png }
+  { type: TEXTURE, format: CI4, offset: 0x9A4B0, width: 16, height: 16, symbol: ui_status_coin_8_png }
 status/coin_8.pal:
   { type: BLOB, offset: 0x9A530, size: 0x20, symbol: ui_status_coin_8_pal }
 status/coin_9:
-  { type: BLOB, offset: 0x9A550, size: 0x80, symbol: ui_status_coin_9_png }
+  { type: TEXTURE, format: CI4, offset: 0x9A550, width: 16, height: 16, symbol: ui_status_coin_9_png }
 status/coin_9.pal:
   { type: BLOB, offset: 0x9A5D0, size: 0x20, symbol: ui_status_coin_9_pal }
 status/star_point_0:
-  { type: BLOB, offset: 0x9A5F0, size: 0x80, symbol: ui_status_star_point_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x9A5F0, width: 16, height: 16, symbol: ui_status_star_point_0_png }
 status/star_point_0.pal:
   { type: BLOB, offset: 0x9A670, size: 0x20, symbol: ui_status_star_point_0_pal }
 status/star_point_1:
-  { type: BLOB, offset: 0x9A690, size: 0x80, symbol: ui_status_star_point_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x9A690, width: 16, height: 16, symbol: ui_status_star_point_1_png }
 status/star_point_1.pal:
   { type: BLOB, offset: 0x9A710, size: 0x20, symbol: ui_status_star_point_1_pal }
 status/star_point_2:
-  { type: BLOB, offset: 0x9A730, size: 0x80, symbol: ui_status_star_point_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x9A730, width: 16, height: 16, symbol: ui_status_star_point_2_png }
 status/star_point_2.pal:
   { type: BLOB, offset: 0x9A7B0, size: 0x20, symbol: ui_status_star_point_2_pal }
 status/star_point_3:
-  { type: BLOB, offset: 0x9A7D0, size: 0x80, symbol: ui_status_star_point_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x9A7D0, width: 16, height: 16, symbol: ui_status_star_point_3_png }
 status/star_point_3.pal:
   { type: BLOB, offset: 0x9A850, size: 0x20, symbol: ui_status_star_point_3_pal }
 status/star_point_4:
-  { type: BLOB, offset: 0x9A870, size: 0x80, symbol: ui_status_star_point_4_png }
+  { type: TEXTURE, format: CI4, offset: 0x9A870, width: 16, height: 16, symbol: ui_status_star_point_4_png }
 status/star_point_4.pal:
   { type: BLOB, offset: 0x9A8F0, size: 0x20, symbol: ui_status_star_point_4_pal }
 status/star_point_5:
-  { type: BLOB, offset: 0x9A910, size: 0x80, symbol: ui_status_star_point_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x9A910, width: 16, height: 16, symbol: ui_status_star_point_5_png }
 status/star_point_5.pal:
   { type: BLOB, offset: 0x9A990, size: 0x20, symbol: ui_status_star_point_5_pal }
 status/star_point_6:
-  { type: BLOB, offset: 0x9A9B0, size: 0x80, symbol: ui_status_star_point_6_png }
+  { type: TEXTURE, format: CI4, offset: 0x9A9B0, width: 16, height: 16, symbol: ui_status_star_point_6_png }
 status/star_point_6.pal:
   { type: BLOB, offset: 0x9AA30, size: 0x20, symbol: ui_status_star_point_6_pal }
 status/star_point_7:
-  { type: BLOB, offset: 0x9AA50, size: 0x80, symbol: ui_status_star_point_7_png }
+  { type: TEXTURE, format: CI4, offset: 0x9AA50, width: 16, height: 16, symbol: ui_status_star_point_7_png }
 status/star_point_7.pal:
   { type: BLOB, offset: 0x9AAD0, size: 0x20, symbol: ui_status_star_point_7_pal }
 bluepip:
-  { type: BLOB, offset: 0x9AAF0, size: 0x80, symbol: ui_bluepip_png }
+  { type: TEXTURE, format: CI4, offset: 0x9AAF0, width: 16, height: 16, symbol: ui_bluepip_png }
 bluepip.pal:
   { type: BLOB, offset: 0x9AB70, size: 0x20, symbol: ui_bluepip_pal }
 bluepip2:
-  { type: BLOB, offset: 0x9AB90, size: 0x80, symbol: ui_bluepip2_png }
+  { type: TEXTURE, format: CI4, offset: 0x9AB90, width: 16, height: 16, symbol: ui_bluepip2_png }
 bluepip2.pal:
   { type: BLOB, offset: 0x9AC10, size: 0x20, symbol: ui_bluepip2_pal }
 battle/status/charge_jump:
-  { type: BLOB, offset: 0x9AC30, size: 0x120, symbol: ui_battle_status_charge_jump_png }
+  { type: TEXTURE, format: CI4, offset: 0x9AC30, width: 24, height: 24, symbol: ui_battle_status_charge_jump_png }
 battle/status/charge_jump.pal:
   { type: BLOB, offset: 0x9AD50, size: 0x20, symbol: ui_battle_status_charge_jump_pal }
 battle/status/charge_hammer:
-  { type: BLOB, offset: 0x9AD70, size: 0x120, symbol: ui_battle_status_charge_hammer_png }
+  { type: TEXTURE, format: CI4, offset: 0x9AD70, width: 24, height: 24, symbol: ui_battle_status_charge_hammer_png }
 battle/status/charge_hammer.pal:
   { type: BLOB, offset: 0x9AE90, size: 0x20, symbol: ui_battle_status_charge_hammer_pal }
 battle/status/charge_goombario:
-  { type: BLOB, offset: 0x9AEB0, size: 0x120, symbol: ui_battle_status_charge_goombario_png }
+  { type: TEXTURE, format: CI4, offset: 0x9AEB0, width: 24, height: 24, symbol: ui_battle_status_charge_goombario_png }
 battle/status/charge_goombario.pal:
   { type: BLOB, offset: 0x9AFD0, size: 0x20, symbol: ui_battle_status_charge_goombario_pal }
 battle/status/exclamation:
-  { type: BLOB, offset: 0x9AFF0, size: 0x120, symbol: ui_battle_status_exclamation_png }
+  { type: TEXTURE, format: CI4, offset: 0x9AFF0, width: 24, height: 24, symbol: ui_battle_status_exclamation_png }
 battle/status/exclamation.pal:
   { type: BLOB, offset: 0x9B110, size: 0x20, symbol: ui_battle_status_exclamation_pal }
 battle/status/sleep_0:
-  { type: BLOB, offset: 0x9B130, size: 0x80, symbol: ui_battle_status_sleep_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x9B130, width: 16, height: 16, symbol: ui_battle_status_sleep_0_png }
 battle/status/sleep_0.pal:
   { type: BLOB, offset: 0x9B1B0, size: 0x20, symbol: ui_battle_status_sleep_0_pal }
 battle/status/sleep_1:
-  { type: BLOB, offset: 0x9B1D0, size: 0x80, symbol: ui_battle_status_sleep_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x9B1D0, width: 16, height: 16, symbol: ui_battle_status_sleep_1_png }
 battle/status/sleep_1.pal:
   { type: BLOB, offset: 0x9B250, size: 0x20, symbol: ui_battle_status_sleep_1_pal }
 battle/status/sleep_2:
-  { type: BLOB, offset: 0x9B270, size: 0x80, symbol: ui_battle_status_sleep_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x9B270, width: 16, height: 16, symbol: ui_battle_status_sleep_2_png }
 battle/status/sleep_2.pal:
   { type: BLOB, offset: 0x9B2F0, size: 0x20, symbol: ui_battle_status_sleep_2_pal }
 battle/status/static_0:
-  { type: BLOB, offset: 0x9B310, size: 0x80, symbol: ui_battle_status_static_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x9B310, width: 16, height: 16, symbol: ui_battle_status_static_0_png }
 battle/status/static_0.pal:
   { type: BLOB, offset: 0x9B390, size: 0x20, symbol: ui_battle_status_static_0_pal }
 battle/status/static_1:
-  { type: BLOB, offset: 0x9B3B0, size: 0x80, symbol: ui_battle_status_static_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x9B3B0, width: 16, height: 16, symbol: ui_battle_status_static_1_png }
 battle/status/static_1.pal:
   { type: BLOB, offset: 0x9B430, size: 0x20, symbol: ui_battle_status_static_1_pal }
 battle/status/paralyze_0:
-  { type: BLOB, offset: 0x9B450, size: 0x80, symbol: ui_battle_status_paralyze_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x9B450, width: 16, height: 16, symbol: ui_battle_status_paralyze_0_png }
 battle/status/paralyze_0.pal:
   { type: BLOB, offset: 0x9B4D0, size: 0x20, symbol: ui_battle_status_paralyze_0_pal }
 battle/status/paralyze_1:
-  { type: BLOB, offset: 0x9B4F0, size: 0x80, symbol: ui_battle_status_paralyze_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x9B4F0, width: 16, height: 16, symbol: ui_battle_status_paralyze_1_png }
 battle/status/paralyze_1.pal:
   { type: BLOB, offset: 0x9B570, size: 0x20, symbol: ui_battle_status_paralyze_1_pal }
 battle/status/dizzy_0:
-  { type: BLOB, offset: 0x9B590, size: 0x80, symbol: ui_battle_status_dizzy_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x9B590, width: 16, height: 16, symbol: ui_battle_status_dizzy_0_png }
 battle/status/dizzy_0.pal:
   { type: BLOB, offset: 0x9B610, size: 0x20, symbol: ui_battle_status_dizzy_0_pal }
 battle/status/dizzy_1:
-  { type: BLOB, offset: 0x9B630, size: 0x80, symbol: ui_battle_status_dizzy_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x9B630, width: 16, height: 16, symbol: ui_battle_status_dizzy_1_png }
 battle/status/dizzy_1.pal:
   { type: BLOB, offset: 0x9B6B0, size: 0x20, symbol: ui_battle_status_dizzy_1_pal }
 battle/status/dizzy_2:
-  { type: BLOB, offset: 0x9B6D0, size: 0x80, symbol: ui_battle_status_dizzy_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x9B6D0, width: 16, height: 16, symbol: ui_battle_status_dizzy_2_png }
 battle/status/dizzy_2.pal:
   { type: BLOB, offset: 0x9B750, size: 0x20, symbol: ui_battle_status_dizzy_2_pal }
 battle/status/dizzy_3:
-  { type: BLOB, offset: 0x9B770, size: 0x80, symbol: ui_battle_status_dizzy_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x9B770, width: 16, height: 16, symbol: ui_battle_status_dizzy_3_png }
 battle/status/dizzy_3.pal:
   { type: BLOB, offset: 0x9B7F0, size: 0x20, symbol: ui_battle_status_dizzy_3_pal }
 battle/status/poison_0:
-  { type: BLOB, offset: 0x9B810, size: 0x80, symbol: ui_battle_status_poison_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x9B810, width: 16, height: 16, symbol: ui_battle_status_poison_0_png }
 battle/status/poison_0.pal:
   { type: BLOB, offset: 0x9B890, size: 0x20, symbol: ui_battle_status_poison_0_pal }
 battle/status/poison_1:
-  { type: BLOB, offset: 0x9B8B0, size: 0x80, symbol: ui_battle_status_poison_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x9B8B0, width: 16, height: 16, symbol: ui_battle_status_poison_1_png }
 battle/status/poison_1.pal:
   { type: BLOB, offset: 0x9B930, size: 0x20, symbol: ui_battle_status_poison_1_pal }
 battle/status/frozen_0:
-  { type: BLOB, offset: 0x9B950, size: 0x80, symbol: ui_battle_status_frozen_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x9B950, width: 16, height: 16, symbol: ui_battle_status_frozen_0_png }
 battle/status/frozen_0.pal:
   { type: BLOB, offset: 0x9B9D0, size: 0x20, symbol: ui_battle_status_frozen_0_pal }
 battle/status/frozen_1:
-  { type: BLOB, offset: 0x9B9F0, size: 0x80, symbol: ui_battle_status_frozen_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x9B9F0, width: 16, height: 16, symbol: ui_battle_status_frozen_1_png }
 battle/status/frozen_1.pal:
   { type: BLOB, offset: 0x9BA70, size: 0x20, symbol: ui_battle_status_frozen_1_pal }
 battle/status/frozen_2:
-  { type: BLOB, offset: 0x9BA90, size: 0x80, symbol: ui_battle_status_frozen_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x9BA90, width: 16, height: 16, symbol: ui_battle_status_frozen_2_png }
 battle/status/frozen_2.pal:
   { type: BLOB, offset: 0x9BB10, size: 0x20, symbol: ui_battle_status_frozen_2_pal }
 battle/status/frozen_3:
-  { type: BLOB, offset: 0x9BB30, size: 0x80, symbol: ui_battle_status_frozen_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x9BB30, width: 16, height: 16, symbol: ui_battle_status_frozen_3_png }
 battle/status/frozen_3.pal:
   { type: BLOB, offset: 0x9BBB0, size: 0x20, symbol: ui_battle_status_frozen_3_pal }
 battle/status/stop_0:
-  { type: BLOB, offset: 0x9BBD0, size: 0x80, symbol: ui_battle_status_stop_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x9BBD0, width: 16, height: 16, symbol: ui_battle_status_stop_0_png }
 battle/status/stop_0.pal:
   { type: BLOB, offset: 0x9BC50, size: 0x20, symbol: ui_battle_status_stop_0_pal }
 battle/status/stop_1:
-  { type: BLOB, offset: 0x9BC70, size: 0x80, symbol: ui_battle_status_stop_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x9BC70, width: 16, height: 16, symbol: ui_battle_status_stop_1_png }
 battle/status/stop_1.pal:
   { type: BLOB, offset: 0x9BCF0, size: 0x20, symbol: ui_battle_status_stop_1_pal }
 battle/status/stop_2:
-  { type: BLOB, offset: 0x9BD10, size: 0x80, symbol: ui_battle_status_stop_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x9BD10, width: 16, height: 16, symbol: ui_battle_status_stop_2_png }
 battle/status/stop_2.pal:
   { type: BLOB, offset: 0x9BD90, size: 0x20, symbol: ui_battle_status_stop_2_pal }
 battle/status/stop_3:
-  { type: BLOB, offset: 0x9BDB0, size: 0x80, symbol: ui_battle_status_stop_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x9BDB0, width: 16, height: 16, symbol: ui_battle_status_stop_3_png }
 battle/status/stop_3.pal:
   { type: BLOB, offset: 0x9BE30, size: 0x20, symbol: ui_battle_status_stop_3_pal }
 battle/status/pdown_0:
-  { type: BLOB, offset: 0x9BE50, size: 0x80, symbol: ui_battle_status_pdown_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x9BE50, width: 16, height: 16, symbol: ui_battle_status_pdown_0_png }
 battle/status/pdown_0.pal:
   { type: BLOB, offset: 0x9BED0, size: 0x20, symbol: ui_battle_status_pdown_0_pal }
 battle/status/pdown_1:
-  { type: BLOB, offset: 0x9BEF0, size: 0x80, symbol: ui_battle_status_pdown_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x9BEF0, width: 16, height: 16, symbol: ui_battle_status_pdown_1_png }
 battle/status/pdown_1.pal:
   { type: BLOB, offset: 0x9BF70, size: 0x20, symbol: ui_battle_status_pdown_1_pal }
 battle/status/shrink_0:
-  { type: BLOB, offset: 0x9BF90, size: 0x80, symbol: ui_battle_status_shrink_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x9BF90, width: 16, height: 16, symbol: ui_battle_status_shrink_0_png }
 battle/status/shrink_0.pal:
   { type: BLOB, offset: 0x9C010, size: 0x20, symbol: ui_battle_status_shrink_0_pal }
 battle/status/shrink_1:
-  { type: BLOB, offset: 0x9C030, size: 0x80, symbol: ui_battle_status_shrink_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x9C030, width: 16, height: 16, symbol: ui_battle_status_shrink_1_png }
 battle/status/shrink_1.pal:
   { type: BLOB, offset: 0x9C0B0, size: 0x20, symbol: ui_battle_status_shrink_1_pal }
 battle/status/shrink_2:
-  { type: BLOB, offset: 0x9C0D0, size: 0x80, symbol: ui_battle_status_shrink_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x9C0D0, width: 16, height: 16, symbol: ui_battle_status_shrink_2_png }
 battle/status/shrink_2.pal:
   { type: BLOB, offset: 0x9C150, size: 0x20, symbol: ui_battle_status_shrink_2_pal }
 battle/status/shrink_3:
-  { type: BLOB, offset: 0x9C170, size: 0x80, symbol: ui_battle_status_shrink_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x9C170, width: 16, height: 16, symbol: ui_battle_status_shrink_3_png }
 battle/status/shrink_3.pal:
   { type: BLOB, offset: 0x9C1F0, size: 0x20, symbol: ui_battle_status_shrink_3_pal }
 battle/status/transparent_0:
-  { type: BLOB, offset: 0x9C210, size: 0x80, symbol: ui_battle_status_transparent_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x9C210, width: 16, height: 16, symbol: ui_battle_status_transparent_0_png }
 battle/status/transparent_0.pal:
   { type: BLOB, offset: 0x9C290, size: 0x20, symbol: ui_battle_status_transparent_0_pal }
 battle/status/transparent_1:
-  { type: BLOB, offset: 0x9C2B0, size: 0x80, symbol: ui_battle_status_transparent_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x9C2B0, width: 16, height: 16, symbol: ui_battle_status_transparent_1_png }
 battle/status/transparent_1.pal:
   { type: BLOB, offset: 0x9C330, size: 0x20, symbol: ui_battle_status_transparent_1_pal }
 battle/status/transparent_2:
-  { type: BLOB, offset: 0x9C350, size: 0x80, symbol: ui_battle_status_transparent_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x9C350, width: 16, height: 16, symbol: ui_battle_status_transparent_2_png }
 battle/status/transparent_2.pal:
   { type: BLOB, offset: 0x9C3D0, size: 0x20, symbol: ui_battle_status_transparent_2_pal }
 battle/status/transparent_3:
-  { type: BLOB, offset: 0x9C3F0, size: 0x80, symbol: ui_battle_status_transparent_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x9C3F0, width: 16, height: 16, symbol: ui_battle_status_transparent_3_png }
 battle/status/transparent_3.pal:
   { type: BLOB, offset: 0x9C470, size: 0x20, symbol: ui_battle_status_transparent_3_pal }
 battle/status/transparent_4:
-  { type: BLOB, offset: 0x9C490, size: 0x80, symbol: ui_battle_status_transparent_4_png }
+  { type: TEXTURE, format: CI4, offset: 0x9C490, width: 16, height: 16, symbol: ui_battle_status_transparent_4_png }
 battle/status/transparent_4.pal:
   { type: BLOB, offset: 0x9C510, size: 0x20, symbol: ui_battle_status_transparent_4_pal }
 battle/status/transparent_5:
-  { type: BLOB, offset: 0x9C530, size: 0x80, symbol: ui_battle_status_transparent_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x9C530, width: 16, height: 16, symbol: ui_battle_status_transparent_5_png }
 battle/status/transparent_5.pal:
   { type: BLOB, offset: 0x9C5B0, size: 0x20, symbol: ui_battle_status_transparent_5_pal }
 battle/status/peril:
-  { type: BLOB, offset: 0x9C5D0, size: 0x140, symbol: ui_battle_status_peril_png }
+  { type: TEXTURE, format: CI4, offset: 0x9C5D0, width: 40, height: 16, symbol: ui_battle_status_peril_png }
 battle/status/peril.pal:
   { type: BLOB, offset: 0x9C710, size: 0x20, symbol: ui_battle_status_peril_pal }
 battle/status/danger:
-  { type: BLOB, offset: 0x9C730, size: 0x140, symbol: ui_battle_status_danger_png }
+  { type: TEXTURE, format: CI4, offset: 0x9C730, width: 40, height: 16, symbol: ui_battle_status_danger_png }
 battle/status/danger.pal:
   { type: BLOB, offset: 0x9C870, size: 0x20, symbol: ui_battle_status_danger_pal }
 battle/status/refund:
-  { type: BLOB, offset: 0x9C890, size: 0x1E0, symbol: ui_battle_status_refund_png }
+  { type: TEXTURE, format: CI4, offset: 0x9C890, width: 40, height: 24, symbol: ui_battle_status_refund_png }
 battle/status/refund.pal:
   { type: BLOB, offset: 0x9CA70, size: 0x20, symbol: ui_battle_status_refund_pal }
 battle/status/happy:
-  { type: BLOB, offset: 0x9CA90, size: 0x140, symbol: ui_battle_status_happy_png }
+  { type: TEXTURE, format: CI4, offset: 0x9CA90, width: 40, height: 16, symbol: ui_battle_status_happy_png }
 battle/status/happy.pal:
   { type: BLOB, offset: 0x9CBD0, size: 0x20, symbol: ui_battle_status_happy_pal }
 battle/status/hp_drain:
-  { type: BLOB, offset: 0x9CBF0, size: 0x140, symbol: ui_battle_status_hp_drain_png }
+  { type: TEXTURE, format: CI4, offset: 0x9CBF0, width: 40, height: 16, symbol: ui_battle_status_hp_drain_png }
 battle/status/hp_drain.pal:
   { type: BLOB, offset: 0x9CD30, size: 0x20, symbol: ui_battle_status_hp_drain_pal }
 move_basic:
-  { type: BLOB, offset: 0x9CD50, size: 0x200, symbol: ui_move_basic_png }
+  { type: TEXTURE, format: CI4, offset: 0x9CD50, width: 32, height: 32, symbol: ui_move_basic_png }
 move_basic.pal:
   { type: BLOB, offset: 0x9CF50, size: 0x20, symbol: ui_move_basic_pal }
 move_basic.disabled:
   { type: BLOB, offset: 0x9CF70, size: 0x20, symbol: ui_move_basic_disabled_pal }
 move_partner_1:
-  { type: BLOB, offset: 0x9CF90, size: 0x200, symbol: ui_move_partner_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x9CF90, width: 32, height: 32, symbol: ui_move_partner_1_png }
 move_partner_1.pal:
   { type: BLOB, offset: 0x9D190, size: 0x20, symbol: ui_move_partner_1_pal }
 move_partner_1.disabled:
   { type: BLOB, offset: 0x9D1B0, size: 0x20, symbol: ui_move_partner_1_disabled_pal }
 move_partner_2:
-  { type: BLOB, offset: 0x9D1D0, size: 0x200, symbol: ui_move_partner_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x9D1D0, width: 32, height: 32, symbol: ui_move_partner_2_png }
 move_partner_2.pal:
   { type: BLOB, offset: 0x9D3D0, size: 0x20, symbol: ui_move_partner_2_pal }
 move_partner_2.disabled:
   { type: BLOB, offset: 0x9D3F0, size: 0x20, symbol: ui_move_partner_2_disabled_pal }
 move_partner_3:
-  { type: BLOB, offset: 0x9D410, size: 0x200, symbol: ui_move_partner_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x9D410, width: 32, height: 32, symbol: ui_move_partner_3_png }
 move_partner_3.pal:
   { type: BLOB, offset: 0x9D610, size: 0x20, symbol: ui_move_partner_3_pal }
 move_partner_3.disabled:
   { type: BLOB, offset: 0x9D630, size: 0x20, symbol: ui_move_partner_3_disabled_pal }
 stat_heart:
-  { type: BLOB, offset: 0x9D658, size: 0x400, symbol: ui_stat_heart_png }
+  { type: TEXTURE, format: RGBA32, offset: 0x9D658, width: 16, height: 16, symbol: ui_stat_heart_png }
 stat_flower:
-  { type: BLOB, offset: 0x9DA60, size: 0x400, symbol: ui_stat_flower_png }
+  { type: TEXTURE, format: RGBA32, offset: 0x9DA60, width: 16, height: 16, symbol: ui_stat_flower_png }
 status/shimmer_particle:
-  { type: BLOB, offset: 0xA2960, size: 0x200, symbol: ui_status_shimmer_particle_png }
+  { type: TEXTURE, format: IA8, offset: 0xA2960, width: 32, height: 16, symbol: ui_status_shimmer_particle_png }
 box/corners9:
-  { type: BLOB, offset: 0xA2E90, size: 0x400, symbol: ui_box_corners9_png }
+  { type: TEXTURE, format: IA8, offset: 0xA2E90, width: 16, height: 64, symbol: ui_box_corners9_png }
 box/corners8:
-  { type: BLOB, offset: 0xA3290, size: 0x900, symbol: ui_box_corners8_png }
+  { type: TEXTURE, format: IA8, offset: 0xA3290, width: 24, height: 96, symbol: ui_box_corners8_png }
 box/corners6:
-  { type: BLOB, offset: 0xA3B90, size: 0x280, symbol: ui_box_corners6_png }
+  { type: TEXTURE, format: IA8, offset: 0xA3B90, width: 16, height: 40, symbol: ui_box_corners6_png }
 box/corners7:
-  { type: BLOB, offset: 0xA3E10, size: 0x200, symbol: ui_box_corners7_png }
+  { type: TEXTURE, format: IA8, offset: 0xA3E10, width: 16, height: 32, symbol: ui_box_corners7_png }
 box/corners3:
-  { type: BLOB, offset: 0xA4010, size: 0x600, symbol: ui_box_corners3_png }
+  { type: TEXTURE, format: IA8, offset: 0xA4010, width: 16, height: 96, symbol: ui_box_corners3_png }
 box/corners5:
-  { type: BLOB, offset: 0xA4610, size: 0x200, symbol: ui_box_corners5_png }
+  { type: TEXTURE, format: IA8, offset: 0xA4610, width: 16, height: 32, symbol: ui_box_corners5_png }
 box/corners4:
-  { type: BLOB, offset: 0xA4810, size: 0x100, symbol: ui_box_corners4_png }
+  { type: TEXTURE, format: IA8, offset: 0xA4810, width: 8, height: 32, symbol: ui_box_corners4_png }
 box/bg_tile:
-  { type: BLOB, offset: 0xA4910, size: 0x80, symbol: ui_box_bg_tile_png }
+  { type: TEXTURE, format: I4, offset: 0xA4910, width: 16, height: 16, symbol: ui_box_bg_tile_png }
 box/corners1:
-  { type: BLOB, offset: 0xA4990, size: 0x400, symbol: ui_box_corners1_png }
+  { type: TEXTURE, format: IA8, offset: 0xA4990, width: 16, height: 64, symbol: ui_box_corners1_png }
 box/corners2:
-  { type: BLOB, offset: 0xA4D90, size: 0x200, symbol: ui_box_corners2_png }
+  { type: TEXTURE, format: I4, offset: 0xA4D90, width: 16, height: 64, symbol: ui_box_corners2_png }
 box/bg_flat:
-  { type: BLOB, offset: 0xA4F90, size: 0x8, symbol: ui_box_bg_flat_png }
+  { type: TEXTURE, format: I4, offset: 0xA4F90, width: 16, height: 1, symbol: ui_box_bg_flat_png }
 stencil/star:
-  { type: BLOB, offset: 0xE2E00, size: 0x400, symbol: ui_stencil_star_png }
+  { type: TEXTURE, format: I4, offset: 0xE2E00, width: 32, height: 64, symbol: ui_stencil_star_png }
 stencil/mario:
-  { type: BLOB, offset: 0xE3200, size: 0x800, symbol: ui_stencil_mario_png }
+  { type: TEXTURE, format: I4, offset: 0xE3200, width: 64, height: 64, symbol: ui_stencil_mario_png }
 stencil/sharp_circle:
-  { type: BLOB, offset: 0xE3A00, size: 0x200, symbol: ui_stencil_sharp_circle_png }
+  { type: TEXTURE, format: I4, offset: 0xE3A00, width: 32, height: 32, symbol: ui_stencil_sharp_circle_png }
 stencil/blurry_circle:
-  { type: BLOB, offset: 0xE3C00, size: 0x1000, symbol: ui_stencil_blurry_circle_png }
+  { type: TEXTURE, format: I8, offset: 0xE3C00, width: 64, height: 64, symbol: ui_stencil_blurry_circle_png }
 msg/bubble_left:
-  { type: BLOB, offset: 0x10CEB0, size: 0x400, symbol: ui_msg_bubble_left_png }
+  { type: TEXTURE, format: CI4, offset: 0x10CEB0, width: 32, height: 64, symbol: ui_msg_bubble_left_png }
 msg/bubble_mid:
-  { type: BLOB, offset: 0x10D2B0, size: 0x100, symbol: ui_msg_bubble_mid_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D2B0, width: 8, height: 64, symbol: ui_msg_bubble_mid_png }
 msg/bubble_right:
-  { type: BLOB, offset: 0x10D3B0, size: 0x400, symbol: ui_msg_bubble_right_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D3B0, width: 32, height: 64, symbol: ui_msg_bubble_right_png }
 msg/arrow:
-  { type: BLOB, offset: 0x10D7B0, size: 0x80, symbol: ui_msg_arrow_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D7B0, width: 16, height: 16, symbol: ui_msg_arrow_png }
 msg/frame_a_1_1:
-  { type: BLOB, offset: 0x10D830, size: 0x20, symbol: ui_msg_frame_a_1_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D830, width: 8, height: 8, symbol: ui_msg_frame_a_1_1_png }
 msg/frame_a_1_2:
-  { type: BLOB, offset: 0x10D850, size: 0x20, symbol: ui_msg_frame_a_1_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D850, width: 8, height: 8, symbol: ui_msg_frame_a_1_2_png }
 msg/frame_a_1_3:
-  { type: BLOB, offset: 0x10D870, size: 0x20, symbol: ui_msg_frame_a_1_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D870, width: 8, height: 8, symbol: ui_msg_frame_a_1_3_png }
 msg/frame_a_1_4:
-  { type: BLOB, offset: 0x10D890, size: 0x20, symbol: ui_msg_frame_a_1_4_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D890, width: 8, height: 8, symbol: ui_msg_frame_a_1_4_png }
 msg/frame_a_1_5:
-  { type: BLOB, offset: 0x10D8B0, size: 0x20, symbol: ui_msg_frame_a_1_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D8B0, width: 8, height: 8, symbol: ui_msg_frame_a_1_5_png }
 msg/frame_a_2_1:
-  { type: BLOB, offset: 0x10D8D0, size: 0x20, symbol: ui_msg_frame_a_2_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D8D0, width: 8, height: 8, symbol: ui_msg_frame_a_2_1_png }
 msg/frame_a_2_5:
-  { type: BLOB, offset: 0x10D8F0, size: 0x20, symbol: ui_msg_frame_a_2_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D8F0, width: 8, height: 8, symbol: ui_msg_frame_a_2_5_png }
 msg/frame_a_3_1:
-  { type: BLOB, offset: 0x10D910, size: 0x20, symbol: ui_msg_frame_a_3_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D910, width: 8, height: 8, symbol: ui_msg_frame_a_3_1_png }
 msg/frame_a_3_5:
-  { type: BLOB, offset: 0x10D930, size: 0x20, symbol: ui_msg_frame_a_3_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D930, width: 8, height: 8, symbol: ui_msg_frame_a_3_5_png }
 msg/frame_a_4_1:
-  { type: BLOB, offset: 0x10D950, size: 0x20, symbol: ui_msg_frame_a_4_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D950, width: 8, height: 8, symbol: ui_msg_frame_a_4_1_png }
 msg/frame_a_4_5:
-  { type: BLOB, offset: 0x10D970, size: 0x20, symbol: ui_msg_frame_a_4_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D970, width: 8, height: 8, symbol: ui_msg_frame_a_4_5_png }
 msg/frame_a_5_1:
-  { type: BLOB, offset: 0x10D990, size: 0x20, symbol: ui_msg_frame_a_5_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D990, width: 8, height: 8, symbol: ui_msg_frame_a_5_1_png }
 msg/frame_a_5_2:
-  { type: BLOB, offset: 0x10D9B0, size: 0x20, symbol: ui_msg_frame_a_5_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D9B0, width: 8, height: 8, symbol: ui_msg_frame_a_5_2_png }
 msg/frame_a_5_3:
-  { type: BLOB, offset: 0x10D9D0, size: 0x20, symbol: ui_msg_frame_a_5_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D9D0, width: 8, height: 8, symbol: ui_msg_frame_a_5_3_png }
 msg/frame_a_5_4:
-  { type: BLOB, offset: 0x10D9F0, size: 0x20, symbol: ui_msg_frame_a_5_4_png }
+  { type: TEXTURE, format: CI4, offset: 0x10D9F0, width: 8, height: 8, symbol: ui_msg_frame_a_5_4_png }
 msg/frame_a_5_5:
-  { type: BLOB, offset: 0x10DA10, size: 0x20, symbol: ui_msg_frame_a_5_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DA10, width: 8, height: 8, symbol: ui_msg_frame_a_5_5_png }
 msg/frame_b_1_1:
-  { type: BLOB, offset: 0x10DA30, size: 0x20, symbol: ui_msg_frame_b_1_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DA30, width: 8, height: 8, symbol: ui_msg_frame_b_1_1_png }
 msg/frame_b_1_2:
-  { type: BLOB, offset: 0x10DA50, size: 0x20, symbol: ui_msg_frame_b_1_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DA50, width: 8, height: 8, symbol: ui_msg_frame_b_1_2_png }
 msg/frame_b_1_3:
-  { type: BLOB, offset: 0x10DA70, size: 0x20, symbol: ui_msg_frame_b_1_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DA70, width: 8, height: 8, symbol: ui_msg_frame_b_1_3_png }
 msg/frame_b_1_4:
-  { type: BLOB, offset: 0x10DA90, size: 0x20, symbol: ui_msg_frame_b_1_4_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DA90, width: 8, height: 8, symbol: ui_msg_frame_b_1_4_png }
 msg/frame_b_1_5:
-  { type: BLOB, offset: 0x10DAB0, size: 0x20, symbol: ui_msg_frame_b_1_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DAB0, width: 8, height: 8, symbol: ui_msg_frame_b_1_5_png }
 msg/frame_b_2_1:
-  { type: BLOB, offset: 0x10DAD0, size: 0x20, symbol: ui_msg_frame_b_2_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DAD0, width: 8, height: 8, symbol: ui_msg_frame_b_2_1_png }
 msg/frame_b_2_5:
-  { type: BLOB, offset: 0x10DAF0, size: 0x20, symbol: ui_msg_frame_b_2_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DAF0, width: 8, height: 8, symbol: ui_msg_frame_b_2_5_png }
 msg/frame_b_3_1:
-  { type: BLOB, offset: 0x10DB10, size: 0x20, symbol: ui_msg_frame_b_3_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DB10, width: 8, height: 8, symbol: ui_msg_frame_b_3_1_png }
 msg/frame_b_3_5:
-  { type: BLOB, offset: 0x10DB30, size: 0x20, symbol: ui_msg_frame_b_3_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DB30, width: 8, height: 8, symbol: ui_msg_frame_b_3_5_png }
 msg/frame_b_4_1:
-  { type: BLOB, offset: 0x10DB50, size: 0x20, symbol: ui_msg_frame_b_4_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DB50, width: 8, height: 8, symbol: ui_msg_frame_b_4_1_png }
 msg/frame_b_4_5:
-  { type: BLOB, offset: 0x10DB70, size: 0x20, symbol: ui_msg_frame_b_4_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DB70, width: 8, height: 8, symbol: ui_msg_frame_b_4_5_png }
 msg/frame_b_5_1:
-  { type: BLOB, offset: 0x10DB90, size: 0x20, symbol: ui_msg_frame_b_5_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DB90, width: 8, height: 8, symbol: ui_msg_frame_b_5_1_png }
 msg/frame_b_5_2:
-  { type: BLOB, offset: 0x10DBB0, size: 0x20, symbol: ui_msg_frame_b_5_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DBB0, width: 8, height: 8, symbol: ui_msg_frame_b_5_2_png }
 msg/frame_b_5_3:
-  { type: BLOB, offset: 0x10DBD0, size: 0x20, symbol: ui_msg_frame_b_5_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DBD0, width: 8, height: 8, symbol: ui_msg_frame_b_5_3_png }
 msg/frame_b_5_4:
-  { type: BLOB, offset: 0x10DBF0, size: 0x20, symbol: ui_msg_frame_b_5_4_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DBF0, width: 8, height: 8, symbol: ui_msg_frame_b_5_4_png }
 msg/frame_b_5_5:
-  { type: BLOB, offset: 0x10DC10, size: 0x20, symbol: ui_msg_frame_b_5_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DC10, width: 8, height: 8, symbol: ui_msg_frame_b_5_5_png }
 msg/bubble_left.pal:
   { type: BLOB, offset: 0x10DC30, size: 0x200, symbol: ui_msg_bubble_left_pal }
 msg/sign_corner_topleft:
-  { type: BLOB, offset: 0x10DE30, size: 0x80, symbol: ui_msg_sign_corner_topleft_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DE30, width: 16, height: 16, symbol: ui_msg_sign_corner_topleft_png }
 msg/sign_corner_topright:
-  { type: BLOB, offset: 0x10DEB0, size: 0x80, symbol: ui_msg_sign_corner_topright_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DEB0, width: 16, height: 16, symbol: ui_msg_sign_corner_topright_png }
 msg/sign_corner_bottomleft:
-  { type: BLOB, offset: 0x10DF30, size: 0x80, symbol: ui_msg_sign_corner_bottomleft_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DF30, width: 16, height: 16, symbol: ui_msg_sign_corner_bottomleft_png }
 msg/sign_corner_bottomright:
-  { type: BLOB, offset: 0x10DFB0, size: 0x80, symbol: ui_msg_sign_corner_bottomright_png }
+  { type: TEXTURE, format: CI4, offset: 0x10DFB0, width: 16, height: 16, symbol: ui_msg_sign_corner_bottomright_png }
 msg/lamppost_corner_bottomright:
-  { type: BLOB, offset: 0x10E030, size: 0x80, symbol: ui_msg_lamppost_corner_bottomright_png }
+  { type: TEXTURE, format: CI4, offset: 0x10E030, width: 16, height: 16, symbol: ui_msg_lamppost_corner_bottomright_png }
 msg/sign_side_top:
-  { type: BLOB, offset: 0x10E0B0, size: 0x100, symbol: ui_msg_sign_side_top_png }
+  { type: TEXTURE, format: CI4, offset: 0x10E0B0, width: 32, height: 16, symbol: ui_msg_sign_side_top_png }
 msg/sign_side_left:
-  { type: BLOB, offset: 0x10E1B0, size: 0x140, symbol: ui_msg_sign_side_left_png }
+  { type: TEXTURE, format: CI4, offset: 0x10E1B0, width: 16, height: 40, symbol: ui_msg_sign_side_left_png }
 msg/sign_side_right:
-  { type: BLOB, offset: 0x10E2F0, size: 0x140, symbol: ui_msg_sign_side_right_png }
+  { type: TEXTURE, format: CI4, offset: 0x10E2F0, width: 16, height: 40, symbol: ui_msg_sign_side_right_png }
 msg/sign_side_bottom:
-  { type: BLOB, offset: 0x10E430, size: 0x100, symbol: ui_msg_sign_side_bottom_png }
+  { type: TEXTURE, format: CI4, offset: 0x10E430, width: 32, height: 16, symbol: ui_msg_sign_side_bottom_png }
 msg/sign_fill:
-  { type: BLOB, offset: 0x10E530, size: 0x20, symbol: ui_msg_sign_fill_png }
+  { type: TEXTURE, format: CI4, offset: 0x10E530, width: 8, height: 8, symbol: ui_msg_sign_fill_png }
 msg/sign_corner_topleft.pal:
   { type: BLOB, offset: 0x10E550, size: 0x20, symbol: ui_msg_sign_corner_topleft_pal }
 msg/lamppost_corner_bottomright.pal:
   { type: BLOB, offset: 0x10E570, size: 0x20, symbol: ui_msg_lamppost_corner_bottomright_pal }
 msg/background:
-  { type: BLOB, offset: 0x10E590, size: 0x800, symbol: ui_msg_background_png }
+  { type: TEXTURE, format: I4, offset: 0x10E590, width: 64, height: 64, symbol: ui_msg_background_png }
 msg/rewind_arrow:
-  { type: BLOB, offset: 0x10ED90, size: 0x120, symbol: ui_msg_rewind_arrow_png }
+  { type: TEXTURE, format: CI4, offset: 0x10ED90, width: 24, height: 24, symbol: ui_msg_rewind_arrow_png }
 msg/rewind_arrow.pal:
   { type: BLOB, offset: 0x10EEB0, size: 0x20, symbol: ui_msg_rewind_arrow_pal }
 msg/star:
-  { type: BLOB, offset: 0x10EED0, size: 0x240, symbol: ui_msg_star_png }
+  { type: TEXTURE, format: RGBA16, offset: 0x10EED0, width: 16, height: 18, symbol: ui_msg_star_png }
 msg/star_silhouette:
-  { type: BLOB, offset: 0x10F110, size: 0xA0, symbol: ui_msg_star_silhouette_png }
+  { type: TEXTURE, format: I4, offset: 0x10F110, width: 16, height: 20, symbol: ui_msg_star_silhouette_png }
 pause/unused_badge_points:
-  { type: BLOB, offset: 0x131340, size: 0x120, symbol: ui_pause_unused_badge_points_png }
+  { type: TEXTURE, format: CI4, offset: 0x131340, width: 24, height: 24, symbol: ui_pause_unused_badge_points_png }
 pause/unused_badge_points.pal:
   { type: BLOB, offset: 0x131460, size: 0x20, symbol: ui_pause_unused_badge_points_pal }
 pause/unused_badge_points.disabled:
   { type: BLOB, offset: 0x131480, size: 0x20, symbol: ui_pause_unused_badge_points_disabled_pal }
 pause/unused_compass:
-  { type: BLOB, offset: 0x1314A0, size: 0x120, symbol: ui_pause_unused_compass_png }
+  { type: TEXTURE, format: CI4, offset: 0x1314A0, width: 24, height: 24, symbol: ui_pause_unused_compass_png }
 pause/unused_compass.pal:
   { type: BLOB, offset: 0x1315C0, size: 0x20, symbol: ui_pause_unused_compass_pal }
 pause/unused_compass.disabled:
   { type: BLOB, offset: 0x1315E0, size: 0x20, symbol: ui_pause_unused_compass_disabled_pal }
 pause/cursor_hand:
-  { type: BLOB, offset: 0x131600, size: 0x80, symbol: ui_pause_cursor_hand_png }
+  { type: TEXTURE, format: CI4, offset: 0x131600, width: 16, height: 16, symbol: ui_pause_cursor_hand_png }
 pause/cursor_hand.pal:
   { type: BLOB, offset: 0x131680, size: 0x20, symbol: ui_pause_cursor_hand_pal }
 files/filename_caret:
-  { type: BLOB, offset: 0x1316A0, size: 0x80, symbol: ui_files_filename_caret_png }
+  { type: TEXTURE, format: CI4, offset: 0x1316A0, width: 16, height: 16, symbol: ui_files_filename_caret_png }
 files/filename_caret.pal:
   { type: BLOB, offset: 0x131720, size: 0x20, symbol: ui_files_filename_caret_pal }
 files/filename_space:
-  { type: BLOB, offset: 0x131740, size: 0x20, symbol: ui_files_filename_space_png }
+  { type: TEXTURE, format: CI4, offset: 0x131740, width: 8, height: 8, symbol: ui_files_filename_space_png }
 files/filename_space.pal:
   { type: BLOB, offset: 0x131760, size: 0x20, symbol: ui_files_filename_space_pal }
 pause/label_stats:
-  { type: BLOB, offset: 0x131780, size: 0x180, symbol: ui_pause_label_stats_png }
+  { type: TEXTURE, format: CI4, offset: 0x131780, width: 48, height: 16, symbol: ui_pause_label_stats_png }
 pause/label_stats.pal:
   { type: BLOB, offset: 0x131900, size: 0x20, symbol: ui_pause_label_stats_pal }
 pause/label_badges:
-  { type: BLOB, offset: 0x131920, size: 0x180, symbol: ui_pause_label_badges_png }
+  { type: TEXTURE, format: CI4, offset: 0x131920, width: 48, height: 16, symbol: ui_pause_label_badges_png }
 pause/label_badges.pal:
   { type: BLOB, offset: 0x131AA0, size: 0x20, symbol: ui_pause_label_badges_pal }
 pause/label_items:
-  { type: BLOB, offset: 0x131AC0, size: 0x180, symbol: ui_pause_label_items_png }
+  { type: TEXTURE, format: CI4, offset: 0x131AC0, width: 48, height: 16, symbol: ui_pause_label_items_png }
 pause/label_items.pal:
   { type: BLOB, offset: 0x131C40, size: 0x20, symbol: ui_pause_label_items_pal }
 pause/label_party:
-  { type: BLOB, offset: 0x131C60, size: 0x180, symbol: ui_pause_label_party_png }
+  { type: TEXTURE, format: CI4, offset: 0x131C60, width: 48, height: 16, symbol: ui_pause_label_party_png }
 pause/label_party.pal:
   { type: BLOB, offset: 0x131DE0, size: 0x20, symbol: ui_pause_label_party_pal }
 pause/label_spirits:
-  { type: BLOB, offset: 0x131E00, size: 0x180, symbol: ui_pause_label_spirits_png }
+  { type: TEXTURE, format: CI4, offset: 0x131E00, width: 48, height: 16, symbol: ui_pause_label_spirits_png }
 pause/label_spirits.pal:
   { type: BLOB, offset: 0x131F80, size: 0x20, symbol: ui_pause_label_spirits_pal }
 pause/label_map:
-  { type: BLOB, offset: 0x131FA0, size: 0x180, symbol: ui_pause_label_map_png }
+  { type: TEXTURE, format: CI4, offset: 0x131FA0, width: 48, height: 16, symbol: ui_pause_label_map_png }
 pause/label_map.pal:
   { type: BLOB, offset: 0x132120, size: 0x20, symbol: ui_pause_label_map_pal }
 pause/small_digit_0:
-  { type: BLOB, offset: 0x132140, size: 0x20, symbol: ui_pause_small_digit_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x132140, width: 8, height: 8, symbol: ui_pause_small_digit_0_png }
 pause/small_digit_0.pal:
   { type: BLOB, offset: 0x132160, size: 0x20, symbol: ui_pause_small_digit_0_pal }
 pause/small_digit_1:
-  { type: BLOB, offset: 0x132180, size: 0x20, symbol: ui_pause_small_digit_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x132180, width: 8, height: 8, symbol: ui_pause_small_digit_1_png }
 pause/small_digit_1.pal:
   { type: BLOB, offset: 0x1321A0, size: 0x20, symbol: ui_pause_small_digit_1_pal }
 pause/small_digit_2:
-  { type: BLOB, offset: 0x1321C0, size: 0x20, symbol: ui_pause_small_digit_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x1321C0, width: 8, height: 8, symbol: ui_pause_small_digit_2_png }
 pause/small_digit_2.pal:
   { type: BLOB, offset: 0x1321E0, size: 0x20, symbol: ui_pause_small_digit_2_pal }
 pause/small_digit_3:
-  { type: BLOB, offset: 0x132200, size: 0x20, symbol: ui_pause_small_digit_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x132200, width: 8, height: 8, symbol: ui_pause_small_digit_3_png }
 pause/small_digit_3.pal:
   { type: BLOB, offset: 0x132220, size: 0x20, symbol: ui_pause_small_digit_3_pal }
 pause/small_digit_4:
-  { type: BLOB, offset: 0x132240, size: 0x20, symbol: ui_pause_small_digit_4_png }
+  { type: TEXTURE, format: CI4, offset: 0x132240, width: 8, height: 8, symbol: ui_pause_small_digit_4_png }
 pause/small_digit_4.pal:
   { type: BLOB, offset: 0x132260, size: 0x20, symbol: ui_pause_small_digit_4_pal }
 pause/small_digit_5:
-  { type: BLOB, offset: 0x132280, size: 0x20, symbol: ui_pause_small_digit_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x132280, width: 8, height: 8, symbol: ui_pause_small_digit_5_png }
 pause/small_digit_5.pal:
   { type: BLOB, offset: 0x1322A0, size: 0x20, symbol: ui_pause_small_digit_5_pal }
 pause/small_digit_6:
-  { type: BLOB, offset: 0x1322C0, size: 0x20, symbol: ui_pause_small_digit_6_png }
+  { type: TEXTURE, format: CI4, offset: 0x1322C0, width: 8, height: 8, symbol: ui_pause_small_digit_6_png }
 pause/small_digit_6.pal:
   { type: BLOB, offset: 0x1322E0, size: 0x20, symbol: ui_pause_small_digit_6_pal }
 pause/small_digit_7:
-  { type: BLOB, offset: 0x132300, size: 0x20, symbol: ui_pause_small_digit_7_png }
+  { type: TEXTURE, format: CI4, offset: 0x132300, width: 8, height: 8, symbol: ui_pause_small_digit_7_png }
 pause/small_digit_7.pal:
   { type: BLOB, offset: 0x132320, size: 0x20, symbol: ui_pause_small_digit_7_pal }
 pause/small_digit_8:
-  { type: BLOB, offset: 0x132340, size: 0x20, symbol: ui_pause_small_digit_8_png }
+  { type: TEXTURE, format: CI4, offset: 0x132340, width: 8, height: 8, symbol: ui_pause_small_digit_8_png }
 pause/small_digit_8.pal:
   { type: BLOB, offset: 0x132360, size: 0x20, symbol: ui_pause_small_digit_8_pal }
 pause/small_digit_9:
-  { type: BLOB, offset: 0x132380, size: 0x20, symbol: ui_pause_small_digit_9_png }
+  { type: TEXTURE, format: CI4, offset: 0x132380, width: 8, height: 8, symbol: ui_pause_small_digit_9_png }
 pause/small_digit_9.pal:
   { type: BLOB, offset: 0x1323A0, size: 0x20, symbol: ui_pause_small_digit_9_pal }
 pause/small_text_bp:
-  { type: BLOB, offset: 0x1323C0, size: 0x20, symbol: ui_pause_small_text_bp_png }
+  { type: TEXTURE, format: CI4, offset: 0x1323C0, width: 8, height: 8, symbol: ui_pause_small_text_bp_png }
 pause/small_text_bp.pal:
   { type: BLOB, offset: 0x1323E0, size: 0x20, symbol: ui_pause_small_text_bp_pal }
 pause/label_jp_file:
-  { type: BLOB, offset: 0x132400, size: 0x100, symbol: ui_pause_label_jp_file_png }
+  { type: TEXTURE, format: CI4, offset: 0x132400, width: 32, height: 16, symbol: ui_pause_label_jp_file_png }
 pause/label_jp_file.pal:
   { type: BLOB, offset: 0x132500, size: 0x20, symbol: ui_pause_label_jp_file_pal }
 pause/label_jp_file_disabled:
-  { type: BLOB, offset: 0x132520, size: 0x100, symbol: ui_pause_label_jp_file_disabled_png }
+  { type: TEXTURE, format: CI4, offset: 0x132520, width: 32, height: 16, symbol: ui_pause_label_jp_file_disabled_png }
 pause/label_jp_file_disabled.pal:
   { type: BLOB, offset: 0x132620, size: 0x20, symbol: ui_pause_label_jp_file_disabled_pal }
 files/option_mono_on:
-  { type: BLOB, offset: 0x132640, size: 0x200, symbol: ui_files_option_mono_on_png }
+  { type: TEXTURE, format: CI4, offset: 0x132640, width: 64, height: 16, symbol: ui_files_option_mono_on_png }
 files/option_mono_on.pal:
   { type: BLOB, offset: 0x132840, size: 0x20, symbol: ui_files_option_mono_on_pal }
 files/option_mono_off:
-  { type: BLOB, offset: 0x132860, size: 0x200, symbol: ui_files_option_mono_off_png }
+  { type: TEXTURE, format: CI4, offset: 0x132860, width: 64, height: 16, symbol: ui_files_option_mono_off_png }
 files/option_mono_off.pal:
   { type: BLOB, offset: 0x132A60, size: 0x20, symbol: ui_files_option_mono_off_pal }
 files/option_stereo_on:
-  { type: BLOB, offset: 0x132A80, size: 0x200, symbol: ui_files_option_stereo_on_png }
+  { type: TEXTURE, format: CI4, offset: 0x132A80, width: 64, height: 16, symbol: ui_files_option_stereo_on_png }
 files/option_stereo_on.pal:
   { type: BLOB, offset: 0x132C80, size: 0x20, symbol: ui_files_option_stereo_on_pal }
 files/option_stereo_off:
-  { type: BLOB, offset: 0x132CA0, size: 0x200, symbol: ui_files_option_stereo_off_png }
+  { type: TEXTURE, format: CI4, offset: 0x132CA0, width: 64, height: 16, symbol: ui_files_option_stereo_off_png }
 files/option_stereo_off.pal:
   { type: BLOB, offset: 0x132EA0, size: 0x20, symbol: ui_files_option_stereo_off_pal }
 files/eldstar:
-  { type: BLOB, offset: 0x132EC0, size: 0x80, symbol: ui_files_eldstar_png }
+  { type: TEXTURE, format: CI4, offset: 0x132EC0, width: 16, height: 16, symbol: ui_files_eldstar_png }
 files/eldstar.pal:
   { type: BLOB, offset: 0x132F40, size: 0x20, symbol: ui_files_eldstar_pal }
 files/eldstar_silhouette:
-  { type: BLOB, offset: 0x132F60, size: 0x80, symbol: ui_files_eldstar_silhouette_png }
+  { type: TEXTURE, format: CI4, offset: 0x132F60, width: 16, height: 16, symbol: ui_files_eldstar_silhouette_png }
 files/eldstar_silhouette.pal:
   { type: BLOB, offset: 0x132FE0, size: 0x20, symbol: ui_files_eldstar_silhouette_pal }
 files/mamar:
-  { type: BLOB, offset: 0x133000, size: 0x80, symbol: ui_files_mamar_png }
+  { type: TEXTURE, format: CI4, offset: 0x133000, width: 16, height: 16, symbol: ui_files_mamar_png }
 files/mamar.pal:
   { type: BLOB, offset: 0x133080, size: 0x20, symbol: ui_files_mamar_pal }
 files/mamar_silhouette:
-  { type: BLOB, offset: 0x1330A0, size: 0x80, symbol: ui_files_mamar_silhouette_png }
+  { type: TEXTURE, format: CI4, offset: 0x1330A0, width: 16, height: 16, symbol: ui_files_mamar_silhouette_png }
 files/mamar_silhouette.pal:
   { type: BLOB, offset: 0x133120, size: 0x20, symbol: ui_files_mamar_silhouette_pal }
 files/skolar:
-  { type: BLOB, offset: 0x133140, size: 0x80, symbol: ui_files_skolar_png }
+  { type: TEXTURE, format: CI4, offset: 0x133140, width: 16, height: 16, symbol: ui_files_skolar_png }
 files/skolar.pal:
   { type: BLOB, offset: 0x1331C0, size: 0x20, symbol: ui_files_skolar_pal }
 files/skolar_silhouette:
-  { type: BLOB, offset: 0x1331E0, size: 0x80, symbol: ui_files_skolar_silhouette_png }
+  { type: TEXTURE, format: CI4, offset: 0x1331E0, width: 16, height: 16, symbol: ui_files_skolar_silhouette_png }
 files/skolar_silhouette.pal:
   { type: BLOB, offset: 0x133260, size: 0x20, symbol: ui_files_skolar_silhouette_pal }
 files/muskular:
-  { type: BLOB, offset: 0x133280, size: 0x80, symbol: ui_files_muskular_png }
+  { type: TEXTURE, format: CI4, offset: 0x133280, width: 16, height: 16, symbol: ui_files_muskular_png }
 files/muskular.pal:
   { type: BLOB, offset: 0x133300, size: 0x20, symbol: ui_files_muskular_pal }
 files/muskular_silhouette:
-  { type: BLOB, offset: 0x133320, size: 0x80, symbol: ui_files_muskular_silhouette_png }
+  { type: TEXTURE, format: CI4, offset: 0x133320, width: 16, height: 16, symbol: ui_files_muskular_silhouette_png }
 files/muskular_silhouette.pal:
   { type: BLOB, offset: 0x1333A0, size: 0x20, symbol: ui_files_muskular_silhouette_pal }
 files/misstar:
-  { type: BLOB, offset: 0x1333C0, size: 0x80, symbol: ui_files_misstar_png }
+  { type: TEXTURE, format: CI4, offset: 0x1333C0, width: 16, height: 16, symbol: ui_files_misstar_png }
 files/misstar.pal:
   { type: BLOB, offset: 0x133440, size: 0x20, symbol: ui_files_misstar_pal }
 files/misstar_silhouette:
-  { type: BLOB, offset: 0x133460, size: 0x80, symbol: ui_files_misstar_silhouette_png }
+  { type: TEXTURE, format: CI4, offset: 0x133460, width: 16, height: 16, symbol: ui_files_misstar_silhouette_png }
 files/misstar_silhouette.pal:
   { type: BLOB, offset: 0x1334E0, size: 0x20, symbol: ui_files_misstar_silhouette_pal }
 files/klevar:
-  { type: BLOB, offset: 0x133500, size: 0x80, symbol: ui_files_klevar_png }
+  { type: TEXTURE, format: CI4, offset: 0x133500, width: 16, height: 16, symbol: ui_files_klevar_png }
 files/klevar.pal:
   { type: BLOB, offset: 0x133580, size: 0x20, symbol: ui_files_klevar_pal }
 files/klevar_silhouette:
-  { type: BLOB, offset: 0x1335A0, size: 0x80, symbol: ui_files_klevar_silhouette_png }
+  { type: TEXTURE, format: CI4, offset: 0x1335A0, width: 16, height: 16, symbol: ui_files_klevar_silhouette_png }
 files/klevar_silhouette.pal:
   { type: BLOB, offset: 0x133620, size: 0x20, symbol: ui_files_klevar_silhouette_pal }
 files/kalmar:
-  { type: BLOB, offset: 0x133640, size: 0x80, symbol: ui_files_kalmar_png }
+  { type: TEXTURE, format: CI4, offset: 0x133640, width: 16, height: 16, symbol: ui_files_kalmar_png }
 files/kalmar.pal:
   { type: BLOB, offset: 0x1336C0, size: 0x20, symbol: ui_files_kalmar_pal }
 files/kalmar_silhouette:
-  { type: BLOB, offset: 0x1336E0, size: 0x80, symbol: ui_files_kalmar_silhouette_png }
+  { type: TEXTURE, format: CI4, offset: 0x1336E0, width: 16, height: 16, symbol: ui_files_kalmar_silhouette_png }
 files/kalmar_silhouette.pal:
   { type: BLOB, offset: 0x133760, size: 0x20, symbol: ui_files_kalmar_silhouette_pal }
 pause/map_walk0:
-  { type: BLOB, offset: 0x133780, size: 0x120, symbol: ui_pause_map_walk0_png }
+  { type: TEXTURE, format: CI4, offset: 0x133780, width: 24, height: 24, symbol: ui_pause_map_walk0_png }
 pause/map_walk0.pal:
   { type: BLOB, offset: 0x1338A0, size: 0x20, symbol: ui_pause_map_walk0_pal }
 pause/map_walk1:
-  { type: BLOB, offset: 0x1338C0, size: 0x120, symbol: ui_pause_map_walk1_png }
+  { type: TEXTURE, format: CI4, offset: 0x1338C0, width: 24, height: 24, symbol: ui_pause_map_walk1_png }
 pause/map_walk1.pal:
   { type: BLOB, offset: 0x1339E0, size: 0x20, symbol: ui_pause_map_walk1_pal }
 pause/map_walk2:
-  { type: BLOB, offset: 0x133A00, size: 0x120, symbol: ui_pause_map_walk2_png }
+  { type: TEXTURE, format: CI4, offset: 0x133A00, width: 24, height: 24, symbol: ui_pause_map_walk2_png }
 pause/map_walk2.pal:
   { type: BLOB, offset: 0x133B20, size: 0x20, symbol: ui_pause_map_walk2_pal }
 pause/jp_super:
-  { type: BLOB, offset: 0x133B40, size: 0x140, symbol: ui_pause_jp_super_png }
+  { type: TEXTURE, format: CI4, offset: 0x133B40, width: 40, height: 16, symbol: ui_pause_jp_super_png }
 pause/jp_super.pal:
   { type: BLOB, offset: 0x133C80, size: 0x20, symbol: ui_pause_jp_super_pal }
 pause/jp_ultra:
-  { type: BLOB, offset: 0x133CA0, size: 0x140, symbol: ui_pause_jp_ultra_png }
+  { type: TEXTURE, format: CI4, offset: 0x133CA0, width: 40, height: 16, symbol: ui_pause_jp_ultra_png }
 pause/jp_ultra.pal:
   { type: BLOB, offset: 0x133DE0, size: 0x20, symbol: ui_pause_jp_ultra_pal }
 pause/list_prev_page:
-  { type: BLOB, offset: 0x133E00, size: 0x80, symbol: ui_pause_list_prev_page_png }
+  { type: TEXTURE, format: CI4, offset: 0x133E00, width: 16, height: 16, symbol: ui_pause_list_prev_page_png }
 pause/list_prev_page.pal:
   { type: BLOB, offset: 0x133E80, size: 0x20, symbol: ui_pause_list_prev_page_pal }
 pause/list_next_page:
-  { type: BLOB, offset: 0x133EA0, size: 0x80, symbol: ui_pause_list_next_page_png }
+  { type: TEXTURE, format: CI4, offset: 0x133EA0, width: 16, height: 16, symbol: ui_pause_list_next_page_png }
 pause/list_next_page.pal:
   { type: BLOB, offset: 0x133F20, size: 0x20, symbol: ui_pause_list_next_page_pal }
 pause/unused_z_up_arrow:
-  { type: BLOB, offset: 0x133F40, size: 0x80, symbol: ui_pause_unused_z_up_arrow_png }
+  { type: TEXTURE, format: CI4, offset: 0x133F40, width: 16, height: 16, symbol: ui_pause_unused_z_up_arrow_png }
 pause/unused_z_up_arrow.pal:
   { type: BLOB, offset: 0x133FC0, size: 0x20, symbol: ui_pause_unused_z_up_arrow_pal }
 pause/unused_r_down_arrow:
-  { type: BLOB, offset: 0x133FE0, size: 0x80, symbol: ui_pause_unused_r_down_arrow_png }
+  { type: TEXTURE, format: CI4, offset: 0x133FE0, width: 16, height: 16, symbol: ui_pause_unused_r_down_arrow_png }
 pause/unused_r_down_arrow.pal:
   { type: BLOB, offset: 0x134060, size: 0x20, symbol: ui_pause_unused_r_down_arrow_pal }
 pause/desc_msg_prev:
-  { type: BLOB, offset: 0x134080, size: 0x80, symbol: ui_pause_desc_msg_prev_png }
+  { type: TEXTURE, format: CI4, offset: 0x134080, width: 16, height: 16, symbol: ui_pause_desc_msg_prev_png }
 pause/desc_msg_prev.pal:
   { type: BLOB, offset: 0x134100, size: 0x20, symbol: ui_pause_desc_msg_prev_pal }
 pause/desc_msg_next:
-  { type: BLOB, offset: 0x134120, size: 0x80, symbol: ui_pause_desc_msg_next_png }
+  { type: TEXTURE, format: CI4, offset: 0x134120, width: 16, height: 16, symbol: ui_pause_desc_msg_next_png }
 pause/desc_msg_next.pal:
   { type: BLOB, offset: 0x1341A0, size: 0x20, symbol: ui_pause_desc_msg_next_pal }
 pause/bp_needed:
-  { type: BLOB, offset: 0x1341C0, size: 0xC0, symbol: ui_pause_bp_needed_png }
+  { type: TEXTURE, format: CI4, offset: 0x1341C0, width: 48, height: 8, symbol: ui_pause_bp_needed_png }
 pause/bp_needed.pal:
   { type: BLOB, offset: 0x134280, size: 0x20, symbol: ui_pause_bp_needed_pal }
 pause/mario_large:
-  { type: BLOB, offset: 0x1342A0, size: 0x200, symbol: ui_pause_mario_large_png }
+  { type: TEXTURE, format: CI4, offset: 0x1342A0, width: 32, height: 32, symbol: ui_pause_mario_large_png }
 pause/mario_large.pal:
   { type: BLOB, offset: 0x1344A0, size: 0x20, symbol: ui_pause_mario_large_pal }
 pause/dash:
-  { type: BLOB, offset: 0x1344C0, size: 0x40, symbol: ui_pause_dash_png }
+  { type: TEXTURE, format: CI4, offset: 0x1344C0, width: 16, height: 8, symbol: ui_pause_dash_png }
 pause/dash.pal:
   { type: BLOB, offset: 0x134500, size: 0x20, symbol: ui_pause_dash_pal }
 pause/stat_bp:
-  { type: BLOB, offset: 0x134520, size: 0x80, symbol: ui_pause_stat_bp_png }
+  { type: TEXTURE, format: CI4, offset: 0x134520, width: 16, height: 16, symbol: ui_pause_stat_bp_png }
 pause/stat_bp.pal:
   { type: BLOB, offset: 0x1345A0, size: 0x20, symbol: ui_pause_stat_bp_pal }
 pause/stat_mario:
-  { type: BLOB, offset: 0x1345C0, size: 0x80, symbol: ui_pause_stat_mario_png }
+  { type: TEXTURE, format: CI4, offset: 0x1345C0, width: 16, height: 16, symbol: ui_pause_stat_mario_png }
 pause/stat_mario.pal:
   { type: BLOB, offset: 0x134640, size: 0x20, symbol: ui_pause_stat_mario_pal }
 pause/stat_time:
-  { type: BLOB, offset: 0x134660, size: 0x80, symbol: ui_pause_stat_time_png }
+  { type: TEXTURE, format: CI4, offset: 0x134660, width: 16, height: 16, symbol: ui_pause_stat_time_png }
 pause/stat_time.pal:
   { type: BLOB, offset: 0x1346E0, size: 0x20, symbol: ui_pause_stat_time_pal }
 pause/stat_star_piece0:
-  { type: BLOB, offset: 0x134700, size: 0x80, symbol: ui_pause_stat_star_piece0_png }
+  { type: TEXTURE, format: CI4, offset: 0x134700, width: 16, height: 16, symbol: ui_pause_stat_star_piece0_png }
 pause/stat_star_piece0.pal:
   { type: BLOB, offset: 0x134780, size: 0x20, symbol: ui_pause_stat_star_piece0_pal }
 pause/stat_star_piece1:
-  { type: BLOB, offset: 0x1347A0, size: 0x80, symbol: ui_pause_stat_star_piece1_png }
+  { type: TEXTURE, format: CI4, offset: 0x1347A0, width: 16, height: 16, symbol: ui_pause_stat_star_piece1_png }
 pause/stat_star_piece1.pal:
   { type: BLOB, offset: 0x134820, size: 0x20, symbol: ui_pause_stat_star_piece1_pal }
 pause/stat_star_piece2:
-  { type: BLOB, offset: 0x134840, size: 0x80, symbol: ui_pause_stat_star_piece2_png }
+  { type: TEXTURE, format: CI4, offset: 0x134840, width: 16, height: 16, symbol: ui_pause_stat_star_piece2_png }
 pause/stat_star_piece2.pal:
   { type: BLOB, offset: 0x1348C0, size: 0x20, symbol: ui_pause_stat_star_piece2_pal }
 pause/stat_fp:
-  { type: BLOB, offset: 0x1348E0, size: 0x80, symbol: ui_pause_stat_fp_png }
+  { type: TEXTURE, format: CI4, offset: 0x1348E0, width: 16, height: 16, symbol: ui_pause_stat_fp_png }
 pause/stat_fp.pal:
   { type: BLOB, offset: 0x134960, size: 0x20, symbol: ui_pause_stat_fp_pal }
 pause/stat_times:
-  { type: BLOB, offset: 0x134980, size: 0x20, symbol: ui_pause_stat_times_png }
+  { type: TEXTURE, format: CI4, offset: 0x134980, width: 8, height: 8, symbol: ui_pause_stat_times_png }
 pause/stat_times.pal:
   { type: BLOB, offset: 0x1349A0, size: 0x20, symbol: ui_pause_stat_times_pal }
 pause/stat_boots0:
-  { type: BLOB, offset: 0x1349C0, size: 0x80, symbol: ui_pause_stat_boots0_png }
+  { type: TEXTURE, format: CI4, offset: 0x1349C0, width: 16, height: 16, symbol: ui_pause_stat_boots0_png }
 pause/stat_boots0.pal:
   { type: BLOB, offset: 0x134A40, size: 0x20, symbol: ui_pause_stat_boots0_pal }
 pause/stat_boots1:
-  { type: BLOB, offset: 0x134A60, size: 0x80, symbol: ui_pause_stat_boots1_png }
+  { type: TEXTURE, format: CI4, offset: 0x134A60, width: 16, height: 16, symbol: ui_pause_stat_boots1_png }
 pause/stat_boots1.pal:
   { type: BLOB, offset: 0x134AE0, size: 0x20, symbol: ui_pause_stat_boots1_pal }
 pause/stat_boots2:
-  { type: BLOB, offset: 0x134B00, size: 0x80, symbol: ui_pause_stat_boots2_png }
+  { type: TEXTURE, format: CI4, offset: 0x134B00, width: 16, height: 16, symbol: ui_pause_stat_boots2_png }
 pause/stat_boots2.pal:
   { type: BLOB, offset: 0x134B80, size: 0x20, symbol: ui_pause_stat_boots2_pal }
 pause/stat_boots3:
-  { type: BLOB, offset: 0x134BA0, size: 0x80, symbol: ui_pause_stat_boots3_png }
+  { type: TEXTURE, format: CI4, offset: 0x134BA0, width: 16, height: 16, symbol: ui_pause_stat_boots3_png }
 pause/stat_boots3.pal:
   { type: BLOB, offset: 0x134C20, size: 0x20, symbol: ui_pause_stat_boots3_pal }
 pause/stat_hammer0:
-  { type: BLOB, offset: 0x134C40, size: 0x80, symbol: ui_pause_stat_hammer0_png }
+  { type: TEXTURE, format: CI4, offset: 0x134C40, width: 16, height: 16, symbol: ui_pause_stat_hammer0_png }
 pause/stat_hammer0.pal:
   { type: BLOB, offset: 0x134CC0, size: 0x20, symbol: ui_pause_stat_hammer0_pal }
 pause/stat_hammer1:
-  { type: BLOB, offset: 0x134CE0, size: 0x80, symbol: ui_pause_stat_hammer1_png }
+  { type: TEXTURE, format: CI4, offset: 0x134CE0, width: 16, height: 16, symbol: ui_pause_stat_hammer1_png }
 pause/stat_hammer1.pal:
   { type: BLOB, offset: 0x134D60, size: 0x20, symbol: ui_pause_stat_hammer1_pal }
 pause/stat_hammer2:
-  { type: BLOB, offset: 0x134D80, size: 0x80, symbol: ui_pause_stat_hammer2_png }
+  { type: TEXTURE, format: CI4, offset: 0x134D80, width: 16, height: 16, symbol: ui_pause_stat_hammer2_png }
 pause/stat_hammer2.pal:
   { type: BLOB, offset: 0x134E00, size: 0x20, symbol: ui_pause_stat_hammer2_pal }
 pause/stat_hammer3:
-  { type: BLOB, offset: 0x134E20, size: 0x80, symbol: ui_pause_stat_hammer3_png }
+  { type: TEXTURE, format: CI4, offset: 0x134E20, width: 16, height: 16, symbol: ui_pause_stat_hammer3_png }
 pause/stat_hammer3.pal:
   { type: BLOB, offset: 0x134EA0, size: 0x20, symbol: ui_pause_stat_hammer3_pal }
 pause/partner_rank:
-  { type: BLOB, offset: 0x134EC0, size: 0x80, symbol: ui_pause_partner_rank_png }
+  { type: TEXTURE, format: CI4, offset: 0x134EC0, width: 16, height: 16, symbol: ui_pause_partner_rank_png }
 pause/partner_rank.pal:
   { type: BLOB, offset: 0x134F40, size: 0x20, symbol: ui_pause_partner_rank_pal }
 pause/unused_bubble:
-  { type: BLOB, offset: 0x134F60, size: 0x1C0, symbol: ui_pause_unused_bubble_png }
+  { type: TEXTURE, format: CI4, offset: 0x134F60, width: 56, height: 16, symbol: ui_pause_unused_bubble_png }
 pause/unused_bubble.pal:
   { type: BLOB, offset: 0x135120, size: 0x20, symbol: ui_pause_unused_bubble_pal }
 battle/cursor_hand:
-  { type: BLOB, offset: 0x1B21E0, size: 0x200, symbol: ui_battle_cursor_hand_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B21E0, width: 32, height: 32, symbol: ui_battle_cursor_hand_png }
 battle/cursor_hand.pal:
   { type: BLOB, offset: 0x1B23E0, size: 0x20, symbol: ui_battle_cursor_hand_pal }
 battle/menu/unused:
-  { type: BLOB, offset: 0x1B7CE0, size: 0x200, symbol: ui_battle_menu_unused_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B7CE0, width: 32, height: 32, symbol: ui_battle_menu_unused_png }
 battle/menu/unused.pal:
   { type: BLOB, offset: 0x1B7EE0, size: 0x20, symbol: ui_battle_menu_unused_pal }
 battle/menu/unused.disabled:
   { type: BLOB, offset: 0x1B7F00, size: 0x20, symbol: ui_battle_menu_unused_disabled_pal }
 battle/menu/flee:
-  { type: BLOB, offset: 0x1B7F20, size: 0x200, symbol: ui_battle_menu_flee_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B7F20, width: 32, height: 32, symbol: ui_battle_menu_flee_png }
 battle/menu/flee.pal:
   { type: BLOB, offset: 0x1B8120, size: 0x20, symbol: ui_battle_menu_flee_pal }
 battle/menu/flee.disabled:
   { type: BLOB, offset: 0x1B8140, size: 0x20, symbol: ui_battle_menu_flee_disabled_pal }
 battle/menu/defend:
-  { type: BLOB, offset: 0x1B8160, size: 0x200, symbol: ui_battle_menu_defend_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B8160, width: 32, height: 32, symbol: ui_battle_menu_defend_png }
 battle/menu/defend.pal:
   { type: BLOB, offset: 0x1B8360, size: 0x20, symbol: ui_battle_menu_defend_pal }
 battle/menu/defend.disabled:
   { type: BLOB, offset: 0x1B8380, size: 0x20, symbol: ui_battle_menu_defend_disabled_pal }
 battle/menu/strategies:
-  { type: BLOB, offset: 0x1B83A0, size: 0x200, symbol: ui_battle_menu_strategies_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B83A0, width: 32, height: 32, symbol: ui_battle_menu_strategies_png }
 battle/menu/strategies.pal:
   { type: BLOB, offset: 0x1B85A0, size: 0x20, symbol: ui_battle_menu_strategies_pal }
 battle/menu/strategies.disabled:
   { type: BLOB, offset: 0x1B85C0, size: 0x20, symbol: ui_battle_menu_strategies_disabled_pal }
 battle/menu/nothing:
-  { type: BLOB, offset: 0x1B85E0, size: 0x200, symbol: ui_battle_menu_nothing_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B85E0, width: 32, height: 32, symbol: ui_battle_menu_nothing_png }
 battle/menu/nothing.pal:
   { type: BLOB, offset: 0x1B87E0, size: 0x20, symbol: ui_battle_menu_nothing_pal }
 battle/menu/nothing.disabled:
   { type: BLOB, offset: 0x1B8800, size: 0x20, symbol: ui_battle_menu_nothing_disabled_pal }
 battle/menu/pouch:
-  { type: BLOB, offset: 0x1B8820, size: 0x200, symbol: ui_battle_menu_pouch_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B8820, width: 32, height: 32, symbol: ui_battle_menu_pouch_png }
 battle/menu/pouch.pal:
   { type: BLOB, offset: 0x1B8A20, size: 0x20, symbol: ui_battle_menu_pouch_pal }
 battle/menu/pouch.disabled:
   { type: BLOB, offset: 0x1B8A40, size: 0x20, symbol: ui_battle_menu_pouch_disabled_pal }
 battle/swap_Z:
-  { type: BLOB, offset: 0x1B8A60, size: 0x80, symbol: ui_battle_swap_Z_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B8A60, width: 16, height: 16, symbol: ui_battle_swap_Z_png }
 battle/swap_Z.pal:
   { type: BLOB, offset: 0x1B8AE0, size: 0x20, symbol: ui_battle_swap_Z_pal }
 battle/swap_arrow_left:
-  { type: BLOB, offset: 0x1B8B00, size: 0x40, symbol: ui_battle_swap_arrow_left_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B8B00, width: 8, height: 16, symbol: ui_battle_swap_arrow_left_png }
 battle/swap_arrow_left.pal:
   { type: BLOB, offset: 0x1B8B40, size: 0x20, symbol: ui_battle_swap_arrow_left_pal }
 battle/swap_arrow_right:
-  { type: BLOB, offset: 0x1B8B60, size: 0x40, symbol: ui_battle_swap_arrow_right_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B8B60, width: 8, height: 16, symbol: ui_battle_swap_arrow_right_png }
 battle/swap_arrow_right.pal:
   { type: BLOB, offset: 0x1B8BA0, size: 0x190, symbol: ui_battle_swap_arrow_right_pal }
 battle/menu/spirits:
-  { type: BLOB, offset: 0x1B8D40, size: 0x200, symbol: ui_battle_menu_spirits_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B8D40, width: 32, height: 32, symbol: ui_battle_menu_spirits_png }
 battle/menu/spirits.pal:
   { type: BLOB, offset: 0x1B8F40, size: 0x20, symbol: ui_battle_menu_spirits_pal }
 battle/yellow_arrow:
-  { type: BLOB, offset: 0x1B8F60, size: 0x80, symbol: ui_battle_yellow_arrow_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B8F60, width: 16, height: 16, symbol: ui_battle_yellow_arrow_png }
 battle/yellow_arrow.pal:
   { type: BLOB, offset: 0x1B8FE0, size: 0x140, symbol: ui_battle_yellow_arrow_pal }
 battle/hp_bar:
-  { type: BLOB, offset: 0x1B9120, size: 0x100, symbol: ui_battle_hp_bar_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B9120, width: 32, height: 16, symbol: ui_battle_hp_bar_png }
 battle/hp_bar.pal:
   { type: BLOB, offset: 0x1B9220, size: 0x20, symbol: ui_battle_hp_bar_pal }
 battle/hp_0:
-  { type: BLOB, offset: 0x1B9240, size: 0x20, symbol: ui_battle_hp_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B9240, width: 8, height: 8, symbol: ui_battle_hp_0_png }
 battle/hp_0.pal:
   { type: BLOB, offset: 0x1B9260, size: 0x20, symbol: ui_battle_hp_0_pal }
 battle/hp_1:
-  { type: BLOB, offset: 0x1B9280, size: 0x20, symbol: ui_battle_hp_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B9280, width: 8, height: 8, symbol: ui_battle_hp_1_png }
 battle/hp_1.pal:
   { type: BLOB, offset: 0x1B92A0, size: 0x20, symbol: ui_battle_hp_1_pal }
 battle/hp_2:
-  { type: BLOB, offset: 0x1B92C0, size: 0x20, symbol: ui_battle_hp_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B92C0, width: 8, height: 8, symbol: ui_battle_hp_2_png }
 battle/hp_2.pal:
   { type: BLOB, offset: 0x1B92E0, size: 0x20, symbol: ui_battle_hp_2_pal }
 battle/hp_3:
-  { type: BLOB, offset: 0x1B9300, size: 0x20, symbol: ui_battle_hp_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B9300, width: 8, height: 8, symbol: ui_battle_hp_3_png }
 battle/hp_3.pal:
   { type: BLOB, offset: 0x1B9320, size: 0x20, symbol: ui_battle_hp_3_pal }
 battle/hp_4:
-  { type: BLOB, offset: 0x1B9340, size: 0x20, symbol: ui_battle_hp_4_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B9340, width: 8, height: 8, symbol: ui_battle_hp_4_png }
 battle/hp_4.pal:
   { type: BLOB, offset: 0x1B9360, size: 0x20, symbol: ui_battle_hp_4_pal }
 battle/hp_5:
-  { type: BLOB, offset: 0x1B9380, size: 0x20, symbol: ui_battle_hp_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B9380, width: 8, height: 8, symbol: ui_battle_hp_5_png }
 battle/hp_5.pal:
   { type: BLOB, offset: 0x1B93A0, size: 0x20, symbol: ui_battle_hp_5_pal }
 battle/hp_6:
-  { type: BLOB, offset: 0x1B93C0, size: 0x20, symbol: ui_battle_hp_6_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B93C0, width: 8, height: 8, symbol: ui_battle_hp_6_png }
 battle/hp_6.pal:
   { type: BLOB, offset: 0x1B93E0, size: 0x20, symbol: ui_battle_hp_6_pal }
 battle/hp_7:
-  { type: BLOB, offset: 0x1B9400, size: 0x20, symbol: ui_battle_hp_7_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B9400, width: 8, height: 8, symbol: ui_battle_hp_7_png }
 battle/hp_7.pal:
   { type: BLOB, offset: 0x1B9420, size: 0x20, symbol: ui_battle_hp_7_pal }
 battle/hp_8:
-  { type: BLOB, offset: 0x1B9440, size: 0x20, symbol: ui_battle_hp_8_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B9440, width: 8, height: 8, symbol: ui_battle_hp_8_png }
 battle/hp_8.pal:
   { type: BLOB, offset: 0x1B9460, size: 0x20, symbol: ui_battle_hp_8_pal }
 battle/hp_9:
-  { type: BLOB, offset: 0x1B9480, size: 0x20, symbol: ui_battle_hp_9_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B9480, width: 8, height: 8, symbol: ui_battle_hp_9_png }
 battle/hp_9.pal:
   { type: BLOB, offset: 0x1B94A0, size: 0x20, symbol: ui_battle_hp_9_pal }
 battle/cont/b_up:
-  { type: BLOB, offset: 0x1B94C0, size: 0x3C0, symbol: ui_battle_cont_b_up_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B94C0, width: 48, height: 40, symbol: ui_battle_cont_b_up_png }
 battle/cont/b_up.pal:
   { type: BLOB, offset: 0x1B9880, size: 0x20, symbol: ui_battle_cont_b_up_pal }
 battle/cont/b_down:
-  { type: BLOB, offset: 0x1B98A0, size: 0x3C0, symbol: ui_battle_cont_b_down_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B98A0, width: 48, height: 40, symbol: ui_battle_cont_b_down_png }
 battle/cont/b_down.pal:
   { type: BLOB, offset: 0x1B9C60, size: 0x20, symbol: ui_battle_cont_b_down_pal }
 battle/cont/c_left_up:
-  { type: BLOB, offset: 0x1B9C80, size: 0x2A8, symbol: ui_battle_cont_c_left_up_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B9C80, width: 40, height: 34, symbol: ui_battle_cont_c_left_up_png }
 battle/cont/c_left_up.pal:
   { type: BLOB, offset: 0x1B9F28, size: 0x20, symbol: ui_battle_cont_c_left_up_pal }
 battle/cont/c_left_down:
-  { type: BLOB, offset: 0x1B9F48, size: 0x2A8, symbol: ui_battle_cont_c_left_down_png }
+  { type: TEXTURE, format: CI4, offset: 0x1B9F48, width: 40, height: 34, symbol: ui_battle_cont_c_left_down_png }
 battle/cont/c_left_down.pal:
   { type: BLOB, offset: 0x1BA1F0, size: 0x20, symbol: ui_battle_cont_c_left_down_pal }
 battle/cont/c_right_up:
-  { type: BLOB, offset: 0x1BA210, size: 0x2A8, symbol: ui_battle_cont_c_right_up_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BA210, width: 40, height: 34, symbol: ui_battle_cont_c_right_up_png }
 battle/cont/c_right_up.pal:
   { type: BLOB, offset: 0x1BA4B8, size: 0x20, symbol: ui_battle_cont_c_right_up_pal }
 battle/cont/c_right_down:
-  { type: BLOB, offset: 0x1BA4D8, size: 0x2A8, symbol: ui_battle_cont_c_right_down_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BA4D8, width: 40, height: 34, symbol: ui_battle_cont_c_right_down_png }
 battle/cont/c_right_down.pal:
   { type: BLOB, offset: 0x1BA780, size: 0x20, symbol: ui_battle_cont_c_right_down_pal }
 battle/cont/c_up_up:
-  { type: BLOB, offset: 0x1BA7A0, size: 0x2A8, symbol: ui_battle_cont_c_up_up_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BA7A0, width: 40, height: 34, symbol: ui_battle_cont_c_up_up_png }
 battle/cont/c_up_up.pal:
   { type: BLOB, offset: 0x1BAA48, size: 0x20, symbol: ui_battle_cont_c_up_up_pal }
 battle/cont/c_up_down:
-  { type: BLOB, offset: 0x1BAA68, size: 0x2A8, symbol: ui_battle_cont_c_up_down_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BAA68, width: 40, height: 34, symbol: ui_battle_cont_c_up_down_png }
 battle/cont/c_up_down.pal:
   { type: BLOB, offset: 0x1BAD10, size: 0x20, symbol: ui_battle_cont_c_up_down_pal }
 battle/cont/c_down_up:
-  { type: BLOB, offset: 0x1BAD30, size: 0x2A8, symbol: ui_battle_cont_c_down_up_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BAD30, width: 40, height: 34, symbol: ui_battle_cont_c_down_up_png }
 battle/cont/c_down_up.pal:
   { type: BLOB, offset: 0x1BAFD8, size: 0x20, symbol: ui_battle_cont_c_down_up_pal }
 battle/cont/c_down_down:
-  { type: BLOB, offset: 0x1BAFF8, size: 0x2A8, symbol: ui_battle_cont_c_down_down_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BAFF8, width: 40, height: 34, symbol: ui_battle_cont_c_down_down_png }
 battle/cont/c_down_down.pal:
   { type: BLOB, offset: 0x1BB2A0, size: 0x20, symbol: ui_battle_cont_c_down_down_pal }
 battle/cmd/timing_1_chance:
-  { type: BLOB, offset: 0x1BB2C0, size: 0x360, symbol: ui_battle_cmd_timing_1_chance_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BB2C0, width: 72, height: 24, symbol: ui_battle_cmd_timing_1_chance_png }
 battle/cmd/timing_1_chance.pal:
   { type: BLOB, offset: 0x1BB620, size: 0x20, symbol: ui_battle_cmd_timing_1_chance_pal }
 battle/cmd/timing_ready:
-  { type: BLOB, offset: 0x1BB640, size: 0x80, symbol: ui_battle_cmd_timing_ready_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BB640, width: 16, height: 16, symbol: ui_battle_cmd_timing_ready_png }
 battle/cmd/timing_ready.pal:
   { type: BLOB, offset: 0x1BB6C0, size: 0x20, symbol: ui_battle_cmd_timing_ready_pal }
 battle/cmd/timing_wait:
-  { type: BLOB, offset: 0x1BB6E0, size: 0x80, symbol: ui_battle_cmd_timing_wait_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BB6E0, width: 16, height: 16, symbol: ui_battle_cmd_timing_wait_png }
 battle/cmd/timing_wait.pal:
   { type: BLOB, offset: 0x1BB760, size: 0x20, symbol: ui_battle_cmd_timing_wait_pal }
 battle/cmd/charge_1:
-  { type: BLOB, offset: 0x1BB780, size: 0x20, symbol: ui_battle_cmd_charge_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BB780, width: 8, height: 8, symbol: ui_battle_cmd_charge_1_png }
 battle/cmd/charge_1.pal:
   { type: BLOB, offset: 0x1BB7A0, size: 0x20, symbol: ui_battle_cmd_charge_1_pal }
 battle/cmd/charge_2:
-  { type: BLOB, offset: 0x1BB7C0, size: 0x20, symbol: ui_battle_cmd_charge_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BB7C0, width: 8, height: 8, symbol: ui_battle_cmd_charge_2_png }
 battle/cmd/charge_2.pal:
   { type: BLOB, offset: 0x1BB7E0, size: 0x20, symbol: ui_battle_cmd_charge_2_pal }
 battle/cmd/charge_3:
-  { type: BLOB, offset: 0x1BB800, size: 0x20, symbol: ui_battle_cmd_charge_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BB800, width: 8, height: 8, symbol: ui_battle_cmd_charge_3_png }
 battle/cmd/charge_3.pal:
   { type: BLOB, offset: 0x1BB820, size: 0x20, symbol: ui_battle_cmd_charge_3_pal }
 battle/cmd/charge_4:
-  { type: BLOB, offset: 0x1BB840, size: 0x20, symbol: ui_battle_cmd_charge_4_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BB840, width: 8, height: 8, symbol: ui_battle_cmd_charge_4_png }
 battle/cmd/charge_4.pal:
   { type: BLOB, offset: 0x1BB860, size: 0x20, symbol: ui_battle_cmd_charge_4_pal }
 battle/cmd/timing_3_chances:
-  { type: BLOB, offset: 0x1BB880, size: 0x480, symbol: ui_battle_cmd_timing_3_chances_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BB880, width: 96, height: 24, symbol: ui_battle_cmd_timing_3_chances_png }
 battle/cmd/timing_3_chances.pal:
   { type: BLOB, offset: 0x1BBD00, size: 0x20, symbol: ui_battle_cmd_timing_3_chances_pal }
 battle/cmd/gauge_result:
-  { type: BLOB, offset: 0x1BBD20, size: 0x180, symbol: ui_battle_cmd_gauge_result_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BBD20, width: 32, height: 24, symbol: ui_battle_cmd_gauge_result_png }
 battle/cmd/gauge_result.pal:
   { type: BLOB, offset: 0x1BBEA0, size: 0x20, symbol: ui_battle_cmd_gauge_result_pal }
 battle/cmd/timing_ok:
-  { type: BLOB, offset: 0x1BBEC0, size: 0x120, symbol: ui_battle_cmd_timing_ok_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BBEC0, width: 24, height: 24, symbol: ui_battle_cmd_timing_ok_png }
 battle/cmd/timing_ok.pal:
   { type: BLOB, offset: 0x1BBFE0, size: 0x20, symbol: ui_battle_cmd_timing_ok_pal }
 battle/cmd/timing_miss:
-  { type: BLOB, offset: 0x1BC000, size: 0x120, symbol: ui_battle_cmd_timing_miss_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BC000, width: 24, height: 24, symbol: ui_battle_cmd_timing_miss_png }
 battle/cmd/timing_miss.pal:
   { type: BLOB, offset: 0x1BC120, size: 0x20, symbol: ui_battle_cmd_timing_miss_pal }
 battle/cmd/flee_0:
-  { type: BLOB, offset: 0x1BC140, size: 0xC0, symbol: ui_battle_cmd_flee_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BC140, width: 16, height: 24, symbol: ui_battle_cmd_flee_0_png }
 battle/cmd/flee_0.pal:
   { type: BLOB, offset: 0x1BC200, size: 0x20, symbol: ui_battle_cmd_flee_0_pal }
 battle/cmd/flee_1:
-  { type: BLOB, offset: 0x1BC220, size: 0xC0, symbol: ui_battle_cmd_flee_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BC220, width: 16, height: 24, symbol: ui_battle_cmd_flee_1_png }
 battle/cmd/flee_1.pal:
   { type: BLOB, offset: 0x1BC2E0, size: 0x20, symbol: ui_battle_cmd_flee_1_pal }
 battle/cmd/flee_2:
-  { type: BLOB, offset: 0x1BC300, size: 0xC0, symbol: ui_battle_cmd_flee_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BC300, width: 16, height: 24, symbol: ui_battle_cmd_flee_2_png }
 battle/cmd/flee_2.pal:
   { type: BLOB, offset: 0x1BC3C0, size: 0x20, symbol: ui_battle_cmd_flee_2_pal }
 battle/cmd/100pct:
-  { type: BLOB, offset: 0x1BC3E0, size: 0x600, symbol: ui_battle_cmd_100pct_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BC3E0, width: 64, height: 48, symbol: ui_battle_cmd_100pct_png }
 battle/cmd/100pct.pal:
   { type: BLOB, offset: 0x1BC9E0, size: 0x20, symbol: ui_battle_cmd_100pct_pal }
 battle/cmd/right_on:
-  { type: BLOB, offset: 0x1BCA00, size: 0x2A0, symbol: ui_battle_cmd_right_on_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BCA00, width: 56, height: 24, symbol: ui_battle_cmd_right_on_png }
 battle/cmd/right_on.pal:
   { type: BLOB, offset: 0x1BCCA0, size: 0x20, symbol: ui_battle_cmd_right_on_pal }
 battle/cmd/fill_result:
-  { type: BLOB, offset: 0x1BCCC0, size: 0x180, symbol: ui_battle_cmd_fill_result_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BCCC0, width: 32, height: 24, symbol: ui_battle_cmd_fill_result_png }
 battle/cmd/fill_result.pal:
   { type: BLOB, offset: 0x1BCE40, size: 0x20, symbol: ui_battle_cmd_fill_result_pal }
 battle/cmd/aim/marker_0:
-  { type: BLOB, offset: 0x1BCE60, size: 0x80, symbol: ui_battle_cmd_aim_marker_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BCE60, width: 16, height: 16, symbol: ui_battle_cmd_aim_marker_0_png }
 battle/cmd/aim/marker_0.pal:
   { type: BLOB, offset: 0x1BCEE0, size: 0x20, symbol: ui_battle_cmd_aim_marker_0_pal }
 battle/cmd/aim/marker_1:
-  { type: BLOB, offset: 0x1BCF00, size: 0x80, symbol: ui_battle_cmd_aim_marker_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BCF00, width: 16, height: 16, symbol: ui_battle_cmd_aim_marker_1_png }
 battle/cmd/aim/marker_1.pal:
   { type: BLOB, offset: 0x1BCF80, size: 0x20, symbol: ui_battle_cmd_aim_marker_1_pal }
 battle/cmd/aim/marker_2:
-  { type: BLOB, offset: 0x1BCFA0, size: 0x80, symbol: ui_battle_cmd_aim_marker_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BCFA0, width: 16, height: 16, symbol: ui_battle_cmd_aim_marker_2_png }
 battle/cmd/aim/marker_2.pal:
   { type: BLOB, offset: 0x1BD020, size: 0x20, symbol: ui_battle_cmd_aim_marker_2_pal }
 battle/cmd/aim/marker_3:
-  { type: BLOB, offset: 0x1BD040, size: 0x80, symbol: ui_battle_cmd_aim_marker_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BD040, width: 16, height: 16, symbol: ui_battle_cmd_aim_marker_3_png }
 battle/cmd/aim/marker_3.pal:
   { type: BLOB, offset: 0x1BD0C0, size: 0x20, symbol: ui_battle_cmd_aim_marker_3_pal }
 battle/cmd/aim/marker_4:
-  { type: BLOB, offset: 0x1BD0E0, size: 0x80, symbol: ui_battle_cmd_aim_marker_4_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BD0E0, width: 16, height: 16, symbol: ui_battle_cmd_aim_marker_4_png }
 battle/cmd/aim/marker_4.pal:
   { type: BLOB, offset: 0x1BD160, size: 0x20, symbol: ui_battle_cmd_aim_marker_4_pal }
 battle/cmd/aim/marker_5:
-  { type: BLOB, offset: 0x1BD180, size: 0x80, symbol: ui_battle_cmd_aim_marker_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BD180, width: 16, height: 16, symbol: ui_battle_cmd_aim_marker_5_png }
 battle/cmd/aim/marker_5.pal:
   { type: BLOB, offset: 0x1BD200, size: 0x20, symbol: ui_battle_cmd_aim_marker_5_pal }
 battle/cmd/aim/marker_6:
-  { type: BLOB, offset: 0x1BD220, size: 0x80, symbol: ui_battle_cmd_aim_marker_6_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BD220, width: 16, height: 16, symbol: ui_battle_cmd_aim_marker_6_png }
 battle/cmd/aim/marker_6.pal:
   { type: BLOB, offset: 0x1BD2A0, size: 0x20, symbol: ui_battle_cmd_aim_marker_6_pal }
 battle/cmd/aim/marker_7:
-  { type: BLOB, offset: 0x1BD2C0, size: 0x80, symbol: ui_battle_cmd_aim_marker_7_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BD2C0, width: 16, height: 16, symbol: ui_battle_cmd_aim_marker_7_png }
 battle/cmd/aim/marker_7.pal:
   { type: BLOB, offset: 0x1BD340, size: 0x20, symbol: ui_battle_cmd_aim_marker_7_pal }
 battle/cmd/aim/shimmer_0:
-  { type: BLOB, offset: 0x1BD360, size: 0x80, symbol: ui_battle_cmd_aim_shimmer_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BD360, width: 16, height: 16, symbol: ui_battle_cmd_aim_shimmer_0_png }
 battle/cmd/aim/shimmer_0.pal:
   { type: BLOB, offset: 0x1BD3E0, size: 0x20, symbol: ui_battle_cmd_aim_shimmer_0_pal }
 battle/cmd/aim/shimmer_1:
-  { type: BLOB, offset: 0x1BD400, size: 0x80, symbol: ui_battle_cmd_aim_shimmer_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BD400, width: 16, height: 16, symbol: ui_battle_cmd_aim_shimmer_1_png }
 battle/cmd/aim/shimmer_1.pal:
   { type: BLOB, offset: 0x1BD480, size: 0x20, symbol: ui_battle_cmd_aim_shimmer_1_pal }
 battle/cmd/aim/shimmer_2:
-  { type: BLOB, offset: 0x1BD4A0, size: 0x80, symbol: ui_battle_cmd_aim_shimmer_2_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BD4A0, width: 16, height: 16, symbol: ui_battle_cmd_aim_shimmer_2_png }
 battle/cmd/aim/shimmer_2.pal:
   { type: BLOB, offset: 0x1BD520, size: 0x20, symbol: ui_battle_cmd_aim_shimmer_2_pal }
 battle/cmd/aim/shimmer_3:
-  { type: BLOB, offset: 0x1BD540, size: 0x80, symbol: ui_battle_cmd_aim_shimmer_3_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BD540, width: 16, height: 16, symbol: ui_battle_cmd_aim_shimmer_3_png }
 battle/cmd/aim/shimmer_3.pal:
   { type: BLOB, offset: 0x1BD5C0, size: 0x20, symbol: ui_battle_cmd_aim_shimmer_3_pal }
 battle/cmd/aim/shimmer_4:
-  { type: BLOB, offset: 0x1BD5E0, size: 0x80, symbol: ui_battle_cmd_aim_shimmer_4_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BD5E0, width: 16, height: 16, symbol: ui_battle_cmd_aim_shimmer_4_png }
 battle/cmd/aim/shimmer_4.pal:
   { type: BLOB, offset: 0x1BD660, size: 0x20, symbol: ui_battle_cmd_aim_shimmer_4_pal }
 battle/cmd/aim/shimmer_5:
-  { type: BLOB, offset: 0x1BD680, size: 0x80, symbol: ui_battle_cmd_aim_shimmer_5_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BD680, width: 16, height: 16, symbol: ui_battle_cmd_aim_shimmer_5_png }
 battle/cmd/aim/shimmer_5.pal:
   { type: BLOB, offset: 0x1BD700, size: 0x20, symbol: ui_battle_cmd_aim_shimmer_5_pal }
 battle/cmd/aim/shimmer_6:
-  { type: BLOB, offset: 0x1BD720, size: 0x80, symbol: ui_battle_cmd_aim_shimmer_6_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BD720, width: 16, height: 16, symbol: ui_battle_cmd_aim_shimmer_6_png }
 battle/cmd/aim/shimmer_6.pal:
   { type: BLOB, offset: 0x1BD7A0, size: 0x20, symbol: ui_battle_cmd_aim_shimmer_6_pal }
 battle/cmd/aim/shimmer_7:
-  { type: BLOB, offset: 0x1BD7C0, size: 0x80, symbol: ui_battle_cmd_aim_shimmer_7_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BD7C0, width: 16, height: 16, symbol: ui_battle_cmd_aim_shimmer_7_png }
 battle/cmd/aim/shimmer_7.pal:
   { type: BLOB, offset: 0x1BD840, size: 0x20, symbol: ui_battle_cmd_aim_shimmer_7_pal }
 battle/cmd/aim/reticle_0:
-  { type: BLOB, offset: 0x1BD860, size: 0x200, symbol: ui_battle_cmd_aim_reticle_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BD860, width: 32, height: 32, symbol: ui_battle_cmd_aim_reticle_0_png }
 battle/cmd/aim/reticle_0.pal:
   { type: BLOB, offset: 0x1BDA60, size: 0x20, symbol: ui_battle_cmd_aim_reticle_0_pal }
 battle/cmd/aim/reticle_1:
-  { type: BLOB, offset: 0x1BDA80, size: 0x200, symbol: ui_battle_cmd_aim_reticle_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BDA80, width: 32, height: 32, symbol: ui_battle_cmd_aim_reticle_1_png }
 battle/cmd/aim/reticle_1.pal:
   { type: BLOB, offset: 0x1BDC80, size: 0x20, symbol: ui_battle_cmd_aim_reticle_1_pal }
 battle/cmd/aim/target_0:
-  { type: BLOB, offset: 0x1BDCA0, size: 0x120, symbol: ui_battle_cmd_aim_target_0_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BDCA0, width: 24, height: 24, symbol: ui_battle_cmd_aim_target_0_png }
 battle/cmd/aim/target_0.pal:
   { type: BLOB, offset: 0x1BDDC0, size: 0x20, symbol: ui_battle_cmd_aim_target_0_pal }
 battle/cmd/aim/target_1:
-  { type: BLOB, offset: 0x1BDDE0, size: 0x120, symbol: ui_battle_cmd_aim_target_1_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BDDE0, width: 24, height: 24, symbol: ui_battle_cmd_aim_target_1_png }
 battle/cmd/aim/target_1.pal:
   { type: BLOB, offset: 0x1BDF00, size: 0x20, symbol: ui_battle_cmd_aim_target_1_pal }
 battle/solid_star:
-  { type: BLOB, offset: 0x1BDF20, size: 0x200, symbol: ui_battle_solid_star_png }
+  { type: TEXTURE, format: CI4, offset: 0x1BDF20, width: 32, height: 32, symbol: ui_battle_solid_star_png }
 battle/solid_star.pal:
   { type: BLOB, offset: 0x1BE120, size: 0x20, symbol: ui_battle_solid_star_pal }
 battle/projector_spot:
-  { type: BLOB, offset: 0x1BE148, size: 0x400, symbol: ui_battle_projector_spot_png }
+  { type: TEXTURE, format: IA8, offset: 0x1BE148, width: 32, height: 32, symbol: ui_battle_projector_spot_png }
 battle/projector_beam:
-  { type: BLOB, offset: 0x1BE550, size: 0x1000, symbol: ui_battle_projector_beam_png }
+  { type: TEXTURE, format: IA8, offset: 0x1BE550, width: 64, height: 64, symbol: ui_battle_projector_beam_png }
 battle/projector_reel:
-  { type: BLOB, offset: 0x1BF558, size: 0x1000, symbol: ui_battle_projector_reel_png }
+  { type: TEXTURE, format: IA8, offset: 0x1BF558, width: 64, height: 64, symbol: ui_battle_projector_reel_png }
 battle/swap_background:
-  { type: BLOB, offset: 0x1C0560, size: 0x300, symbol: ui_battle_swap_background_png }
+  { type: TEXTURE, format: IA8, offset: 0x1C0560, width: 48, height: 16, symbol: ui_battle_swap_background_png }

@@ -120,7 +120,7 @@ API_CALLABLE(N(WattFXUpdate)) {
 
     if (isInitialCall) {
         wattEffectData = heap_malloc(sizeof(*wattEffectData));
-        actor->state.varTablePtr[2] = wattEffectData;
+        actor->state.varTablePtr[2].p = wattEffectData;
         wattEffectData->isBouncing = true;
         wattEffectData->bouncePhase = 0;
         wattEffectData->isActive = true;
@@ -131,7 +131,7 @@ API_CALLABLE(N(WattFXUpdate)) {
         wattEffectData->debuff = actor->debuff;
     }
 
-    wattEffectData = state->varTablePtr[2];
+    wattEffectData = state->varTablePtr[2].p;
     if (wattEffectData->initialized) {
         if (wattEffectData->isBouncing && actor->debuff != STATUS_KEY_STOP) {
             wattEffectData->bouncePhase += 15;
@@ -205,7 +205,7 @@ EvtScript N(EVS_Idle) = {
 };
 
 API_CALLABLE(N(WattFXRemove)) {
-    WattEffectData* wattEffectData = get_actor(script->owner1.enemyID)->state.varTablePtr[2];
+    WattEffectData* wattEffectData = get_actor(script->owner1.enemyID)->state.varTablePtr[2].p;
 
     wattEffectData->initialized = false;
 
@@ -222,7 +222,7 @@ API_CALLABLE(N(WattFXRemove)) {
 
 API_CALLABLE(N(WattFXSetBouncing)) {
     Bytecode* args = script->ptrReadPos;
-    WattEffectData* wattEffectData = get_actor(script->owner1.enemyID)->state.varTablePtr[2];
+    WattEffectData* wattEffectData = get_actor(script->owner1.enemyID)->state.varTablePtr[2].p;
 
     wattEffectData->isBouncing = evt_get_variable(script, *args++);
     return ApiStatus_DONE2;
@@ -230,7 +230,7 @@ API_CALLABLE(N(WattFXSetBouncing)) {
 
 API_CALLABLE(N(WattFXSetActive)) {
     Bytecode* args = script->ptrReadPos;
-    WattEffectData* wattEffectData = get_actor(script->owner1.enemyID)->state.varTablePtr[2];
+    WattEffectData* wattEffectData = get_actor(script->owner1.enemyID)->state.varTablePtr[2].p;
 
     wattEffectData->isActive = evt_get_variable(script, *args++);
     return ApiStatus_DONE2;
@@ -238,7 +238,7 @@ API_CALLABLE(N(WattFXSetActive)) {
 
 API_CALLABLE(N(WattFXSetEffect)) {
     Bytecode* args = script->ptrReadPos;
-    WattEffectData* wattEffectData = get_actor(script->owner1.enemyID)->state.varTablePtr[2];
+    WattEffectData* wattEffectData = get_actor(script->owner1.enemyID)->state.varTablePtr[2].p;
 
     wattEffectData->currentEffectIndex = evt_get_variable(script, *args++);
     return ApiStatus_DONE2;

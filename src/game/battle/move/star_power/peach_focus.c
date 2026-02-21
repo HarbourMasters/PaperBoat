@@ -15,7 +15,7 @@ enum N(ActorVars) {
 API_CALLABLE(N(IncreaseTwinkDefense)) {
     // a pointer to Twink's DefenseTable is stored in his actorVar1 in twink.c
     // it has now been copied to this script var, where we can retrieve it
-    s32* twinkDefenseTable = script->varTablePtr[0];
+    s32* twinkDefenseTable = script->varTablePtr[0].p;
 
     // increment the value of the first key in the defense table
     twinkDefenseTable[1]++;

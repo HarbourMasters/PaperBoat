@@ -393,7 +393,7 @@ API_CALLABLE(LoadPath) {
     s32 easingType = evt_get_variable(script, *args++);
     Path* path = heap_malloc(sizeof(*path));
 
-    script->varTablePtr[15] = path;
+    script->varTablePtr[15].p = path;
     path->numVectors = numVectors;
     path->lengths = heap_malloc(numVectors * sizeof(f32));
     path->staticVectorList = vectorList;
@@ -408,7 +408,7 @@ API_CALLABLE(LoadPath) {
 }
 
 API_CALLABLE(GetNextPathPos) {
-    Path* path = script->varTablePtr[0xF];
+    Path* path = script->varTablePtr[0xF].p;
     Vec3f pos;
     f32 alpha;
     f32 diff;
@@ -443,7 +443,7 @@ API_CALLABLE(GetNextPathPos) {
     } else {
         heap_free(path->lengths);
         heap_free(path->vectors);
-        heap_free(script->varTablePtr[15]);
+        heap_free(script->varTablePtr[15].p);
         script->varTable[0] = 0;
     }
 

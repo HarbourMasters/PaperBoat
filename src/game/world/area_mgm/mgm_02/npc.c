@@ -122,7 +122,7 @@ typedef struct SmashGameData {
 
 void N(appendGfx_score_display)(void* renderData) {
     Enemy* scorekeeper = get_enemy(SCOREKEEPER_ENEMY_IDX);
-    SmashGameData* data = scorekeeper->varTablePtr[SMASH_DATA_VAR_IDX];
+    SmashGameData* data = scorekeeper->varTablePtr[SMASH_DATA_VAR_IDX].p;
     HudElemID buttonHID;
     HudElemID meterHID;
     s32 timeLeft;
@@ -203,7 +203,7 @@ void N(worker_draw_score)(void) {
 }
 
 API_CALLABLE(N(CreateScoreDisplay)) {
-    SmashGameData* data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX];
+    SmashGameData* data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX].p;
     HudElemID hidButton;
     HudElemID hidMeter;
 
@@ -239,13 +239,13 @@ API_CALLABLE(N(EnableMenus)) {
 }
 
 API_CALLABLE(N(DestroySignpost)) {
-    SmashGameData* data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX];
+    SmashGameData* data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX].p;
     delete_entity(data->signpostEntity);
     return ApiStatus_DONE2;
 }
 
 API_CALLABLE(N(CreateSignpost)) {
-    SmashGameData* data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX];
+    SmashGameData* data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX].p;
     s32 entityIndex = create_entity(&Entity_Signpost, 355, 20, -180, 0, 0, 0, 0, MAKE_ENTITY_END);
     data->signpostEntity = entityIndex;
     get_entity_by_index(entityIndex)->boundScriptBytecode = &N(read_sign_instructions);
@@ -254,7 +254,7 @@ API_CALLABLE(N(CreateSignpost)) {
 }
 
 API_CALLABLE(N(OnHitBox)) {
-    SmashGameData* data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX];
+    SmashGameData* data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX].p;
     s32 hitModelID = evt_get_variable(script, LVarA);
     s32 hitColliderID = evt_get_variable(script, LVarB); // unused
     s32 i;
@@ -303,7 +303,7 @@ API_CALLABLE(N(SetBoxContents)) {
 #if VERSION_PAL
     N(pal_variable) = 1;
 #endif
-    data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX];
+    data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX].p;
     data->found = 0;
     data->timeLeft = PLAY_TIME + (s32)(10 * DT);
     data->curScore = 0;
@@ -435,7 +435,7 @@ API_CALLABLE(N(RunMinigame)) {
 
     gameFinished = false;
     hittingPeachBlock = false;
-    data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX];
+    data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX].p;
 
     for (i = 0; i < NUM_BOXES; i++) {
         if (data->box[i].npcID != -1) {
@@ -847,7 +847,7 @@ API_CALLABLE(N(RunMinigame)) {
 
 API_CALLABLE(N(UpdateRecords)) {
     PlayerData* playerData = &gPlayerData;
-    SmashGameData* data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX];
+    SmashGameData* data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX].p;
     s32 seconds, deciseconds;
     s32 outScore;
 
@@ -878,7 +878,7 @@ API_CALLABLE(N(UpdateRecords)) {
 }
 
 API_CALLABLE(N(GiveCoinReward)) {
-    SmashGameData* data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX];
+    SmashGameData* data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX].p;
     s32 coinsLeft = data->curScore;
     s32 increment;
 
@@ -907,7 +907,7 @@ API_CALLABLE(N(GiveCoinReward)) {
 
 API_CALLABLE(N(CleanupGame)) {
     Enemy* enemy = get_enemy(SCOREKEEPER_ENEMY_IDX);
-    SmashGameData* data = enemy->varTablePtr[SMASH_DATA_VAR_IDX];
+    SmashGameData* data = enemy->varTablePtr[SMASH_DATA_VAR_IDX].p;
     Npc* npc;
     u32 screenX, screenY,screenZ;
     EffectInstance* writeback;
@@ -972,7 +972,7 @@ API_CALLABLE(N(CleanupGame)) {
 API_CALLABLE(N(CreateMinigame)) {
     Enemy* scorekeeper = get_enemy(SCOREKEEPER_ENEMY_IDX);
     SmashGameData* data = heap_malloc(sizeof(*data));
-    scorekeeper->varTablePtr[SMASH_DATA_VAR_IDX] = data;
+    scorekeeper->varTablePtr[SMASH_DATA_VAR_IDX].p = data;
 
     data->windowA_posX = -80;
     data->windowB_posX = SCREEN_WIDTH;
@@ -985,7 +985,7 @@ API_CALLABLE(N(CreateMinigame)) {
 }
 
 API_CALLABLE(N(DestroyMinigame)) {
-    SmashGameData* data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX];
+    SmashGameData* data = get_enemy(SCOREKEEPER_ENEMY_IDX)->varTablePtr[SMASH_DATA_VAR_IDX].p;
 
     free_worker(data->workerID);
     hud_element_free(data->buttonHID);

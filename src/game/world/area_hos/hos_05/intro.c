@@ -1080,7 +1080,7 @@ API_CALLABLE(func_802428C8_A2CB08) {
     }
 
     script->varTable[0] = pathTime;
-    script->varTablePtr[1] = path;
+    script->varTablePtr[1].p = path;
     script->varTable[2] = numPoints;
     return ApiStatus_DONE2;
 }

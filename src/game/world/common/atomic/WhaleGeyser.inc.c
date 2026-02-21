@@ -14,7 +14,7 @@ API_CALLABLE(N(CreateWhaleGeyser)) {
     EffectInstance* outVal;
 
     fx_effect_3D(var1, var2, var3, var4, var5, var6, var7, var8, &outVal);
-    script->varTablePtr[0] = outVal;
+    script->varTablePtr[0].p = outVal;
     return ApiStatus_DONE2;
 }
 

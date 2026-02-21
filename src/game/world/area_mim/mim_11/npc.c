@@ -40,8 +40,8 @@ API_CALLABLE(N(AnimateStarSpiritBobbing)) {
     }
 
     npc = script->functionTempPtr[2];
-    npc->verticalRenderOffset = sin_deg(script->functionTempF[1]) * 6.0f;
-    script->functionTempF[1] = clamp_angle(script->functionTempF[1] + 18.0f);
+    npc->verticalRenderOffset = sin_deg(script->functionTempF[1].f) * 6.0f;
+    script->functionTempF[1].f = clamp_angle(script->functionTempF[1].f + 18.0f);
     return ApiStatus_BLOCK;
 }
 

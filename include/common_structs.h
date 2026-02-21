@@ -13,6 +13,14 @@ typedef ApiStatus(*ApiFunc)(struct Evt*, s32);
 
 typedef Bytecode EvtScript[];
 
+// Padded union types for 64-bit stride alignment.
+// On N64, intptr_t/void*/s32/f32 were all 4 bytes, so union arrays shared the same stride.
+// On 64-bit, intptr_t/void* are 8 bytes but f32 is 4 bytes, causing index N in one array
+// to map to different bytes than index N in another. These wrapper types ensure matching strides.
+typedef union { f32 f; intptr_t _pad; } EvtTempFloat;   // sizeof = 8 (matches intptr_t stride)
+typedef union { bool b; intptr_t _pad; } EvtTempBool;    // sizeof = 8 (matches intptr_t stride)
+typedef union { void* p; intptr_t _pad; } EvtVarPtr;     // sizeof = 8 (matches intptr_t stride)
+
 typedef void NoArgCallback(void*);
 typedef void (*AuCallback)(void);
 
@@ -390,7 +398,7 @@ typedef struct Trigger {
     /* 0x18 */ s32 priority;
     /* 0x1C */ union {
     /*      */     intptr_t varTable[3];
-    /*      */     f32 varTableF[3];
+    /*      */     EvtTempFloat varTableF[3];
     /*      */     void* varTablePtr[3];
     /*      */ };
     /* 0x28 */ s32* itemList;
@@ -433,15 +441,15 @@ typedef struct Evt {
     /* 0x06C */ struct Evt* parentScript; /* brother? */
     /* 0x070 */ union {
     /*       */     intptr_t functionTemp[4];
-    /*       */     f32 functionTempF[4];
+    /*       */     EvtTempFloat functionTempF[4];
     /*       */     void* functionTempPtr[4];
-    /*       */     bool functionTempBool[4];
+    /*       */     EvtTempBool functionTempBool[4];
     /*       */ };
     /* 0x080 */ ApiFunc callFunction;
     /* 0x084 */ union {
     /*       */     Bytecode varTable[16];
     /*       */     f32 varTableF[16];
-    /*       */     void* varTablePtr[16];
+    /*       */     EvtVarPtr varTablePtr[16];
     /*       */ };
     /* 0x0C4 */ s32 varFlags[3];
     /*       */ Bytecode loopStartTable[8];
@@ -895,7 +903,7 @@ typedef struct BattleStatus {
     /* 0x008 */ union {
     /*       */     s32 varTable[16];
     /*       */     f32 varTableF[16];
-    /*       */     void* varTablePtr[16];
+    /*       */     EvtVarPtr varTablePtr[16];
     /*       */ };
     /* 0x048 */ s8 curSubmenu;
     /* 0x049 */ s8 unk_49;
@@ -1573,7 +1581,7 @@ typedef struct ActorPartMovement {
     /* 0x4C */ union {
     /*      */     s32 varTable[16];
     /*      */     f32 varTableF[16];
-    /*      */     void* varTablePtr[16];
+    /*      */     EvtVarPtr varTablePtr[16];
     /*      */ };
 
 } ActorPartMovement; // size = 0x8C
@@ -1877,12 +1885,12 @@ typedef struct ActorState { // TODO: Make the first field of this an ActorMoveme
     /* 0x6C */ union {
     /*      */     s32 functionTemp[4];
     /*      */     f32 functionTempF[4];
-    /*      */     void* functionTempPtr[4];
+    /*      */     EvtVarPtr functionTempPtr[4];
     /*      */ };
     /* 0x7C */ union {
     /*      */     s32 varTable[16];
     /*      */     f32 varTableF[16];
-    /*      */     void* varTablePtr[16];
+    /*      */     EvtVarPtr varTablePtr[16];
     /*      */ };
 } ActorState; // size = 0xBC;
 

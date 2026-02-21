@@ -868,7 +868,7 @@ HitResult calc_partner_damage_enemy(void) {
         evt->varTable[0] = state->goalPos.x;
         evt->varTable[1] = state->goalPos.y;
         evt->varTable[2] = state->goalPos.z;
-        evt->varTablePtr[3] = target;
+        evt->varTablePtr[3].p = target;
         sfx_play_sound_at_position(SOUND_HIT_ICE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
     }
 
@@ -877,7 +877,7 @@ HitResult calc_partner_damage_enemy(void) {
         evt->varTable[0] = state->goalPos.x;
         evt->varTable[1] = state->goalPos.y;
         evt->varTable[2] = state->goalPos.z;
-        evt->varTablePtr[3] = target;
+        evt->varTablePtr[3].p = target;
         sfx_play_sound_at_position(SOUND_INFLICT_STATUS, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
     }
 

@@ -252,7 +252,7 @@ API_CALLABLE(SaveUseDoorScript) {
 }
 
 API_CALLABLE(RoomVisibilityToggleImpl) {
-    MapRoom* door = script->varTablePtr[1];
+    MapRoom* door = script->varTablePtr[1].p;
     s32 alpha, r, g, b;
 
     if (isInitialCall) {
@@ -405,10 +405,10 @@ API_CALLABLE(GetDoorData) {
     script->varTable[8] = door->posExitA.z;
     script->varTable[9] = door->posExitB.x;
     script->varTable[10] = door->posExitB.z;
-    script->varTablePtr[11] = door->overrideOpenDoor;
-    script->varTablePtr[12] = door->overrideMoveWall;
-    script->varTablePtr[13] = door->overrideDropDoor;
-    script->varTablePtr[14] = door->stateListenerScript;
+    script->varTablePtr[11].p = door->overrideOpenDoor;
+    script->varTablePtr[12].p = door->overrideMoveWall;
+    script->varTablePtr[13].p = door->overrideDropDoor;
+    script->varTablePtr[14].p = door->stateListenerScript;
     script->varTable[15] = door->modelID;
     return ApiStatus_DONE2;
 }

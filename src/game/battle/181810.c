@@ -277,11 +277,11 @@ API_CALLABLE(ShowBattleChoice) {
     if (isInitialCall) {
         s32 msgID = evt_get_variable(script, *args);
 
-        script->functionTempBool[1] = false;
-        D_8029FA64 = msg_get_printer_for_msg(msgID, &script->functionTempBool[1]);
+        script->functionTempBool[1].b = false;
+        D_8029FA64 = msg_get_printer_for_msg(msgID, &script->functionTempBool[1].b);
     }
 
-    if (script->functionTempBool[1] == true) {
+    if (script->functionTempBool[1].b == true) {
         u8 currentOption = D_8029FA64->curOption;
 
         gSpeakingActorPrintCtx->curOption = D_8029FA64->curOption;

@@ -32,7 +32,7 @@ API_CALLABLE(N(SetPyroclastPos)) {
     f32 x = evt_get_float_variable(script, *args++);
     f32 y = evt_get_float_variable(script, *args++);
     f32 z = evt_get_float_variable(script, *args++);
-    EffectInstance* effect = script->varTablePtr[0xE];
+    EffectInstance* effect = script->varTablePtr[0xE].p;
 
     effect->data.unk_65->pos.x = x;
     effect->data.unk_65->pos.y = y;

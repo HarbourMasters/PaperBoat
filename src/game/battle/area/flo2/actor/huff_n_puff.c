@@ -256,7 +256,7 @@ API_CALLABLE(N(MakeSnakingStatic)) {
     s32 var3 = evt_get_variable(script, *args++);
     f32 var4 = evt_get_float_variable(script, *args++);
 
-    script->varTablePtr[0] = fx_snaking_static(0, var1, var2, var3, var4 * 2.5f, 0);
+    script->varTablePtr[0].p = fx_snaking_static(0, var1, var2, var3, var4 * 2.5f, 0);
     return ApiStatus_DONE2;
 }
 

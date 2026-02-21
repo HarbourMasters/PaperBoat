@@ -58,15 +58,15 @@ API_CALLABLE(N(SkateInCirclePenguin1)) {
         script->functionTempPtr[1] = resolve_npc(script, npcID);
         npc = script->functionTempPtr[1];
         script->functionTemp[2] = npc->pos.x;
-        script->functionTempF[3] = 180.0f;
+        script->functionTempF[3].f = 180.0f;
         script->functionTemp[0] = 72;
     }
 
     npc = script->functionTempPtr[1];
-    script->functionTempF[3] = clamp_angle(script->functionTempF[3] - 5.0f);
-    npc->pos.x = npc->pos.x + (cos_deg(script->functionTempF[3]) * 6.0f);
-    npc->pos.z = npc->pos.z + (sin_deg(script->functionTempF[3]) * 2.5f);
-    npc->renderYaw = clamp_angle(180.0f - script->functionTempF[3]);
+    script->functionTempF[3].f = clamp_angle(script->functionTempF[3].f - 5.0f);
+    npc->pos.x = npc->pos.x + (cos_deg(script->functionTempF[3].f) * 6.0f);
+    npc->pos.z = npc->pos.z + (sin_deg(script->functionTempF[3].f) * 2.5f);
+    npc->renderYaw = clamp_angle(180.0f - script->functionTempF[3].f);
 
     script->functionTemp[0]--;
     if (script->functionTemp[0] == 0) {
@@ -85,15 +85,15 @@ API_CALLABLE(N(SkateInCirclePenguin2)) {
         script->functionTempPtr[1] = resolve_npc(script, npcID);
         npc = script->functionTempPtr[1];
         script->functionTemp[2] = npc->pos.x;
-        script->functionTempF[3] = 180.0f;
+        script->functionTempF[3].f = 180.0f;
         script->functionTemp[0] = 72;
     }
 
     npc = script->functionTempPtr[1];
-    script->functionTempF[3] = clamp_angle(script->functionTempF[3] + 5.0f);
-    npc->pos.x = npc->pos.x + (cos_deg(script->functionTempF[3]) * 6.0f);
-    npc->pos.z = npc->pos.z + (sin_deg(script->functionTempF[3]) * 2.5f);
-    npc->renderYaw = clamp_angle(180.0f - script->functionTempF[3]);
+    script->functionTempF[3].f = clamp_angle(script->functionTempF[3].f + 5.0f);
+    npc->pos.x = npc->pos.x + (cos_deg(script->functionTempF[3].f) * 6.0f);
+    npc->pos.z = npc->pos.z + (sin_deg(script->functionTempF[3].f) * 2.5f);
+    npc->renderYaw = clamp_angle(180.0f - script->functionTempF[3].f);
 
     script->functionTemp[0]--;
     if (script->functionTemp[0] == 0) {

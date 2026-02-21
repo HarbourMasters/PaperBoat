@@ -333,7 +333,7 @@ typedef struct Enemy {
     /* 0x6C */ union {
     /*      */      s32 varTable[16];
     /*      */      f32 varTableF[16];
-    /*      */      void* varTablePtr[16];
+    /*      */      EvtVarPtr varTablePtr[16];
     /*      */ };
     /* 0xAC */ u8 aiDetectFlags; // detect player flags: 1 = require line of sight | 2 = adjust hitbox for moving player
     /* 0xAD */ char unk_AD[3];

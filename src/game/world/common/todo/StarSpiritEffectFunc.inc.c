@@ -17,7 +17,7 @@
     EndIf
 
 API_CALLABLE(N(StarSpiritEffectFunc1)) {
-    StarSpiritData* ptr = script->varTablePtr[0];
+    StarSpiritData* ptr = script->varTablePtr[0].p;
 
     sfx_adjust_env_sound_pos(SOUND_LRAW_STAR_ORB_RISING, SOUND_SPACE_DEFAULT, ptr->unk_00, ptr->unk_04, ptr->unk_08);
 
@@ -34,7 +34,7 @@ API_CALLABLE(N(StarSpiritEffectFunc2)) {
     if (isInitialCall) {
         StarSpiritData* ptr = heap_malloc(sizeof(*ptr));
 
-        script->varTablePtr[0] = ptr;
+        script->varTablePtr[0].p = ptr;
         evt_set_variable(nullptr, STAR_SPIRIT_DATA_VAR, script->varTable[0]);
         ptr->unk_38 = evt_get_variable(script, *args++);
         ptr->unk_3C = evt_get_variable(script, *args++);
@@ -59,7 +59,7 @@ API_CALLABLE(N(StarSpiritEffectFunc2)) {
 
 API_CALLABLE(N(StarSpiritEffectFunc3)) {
     PlayerStatus* playerStatus = &gPlayerStatus;
-    StarSpiritData* ptr = script->varTablePtr[0];
+    StarSpiritData* ptr = script->varTablePtr[0].p;
 
     switch (ptr->unk_44) {
         case 0:
@@ -152,7 +152,7 @@ API_CALLABLE(N(StarSpiritEffectFunc3)) {
 
 API_CALLABLE(N(StarSpiritEffectFunc4)) {
     s32 var = evt_get_variable(script, *script->ptrReadPos);
-    StarSpiritData* ptr = script->varTablePtr[0];
+    StarSpiritData* ptr = script->varTablePtr[0].p;
 
     return (ptr->unk_4E == var) * ApiStatus_DONE2;
 }
@@ -162,7 +162,7 @@ API_CALLABLE(N(StarSpiritEffectFunc5)) {
 
     if (isInitialCall) {
         StarSpiritData* ptr = heap_malloc(sizeof(*ptr));
-        script->varTablePtr[0] = ptr;
+        script->varTablePtr[0].p = ptr;
         ptr->unk_38 = evt_get_variable(script, *args++);
         ptr->unk_18 = evt_get_float_variable(script, *args++);
         ptr->unk_24 = evt_get_float_variable(script, *args++);
@@ -180,7 +180,7 @@ API_CALLABLE(N(StarSpiritEffectFunc5)) {
 
 API_CALLABLE(N(StarSpiritEffectFunc6)) {
     PlayerStatus* playerStatus = &gPlayerStatus;
-    StarSpiritData* ptr = script->varTablePtr[0];
+    StarSpiritData* ptr = script->varTablePtr[0].p;
 
     ptr->unk_04 = ptr->unk_24 + (2.0f * (sin_deg(ptr->unk_4C) + 1.0f));
     ptr->unk_4C = clamp_angle(ptr->unk_4C + 8);

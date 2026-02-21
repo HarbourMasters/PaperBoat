@@ -118,7 +118,7 @@ API_CALLABLE(N(WattFXUpdate)) {
 
     if (isInitialCall) {
         wattEffectData = heap_malloc(sizeof(*wattEffectData));
-        actor->state.varTablePtr[3] = wattEffectData;
+        actor->state.varTablePtr[3].p = wattEffectData;
         wattEffectData->isBouncing = true;
         wattEffectData->bouncePhase = 0;
         wattEffectData->isActive = true;
@@ -129,7 +129,7 @@ API_CALLABLE(N(WattFXUpdate)) {
         wattEffectData->debuff = actor->debuff;
     }
 
-    wattEffectData = state->varTablePtr[3];
+    wattEffectData = state->varTablePtr[3].p;
     if (!wattEffectData->initialized)  {
         return ApiStatus_DONE2;
     }

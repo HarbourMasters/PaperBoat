@@ -15,7 +15,7 @@ API_CALLABLE(N(func_80244984_805204)) {
 API_CALLABLE(N(RhuffUnravelUpdate)) {
     s32 rugRotAngle = -evt_get_variable(nullptr, MV_RowfRugRotateAngle);
     s32 rugRippleAmt = evt_get_variable(nullptr, MV_RowfRugRippleAmount);
-    Npc* npc = script->varTablePtr[7];
+    Npc* npc = script->varTablePtr[7].p;
     Enemy* enemy = get_enemy(NPC_Rhuff);
     f32 theta = (rugRotAngle / 180.0f) * PI;
     f32 sinTheta = sin_rad(theta);

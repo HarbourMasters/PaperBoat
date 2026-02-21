@@ -141,14 +141,14 @@ API_CALLABLE(N(AccelerateCardSpin)) {
     s32 duration;
 
     if (isInitialCall) {
-        script->functionTempF[1] = evt_get_float_variable(script, *args++);
+        script->functionTempF[1].f = evt_get_float_variable(script, *args++);
         duration = script->functionTemp[2] = evt_get_variable(script, *args++);
         script->functionTemp[0] = 0;
-        script->functionTempF[1] = script->functionTempF[1] / duration;
+        script->functionTempF[1].f = script->functionTempF[1].f / duration;
     }
 
     data = (EndChapter*) evt_get_variable(script, MV_EndChapterDataPtr);
-    data->angularVelocity += script->functionTempF[1];
+    data->angularVelocity += script->functionTempF[1].f;
 
     script->functionTemp[0]++;
     if (script->functionTemp[0] < script->functionTemp[2]) {

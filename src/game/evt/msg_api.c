@@ -102,7 +102,7 @@ s32 _show_message(Evt* script, s32 isInitialCall, s32 mode) {
         msg_printer_set_origin_pos(gCurrentPrintContext,
             screenX + ShowMessageScreenOffsetX,
             screenY + ShowMessageScreenOffsetY);
-        script->varTablePtr[12] = speakerNpc;
+        script->varTablePtr[12].p = speakerNpc;
 
         if (speakerNpc != (Npc*) NPC_PLAYER) {
             if (mode == SHOW_MESSAGE_SPEAK_TO_NPC) {
@@ -140,7 +140,7 @@ s32 _show_message(Evt* script, s32 isInitialCall, s32 mode) {
         }
     }
 
-    speakerNpc = script->varTablePtr[12];
+    speakerNpc = script->varTablePtr[12].p;
     if (speakerNpc != (Npc*) NPC_PLAYER) {
         get_screen_coords(gCurrentCameraID, speakerNpc->pos.x, speakerNpc->pos.y + speakerNpc->collisionHeight, speakerNpc->pos.z, &screenX, &screenY, &screenZ);
         animID = script->varTable[13];
@@ -285,8 +285,8 @@ API_CALLABLE(ShowChoice) {
     if (isInitialCall) {
         s32 msgID = evt_get_variable(script, *args++);
 
-        script->functionTempBool[1] = false;
-        D_802DB268 = msg_get_printer_for_msg(msgID, &script->functionTempBool[1]);
+        script->functionTempBool[1].b = false;
+        D_802DB268 = msg_get_printer_for_msg(msgID, &script->functionTempBool[1].b);
     }
 
     temp802DB268 = &D_802DB268;
@@ -296,7 +296,7 @@ API_CALLABLE(ShowChoice) {
         return ApiStatus_DONE1;
     }
 
-    return script->functionTempBool[1] == true;
+    return script->functionTempBool[1].b == true;
 }
 
 API_CALLABLE(CloseChoice) {

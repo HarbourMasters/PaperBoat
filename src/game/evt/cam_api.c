@@ -299,22 +299,22 @@ API_CALLABLE(ShakeCam) {
     }
 
     camera->flags |= CAMERA_FLAG_SHAKING;
-    scale = script->functionTempF[3];
+    scale = script->functionTempF[3].f;
     switch (shakeMode) {
         case CAM_SHAKE_CONSTANT_VERTICAL:
             guTranslateF(camera->mtxViewShaking, 0.0f, -scale * magnitude, 0.0f);
-            script->functionTempF[3] = -script->functionTempF[3];
+            script->functionTempF[3].f = -script->functionTempF[3].f;
             break;
         case CAM_SHAKE_ANGULAR_HORIZONTAL:
             guRotateF(camera->mtxViewShaking, scale * magnitude, 0.0f, 0.0f, 1.0f);
-            script->functionTempF[3] = -script->functionTempF[3];
+            script->functionTempF[3].f = -script->functionTempF[3].f;
             break;
         case CAM_SHAKE_DECAYING_VERTICAL:
             guTranslateF(camera->mtxViewShaking, 0.0f, -scale * magnitude, 0.0f);
             if ((script->functionTemp[1] < (duration * 2)) && (duration < script->functionTemp[1])) {
-                script->functionTempF[3] = script->functionTempF[3] * -0.8;
+                script->functionTempF[3].f = script->functionTempF[3].f * -0.8;
             } else {
-                script->functionTempF[3] = -script->functionTempF[3];
+                script->functionTempF[3].f = -script->functionTempF[3].f;
             }
             break;
     }

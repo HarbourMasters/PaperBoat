@@ -27,7 +27,7 @@ API_CALLABLE(N(UnkLightningBoltFxFunc1)) {
         s32 x, y, z;
 
         effectState = heap_malloc(sizeof(FxLightningBoltState) * 3);
-        actorState->functionTempPtr[0] = effectState;
+        actorState->functionTempPtr[0].p = effectState;
 
         x = evt_get_variable(script, *args++);
         y = 0;
@@ -48,7 +48,7 @@ API_CALLABLE(N(UnkLightningBoltFxFunc1)) {
         return ApiStatus_BLOCK;
     }
 
-    effectState = actorState->functionTempPtr[0];
+    effectState = actorState->functionTempPtr[0].p;
 
     for (i = 0; i < 3; effectState++, i++) {
         f32 x = effectState->pos.x + cos_deg(effectState->yaw) * effectState->radius;
@@ -72,7 +72,7 @@ API_CALLABLE(N(UnkLightningBoltFxFunc1)) {
         effectState->duration--;
     }
 
-    effectState = actorState->functionTempPtr[0];
+    effectState = actorState->functionTempPtr[0].p;
     if (effectState->duration <= 0) {
         heap_free(effectState);
         return ApiStatus_DONE2;

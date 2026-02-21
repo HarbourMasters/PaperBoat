@@ -86,8 +86,8 @@ API_CALLABLE(N(CreateShopInventory)) {
     }
 
     script->varTable[0] = count;
-    script->varTablePtr[1] = buyFlags;
-    script->varTablePtr[2] = inventory;
+    script->varTablePtr[1].p = buyFlags;
+    script->varTablePtr[2].p = inventory;
     return ApiStatus_DONE2;
 }
 

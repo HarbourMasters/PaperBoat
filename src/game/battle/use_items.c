@@ -154,7 +154,7 @@ API_CALLABLE(LoadItemScript) {
         }
     }
 
-    script->varTablePtr[0] = gBattleItemTable[i].mainScript;
+    script->varTablePtr[0].p = gBattleItemTable[i].mainScript;
     script->varTable[1] = false;
 
     return ApiStatus_DONE2;
@@ -192,7 +192,7 @@ API_CALLABLE(LoadMysteryItemScript) {
         }
     }
 
-    script->varTablePtr[0] = gBattleItemTable[i].mainScript;
+    script->varTablePtr[0].p = gBattleItemTable[i].mainScript;
     script->varTable[1] = true;
     return ApiStatus_DONE2;
 }

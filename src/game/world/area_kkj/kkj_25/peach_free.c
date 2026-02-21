@@ -9,13 +9,13 @@ API_CALLABLE(N(SpawnStarsOrbitingKammy1)) {
     EffectInstance* effect;
 
     fx_stars_orbiting(0, script->varTable[0], script->varTable[1], script->varTable[2], script->varTable[3], script->varTable[4], &effect);
-    script->varTablePtr[0] = effect;
+    script->varTablePtr[0].p = effect;
 
     return ApiStatus_DONE2;
 }
 
 API_CALLABLE(N(DismissStarsOrbitingKammy1)) {
-    EffectInstance* effect = (EffectInstance*) script->varTablePtr[0];
+    EffectInstance* effect = (EffectInstance*) script->varTablePtr[0].p;
 
     effect->data.starsOrbiting->enabled = false;
     return ApiStatus_DONE2;

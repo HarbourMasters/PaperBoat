@@ -85,7 +85,7 @@ API_CALLABLE(UpdatePushBlockMotion) {
 }
 
 API_CALLABLE(FinishPushBlockMotion) {
-    PushBlockGrid* grid = script->varTablePtr[10];
+    PushBlockGrid* grid = script->varTablePtr[10].p;
     Entity* block = get_entity_by_index(script->varTable[11]);
     f32 hitX, hitY, hitZ, hitDepth;
     s32 hasCollision;
@@ -222,7 +222,7 @@ API_CALLABLE(FetchPushedBlockProperties) {
 }
 
 API_CALLABLE(ClearPushedBlockFromGrid) {
-    PushBlockGrid* grid = script->varTablePtr[10];
+    PushBlockGrid* grid = script->varTablePtr[10].p;
     Entity* block = get_entity_by_index(script->varTable[11]);
     s32 ip, jp; // prev grid pos (i,j)
     s32 in, jn; // next grid pos (i,j)

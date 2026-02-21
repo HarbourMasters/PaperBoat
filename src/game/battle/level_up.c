@@ -401,19 +401,19 @@ API_CALLABLE(GetStarPointDigitScripts) {
     script->varTable[12] = gBattleStatus.totalStarPoints % 10; // star points in ones
 
     if (script->varTable[10] > 0) {
-        script->varTablePtr[10] = starpoint_digit_scripts[script->varTable[10]];
+        script->varTablePtr[10].p = starpoint_digit_scripts[script->varTable[10]];
         levelUp = true;
     } else {
-        script->varTablePtr[10] = starpoint_space_script;
+        script->varTablePtr[10].p = starpoint_space_script;
     }
 
     if ((script->varTable[11] > 0) || levelUp) {
-        script->varTablePtr[11] = starpoint_digit_scripts[script->varTable[11]];
+        script->varTablePtr[11].p = starpoint_digit_scripts[script->varTable[11]];
     } else {
-        script->varTablePtr[11] = starpoint_space_script;
+        script->varTablePtr[11].p = starpoint_space_script;
     }
 
-    script->varTablePtr[12] = starpoint_digit_scripts[script->varTable[12]];
+    script->varTablePtr[12].p = starpoint_digit_scripts[script->varTable[12]];
     return ApiStatus_DONE2;
 }
 

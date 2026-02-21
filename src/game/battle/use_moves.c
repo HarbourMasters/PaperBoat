@@ -103,7 +103,7 @@ API_CALLABLE(LoadMoveScript) {
     BattleMoveEntry* moveTableEntry = &gMoveScriptTable[battleStatus->selectedMoveID];
 
     dma_copy(moveTableEntry->romStart, moveTableEntry->romEnd, moveTableEntry->vramStart);
-    script->varTablePtr[0] = moveTableEntry->mainScript;
+    script->varTablePtr[0].p = moveTableEntry->mainScript;
 
     deduct_current_move_fp();
 

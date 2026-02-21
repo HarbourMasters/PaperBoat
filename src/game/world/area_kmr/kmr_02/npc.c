@@ -1672,8 +1672,8 @@ API_CALLABLE(N(func_80242F7C_8B2FEC)) {
         return ApiStatus_BLOCK;
     }
     npc = script->functionTempPtr[2];
-    npc->verticalRenderOffset = sin_deg(script->functionTempF[1]) * 1.5f;
-    script->functionTempF[1] = clamp_angle(script->functionTempF[1] + 18.0f);
+    npc->verticalRenderOffset = sin_deg(script->functionTempF[1].f) * 1.5f;
+    script->functionTempF[1].f = clamp_angle(script->functionTempF[1].f + 18.0f);
     return ApiStatus_BLOCK;
 }
 

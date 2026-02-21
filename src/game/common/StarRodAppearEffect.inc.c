@@ -35,7 +35,7 @@ API_CALLABLE(N(StarRodAppearEffect)) {
         f32 arg4 = evt_get_float_variable(script, *args++);
         f32 arg5 = evt_get_float_variable(script, *args++);
         effectState = heap_malloc(sizeof(StarOutlineState) * 3);
-        actor->state.functionTempPtr[0] = effectState;
+        actor->state.functionTempPtr[0].p = effectState;
 
         for (i = 0; i < 3; effectState++, i++) {
             effectState->pos.x = x;
@@ -56,7 +56,7 @@ API_CALLABLE(N(StarRodAppearEffect)) {
         return ApiStatus_BLOCK;
     }
 
-    effectState = actor->state.functionTempPtr[0];
+    effectState = actor->state.functionTempPtr[0].p;
     endedCount = 0;
 
     for (i = 0; i < 3; effectState++, i++) {

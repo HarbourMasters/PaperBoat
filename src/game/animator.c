@@ -347,7 +347,9 @@ s32 create_mesh_animator(s16* animPos, s16* animBuffer) {
     animator->animationBuffer = animBuffer;
     animator->nextUpdateTime = 1.0f;
     animator->timeScale = 1.0f;
-    animPos = (s16*)(((s32)animPos & 0xFFFFFF) + (s32)animator->animationBuffer);
+    if (animator->animationBuffer != NULL) {
+        animPos = (s16*)(((s32)animPos & 0xFFFFFF) + (s32)animator->animationBuffer);
+    }
     animator->animReadPos = animPos;
     animator->savedReadPos = animPos;
 

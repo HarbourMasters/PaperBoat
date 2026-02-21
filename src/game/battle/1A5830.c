@@ -785,7 +785,7 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
         script->varTable[0] = state->goalPos.x;
         script->varTable[1] = state->goalPos.y;
         script->varTable[2] = state->goalPos.z;
-        script->varTablePtr[3] = target;
+        script->varTablePtr[3].p = target;
         sfx_play_sound_at_position(SOUND_HIT_ICE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
     }
     if ((battleStatus->curAttackStatus & STATUS_FLAG_SHRINK) && statusInflicted) {
@@ -793,7 +793,7 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
         script->varTable[0] = state->goalPos.x;
         script->varTable[1] = state->goalPos.y;
         script->varTable[2] = state->goalPos.z;
-        script->varTablePtr[3] = target;
+        script->varTablePtr[3].p = target;
         sfx_play_sound_at_position(SOUND_INFLICT_STATUS, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
     }
 

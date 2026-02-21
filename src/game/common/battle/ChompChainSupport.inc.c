@@ -37,7 +37,7 @@ API_CALLABLE(N(ChompChainInit)) {
     s32 i;
 
     chainParts = heap_malloc(NUM_CHAIN_LINKS * sizeof(*chainParts));
-    actor->state.functionTempPtr[0] = chainParts;
+    actor->state.functionTempPtr[0].p = chainParts;
 
     x = actor->curPos.x + 12.0;
     y = actor->curPos.y + 5.0;
@@ -104,7 +104,7 @@ API_CALLABLE(N(ChompChainUpdate)) {
     baseChainPart = CHOMP_CHAIN_FIRST_PART_IDX;
 
     // initialize prev positions to the rear of the actor's body
-    chain = actor->state.functionTempPtr[0];
+    chain = actor->state.functionTempPtr[0].p;
     if (actor->debuff == STATUS_KEY_SHRINK) {
         prevX = actor->curPos.x + 6.0;
         prevY = actor->curPos.y + 2.5;

@@ -502,7 +502,7 @@ HitResult calc_item_damage_enemy(void) {
         script->varTable[0] = state->goalPos.x;
         script->varTable[1] = state->goalPos.y;
         script->varTable[2] = state->goalPos.z;
-        script->varTablePtr[3] = target;
+        script->varTablePtr[3].p = target;
         sfx_play_sound_at_position(SOUND_INFLICT_STATUS, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
     }
     if ((battleStatus->curAttackStatus & STATUS_FLAG_SHRINK) && wasStatusInflicted) {
@@ -510,7 +510,7 @@ HitResult calc_item_damage_enemy(void) {
         script->varTable[0] = state->goalPos.x;
         script->varTable[1] = state->goalPos.y;
         script->varTable[2] = state->goalPos.z;
-        script->varTablePtr[3] = target;
+        script->varTablePtr[3].p = target;
         sfx_play_sound_at_position(SOUND_INFLICT_STATUS, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
     }
     if ((battleStatus->curAttackElement & DAMAGE_TYPE_SMASH) && (target->actorType == ACTOR_TYPE_GOOMNUT_TREE)) {

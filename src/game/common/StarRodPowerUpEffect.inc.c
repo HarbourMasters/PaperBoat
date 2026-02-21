@@ -37,7 +37,7 @@ API_CALLABLE(N(StarRodPowerUpEffect)) {
         }
 
         effectState = heap_malloc(sizeof(StarOutlineState2) * 3);
-        actor->state.functionTempPtr[0] = effectState;
+        actor->state.functionTempPtr[0].p = effectState;
 
         for (i = 0; i < 3; effectState++, i++) {
             effectState->pos.x = x;
@@ -56,7 +56,7 @@ API_CALLABLE(N(StarRodPowerUpEffect)) {
         return ApiStatus_BLOCK;
     }
 
-    effectState = actor->state.functionTempPtr[0];
+    effectState = actor->state.functionTempPtr[0].p;
     endedCount = 0;
 
     for (i = 0; i < 3; effectState++, i++) {
