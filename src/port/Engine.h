@@ -102,6 +102,9 @@ const char* GameEngine_LookupTextureSource(const void* addr);
 // Buffer must be at least 512 bytes. Returns 0 on success, -1 on failure.
 int GameEngine_GetSaveFilePath(char* buf, int bufSize);
 
+// CVar access for game C code
+int GameEngine_CVarGetInteger(const char* name, int defaultValue);
+
 #ifdef __cplusplus
 }
 #endif

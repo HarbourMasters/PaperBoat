@@ -1,7 +1,48 @@
 #include "common.h"
 #include "effects_internal.h"
 #include "assets/effects.h"
+#include <string.h>
 
+// Combined CI4 palette buffers for multi-palette rendering fix.
+// The Fast3D interpreter's ImportTextureCi4 reads palettes[0] + palIdx*32
+// for palette index lookups. On N64, TMEM is contiguous so two separately-loaded
+// 16-entry palettes at tmem=256 and tmem=272 are adjacent. In the interpreter,
+// they're separate allocations so palettes[0]+32 reads past the first palette.
+// Fix: combine both palettes into one 32-entry buffer and reload as a single TLUT.
+u8 sSpiritCardCombinedPals[7][64] __attribute__((aligned(16)));
+u8 sTranslucentCombinedPal[64] __attribute__((aligned(16)));
+s32 sCombinedPalsInitialized = 0;
+
+// NOTE: These are extracted by the factory and not available in the yaml files.
+static const char* sSpiritFacePalPaths[] = {
+    "__OTR__effects/effect_gfx_spirit_card/tex_1500",
+    "__OTR__effects/effect_gfx_spirit_card/tex_1B80",
+    "__OTR__effects/effect_gfx_spirit_card/tex_2200",
+    "__OTR__effects/effect_gfx_spirit_card/tex_2880",
+    "__OTR__effects/effect_gfx_spirit_card/tex_2F00",
+    "__OTR__effects/effect_gfx_spirit_card/tex_3580",
+    "__OTR__effects/effect_gfx_spirit_card/tex_3C00",
+};
+
+void InitCombinedPalettes(void) {
+    if (sCombinedPalsInitialized) return;
+
+    // Opaque cards: card_front palette (pal 0) + each spirit face palette (pal 1)
+    const u8* cardPal = (const u8*)ResourceGetDataByName("__OTR__effects/effect_gfx_spirit_card/tex_200");
+    for (s32 j = 0; j < 7; j++) {
+        const u8* spiritPal = (const u8*)ResourceGetDataByName(sSpiritFacePalPaths[j]);
+        memcpy(sSpiritCardCombinedPals[j], cardPal, 32);
+        memcpy(sSpiritCardCombinedPals[j] + 32, spiritPal, 32);
+    }
+
+    // Translucent cards: wave palette (pal 0) + squares palette (pal 1)
+    const u8* wavePal = (const u8*)ResourceGetDataByName("__OTR__effects/effect_gfx_spirit_card/tex_C00");
+    const u8* squaresPal = (const u8*)ResourceGetDataByName("__OTR__effects/effect_gfx_spirit_card/tex_E80");
+    memcpy(sTranslucentCombinedPal, wavePal, 32);
+    memcpy(sTranslucentCombinedPal + 32, squaresPal, 32);
+
+    sCombinedPalsInitialized = 1;
+}
 
 const char* D_E0116C60[] = { D_09004458_3FE908 };
 
@@ -273,6 +314,8 @@ void something_rotating_appendGfx(void* effect) {
     s32 l, t;
     s32 i;
 
+    InitCombinedPalettes();
+
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
 
@@ -288,6 +331,14 @@ void something_rotating_appendGfx(void* effect) {
                 gDPSetEnvColor(gMainGfxPos++, data->env.r, data->env.g, data->env.b, 0x78);
                 gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0116C6C[0]));
 
+                // Reload combined wave+squares palette so palettes[0] is contiguous
+                gDPSetTextureImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, sTranslucentCombinedPal);
+                gDPTileSync(gMainGfxPos++);
+                gDPSetTile(gMainGfxPos++, 0, 0, 0, 256, G_TX_LOADTILE, 0, 0, 0, 0, 0, 0, 0);
+                gDPLoadSync(gMainGfxPos++);
+                gDPLoadTLUTCmd(gMainGfxPos++, G_TX_LOADTILE, 31);
+                gDPPipeSync(gMainGfxPos++);
+
                 l = ((unk_14 * 4.0f) * 100.0f) * (1.0 / 1024);
                 t = ((unk_14 * 4.0f) * 40.0f) * (1.0 / 1024);
                 gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, l, t, l + 0xFC, t + 0xFC);
@@ -300,6 +351,15 @@ void something_rotating_appendGfx(void* effect) {
                 gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0116C68[0]));
                 gDPSetEnvColor(gMainGfxPos++, data->env.r, data->env.g, data->env.b, data->unk_25);
                 gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0116C70[i - 1]));
+
+                // Reload combined card_front+spirit_face palette so palettes[0] is contiguous
+                gDPSetTextureImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, sSpiritCardCombinedPals[i - 1]);
+                gDPTileSync(gMainGfxPos++);
+                gDPSetTile(gMainGfxPos++, 0, 0, 0, 256, G_TX_LOADTILE, 0, 0, 0, 0, 0, 0, 0);
+                gDPLoadSync(gMainGfxPos++);
+                gDPLoadTLUTCmd(gMainGfxPos++, G_TX_LOADTILE, 31);
+                gDPPipeSync(gMainGfxPos++);
+
                 gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0116C60[0]));
             }
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);

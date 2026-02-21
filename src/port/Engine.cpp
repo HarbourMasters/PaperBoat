@@ -521,3 +521,7 @@ extern "C" int GameEngine_GetSaveFilePath(char* buf, int bufSize) {
     buf[bufSize - 1] = '\0';
     return 0;
 }
+
+extern "C" int GameEngine_CVarGetInteger(const char* name, int defaultValue) {
+    return CVarGetInteger(name, defaultValue);
+}

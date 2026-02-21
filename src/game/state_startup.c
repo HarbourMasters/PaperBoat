@@ -4,6 +4,7 @@
 #include "fio.h"
 #include "sprite.h"
 #include "game_modes.h"
+#include "port/Engine.h"
 
 void state_init_startup(void) {
     gOverrideFlags |= GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME;
@@ -89,8 +90,11 @@ void state_step_startup(void) {
 #endif
 
     gOverrideFlags &= ~GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME;
-    //set_game_mode(GAME_MODE_LOGOS);
-    set_game_mode(GAME_MODE_TITLE_SCREEN);
+    if (GameEngine_CVarGetInteger("gStarRod.SkipLogos", 1)) {
+        set_game_mode(GAME_MODE_TITLE_SCREEN);
+    } else {
+        set_game_mode(GAME_MODE_LOGOS);
+    }
 }
 
 void state_drawUI_startup(void) {

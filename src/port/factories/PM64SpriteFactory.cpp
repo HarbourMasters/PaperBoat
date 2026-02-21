@@ -3,6 +3,7 @@
 #include "utils/Decompressor.h"
 #include "spdlog/spdlog.h"
 #include <ship/utils/binarytools/endianness.h>
+#include <unordered_set>
 
 // PM64 sprite structure (decompressed, before byte-swap):
 // 0x00: rastersOffset (u32)
@@ -79,6 +80,13 @@ static void ByteSwapSpriteData(uint8_t* data, size_t size) {
 
     // Byte-swap animation component lists and commands
     // Walk through each animation in animListStart
+    // IMPORTANT: PM64 sprites share data extensively - multiple animations can reference
+    // the same component list, component structure, or command list. Track processed
+    // offsets to prevent double-swapping (which would revert data to big-endian).
+    std::unordered_set<uint32_t> processedAnimLists;
+    std::unordered_set<uint32_t> processedComps;
+    std::unordered_set<uint32_t> processedCmdLists;
+
     uint32_t* animListPtr = reinterpret_cast<uint32_t*>(data + 0x10);
     while (reinterpret_cast<uint8_t*>(animListPtr) < data + size) {
         uint32_t animOffset = *animListPtr;
@@ -86,7 +94,9 @@ static void ByteSwapSpriteData(uint8_t* data, size_t size) {
             break;
         }
 
-        if (animOffset > 0 && animOffset < size) {
+        if (animOffset > 0 && animOffset < size && !processedAnimLists.count(animOffset)) {
+            processedAnimLists.insert(animOffset);
+
             // Each animation is a list of SpriteAnimComponent pointers, -1 terminated
             uint32_t* compList = reinterpret_cast<uint32_t*>(data + animOffset);
             while (reinterpret_cast<uint8_t*>(compList) < data + size) {
@@ -96,7 +106,9 @@ static void ByteSwapSpriteData(uint8_t* data, size_t size) {
                     break;
                 }
 
-                if (compOffset > 0 && compOffset < size - 12) {
+                if (compOffset > 0 && compOffset < size - 12 && !processedComps.count(compOffset)) {
+                    processedComps.insert(compOffset);
+
                     // SpriteAnimComponent structure:
                     // 0x00: cmdList offset (u32)
                     // 0x04: cmdListSize (s16)
@@ -113,7 +125,9 @@ static void ByteSwapSpriteData(uint8_t* data, size_t size) {
                     compData16[3] = BSWAP16(compData16[3]); // compOffset.z
 
                     // Byte-swap command list (array of u16)
-                    if (cmdListOffset > 0 && cmdListOffset < size && cmdListSize > 0) {
+                    if (cmdListOffset > 0 && cmdListOffset < size && cmdListSize > 0 && !processedCmdLists.count(cmdListOffset)) {
+                        processedCmdLists.insert(cmdListOffset);
+
                         uint16_t* cmdList = reinterpret_cast<uint16_t*>(data + cmdListOffset);
                         int numCmds = cmdListSize / 2;
                         for (int i = 0; i < numCmds && reinterpret_cast<uint8_t*>(&cmdList[i]) < data + size; i++) {

@@ -1,4 +1,5 @@
 #include "sprite.h"
+#include "port/Engine.h"
 #include "sprite/player.h"
 
 // Display list context tracking for debugging
@@ -551,6 +552,8 @@ void spr_component_update_commands(SpriteComponent* comp, SpriteAnimComponent* a
         while (comp->waitTime <= 0.0f) {
             // overflow check
             if (bufPos >= &anim->cmdList[anim->cmdListSize / 2]) {
+                GameEngine_LogInfo("[SPR_CMD] OVERFLOW: cmdListSize=%d bufPos offset=%d",
+                    anim->cmdListSize, (int)(bufPos - anim->cmdList));
                 bufPos = anim->cmdList;
                 break;
             }
@@ -901,6 +904,8 @@ s32 spr_update_player_sprite(s32 spriteInstanceID, s32 animID, f32 timeScale) {
     if ((spriteInstanceID & DRAW_SPRITE_OVERRIDE_ALPHA) ||
         (animID & ~SPRITE_ID_BACK_FACING) != (CurPlayerAnimInfo[instanceIdx].animID & ~SPRITE_ID_BACK_FACING))
     {
+        GameEngine_LogInfo("[SPR_ANIM] RESET anim: old=0x%08X new=0x%08X animIdx=%d sprIdx=%d",
+            CurPlayerAnimInfo[instanceIdx].animID, animID, animIndex, spriteIdx);
         spr_init_anim_state(compList, animList);
         CurPlayerAnimInfo[instanceIdx].notifyValue = 0;
     }
@@ -948,7 +953,6 @@ s32 spr_draw_player_sprite(s32 spriteInstanceID, s32 yaw, s32 alphaIn, PAL_PTR* 
             case SPR_MarioW1 - 1:
             case SPR_Peach1 - 1:
                 spriteIdBackFacing = spriteIdx + 1;
-                // Access back-facing sprite data properly for 64-bit
                 CurPlayerSpriteIndex = spriteIdBackFacing;
                 rasters = PlayerSprites[spriteIdBackFacing]->rastersOffset;
                 break;
