@@ -512,6 +512,22 @@ extern "C" const char* GameEngine_LookupTextureSource(const void* addr) {
     return nullptr;
 }
 
+extern "C" void GameEngine_InvalidateTextureCache(const void* addr) {
+    if (addr == nullptr) {
+        return;
+    }
+    auto window = Ship::Context::GetInstance()->GetWindow();
+    if (window != nullptr) {
+        auto fast3d = std::dynamic_pointer_cast<Fast::Fast3dWindow>(window);
+        if (fast3d != nullptr) {
+            auto interp = fast3d->GetInterpreterWeak().lock();
+            if (interp != nullptr) {
+                interp->TextureCacheDelete(reinterpret_cast<const uint8_t*>(addr));
+            }
+        }
+    }
+}
+
 extern "C" int GameEngine_GetSaveFilePath(char* buf, int bufSize) {
     std::string path = Ship::Context::GetPathRelativeToAppDirectory("default.sav");
     if ((int)path.size() >= bufSize) {

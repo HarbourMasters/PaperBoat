@@ -98,6 +98,11 @@ const char* GameEngine_GetDisplayListContext(void);
 void GameEngine_RegisterTextureDebugInfo(const void* addr, const char* assetPath, int rasterIdx);
 const char* GameEngine_LookupTextureSource(const void* addr);
 
+// Invalidate GPU texture cache entry for a specific RAM address.
+// Call when player raster cache overwrites a buffer with new image data,
+// since the Fast3D interpreter caches textures by pointer address.
+void GameEngine_InvalidateTextureCache(const void* addr);
+
 // Save file path - returns path to "pm64.sav" in app directory
 // Buffer must be at least 512 bytes. Returns 0 on success, -1 on failure.
 int GameEngine_GetSaveFilePath(char* buf, int bufSize);

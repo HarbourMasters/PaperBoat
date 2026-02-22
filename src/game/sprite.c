@@ -904,8 +904,6 @@ s32 spr_update_player_sprite(s32 spriteInstanceID, s32 animID, f32 timeScale) {
     if ((spriteInstanceID & DRAW_SPRITE_OVERRIDE_ALPHA) ||
         (animID & ~SPRITE_ID_BACK_FACING) != (CurPlayerAnimInfo[instanceIdx].animID & ~SPRITE_ID_BACK_FACING))
     {
-        GameEngine_LogInfo("[SPR_ANIM] RESET anim: old=0x%08X new=0x%08X animIdx=%d sprIdx=%d",
-            CurPlayerAnimInfo[instanceIdx].animID, animID, animIndex, spriteIdx);
         spr_init_anim_state(compList, animList);
         CurPlayerAnimInfo[instanceIdx].notifyValue = 0;
     }

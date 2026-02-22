@@ -285,6 +285,13 @@ IMG_PTR spr_get_player_raster(s32 rasterIndex, s32 playerSpriteID) {
         cacheEntry->lazyDeleteTime = 0;
         return nullptr;
     }
+
+    // Invalidate the GPU texture cache for this buffer address.
+    // The Fast3D interpreter caches textures by pointer address. Since PlayerRasterCache
+    // reuses fixed buffer addresses for different raster data, the GPU would serve stale
+    // textures (e.g. back-facing sprite when front-facing data was loaded into the same buffer).
+    GameEngine_InvalidateTextureCache(cacheEntry->raster);
+
     return cacheEntry->raster;
 }
 
