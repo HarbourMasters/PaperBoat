@@ -122,13 +122,13 @@ s16 PickupMessageWindowYOffsets[] = { 8, 4 };
 #endif
 
 void sparkle_script_init(ItemEntity* item, SparkleScript* script) {
-    item->sparkleReadPos = (s32*)script;
+    item->sparkleReadPos = (intptr_t*)script;
     item->sparkleNextUpdate = 1;
-    item->sparkleSavedPos = (s32*)script;
+    item->sparkleSavedPos = (intptr_t*)script;
 }
 
 s32 sparkle_script_step(ItemEntity* item) {
-    s32* readPos = item->sparkleReadPos;
+    intptr_t* readPos = item->sparkleReadPos;
 
     switch (*readPos++) {
         case SPARKLE_OP_SetGfx:

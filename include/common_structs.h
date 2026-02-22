@@ -1203,9 +1203,9 @@ typedef struct ItemEntity {
     /* 0x34 */ Vec3s lastPos;
     /* 0x3A */ char unk_3A[2];
     /* 0x3C */ s32 sparkleNextUpdate;
-    /* 0x40 */ s32* sparkleReadPos;
+    /* 0x40 */ intptr_t* sparkleReadPos;
     /* 0x44 */ s32 sparkleUnk44;
-    /* 0x48 */ s32* sparkleSavedPos;
+    /* 0x48 */ intptr_t* sparkleSavedPos;
     /* 0x4C */ IMG_PTR sparkleRaster;
     /* 0x50 */ PAL_PTR sparklePalette;
     /* 0x54 */ s32 sparkleWidth;
