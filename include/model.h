@@ -146,7 +146,11 @@ typedef struct TextureHandle {
     /* 0x38 */ PAL_PTR palette;
     /* 0x3C */ IMG_PTR auxRaster;
     /* 0x40 */ PAL_PTR auxPalette;
-} TextureHandle; // size = 0x44
+    // Port: combined 32-entry palette (main 16 + aux 16) for CI4+CI4 AUX_INDEPENDENT textures.
+    // Fast3D interpreter stores pal16(pal=1) in palettes[1], but CI4 palette=1 reads
+    // palettes[0]+32. A single 32-entry load into palettes[0] fixes the mismatch.
+    PAL_PTR combinedPalette;
+} TextureHandle;
 
 typedef struct ModelBlueprint {
     /* 0x0 */ s16 flags;

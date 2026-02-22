@@ -9,10 +9,6 @@
 
 // Display list context tracking for debugging
 extern void GameEngine_SetDisplayListContext(const char* context);
-extern void GameEngine_LogInfo(const char* fmt, ...);
-
-// Texture debug tracking
-extern void GameEngine_RegisterTextureDebugInfo(const void* addr, const char* assetPath, int rasterIdx);
 
 // models are rendered in two stages by the RDP:
 // (1) main and aux textures are combined in the color combiner
@@ -1367,7 +1363,7 @@ void func_80117D00(Model* model);
 void appendGfx_model_group(void* model);
 void render_transform_group_node(ModelNode* node);
 void render_transform_group(void* group);
-void make_texture_gfx(TextureHeader*, Gfx**, IMG_PTR raster, PAL_PTR palette, IMG_PTR auxRaster, PAL_PTR auxPalette, u8, u8, u16, u16);
+void make_texture_gfx(TextureHeader*, Gfx**, IMG_PTR raster, PAL_PTR palette, IMG_PTR auxRaster, PAL_PTR auxPalette, u8, u8, u16, u16, PAL_PTR combinedPalette);
 void load_model_transforms(ModelNode* model, ModelNode* parent, Matrix4f mdlTxMtx, s32 treeDepth);
 s32 is_identity_fixed_mtx(Mtx* mtx);
 void build_custom_gfx(void);
@@ -1408,13 +1404,6 @@ void appendGfx_model(void* data) {
         if (textureHandle->gfx != nullptr) {
             extraTileType = textureHandle->header.extraTiles;
         } else {
-            // Log once per model that has a textureID but no loaded gfx
-            static s32 sTexWarnCount = 0;
-            if (sTexWarnCount < 20) {
-                GameEngine_LogInfo("[Render] model %d: textureID=%d+%d but gfx=NULL!",
-                                   model->modelID, model->textureID, model->textureVariation);
-                sTexWarnCount++;
-            }
             textureHeader = nullptr;
         }
     } else {
@@ -1520,7 +1509,8 @@ void appendGfx_model(void* data) {
                         textureHandle->raster, textureHandle->palette,
                         textureHandle->auxRaster, textureHandle->auxPalette,
                         (shift >> 12) & 0xF, (shift >> 16) & 0xF,
-                        offsetS & 0xFFF, (offsetT >> 12) & 0xFFF);
+                        offsetS & 0xFFF, (offsetT >> 12) & 0xFFF,
+                        textureHandle->combinedPalette);
 
                 } else {
                     snprintf(dlContextBuf, sizeof(dlContextBuf), "model_%d_texgfx_special", model->modelID);
@@ -2081,11 +2071,26 @@ void load_texture_impl(u8* srcData, TextureHandle* handle, TextureHeader* header
         handle->auxRaster = nullptr;
     }
 
+    // Port: create combined 32-entry CI4 palette for AUX_INDEPENDENT textures.
+    // Fast3D interpreter stores pal16(pal=1) in palettes[1] but CI4 palette=1
+    // reads palettes[0]+32. Loading both as a single 32-entry palette into
+    // palettes[0] fixes this mismatch.
+    handle->combinedPalette = nullptr;
+    if (header->extraTiles == EXTRA_TILE_AUX_INDEPENDENT
+        && handle->palette != nullptr && handle->auxPalette != nullptr
+        && header->mainBitDepth == G_IM_SIZ_4b && header->auxBitDepth == G_IM_SIZ_4b)
+    {
+        handle->combinedPalette = (PAL_PTR) malloc(64); // 32 entries * 2 bytes
+        memcpy(handle->combinedPalette, handle->palette, 32);       // main palette entries 0-15
+        memcpy((u8*)handle->combinedPalette + 32, handle->auxPalette, 32); // aux palette entries 16-31
+    }
+
     // allocate display list buffer and build texture gfx commands
     handle->gfx = (Gfx*) malloc(MAX_TEXTURE_GFX_CMDS * sizeof(Gfx));
     gfxCursor = handle->gfx;
     memcpy(&handle->header, header, sizeof(*header));
-    make_texture_gfx(header, &gfxCursor, handle->raster, handle->palette, handle->auxRaster, handle->auxPalette, 0, 0, 0, 0);
+
+    make_texture_gfx(header, &gfxCursor, handle->raster, handle->palette, handle->auxRaster, handle->auxPalette, 0, 0, 0, 0, handle->combinedPalette);
 
     gSPEndDisplayList(gfxCursor++);
 }
@@ -2198,10 +2203,7 @@ void load_texture_by_name(ModelNodeProperty* propertyName, u8* textureData, s32 
         currentOffset += auxRasterSize + auxPaletteSize;
     }
 
-    if (currentOffset >= 0x40000) {
-        // did not find the texture with `textureName`
-        GameEngine_LogInfo("[Texture] WARNING: texture '%s' not found in blob (searched %d entries, offset=0x%X)",
-                           textureName, textureIdx, currentOffset);
+    if (currentOffset >= (u32)size) {
         (*gCurrentModelTreeNodeInfo)[TreeIterPos].textureID = 0;
         return;
     }
@@ -2212,21 +2214,6 @@ void load_texture_by_name(ModelNodeProperty* propertyName, u8* textureData, s32 
 
     if (textureHandle->gfx == nullptr) {
         load_texture_impl(textureData + currentOffset, textureHandle, header, rasterSize, paletteSize, auxRasterSize, auxPaletteSize);
-
-        // Register texture addresses for debug tracking
-        if (textureHandle->raster != nullptr) {
-            GameEngine_RegisterTextureDebugInfo(textureHandle->raster, textureName, 0);
-        }
-        if (textureHandle->palette != nullptr) {
-            GameEngine_RegisterTextureDebugInfo(textureHandle->palette, textureName, 1);
-        }
-        if (textureHandle->auxRaster != nullptr) {
-            GameEngine_RegisterTextureDebugInfo(textureHandle->auxRaster, textureName, 2);
-        }
-        if (textureHandle->auxPalette != nullptr) {
-            GameEngine_RegisterTextureDebugInfo(textureHandle->auxPalette, textureName, 3);
-        }
-
         load_texture_variants(textureData + currentOffset + rasterSize + paletteSize + auxRasterSize + auxPaletteSize, (*gCurrentModelTreeNodeInfo)[TreeIterPos].textureID, textureData, size);
     }
 }
@@ -2334,18 +2321,6 @@ void load_texture_variants(u8* srcData, s32 textureID, u8* baseData, s32 size) {
         currentTextureID = textureID;
         textureHandle = &TextureHandles[currentTextureID];
         load_texture_impl(currentPtr + sizeof(*header), textureHandle, header, rasterSize, paletteSize, auxRasterSize, auxPaletteSize);
-
-        // Register texture variant addresses for debug tracking
-        {
-            char variantName[32];
-            snprintf(variantName, sizeof(variantName), "model_texture_variant_%d", currentTextureID);
-            if (textureHandle->raster != nullptr) {
-                GameEngine_RegisterTextureDebugInfo(textureHandle->raster, variantName, 0);
-            }
-            if (textureHandle->palette != nullptr) {
-                GameEngine_RegisterTextureDebugInfo(textureHandle->palette, variantName, 1);
-            }
-        }
 
         mainSize = rasterSize + paletteSize + sizeof(*header);
         currentPtr += mainSize;
@@ -3133,7 +3108,7 @@ void render_transform_group(void* data) {
     }
 }
 
-void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_PTR palette, IMG_PTR auxRaster, PAL_PTR auxPalette, u8 auxShiftS, u8 auxShiftT, u16 auxOffsetS, u16 auxOffsetT) {
+void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_PTR palette, IMG_PTR auxRaster, PAL_PTR auxPalette, u8 auxShiftS, u8 auxShiftT, u16 auxOffsetS, u16 auxOffsetT, PAL_PTR combinedPalette) {
     s32 mainWidth, mainHeight;
     s32 auxWidth, auxHeight;
     s32 mainFmt;
@@ -3194,18 +3169,33 @@ void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_P
 
     if (palette != nullptr || auxPalette != nullptr) {
         lutMode = G_TT_RGBA16;
-        if (palette != nullptr) {
-            if (mainBitDepth == G_IM_SIZ_4b) {
-                gDPLoadTLUT_pal16((*gfxPos)++, 0, palette);
-            } else if (mainBitDepth == G_IM_SIZ_8b) {
-                gDPLoadTLUT_pal256((*gfxPos)++, palette);
+
+        // Port: when both main and aux are CI4, use combined 32-entry palette.
+        // Fast3D interpreter stores pal16(pal=1) in palettes[1] but CI4 palette=1
+        // reads palettes[0]+32. A single 32-entry load at tmem=256 fixes this.
+        if (combinedPalette != nullptr
+            && mainBitDepth == G_IM_SIZ_4b && auxBitDepth == G_IM_SIZ_4b)
+        {
+            gDPSetTextureImage((*gfxPos)++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, combinedPalette);
+            gDPTileSync((*gfxPos)++);
+            gDPSetTile((*gfxPos)++, 0, 0, 0, 256, G_TX_LOADTILE, 0, 0, 0, 0, 0, 0, 0);
+            gDPLoadSync((*gfxPos)++);
+            gDPLoadTLUTCmd((*gfxPos)++, G_TX_LOADTILE, 31); // 32 entries
+            gDPPipeSync((*gfxPos)++);
+        } else {
+            if (palette != nullptr) {
+                if (mainBitDepth == G_IM_SIZ_4b) {
+                    gDPLoadTLUT_pal16((*gfxPos)++, 0, palette);
+                } else if (mainBitDepth == G_IM_SIZ_8b) {
+                    gDPLoadTLUT_pal256((*gfxPos)++, palette);
+                }
             }
-        }
-        if (auxPalette != nullptr) {
-            if (auxBitDepth == G_IM_SIZ_4b) {
-                gDPLoadTLUT_pal16((*gfxPos)++, auxPaletteIndex, auxPalette);
-            } else if (auxBitDepth == G_IM_SIZ_8b) {
-                gDPLoadTLUT_pal256((*gfxPos)++, auxPalette);
+            if (auxPalette != nullptr) {
+                if (auxBitDepth == G_IM_SIZ_4b) {
+                    gDPLoadTLUT_pal16((*gfxPos)++, auxPaletteIndex, auxPalette);
+                } else if (auxBitDepth == G_IM_SIZ_8b) {
+                    gDPLoadTLUT_pal256((*gfxPos)++, auxPalette);
+                }
             }
         }
     } else {
