@@ -14,6 +14,23 @@ GfxPool* gGfxPool;
 Gfx* gMasterDisp;
 u32 gSysFrameCount = 0;
 
+// Framebuffer capture buffer for appendGfx_draw_prev_frame_buffer.
+// Only captured when requested — per-frame GPU readback causes Metal
+// "kIOGPUCommandBufferCallbackErrorSubmissionsIgnored" errors.
+static u16 gPrevFramePixels[SCREEN_WIDTH * SCREEN_HEIGHT]; // RGBA16, ~153KB
+static s32 gPrevFrameCaptureRequest = 0; // >0 = capture this frame
+
+u16* GetPrevFramePixels(void) {
+    return gPrevFramePixels;
+}
+
+// Call from game code to request framebuffer capture.
+// The capture persists for 2 extra frames after the last request to handle
+// effects that read the buffer on the same frame they start.
+void RequestPrevFrameCapture(void) {
+    gPrevFrameCaptureRequest = 3;
+}
+
 // External references to existing game functions/data
 extern DisplayContext D_80164000[2];
 extern s32 gCurrentDisplayContextIndex;
@@ -62,6 +79,13 @@ void Graphics_ThreadUpdate(void) {
 
     // Link main display list
     gSPDisplayList(gMasterDisp++, ctx->mainGfx);
+
+    // Capture framebuffer only when requested by prev-frame effects.
+    // Unconditional capture causes Metal GPU errors (kIOGPUCommandBufferCallbackErrorSubmissionsIgnored).
+    if (gPrevFrameCaptureRequest > 0) {
+        gDPReadFB(gMasterDisp++, 0, gPrevFramePixels, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 1);
+        gPrevFrameCaptureRequest--;
+    }
 
     // Finalize master display list
     gDPFullSync(gMasterDisp++);

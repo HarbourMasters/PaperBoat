@@ -48,6 +48,15 @@ static Gfx* LoadDisplayListByOffset(u32 dlOffset) {
     Gfx* dl = (Gfx*)ResourceGetDataByName(path);
     if (dl == NULL) {
         GameEngine_LogInfo("[Shape] WARNING: Could not load display list from %s", path);
+    } else {
+        // Validate that returned data looks like a display list, not a string or garbage
+        u8 firstByte = ((u8*)dl)[0];
+        u8 opcode = (dl->words.w0 >> 24) & 0xFF;
+        // Check if it looks like ASCII text (sign of OTR path string being returned as data)
+        if (firstByte >= 0x20 && firstByte <= 0x7E && firstByte != 0) {
+            GameEngine_LogInfo("[Shape] SUSPECT DL from %s: first byte=0x%02X ('%c'), opcode=0x%02X, w0=0x%08X, w1=0x%08X",
+                              path, firstByte, firstByte, opcode, dl->words.w0, dl->words.w1);
+        }
     }
     return dl;
 }

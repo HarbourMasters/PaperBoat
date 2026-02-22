@@ -8,6 +8,8 @@
 #include "sprite.h"
 #include "model.h"
 #include "game_modes.h"
+#include "port/Engine.h"
+#include "port/shape_loader.h"
 
 #if VERSION_JP
 // TODO: split the filemenu segment
@@ -411,9 +413,13 @@ void state_step_exit_language_select(void) {
                     init_npc_list();
                     init_entity_data();
                     init_trigger_list();
-                    mapShape = load_asset_by_name(wMapShapeName, &mapShapeSize);
-                    decode_yay0(mapShape, &gMapShapeData);
-                    general_heap_free(mapShape);
+                    {
+                        char assetPath[64];
+                        snprintf(assetPath, sizeof(assetPath), "__OTR__shapes/%s", wMapShapeName);
+                        u8* shapeData = (u8*)LOAD_ASSET(assetPath);
+                        size_t shapeSize = ResourceGetSizeByName(assetPath);
+                        Shape_LoadFromRawData(&gMapShapeData, shapeData, shapeSize, wMapShapeName);
+                    }
                     initialize_collision();
                     restore_map_collision_data();
 

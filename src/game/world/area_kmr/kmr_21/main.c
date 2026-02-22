@@ -1,15 +1,6 @@
 #include "kmr_21.h"
+#include "port/Engine.h"
 
-typedef struct TitleDataFile {
-    /* 0x00 */ s32 img_offset_title;
-    /* 0x04 */ s32 img_offset_copyright;
-    /* 0x08 */ s32 img_offset_press_start;
-    /* 0x0C */ unsigned char unk_0C[4];
-    // end of header
-    /* 0x10 */ s8 data[VLA];
-} TitleDataFile; // size may vary
-
-static TitleDataFile* TitleData;
 static IMG_PTR TitleImage;
 
 s32 TitlePrimAlpha = 0;
@@ -23,7 +14,7 @@ Gfx N(Gfx_TexSetup_TitleImage)[] = {
     gsDPPipeSync(),
     gsDPSetCycleType(G_CYC_1CYCLE),
     gsDPSetRenderMode(G_RM_XLU_SURF, G_RM_XLU_SURF2),
-    gsDPSetCombineMode(PM_CC_2E, PM_CC_2E),
+    gsDPSetCombineLERP(0, 0, 0, TEXEL0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, PRIMITIVE, 0),
     gsDPSetTextureFilter(G_TF_POINT),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
     gsDPSetTexturePersp(G_TP_NONE),
@@ -75,13 +66,7 @@ void worker_render_title_image(void) {
 }
 
 API_CALLABLE(N(LoadTitleImage)) {
-    u32 assetSize;
-    void* compressed = load_asset_by_name("title_data", &assetSize);
-    TitleData = (TitleDataFile*) heap_malloc(assetSize);
-
-    decode_yay0(compressed, TitleData);
-    general_heap_free(compressed);
-    TitleImage = (IMG_PTR)(TitleData->img_offset_title + (s32)TitleData);
+    TitleImage = (IMG_PTR)LOAD_ASSET("__OTR__title_screen/title_logo");
     create_worker_frontUI(nullptr, worker_render_title_image);
     return ApiStatus_DONE2;
 }

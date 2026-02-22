@@ -7,6 +7,8 @@
 #include "sprite.h"
 #include "model.h"
 #include "game_modes.h"
+#include "port/Engine.h"
+#include "port/shape_loader.h"
 
 extern u16 gFrameBuf0[];
 extern u16 gFrameBuf1[];
@@ -239,9 +241,13 @@ void state_step_unpause(void) {
                     sfx_set_reverb_mode(SavedReverbMode);
                     bgm_reset_max_volume();
                     load_map_script_lib();
-                    mapShape = load_asset_by_name(wMapShapeName, &assetSize);
-                    decode_yay0(mapShape, &gMapShapeData);
-                    general_heap_free(mapShape);
+                    {
+                        char assetPath[64];
+                        snprintf(assetPath, sizeof(assetPath), "__OTR__shapes/%s", wMapShapeName);
+                        u8* shapeData = (u8*)LOAD_ASSET(assetPath);
+                        size_t shapeSize = ResourceGetSizeByName(assetPath);
+                        Shape_LoadFromRawData(&gMapShapeData, shapeData, shapeSize, wMapShapeName);
+                    }
                     initialize_collision();
                     restore_map_collision_data();
 

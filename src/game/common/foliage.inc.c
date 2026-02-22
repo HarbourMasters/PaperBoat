@@ -3,9 +3,29 @@
 
 #include "FoliageTransform.inc.c"
 
+// Port fix: SearchBushConfig/ShakeTreeConfig contain pointers (8 bytes on 64-bit)
+// but UseBuf/BufRead reads s32 (4 bytes). Use C helpers to unpack properly.
+API_CALLABLE(N(UnpackSearchBushConfig)) {
+    SearchBushConfig* config = (SearchBushConfig*)script->varTable[0];
+    script->varTable[1] = (Bytecode) config->bush;
+    script->varTable[2] = (Bytecode) config->drops;
+    script->varTable[3] = (Bytecode) config->vectors;
+    script->varTable[4] = (Bytecode) config->callback;
+    return ApiStatus_DONE2;
+}
+
+API_CALLABLE(N(UnpackShakeTreeConfig)) {
+    ShakeTreeConfig* config = (ShakeTreeConfig*)script->varTable[0];
+    script->varTable[1] = (Bytecode) config->leaves;
+    script->varTable[2] = (Bytecode) config->trunk;
+    script->varTable[3] = (Bytecode) config->drops;
+    script->varTable[4] = (Bytecode) config->vectors;
+    script->varTable[5] = (Bytecode) config->callback;
+    return ApiStatus_DONE2;
+}
+
 EvtScript N(EVS_SearchBush) = {
-    UseBuf(LVar0)
-    BufRead4(LVar1, LVar2, LVar3, LVar4)
+    Call(N(UnpackSearchBushConfig))
     Call(GetPlayerPos, LVar5, LVarF, LVar7)
     Thread
         Set(LFlag0, false)
@@ -69,9 +89,7 @@ EvtScript N(EVS_SearchBush) = {
 
 EvtScript N(EVS_ShakeTree) = {
     SetTimescale(Float(2.0))
-    UseBuf(LVar0)
-    BufRead4(LVar1, LVar2, LVar3, LVar4)
-    BufRead1(LVar5)
+    Call(N(UnpackShakeTreeConfig))
     Call(GetPlayerPos, LVar6, LVarF, LVar8)
     Call(PlaySound, SOUND_SMACK_TREE)
     Call(PlaySound, SOUND_SHAKE_TREE_LEAVES)

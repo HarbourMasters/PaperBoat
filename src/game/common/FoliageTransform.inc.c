@@ -13,8 +13,8 @@ typedef struct FoliageDropList {
         s32 itemID;
         Vec3i pos;
         s32 spawnMode;
-        Bytecode pickupFlag;
-        Bytecode spawnFlag;
+        s32 pickupFlag;
+        s32 spawnFlag;
     } drops[VLA];
 } FoliageDropList;
 

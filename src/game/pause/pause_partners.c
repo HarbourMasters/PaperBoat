@@ -2,6 +2,8 @@
 #include "message_ids.h"
 #include "hud_element.h"
 #include "sprite.h"
+#include "port/Engine.h"
+#include "port/Engine.h"
 #include "sprite/npc/WorldGoombario.h"
 #include "sprite/npc/WorldKooper.h"
 #include "sprite/npc/WorldBombette.h"
@@ -289,22 +291,25 @@ typedef struct PartnerPosition {
     /* 0x04 */ s32 index;
 } PartnerPosition; // size = 0x8
 
-void pause_partners_load_portrait(s32 index) {
-    s32 size;
-    void* asset;
+static void load_party_portrait_otr(const char* assetName, s32 bufIndex) {
+    char palPath[64];
+    char imgPath[64];
+    snprintf(palPath, sizeof(palPath), "__OTR__party/%s_pal", assetName);
+    snprintf(imgPath, sizeof(imgPath), "__OTR__party/%s", assetName);
 
+    gPausePartnersPaletteBuffers[bufIndex] = (s8*)LOAD_ASSET(palPath);
+    gPausePartnersImageBuffers[bufIndex] = (s8*)LOAD_ASSET(imgPath);
+}
+
+void pause_partners_load_portrait(s32 index) {
     if (gPausePartnersCurrentPortraitIndex != gPausePartnersPartnerIdx[index]) {
         gPausePartnersCurrentPortraitIndex = gPausePartnersPartnerIdx[index];
-        asset = load_asset_by_name(gPausePartnersAssetNames[gPausePartnersCurrentPortraitIndex], &size);
-        decode_yay0(asset, gPausePartnersPaletteBuffers[0]);
-        general_heap_free(asset);
+        load_party_portrait_otr(gPausePartnersAssetNames[gPausePartnersCurrentPortraitIndex], 0);
     }
 
     if (gPausePartnersNextPortraitIndex != gPausePartnersPartnerIdx[(index + 1) % gPausePartnersNumPartners]) {
         gPausePartnersNextPortraitIndex = gPausePartnersPartnerIdx[(index + 1) % gPausePartnersNumPartners];
-        asset = load_asset_by_name(gPausePartnersAssetNames[gPausePartnersNextPortraitIndex], &size);
-        decode_yay0(asset, gPausePartnersPaletteBuffers[1]);
-        general_heap_free(asset);
+        load_party_portrait_otr(gPausePartnersAssetNames[gPausePartnersNextPortraitIndex], 1);
     }
 }
 
