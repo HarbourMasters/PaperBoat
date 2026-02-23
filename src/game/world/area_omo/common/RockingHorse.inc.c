@@ -19,7 +19,8 @@ API_CALLABLE(N(UpdateRockingHorses)) {
     u32 i;
 
     if (isInitialCall) {
-        horse = heap_malloc(sizeof(*horse) * ARRAY_COUNT(N(RockingHorseModels)));
+        static RockingHorse horseStorage[ARRAY_COUNT(N(RockingHorseModels))];
+        horse = horseStorage;
         script->functionTempPtr[0] = horse;
 
         for (i = 0; i < ARRAY_COUNT(N(RockingHorseModels)); i++, horse++) {

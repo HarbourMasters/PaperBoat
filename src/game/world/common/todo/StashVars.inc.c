@@ -1,26 +1,22 @@
 #include "common.h"
 #include "npc.h"
 
-// remove this and uncomment other when all data from all maps that use this are migrated to C
-extern s32** N(varStash);
+static s32 N(varStashStorage)[16];
+static s32 N(varStashActive) = false;
 
 API_CALLABLE(N(StashVars)) {
-    //static s32** varTable = nullptr;
     s32 i;
 
-    if (N(varStash) == nullptr) {
-        N(varStash) = heap_malloc(sizeof(script->varTable));
-
+    if (!N(varStashActive)) {
         for (i = 0; i < ARRAY_COUNT(script->varTable); i++) {
-            N(varStash)[i] = (s32*) script->varTable[i];
+            N(varStashStorage)[i] = script->varTable[i];
         }
+        N(varStashActive) = true;
     } else {
         for (i = 0; i < ARRAY_COUNT(script->varTable); i++) {
-            script->varTable[i] = (s32) N(varStash)[i];
+            script->varTable[i] = N(varStashStorage)[i];
         }
-
-        heap_free(N(varStash));
-        N(varStash) = nullptr;
+        N(varStashActive) = false;
     }
 
     return ApiStatus_DONE2;

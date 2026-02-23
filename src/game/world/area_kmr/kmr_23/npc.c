@@ -79,7 +79,8 @@ API_CALLABLE(N(CreateEndChapterData)) {
     s32 backFacing;
 
     if (isInitialCall) {
-        data = heap_malloc(sizeof(*data));
+        static EndChapter dataStorage;
+        data = &dataStorage;
         script->userData = data;
         evt_set_variable(script, MV_EndChapterDataPtr, (Bytecode) data);
         data->chapter = evt_get_variable(script, *args++);

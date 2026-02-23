@@ -17,10 +17,10 @@ enum {
 
 API_CALLABLE(N(InitHiddenBoo)) {
     Npc* npc = get_npc_unsafe(script->owner2.npcID);
-    s32* isGameStarted = heap_malloc(sizeof(s32));
+    static s32 isGameStarted;
 
-    npc->blur.keepAwayStarted = isGameStarted;
-    *isGameStarted = false;
+    npc->blur.keepAwayStarted = &isGameStarted;
+    isGameStarted = false;
     npc->planarFlyDist = 125.0f; // default ring radius
     npc->yaw = 0.0f;
     npc->pos.x = 0.0f;

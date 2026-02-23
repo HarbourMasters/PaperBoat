@@ -11,7 +11,8 @@ typedef struct ImprisonedCard {
 
 API_CALLABLE(N(ImprisonedCardSetup)) {
     Npc* npc = get_npc_safe(script->owner2.npcID);
-    ImprisonedCard* card = heap_malloc(sizeof(*card));
+    static ImprisonedCard cardStorage;
+    ImprisonedCard* card = &cardStorage;
 
     script->userData = card;
     card->pos.x = npc->pos.x;

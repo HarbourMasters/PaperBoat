@@ -129,7 +129,8 @@ API_CALLABLE(N(SuperBlock_ShowSelectPartnerMenu)) {
 
     // create the 'partner upgrade' popup menu
     if (isInitialCall) {
-        popupMenu = heap_malloc(sizeof(PopupMenu));
+        static PopupMenu popupMenuStorage;
+        popupMenu = &popupMenuStorage;
         script->functionTempPtr[2] = popupMenu;
         hasUltraStone = script->varTable[12] >= 0;
 
@@ -186,7 +187,6 @@ API_CALLABLE(N(SuperBlock_ShowSelectPartnerMenu)) {
         script->varTable[0] = -1;
     }
 
-    heap_free(script->functionTempPtr[2]);
     return ApiStatus_DONE2;
 }
 
@@ -259,7 +259,8 @@ API_CALLABLE(N(SuperBlock_AnimateEnergyOrbs)) {
     sin_cos_deg(gCameras[gCurrentCameraID].curYaw, &sinTheta, &cosTheta);
 
     if (isInitialCall) {
-        script->userData = (EnergyOrbSet*)general_heap_malloc(sizeof(EnergyOrbSet));
+        static EnergyOrbSet energyOrbStorage;
+        script->userData = (EnergyOrbSet*)&energyOrbStorage;
         userData = (EnergyOrbSet*)script->userData;
 
         userData->superBlock = get_entity_by_index(evt_get_variable(script, *args++));

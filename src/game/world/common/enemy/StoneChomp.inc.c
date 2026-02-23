@@ -12,7 +12,8 @@ API_CALLABLE(N(StoneChompFXA)) {
     s32 i;
 
     npc = get_npc_safe(script->owner2.npcID);
-    blurData = heap_malloc(8 * sizeof(*blurData));
+    static NpcChompBlur blurStorage[8];
+    blurData = blurStorage;
     npc->blur.chomp = blurData;
 
     bp.flags = NPC_FLAG_IGNORE_ENTITY_COLLISION | NPC_FLAG_IGNORE_PLAYER_COLLISION | NPC_FLAG_IGNORE_WORLD_COLLISION

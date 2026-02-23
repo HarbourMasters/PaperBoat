@@ -284,7 +284,8 @@ API_CALLABLE(N(ShowGameRecords)) {
     GameRecords* records;
 
     if (isInitialCall) {
-        records = script->functionTempPtr[0] = heap_malloc(sizeof(*records));
+        static GameRecords recordsStorage;
+        records = script->functionTempPtr[0] = &recordsStorage;
         records->state = RECORDS_STATE_BEGIN_FADE_IN;
         records->alpha = 255;
         records->workerID = create_worker_scene(nullptr, N(worker_draw_game_records));
@@ -295,7 +296,6 @@ API_CALLABLE(N(ShowGameRecords)) {
     records = script->functionTempPtr[0];
     if (records->state == RECORDS_STATE_DONE) {
         free_worker(records->workerID);
-        heap_free(records);
         return ApiStatus_DONE1;
     }
     return ApiStatus_BLOCK;

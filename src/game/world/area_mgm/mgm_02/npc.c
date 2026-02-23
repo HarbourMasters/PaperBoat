@@ -971,7 +971,8 @@ API_CALLABLE(N(CleanupGame)) {
 
 API_CALLABLE(N(CreateMinigame)) {
     Enemy* scorekeeper = get_enemy(SCOREKEEPER_ENEMY_IDX);
-    SmashGameData* data = heap_malloc(sizeof(*data));
+    static SmashGameData dataStorage;
+    SmashGameData* data = &dataStorage;
     scorekeeper->varTablePtr[SMASH_DATA_VAR_IDX].p = data;
 
     data->windowA_posX = -80;

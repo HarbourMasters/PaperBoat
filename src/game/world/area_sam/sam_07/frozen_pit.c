@@ -37,7 +37,8 @@ API_CALLABLE(N(AnimateIceShattering)) {
 
     if (isInitialCall) {
 
-        script->functionTempPtr[0] = heap_malloc(sizeof(*it) * ARRAY_COUNT(N(IceShardModels)));
+        static IceShard shardStorage[ARRAY_COUNT(N(IceShardModels))];
+        script->functionTempPtr[0] = shardStorage;
         script->functionTemp[1] = 0;
 
         it = script->functionTempPtr[0];
@@ -110,7 +111,6 @@ API_CALLABLE(N(AnimateIceShattering)) {
 
     if ((u32) script->functionTemp[1] >= ARRAY_COUNT(N(IceShardModels))) {
         // all shards are in 'done' state, free them all and return
-        heap_free(script->functionTempPtr[0]);
         return ApiStatus_DONE2;
     }
     return ApiStatus_BLOCK;

@@ -90,7 +90,8 @@ API_CALLABLE(N(Merlow_ShopBadgesPopup)) {
     s32 selected, menuPos, i;
 
     if (isInitialCall) {
-        script->functionTempPtr[2] = heap_malloc(sizeof(*menu));
+        static PopupMenu menuStorage;
+        script->functionTempPtr[2] = &menuStorage;
         menu = script->functionTempPtr[2];
         menuPos = 0;
         for (i = 0; i < MERLOW_BADGE_COUNT; i++) {
@@ -146,7 +147,6 @@ API_CALLABLE(N(Merlow_ShopBadgesPopup)) {
         script->varTable[0] = -1;
     }
 
-    heap_free(script->functionTempPtr[2]);
     return ApiStatus_DONE2;
 }
 

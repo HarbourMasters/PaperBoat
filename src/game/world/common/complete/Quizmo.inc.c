@@ -209,7 +209,8 @@ API_CALLABLE(N(Quizmo_RenderInit)) {
     Npc* npc = get_npc_unsafe(script->owner2.npcID);
 
     npc->onRender = N(Quizmo_NPC_OnRender);
-    npc->blur.quizmo = heap_malloc(sizeof(*npc->blur.quizmo));
+    static NpcQuizmoBlur quizmoStorage;
+    npc->blur.quizmo = &quizmoStorage;
     npc->blur.quizmo->flags = 0;
 
     return ApiStatus_DONE1;

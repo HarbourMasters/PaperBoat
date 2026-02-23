@@ -7,6 +7,7 @@
 #include "sprite.h"
 #include "model.h"
 #include "gcc/string.h"
+#include <stdlib.h>
 #include "port/Engine.h"
 #include "port/shape_loader.h"
 
@@ -290,17 +291,17 @@ void* load_asset_by_name(const char* assetName, u32* decompressedSize) {
     void* ret;
 
     dma_copy((u8*) ASSET_TABLE_FIRST_ENTRY, (u8*) ASSET_TABLE_FIRST_ENTRY + sizeof(AssetHeader), &firstHeader);
-    assetTableBuffer = heap_malloc(firstHeader.offset);
+    assetTableBuffer = malloc(firstHeader.offset);
     curAsset = &assetTableBuffer[0];
     dma_copy((u8*) ASSET_TABLE_FIRST_ENTRY, (u8*) ASSET_TABLE_FIRST_ENTRY + firstHeader.offset, assetTableBuffer);
     while (strcmp(curAsset->name, assetName) != 0) {
         curAsset++;
     }
     *decompressedSize = curAsset->decompressedLength;
-    ret = general_heap_malloc(curAsset->compressedLength);
+    ret = malloc(curAsset->compressedLength);
     dma_copy((u8*) ASSET_TABLE_FIRST_ENTRY + curAsset->offset,
              (u8*) ASSET_TABLE_FIRST_ENTRY + curAsset->offset + curAsset->compressedLength, ret);
-    heap_free(assetTableBuffer);
+    free(assetTableBuffer);
     return ret;
 }
 
@@ -311,7 +312,7 @@ s32 get_asset_offset(char* assetName, s32* compressedSize) {
     s32 ret;
 
     dma_copy((u8*) ASSET_TABLE_FIRST_ENTRY, (u8*) ASSET_TABLE_FIRST_ENTRY + sizeof(AssetHeader), &firstHeader);
-    assetTableBuffer = heap_malloc(firstHeader.offset);
+    assetTableBuffer = malloc(firstHeader.offset);
     curAsset = &assetTableBuffer[0];
     dma_copy((u8*) ASSET_TABLE_FIRST_ENTRY, (u8*) ASSET_TABLE_FIRST_ENTRY + firstHeader.offset, assetTableBuffer);
     while (strcmp(curAsset->name, assetName) != 0) {
@@ -319,7 +320,7 @@ s32 get_asset_offset(char* assetName, s32* compressedSize) {
     }
     *compressedSize = curAsset->compressedLength;
     ret = ASSET_TABLE_FIRST_ENTRY + curAsset->offset;
-    heap_free(assetTableBuffer);
+    free(assetTableBuffer);
     return ret;
 }
 

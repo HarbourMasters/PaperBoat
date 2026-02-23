@@ -75,7 +75,8 @@ API_CALLABLE(N(UpdatePlatformShadows)) {
     u32 i;
 
     if (isInitialCall) {
-        script->functionTempPtr[0] = shadowIDs = heap_malloc(sizeof(*shadowIDs));
+        static s32 shadowIDsStorage[8];
+        script->functionTempPtr[0] = shadowIDs = &shadowIDsStorage;
         for (i = 0; i < ARRAY_COUNT(N(PlatformFloorModels)); i++) {
             model = get_model_from_list_index(get_model_list_index_from_tree_index(N(PlatformFloorModels)[i]));
             (*shadowIDs)[i] = create_shadow_type(SHADOW_VARYING_CIRCLE, model->center.x, model->center.y - 100.0f, model->center.z);
@@ -126,7 +127,8 @@ API_CALLABLE(N(UpdateRotatingPlatforms)) {
 
     if (isInitialCall) {
         sfx_play_sound_at_position(SOUND_LOOP_OMO_ROTATING_WHEEL, SOUND_SPACE_DEFAULT, 315.0f, 125.0f, -100.0f);
-        script->functionTempPtr[0] = it = heap_malloc(sizeof(*it) * ARRAY_COUNT(N(RotatingPlatformModels)));
+        static RotatingPlatform platformStorage[ARRAY_COUNT(N(RotatingPlatformModels))];
+        script->functionTempPtr[0] = it = platformStorage;
         script->functionTemp[1] = 0;
 
         for (i = 0; i < ARRAY_COUNT(N(RotatingPlatformModels)); it++, i += 2) {

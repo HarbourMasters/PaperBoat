@@ -70,7 +70,8 @@ void N(gfx_build_splashes)(s32 index) {
 }
 
 API_CALLABLE(N(InitSplashes)) {
-    SplashState* splash = heap_malloc(NUM_SPLASHES * sizeof(*splash));
+    static SplashState splashStorage[NUM_SPLASHES];
+    SplashState* splash = splashStorage;
     s32 i;
 
     evt_set_variable(nullptr, MV_SplashState, (Bytecode)splash);

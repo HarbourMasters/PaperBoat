@@ -783,7 +783,8 @@ API_CALLABLE(N(UpdateSlotMachineBlockShadows)) {
 
     if (isInitialCall) {
 
-        script->functionTempPtr[0] = shadowIDs = heap_malloc(sizeof(*shadowIDs));
+        static s32 shadowIDsStorage[4];
+        script->functionTempPtr[0] = shadowIDs = &shadowIDsStorage;
         for (i = 0; i < ARRAY_COUNT(N(SlotMachineBlocks)); i++) {
             model = get_model_from_list_index(get_model_list_index_from_tree_index(N(SlotMachineBlocks)[i]));
             (*shadowIDs)[i] = create_shadow_type(SHADOW_VARYING_SQUARE, model->center.x, model->center.y - 100.0f, model->center.z);

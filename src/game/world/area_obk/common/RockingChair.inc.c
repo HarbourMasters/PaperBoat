@@ -38,7 +38,8 @@ API_CALLABLE(N(UpdateRockingChair)) {
     s16 currentFloor;
 
     if (isInitialCall) {
-        physics = heap_malloc(sizeof(*physics));
+        static RockingChairPhysics physicsStorage;
+        physics = &physicsStorage;
         script->functionTempPtr[1] = physics;
         physics->angleDelta = 0;
         physics->verticalOffset = 0;

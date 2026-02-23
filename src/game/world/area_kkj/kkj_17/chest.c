@@ -49,7 +49,8 @@ API_CALLABLE(N(ChestItemPrompt)) {
     s32 i;
 
     if (isInitialCall) {
-        menu = heap_malloc(sizeof(*menu));
+        static PopupMenu menuStorage;
+        menu = &menuStorage;
         script->functionTempPtr[2] = menu;
         script->varTable[10] = script->varTable[0];
 
@@ -118,7 +119,6 @@ API_CALLABLE(N(ChestItemPrompt)) {
         if (script->varTable[10] == 0) {
             evt_set_variable(nullptr, script->varTable[2] + selectIdx, 1);
         }
-        heap_free(script->functionTempPtr[2]);
     }
 
     return ApiStatus_DONE2;

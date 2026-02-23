@@ -58,7 +58,8 @@ API_CALLABLE(N(KnockdownCreate)) {
     Bytecode* args = script->ptrReadPos;
     s32 spriteIndex = evt_get_variable(script, *args++);
     s32 rasterIndex = evt_get_variable(script, *args++);
-    KnockdownData* data = heap_malloc(sizeof(*data));
+    static KnockdownData dataStorage;
+    KnockdownData* data = &dataStorage;
 
     data->spriteIndex = spriteIndex;
     data->rasterIndex = rasterIndex;
@@ -84,7 +85,6 @@ API_CALLABLE(N(KnockdownDestroy)) {
 
     imgfx_release_instance(data->imgfxIdx);
     free_worker(data->workerID);
-    heap_free(data);
     evt_set_variable(script, KNOCK_DOWN_MAP_VAR, (Bytecode)nullptr);
     return ApiStatus_DONE2;
 }

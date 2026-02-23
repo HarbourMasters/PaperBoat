@@ -94,7 +94,8 @@ API_CALLABLE(ResetPartnerMovement) {
 */
 API_CALLABLE(CreateMapRoom) {
     Bytecode* args = script->ptrReadPos;
-    MapRoom* room = heap_malloc(sizeof(*room));
+    static MapRoom roomStorage;
+    MapRoom* room = &roomStorage;
     EvtScript* openDoorScript;
     EvtScript* moveWallsScript;
     EvtScript* dropDoorScript;

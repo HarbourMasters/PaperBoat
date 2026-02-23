@@ -228,7 +228,8 @@ API_CALLABLE(N(UpdateRecordDisplay)) {
     s32 gameType = evt_get_variable(script, *args++);
 
     if (isInitialCall) {
-        data = heap_malloc(sizeof(*data));
+        static RecordDisplayData dataStorage;
+        data = &dataStorage;
         script->functionTempPtr[0] = data;
         data->state = RECORD_START_SHOW;
         data->alpha = 255;
@@ -239,7 +240,6 @@ API_CALLABLE(N(UpdateRecordDisplay)) {
     data = script->functionTempPtr[0];
     if (data->state == RECORD_STATE_DONE) {
         free_worker(data->workerID);
-        heap_free(data);
         return ApiStatus_DONE1;
     }
     return ApiStatus_BLOCK;

@@ -83,7 +83,8 @@ API_CALLABLE(N(AnimateBarricadeParts)) {
     s32 j, k;
 
     if (isInitialCall) {
-        script->functionTempPtr[0] = heap_malloc(sizeof(*part) * ARRAY_COUNT(N(BarricadeModels)));
+        static BarricadePart partStorage[ARRAY_COUNT(N(BarricadeModels))];
+        script->functionTempPtr[0] = partStorage;
         script->functionTemp[1] = 0;
 
         part = (BarricadePart*) script->functionTempPtr[0];
@@ -172,7 +173,6 @@ API_CALLABLE(N(AnimateBarricadeParts)) {
     }
 
     if ((u32) script->functionTemp[1] >= ARRAY_COUNT(N(BarricadeModels))) {
-        heap_free(script->functionTempPtr[0]);
         return ApiStatus_DONE2;
     }
     return ApiStatus_BLOCK;

@@ -366,9 +366,11 @@ API_CALLABLE(CreatePushBlockGrid) {
     u8* dataToCopy;
     s32 i;
 
-    wPushBlockGrids[blockSystemID] = blockGrid = general_heap_malloc(sizeof(*blockGrid));
+    static PushBlockGrid blockGridStorage[8];
+    static u8 cellStorage[8][64]; // max 64 cells per grid (8x8)
+    wPushBlockGrids[blockSystemID] = blockGrid = &blockGridStorage[blockSystemID];
 
-    blockGrid->cells = general_heap_malloc(sizeNx*sizeNz);
+    blockGrid->cells = cellStorage[blockSystemID];
 
     if (inputGridData == nullptr) {
         for (i = 0; i < sizeNx*sizeNz; i++) {

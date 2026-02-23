@@ -288,7 +288,8 @@ API_CALLABLE(N(MarkVineInterpolationDirty)) {
 }
 
 API_CALLABLE(N(CreateVineRenderer)) {
-    LavaPiranhaVine* data = heap_malloc(NUM_VINES * sizeof(*data));
+    static LavaPiranhaVine vineStorage[NUM_VINES];
+    LavaPiranhaVine* data = vineStorage;
     evt_set_variable(script, MV_VinesData, (Bytecode) data);
     N(VineRenderState) = -1;
     create_worker_scene(nullptr, &N(worker_render_piranha_vines));

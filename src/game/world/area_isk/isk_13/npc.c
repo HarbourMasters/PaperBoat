@@ -88,7 +88,8 @@ API_CALLABLE(N(func_80241BA8_991388)) {
     SpriteRasterInfo rasterInfo;
     Npc* npc = get_npc_unsafe(script->owner1.enemy->npcID);
 
-    ambush = heap_malloc(sizeof(*ambush));
+    static StoneChompAmbushIsk13 ambushStorage;
+    ambush = &ambushStorage;
     ambush->useBitingAnim = false;
     ambush->spriteIndex = SPR_StoneChomp;
     ambush->rasterIndex = 0;

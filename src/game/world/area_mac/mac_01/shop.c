@@ -27,8 +27,10 @@ API_CALLABLE(N(CreateShopInventory)) {
     s32 count;
     s32 i;
 
-    ShopItemData* inventory = heap_malloc(4 * sizeof(ShopItemData));
-    s32* buyFlags = heap_malloc(3 * sizeof(s32));
+    static ShopItemData inventoryStorage[4];
+    static s32 buyFlagsStorage[3];
+    ShopItemData* inventory = inventoryStorage;
+    s32* buyFlags = buyFlagsStorage;
     buyFlags[0] = 0;
     buyFlags[1] = 0;
     buyFlags[2] = 0;

@@ -626,7 +626,8 @@ API_CALLABLE(N(InitializePanels)) {
 
 API_CALLABLE(N(CreateMinigame)) {
     Enemy* scorekeeper = get_enemy(SCOREKEEPER_ENEMY_IDX);
-    JumpGameData* data = general_heap_malloc(sizeof(*data));
+    static JumpGameData dataStorage;
+    JumpGameData* data = &dataStorage;
     HudElemID hid;
 
     scorekeeper->varTablePtr[JUMP_DATA_VAR_IDX].p = data;

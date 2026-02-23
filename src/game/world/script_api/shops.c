@@ -911,7 +911,8 @@ API_CALLABLE(MakeShop) {
     prices = (ShopSellPriceData*) var3;
     inventoryItemFlags = var4;
 
-    shop = heap_malloc(sizeof(*shop));
+    static Shop shopStorage;
+    shop = &shopStorage;
 
     gGameStatusPtr->mapShop = shop;
     shop->itemDataPositions = itemDataPositions;
@@ -936,7 +937,8 @@ API_CALLABLE(MakeShop) {
     shop->numSpecialPrices = numShopItems;
 
     if (shop->numItems > 0) {
-        gGameStatusPtr->shopItemEntities = heap_malloc(sizeof(ShopItemEntity) * shop->numItems);
+        static ShopItemEntity shopItemEntitiesStorage[16];
+        gGameStatusPtr->shopItemEntities = shopItemEntitiesStorage;
     }
 
     inventory = shop->staticInventory;

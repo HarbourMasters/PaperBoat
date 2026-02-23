@@ -53,7 +53,8 @@ API_CALLABLE(N(EVS_ManagePuzzle)) {
     s32 i, j;
 
     if (isInitialCall) {
-        puzzle = heap_malloc(sizeof(*puzzle));
+        static DinoPuzzleData puzzleStorage;
+        puzzle = &puzzleStorage;
         evt_set_variable(script, MV_PuzzleDataPtr, (Bytecode) puzzle);
         storyProgress = evt_get_variable(script, GB_StoryProgress);
 

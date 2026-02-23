@@ -17,10 +17,10 @@ enum {
 
 API_CALLABLE(N(func_802408A0_BD4110)) {
     Npc* npc = get_npc_unsafe(script->owner2.npcID);
-    s32* isGameStarted = heap_malloc(sizeof(s32)); // todo what is this
+    static s32 isGameStarted;
 
-    npc->blur.keepAwayStarted = isGameStarted;
-    *isGameStarted = (s32)nullptr;
+    npc->blur.keepAwayStarted = &isGameStarted;
+    isGameStarted = (s32)nullptr;
     npc->planarFlyDist = 125.0f;
     npc->yaw = 0.0f;
     npc->pos.x = 0.0f;

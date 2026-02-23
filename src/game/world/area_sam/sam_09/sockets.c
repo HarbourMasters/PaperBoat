@@ -72,7 +72,8 @@ API_CALLABLE(N(CreateConsumableItemList)) {
     s32 len = ITEM_NUM_CONSUMABLES;
     s32 i;
 
-    script->varTablePtr[0].p = array = heap_malloc((ITEM_NUM_CONSUMABLES + 1) * sizeof(*array));
+    static s32 consumableListStorage[ITEM_NUM_CONSUMABLES + 1];
+    script->varTablePtr[0].p = array = consumableListStorage;
     for (i = 0; i < ITEM_NUM_CONSUMABLES; i++) {
         array[i] = ITEM_FIRST_CONSUMABLE + i;
     }

@@ -73,7 +73,8 @@ API_CALLABLE(N(CreateSticker)) {
     Bytecode* args = script->ptrReadPos;
     s32 itemID = evt_get_variable(script, *args++);
 
-    StickerData* sticker = (StickerData*) heap_malloc(sizeof(*sticker));
+    static StickerData stickerStorage;
+    StickerData* sticker = &stickerStorage;
     IMG_PTR iconImg = (IMG_PTR) LOAD_ASSET((const char*)gItemIconRasterOffsets[itemID]);
     PAL_PTR iconPal = (PAL_PTR) LOAD_ASSET((const char*)gItemIconPaletteOffsets[itemID]);
 
@@ -193,10 +194,6 @@ API_CALLABLE(N(DeleteSticker)) {
     PAL_PTR pal = (PAL_PTR) evt_get_variable(script, MV_StickerPalette);
 
     free_worker(data->workerID);
-
-    heap_free(data);
-    heap_free(img);
-    heap_free(pal);
 
     evt_set_variable(script, MV_StickerData, (Bytecode)nullptr);
     evt_set_variable(script, MV_StickerImage, (Bytecode)nullptr);

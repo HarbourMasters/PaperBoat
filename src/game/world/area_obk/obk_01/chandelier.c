@@ -100,7 +100,8 @@ API_CALLABLE(N(UpdateChandelier)) {
     s32 i;
 
     if (isInitialCall) {
-        script->functionTempPtr[1] = chandelier = heap_malloc(sizeof(*chandelier));
+        static Chandelier chandelierStorage;
+        script->functionTempPtr[1] = chandelier = &chandelierStorage;
         chandelier->controlData = (ChandelierControlData*) evt_get_variable(script, *args++);
         chandelier->controlData->chandelier = chandelier;
 

@@ -9,7 +9,8 @@ API_CALLABLE(N(MonitorPlayerOrbiting)) {
     s32 dist;
 
     if (isInitialCall) {
-        orbit = script->functionTempPtr[1] = heap_malloc(sizeof(*orbit));
+        static PlayerOrbitState orbitStorage;
+        orbit = script->functionTempPtr[1] = &orbitStorage;
         orbit->pos.x = target->pos.x;
         orbit->pos.y = target->pos.y;
         orbit->pos.z = target->pos.z;

@@ -32,7 +32,8 @@ API_CALLABLE(N(StarSpiritEffectFunc2)) {
     Bytecode* args = script->ptrReadPos;
 
     if (isInitialCall) {
-        StarSpiritData* ptr = heap_malloc(sizeof(*ptr));
+        static StarSpiritData spiritStorage2;
+        StarSpiritData* ptr = &spiritStorage2;
 
         script->varTablePtr[0].p = ptr;
         evt_set_variable(nullptr, STAR_SPIRIT_DATA_VAR, script->varTable[0]);
@@ -161,7 +162,8 @@ API_CALLABLE(N(StarSpiritEffectFunc5)) {
     Bytecode* args = script->ptrReadPos;
 
     if (isInitialCall) {
-        StarSpiritData* ptr = heap_malloc(sizeof(*ptr));
+        static StarSpiritData spiritStorage5;
+        StarSpiritData* ptr = &spiritStorage5;
         script->varTablePtr[0].p = ptr;
         ptr->unk_38 = evt_get_variable(script, *args++);
         ptr->unk_18 = evt_get_float_variable(script, *args++);

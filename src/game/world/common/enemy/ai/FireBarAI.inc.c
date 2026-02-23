@@ -35,7 +35,8 @@ API_CALLABLE(N(FireBarAI_Main)) {
     hitDetected = 0;
 
     if (isInitialCall) {
-        data = heap_malloc(sizeof(*data));
+        static FireBarData dataStorage;
+        data = &dataStorage;
         script->functionTempPtr[1] = data;
         data->flags = 0;
         data->centerPos.x = settings->centerPos.x;
