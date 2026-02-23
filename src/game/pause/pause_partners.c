@@ -611,7 +611,7 @@ void pause_partners_draw_movelist(MenuPanel* menu, s32 baseX, s32 baseY, s32 wid
 #endif
 
 void pause_partners_draw_movelist_title(MenuPanel* menu, s32 baseX, s32 baseY, s32 width, s32 height, s32 opacity, s32 darkening) {
-    s32 msgID = pause_get_menu_msg(PAUSE_MSG_PARTNER_ABILITIES);
+    intptr_t msgID = pause_get_menu_msg(PAUSE_MSG_PARTNER_ABILITIES);
     s32 xOffset;
 
 #if VERSION_PAL

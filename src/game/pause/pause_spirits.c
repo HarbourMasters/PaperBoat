@@ -244,7 +244,7 @@ void pause_spirits_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 widt
 }
 
 void pause_spirits_draw_title(MenuPanel* menu, s32 baseX, s32 baseY, s32 width, s32 height, s32 opacity, s32 darkening) {
-    s32 msgID;
+    intptr_t msgID;
     PlayerData* playerData = get_player_data();
 
     if (gPauseMenuCurrentTab == 5) {

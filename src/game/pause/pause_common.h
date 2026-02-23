@@ -101,7 +101,7 @@ extern WindowStyleCustom gPauseWS_28;
 //bss
 extern s32 gPauseHeldButtons;
 extern s32 gPausePressedButtons;
-extern s32 gPauseCurrentDescMsg;
+extern intptr_t gPauseCurrentDescMsg;
 extern HudScript* gPauseCurrentDescIconScript;
 extern HudElemID gPauseCursorHID;
 extern s8 gPauseMenuCurrentTab;
@@ -127,7 +127,7 @@ void pause_set_cursor_opacity(s32 val);
 void pause_draw_menu_label(s32 index, s32 x, s32 y);
 s32 pause_get_total_equipped_bp_cost(void);
 void pause_draw_rect(s32 ulx, s32 uly, s32 lrx, s32 lry, s32 tileIdx, s32 uls, s32 ult, s32 dsdx, s32 dtdy);
-s32 pause_get_menu_msg(s32 index);
+intptr_t pause_get_menu_msg(s32 index);
 s32 pause_interp_vertical_scroll(s32 deltaBefore);
 void pause_sort_item_list(s16* arr, s32 len, s32 (*compare)(s16*, s16 *));
 

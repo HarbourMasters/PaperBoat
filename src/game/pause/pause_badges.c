@@ -374,7 +374,7 @@ void pause_badges_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width
     s32 orbColorR, orbColorG, orbColorB;
     s32 orbColorR1, orbColorG1, orbColorB1;
     s32 badgeIconElement;
-    s32 msg;
+    intptr_t msg;
     s32 msgX, msgY;
     s32 msgOpacity;
     s32 maxBP;
@@ -386,7 +386,7 @@ void pause_badges_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width
     PlayerData* playerData = &gPlayerData;
     PauseItemPage* currentPage = &gPauseBadgesPages[gPauseBadgesCurrentPage];
     s32 bpAmountX;
-    s32 msg2;
+    intptr_t msg2;
 
     costBP = 0;
     canBeEquipped = false;

@@ -101,7 +101,7 @@ void state_step_pause(void) {
             update_npcs();
             update_player();
             update_effects();
-            if (nuGfxCfb[1] == nuGfxCfb_ptr) {
+            if (true) { // nuGfxCfb_ptr never cycles on port, skip framebuffer sync check
                 StepPauseDelay = 4;
                 StepPauseState = 2;
                 gOverrideFlags |= GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME;
@@ -250,10 +250,6 @@ void state_step_unpause(void) {
                     }
                     initialize_collision();
                     restore_map_collision_data();
-
-                    if (mapConfig->dmaStart != nullptr) {
-                        dma_copy(mapConfig->dmaStart, mapConfig->dmaEnd, mapConfig->dmaDest);
-                    }
 
                     load_map_bg(mapConfig->bgName);
                     if (mapSettings->background != nullptr) {

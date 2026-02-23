@@ -625,7 +625,7 @@ Gfx* PauseGfxLabels[] = {
     [PAUSE_LBL_ABILITIES] PauseGfxCheckAbilities,
 };
 
-s32 pause_get_menu_msg(s32 index) {
+intptr_t pause_get_menu_msg(s32 index) {
     return gPauseMessages[index];
 }
 
