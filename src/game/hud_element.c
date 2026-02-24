@@ -1753,13 +1753,9 @@ void func_80143C48(s32 elemID, s32 arg1, s32 camID) {
         gDPSetRenderMode(gMainGfxPos++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
         gSPClipRatio(gMainGfxPos++, FRUSTRATIO_2);
         gDPPipeSync(gMainGfxPos++);
-        //clear Z buffer inside camera viewport
-        gDPSetCycleType(gMainGfxPos++, G_CYC_FILL);
-        gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(nuGfxZBuffer));
-        gDPSetFillColor(gMainGfxPos++, GPACK_ZDZ(G_MAXFBZ, 0)<<16 | GPACK_ZDZ(G_MAXFBZ, 0));
-        gDPFillRectangle(gMainGfxPos++, camera->viewportStartX, camera->viewportStartY,
-                         camera->viewportStartX + camera->viewportW - 1,
-                         camera->viewportStartY + camera->viewportH - 1);
+        // N64: clear Z buffer by redirecting color image to Z buffer + fill rectangle.
+        // PORT: use proper GPU depth clear instead (the N64 hack writes to framebuffer on port).
+        GameEngine_ClearDepthBuffer();
         gDPPipeSync(gMainGfxPos++);
 
         gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(nuGfxCfb_ptr));
@@ -1785,6 +1781,7 @@ void func_80143C48(s32 elemID, s32 arg1, s32 camID) {
         gDPSetTextureConvert(gMainGfxPos++, G_TC_FILT);
         gDPSetCombineKey(gMainGfxPos++, G_CK_NONE);
         gDPSetAlphaCompare(gMainGfxPos++, G_AC_NONE);
+
     }
 
     if (elemID >= 0) {
