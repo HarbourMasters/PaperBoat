@@ -8,6 +8,7 @@
 #include "model.h"
 #include "script_api/battle.h"
 #include "entity.h"
+
 #include "sprite/npc/BattleGoombario.h"
 #include "sprite/npc/BattleKooper.h"
 #include "sprite/npc/BattleBombette.h"
@@ -694,7 +695,6 @@ void btl_state_update_celebration(void) {
             if (CelebrateSubstateTime != 0) {
                 CelebrateSubstateTime--;
             } else if (btl_cam_is_moving_done()) {
-                DMA_COPY_SEGMENT(starpoint);
 #if VERSION_PAL
                 dma_copy(StarpointText_RomStart[gCurrentLanguage], StarpointText_RomEnd[gCurrentLanguage], StarpointText_Vram[gCurrentLanguage]);
 #endif
@@ -782,7 +782,6 @@ void btl_state_update_celebration(void) {
                 playerData->level++;
                 btl_cam_use_preset(BTL_CAM_DEFAULT);
                 btl_cam_move(5);
-                DMA_COPY_SEGMENT(level_up);
 #if VERSION_PAL
                 dma_copy(LevelUpLetters_RomStart[gCurrentLanguage], LevelUpLetters_RomEnd[gCurrentLanguage], LevelUpLetters_Vram[gCurrentLanguage]);
 #endif

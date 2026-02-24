@@ -1,0 +1,295 @@
+# Level-up overlay assets
+# Extracted from ver/us/splat.yaml lines 7432-7552
+
+:config:
+  virtual: [0x802A1000, 0x79EF40]
+
+# --- Lights ---
+lights:
+  { type: LIGHTS, offset: 0x79EF40, symbol: level_up_lights_data }
+
+# --- Big letter texture DLs ---
+big_V.gfx:
+  { type: GFX, offset: 0x7A0358, symbol: level_up_big_V_gfx }
+big_P.gfx:
+  { type: GFX, offset: 0x7A13D0, symbol: level_up_big_P_gfx }
+big_exclamation_mark.gfx:
+  { type: GFX, offset: 0x7A2448, symbol: level_up_big_exclamation_mark_gfx }
+big_U.gfx:
+  { type: GFX, offset: 0x7A34C0, symbol: level_up_big_U_gfx }
+big_L.gfx:
+  { type: GFX, offset: 0x7A4538, symbol: level_up_big_L_gfx }
+big_E.gfx:
+  { type: GFX, offset: 0x7A55B0, symbol: level_up_big_E_gfx }
+
+# --- Letter composition DLs ---
+draw_exclamation_mark.gfx:
+  { type: GFX, offset: 0x7A5628, symbol: level_up_draw_exclamation_mark_gfx }
+draw_U.gfx:
+  { type: GFX, offset: 0x7A5690, symbol: level_up_draw_U_gfx }
+draw_P.gfx:
+  { type: GFX, offset: 0x7A56F8, symbol: level_up_draw_P_gfx }
+draw_L.gfx:
+  { type: GFX, offset: 0x7A5760, symbol: level_up_draw_L_gfx }
+draw_second_L.gfx:
+  { type: GFX, offset: 0x7A57C8, symbol: level_up_draw_second_L_gfx }
+draw_E.gfx:
+  { type: GFX, offset: 0x7A5830, symbol: level_up_draw_E_gfx }
+draw_V.gfx:
+  { type: GFX, offset: 0x7A5898, symbol: level_up_draw_V_gfx }
+draw_second_E.gfx:
+  { type: GFX, offset: 0x7A5900, symbol: level_up_draw_second_E_gfx }
+
+# --- Chain DLs ---
+letters_chain.gfx:
+  { type: GFX, offset: 0x7A5968, symbol: level_up_letters_chain_gfx }
+chain.gfx:
+  { type: GFX, offset: 0x7A59C8, symbol: level_up_chain_gfx }
+
+# --- Vertex data (8 vertices each) ---
+draw_second_E:
+  { type: VTX, offset: 0x79EF58, count: 8, symbol: level_up_draw_second_E_vtx }
+draw_V:
+  { type: VTX, offset: 0x79EFD8, count: 8, symbol: level_up_draw_V_vtx }
+draw_E:
+  { type: VTX, offset: 0x79F058, count: 8, symbol: level_up_draw_E_vtx }
+draw_second_L:
+  { type: VTX, offset: 0x79F0D8, count: 8, symbol: level_up_draw_second_L_vtx }
+draw_L:
+  { type: VTX, offset: 0x79F158, count: 8, symbol: level_up_draw_L_vtx }
+draw_P:
+  { type: VTX, offset: 0x79F1D8, count: 8, symbol: level_up_draw_P_vtx }
+draw_U:
+  { type: VTX, offset: 0x79F258, count: 8, symbol: level_up_draw_U_vtx }
+draw_exclamation_mark:
+  { type: VTX, offset: 0x79F2D8, count: 8, symbol: level_up_draw_exclamation_mark_vtx }
+
+# --- Big letter textures (IA8 64x64) ---
+big_V:
+  { type: TEXTURE, format: IA8, offset: 0x79F358, width: 64, height: 64, symbol: level_up_big_V_png }
+big_P:
+  { type: TEXTURE, format: IA8, offset: 0x7A03D0, width: 64, height: 64, symbol: level_up_big_P_png }
+big_exclamation_mark:
+  { type: TEXTURE, format: IA8, offset: 0x7A1448, width: 64, height: 64, symbol: level_up_big_exclamation_mark_png }
+big_U:
+  { type: TEXTURE, format: IA8, offset: 0x7A24C0, width: 64, height: 64, symbol: level_up_big_U_png }
+big_L:
+  { type: TEXTURE, format: IA8, offset: 0x7A3538, width: 64, height: 64, symbol: level_up_big_L_png }
+big_E:
+  { type: TEXTURE, format: IA8, offset: 0x7A45B0, width: 64, height: 64, symbol: level_up_big_E_png }
+
+# --- Icons (CI4) ---
+heart:
+  { type: TEXTURE, format: CI4, offset: 0x7A59F0, width: 40, height: 40, symbol: level_up_heart_png }
+heart.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A5D10, colors: 16, symbol: level_up_heart_pal }
+flower:
+  { type: TEXTURE, format: CI4, offset: 0x7A5D30, width: 40, height: 40, symbol: level_up_flower_png }
+flower.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A6050, colors: 16, symbol: level_up_flower_pal }
+leaves:
+  { type: TEXTURE, format: CI4, offset: 0x7A6070, width: 40, height: 40, symbol: level_up_leaves_png }
+leaves.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A6390, colors: 16, symbol: level_up_leaves_pal }
+badge:
+  { type: TEXTURE, format: CI4, offset: 0x7A63B0, width: 40, height: 40, symbol: level_up_badge_png }
+badge.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A66D0, colors: 16, symbol: level_up_badge_pal }
+
+# --- Stat labels (CI4 32x24) ---
+FP:
+  { type: TEXTURE, format: CI4, offset: 0x7A66F0, width: 32, height: 24, symbol: level_up_FP_png }
+FP.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A6870, colors: 16, symbol: level_up_FP_pal }
+BP:
+  { type: TEXTURE, format: CI4, offset: 0x7A6890, width: 32, height: 24, symbol: level_up_BP_png }
+BP.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A6A10, colors: 16, symbol: level_up_BP_pal }
+HP:
+  { type: TEXTURE, format: CI4, offset: 0x7A6A30, width: 32, height: 24, symbol: level_up_HP_png }
+HP.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A6BB0, colors: 16, symbol: level_up_HP_pal }
+
+# --- Digits (CI4 8x16) + green palettes ---
+digit_0:
+  { type: TEXTURE, format: CI4, offset: 0x7A6BD0, width: 8, height: 16, symbol: level_up_digit_0_png }
+digit_0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A6C10, colors: 16, symbol: level_up_digit_0_pal }
+digit_1:
+  { type: TEXTURE, format: CI4, offset: 0x7A6C30, width: 8, height: 16, symbol: level_up_digit_1_png }
+digit_1.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A6C70, colors: 16, symbol: level_up_digit_1_pal }
+digit_2:
+  { type: TEXTURE, format: CI4, offset: 0x7A6C90, width: 8, height: 16, symbol: level_up_digit_2_png }
+digit_2.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A6CD0, colors: 16, symbol: level_up_digit_2_pal }
+digit_3:
+  { type: TEXTURE, format: CI4, offset: 0x7A6CF0, width: 8, height: 16, symbol: level_up_digit_3_png }
+digit_3.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A6D30, colors: 16, symbol: level_up_digit_3_pal }
+digit_4:
+  { type: TEXTURE, format: CI4, offset: 0x7A6D50, width: 8, height: 16, symbol: level_up_digit_4_png }
+digit_4.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A6D90, colors: 16, symbol: level_up_digit_4_pal }
+digit_5:
+  { type: TEXTURE, format: CI4, offset: 0x7A6DB0, width: 8, height: 16, symbol: level_up_digit_5_png }
+digit_5.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A6DF0, colors: 16, symbol: level_up_digit_5_pal }
+digit_6:
+  { type: TEXTURE, format: CI4, offset: 0x7A6E10, width: 8, height: 16, symbol: level_up_digit_6_png }
+digit_6.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A6E50, colors: 16, symbol: level_up_digit_6_pal }
+digit_7:
+  { type: TEXTURE, format: CI4, offset: 0x7A6E70, width: 8, height: 16, symbol: level_up_digit_7_png }
+digit_7.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A6EB0, colors: 16, symbol: level_up_digit_7_pal }
+digit_8:
+  { type: TEXTURE, format: CI4, offset: 0x7A6ED0, width: 8, height: 16, symbol: level_up_digit_8_png }
+digit_8.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A6F10, colors: 16, symbol: level_up_digit_8_pal }
+digit_9:
+  { type: TEXTURE, format: CI4, offset: 0x7A6F30, width: 8, height: 16, symbol: level_up_digit_9_png }
+digit_9.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A6F70, colors: 16, symbol: level_up_digit_9_pal }
+
+# --- Small digits (CI4 8x8) + green palettes ---
+small_digit_0:
+  { type: TEXTURE, format: CI4, offset: 0x7A6F90, width: 8, height: 8, symbol: level_up_small_digit_0_png }
+small_digit_0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A6FB0, colors: 16, symbol: level_up_small_digit_0_pal }
+small_digit_1:
+  { type: TEXTURE, format: CI4, offset: 0x7A6FD0, width: 8, height: 8, symbol: level_up_small_digit_1_png }
+small_digit_1.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A6FF0, colors: 16, symbol: level_up_small_digit_1_pal }
+small_digit_2:
+  { type: TEXTURE, format: CI4, offset: 0x7A7010, width: 8, height: 8, symbol: level_up_small_digit_2_png }
+small_digit_2.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7030, colors: 16, symbol: level_up_small_digit_2_pal }
+small_digit_3:
+  { type: TEXTURE, format: CI4, offset: 0x7A7050, width: 8, height: 8, symbol: level_up_small_digit_3_png }
+small_digit_3.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7070, colors: 16, symbol: level_up_small_digit_3_pal }
+small_digit_4:
+  { type: TEXTURE, format: CI4, offset: 0x7A7090, width: 8, height: 8, symbol: level_up_small_digit_4_png }
+small_digit_4.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A70B0, colors: 16, symbol: level_up_small_digit_4_pal }
+small_digit_5:
+  { type: TEXTURE, format: CI4, offset: 0x7A70D0, width: 8, height: 8, symbol: level_up_small_digit_5_png }
+small_digit_5.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A70F0, colors: 16, symbol: level_up_small_digit_5_pal }
+small_digit_6:
+  { type: TEXTURE, format: CI4, offset: 0x7A7110, width: 8, height: 8, symbol: level_up_small_digit_6_png }
+small_digit_6.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7130, colors: 16, symbol: level_up_small_digit_6_pal }
+small_digit_7:
+  { type: TEXTURE, format: CI4, offset: 0x7A7150, width: 8, height: 8, symbol: level_up_small_digit_7_png }
+small_digit_7.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7170, colors: 16, symbol: level_up_small_digit_7_pal }
+small_digit_8:
+  { type: TEXTURE, format: CI4, offset: 0x7A7190, width: 8, height: 8, symbol: level_up_small_digit_8_png }
+small_digit_8.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A71B0, colors: 16, symbol: level_up_small_digit_8_pal }
+small_digit_9:
+  { type: TEXTURE, format: CI4, offset: 0x7A71D0, width: 8, height: 8, symbol: level_up_small_digit_9_png }
+small_digit_9.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A71F0, colors: 16, symbol: level_up_small_digit_9_pal }
+
+# --- Small arrow (CI4 8x8) ---
+small_arrow:
+  { type: TEXTURE, format: CI4, offset: 0x7A7210, width: 8, height: 8, symbol: level_up_small_arrow_png }
+small_arrow.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7230, colors: 16, symbol: level_up_small_arrow_pal }
+
+# --- Red palettes ---
+digit_0.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7250, colors: 16, symbol: level_up_digit_0_red_pal }
+digit_1.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7270, colors: 16, symbol: level_up_digit_1_red_pal }
+digit_2.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7290, colors: 16, symbol: level_up_digit_2_red_pal }
+digit_3.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A72B0, colors: 16, symbol: level_up_digit_3_red_pal }
+digit_4.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A72D0, colors: 16, symbol: level_up_digit_4_red_pal }
+digit_5.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A72F0, colors: 16, symbol: level_up_digit_5_red_pal }
+digit_6.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7310, colors: 16, symbol: level_up_digit_6_red_pal }
+digit_7.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7330, colors: 16, symbol: level_up_digit_7_red_pal }
+digit_8.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7350, colors: 16, symbol: level_up_digit_8_red_pal }
+digit_9.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7370, colors: 16, symbol: level_up_digit_9_red_pal }
+small_digit_0.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7390, colors: 16, symbol: level_up_small_digit_0_red_pal }
+small_digit_1.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A73B0, colors: 16, symbol: level_up_small_digit_1_red_pal }
+small_digit_2.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A73D0, colors: 16, symbol: level_up_small_digit_2_red_pal }
+small_digit_3.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A73F0, colors: 16, symbol: level_up_small_digit_3_red_pal }
+small_digit_4.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7410, colors: 16, symbol: level_up_small_digit_4_red_pal }
+small_digit_5.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7430, colors: 16, symbol: level_up_small_digit_5_red_pal }
+small_digit_6.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7450, colors: 16, symbol: level_up_small_digit_6_red_pal }
+small_digit_7.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7470, colors: 16, symbol: level_up_small_digit_7_red_pal }
+small_digit_8.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7490, colors: 16, symbol: level_up_small_digit_8_red_pal }
+small_digit_9.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A74B0, colors: 16, symbol: level_up_small_digit_9_red_pal }
+small_arrow.red.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A74D0, colors: 16, symbol: level_up_small_arrow_red_pal }
+
+# --- Blue palettes ---
+digit_0.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A74F0, colors: 16, symbol: level_up_digit_0_blue_pal }
+digit_1.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7510, colors: 16, symbol: level_up_digit_1_blue_pal }
+digit_2.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7530, colors: 16, symbol: level_up_digit_2_blue_pal }
+digit_3.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7550, colors: 16, symbol: level_up_digit_3_blue_pal }
+digit_4.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7570, colors: 16, symbol: level_up_digit_4_blue_pal }
+digit_5.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7590, colors: 16, symbol: level_up_digit_5_blue_pal }
+digit_6.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A75B0, colors: 16, symbol: level_up_digit_6_blue_pal }
+digit_7.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A75D0, colors: 16, symbol: level_up_digit_7_blue_pal }
+digit_8.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A75F0, colors: 16, symbol: level_up_digit_8_blue_pal }
+digit_9.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7610, colors: 16, symbol: level_up_digit_9_blue_pal }
+small_digit_0.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7630, colors: 16, symbol: level_up_small_digit_0_blue_pal }
+small_digit_1.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7650, colors: 16, symbol: level_up_small_digit_1_blue_pal }
+small_digit_2.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7670, colors: 16, symbol: level_up_small_digit_2_blue_pal }
+small_digit_3.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7690, colors: 16, symbol: level_up_small_digit_3_blue_pal }
+small_digit_4.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A76B0, colors: 16, symbol: level_up_small_digit_4_blue_pal }
+small_digit_5.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A76D0, colors: 16, symbol: level_up_small_digit_5_blue_pal }
+small_digit_6.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A76F0, colors: 16, symbol: level_up_small_digit_6_blue_pal }
+small_digit_7.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7710, colors: 16, symbol: level_up_small_digit_7_blue_pal }
+small_digit_8.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7730, colors: 16, symbol: level_up_small_digit_8_blue_pal }
+small_digit_9.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7750, colors: 16, symbol: level_up_small_digit_9_blue_pal }
+small_arrow.blue.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7770, colors: 16, symbol: level_up_small_arrow_blue_pal }
+
+# --- Select one to upgrade (CI4 208x16) ---
+select_one_to_upgrade:
+  { type: TEXTURE, format: CI4, offset: 0x7A7790, width: 208, height: 16, symbol: level_up_select_one_to_upgrade_png }
+select_one_to_upgrade.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7A7E10, colors: 16, symbol: level_up_select_one_to_upgrade_pal }
