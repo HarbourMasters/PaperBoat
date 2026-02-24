@@ -91,10 +91,10 @@ BSS s32 D_8029FBD8_pad[2];
 BSS ActionCommandStatus gActionCommandStatus;
 
 API_CALLABLE(LoadActionCommand) {
-    Bytecode* args = script->ptrReadPos;
-    s32 cmd = evt_get_variable(script, *args++);
+    //Bytecode* args = script->ptrReadPos;
+    //intptr_t cmd = evt_get_variable(script, *args++);
 
-    dma_copy(actionCommandDmaTable[cmd * 3 + 0], actionCommandDmaTable[cmd * 3 + 1], actionCommandDmaTable[cmd * 3 + 2]);
+    //dma_copy(actionCommandDmaTable[cmd * 3 + 0], actionCommandDmaTable[cmd * 3 + 1], actionCommandDmaTable[cmd * 3 + 2]);
     return ApiStatus_DONE2;
 }
 

@@ -28,6 +28,17 @@ s32 N(OriginalModels)[] = {
     MODEL_d_me, MODEL_body, MODEL_baketu, MODEL_mafu
 };
 
+// Port fix: pointer arrays are 8 bytes per element on 64-bit,
+// but BufRead1 only reads 4 bytes. Use C helper to index properly.
+API_CALLABLE(N(GetPtrArrayEntry)) {
+    Bytecode* args = script->ptrReadPos;
+    void** array = (void**)evt_get_variable(script, *args++);
+    s32 index = evt_get_variable(script, *args++);
+    s32 outIndex = evt_get_variable(script, *args++);
+    script->varTable[outIndex] = (Bytecode)array[index];
+    return ApiStatus_DONE2;
+}
+
 s32* N(SnowmanModelSets)[] = {
     N(CloneSet1),
     N(CloneSet2),
@@ -39,11 +50,7 @@ s32* N(SnowmanModelSets)[] = {
 
 EvtScript N(EVS_SetSnowmanPosition) = {
     Call(SetNpcPos, LVar0, LVar1, LVar2, LVar3)
-    UseBuf(Ref(N(SnowmanModelSets)))
-    Add(LVar0, 1)
-    Loop(LVar0)
-        BufRead1(LVar4)
-    EndLoop
+    Call(N(GetPtrArrayEntry), Ref(N(SnowmanModelSets)), LVar0, 4)
     UseBuf(LVar4)
     BufRead1(LVar4)
     Call(TranslateModel, LVar4, LVar1, LVar2, LVar3)
@@ -59,12 +66,7 @@ EvtScript N(EVS_SetSnowmanPosition) = {
 
 EvtScript N(EVS_SnowmanJump) = {
     Thread
-        Set(LVarA, LVar0)
-        UseBuf(Ref(N(SnowmanModelSets)))
-        Add(LVarA, 1)
-        Loop(LVarA)
-            BufRead1(LVarB)
-        EndLoop
+        Call(N(GetPtrArrayEntry), Ref(N(SnowmanModelSets)), LVar0, 11)
         UseBuf(LVarB)
         BufRead4(LVarC, LVarD, LVarE, LVarF)
         Add(LVar4, 1)

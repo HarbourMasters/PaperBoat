@@ -272,12 +272,21 @@ EvtScript N(EVS_NpcIdle_ShyGuy) = {
     End
 };
 
+// Port fix: pointer arrays are 8 bytes per element on 64-bit,
+// but BufRead1 only reads 4 bytes. Use C helper to index properly.
+API_CALLABLE(N(GetPtrArrayEntry)) {
+    Bytecode* args = script->ptrReadPos;
+    void** array = (void**)evt_get_variable(script, *args++);
+    s32 index = evt_get_variable(script, *args++);
+    script->varTable[1] = (Bytecode)array[index];
+    return ApiStatus_DONE2;
+}
+
 EvtScript N(EVS_BossDefeated_RunAway) = {
     Call(GetSelfNpcID, LVar9)
     IfEq(LVar9, NPC_GeneralGuy)
         Call(PlaySound, SOUND_LOOP_SHY_GUY_CROWD_2)
-        UseBuf(Ref(N(GeneralGuyFleeScripts)))
-        BufRead1(LVar1)
+        Call(N(GetPtrArrayEntry), Ref(N(GeneralGuyFleeScripts)), 0)
         UseBuf(LVar1)
         Call(SetNpcAnimation, LVar9, ANIM_GeneralGuy_Anim0E)
         Loop(0)
@@ -301,10 +310,8 @@ EvtScript N(EVS_BossDefeated_RunAway) = {
     Else
         Set(LVar0, LVar9)
         Sub(LVar0, 0)
-        UseBuf(Ref(N(CrowdFleeScripts)))
-        Loop(LVar0)
-            BufRead1(LVar1)
-        EndLoop
+        Sub(LVar0, 1)
+        Call(N(GetPtrArrayEntry), Ref(N(CrowdFleeScripts)), LVar0)
         UseBuf(LVar1)
         Loop(0)
             BufRead1(LVar2)

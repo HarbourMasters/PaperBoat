@@ -155,8 +155,8 @@ typedef struct ActorBlueprint {
 typedef struct FormationRow {
     /* 0x00 */ ActorBlueprint* actor;
     /* 0x04 */ union {
-                   s32    index;
-                   Vec3i* vec;
+                   intptr_t index;
+                   Vec3i*   vec;
                } home;
     /* 0x08 */ s32 priority; ///< Actors with higher priority values take their turn first.
     /* 0x0C */ s32 var0;

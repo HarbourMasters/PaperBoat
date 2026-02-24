@@ -150,6 +150,16 @@ s32 N(CrowdScriptD)[] = {
     CS_END
 };
 
+// Port fix: pointer arrays are 8 bytes per element on 64-bit,
+// but BufRead1 only reads 4 bytes. Use C helper to index properly.
+API_CALLABLE(N(GetPtrArrayEntry)) {
+    Bytecode* args = script->ptrReadPos;
+    void** array = (void**)evt_get_variable(script, *args++);
+    s32 index = evt_get_variable(script, *args++);
+    script->varTable[1] = (Bytecode)array[index];
+    return ApiStatus_DONE2;
+}
+
 s32* N(CrowdFleeScripts)[] = {
     N(CrowdScriptA),
     N(CrowdScriptB),
@@ -222,10 +232,8 @@ EvtScript N(EVS_NpcIdle_ShyGuy_Crowd) = {
             CaseEq(CROWD_STATE_RUN_AWAY)
                 Call(SetSelfEnemyFlagBits, ENEMY_FLAG_IGNORE_WORLD_COLLISION, true)
                 Call(GetSelfNpcID, LVar0)
-                UseBuf(Ref(N(CrowdFleeScripts)))
-                Loop(LVar0)
-                    BufRead1(LVar1)
-                EndLoop
+                Sub(LVar0, 1)
+                Call(N(GetPtrArrayEntry), Ref(N(CrowdFleeScripts)), LVar0)
                 UseBuf(LVar1)
                 Label(10)
                     BufRead1(LVar2) // get cmd
