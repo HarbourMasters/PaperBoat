@@ -1,0 +1,24 @@
+:config:
+  segments:
+    - [0x09, 0x353BB0]
+
+tex_0:
+  { type: TEXTURE, format: I4, offset: 0x09000000, width: 32, height: 64, symbol: D_09000000_353BB0 }
+
+tex_200:
+  { type: TEXTURE, format: I4, offset: 0x09000200, width: 32, height: 32, symbol: D_09000200_353DB0 }
+
+tex_400:
+  { type: TEXTURE, format: I4, offset: 0x09000400, width: 32, height: 64, symbol: D_09000400_353FB0 }
+
+tex_600:
+  { type: TEXTURE, format: I4, offset: 0x09000600, width: 32, height: 32, symbol: D_09000600_3541B0 }
+
+vtx_8B8:
+  { type: VTX, offset: 0x090008B8, count: 4, symbol: D_090008B8_354468 }
+
+dlist_8F8:
+  { type: PM64:EFFECT_DL, offset: 0x090008F8, symbol: D_090008F8_3544A8 }
+
+dlist_918:
+  { type: PM64:EFFECT_DL, offset: 0x09000918, symbol: D_09000918_3544C8 }

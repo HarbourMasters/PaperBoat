@@ -5,6 +5,7 @@
 #include <ship/utils/binarytools/endianness.h>
 #include <unordered_set>
 #include <sstream>
+#include <cstring>
 #include "n64/CommandMacros.h"
 #include "factories/DisplayListOverrides.h"
 #include "n64/gbi-otr.h"
@@ -132,15 +133,19 @@ static void ByteSwapDisplayList(uint8_t* data, uint32_t offset, size_t size) {
         }
 
         // Handle G_VTX - convert vertex address to vertex-table-relative offset
+        // With GBI_FLOATS, Vtx is 24 bytes (not 16), so convert byte offset accordingly
         if (opcode == F3DEX2_G_VTX) {
             // w1 contains the N64 vertex address - convert to file offset first
             uint32_t vtxFileOffset = N64AddrToOffset(w1);
-            // Then convert to vertex-table-relative offset
+            // Then convert to vertex-table-relative offset with 16->24 byte stride conversion
+            uint32_t vtxByteOffset;
             if (gVertexTableOffset > 0 && vtxFileOffset >= gVertexTableOffset) {
-                w1 = vtxFileOffset - gVertexTableOffset;
+                vtxByteOffset = vtxFileOffset - gVertexTableOffset;
             } else {
-                w1 = vtxFileOffset;
+                vtxByteOffset = vtxFileOffset;
             }
+            uint32_t vtxIndex = vtxByteOffset / 16;
+            w1 = vtxIndex * 24;  // sizeof(Vtx) with GBI_FLOATS = 24
         }
 
         // Handle G_SETTIMG - convert texture address to file offset
@@ -249,12 +254,25 @@ static void ByteSwapModelGroupData(uint8_t* data, uint32_t offset, size_t size) 
     group[3] = static_cast<uint32_t>(numChildren);
     group[4] = childList;
 
-    // Byte-swap transform matrix (16 x s32 fixed-point values)
+    // Convert N64 fixed-point matrix (s15.16 interleaved) to float[4][4]
     if (IsValidOffset(transformMatrix, size - 0x40)) {
-        uint32_t* mtx = reinterpret_cast<uint32_t*>(data + transformMatrix);
+        uint32_t* raw = reinterpret_cast<uint32_t*>(data + transformMatrix);
+        // First byte-swap all 16 words from BE
         for (int i = 0; i < 16; i++) {
-            mtx[i] = BSWAP32(mtx[i]);
+            raw[i] = BSWAP32(raw[i]);
         }
+        // Decode interleaved integer/fraction parts to float
+        int32_t* addr = reinterpret_cast<int32_t*>(raw);
+        float matrix[4][4];
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 2; j++) {
+                int32_t int_part = addr[i * 2 + j];
+                uint32_t frac_part = addr[8 + i * 2 + j];
+                matrix[i][j * 2] = (int32_t)((int_part & 0xFFFF0000) | (frac_part >> 16)) / 65536.0f;
+                matrix[i][j * 2 + 1] = (int32_t)((int_part << 16) | (frac_part & 0xFFFF)) / 65536.0f;
+            }
+        }
+        memcpy(raw, matrix, sizeof(matrix));
     }
 
     // Byte-swap child list and recurse into child nodes
@@ -537,7 +555,7 @@ std::optional<std::shared_ptr<IParsedData>> PM64ShapeFactory::parse(std::vector<
     }
 }
 
-// Export vertex data as a separate OTR Blob resource
+// Export vertex data as a separate OTR Vertex resource (V1 format with float ob[])
 // Returns the resource path used for hashing in G_VTX_OTR_HASH commands
 static std::string ExportVertexResource(const std::string& shapeName, const uint8_t* shapeData,
                                          uint32_t vtxTableOffset, uint32_t vtxDataSize) {
@@ -550,12 +568,27 @@ static std::string ExportVertexResource(const std::string& shapeName, const uint
     std::string path = shapeName + "/vtx";
     auto writer = LUS::BinaryWriter();
 
-    // Write Blob resource header
-    BaseExporter::WriteHeader(writer, Torch::ResourceType::Blob, 0);
+    // Write Vertex resource header (version 1 = float ob[])
+    BaseExporter::WriteHeader(writer, Torch::ResourceType::Vertex, 1);
 
-    // Write vertex data size followed by raw bytes
-    writer.Write(static_cast<uint32_t>(vtxDataSize));
-    writer.Write(const_cast<char*>(reinterpret_cast<const char*>(shapeData + vtxTableOffset)), vtxDataSize);
+    // Write vertex count and per-vertex data
+    // Shape data has already been byte-swapped to native endian by ByteSwapShapeData
+    uint32_t count = vtxDataSize / 16;
+    writer.Write(count);
+    for (uint32_t i = 0; i < count; i++) {
+        const uint8_t* src = shapeData + vtxTableOffset + i * 16;
+        // Read native-endian s16 ob[] (already BSWAP16'd) and write as float
+        int16_t ob0 = *reinterpret_cast<const int16_t*>(src + 0);
+        int16_t ob1 = *reinterpret_cast<const int16_t*>(src + 2);
+        int16_t ob2 = *reinterpret_cast<const int16_t*>(src + 4);
+        writer.Write(static_cast<float>(ob0));
+        writer.Write(static_cast<float>(ob1));
+        writer.Write(static_cast<float>(ob2));
+        writer.Write(*reinterpret_cast<const uint16_t*>(src + 6));  // flag
+        writer.Write(*reinterpret_cast<const int16_t*>(src + 8));   // tc[0]
+        writer.Write(*reinterpret_cast<const int16_t*>(src + 10));  // tc[1]
+        writer.Write(src[12]); writer.Write(src[13]); writer.Write(src[14]); writer.Write(src[15]); // cn[4]
+    }
 
     // Finish writing and register as companion file
     std::stringstream ss;

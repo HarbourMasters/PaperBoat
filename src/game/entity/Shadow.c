@@ -3,22 +3,10 @@
 #include "assets/entities.h"
 #include "Engine.h"
 #include <stdio.h>
-#include <ship/utils/binarytools/endianness.h>
 
-// OTR BLOBs are raw ROM bytes (BE). Vertex s16 fields need byte-swap on LE.
+// Entity vertices are now exported as Vertex resources — VertexFactory handles format conversion
 static Vtx* load_and_swap_vtx(const char* path, s32 count) {
-    Vtx* vtx = (Vtx*) LOAD_ASSET(path);
-    for (s32 i = 0; i < count; i++) {
-        u16* v = (u16*)&vtx[i];
-        v[0] = BSWAP16(v[0]); // ob[0]
-        v[1] = BSWAP16(v[1]); // ob[1]
-        v[2] = BSWAP16(v[2]); // ob[2]
-        v[3] = BSWAP16(v[3]); // flag
-        v[4] = BSWAP16(v[4]); // tc[0]
-        v[5] = BSWAP16(v[5]); // tc[1]
-        // cn[4] are bytes, no swap needed
-    }
-    return vtx;
+    return (Vtx*) LOAD_ASSET(path);
 }
 
 void entity_Shadow_init(Shadow* shadow) {

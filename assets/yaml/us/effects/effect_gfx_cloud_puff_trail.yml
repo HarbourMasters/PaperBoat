@@ -1,0 +1,18 @@
+:config:
+  segments:
+    - [0x09, 0x32EC50]
+
+tex_0:
+  { type: TEXTURE, format: CI4, offset: 0x09000000, width: 16, height: 16, tlut: 0x09000080, colors: 16, symbol: D_09000000_32EC50 }
+
+tex_80:
+  { type: TEXTURE, format: TLUT, offset: 0x09000080, colors: 16, symbol: D_09000000_32EC50 }
+
+vtx_A0:
+  { type: VTX, offset: 0x090000A0, count: 4, symbol: D_090000A0_32ECF0 }
+
+dlist_E0:
+  { type: PM64:EFFECT_DL, offset: 0x090000E0, symbol: D_090000E0_32ED30 }
+
+dlist_1B8:
+  { type: PM64:EFFECT_DL, offset: 0x090001B8, symbol: D_090001B8_32EE08 }

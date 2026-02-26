@@ -1,0 +1,111 @@
+:config:
+  segments:
+    - [0x09, 0x3AB030]
+
+tex_0:
+  { type: TEXTURE, format: CI4, offset: 0x09000000, width: 32, height: 64, tlut: 0x09000400, colors: 16, symbol: D_09000000_3AB030 }
+
+tex_400:
+  { type: TEXTURE, format: TLUT, offset: 0x09000400, colors: 16, symbol: D_09000000_3AB030 }
+
+tex_420:
+  { type: TEXTURE, format: CI4, offset: 0x09000420, width: 32, height: 64, tlut: 0x09000820, colors: 16, symbol: D_09000420_3AB450 }
+
+tex_820:
+  { type: TEXTURE, format: TLUT, offset: 0x09000820, colors: 16, symbol: D_09000420_3AB450 }
+
+tex_840:
+  { type: TEXTURE, format: CI4, offset: 0x09000840, width: 32, height: 64, tlut: 0x09000C40, colors: 8, symbol: D_09000840_3AB870 }
+
+tex_C40:
+  { type: TEXTURE, format: TLUT, offset: 0x09000C40, colors: 8, symbol: D_09000840_3AB870 }
+
+tex_C50:
+  { type: TEXTURE, format: CI4, offset: 0x09000C50, width: 32, height: 64, tlut: 0x09001050, colors: 16, symbol: D_09000C50_3ABC80 }
+
+tex_1050:
+  { type: TEXTURE, format: TLUT, offset: 0x09001050, colors: 16, symbol: D_09000C50_3ABC80 }
+
+tex_1070:
+  { type: TEXTURE, format: CI4, offset: 0x09001070, width: 32, height: 64, tlut: 0x09001470, colors: 8, symbol: D_09001070_3AC0A0 }
+
+tex_1470:
+  { type: TEXTURE, format: TLUT, offset: 0x09001470, colors: 8, symbol: D_09001070_3AC0A0 }
+
+tex_1480:
+  { type: TEXTURE, format: CI4, offset: 0x09001480, width: 32, height: 64, tlut: 0x09001880, colors: 16, symbol: D_09001480_3AC4B0 }
+
+tex_1880:
+  { type: TEXTURE, format: TLUT, offset: 0x09001880, colors: 16, symbol: D_09001480_3AC4B0 }
+
+tex_18A0:
+  { type: TEXTURE, format: CI4, offset: 0x090018A0, width: 32, height: 64, tlut: 0x09001CA0, colors: 16, symbol: D_090018A0_3AC8D0 }
+
+tex_1CA0:
+  { type: TEXTURE, format: TLUT, offset: 0x09001CA0, colors: 16, symbol: D_090018A0_3AC8D0 }
+
+tex_1CC0:
+  { type: TEXTURE, format: CI4, offset: 0x09001CC0, width: 32, height: 64, tlut: 0x090020C0, colors: 16, symbol: D_09001CC0_3ACCF0 }
+
+tex_20C0:
+  { type: TEXTURE, format: TLUT, offset: 0x090020C0, colors: 16, symbol: D_09001CC0_3ACCF0 }
+
+tex_20E0:
+  { type: TEXTURE, format: CI4, offset: 0x090020E0, width: 32, height: 64, tlut: 0x090024E0, colors: 16, symbol: D_090020E0_3AD110 }
+
+tex_24E0:
+  { type: TEXTURE, format: TLUT, offset: 0x090024E0, colors: 16, symbol: D_090020E0_3AD110 }
+
+tex_2500:
+  { type: TEXTURE, format: CI4, offset: 0x09002500, width: 32, height: 64, tlut: 0x09002900, colors: 16, symbol: D_09002500_3AD530 }
+
+tex_2900:
+  { type: TEXTURE, format: TLUT, offset: 0x09002900, colors: 16, symbol: D_09002500_3AD530 }
+
+tex_2920:
+  { type: TEXTURE, format: CI4, offset: 0x09002920, width: 32, height: 64, tlut: 0x09002D20, colors: 16, symbol: D_09002920_3AD950 }
+
+tex_2D20:
+  { type: TEXTURE, format: TLUT, offset: 0x09002D20, colors: 16, symbol: D_09002920_3AD950 }
+
+vtx_2D40:
+  { type: VTX, offset: 0x09002D40, count: 180, symbol: D_09002D40_3ADD70 }
+
+dlist_3880:
+  { type: PM64:EFFECT_DL, offset: 0x09003880, symbol: D_09003880_3AE8B0 }
+
+dlist_38F8:
+  { type: PM64:EFFECT_DL, offset: 0x090038F8, symbol: D_090038F8_3AE928 }
+
+dlist_3968:
+  { type: PM64:EFFECT_DL, offset: 0x09003968, symbol: D_09003968_3AE998 }
+
+dlist_39D8:
+  { type: PM64:EFFECT_DL, offset: 0x090039D8, symbol: D_090039D8_3AEA08 }
+
+dlist_3A48:
+  { type: PM64:EFFECT_DL, offset: 0x09003A48, symbol: D_09003A48_3AEA78 }
+
+dlist_3AB8:
+  { type: PM64:EFFECT_DL, offset: 0x09003AB8, symbol: D_09003AB8_3AEAE8 }
+
+dlist_3B28:
+  { type: PM64:EFFECT_DL, offset: 0x09003B28, symbol: D_09003B28_3AEB58 }
+
+dlist_3B98:
+  { type: PM64:EFFECT_DL, offset: 0x09003B98, symbol: D_09003B98_3AEBC8 }
+
+dlist_3C08:
+  { type: PM64:EFFECT_DL, offset: 0x09003C08, symbol: D_09003C08_3AEC38 }
+
+dlist_3C78:
+  { type: PM64:EFFECT_DL, offset: 0x09003C78, symbol: D_09003C78_3AECA8 }
+
+dlist_3CE8:
+  { type: PM64:EFFECT_DL, offset: 0x09003CE8, symbol: D_09003CE8_3AED18 }
+
+dlist_3D58:
+  { type: PM64:EFFECT_DL, offset: 0x09003D58, symbol: D_09003D58_3AED88 }
+
+dlist_3DC8:
+  { type: PM64:EFFECT_DL, offset: 0x09003DC8, symbol: D_09003DC8_3AEDF8 }

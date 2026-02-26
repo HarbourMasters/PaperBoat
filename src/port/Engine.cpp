@@ -12,6 +12,8 @@
 #include <fast/resource/factory/TextureFactory.h>
 #include <fast/resource/factory/DisplayListFactory.h>
 #include <fast/resource/factory/VertexFactory.h>
+#include <fast/resource/factory/LightFactory.h>
+#include <fast/resource/factory/MatrixFactory.h>
 #include <fast/resource/ResourceType.h>
 #include <filesystem>
 #include "src/Companion.h"
@@ -24,10 +26,11 @@
 #include "factories/PM64AudioFactory.h"
 #include "factories/PM64StoryImageFactory.h"
 #include "factories/PM64MessageFactory.h"
-#include "factories/PM64EffectGfxFactory.h"
 #include "factories/PM64ImgFXAnimFactory.h"
 #include "factories/PM64TitleDataFactory.h"
 #include "factories/PM64EntityGfxFactory.h"
+#include "factories/PM64EffectDListFactory.h"
+#include "factories/PM64VertexFactory.h"
 
 namespace fs = std::filesystem;
 
@@ -77,10 +80,10 @@ static void ExtractAssets(const std::string& romPath, const std::string& outputP
     Companion::Instance->RegisterFactory("PM64:AUDIO", std::make_shared<PM64AudioFactory>());
     Companion::Instance->RegisterFactory("PM64:STORY_IMAGE", std::make_shared<PM64StoryImageFactory>());
     Companion::Instance->RegisterFactory("PM64:MESSAGE", std::make_shared<PM64MessageFactory>());
-    Companion::Instance->RegisterFactory("PM64:EFFECT_GFX", std::make_shared<PM64EffectGfxFactory>());
     Companion::Instance->RegisterFactory("PM64:IMGFX_ANIM", std::make_shared<PM64ImgFXAnimFactory>());
     Companion::Instance->RegisterFactory("PM64:TITLE_DATA", std::make_shared<PM64TitleDataFactory>());
     Companion::Instance->RegisterFactory("PM64:ENTITY_GFX", std::make_shared<PM64EntityGfxFactory>());
+    Companion::Instance->RegisterFactory("PM64:EFFECT_DL", std::make_shared<PM64EffectDListFactory>());
 
     Companion::Instance->Init(ExportType::Binary);
 }
@@ -148,6 +151,12 @@ GameEngine::GameEngine() {
                                     "DisplayList", static_cast<uint32_t>(Fast::ResourceType::DisplayList), 0);
     loader->RegisterResourceFactory(std::make_shared<Fast::ResourceFactoryBinaryVertexV0>(), RESOURCE_FORMAT_BINARY,
                                     "Vertex", static_cast<uint32_t>(Fast::ResourceType::Vertex), 0);
+    loader->RegisterResourceFactory(std::make_shared<ResourceFactoryBinaryVertexV1>(), RESOURCE_FORMAT_BINARY,
+                                    "Vertex", static_cast<uint32_t>(Fast::ResourceType::Vertex), 1);
+    loader->RegisterResourceFactory(std::make_shared<Fast::ResourceFactoryBinaryLightV0>(), RESOURCE_FORMAT_BINARY,
+                                    "Light", static_cast<uint32_t>(Fast::ResourceType::Light), 0);
+    loader->RegisterResourceFactory(std::make_shared<Fast::ResourceFactoryBinaryMatrixV0>(), RESOURCE_FORMAT_BINARY,
+                                    "Matrix", static_cast<uint32_t>(Fast::ResourceType::Matrix), 0);
 
 }
 
@@ -540,4 +549,14 @@ extern "C" int GameEngine_GetSaveFilePath(char* buf, int bufSize) {
 
 extern "C" int GameEngine_CVarGetInteger(const char* name, int defaultValue) {
     return CVarGetInteger(name, defaultValue);
+}
+
+extern "C" void GameEngine_ClearDepthBuffer(void) {
+    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(Ship::Context::GetInstance()->GetWindow());
+    if (wnd) {
+        auto interp = wnd->GetInterpreterWeak().lock();
+        if (interp) {
+            interp->GetCurrentRenderingAPI()->ClearFramebuffer(false, true);
+        }
+    }
 }

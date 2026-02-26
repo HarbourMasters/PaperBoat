@@ -1,0 +1,78 @@
+:config:
+  segments:
+    - [0x09, 0x40D290]
+
+tex_0:
+  { type: TEXTURE, format: I4, offset: 0x09000000, width: 32, height: 32, symbol: D_09000000_40D290 }
+
+tex_200:
+  { type: TEXTURE, format: I4, offset: 0x09000200, width: 256, height: 32, symbol: D_09000200_40D490 }
+
+tex_1200:
+  { type: TEXTURE, format: I4, offset: 0x09001200, width: 256, height: 32, symbol: D_09001200_40E490 }
+
+tex_2200:
+  { type: TEXTURE, format: I4, offset: 0x09002200, width: 256, height: 32, symbol: D_09002200_40F490 }
+
+tex_3200:
+  { type: TEXTURE, format: I4, offset: 0x09003200, width: 256, height: 32, symbol: D_09003200_410490 }
+
+tex_4200:
+  { type: TEXTURE, format: I4, offset: 0x09004200, width: 64, height: 64, symbol: D_09004200_411490 }
+
+tex_4A00:
+  { type: TEXTURE, format: I4, offset: 0x09004A00, width: 64, height: 32, symbol: D_09004A00_411C90 }
+
+dlist_4E00:
+  { type: PM64:EFFECT_DL, offset: 0x09004E00, symbol: D_09004E00_412090 }
+
+vtx_4E68:
+  { type: VTX, offset: 0x09004E68, count: 4, symbol: D_09004E68_4120F8 }
+
+vtx_4EA8:
+  { type: VTX, offset: 0x09004EA8, count: 4, symbol: D_09004EA8_412138 }
+
+vtx_4EE8:
+  { type: VTX, offset: 0x09004EE8, count: 4, symbol: D_09004EE8_412178 }
+
+vtx_4F28:
+  { type: VTX, offset: 0x09004F28, count: 4, symbol: D_09004F28_4121B8 }
+
+vtx_4F68:
+  { type: VTX, offset: 0x09004F68, count: 4, symbol: D_09004F68_4121F8 }
+
+vtx_4FA8:
+  { type: VTX, offset: 0x09004FA8, count: 4, symbol: D_09004FA8_412238 }
+
+vtx_4FE8:
+  { type: VTX, offset: 0x09004FE8, count: 4, symbol: D_09004FE8_412278 }
+
+vtx_5028:
+  { type: VTX, offset: 0x09005028, count: 4, symbol: D_09005028_4122B8 }
+
+vtx_5068:
+  { type: VTX, offset: 0x09005068, count: 4, symbol: D_09005068_4122F8 }
+
+vtx_50A8:
+  { type: VTX, offset: 0x090050A8, count: 4, symbol: D_090050A8_412338 }
+
+vtx_50E8:
+  { type: VTX, offset: 0x090050E8, count: 4, symbol: D_090050E8_412378 }
+
+vtx_5128:
+  { type: VTX, offset: 0x09005128, count: 4, symbol: D_09005128_4123B8 }
+
+dlist_5168:
+  { type: PM64:EFFECT_DL, offset: 0x09005168, symbol: D_09005168_4123F8 }
+
+dlist_51C8:
+  { type: PM64:EFFECT_DL, offset: 0x090051C8, symbol: D_090051C8_412458 }
+
+dlist_5370:
+  { type: PM64:EFFECT_DL, offset: 0x09005370, symbol: D_09005370_412600 }
+
+dlist_53D0:
+  { type: PM64:EFFECT_DL, offset: 0x090053D0, symbol: D_090053D0_412660 }
+
+dlist_5440:
+  { type: PM64:EFFECT_DL, offset: 0x09005440, symbol: D_09005440_4126D0 }

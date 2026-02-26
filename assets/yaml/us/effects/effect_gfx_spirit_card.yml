@@ -1,0 +1,117 @@
+:config:
+  segments:
+    - [0x09, 0x3FA4B0]
+
+tex_0:
+  { type: TEXTURE, format: CI4, offset: 0x09000000, width: 32, height: 32, tlut: 0x09000200, colors: 16, symbol: star_cards/card_front }
+
+tex_200:
+  { type: TEXTURE, format: TLUT, offset: 0x09000200, colors: 16, symbol: star_cards/card_front }
+
+tex_400:
+  { type: TEXTURE, format: CI4, offset: 0x09000400, width: 32, height: 64, tlut: 0x09000800, colors: 16, symbol: star_cards/card_back }
+
+tex_800:
+  { type: TEXTURE, format: TLUT, offset: 0x09000800, colors: 16, symbol: star_cards/card_back }
+
+tex_A00:
+  { type: TEXTURE, format: CI4, offset: 0x09000A00, width: 32, height: 32, tlut: 0x09000C00, colors: 16, symbol: star_cards/wave }
+
+tex_C00:
+  { type: TEXTURE, format: TLUT, offset: 0x09000C00, colors: 16, symbol: star_cards/wave }
+
+tex_E00:
+  { type: TEXTURE, format: CI4, offset: 0x09000E00, width: 16, height: 16, tlut: 0x09000E80, colors: 16, symbol: star_cards/squares }
+
+tex_E80:
+  { type: TEXTURE, format: TLUT, offset: 0x09000E80, colors: 16, symbol: star_cards/squares }
+
+tex_1080:
+  { type: TEXTURE, format: CI4, offset: 0x09001080, width: 48, height: 48, tlut: 0x09001500, colors: 16, symbol: star_cards/eldstar }
+
+tex_1500:
+  { type: TEXTURE, format: TLUT, offset: 0x09001500, colors: 16, symbol: star_cards/eldstar }
+
+tex_1700:
+  { type: TEXTURE, format: CI4, offset: 0x09001700, width: 48, height: 48, tlut: 0x09001B80, colors: 16, symbol: star_cards/mamar }
+
+tex_1B80:
+  { type: TEXTURE, format: TLUT, offset: 0x09001B80, colors: 16, symbol: star_cards/mamar }
+
+tex_1D80:
+  { type: TEXTURE, format: CI4, offset: 0x09001D80, width: 48, height: 48, tlut: 0x09002200, colors: 16, symbol: star_cards/skolar }
+
+tex_2200:
+  { type: TEXTURE, format: TLUT, offset: 0x09002200, colors: 16, symbol: star_cards/skolar }
+
+tex_2400:
+  { type: TEXTURE, format: CI4, offset: 0x09002400, width: 48, height: 48, tlut: 0x09002880, colors: 16, symbol: star_cards/muskular }
+
+tex_2880:
+  { type: TEXTURE, format: TLUT, offset: 0x09002880, colors: 16, symbol: star_cards/muskular }
+
+tex_2A80:
+  { type: TEXTURE, format: CI4, offset: 0x09002A80, width: 48, height: 48, tlut: 0x09002F00, colors: 16, symbol: star_cards/misstar }
+
+tex_2F00:
+  { type: TEXTURE, format: TLUT, offset: 0x09002F00, colors: 16, symbol: star_cards/misstar }
+
+tex_3100:
+  { type: TEXTURE, format: CI4, offset: 0x09003100, width: 48, height: 48, tlut: 0x09003580, colors: 16, symbol: star_cards/klevar }
+
+tex_3580:
+  { type: TEXTURE, format: TLUT, offset: 0x09003580, colors: 16, symbol: star_cards/klevar }
+
+tex_3780:
+  { type: TEXTURE, format: CI4, offset: 0x09003780, width: 48, height: 48, tlut: 0x09003C00, colors: 16, symbol: star_cards/kalmar }
+
+tex_3C00:
+  { type: TEXTURE, format: TLUT, offset: 0x09003C00, colors: 16, symbol: star_cards/kalmar }
+
+vtx_3E00:
+  { type: VTX, offset: 0x09003E00, count: 25, symbol: D_09003E00_3FE2B0 }
+
+dlist_3F98:
+  { type: PM64:EFFECT_DL, offset: 0x09003F98, symbol: D_09003F98_3FE448 }
+
+dlist_4010:
+  { type: PM64:EFFECT_DL, offset: 0x09004010, symbol: D_09004010_3FE4C0 }
+
+dlist_4088:
+  { type: PM64:EFFECT_DL, offset: 0x09004088, symbol: D_09004088_3FE538 }
+
+dlist_4100:
+  { type: PM64:EFFECT_DL, offset: 0x09004100, symbol: D_09004100_3FE5B0 }
+
+dlist_4178:
+  { type: PM64:EFFECT_DL, offset: 0x09004178, symbol: D_09004178_3FE628 }
+
+dlist_41F0:
+  { type: PM64:EFFECT_DL, offset: 0x090041F0, symbol: D_090041F0_3FE6A0 }
+
+dlist_4268:
+  { type: PM64:EFFECT_DL, offset: 0x09004268, symbol: D_09004268_3FE718 }
+
+dlist_42E0:
+  { type: PM64:EFFECT_DL, offset: 0x090042E0, symbol: D_090042E0_3FE790 }
+
+dlist_4360:
+  { type: PM64:EFFECT_DL, offset: 0x09004360, symbol: D_09004360_3FE810 }
+
+vtx_43D8:
+  { type: VTX, offset: 0x090043D8, count: 4, symbol: D_090043D8_3FE888 }
+
+dlist_4418:
+  { type: PM64:EFFECT_DL, offset: 0x09004418, symbol: D_09004418_3FE8C8 }
+
+dlist_4438:
+  { type: PM64:EFFECT_DL, offset: 0x09004438, symbol: D_09004438_3FE8E8 }
+
+dlist_4458:
+  { type: PM64:EFFECT_DL, offset: 0x09004458, symbol: D_09004458_3FE908 }
+
+dlist_4508:
+  { type: PM64:EFFECT_DL, offset: 0x09004508, symbol: D_09004508_3FE9B8 }
+
+dlist_4600:
+  { type: PM64:EFFECT_DL, offset: 0x09004600, symbol: D_09004600_3FEAB0 }

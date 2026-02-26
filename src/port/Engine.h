@@ -107,6 +107,9 @@ void GameEngine_InvalidateTextureCache(const void* addr);
 // Buffer must be at least 512 bytes. Returns 0 on success, -1 on failure.
 int GameEngine_GetSaveFilePath(char* buf, int bufSize);
 
+// Clear the GPU depth buffer (replaces N64 gDPSetColorImage-to-ZBuffer hack)
+void GameEngine_ClearDepthBuffer(void);
+
 // CVar access for game C code
 int GameEngine_CVarGetInteger(const char* name, int defaultValue);
 

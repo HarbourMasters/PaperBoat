@@ -6,7 +6,7 @@
   path: ./assets/yaml/us
   config:
     gbi: F3DEX2
-    gbi_floats: false
+    gbi_floats: true
     sort: OFFSET
     logging: INFO
     output:

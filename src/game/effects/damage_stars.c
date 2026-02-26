@@ -2,7 +2,6 @@
 #include "effects_internal.h"
 #include "assets/effects.h"
 
-
 u8 D_E0030E90[] = {
     254, 172, 172,
     254, 172, 213,

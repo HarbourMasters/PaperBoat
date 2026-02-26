@@ -67,10 +67,11 @@ set(PORT_SOURCES
     src/port/factories/PM64AudioFactory.cpp
     src/port/factories/PM64StoryImageFactory.cpp
     src/port/factories/PM64MessageFactory.cpp
-    src/port/factories/PM64EffectGfxFactory.cpp
     src/port/factories/PM64ImgFXAnimFactory.cpp
     src/port/factories/PM64TitleDataFactory.cpp
     src/port/factories/PM64EntityGfxFactory.cpp
+    src/port/factories/PM64EffectDListFactory.cpp
+    src/port/factories/PM64VertexFactory.cpp
     src/port/sprite/SpriteLoader.cpp
     src/port/nusys_overrides.c
     src/port/gu.c
@@ -106,6 +107,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     VERSION=us
     VERSION_US
     F3DEX_GBI_2
+    GBI_FLOATS
     __CTX__
     SPDLOG_ACTIVE_LEVEL=0
 )

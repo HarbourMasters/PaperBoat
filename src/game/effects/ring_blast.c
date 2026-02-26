@@ -95,7 +95,7 @@ void ring_blast_appendGfx(void* effect) {
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
-    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist2));
+    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(dlist));
 
     guPositionF(sp20, 0.0f, -gCameras[gCurrentCameraID].curYaw, 0.0f, data->unk_10, data->pos.x, data->pos.y, data->pos.z);
     guRotateF(sp60, data->unk_24, 0.0f, 0.0f, 1.0f);

@@ -157,7 +157,7 @@ void hieroglyphs_appendGfx(void* effect) {
         guMtxF2L(sp20, &gDisplayContext->matrixStack[gMatrixListPos]);
 
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPVertex(gMainGfxPos++, LOAD_ASSET(D_090010A8_3DDDF8[i * 2]), 2, i * 2);
+        gSPVertex(gMainGfxPos++, (Vtx*)LOAD_ASSET(D_090010A8_3DDDF8) + i * 2, 2, i * 2);
     }
 
     for (i = 0; i < 15; i++) {

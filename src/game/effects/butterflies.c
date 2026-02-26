@@ -170,7 +170,7 @@ void butterflies_appendGfx(void* effect) {
     gDPSetPrimColor(gMainGfxPos++, 0, 0, primColor, primColor, primColor, 255);
     gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09003880_3AE8B0));
     gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E00AA6C0[type]));
-    gSPVertex(gMainGfxPos++, LOAD_ASSET(D_09002D40_3ADD70[data->unk_2C]), 6, 0);
+    gSPVertex(gMainGfxPos++, (Vtx*)LOAD_ASSET(D_09002D40_3ADD70) + data->unk_2C, 6, 0);
     gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09003DC8_3AEDF8));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     gDPPipeSync(gMainGfxPos++);

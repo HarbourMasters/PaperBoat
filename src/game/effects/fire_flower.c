@@ -243,16 +243,21 @@ void fire_flower_appendGfx(void* effect) {
     }
 
     gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000D40_3810E0));
-    gDPLoadTextureTile_4b(
-        gMainGfxPos++, D_09000000_3803A0[3 - unk_34],
-        G_IM_FMT_CI, 32, 0, 0, 0, 31, 31, 0,
-        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
-        5, 5, G_TX_NOLOD, G_TX_NOLOD);
-    gDPLoadMultiTile_4b(
-        gMainGfxPos++, D_09000000_3803A0[2 - unk_34],
-        0x0080, 1, G_IM_FMT_CI, 32, 0, 0, 0, 31, 31, 0,
-        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
-        5, 5, G_TX_NOLOD, G_TX_NOLOD);
+    {
+        static const char* sFireFlowerTex[] = {
+            D_09000000_3803A0, D_09000200_3805A0, D_09000400_3807A0, D_09000600_3809A0
+        };
+        gDPLoadTextureTile_4b(
+            gMainGfxPos++, LOAD_ASSET(sFireFlowerTex[3 - unk_34]),
+            G_IM_FMT_CI, 32, 0, 0, 0, 31, 31, 0,
+            G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
+            5, 5, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadMultiTile_4b(
+            gMainGfxPos++, LOAD_ASSET(sFireFlowerTex[2 - unk_34]),
+            0x0080, 1, G_IM_FMT_CI, 32, 0, 0, 0, 31, 31, 0,
+            G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
+            5, 5, G_TX_NOLOD, G_TX_NOLOD);
+    }
 
     guTranslateF(sp18, unk_2C, 0.0f, 0.0f);
     guScaleF(sp58, unk_30, unk_30, unk_30);

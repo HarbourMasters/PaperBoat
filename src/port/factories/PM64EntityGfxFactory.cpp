@@ -264,32 +264,30 @@ static void ExportEntityDisplayList(const std::string& entityName, const PM64Ent
     Companion::Instance->RegisterCompanionFile(path, data);
 }
 
-// Export vertex data as a Blob resource
-static void ExportVertexBlob(const std::string& entityName, const uint8_t* data,
+// Export vertex data as a Vertex resource (V1 format with float ob[])
+static void ExportVertexResource_Entity(const std::string& entityName, const uint8_t* data,
                               uint32_t offset, uint32_t size, uint32_t totalSize) {
-    // Byte-swap vertex data: Vtx_t is 16 bytes
-    // ob[3] (3×s16), flag (u16), tc[2] (2×s16), cn[4] (4×u8)
-    std::vector<uint8_t> vtxData(data + offset, data + offset + size);
-
-    for (uint32_t i = 0; i + 16 <= size; i += 16) {
-        uint16_t* v = reinterpret_cast<uint16_t*>(vtxData.data() + i);
-        v[0] = BSWAP16(v[0]); // ob[0]
-        v[1] = BSWAP16(v[1]); // ob[1]
-        v[2] = BSWAP16(v[2]); // ob[2]
-        v[3] = BSWAP16(v[3]); // flag
-        v[4] = BSWAP16(v[4]); // tc[0]
-        v[5] = BSWAP16(v[5]); // tc[1]
-        // cn[4] are bytes, no swap
-    }
-
     char pathBuf[256];
     snprintf(pathBuf, sizeof(pathBuf), "%s/vtx_%X", entityName.c_str(), offset);
     std::string path = pathBuf;
 
     auto writer = LUS::BinaryWriter();
-    BaseExporter::WriteHeader(writer, Torch::ResourceType::Blob, 0);
-    writer.Write(static_cast<uint32_t>(size));
-    writer.Write(reinterpret_cast<char*>(vtxData.data()), size);
+    BaseExporter::WriteHeader(writer, Torch::ResourceType::Vertex, 1);
+
+    // Write vertex count and per-vertex data (read from raw BE ROM data)
+    uint32_t count = size / 16;
+    writer.Write(count);
+    for (uint32_t i = 0; i < count; i++) {
+        const uint8_t* src = data + offset + i * 16;
+        // Read BE s16 ob[] -> write as float
+        writer.Write(static_cast<float>(static_cast<int16_t>((src[0] << 8) | src[1])));
+        writer.Write(static_cast<float>(static_cast<int16_t>((src[2] << 8) | src[3])));
+        writer.Write(static_cast<float>(static_cast<int16_t>((src[4] << 8) | src[5])));
+        writer.Write(static_cast<uint16_t>((src[6] << 8) | src[7]));    // flag
+        writer.Write(static_cast<int16_t>((src[8] << 8) | src[9]));     // tc[0]
+        writer.Write(static_cast<int16_t>((src[10] << 8) | src[11]));   // tc[1]
+        writer.Write(src[12]); writer.Write(src[13]); writer.Write(src[14]); writer.Write(src[15]); // cn[4]
+    }
 
     std::stringstream ss;
     writer.Finish(ss);
@@ -363,16 +361,28 @@ static void ExportTextureResource(const std::string& entityName, const uint8_t* 
     Companion::Instance->RegisterCompanionFile(path, fileData);
 }
 
-// Export matrix data as a Blob resource (byte-swap s32 fixed-point values)
+// Export matrix data as a Blob resource — convert N64 fixed-point to float[4][4]
 static void ExportMatrixBlob(const std::string& entityName, const uint8_t* data,
                                uint32_t offset) {
-    const uint32_t MTX_SIZE = 64;  // Mtx is 4×4 × 4 bytes = 64 bytes (N64 fixed-point format)
+    const uint32_t MTX_SIZE = 64;  // N64 Mtx is 64 bytes (s15.16 interleaved)
     std::vector<uint8_t> mtxData(data + offset, data + offset + MTX_SIZE);
 
-    // Byte-swap 32-bit words in the matrix
+    // Byte-swap 32-bit words from BE
     for (uint32_t i = 0; i + 4 <= MTX_SIZE; i += 4) {
         uint32_t* v = reinterpret_cast<uint32_t*>(mtxData.data() + i);
         *v = BSWAP32(*v);
+    }
+
+    // Decode interleaved integer/fraction parts to float[4][4]
+    int32_t* addr = reinterpret_cast<int32_t*>(mtxData.data());
+    float matrix[4][4];
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 2; j++) {
+            int32_t int_part = addr[i * 2 + j];
+            uint32_t frac_part = addr[8 + i * 2 + j];
+            matrix[i][j * 2] = (int32_t)((int_part & 0xFFFF0000) | (frac_part >> 16)) / 65536.0f;
+            matrix[i][j * 2 + 1] = (int32_t)((int_part << 16) | (frac_part & 0xFFFF)) / 65536.0f;
+        }
     }
 
     char pathBuf[256];
@@ -382,7 +392,7 @@ static void ExportMatrixBlob(const std::string& entityName, const uint8_t* data,
     auto writer = LUS::BinaryWriter();
     BaseExporter::WriteHeader(writer, Torch::ResourceType::Blob, 0);
     writer.Write(static_cast<uint32_t>(MTX_SIZE));
-    writer.Write(reinterpret_cast<char*>(mtxData.data()), MTX_SIZE);
+    writer.Write(reinterpret_cast<char*>(matrix), MTX_SIZE);
 
     std::stringstream ss;
     writer.Finish(ss);
@@ -480,7 +490,7 @@ ExportResult PM64EntityGfxBinaryExporter::Export(std::ostream& write, std::share
         }
         if (vtxSize == 0) vtxSize = 256;
         if (vtxOff + vtxSize <= entityData->mBuffer.size()) {
-            ExportVertexBlob(entityName, entityData->mBuffer.data(), vtxOff, vtxSize, entityData->mBuffer.size());
+            ExportVertexResource_Entity(entityName, entityData->mBuffer.data(), vtxOff, vtxSize, entityData->mBuffer.size());
         }
     }
 

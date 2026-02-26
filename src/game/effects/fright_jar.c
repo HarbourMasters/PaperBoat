@@ -137,7 +137,7 @@ void fright_jar_appendGfx(void* effect) {
         idx = 0;
     }
 
-    gSPVertex(gMainGfxPos++, LOAD_ASSET(D_09004040_3C5BE0[idx]), 22, 0);
+    gSPVertex(gMainGfxPos++, (Vtx*)LOAD_ASSET(D_09004040_3C5BE0) + idx, 22, 0);
 
     alpha = D_E00C2990[unk_14 % 16];
     gDPSetEnvColor(gMainGfxPos++, 0, 0, 0, alpha);

@@ -144,28 +144,31 @@ void sleep_bubble_appendGfx(void* effect) {
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPVertex(gMainGfxPos++, LOAD_ASSET(D_09000180_35D690[1]), 1, 0);
+    {
+        Vtx* vtxBase = (Vtx*)LOAD_ASSET(D_09000180_35D690);
+        gSPVertex(gMainGfxPos++, vtxBase + 1, 1, 0);
 
-    guRotateF(sp18, data->unk_10, 0.0f, 0.0f, 1.0f);
-    guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
-    gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
-              G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    guRotateF(sp18, -gCameras[gCurrentCameraID].curYaw, 0.0f, 1.0f, 0.0f);
-    guTranslateF(sp58, data->unk_C4, data->unk_C8, 0.0f);
-    guMtxCatF(sp58, sp18, sp18);
-    guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
-
-    gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
-              G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gSPVertex(gMainGfxPos++, LOAD_ASSET(D_09000180_35D690[0]), 1, 1);
-
-    for (i = 0; i < ARRAY_COUNT(data->points); i++) {
-        guTranslateF(sp18, data->points[i].x, data->points[i].y, 0.0f);
+        guRotateF(sp18, data->unk_10, 0.0f, 0.0f, 1.0f);
         guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
+                  G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+        guRotateF(sp18, -gCameras[gCurrentCameraID].curYaw, 0.0f, 1.0f, 0.0f);
+        guTranslateF(sp58, data->unk_C4, data->unk_C8, 0.0f);
+        guMtxCatF(sp58, sp18, sp18);
+        guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
+
+        gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
                   G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPVertex(gMainGfxPos++, LOAD_ASSET(D_09000180_35D690[i + 2]), 1, i + 2);
-        gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
+        gSPVertex(gMainGfxPos++, vtxBase + 0, 1, 1);
+
+        for (i = 0; i < ARRAY_COUNT(data->points); i++) {
+            guTranslateF(sp18, data->points[i].x, data->points[i].y, 0.0f);
+            guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
+            gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
+                      G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+            gSPVertex(gMainGfxPos++, vtxBase + i + 2, 1, i + 2);
+            gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
+        }
     }
 
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);

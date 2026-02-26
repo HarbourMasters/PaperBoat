@@ -1,0 +1,72 @@
+:config:
+  segments:
+    - [0x09, 0x3903D0]
+
+tex_0:
+  { type: TEXTURE, format: IA4, offset: 0x09000000, width: 64, height: 32, symbol: battle/lucky }
+
+tex_400:
+  { type: TEXTURE, format: IA4, offset: 0x09000400, width: 64, height: 32, symbol: battle/miss }
+
+tex_800:
+  { type: TEXTURE, format: IA4, offset: 0x09000800, width: 64, height: 32, symbol: battle/good }
+
+tex_C00:
+  { type: TEXTURE, format: IA4, offset: 0x09000C00, width: 64, height: 32, symbol: battle/nice }
+
+tex_1000:
+  { type: TEXTURE, format: IA4, offset: 0x09001000, width: 64, height: 32, symbol: battle/super }
+
+tex_1400:
+  { type: TEXTURE, format: I8, offset: 0x09001400, width: 8, height: 32, symbol: D_09001400_3917D0 }
+
+dlist_1500:
+  { type: PM64:EFFECT_DL, offset: 0x09001500, symbol: D_09001500_3918D0 }
+
+dlist_15A8:
+  { type: PM64:EFFECT_DL, offset: 0x090015A8, symbol: D_090015A8_391978 }
+
+dlist_1610:
+  { type: PM64:EFFECT_DL, offset: 0x09001610, symbol: D_09001610_3919E0 }
+
+dlist_1658:
+  { type: PM64:EFFECT_DL, offset: 0x09001658, symbol: D_09001658_391A28 }
+
+dlist_16A0:
+  { type: PM64:EFFECT_DL, offset: 0x090016A0, symbol: D_090016A0_391A70 }
+
+dlist_16E8:
+  { type: PM64:EFFECT_DL, offset: 0x090016E8, symbol: D_090016E8_391AB8 }
+
+dlist_1730:
+  { type: PM64:EFFECT_DL, offset: 0x09001730, symbol: D_09001730_391B00 }
+
+vtx_1778:
+  { type: VTX, offset: 0x09001778, count: 4, symbol: D_09001778_391B48 }
+
+vtx_17B8:
+  { type: VTX, offset: 0x090017B8, count: 4, symbol: D_090017B8_391B88 }
+
+vtx_17F8:
+  { type: VTX, offset: 0x090017F8, count: 4, symbol: D_090017F8_391BC8 }
+
+vtx_1838:
+  { type: VTX, offset: 0x09001838, count: 4, symbol: D_09001838_391C08 }
+
+vtx_1878:
+  { type: VTX, offset: 0x09001878, count: 4, symbol: D_09001878_391C48 }
+
+dlist_18B8:
+  { type: PM64:EFFECT_DL, offset: 0x090018B8, symbol: D_090018B8_391C88 }
+
+dlist_18D8:
+  { type: PM64:EFFECT_DL, offset: 0x090018D8, symbol: D_090018D8_391CA8 }
+
+dlist_18F8:
+  { type: PM64:EFFECT_DL, offset: 0x090018F8, symbol: D_090018F8_391CC8 }
+
+dlist_1918:
+  { type: PM64:EFFECT_DL, offset: 0x09001918, symbol: D_09001918_391CE8 }
+
+dlist_1938:
+  { type: PM64:EFFECT_DL, offset: 0x09001938, symbol: D_09001938_391D08 }

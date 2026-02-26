@@ -1,0 +1,105 @@
+:config:
+  segments:
+    - [0x09, 0x328EA0]
+
+tex_0:
+  { type: TEXTURE, format: I4, offset: 0x09000000, width: 256, height: 32, symbol: D_09000000_328EA0 }
+
+tex_1000:
+  { type: TEXTURE, format: I4, offset: 0x09001000, width: 176, height: 24, symbol: D_09001000_329EA0 }
+
+tex_1840:
+  { type: TEXTURE, format: I4, offset: 0x09001840, width: 224, height: 32, symbol: D_09001840_32A6E0 }
+
+vtx_2640:
+  { type: VTX, offset: 0x09002640, count: 4, symbol: D_09002640_32B4E0 }
+
+vtx_2680:
+  { type: VTX, offset: 0x09002680, count: 4, symbol: D_09002680_32B520 }
+
+vtx_26C0:
+  { type: VTX, offset: 0x090026C0, count: 4, symbol: D_090026C0_32B560 }
+
+vtx_2700:
+  { type: VTX, offset: 0x09002700, count: 4, symbol: D_09002700_32B5A0 }
+
+vtx_2740:
+  { type: VTX, offset: 0x09002740, count: 4, symbol: D_09002740_32B5E0 }
+
+dlist_2780:
+  { type: PM64:EFFECT_DL, offset: 0x09002780, symbol: D_09002780_32B620 }
+
+dlist_2868:
+  { type: PM64:EFFECT_DL, offset: 0x09002868, symbol: D_09002868_32B708 }
+
+dlist_2950:
+  { type: PM64:EFFECT_DL, offset: 0x09002950, symbol: D_09002950_32B7F0 }
+
+dlist_2A38:
+  { type: PM64:EFFECT_DL, offset: 0x09002A38, symbol: D_09002A38_32B8D8 }
+
+dlist_2B20:
+  { type: PM64:EFFECT_DL, offset: 0x09002B20, symbol: D_09002B20_32B9C0 }
+
+dlist_2B40:
+  { type: PM64:EFFECT_DL, offset: 0x09002B40, symbol: D_09002B40_32B9E0 }
+
+dlist_2B60:
+  { type: PM64:EFFECT_DL, offset: 0x09002B60, symbol: D_09002B60_32BA00 }
+
+dlist_2B80:
+  { type: PM64:EFFECT_DL, offset: 0x09002B80, symbol: D_09002B80_32BA20 }
+
+vtx_2BA0:
+  { type: VTX, offset: 0x09002BA0, count: 12, symbol: D_09002BA0_32BA40 }
+
+dlist_2C60:
+  { type: PM64:EFFECT_DL, offset: 0x09002C60, symbol: D_09002C60_32BB00 }
+
+tex_2C90:
+  { type: TEXTURE, format: CI4, offset: 0x09002C90, width: 16, height: 16, symbol: D_09002C90_32BB30 }
+
+tex_2D10:
+  { type: TEXTURE, format: CI4, offset: 0x09002D10, width: 16, height: 16, symbol: D_09002D10_32BBB0 }
+
+tex_2D90:
+  { type: TEXTURE, format: CI4, offset: 0x09002D90, width: 16, height: 16, symbol: D_09002D90_32BC30 }
+
+tex_2E10:
+  { type: TEXTURE, format: CI4, offset: 0x09002E10, width: 16, height: 16, tlut: 0x09002E90, colors: 16, symbol: D_09002E10_32BCB0 }
+
+tex_2E90:
+  { type: TEXTURE, format: TLUT, offset: 0x09002E90, colors: 16, symbol: D_09002C90_32BB30 }
+
+vtx_2EB0:
+  { type: VTX, offset: 0x09002EB0, count: 4, symbol: D_09002EB0_32BD50 }
+
+dlist_2EF0:
+  { type: PM64:EFFECT_DL, offset: 0x09002EF0, symbol: D_09002EF0_32BD90 }
+
+dlist_2F68:
+  { type: PM64:EFFECT_DL, offset: 0x09002F68, symbol: D_09002F68_32BE08 }
+
+dlist_2FB0:
+  { type: PM64:EFFECT_DL, offset: 0x09002FB0, symbol: D_09002FB0_32BE50 }
+
+dlist_3008:
+  { type: PM64:EFFECT_DL, offset: 0x09003008, symbol: D_09003008_32BEA8 }
+
+dlist_3060:
+  { type: PM64:EFFECT_DL, offset: 0x09003060, symbol: D_09003060_32BF00 }
+
+dlist_30B8:
+  { type: PM64:EFFECT_DL, offset: 0x090030B8, symbol: D_090030B8_32BF58 }
+
+dlist_3110:
+  { type: PM64:EFFECT_DL, offset: 0x09003110, symbol: D_09003110_32BFB0 }
+
+dlist_3168:
+  { type: PM64:EFFECT_DL, offset: 0x09003168, symbol: D_09003168_32C008 }
+
+dlist_31C0:
+  { type: PM64:EFFECT_DL, offset: 0x090031C0, symbol: D_090031C0_32C060 }
+
+dlist_3218:
+  { type: PM64:EFFECT_DL, offset: 0x09003218, symbol: D_09003218_32C0B8 }

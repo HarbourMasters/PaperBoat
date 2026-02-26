@@ -1,6 +1,7 @@
 #include "common.h"
 #include "effects.h"
 #include "ld_addrs.h"
+#include "port/Engine.h"
 
 typedef s8 TlbEntry[0x1000];
 typedef TlbEntry TlbMappablePage[15];
@@ -79,14 +80,36 @@ void update_effects(void) {
             if (effectInstance != nullptr && (effectInstance->flags & FX_INSTANCE_FLAG_ENABLED)) {
                 effectInstance->shared->flags &= ~FX_SHARED_DATA_CAN_FREE;
 
+                EffectSharedData* sd = effectInstance->shared;
+                void (*updateFunc)(EffectInstance*) = sd->update;
+                if (updateFunc == NULL || (uintptr_t)updateFunc < 0x100000000ULL) {
+                    GameEngine_LogInfo("Bad update ptr %p for effect %d (inst %d, shared=%p)",
+                        updateFunc, effectInstance->effectID, i, sd);
+                    GameEngine_LogInfo("  shared: flags=0x%x idx=%d cnt=%d delay=%d update=%p scene=%p ui=%p gfx=%p",
+                        sd->flags, sd->effectIndex, sd->instanceCounter, sd->freeDelay,
+                        sd->update, sd->renderScene, sd->renderUI, sd->graphics);
+                    // Dump raw bytes of the shared data to see corruption pattern
+                    u8* raw = (u8*)sd;
+                    GameEngine_LogInfo("  raw[0..47]: %02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x "
+                        "%02x%02x%02x%02x%02x%02x%02x%02x %02x%02x%02x%02x%02x%02x%02x%02x "
+                        "%02x%02x%02x%02x%02x%02x%02x%02x %02x%02x%02x%02x%02x%02x%02x%02x",
+                        raw[0],raw[1],raw[2],raw[3], raw[4],raw[5],raw[6],raw[7],
+                        raw[8],raw[9],raw[10],raw[11], raw[12],raw[13],raw[14],raw[15],
+                        raw[16],raw[17],raw[18],raw[19],raw[20],raw[21],raw[22],raw[23],
+                        raw[24],raw[25],raw[26],raw[27],raw[28],raw[29],raw[30],raw[31],
+                        raw[32],raw[33],raw[34],raw[35],raw[36],raw[37],raw[38],raw[39],
+                        raw[40],raw[41],raw[42],raw[43],raw[44],raw[45],raw[46],raw[47]);
+                    continue;
+                }
+
                 if (gGameStatusPtr->context != CONTEXT_WORLD) {
                     if (effectInstance->flags & FX_INSTANCE_FLAG_BATTLE) {
-                        effectInstance->shared->update(effectInstance);
+                        updateFunc(effectInstance);
                         effectInstance->flags |= FX_INSTANCE_FLAG_HAS_UPDATED;
                     }
                 } else {
                     if (!(effectInstance->flags & FX_INSTANCE_FLAG_BATTLE)) {
-                        effectInstance->shared->update(effectInstance);
+                        updateFunc(effectInstance);
                         effectInstance->flags |= FX_INSTANCE_FLAG_HAS_UPDATED;
                     }
                 }
@@ -100,9 +123,8 @@ void update_effects(void) {
                     if (sharedData->freeDelay != 0) {
                         sharedData->freeDelay--;
                     } else {
-                        if (sharedData->graphics != nullptr && sharedData->graphics != (void*)1) {
-                            general_heap_free(sharedData->graphics);
-                        }
+                        // On port, graphics is always NULL or (void*)1 sentinel.
+                        // Never heap-allocated, so never free.
                         sharedData->graphics = nullptr;
                         sharedData->flags = 0;
                         osUnmapTLB(i);
@@ -122,13 +144,17 @@ void render_effects_scene(void) {
         if (effectInstance != nullptr) {
             if (effectInstance->flags & FX_INSTANCE_FLAG_ENABLED) {
                 if (effectInstance->flags & FX_INSTANCE_FLAG_HAS_UPDATED) {
+                    void (*sceneFunc)(EffectInstance*) = effectInstance->shared->renderScene;
+                    if (sceneFunc == NULL || (uintptr_t)sceneFunc < 0x100000000ULL) {
+                        continue;
+                    }
                     if (gGameStatusPtr->context != CONTEXT_WORLD) {
                         if (effectInstance->flags & FX_INSTANCE_FLAG_BATTLE) {
-                            effectInstance->shared->renderScene(effectInstance);
+                            sceneFunc(effectInstance);
                         }
                     } else {
                         if (!(effectInstance->flags & FX_INSTANCE_FLAG_BATTLE)) {
-                            effectInstance->shared->renderScene(effectInstance);
+                            sceneFunc(effectInstance);
                         }
                     }
                 }
@@ -158,7 +184,7 @@ void render_effects_UI(void) {
                     }
 
                     renderUI = effectInstance->shared->renderUI;
-                    if (renderUI != stub_effect_delegate) {
+                    if (renderUI != NULL && renderUI != stub_effect_delegate) {
                         if (cond) {
                             Camera* camera = &gCameras[gCurrentCameraID];
 

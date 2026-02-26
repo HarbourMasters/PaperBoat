@@ -249,7 +249,7 @@ void star_appendGfx(void* effect) {
             gDisplayContext->matrixStack[gMatrixListPos] = data->trailMatrices[idx];
 
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPVertex(gMainGfxPos++, LOAD_ASSET(D_09001400_333AA0[i * 2]), 2, i * 2);
+            gSPVertex(gMainGfxPos++, (Vtx*)LOAD_ASSET(D_09001400_333AA0) + i * 2, 2, i * 2);
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
 

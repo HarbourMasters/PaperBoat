@@ -1,0 +1,45 @@
+:config:
+  segments:
+    - [0x09, 0x3930A0]
+
+tex_0:
+  { type: TEXTURE, format: I4, offset: 0x09000000, width: 32, height: 32, symbol: D_09000000_3930A0 }
+
+tex_200:
+  { type: TEXTURE, format: I8, offset: 0x09000200, width: 32, height: 32, symbol: D_09000200_3932A0 }
+
+dlist_600:
+  { type: PM64:EFFECT_DL, offset: 0x09000600, symbol: D_09000600_3936A0 }
+
+vtx_6A8:
+  { type: VTX, offset: 0x090006A8, count: 20, symbol: D_090006A8_393748 }
+
+vtx_7E8:
+  { type: VTX, offset: 0x090007E8, count: 16, symbol: D_090007E8_393888 }
+
+dlist_8E8:
+  { type: PM64:EFFECT_DL, offset: 0x090008E8, symbol: D_090008E8_393988 }
+
+dlist_950:
+  { type: PM64:EFFECT_DL, offset: 0x09000950, symbol: D_09000950_3939F0 }
+
+vtx_9F8:
+  { type: VTX, offset: 0x090009F8, count: 18, symbol: D_090009F8_393A98 }
+
+vtx_B18:
+  { type: VTX, offset: 0x09000B18, count: 10, symbol: D_09000B18_393BB8 }
+
+vtx_BB8:
+  { type: VTX, offset: 0x09000BB8, count: 20, symbol: D_09000BB8_393C58 }
+
+vtx_CF8:
+  { type: VTX, offset: 0x09000CF8, count: 18, symbol: D_09000CF8_393D98 }
+
+vtx_E18:
+  { type: VTX, offset: 0x09000E18, count: 10, symbol: D_09000E18_393EB8 }
+
+vtx_EB8:
+  { type: VTX, offset: 0x09000EB8, count: 20, symbol: D_09000EB8_393F58 }
+
+dlist_FF8:
+  { type: PM64:EFFECT_DL, offset: 0x09000FF8, symbol: D_09000FF8_394098 }

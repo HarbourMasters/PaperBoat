@@ -4008,22 +4008,17 @@ void build_custom_gfx(void) {
     gSPBranchList(gfx, gMainGfxPos);
 }
 
-// weird temps necessary to match
 /// @returns true if mtx is nullptr or identity.
 s32 is_identity_fixed_mtx(Mtx* mtx) {
-    s32* mtxIt = (s32*)mtx;
-    s32* identityIt;
-    s32 i;
-
     if (mtx == nullptr) {
         return true;
     }
 
-    identityIt = (s32*)&ReferenceIdentityMtx;
-
-    for (i = 0; i < 16; i++, mtxIt++, identityIt++) {
-        if (*mtxIt != *identityIt) {
-            return false;
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (mtx->mf[i][j] != ((i == j) ? 1.0f : 0.0f)) {
+                return false;
+            }
         }
     }
 
