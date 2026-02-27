@@ -6,9 +6,38 @@
 #include "model_clear_render_tasks.h"
 #include "nu/nusys.h"
 #include <stdio.h>
+#include "port/Engine.h"
 
 // Display list context tracking for debugging
 extern void GameEngine_SetDisplayListContext(const char* context);
+
+// Check if a GBI opcode is a double-width OTR command (2 Gfx entries instead of 1)
+static s32 mdl_is_otr_expanded_opcode(u32 opcode) {
+    return opcode == G_SETTIMG_OTR_HASH
+        || opcode == G_DL_OTR_HASH
+        || opcode == G_VTX_OTR_HASH
+        || opcode == G_BRANCH_Z_OTR
+        || opcode == G_MARKER
+        || opcode == G_MTX_OTR
+        || opcode == G_MOVEMEM_OTR;
+}
+
+// Resolve an OTR vertex hash command to a direct Vtx pointer.
+// gfx points to the G_VTX_OTR_HASH entry; gfx[1] contains the hash.
+// The interpreter may patch w1 with a resolved pointer after first render;
+// if w1 > 0xFFFFF it's already a direct pointer (same threshold as the interpreter).
+static Vtx* mdl_resolve_otr_vtx(Gfx* gfx) {
+    uintptr_t w1 = gfx[0].words.w1;
+    if (w1 > 0xFFFFF) {
+        return (Vtx*)w1;
+    }
+    uint64_t hash = ((uint64_t)(uint32_t)gfx[1].words.w0 << 32) | (uint32_t)gfx[1].words.w1;
+    Vtx* vtx = (Vtx*)ResourceGetDataByCrc(hash);
+    if (vtx != NULL) {
+        vtx = (Vtx*)((char*)vtx + w1);
+    }
+    return vtx;
+}
 
 // models are rendered in two stages by the RDP:
 // (1) main and aux textures are combined in the color combiner
@@ -4083,18 +4112,10 @@ void mdl_get_remap_tint_params(u8* primR, u8* primG, u8* primB, u8* envR, u8* en
 }
 
 void mdl_get_vertex_count(Gfx* gfx, s32* numVertices, Vtx** baseVtx, s32* gfxCount, Vtx* baseAddr) {
-    s8 stuff[2];
-
     s32 vtxCount;
-    u32 w0, w1;
     u32 cmd;
-    u32 vtxEndAddr;
-    s32 minVtx;
-    s32 maxVtx;
-    u32 vtxStartAddr;
-
-    minVtx = 0;
-    maxVtx = 0;
+    uintptr_t minVtx = 0;
+    uintptr_t maxVtx = 0;
 
     if (gfx == nullptr) {
         *numVertices = 0;
@@ -4103,52 +4124,94 @@ void mdl_get_vertex_count(Gfx* gfx, s32* numVertices, Vtx** baseVtx, s32* gfxCou
         Gfx* baseGfx = gfx;
 
         do {
-            w0 = gfx->words.w0;
-            w1 = gfx->words.w1;
-            cmd = _SHIFTR(w0,24,8);
+            u32 w0 = gfx->words.w0;
+            cmd = _SHIFTR(w0, 24, 8);
 
-            if (cmd == G_VTX) {
-                vtxStartAddr = w1;
-                if (baseAddr != nullptr) {
-                    vtxStartAddr = (vtxStartAddr & 0xFFFF) + (s32)baseAddr;
+            if (cmd == G_VTX_OTR_HASH) {
+                // OTR vertex command: resolve hash to get actual vertex pointer
+                Vtx* vtxPtr = mdl_resolve_otr_vtx(gfx);
+                vtxCount = _SHIFTR(w0, 12, 8);
+                if (vtxPtr != NULL) {
+                    uintptr_t vtxStart = (uintptr_t)vtxPtr;
+                    uintptr_t vtxEnd = vtxStart + (vtxCount * sizeof(Vtx));
+                    if (minVtx == 0) {
+                        minVtx = vtxStart;
+                        maxVtx = vtxEnd;
+                    }
+                    if (maxVtx < vtxEnd) {
+                        maxVtx = vtxEnd;
+                    }
+                    if (minVtx > vtxStart) {
+                        minVtx = vtxStart;
+                    }
                 }
-                vtxCount = _SHIFTR(w0,12,8);
+                gfx++; // skip extra hash entry
+            } else if (cmd == G_VTX) {
+                uintptr_t vtxStartAddr = gfx->words.w1;
+                if (baseAddr != nullptr) {
+                    vtxStartAddr = (vtxStartAddr & 0xFFFF) + (uintptr_t)baseAddr;
+                }
+                vtxCount = _SHIFTR(w0, 12, 8);
+                uintptr_t vtxEnd = vtxStartAddr + (vtxCount * sizeof(Vtx));
                 if (minVtx == 0) {
                     minVtx = vtxStartAddr;
-                    maxVtx = vtxStartAddr + (vtxCount * sizeof(Vtx));
+                    maxVtx = vtxEnd;
                 }
-                vtxEndAddr = vtxStartAddr + (vtxCount * sizeof(Vtx));
-                if (maxVtx < vtxEndAddr) {
-                    maxVtx = vtxEndAddr;
+                if (maxVtx < vtxEnd) {
+                    maxVtx = vtxEnd;
                 }
-                if (minVtx > vtxEndAddr) {
-                    minVtx = vtxEndAddr;
+                if (minVtx > vtxStartAddr) {
+                    minVtx = vtxStartAddr;
                 }
+            } else if (mdl_is_otr_expanded_opcode(cmd)) {
+                gfx++; // skip extra hash entry for other OTR commands
             }
             gfx++;
         } while (cmd != G_ENDDL);
 
-        *numVertices = (maxVtx - minVtx) >> 4;
+        *numVertices = (maxVtx - minVtx) / sizeof(Vtx);
         *baseVtx = (Vtx*)minVtx;
         *gfxCount = gfx - baseGfx;
-        w1 = 64; // TODO required to match -- can be any operation that stores w1
     }
 }
 
 void mdl_local_gfx_update_vtx_pointers(Gfx *nodeDlist, Vtx *baseVtx, Gfx *arg2, Vtx *arg3) {
-    u32 w0;
-    Vtx* w1;
+    u32 cmd;
     do {
-        w0 = (*((unsigned long long*)nodeDlist)) >> 0x20; // TODO required to match
-        w1 = (Vtx*)nodeDlist->words.w1;
-        if (w0 >> 0x18 == G_VTX) {
+        cmd = _SHIFTR(nodeDlist->words.w0, 24, 8);
+
+        if (cmd == G_VTX_OTR_HASH) {
+            // Resolve OTR vertex hash to direct pointer, then remap to local copy.
+            // Emit a standard G_VTX command with the local vertex pointer so the
+            // interpreter uses it directly (offset > 0xFFFFF = direct pointer path).
+            Vtx* resolvedVtx = mdl_resolve_otr_vtx(nodeDlist);
+            Vtx* localVtx = arg3 + (resolvedVtx - baseVtx);
+            s32 numVtx = _SHIFTR(nodeDlist->words.w0, 12, 8);
+            s32 vbidx = _SHIFTR(nodeDlist->words.w0, 1, 7) - numVtx;
+            // Emit standard G_VTX with direct pointer
+            gSPVertex(arg2, localVtx, numVtx, vbidx);
+            // Skip source hash entry, advance output past the single emitted command
+            nodeDlist += 2;
+            arg2++;
+        } else if (cmd == G_VTX) {
+            // Standard G_VTX (shouldn't happen in OTR DLs, but handle for safety)
+            Vtx* w1 = (Vtx*)nodeDlist->words.w1;
             w1 = arg3 + (w1 - baseVtx);
+            arg2->words.w0 = nodeDlist->words.w0;
+            arg2->words.w1 = (uintptr_t)w1;
+            nodeDlist++;
+            arg2++;
+        } else if (mdl_is_otr_expanded_opcode(cmd)) {
+            // Copy both entries of double-width OTR command as-is
+            *arg2++ = *nodeDlist++;
+            *arg2++ = *nodeDlist++;
+        } else {
+            // Copy standard command as-is
+            *arg2 = *nodeDlist;
+            nodeDlist++;
+            arg2++;
         }
-        arg2->words.w0 = w0;
-        arg2->words.w1 = (u32)w1;
-        nodeDlist++;
-        arg2++;
-    } while (w0 >> 0x18 != G_ENDDL);
+    } while (cmd != G_ENDDL);
 }
 
 void mdl_local_gfx_copy_vertices(Vtx* src, s32 num, Vtx* dest) {
@@ -4219,7 +4282,7 @@ Gfx* mdl_get_copied_gfx(s32 copyIndex) {
 
 void mdl_project_tex_coords(s32 modelID, Gfx* outGfx, Matrix4f arg2, Vtx* arg3) {
     s32 sp18;
-    Vtx* baseVtx;
+    Vtx* baseVtx = NULL;
     s32 sp20;
     f32 v1tc1;
     f32 v2tc1;
@@ -4264,16 +4327,27 @@ void mdl_project_tex_coords(s32 modelID, Gfx* outGfx, Matrix4f arg2, Vtx* arg3) 
     dlist = model->modelNode->displayData->displayList;
 
     while (true) {
-        cmd = dlist->words.w0 >> 0x18;
-        tempVert = (Vtx*)dlist->words.w1;
+        cmd = _SHIFTR(dlist->words.w0, 24, 8);
         if (cmd == G_ENDDL) {
             break;
         }
-        if (cmd == G_VTX) {
-            baseVtx = tempVert;
+        if (cmd == G_VTX_OTR_HASH) {
+            baseVtx = mdl_resolve_otr_vtx(dlist);
             break;
         }
+        if (cmd == G_VTX) {
+            baseVtx = (Vtx*)dlist->words.w1;
+            break;
+        }
+        if (mdl_is_otr_expanded_opcode(cmd)) {
+            dlist++; // skip extra hash entry
+        }
         dlist++;
+    }
+
+    if (baseVtx == NULL) {
+        GameEngine_LogInfo("[Model] mdl_project_tex_coords: no vertices found in DL for modelID %d", modelID);
+        return;
     }
 
     v0ob0 = baseVtx[zero].v.ob[0];

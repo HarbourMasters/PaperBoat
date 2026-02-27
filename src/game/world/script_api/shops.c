@@ -122,7 +122,7 @@ s32 shop_owner_buy_dialog(s32 messageIndex, s32 itemName, s32 coinCost, s32 bpCo
             suffix = MessagePlural;
         }
 #endif
-        set_message_text_var((s32) suffix, 2);
+        set_message_text_var((intptr_t) suffix, 2);
 #endif
     }
 
@@ -163,7 +163,7 @@ s32 shop_owner_continue_speech_with_quantity(s32 messageIndex, s32 amount) {
         suffixMsg = MessagePlural;
     }
 
-    set_message_text_var((s32) suffixMsg, 1);
+    set_message_text_var((intptr_t) suffixMsg, 1);
 #endif
 
     script = start_script(&EVS_ShopContinueSpeech, EVT_PRIORITY_1, 0);
