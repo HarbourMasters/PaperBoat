@@ -53,6 +53,7 @@ static uint32_t gVertexTableOffset = 0;
 // Track visited offsets to prevent infinite recursion from cycles and to exclude from vertex byte-swapping
 static std::unordered_set<uint32_t> gVisitedNodes;
 static std::unordered_set<uint32_t> gVisitedGroups;
+static std::unordered_set<uint32_t> gVisitedMatrices;
 static std::unordered_set<uint32_t> gVisitedDisplayLists;
 static std::unordered_set<uint32_t> gVisitedDisplayData;
 static std::unordered_set<uint32_t> gVisitedProperties;
@@ -255,7 +256,9 @@ static void ByteSwapModelGroupData(uint8_t* data, uint32_t offset, size_t size) 
     group[4] = childList;
 
     // Convert N64 fixed-point matrix (s15.16 interleaved) to float[4][4]
-    if (IsValidOffset(transformMatrix, size - 0x40)) {
+    // Multiple groups can share the same matrix — only convert once
+    if (IsValidOffset(transformMatrix, size - 0x40) && !gVisitedMatrices.count(transformMatrix)) {
+        gVisitedMatrices.insert(transformMatrix);
         uint32_t* raw = reinterpret_cast<uint32_t*>(data + transformMatrix);
         // First byte-swap all 16 words from BE
         for (int i = 0; i < 16; i++) {
@@ -371,6 +374,7 @@ static void ByteSwapShapeData(uint8_t* data, size_t size, std::vector<PM64Displa
     // Clear visited sets for this shape file
     gVisitedNodes.clear();
     gVisitedGroups.clear();
+    gVisitedMatrices.clear();
     gVisitedDisplayLists.clear();
     gVisitedDisplayData.clear();
     gVisitedProperties.clear();
