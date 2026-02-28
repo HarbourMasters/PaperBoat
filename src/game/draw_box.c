@@ -311,8 +311,6 @@ Vp gBoxViewport = {
     }
 };
 
-#include "vtx/drawbox1.vtx.inc.c"
-
 Mtx gBoxMatrix = RDP_MATRIX(
     0.000000, 0.000000, 0.000000, -6.000000,
     0.000000, 0.000000, 0.000000,  0.000000,

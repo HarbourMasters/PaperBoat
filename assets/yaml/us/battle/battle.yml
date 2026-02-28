@@ -1,0 +1,150 @@
+# Battle textures extracted from INCLUDE_IMG/INCLUDE_PAL in battle C files
+# ROM offsets from ver/us/splat.yaml
+
+# --- action_cmd/whirlwind ---
+battle/action_cmd/whirlwind_1:
+  { type: TEXTURE, format: CI4, offset: 0x424550, width: 24, height: 24, symbol: battle_action_cmd_whirlwind_1_png }
+battle/action_cmd/whirlwind_1.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x424670, colors: 16, symbol: battle_action_cmd_whirlwind_1_pal }
+battle/action_cmd/whirlwind_2:
+  { type: TEXTURE, format: CI4, offset: 0x424690, width: 24, height: 24, symbol: battle_action_cmd_whirlwind_2_png }
+battle/action_cmd/whirlwind_2.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x4247B0, colors: 16, symbol: battle_action_cmd_whirlwind_2_pal }
+battle/action_cmd/whirlwind_3:
+  { type: TEXTURE, format: CI4, offset: 0x4247D0, width: 24, height: 24, symbol: battle_action_cmd_whirlwind_3_png }
+battle/action_cmd/whirlwind_3.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x4248F0, colors: 16, symbol: battle_action_cmd_whirlwind_3_pal }
+battle/action_cmd/whirlwind_4:
+  { type: TEXTURE, format: CI4, offset: 0x424910, width: 24, height: 24, symbol: battle_action_cmd_whirlwind_4_png }
+battle/action_cmd/whirlwind_4.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x424A30, colors: 16, symbol: battle_action_cmd_whirlwind_4_pal }
+battle/action_cmd/whirlwind_5:
+  { type: TEXTURE, format: CI4, offset: 0x424A50, width: 24, height: 24, symbol: battle_action_cmd_whirlwind_5_png }
+battle/action_cmd/whirlwind_5.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x424B70, colors: 16, symbol: battle_action_cmd_whirlwind_5_pal }
+battle/action_cmd/whirlwind_6:
+  { type: TEXTURE, format: CI4, offset: 0x424B90, width: 24, height: 24, symbol: battle_action_cmd_whirlwind_6_png }
+battle/action_cmd/whirlwind_6.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x424CB0, colors: 16, symbol: battle_action_cmd_whirlwind_6_pal }
+battle/action_cmd/whirlwind_7:
+  { type: TEXTURE, format: CI4, offset: 0x424CD0, width: 24, height: 24, symbol: battle_action_cmd_whirlwind_7_png }
+battle/action_cmd/whirlwind_7.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x424DF0, colors: 16, symbol: battle_action_cmd_whirlwind_7_pal }
+battle/action_cmd/whirlwind_bubble:
+  { type: TEXTURE, format: CI4, offset: 0x424E10, width: 56, height: 48, symbol: battle_action_cmd_whirlwind_bubble_png }
+battle/action_cmd/whirlwind_bubble.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x425350, colors: 16, symbol: battle_action_cmd_whirlwind_bubble_pal }
+
+# --- action_cmd/three_chances ---
+battle/action_cmd/three_chances_1:
+  { type: TEXTURE, format: CI4, offset: 0x42B650, width: 24, height: 24, symbol: battle_action_cmd_three_chances_1_png }
+battle/action_cmd/three_chances_1.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x42B770, colors: 16, symbol: battle_action_cmd_three_chances_1_pal }
+battle/action_cmd/three_chances_2:
+  { type: TEXTURE, format: CI4, offset: 0x42B790, width: 24, height: 24, symbol: battle_action_cmd_three_chances_2_png }
+battle/action_cmd/three_chances_2.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x42B8B0, colors: 16, symbol: battle_action_cmd_three_chances_2_pal }
+battle/action_cmd/three_chances_3:
+  { type: TEXTURE, format: CI4, offset: 0x42B8D0, width: 24, height: 24, symbol: battle_action_cmd_three_chances_3_png }
+battle/action_cmd/three_chances_3.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x42B9F0, colors: 16, symbol: battle_action_cmd_three_chances_3_pal }
+battle/action_cmd/three_chances_0:
+  { type: TEXTURE, format: CI4, offset: 0x42BA10, width: 24, height: 24, symbol: battle_action_cmd_three_chances_0_png }
+battle/action_cmd/three_chances_0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x42BB30, colors: 16, symbol: battle_action_cmd_three_chances_0_pal }
+battle/action_cmd/three_chances_block:
+  { type: TEXTURE, format: CI4, offset: 0x42BB50, width: 32, height: 32, symbol: battle_action_cmd_three_chances_block_png }
+battle/action_cmd/three_chances_block.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x42BD50, colors: 16, symbol: battle_action_cmd_three_chances_block_pal }
+battle/action_cmd/three_chances_circle:
+  { type: TEXTURE, format: CI4, offset: 0x42BD70, width: 40, height: 40, symbol: battle_action_cmd_three_chances_circle_png }
+battle/action_cmd/three_chances_circle.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x42C090, colors: 16, symbol: battle_action_cmd_three_chances_circle_pal }
+battle/action_cmd/three_chances_cloud:
+  { type: TEXTURE, format: CI4, offset: 0x42C0B0, width: 40, height: 40, symbol: battle_action_cmd_three_chances_cloud_png }
+battle/action_cmd/three_chances_cloud.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x42C3D0, colors: 16, symbol: battle_action_cmd_three_chances_cloud_pal }
+battle/action_cmd/three_chances_4:
+  { type: TEXTURE, format: CI4, offset: 0x42C3F0, width: 24, height: 24, symbol: battle_action_cmd_three_chances_4_png }
+battle/action_cmd/three_chances_4.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x42C510, colors: 16, symbol: battle_action_cmd_three_chances_4_pal }
+
+# --- move/item/dusty_hammer ---
+battle/move/item/dusty_hammer:
+  { type: TEXTURE, format: CI4, offset: 0x7181D0, width: 32, height: 32, symbol: battle_item_dusty_hammer_png }
+battle/move/item/dusty_hammer.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x7183D0, colors: 16, symbol: battle_item_dusty_hammer_pal }
+
+# --- move/item/pebble ---
+battle/move/item/pebble:
+  { type: TEXTURE, format: CI4, offset: 0x71A170, width: 32, height: 32, symbol: battle_item_pebble_png }
+battle/move/item/pebble.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x71A370, colors: 16, symbol: battle_item_pebble_pal }
+
+# --- move/item/sleepy_sheep ---
+battle/move/item/sleepy_sheep1:
+  { type: TEXTURE, format: CI4, offset: 0x71F580, width: 56, height: 48, symbol: battle_item_sleepy_sheep1_png }
+battle/move/item/sleepy_sheep1.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x71FAC0, colors: 16, symbol: battle_item_sleepy_sheep1_pal }
+battle/move/item/sleepy_sheep2:
+  { type: TEXTURE, format: CI4, offset: 0x71FAE0, width: 56, height: 48, symbol: battle_item_sleepy_sheep2_png }
+battle/move/item/sleepy_sheep2.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x720020, colors: 16, symbol: battle_item_sleepy_sheep2_pal }
+battle/move/item/sleepy_sheep3:
+  { type: TEXTURE, format: CI4, offset: 0x720040, width: 56, height: 48, symbol: battle_item_sleepy_sheep3_png }
+battle/move/item/sleepy_sheep3.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x720580, colors: 16, symbol: battle_item_sleepy_sheep3_pal }
+
+# --- move/item/egg_missile ---
+battle/move/item/egg_missile1:
+  { type: TEXTURE, format: CI4, offset: 0x729790, width: 32, height: 32, symbol: battle_item_egg_missile1_png }
+battle/move/item/egg_missile1.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x729990, colors: 16, symbol: battle_item_egg_missile1_pal }
+battle/move/item/egg_missile2:
+  { type: TEXTURE, format: CI4, offset: 0x7299B0, width: 32, height: 32, symbol: battle_item_egg_missile2_png }
+battle/move/item/egg_missile2.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x729BB0, colors: 16, symbol: battle_item_egg_missile2_pal }
+battle/move/item/egg_missile3:
+  { type: TEXTURE, format: CI4, offset: 0x729BD0, width: 32, height: 32, symbol: battle_item_egg_missile3_png }
+battle/move/item/egg_missile3.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x729DD0, colors: 16, symbol: battle_item_egg_missile3_pal }
+battle/move/item/egg_missile4:
+  { type: TEXTURE, format: CI4, offset: 0x729DF0, width: 32, height: 32, symbol: battle_item_egg_missile4_png }
+battle/move/item/egg_missile4.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x729FF0, colors: 16, symbol: battle_item_egg_missile4_pal }
+
+# --- move/item/insecticide_herb ---
+battle/move/item/insecticide_herb:
+  { type: TEXTURE, format: CI4, offset: 0x72B130, width: 32, height: 32, symbol: battle_item_insecticide_herb_png }
+battle/move/item/insecticide_herb.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x72B330, colors: 16, symbol: battle_item_insecticide_herb_pal }
+
+# --- move/item/mystery ---
+battle/move/item/mystery:
+  { type: TEXTURE, format: CI4, offset: 0x72D4C0, width: 32, height: 32, symbol: battle_item_mystery_png }
+battle/move/item/mystery.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x72D6C0, colors: 16, symbol: battle_item_mystery_pal }
+
+# --- move/item/coconut ---
+battle/move/item/coconut:
+  { type: TEXTURE, format: CI4, offset: 0x72FF20, width: 32, height: 32, symbol: battle_item_coconut_png }
+battle/move/item/coconut.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x730120, colors: 16, symbol: battle_item_coconut_pal }
+
+# --- move/item/strange_cake ---
+battle/move/item/strange_cake1:
+  { type: TEXTURE, format: CI4, offset: 0x732470, width: 32, height: 32, symbol: battle_item_strange_cake1_png }
+battle/move/item/strange_cake1.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x732670, colors: 16, symbol: battle_item_strange_cake1_pal }
+battle/move/item/strange_cake2:
+  { type: TEXTURE, format: CI4, offset: 0x732690, width: 32, height: 32, symbol: battle_item_strange_cake2_png }
+battle/move/item/strange_cake2.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x732890, colors: 16, symbol: battle_item_strange_cake2_pal }
+battle/move/item/strange_cake3:
+  { type: TEXTURE, format: CI4, offset: 0x7328B0, width: 32, height: 32, symbol: battle_item_strange_cake3_png }
+battle/move/item/strange_cake3.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x732AB0, colors: 16, symbol: battle_item_strange_cake3_pal }
+
+# --- move/hammer, area/kzn2, area/sam2 ---
+# Moved to per-overlay YAML files in assets/yaml/us/battle/
+# (hammer_throw.yml, kzn2_lava_piranha.yml, sam2_monstar.yml)

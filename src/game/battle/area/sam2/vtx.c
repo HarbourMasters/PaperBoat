@@ -1,3 +1,3 @@
 #include "area.h"
 
-#include "battle/area/sam2/monstar_bubbles.vtx.inc.c"
+// monstar_bubbles vertex data loaded from OTR via battle/sam2_monstar.yml

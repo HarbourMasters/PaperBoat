@@ -1,0 +1,28 @@
+#ifndef _NPC_SPRITE_DISGUISEDMOUSTAFA_H_
+#define _NPC_SPRITE_DISGUISEDMOUSTAFA_H_
+
+#include "types.h"
+
+#define SPR_DisguisedMoustafa 0xBC
+
+#define SPR_IMG_DisguisedMoustafa_Still 0x0
+#define SPR_IMG_DisguisedMoustafa_Talk 0x1
+#define SPR_IMG_DisguisedMoustafa_Blink1 0x2
+#define SPR_IMG_DisguisedMoustafa_Blink2 0x3
+#define SPR_IMG_DisguisedMoustafa_GrabCloak1 0x4
+#define SPR_IMG_DisguisedMoustafa_GrabCloak2 0x5
+#define SPR_IMG_DisguisedMoustafa_ThrownCloak1 0x6
+#define SPR_IMG_DisguisedMoustafa_ThrownCloak2 0x7
+
+#define SPR_PAL_DisguisedMoustafa 0x0
+
+#define ANIM_DisguisedMoustafa_Still 0xBC0000
+#define ANIM_DisguisedMoustafa_Idle 0xBC0001
+#define ANIM_DisguisedMoustafa_BlinkOnce 0xBC0002
+#define ANIM_DisguisedMoustafa_BlinkLoop 0xBC0003
+#define ANIM_DisguisedMoustafa_Talk 0xBC0004
+#define ANIM_DisguisedMoustafa_GrabCloak 0xBC0005
+#define ANIM_DisguisedMoustafa_ThrownCloak 0xBC0006
+#define ANIM_DisguisedMoustafa_TalkAlt 0xBC0007
+
+#endif

@@ -47,11 +47,8 @@ extern AnimScript N(AS_Stairs_InitializeBefore);
 extern AnimScript N(AS_Stairs_Unfold);
 extern AnimScript N(AS_Stairs_InitializeAfter);
 
-extern Gfx N(texture_1_gfx)[];
-extern Gfx N(texture_2_gfx)[];
-extern Gfx N(texture_3_gfx)[];
-
-extern Vtx N(stairs_vtx)[];
+// texture_1/2/3_gfx now OTR path symbols in assets/world.h
+// stairs_vtx extracted to OTR via world_pra_31.yml
 extern Lights1 N(stairs_lights);
 extern Matrix4s N(unk_30_mtx);
 extern Matrix4s N(unk_26_mtx);

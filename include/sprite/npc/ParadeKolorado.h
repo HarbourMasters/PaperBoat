@@ -1,0 +1,42 @@
+#ifndef _NPC_SPRITE_PARADEKOLORADO_H_
+#define _NPC_SPRITE_PARADEKOLORADO_H_
+
+#include "types.h"
+
+#define SPR_ParadeKolorado 0xDC
+
+#define SPR_IMG_ParadeKolorado_Idle1 0x0
+#define SPR_IMG_ParadeKolorado_Idle2 0x1
+#define SPR_IMG_ParadeKolorado_Idle3 0x2
+#define SPR_IMG_ParadeKolorado_IdleFwd1 0x3
+#define SPR_IMG_ParadeKolorado_IdleFwd2 0x4
+#define SPR_IMG_ParadeKolorado_IdleFwd3 0x5
+#define SPR_IMG_ParadeKolorado_WifeIdle1 0x6
+#define SPR_IMG_ParadeKolorado_WifeIdle2 0x7
+#define SPR_IMG_ParadeKolorado_WifeIdle3 0x8
+#define SPR_IMG_ParadeKolorado_WifeIdleFwd1 0x9
+#define SPR_IMG_ParadeKolorado_WifeIdleFwd2 0xA
+#define SPR_IMG_ParadeKolorado_WifeIdleFwd3 0xB
+#define SPR_IMG_ParadeKolorado_Wave1 0xC
+#define SPR_IMG_ParadeKolorado_Wave2 0xD
+#define SPR_IMG_ParadeKolorado_WifeWave1 0xE
+#define SPR_IMG_ParadeKolorado_WifeWave2 0xF
+
+#define SPR_PAL_ParadeKolorado 0x0
+#define SPR_PAL_ParadeKolorado_Wife 0x1
+
+#define ANIM_ParadeKolorado_Idle 0xDC0000
+#define ANIM_ParadeKolorado_IdleFwd 0xDC0001
+#define ANIM_ParadeKolorado_Wave 0xDC0002
+#define ANIM_ParadeKolorado_WifeIdle 0xDC0003
+#define ANIM_ParadeKolorado_WifeIdleFwd 0xDC0004
+#define ANIM_ParadeKolorado_WifeWave 0xDC0005
+
+#define ANIM_ParadeKolorado_Wife_Idle 0xDC0100
+#define ANIM_ParadeKolorado_Wife_IdleFwd 0xDC0101
+#define ANIM_ParadeKolorado_Wife_Wave 0xDC0102
+#define ANIM_ParadeKolorado_Wife_WifeIdle 0xDC0103
+#define ANIM_ParadeKolorado_Wife_WifeIdleFwd 0xDC0104
+#define ANIM_ParadeKolorado_Wife_WifeWave 0xDC0105
+
+#endif

@@ -1,0 +1,150 @@
+#ifndef _NPC_SPRITE_PARADEPARTNER_H_
+#define _NPC_SPRITE_PARADEPARTNER_H_
+
+#include "types.h"
+
+#define SPR_ParadePartner 0xDA
+
+#define SPR_IMG_ParadePartner_Goombario1 0x0
+#define SPR_IMG_ParadePartner_Goombario2 0x1
+#define SPR_IMG_ParadePartner_Kooper1 0x2
+#define SPR_IMG_ParadePartner_Kooper2 0x3
+#define SPR_IMG_ParadePartner_Kooper3 0x4
+#define SPR_IMG_ParadePartner_Bombette1 0x5
+#define SPR_IMG_ParadePartner_Bombette2 0x6
+#define SPR_IMG_ParadePartner_Parakarry1 0x7
+#define SPR_IMG_ParadePartner_Parakarry2 0x8
+#define SPR_IMG_ParadePartner_Parakarry3 0x9
+#define SPR_IMG_ParadePartner_LWingFlap1 0xA
+#define SPR_IMG_ParadePartner_RWingFlap1 0xB
+#define SPR_IMG_ParadePartner_LWingFlap2 0xC
+#define SPR_IMG_ParadePartner_RWingFlap2 0xD
+#define SPR_IMG_ParadePartner_LWingFlap3 0xE
+#define SPR_IMG_ParadePartner_RWingFlap3 0xF
+#define SPR_IMG_ParadePartner_LWingFlap4 0x10
+#define SPR_IMG_ParadePartner_RWingFlap4 0x11
+#define SPR_IMG_ParadePartner_Sushie1 0x12
+#define SPR_IMG_ParadePartner_Sushie2 0x13
+#define SPR_IMG_ParadePartner_Sushie3 0x14
+#define SPR_IMG_ParadePartner_LWingFlap5 0x15
+#define SPR_IMG_ParadePartner_RWingFlap5 0x16
+#define SPR_IMG_ParadePartner_Watt1 0x17
+#define SPR_IMG_ParadePartner_Watt2 0x18
+#define SPR_IMG_ParadePartner_Watt3 0x19
+#define SPR_IMG_ParadePartner_Bow1 0x1A
+#define SPR_IMG_ParadePartner_Bow2 0x1B
+#define SPR_IMG_ParadePartner_BowFan1 0x1C
+#define SPR_IMG_ParadePartner_BowFan2 0x1D
+#define SPR_IMG_ParadePartner_BowArm1 0x1E
+#define SPR_IMG_ParadePartner_BowArm2 0x1F
+#define SPR_IMG_ParadePartner_BowPatch 0x20
+#define SPR_IMG_ParadePartner_LakilesterCloud1 0x21
+#define SPR_IMG_ParadePartner_LakilesterCloud2 0x22
+#define SPR_IMG_ParadePartner_LakilesterCloud3 0x23
+#define SPR_IMG_ParadePartner_Lakilester1 0x24
+#define SPR_IMG_ParadePartner_Lakilester2 0x25
+#define SPR_IMG_ParadePartner_Lakilester3 0x26
+#define SPR_IMG_ParadePartner_BombetteGear 0x27
+
+#define SPR_PAL_ParadePartner 0x0
+#define SPR_PAL_ParadePartner_Kooper 0x1
+#define SPR_PAL_ParadePartner_Bombette 0x2
+#define SPR_PAL_ParadePartner_Parakarry 0x3
+#define SPR_PAL_ParadePartner_Sushie 0x4
+#define SPR_PAL_ParadePartner_Watt 0x5
+#define SPR_PAL_ParadePartner_Bow 0x6
+#define SPR_PAL_ParadePartner_BowFan 0x7
+#define SPR_PAL_ParadePartner_BowPatch 0x8
+#define SPR_PAL_ParadePartner_Lakilester 0x9
+
+#define ANIM_ParadePartner_Goombario 0xDA0000
+#define ANIM_ParadePartner_Kooper 0xDA0001
+#define ANIM_ParadePartner_Bombette 0xDA0002
+#define ANIM_ParadePartner_Parakarry 0xDA0003
+#define ANIM_ParadePartner_Bow 0xDA0004
+#define ANIM_ParadePartner_Watt 0xDA0005
+#define ANIM_ParadePartner_Sushie 0xDA0006
+#define ANIM_ParadePartner_Lakilester 0xDA0007
+
+#define ANIM_ParadePartner_Kooper_Goombario 0xDA0100
+#define ANIM_ParadePartner_Kooper_Kooper 0xDA0101
+#define ANIM_ParadePartner_Kooper_Bombette 0xDA0102
+#define ANIM_ParadePartner_Kooper_Parakarry 0xDA0103
+#define ANIM_ParadePartner_Kooper_Bow 0xDA0104
+#define ANIM_ParadePartner_Kooper_Watt 0xDA0105
+#define ANIM_ParadePartner_Kooper_Sushie 0xDA0106
+#define ANIM_ParadePartner_Kooper_Lakilester 0xDA0107
+
+#define ANIM_ParadePartner_Bombette_Goombario 0xDA0200
+#define ANIM_ParadePartner_Bombette_Kooper 0xDA0201
+#define ANIM_ParadePartner_Bombette_Bombette 0xDA0202
+#define ANIM_ParadePartner_Bombette_Parakarry 0xDA0203
+#define ANIM_ParadePartner_Bombette_Bow 0xDA0204
+#define ANIM_ParadePartner_Bombette_Watt 0xDA0205
+#define ANIM_ParadePartner_Bombette_Sushie 0xDA0206
+#define ANIM_ParadePartner_Bombette_Lakilester 0xDA0207
+
+#define ANIM_ParadePartner_Parakarry_Goombario 0xDA0300
+#define ANIM_ParadePartner_Parakarry_Kooper 0xDA0301
+#define ANIM_ParadePartner_Parakarry_Bombette 0xDA0302
+#define ANIM_ParadePartner_Parakarry_Parakarry 0xDA0303
+#define ANIM_ParadePartner_Parakarry_Bow 0xDA0304
+#define ANIM_ParadePartner_Parakarry_Watt 0xDA0305
+#define ANIM_ParadePartner_Parakarry_Sushie 0xDA0306
+#define ANIM_ParadePartner_Parakarry_Lakilester 0xDA0307
+
+#define ANIM_ParadePartner_Sushie_Goombario 0xDA0400
+#define ANIM_ParadePartner_Sushie_Kooper 0xDA0401
+#define ANIM_ParadePartner_Sushie_Bombette 0xDA0402
+#define ANIM_ParadePartner_Sushie_Parakarry 0xDA0403
+#define ANIM_ParadePartner_Sushie_Bow 0xDA0404
+#define ANIM_ParadePartner_Sushie_Watt 0xDA0405
+#define ANIM_ParadePartner_Sushie_Sushie 0xDA0406
+#define ANIM_ParadePartner_Sushie_Lakilester 0xDA0407
+
+#define ANIM_ParadePartner_Watt_Goombario 0xDA0500
+#define ANIM_ParadePartner_Watt_Kooper 0xDA0501
+#define ANIM_ParadePartner_Watt_Bombette 0xDA0502
+#define ANIM_ParadePartner_Watt_Parakarry 0xDA0503
+#define ANIM_ParadePartner_Watt_Bow 0xDA0504
+#define ANIM_ParadePartner_Watt_Watt 0xDA0505
+#define ANIM_ParadePartner_Watt_Sushie 0xDA0506
+#define ANIM_ParadePartner_Watt_Lakilester 0xDA0507
+
+#define ANIM_ParadePartner_Bow_Goombario 0xDA0600
+#define ANIM_ParadePartner_Bow_Kooper 0xDA0601
+#define ANIM_ParadePartner_Bow_Bombette 0xDA0602
+#define ANIM_ParadePartner_Bow_Parakarry 0xDA0603
+#define ANIM_ParadePartner_Bow_Bow 0xDA0604
+#define ANIM_ParadePartner_Bow_Watt 0xDA0605
+#define ANIM_ParadePartner_Bow_Sushie 0xDA0606
+#define ANIM_ParadePartner_Bow_Lakilester 0xDA0607
+
+#define ANIM_ParadePartner_BowFan_Goombario 0xDA0700
+#define ANIM_ParadePartner_BowFan_Kooper 0xDA0701
+#define ANIM_ParadePartner_BowFan_Bombette 0xDA0702
+#define ANIM_ParadePartner_BowFan_Parakarry 0xDA0703
+#define ANIM_ParadePartner_BowFan_Bow 0xDA0704
+#define ANIM_ParadePartner_BowFan_Watt 0xDA0705
+#define ANIM_ParadePartner_BowFan_Sushie 0xDA0706
+#define ANIM_ParadePartner_BowFan_Lakilester 0xDA0707
+
+#define ANIM_ParadePartner_BowPatch_Goombario 0xDA0800
+#define ANIM_ParadePartner_BowPatch_Kooper 0xDA0801
+#define ANIM_ParadePartner_BowPatch_Bombette 0xDA0802
+#define ANIM_ParadePartner_BowPatch_Parakarry 0xDA0803
+#define ANIM_ParadePartner_BowPatch_Bow 0xDA0804
+#define ANIM_ParadePartner_BowPatch_Watt 0xDA0805
+#define ANIM_ParadePartner_BowPatch_Sushie 0xDA0806
+#define ANIM_ParadePartner_BowPatch_Lakilester 0xDA0807
+
+#define ANIM_ParadePartner_Lakilester_Goombario 0xDA0900
+#define ANIM_ParadePartner_Lakilester_Kooper 0xDA0901
+#define ANIM_ParadePartner_Lakilester_Bombette 0xDA0902
+#define ANIM_ParadePartner_Lakilester_Parakarry 0xDA0903
+#define ANIM_ParadePartner_Lakilester_Bow 0xDA0904
+#define ANIM_ParadePartner_Lakilester_Watt 0xDA0905
+#define ANIM_ParadePartner_Lakilester_Sushie 0xDA0906
+#define ANIM_ParadePartner_Lakilester_Lakilester 0xDA0907
+
+#endif

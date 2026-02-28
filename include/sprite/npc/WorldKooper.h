@@ -1,0 +1,152 @@
+#ifndef _NPC_SPRITE_WORLDKOOPER_H_
+#define _NPC_SPRITE_WORLDKOOPER_H_
+
+#include "types.h"
+
+#define SPR_WorldKooper 0x02
+
+#define SPR_IMG_WorldKooper_Step1 0x0
+#define SPR_IMG_WorldKooper_Step2 0x1
+#define SPR_IMG_WorldKooper_Step3 0x2
+#define SPR_IMG_WorldKooper_Idle1 0x3
+#define SPR_IMG_WorldKooper_Idle2 0x4
+#define SPR_IMG_WorldKooper_Idle3 0x5
+#define SPR_IMG_WorldKooper_Idle4 0x6
+#define SPR_IMG_WorldKooper_Shell1 0x7
+#define SPR_IMG_WorldKooper_Shell2 0x8
+#define SPR_IMG_WorldKooper_Shell3 0x9
+#define SPR_IMG_WorldKooper_Shell4 0xA
+#define SPR_IMG_WorldKooper_Shell5 0xB
+#define SPR_IMG_WorldKooper_Shell6 0xC
+#define SPR_IMG_WorldKooper_Shell7 0xD
+#define SPR_IMG_WorldKooper_Shell8 0xE
+#define SPR_IMG_WorldKooper_Hurt1 0xF
+#define SPR_IMG_WorldKooper_Hurt2 0x10
+#define SPR_IMG_WorldKooper_EnterShell1 0x11
+#define SPR_IMG_WorldKooper_EnterShell2 0x12
+#define SPR_IMG_WorldKooper_EnterShell3 0x13
+#define SPR_IMG_WorldKooper_Talk 0x14
+#define SPR_IMG_WorldKooper_TalkHappy1 0x15
+#define SPR_IMG_WorldKooper_TalkHappy2 0x16
+#define SPR_IMG_WorldKooper_Pleased 0x17
+#define SPR_IMG_WorldKooper_Celebrate1 0x18
+#define SPR_IMG_WorldKooper_Celebrate2 0x19
+#define SPR_IMG_WorldKooper_Celebrate3 0x1A
+#define SPR_IMG_WorldKooper_Jump 0x1B
+#define SPR_IMG_WorldKooper_Fall 0x1C
+#define SPR_IMG_WorldKooper_Read 0x1D
+#define SPR_IMG_WorldKooper_TalkSad1 0x1E
+#define SPR_IMG_WorldKooper_TalkSad2 0x1F
+
+#define SPR_PAL_WorldKooper 0x0
+#define SPR_PAL_WorldKooper_Poisoned 0x1
+#define SPR_PAL_WorldKooper_Inactive 0x2
+#define SPR_PAL_WorldKooper_Shocked 0x3
+#define SPR_PAL_WorldKooper_Burnt 0x4
+
+#define ANIM_WorldKooper_Still 0x020000
+#define ANIM_WorldKooper_StillHappy 0x020001
+#define ANIM_WorldKooper_StillSad 0x020002
+#define ANIM_WorldKooper_Idle 0x020003
+#define ANIM_WorldKooper_Walk 0x020004
+#define ANIM_WorldKooper_Run 0x020005
+#define ANIM_WorldKooper_Jump 0x020006
+#define ANIM_WorldKooper_Fall 0x020007
+#define ANIM_WorldKooper_StillShell 0x020008
+#define ANIM_WorldKooper_SpinShell 0x020009
+#define ANIM_WorldKooper_EnterShell 0x02000A
+#define ANIM_WorldKooper_ExitShell 0x02000B
+#define ANIM_WorldKooper_Hurt 0x02000C
+#define ANIM_WorldKooper_Talk 0x02000D
+#define ANIM_WorldKooper_TalkHappy 0x02000E
+#define ANIM_WorldKooper_TalkSad 0x02000F
+#define ANIM_WorldKooper_Celebrate 0x020010
+#define ANIM_WorldKooper_CelebrateLoop 0x020011
+#define ANIM_WorldKooper_StillShellAlt 0x020012
+#define ANIM_WorldKooper_Read 0x020013
+
+#define ANIM_WorldKooper_Poisoned_Still 0x020100
+#define ANIM_WorldKooper_Poisoned_StillHappy 0x020101
+#define ANIM_WorldKooper_Poisoned_StillSad 0x020102
+#define ANIM_WorldKooper_Poisoned_Idle 0x020103
+#define ANIM_WorldKooper_Poisoned_Walk 0x020104
+#define ANIM_WorldKooper_Poisoned_Run 0x020105
+#define ANIM_WorldKooper_Poisoned_Jump 0x020106
+#define ANIM_WorldKooper_Poisoned_Fall 0x020107
+#define ANIM_WorldKooper_Poisoned_StillShell 0x020108
+#define ANIM_WorldKooper_Poisoned_SpinShell 0x020109
+#define ANIM_WorldKooper_Poisoned_EnterShell 0x02010A
+#define ANIM_WorldKooper_Poisoned_ExitShell 0x02010B
+#define ANIM_WorldKooper_Poisoned_Hurt 0x02010C
+#define ANIM_WorldKooper_Poisoned_Talk 0x02010D
+#define ANIM_WorldKooper_Poisoned_TalkHappy 0x02010E
+#define ANIM_WorldKooper_Poisoned_TalkSad 0x02010F
+#define ANIM_WorldKooper_Poisoned_Celebrate 0x020110
+#define ANIM_WorldKooper_Poisoned_CelebrateLoop 0x020111
+#define ANIM_WorldKooper_Poisoned_StillShellAlt 0x020112
+#define ANIM_WorldKooper_Poisoned_Read 0x020113
+
+#define ANIM_WorldKooper_Inactive_Still 0x020200
+#define ANIM_WorldKooper_Inactive_StillHappy 0x020201
+#define ANIM_WorldKooper_Inactive_StillSad 0x020202
+#define ANIM_WorldKooper_Inactive_Idle 0x020203
+#define ANIM_WorldKooper_Inactive_Walk 0x020204
+#define ANIM_WorldKooper_Inactive_Run 0x020205
+#define ANIM_WorldKooper_Inactive_Jump 0x020206
+#define ANIM_WorldKooper_Inactive_Fall 0x020207
+#define ANIM_WorldKooper_Inactive_StillShell 0x020208
+#define ANIM_WorldKooper_Inactive_SpinShell 0x020209
+#define ANIM_WorldKooper_Inactive_EnterShell 0x02020A
+#define ANIM_WorldKooper_Inactive_ExitShell 0x02020B
+#define ANIM_WorldKooper_Inactive_Hurt 0x02020C
+#define ANIM_WorldKooper_Inactive_Talk 0x02020D
+#define ANIM_WorldKooper_Inactive_TalkHappy 0x02020E
+#define ANIM_WorldKooper_Inactive_TalkSad 0x02020F
+#define ANIM_WorldKooper_Inactive_Celebrate 0x020210
+#define ANIM_WorldKooper_Inactive_CelebrateLoop 0x020211
+#define ANIM_WorldKooper_Inactive_StillShellAlt 0x020212
+#define ANIM_WorldKooper_Inactive_Read 0x020213
+
+#define ANIM_WorldKooper_Shocked_Still 0x020300
+#define ANIM_WorldKooper_Shocked_StillHappy 0x020301
+#define ANIM_WorldKooper_Shocked_StillSad 0x020302
+#define ANIM_WorldKooper_Shocked_Idle 0x020303
+#define ANIM_WorldKooper_Shocked_Walk 0x020304
+#define ANIM_WorldKooper_Shocked_Run 0x020305
+#define ANIM_WorldKooper_Shocked_Jump 0x020306
+#define ANIM_WorldKooper_Shocked_Fall 0x020307
+#define ANIM_WorldKooper_Shocked_StillShell 0x020308
+#define ANIM_WorldKooper_Shocked_SpinShell 0x020309
+#define ANIM_WorldKooper_Shocked_EnterShell 0x02030A
+#define ANIM_WorldKooper_Shocked_ExitShell 0x02030B
+#define ANIM_WorldKooper_Shocked_Hurt 0x02030C
+#define ANIM_WorldKooper_Shocked_Talk 0x02030D
+#define ANIM_WorldKooper_Shocked_TalkHappy 0x02030E
+#define ANIM_WorldKooper_Shocked_TalkSad 0x02030F
+#define ANIM_WorldKooper_Shocked_Celebrate 0x020310
+#define ANIM_WorldKooper_Shocked_CelebrateLoop 0x020311
+#define ANIM_WorldKooper_Shocked_StillShellAlt 0x020312
+#define ANIM_WorldKooper_Shocked_Read 0x020313
+
+#define ANIM_WorldKooper_Burnt_Still 0x020400
+#define ANIM_WorldKooper_Burnt_StillHappy 0x020401
+#define ANIM_WorldKooper_Burnt_StillSad 0x020402
+#define ANIM_WorldKooper_Burnt_Idle 0x020403
+#define ANIM_WorldKooper_Burnt_Walk 0x020404
+#define ANIM_WorldKooper_Burnt_Run 0x020405
+#define ANIM_WorldKooper_Burnt_Jump 0x020406
+#define ANIM_WorldKooper_Burnt_Fall 0x020407
+#define ANIM_WorldKooper_Burnt_StillShell 0x020408
+#define ANIM_WorldKooper_Burnt_SpinShell 0x020409
+#define ANIM_WorldKooper_Burnt_EnterShell 0x02040A
+#define ANIM_WorldKooper_Burnt_ExitShell 0x02040B
+#define ANIM_WorldKooper_Burnt_Hurt 0x02040C
+#define ANIM_WorldKooper_Burnt_Talk 0x02040D
+#define ANIM_WorldKooper_Burnt_TalkHappy 0x02040E
+#define ANIM_WorldKooper_Burnt_TalkSad 0x02040F
+#define ANIM_WorldKooper_Burnt_Celebrate 0x020410
+#define ANIM_WorldKooper_Burnt_CelebrateLoop 0x020411
+#define ANIM_WorldKooper_Burnt_StillShellAlt 0x020412
+#define ANIM_WorldKooper_Burnt_Read 0x020413
+
+#endif

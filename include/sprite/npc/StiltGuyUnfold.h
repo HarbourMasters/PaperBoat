@@ -1,0 +1,47 @@
+#ifndef _NPC_SPRITE_STILTGUYUNFOLD_H_
+#define _NPC_SPRITE_STILTGUYUNFOLD_H_
+
+#include "types.h"
+
+#define SPR_StiltGuyUnfold 0x71
+
+#define SPR_IMG_StiltGuyUnfold_Raster00 0x0
+#define SPR_IMG_StiltGuyUnfold_Raster01 0x1
+#define SPR_IMG_StiltGuyUnfold_Raster02 0x2
+#define SPR_IMG_StiltGuyUnfold_Raster03 0x3
+#define SPR_IMG_StiltGuyUnfold_Raster04 0x4
+
+#define SPR_PAL_StiltGuyUnfold 0x0
+#define SPR_PAL_StiltGuyUnfold_Alt 0x1
+#define SPR_PAL_StiltGuyUnfold_Darker 0x2
+#define SPR_PAL_StiltGuyUnfold_Dark 0x3
+
+#define ANIM_StiltGuyUnfold_Anim00 0x710000
+#define ANIM_StiltGuyUnfold_Anim01 0x710001
+#define ANIM_StiltGuyUnfold_Anim02 0x710002
+#define ANIM_StiltGuyUnfold_Anim03 0x710003
+#define ANIM_StiltGuyUnfold_Anim04 0x710004
+#define ANIM_StiltGuyUnfold_Anim05 0x710005
+
+#define ANIM_StiltGuyUnfold_Alt_Anim00 0x710100
+#define ANIM_StiltGuyUnfold_Alt_Anim01 0x710101
+#define ANIM_StiltGuyUnfold_Alt_Anim02 0x710102
+#define ANIM_StiltGuyUnfold_Alt_Anim03 0x710103
+#define ANIM_StiltGuyUnfold_Alt_Anim04 0x710104
+#define ANIM_StiltGuyUnfold_Alt_Anim05 0x710105
+
+#define ANIM_StiltGuyUnfold_Darker_Anim00 0x710200
+#define ANIM_StiltGuyUnfold_Darker_Anim01 0x710201
+#define ANIM_StiltGuyUnfold_Darker_Anim02 0x710202
+#define ANIM_StiltGuyUnfold_Darker_Anim03 0x710203
+#define ANIM_StiltGuyUnfold_Darker_Anim04 0x710204
+#define ANIM_StiltGuyUnfold_Darker_Anim05 0x710205
+
+#define ANIM_StiltGuyUnfold_Dark_Anim00 0x710300
+#define ANIM_StiltGuyUnfold_Dark_Anim01 0x710301
+#define ANIM_StiltGuyUnfold_Dark_Anim02 0x710302
+#define ANIM_StiltGuyUnfold_Dark_Anim03 0x710303
+#define ANIM_StiltGuyUnfold_Dark_Anim04 0x710304
+#define ANIM_StiltGuyUnfold_Dark_Anim05 0x710305
+
+#endif

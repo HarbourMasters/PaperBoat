@@ -1,0 +1,152 @@
+#ifndef _NPC_SPRITE_HURTPLANT_H_
+#define _NPC_SPRITE_HURTPLANT_H_
+
+#include "types.h"
+
+#define SPR_HurtPlant 0x44
+
+#define SPR_IMG_HurtPlant_Raster00 0x0
+#define SPR_IMG_HurtPlant_Raster01 0x1
+#define SPR_IMG_HurtPlant_Raster02 0x2
+#define SPR_IMG_HurtPlant_Raster03 0x3
+#define SPR_IMG_HurtPlant_Raster04 0x4
+#define SPR_IMG_HurtPlant_Raster05 0x5
+#define SPR_IMG_HurtPlant_Raster06 0x6
+#define SPR_IMG_HurtPlant_Raster07 0x7
+#define SPR_IMG_HurtPlant_Raster08 0x8
+#define SPR_IMG_HurtPlant_Raster09 0x9
+#define SPR_IMG_HurtPlant_Raster0A 0xA
+#define SPR_IMG_HurtPlant_Raster0B 0xB
+#define SPR_IMG_HurtPlant_Raster0C 0xC
+#define SPR_IMG_HurtPlant_Raster0D 0xD
+#define SPR_IMG_HurtPlant_Raster0E 0xE
+#define SPR_IMG_HurtPlant_Raster0F 0xF
+#define SPR_IMG_HurtPlant_Raster10 0x10
+#define SPR_IMG_HurtPlant_Raster11 0x11
+#define SPR_IMG_HurtPlant_Raster12 0x12
+#define SPR_IMG_HurtPlant_Raster13 0x13
+#define SPR_IMG_HurtPlant_Raster14 0x14
+#define SPR_IMG_HurtPlant_Raster15 0x15
+#define SPR_IMG_HurtPlant_Raster16 0x16
+#define SPR_IMG_HurtPlant_Raster17 0x17
+#define SPR_IMG_HurtPlant_Raster18 0x18
+#define SPR_IMG_HurtPlant_Raster19 0x19
+#define SPR_IMG_HurtPlant_Raster1A 0x1A
+#define SPR_IMG_HurtPlant_Raster1B 0x1B
+#define SPR_IMG_HurtPlant_Raster1C 0x1C
+#define SPR_IMG_HurtPlant_Raster1D 0x1D
+#define SPR_IMG_HurtPlant_Raster1E 0x1E
+#define SPR_IMG_HurtPlant_Raster1F 0x1F
+#define SPR_IMG_HurtPlant_Raster20 0x20
+#define SPR_IMG_HurtPlant_Raster21 0x21
+#define SPR_IMG_HurtPlant_Raster22 0x22
+#define SPR_IMG_HurtPlant_Raster23 0x23
+#define SPR_IMG_HurtPlant_Raster24 0x24
+#define SPR_IMG_HurtPlant_Raster25 0x25
+#define SPR_IMG_HurtPlant_Raster26 0x26
+#define SPR_IMG_HurtPlant_Raster27 0x27
+#define SPR_IMG_HurtPlant_Raster28 0x28
+#define SPR_IMG_HurtPlant_Raster29 0x29
+#define SPR_IMG_HurtPlant_Raster2A 0x2A
+#define SPR_IMG_HurtPlant_Raster2B 0x2B
+#define SPR_IMG_HurtPlant_Raster2C 0x2C
+#define SPR_IMG_HurtPlant_Raster2D 0x2D
+#define SPR_IMG_HurtPlant_Raster2E 0x2E
+#define SPR_IMG_HurtPlant_Raster2F 0x2F
+#define SPR_IMG_HurtPlant_Raster30 0x30
+#define SPR_IMG_HurtPlant_Raster31 0x31
+#define SPR_IMG_HurtPlant_Raster32 0x32
+#define SPR_IMG_HurtPlant_Raster33 0x33
+#define SPR_IMG_HurtPlant_Raster34 0x34
+#define SPR_IMG_HurtPlant_Raster35 0x35
+#define SPR_IMG_HurtPlant_Raster36 0x36
+#define SPR_IMG_HurtPlant_Raster37 0x37
+#define SPR_IMG_HurtPlant_Raster38 0x38
+
+#define SPR_PAL_HurtPlant 0x0
+#define SPR_PAL_HurtPlant_Poisoned 0x1
+#define SPR_PAL_HurtPlant_Dizzy 0x2
+#define SPR_PAL_HurtPlant_Shocked 0x3
+#define SPR_PAL_HurtPlant_Burnt 0x4
+
+#define ANIM_HurtPlant_Anim00 0x440000
+#define ANIM_HurtPlant_Anim01 0x440001
+#define ANIM_HurtPlant_Anim02 0x440002
+#define ANIM_HurtPlant_Anim03 0x440003
+#define ANIM_HurtPlant_Anim04 0x440004
+#define ANIM_HurtPlant_Anim05 0x440005
+#define ANIM_HurtPlant_Anim06 0x440006
+#define ANIM_HurtPlant_Anim07 0x440007
+#define ANIM_HurtPlant_Anim08 0x440008
+#define ANIM_HurtPlant_Anim09 0x440009
+#define ANIM_HurtPlant_Anim0A 0x44000A
+#define ANIM_HurtPlant_Anim0B 0x44000B
+#define ANIM_HurtPlant_Anim0C 0x44000C
+#define ANIM_HurtPlant_Anim0D 0x44000D
+#define ANIM_HurtPlant_Anim0E 0x44000E
+
+#define ANIM_HurtPlant_Poisoned_Anim00 0x440100
+#define ANIM_HurtPlant_Poisoned_Anim01 0x440101
+#define ANIM_HurtPlant_Poisoned_Anim02 0x440102
+#define ANIM_HurtPlant_Poisoned_Anim03 0x440103
+#define ANIM_HurtPlant_Poisoned_Anim04 0x440104
+#define ANIM_HurtPlant_Poisoned_Anim05 0x440105
+#define ANIM_HurtPlant_Poisoned_Anim06 0x440106
+#define ANIM_HurtPlant_Poisoned_Anim07 0x440107
+#define ANIM_HurtPlant_Poisoned_Anim08 0x440108
+#define ANIM_HurtPlant_Poisoned_Anim09 0x440109
+#define ANIM_HurtPlant_Poisoned_Anim0A 0x44010A
+#define ANIM_HurtPlant_Poisoned_Anim0B 0x44010B
+#define ANIM_HurtPlant_Poisoned_Anim0C 0x44010C
+#define ANIM_HurtPlant_Poisoned_Anim0D 0x44010D
+#define ANIM_HurtPlant_Poisoned_Anim0E 0x44010E
+
+#define ANIM_HurtPlant_Dizzy_Anim00 0x440200
+#define ANIM_HurtPlant_Dizzy_Anim01 0x440201
+#define ANIM_HurtPlant_Dizzy_Anim02 0x440202
+#define ANIM_HurtPlant_Dizzy_Anim03 0x440203
+#define ANIM_HurtPlant_Dizzy_Anim04 0x440204
+#define ANIM_HurtPlant_Dizzy_Anim05 0x440205
+#define ANIM_HurtPlant_Dizzy_Anim06 0x440206
+#define ANIM_HurtPlant_Dizzy_Anim07 0x440207
+#define ANIM_HurtPlant_Dizzy_Anim08 0x440208
+#define ANIM_HurtPlant_Dizzy_Anim09 0x440209
+#define ANIM_HurtPlant_Dizzy_Anim0A 0x44020A
+#define ANIM_HurtPlant_Dizzy_Anim0B 0x44020B
+#define ANIM_HurtPlant_Dizzy_Anim0C 0x44020C
+#define ANIM_HurtPlant_Dizzy_Anim0D 0x44020D
+#define ANIM_HurtPlant_Dizzy_Anim0E 0x44020E
+
+#define ANIM_HurtPlant_Shocked_Anim00 0x440300
+#define ANIM_HurtPlant_Shocked_Anim01 0x440301
+#define ANIM_HurtPlant_Shocked_Anim02 0x440302
+#define ANIM_HurtPlant_Shocked_Anim03 0x440303
+#define ANIM_HurtPlant_Shocked_Anim04 0x440304
+#define ANIM_HurtPlant_Shocked_Anim05 0x440305
+#define ANIM_HurtPlant_Shocked_Anim06 0x440306
+#define ANIM_HurtPlant_Shocked_Anim07 0x440307
+#define ANIM_HurtPlant_Shocked_Anim08 0x440308
+#define ANIM_HurtPlant_Shocked_Anim09 0x440309
+#define ANIM_HurtPlant_Shocked_Anim0A 0x44030A
+#define ANIM_HurtPlant_Shocked_Anim0B 0x44030B
+#define ANIM_HurtPlant_Shocked_Anim0C 0x44030C
+#define ANIM_HurtPlant_Shocked_Anim0D 0x44030D
+#define ANIM_HurtPlant_Shocked_Anim0E 0x44030E
+
+#define ANIM_HurtPlant_Burnt_Anim00 0x440400
+#define ANIM_HurtPlant_Burnt_Anim01 0x440401
+#define ANIM_HurtPlant_Burnt_Anim02 0x440402
+#define ANIM_HurtPlant_Burnt_Anim03 0x440403
+#define ANIM_HurtPlant_Burnt_Anim04 0x440404
+#define ANIM_HurtPlant_Burnt_Anim05 0x440405
+#define ANIM_HurtPlant_Burnt_Anim06 0x440406
+#define ANIM_HurtPlant_Burnt_Anim07 0x440407
+#define ANIM_HurtPlant_Burnt_Anim08 0x440408
+#define ANIM_HurtPlant_Burnt_Anim09 0x440409
+#define ANIM_HurtPlant_Burnt_Anim0A 0x44040A
+#define ANIM_HurtPlant_Burnt_Anim0B 0x44040B
+#define ANIM_HurtPlant_Burnt_Anim0C 0x44040C
+#define ANIM_HurtPlant_Burnt_Anim0D 0x44040D
+#define ANIM_HurtPlant_Burnt_Anim0E 0x44040E
+
+#endif

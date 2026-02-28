@@ -12,6 +12,8 @@ void* ResourceGetDataByName(const char* name);
 void* ResourceGetDataByCrc(uint64_t crc);
 const char* ResourceGetNameByCrc(uint64_t crc);
 size_t ResourceGetSizeByName(const char* name);
+uint16_t ResourceGetTexWidthByName(const char* name);
+uint16_t ResourceGetTexHeightByName(const char* name);
 uint8_t GameEngine_OTRSigCheck(const char* data);
 
 #ifdef __cplusplus
@@ -20,6 +22,8 @@ uint8_t GameEngine_OTRSigCheck(const char* data);
 
 #define LOAD_ASSET(path) (path == NULL ? NULL : (GameEngine_OTRSigCheck((const char*) path) ? ResourceGetDataByName((const char*) path) : path))
 #define LOAD_ASSET_RAW(path) ResourceGetDataByName((const char*) path)
+#define LOAD_ASSET_TEX_WIDTH(path) (GameEngine_OTRSigCheck((const char*) path) ? ResourceGetTexWidthByName((const char*) path) : 0)
+#define LOAD_ASSET_TEX_HEIGHT(path) (GameEngine_OTRSigCheck((const char*) path) ? ResourceGetTexHeightByName((const char*) path) : 0)
 
 #ifdef __cplusplus
 #include <vector>

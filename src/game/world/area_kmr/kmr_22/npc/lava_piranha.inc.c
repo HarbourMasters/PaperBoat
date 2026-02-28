@@ -1,12 +1,12 @@
-#include "include_asset.h"
+#include "assets/world.h"
+#include "port/Engine.h"
 
 #include "world/common/enemy/LavaPiranha.h"
 
 #include "world/common/lava_piranha/part1.inc.c"
 
-INCLUDE_IMG("world/area_kmr/kmr_22/lava_piranha_vine.png", D_80241900);
-INCLUDE_PAL("world/area_kmr/kmr_22/lava_piranha_vine.pal", D_80241D00);
-#include "world/area_kmr/kmr_22/lava_piranha_vine.gfx.inc.c"
+// vine textures and gfx extracted to OTR via world_kmr_22.yml
+// D_80241900 (img), D_80241D00 (pal), kmr_22_lava_piranha_vine_gfx defined in assets/world.h
 
 #include "world/common/lava_piranha/part2.inc.c"
 #include "world/common/lava_piranha/LoadAnimationFromTable.inc.c"

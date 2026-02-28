@@ -1,0 +1,120 @@
+#ifndef _NPC_SPRITE_BILLBLASTER_H_
+#define _NPC_SPRITE_BILLBLASTER_H_
+
+#include "types.h"
+
+#define SPR_BillBlaster 0x2E
+
+#define SPR_IMG_BillBlaster_Barrel 0x0
+#define SPR_IMG_BillBlaster_BaseFront 0x1
+#define SPR_IMG_BillBlaster_BaseBack 0x2
+#define SPR_IMG_BillBlaster_BarrelFire1 0x3
+#define SPR_IMG_BillBlaster_BarrelFire2 0x4
+#define SPR_IMG_BillBlaster_BarrelFire3 0x5
+#define SPR_IMG_BillBlaster_BarrelFire4 0x6
+#define SPR_IMG_BillBlaster_BurnedBarrel 0x7
+#define SPR_IMG_BillBlaster_BurnedBaseFront 0x8
+#define SPR_IMG_BillBlaster_BurnedBaseBack 0x9
+
+#define SPR_PAL_BillBlaster 0x0
+#define SPR_PAL_BillBlaster_Gold 0x1
+#define SPR_PAL_BillBlaster_Poisoned 0x2
+#define SPR_PAL_BillBlaster_Gold_Poisoned 0x3
+#define SPR_PAL_BillBlaster_Dizzy 0x4
+#define SPR_PAL_BillBlaster_Gold_Dizzy 0x5
+#define SPR_PAL_BillBlaster_Shocked 0x6
+#define SPR_PAL_BillBlaster_Gold_Shocked 0x7
+#define SPR_PAL_BillBlaster_Burnt 0x8
+#define SPR_PAL_BillBlaster_Gold_Burnt 0x9
+
+#define ANIM_BillBlaster_Still 0x2E0000
+#define ANIM_BillBlaster_Idle 0x2E0001
+#define ANIM_BillBlaster_Fire 0x2E0002
+#define ANIM_BillBlaster_Hurt 0x2E0003
+#define ANIM_BillBlaster_Collapse 0x2E0004
+#define ANIM_BillBlaster_Burned 0x2E0005
+#define ANIM_BillBlaster_Buildup 0x2E0006
+#define ANIM_BillBlaster_Release 0x2E0007
+
+#define ANIM_BillBlaster_Gold_Still 0x2E0100
+#define ANIM_BillBlaster_Gold_Idle 0x2E0101
+#define ANIM_BillBlaster_Gold_Fire 0x2E0102
+#define ANIM_BillBlaster_Gold_Hurt 0x2E0103
+#define ANIM_BillBlaster_Gold_Collapse 0x2E0104
+#define ANIM_BillBlaster_Gold_Burned 0x2E0105
+#define ANIM_BillBlaster_Gold_Buildup 0x2E0106
+#define ANIM_BillBlaster_Gold_Release 0x2E0107
+
+#define ANIM_BillBlaster_Poisoned_Still 0x2E0200
+#define ANIM_BillBlaster_Poisoned_Idle 0x2E0201
+#define ANIM_BillBlaster_Poisoned_Fire 0x2E0202
+#define ANIM_BillBlaster_Poisoned_Hurt 0x2E0203
+#define ANIM_BillBlaster_Poisoned_Collapse 0x2E0204
+#define ANIM_BillBlaster_Poisoned_Burned 0x2E0205
+#define ANIM_BillBlaster_Poisoned_Buildup 0x2E0206
+#define ANIM_BillBlaster_Poisoned_Release 0x2E0207
+
+#define ANIM_BillBlaster_Gold_Poisoned_Still 0x2E0300
+#define ANIM_BillBlaster_Gold_Poisoned_Idle 0x2E0301
+#define ANIM_BillBlaster_Gold_Poisoned_Fire 0x2E0302
+#define ANIM_BillBlaster_Gold_Poisoned_Hurt 0x2E0303
+#define ANIM_BillBlaster_Gold_Poisoned_Collapse 0x2E0304
+#define ANIM_BillBlaster_Gold_Poisoned_Burned 0x2E0305
+#define ANIM_BillBlaster_Gold_Poisoned_Buildup 0x2E0306
+#define ANIM_BillBlaster_Gold_Poisoned_Release 0x2E0307
+
+#define ANIM_BillBlaster_Dizzy_Still 0x2E0400
+#define ANIM_BillBlaster_Dizzy_Idle 0x2E0401
+#define ANIM_BillBlaster_Dizzy_Fire 0x2E0402
+#define ANIM_BillBlaster_Dizzy_Hurt 0x2E0403
+#define ANIM_BillBlaster_Dizzy_Collapse 0x2E0404
+#define ANIM_BillBlaster_Dizzy_Burned 0x2E0405
+#define ANIM_BillBlaster_Dizzy_Buildup 0x2E0406
+#define ANIM_BillBlaster_Dizzy_Release 0x2E0407
+
+#define ANIM_BillBlaster_Gold_Dizzy_Still 0x2E0500
+#define ANIM_BillBlaster_Gold_Dizzy_Idle 0x2E0501
+#define ANIM_BillBlaster_Gold_Dizzy_Fire 0x2E0502
+#define ANIM_BillBlaster_Gold_Dizzy_Hurt 0x2E0503
+#define ANIM_BillBlaster_Gold_Dizzy_Collapse 0x2E0504
+#define ANIM_BillBlaster_Gold_Dizzy_Burned 0x2E0505
+#define ANIM_BillBlaster_Gold_Dizzy_Buildup 0x2E0506
+#define ANIM_BillBlaster_Gold_Dizzy_Release 0x2E0507
+
+#define ANIM_BillBlaster_Shocked_Still 0x2E0600
+#define ANIM_BillBlaster_Shocked_Idle 0x2E0601
+#define ANIM_BillBlaster_Shocked_Fire 0x2E0602
+#define ANIM_BillBlaster_Shocked_Hurt 0x2E0603
+#define ANIM_BillBlaster_Shocked_Collapse 0x2E0604
+#define ANIM_BillBlaster_Shocked_Burned 0x2E0605
+#define ANIM_BillBlaster_Shocked_Buildup 0x2E0606
+#define ANIM_BillBlaster_Shocked_Release 0x2E0607
+
+#define ANIM_BillBlaster_Gold_Shocked_Still 0x2E0700
+#define ANIM_BillBlaster_Gold_Shocked_Idle 0x2E0701
+#define ANIM_BillBlaster_Gold_Shocked_Fire 0x2E0702
+#define ANIM_BillBlaster_Gold_Shocked_Hurt 0x2E0703
+#define ANIM_BillBlaster_Gold_Shocked_Collapse 0x2E0704
+#define ANIM_BillBlaster_Gold_Shocked_Burned 0x2E0705
+#define ANIM_BillBlaster_Gold_Shocked_Buildup 0x2E0706
+#define ANIM_BillBlaster_Gold_Shocked_Release 0x2E0707
+
+#define ANIM_BillBlaster_Burnt_Still 0x2E0800
+#define ANIM_BillBlaster_Burnt_Idle 0x2E0801
+#define ANIM_BillBlaster_Burnt_Fire 0x2E0802
+#define ANIM_BillBlaster_Burnt_Hurt 0x2E0803
+#define ANIM_BillBlaster_Burnt_Collapse 0x2E0804
+#define ANIM_BillBlaster_Burnt_Burned 0x2E0805
+#define ANIM_BillBlaster_Burnt_Buildup 0x2E0806
+#define ANIM_BillBlaster_Burnt_Release 0x2E0807
+
+#define ANIM_BillBlaster_Gold_Burnt_Still 0x2E0900
+#define ANIM_BillBlaster_Gold_Burnt_Idle 0x2E0901
+#define ANIM_BillBlaster_Gold_Burnt_Fire 0x2E0902
+#define ANIM_BillBlaster_Gold_Burnt_Hurt 0x2E0903
+#define ANIM_BillBlaster_Gold_Burnt_Collapse 0x2E0904
+#define ANIM_BillBlaster_Gold_Burnt_Burned 0x2E0905
+#define ANIM_BillBlaster_Gold_Burnt_Buildup 0x2E0906
+#define ANIM_BillBlaster_Gold_Burnt_Release 0x2E0907
+
+#endif

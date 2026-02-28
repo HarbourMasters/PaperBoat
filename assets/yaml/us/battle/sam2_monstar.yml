@@ -1,0 +1,39 @@
+# battle/area/sam2 overlay - monstar assets
+# VRAM base: 0x80218000, ROM start: 0x63D1E0
+
+# Monstar overlay texture (CI4 32x32 + 16-color palette)
+battle/area/sam2/actor/img:
+  { type: TEXTURE, format: CI4, offset: 0x63F278, width: 32, height: 32, symbol: battle_area_sam2_actor_img_png }
+battle/area/sam2/actor/img.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x63F478, colors: 16, symbol: battle_area_sam2_actor_img_pal }
+
+# Monstar bubble vertices (12 entries matching each gsSPVertex call in the DL)
+# Base array: monstar_bubbles[66] at VRAM 0x80223680, sizeof(Vtx_n64) = 0x10
+battle/area/sam2/monstar_bubbles_0:
+  { type: VTX, offset: 0x648860, count: 32, symbol: monstar_bubbles_0 }
+battle/area/sam2/monstar_bubbles_32:
+  { type: VTX, offset: 0x648A60, count: 32, symbol: monstar_bubbles_32 }
+battle/area/sam2/monstar_bubbles_8:
+  { type: VTX, offset: 0x6488E0, count: 1, symbol: monstar_bubbles_8 }
+battle/area/sam2/monstar_bubbles_11:
+  { type: VTX, offset: 0x648910, count: 2, symbol: monstar_bubbles_11 }
+battle/area/sam2/monstar_bubbles_15:
+  { type: VTX, offset: 0x648950, count: 2, symbol: monstar_bubbles_15 }
+battle/area/sam2/monstar_bubbles_19:
+  { type: VTX, offset: 0x648990, count: 1, symbol: monstar_bubbles_19 }
+battle/area/sam2/monstar_bubbles_35:
+  { type: VTX, offset: 0x648A90, count: 5, symbol: monstar_bubbles_35 }
+battle/area/sam2/monstar_bubbles_51:
+  { type: VTX, offset: 0x648B90, count: 1, symbol: monstar_bubbles_51 }
+battle/area/sam2/monstar_bubbles_54:
+  { type: VTX, offset: 0x648BC0, count: 1, symbol: monstar_bubbles_54 }
+battle/area/sam2/monstar_bubbles_57:
+  { type: VTX, offset: 0x648BF0, count: 1, symbol: monstar_bubbles_57 }
+battle/area/sam2/monstar_bubbles_60:
+  { type: VTX, offset: 0x648C20, count: 1, symbol: monstar_bubbles_60 }
+battle/area/sam2/monstar_bubbles_63:
+  { type: VTX, offset: 0x648C50, count: 3, symbol: monstar_bubbles_63 }
+
+# Monstar bubble display list
+battle/area/sam2/monstar_dlist:
+  { type: PM64:EFFECT_DL, offset: 0x648750, symbol: b_area_sam2_monstar_dlist }

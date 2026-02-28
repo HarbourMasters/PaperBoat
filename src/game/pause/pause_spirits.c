@@ -1,6 +1,7 @@
 #include "pause_common.h"
 #include "message_ids.h"
 #include "sprite.h"
+#include "assets/pause.h"
 #include "sprite/npc/WorldEldstar.h"
 #include "sprite/npc/WorldMamar.h"
 #include "sprite/npc/WorldSkolar.h"
@@ -10,7 +11,6 @@
 #include "sprite/npc/WorldKalmar.h"
 
 extern Gfx PauseGfxSpiritsBg[];
-extern s8 pause_spirits_bg_png[];
 
 void pause_spirits_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width, s32 height, s32 opacity, s32 darkening);
 void pause_spirits_draw_title(MenuPanel* menu, s32 baseX, s32 baseY, s32 width, s32 height, s32 opacity, s32 darkening);

@@ -1,0 +1,60 @@
+#ifndef _NPC_SPRITE_PETITPIRANHA_H_
+#define _NPC_SPRITE_PETITPIRANHA_H_
+
+#include "types.h"
+
+#define SPR_PetitPiranha 0x7A
+
+#define SPR_IMG_PetitPiranha_Raster00 0x0
+#define SPR_IMG_PetitPiranha_Raster01 0x1
+#define SPR_IMG_PetitPiranha_Raster02 0x2
+#define SPR_IMG_PetitPiranha_Raster03 0x3
+#define SPR_IMG_PetitPiranha_Raster04 0x4
+#define SPR_IMG_PetitPiranha_Raster05 0x5
+#define SPR_IMG_PetitPiranha_Raster06 0x6
+#define SPR_IMG_PetitPiranha_Raster07 0x7
+#define SPR_IMG_PetitPiranha_Raster08 0x8
+#define SPR_IMG_PetitPiranha_Raster09 0x9
+#define SPR_IMG_PetitPiranha_Raster0A 0xA
+#define SPR_IMG_PetitPiranha_Raster0B 0xB
+#define SPR_IMG_PetitPiranha_Raster0C 0xC
+#define SPR_IMG_PetitPiranha_Raster0D 0xD
+
+#define SPR_PAL_PetitPiranha 0x0
+#define SPR_PAL_PetitPiranha_Poisoned 0x1
+#define SPR_PAL_PetitPiranha_Dizzy 0x2
+#define SPR_PAL_PetitPiranha_Shocked 0x3
+
+#define ANIM_PetitPiranha_Anim00 0x7A0000
+#define ANIM_PetitPiranha_Anim01 0x7A0001
+#define ANIM_PetitPiranha_Anim02 0x7A0002
+#define ANIM_PetitPiranha_Anim03 0x7A0003
+#define ANIM_PetitPiranha_Anim04 0x7A0004
+#define ANIM_PetitPiranha_Anim05 0x7A0005
+#define ANIM_PetitPiranha_Anim06 0x7A0006
+
+#define ANIM_PetitPiranha_Poisoned_Anim00 0x7A0100
+#define ANIM_PetitPiranha_Poisoned_Anim01 0x7A0101
+#define ANIM_PetitPiranha_Poisoned_Anim02 0x7A0102
+#define ANIM_PetitPiranha_Poisoned_Anim03 0x7A0103
+#define ANIM_PetitPiranha_Poisoned_Anim04 0x7A0104
+#define ANIM_PetitPiranha_Poisoned_Anim05 0x7A0105
+#define ANIM_PetitPiranha_Poisoned_Anim06 0x7A0106
+
+#define ANIM_PetitPiranha_Dizzy_Anim00 0x7A0200
+#define ANIM_PetitPiranha_Dizzy_Anim01 0x7A0201
+#define ANIM_PetitPiranha_Dizzy_Anim02 0x7A0202
+#define ANIM_PetitPiranha_Dizzy_Anim03 0x7A0203
+#define ANIM_PetitPiranha_Dizzy_Anim04 0x7A0204
+#define ANIM_PetitPiranha_Dizzy_Anim05 0x7A0205
+#define ANIM_PetitPiranha_Dizzy_Anim06 0x7A0206
+
+#define ANIM_PetitPiranha_Shocked_Anim00 0x7A0300
+#define ANIM_PetitPiranha_Shocked_Anim01 0x7A0301
+#define ANIM_PetitPiranha_Shocked_Anim02 0x7A0302
+#define ANIM_PetitPiranha_Shocked_Anim03 0x7A0303
+#define ANIM_PetitPiranha_Shocked_Anim04 0x7A0304
+#define ANIM_PetitPiranha_Shocked_Anim05 0x7A0305
+#define ANIM_PetitPiranha_Shocked_Anim06 0x7A0306
+
+#endif

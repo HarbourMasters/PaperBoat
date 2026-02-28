@@ -1,0 +1,74 @@
+# Pause menu graphics
+# ROM offsets from ver/us/splat.yaml (pause_gfx overlay)
+
+# --- Decorative images ---
+image_1439F0:
+  { type: TEXTURE, format: IA8, offset: 0x1439F0, width: 16, height: 32, symbol: pause_image_1439F0_png }
+image_143BF0:
+  { type: TEXTURE, format: IA8, offset: 0x143BF0, width: 16, height: 64, symbol: pause_image_143BF0_png }
+image_143FF0:
+  { type: TEXTURE, format: IA8, offset: 0x143FF0, width: 16, height: 64, symbol: pause_image_143FF0_png }
+
+# --- World map (CI8 320x320) ---
+world_map:
+  { type: TEXTURE, format: CI8, offset: 0x1443F0, width: 320, height: 320, symbol: pause_world_map_png }
+world_map.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x15D3F0, colors: 256, symbol: pause_world_map_pal }
+
+# --- Spirits background (CI4 128x110) ---
+spirits_bg:
+  { type: TEXTURE, format: CI4, offset: 0x15D5F0, width: 128, height: 110, symbol: pause_spirits_bg_png }
+spirits_bg.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x15F170, colors: 16, symbol: pause_spirits_bg_pal }
+
+# --- Orbs (RGBA16 8x32) ---
+orbs:
+  { type: TEXTURE, format: RGBA16, offset: 0x15F370, width: 8, height: 32, symbol: pause_orbs_png }
+
+# --- Map markers ---
+map_location:
+  { type: TEXTURE, format: IA8, offset: 0x15F570, width: 16, height: 16, symbol: pause_map_location_png }
+map_path_marker:
+  { type: TEXTURE, format: IA8, offset: 0x15F670, width: 16, height: 16, symbol: pause_map_path_marker_png }
+map_arrows:
+  { type: TEXTURE, format: IA4, offset: 0x15F770, width: 16, height: 64, symbol: pause_arrows_png }
+
+# --- Banners (CI4) ---
+banner_hp:
+  { type: TEXTURE, format: CI4, offset: 0x15F970, width: 64, height: 16, symbol: pause_banner_hp_png }
+banner_hp.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x15FB70, colors: 16, symbol: pause_banner_hp_pal }
+banner_fp:
+  { type: TEXTURE, format: CI4, offset: 0x15FD70, width: 64, height: 16, symbol: pause_banner_fp_png }
+banner_fp.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x15FF70, colors: 16, symbol: pause_banner_fp_pal }
+banner_bp:
+  { type: TEXTURE, format: CI4, offset: 0x160170, width: 64, height: 16, symbol: pause_banner_bp_png }
+banner_bp.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x160370, colors: 16, symbol: pause_banner_bp_pal }
+banner_boots:
+  { type: TEXTURE, format: CI4, offset: 0x160570, width: 48, height: 16, symbol: pause_banner_boots_png }
+banner_boots.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x1606F0, colors: 16, symbol: pause_banner_boots_pal }
+banner_hammer:
+  { type: TEXTURE, format: CI4, offset: 0x1608F0, width: 48, height: 16, symbol: pause_banner_hammer_png }
+banner_hammer.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x160A70, colors: 16, symbol: pause_banner_hammer_pal }
+banner_star_energy:
+  { type: TEXTURE, format: CI4, offset: 0x160C70, width: 48, height: 16, symbol: pause_banner_star_energy_png }
+banner_star_energy.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x160DF0, colors: 16, symbol: pause_banner_star_energy_pal }
+
+# --- Available / Prompt / Stats bar ---
+available:
+  { type: TEXTURE, format: CI4, offset: 0x160FF0, width: 64, height: 16, symbol: pause_available_png }
+available.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x1611F0, colors: 16, symbol: pause_available_pal }
+prompt_check_abilities:
+  { type: TEXTURE, format: CI4, offset: 0x1613F0, width: 128, height: 16, symbol: pause_prompt_check_abilities_png }
+prompt_check_abilities.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x1617F0, colors: 16, symbol: pause_prompt_check_abilities_pal }
+stats_bar:
+  { type: TEXTURE, format: CI4, offset: 0x1619F0, width: 160, height: 8, symbol: pause_stats_bar_png }
+stats_bar.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x161C70, colors: 16, symbol: pause_stats_bar_pal }

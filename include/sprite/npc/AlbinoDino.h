@@ -1,0 +1,112 @@
+#ifndef _NPC_SPRITE_ALBINODINO_H_
+#define _NPC_SPRITE_ALBINODINO_H_
+
+#include "types.h"
+
+#define SPR_AlbinoDino 0x4F
+
+#define SPR_IMG_AlbinoDino_Idle1 0x0
+#define SPR_IMG_AlbinoDino_Idle2 0x1
+#define SPR_IMG_AlbinoDino_Walk1 0x2
+#define SPR_IMG_AlbinoDino_Walk2 0x3
+#define SPR_IMG_AlbinoDino_Walk3 0x4
+#define SPR_IMG_AlbinoDino_Walk4 0x5
+#define SPR_IMG_AlbinoDino_Talk 0x6
+#define SPR_IMG_AlbinoDino_Fwd1 0x7
+#define SPR_IMG_AlbinoDino_Back1 0x8
+#define SPR_IMG_AlbinoDino_Run1 0x9
+#define SPR_IMG_AlbinoDino_Run2 0xA
+#define SPR_IMG_AlbinoDino_Run3 0xB
+#define SPR_IMG_AlbinoDino_Charge1 0xC
+#define SPR_IMG_AlbinoDino_Charge2 0xD
+#define SPR_IMG_AlbinoDino_Pain1 0xE
+#define SPR_IMG_AlbinoDino_Pain2 0xF
+#define SPR_IMG_AlbinoDino_Dead 0x10
+#define SPR_IMG_AlbinoDino_BurntPain1 0x11
+#define SPR_IMG_AlbinoDino_BurntPain2 0x12
+#define SPR_IMG_AlbinoDino_BurntDead 0x13
+#define SPR_IMG_AlbinoDino_Fwd2 0x14
+#define SPR_IMG_AlbinoDino_Back2 0x15
+
+#define SPR_PAL_AlbinoDino 0x0
+#define SPR_PAL_AlbinoDino_Poisoned 0x1
+#define SPR_PAL_AlbinoDino_Dizzy 0x2
+#define SPR_PAL_AlbinoDino_Shocked 0x3
+#define SPR_PAL_AlbinoDino_Burnt 0x4
+
+#define ANIM_AlbinoDino_Still 0x4F0000
+#define ANIM_AlbinoDino_StillFwd 0x4F0001
+#define ANIM_AlbinoDino_StillBack 0x4F0002
+#define ANIM_AlbinoDino_Idle 0x4F0003
+#define ANIM_AlbinoDino_Walk 0x4F0004
+#define ANIM_AlbinoDino_Run 0x4F0005
+#define ANIM_AlbinoDino_Charge 0x4F0006
+#define ANIM_AlbinoDino_Talk 0x4F0007
+#define ANIM_AlbinoDino_Hurt 0x4F0008
+#define ANIM_AlbinoDino_HurtStill 0x4F0009
+#define ANIM_AlbinoDino_BurntHurt 0x4F000A
+#define ANIM_AlbinoDino_BurntStill 0x4F000B
+#define ANIM_AlbinoDino_TalkFwd 0x4F000C
+#define ANIM_AlbinoDino_TalkBack 0x4F000D
+
+#define ANIM_AlbinoDino_Poisoned_Still 0x4F0100
+#define ANIM_AlbinoDino_Poisoned_StillFwd 0x4F0101
+#define ANIM_AlbinoDino_Poisoned_StillBack 0x4F0102
+#define ANIM_AlbinoDino_Poisoned_Idle 0x4F0103
+#define ANIM_AlbinoDino_Poisoned_Walk 0x4F0104
+#define ANIM_AlbinoDino_Poisoned_Run 0x4F0105
+#define ANIM_AlbinoDino_Poisoned_Charge 0x4F0106
+#define ANIM_AlbinoDino_Poisoned_Talk 0x4F0107
+#define ANIM_AlbinoDino_Poisoned_Hurt 0x4F0108
+#define ANIM_AlbinoDino_Poisoned_HurtStill 0x4F0109
+#define ANIM_AlbinoDino_Poisoned_BurntHurt 0x4F010A
+#define ANIM_AlbinoDino_Poisoned_BurntStill 0x4F010B
+#define ANIM_AlbinoDino_Poisoned_TalkFwd 0x4F010C
+#define ANIM_AlbinoDino_Poisoned_TalkBack 0x4F010D
+
+#define ANIM_AlbinoDino_Dizzy_Still 0x4F0200
+#define ANIM_AlbinoDino_Dizzy_StillFwd 0x4F0201
+#define ANIM_AlbinoDino_Dizzy_StillBack 0x4F0202
+#define ANIM_AlbinoDino_Dizzy_Idle 0x4F0203
+#define ANIM_AlbinoDino_Dizzy_Walk 0x4F0204
+#define ANIM_AlbinoDino_Dizzy_Run 0x4F0205
+#define ANIM_AlbinoDino_Dizzy_Charge 0x4F0206
+#define ANIM_AlbinoDino_Dizzy_Talk 0x4F0207
+#define ANIM_AlbinoDino_Dizzy_Hurt 0x4F0208
+#define ANIM_AlbinoDino_Dizzy_HurtStill 0x4F0209
+#define ANIM_AlbinoDino_Dizzy_BurntHurt 0x4F020A
+#define ANIM_AlbinoDino_Dizzy_BurntStill 0x4F020B
+#define ANIM_AlbinoDino_Dizzy_TalkFwd 0x4F020C
+#define ANIM_AlbinoDino_Dizzy_TalkBack 0x4F020D
+
+#define ANIM_AlbinoDino_Shocked_Still 0x4F0300
+#define ANIM_AlbinoDino_Shocked_StillFwd 0x4F0301
+#define ANIM_AlbinoDino_Shocked_StillBack 0x4F0302
+#define ANIM_AlbinoDino_Shocked_Idle 0x4F0303
+#define ANIM_AlbinoDino_Shocked_Walk 0x4F0304
+#define ANIM_AlbinoDino_Shocked_Run 0x4F0305
+#define ANIM_AlbinoDino_Shocked_Charge 0x4F0306
+#define ANIM_AlbinoDino_Shocked_Talk 0x4F0307
+#define ANIM_AlbinoDino_Shocked_Hurt 0x4F0308
+#define ANIM_AlbinoDino_Shocked_HurtStill 0x4F0309
+#define ANIM_AlbinoDino_Shocked_BurntHurt 0x4F030A
+#define ANIM_AlbinoDino_Shocked_BurntStill 0x4F030B
+#define ANIM_AlbinoDino_Shocked_TalkFwd 0x4F030C
+#define ANIM_AlbinoDino_Shocked_TalkBack 0x4F030D
+
+#define ANIM_AlbinoDino_Burnt_Still 0x4F0400
+#define ANIM_AlbinoDino_Burnt_StillFwd 0x4F0401
+#define ANIM_AlbinoDino_Burnt_StillBack 0x4F0402
+#define ANIM_AlbinoDino_Burnt_Idle 0x4F0403
+#define ANIM_AlbinoDino_Burnt_Walk 0x4F0404
+#define ANIM_AlbinoDino_Burnt_Run 0x4F0405
+#define ANIM_AlbinoDino_Burnt_Charge 0x4F0406
+#define ANIM_AlbinoDino_Burnt_Talk 0x4F0407
+#define ANIM_AlbinoDino_Burnt_Hurt 0x4F0408
+#define ANIM_AlbinoDino_Burnt_HurtStill 0x4F0409
+#define ANIM_AlbinoDino_Burnt_BurntHurt 0x4F040A
+#define ANIM_AlbinoDino_Burnt_BurntStill 0x4F040B
+#define ANIM_AlbinoDino_Burnt_TalkFwd 0x4F040C
+#define ANIM_AlbinoDino_Burnt_TalkBack 0x4F040D
+
+#endif

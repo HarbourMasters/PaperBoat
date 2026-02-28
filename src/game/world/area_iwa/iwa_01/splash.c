@@ -1,9 +1,6 @@
 #include "iwa_01.h"
-#include "include_asset.h"
-
-INCLUDE_IMG("world/area_iwa/iwa_01/splash.png", iwa_01_splash_img);
-#include "world/area_iwa/iwa_01/splash.vtx.inc.c"
-#include "world/area_iwa/iwa_01/splash.gfx.inc.c"
+#include "assets/world.h"
+#include "port/Engine.h"
 
 #define NUM_SPLASHES (20)
 
@@ -61,7 +58,7 @@ void N(gfx_build_splashes)(s32 index) {
                    splash->scale,
                    splash->pos.x, splash->pos.y, splash->pos.z);
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, N(splash_gfx));
+        gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(iwa_01_splash_gfx));
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 

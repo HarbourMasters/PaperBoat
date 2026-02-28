@@ -1,0 +1,25 @@
+# dro_02 map overlay - Merlee ritual cards
+# VRAM: 0x80240000, ROM: 0x9691C0
+
+:config:
+  virtual: [0x80240000, 0x9691C0]
+
+# Card texture (CI4 32x32)
+area_dro/dro_02/card:
+  { type: TEXTURE, format: CI4, offset: 0x9707A8, width: 32, height: 32, symbol: dro_02_card_img }
+area_dro/dro_02/card.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x9709A8, colors: 16, symbol: dro_02_card_pal }
+
+# Card vertices
+area_dro/dro_02/card_1.vtx:
+  { type: VTX, offset: 0x9709C8, count: 8, symbol: dro_02_card_1_vtx }
+area_dro/dro_02/card_2.vtx:
+  { type: VTX, offset: 0x970A48, count: 4, symbol: dro_02_card_2_vtx }
+
+# Card display lists
+area_dro/dro_02/card_setup.gfx:
+  { type: PM64:EFFECT_DL, offset: 0x970A88, size: 0xF0, symbol: dro_02_card_setup_gfx }
+area_dro/dro_02/card_1.gfx:
+  { type: PM64:EFFECT_DL, offset: 0x970B78, size: 0x80, symbol: dro_02_card_1_gfx }
+area_dro/dro_02/card_2.gfx:
+  { type: PM64:EFFECT_DL, offset: 0x970BF8, size: 0x48, symbol: dro_02_card_2_gfx }

@@ -1,12 +1,11 @@
 #include "../area.h"
 #include "sprite.h"
 #include "sprite/npc/Monstar.h"
-#include "battle/area/sam2/actor/img.png.h"
-#include "include_asset.h"
+#include "assets/battle.h"
 
 #define NAMESPACE A(monstar)
 
-extern Gfx N(dlist)[];
+// N(dlist) loaded from OTR at runtime via b_area_sam2_monstar_dlist
 
 extern s32 N(DefaultAnims)[];
 extern EvtScript N(EVS_Init);
@@ -144,17 +143,14 @@ EvtScript N(EVS_Init) = {
     End
 };
 
-INCLUDE_IMG("battle/area/sam2/actor/img.png", battle_area_sam2_actor_img_png);
-INCLUDE_PAL("battle/area/sam2/actor/img.pal", battle_area_sam2_actor_img_pal);
-
 ImgFXOverlayTexture N(MonstarDetailTexture) = {
-    .raster = battle_area_sam2_actor_img_png,
-    .palette = battle_area_sam2_actor_img_pal,
-    .width = battle_area_sam2_actor_img_png_width,
-    .height = battle_area_sam2_actor_img_png_height,
+    .raster = (IMG_PTR) battle_area_sam2_actor_img_png,
+    .palette = (PAL_PTR) battle_area_sam2_actor_img_pal,
+    .width = 32,
+    .height = 32,
     .offsetX = -4,
     .offsetY = 0,
-    .displayList = N(dlist),
+    .displayList = (Gfx*) b_area_sam2_monstar_dlist,
 };
 
 API_CALLABLE(N(UpdateMonstarImgFX)) {

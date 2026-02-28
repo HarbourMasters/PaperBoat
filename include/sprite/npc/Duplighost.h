@@ -1,0 +1,123 @@
+#ifndef _NPC_SPRITE_DUPLIGHOST_H_
+#define _NPC_SPRITE_DUPLIGHOST_H_
+
+#include "types.h"
+
+#define SPR_Duplighost 0x4E
+
+#define SPR_IMG_Duplighost_Raster00 0x0
+#define SPR_IMG_Duplighost_Raster01 0x1
+#define SPR_IMG_Duplighost_Raster02 0x2
+#define SPR_IMG_Duplighost_Raster03 0x3
+#define SPR_IMG_Duplighost_Raster04 0x4
+#define SPR_IMG_Duplighost_Raster05 0x5
+#define SPR_IMG_Duplighost_Raster06 0x6
+#define SPR_IMG_Duplighost_Raster07 0x7
+#define SPR_IMG_Duplighost_Raster08 0x8
+#define SPR_IMG_Duplighost_Raster09 0x9
+#define SPR_IMG_Duplighost_Raster0A 0xA
+#define SPR_IMG_Duplighost_Raster0B 0xB
+#define SPR_IMG_Duplighost_Raster0C 0xC
+#define SPR_IMG_Duplighost_Raster0D 0xD
+#define SPR_IMG_Duplighost_Raster0E 0xE
+#define SPR_IMG_Duplighost_Raster0F 0xF
+#define SPR_IMG_Duplighost_Raster10 0x10
+#define SPR_IMG_Duplighost_Raster11 0x11
+#define SPR_IMG_Duplighost_Raster12 0x12
+#define SPR_IMG_Duplighost_Raster13 0x13
+#define SPR_IMG_Duplighost_Raster14 0x14
+#define SPR_IMG_Duplighost_Raster15 0x15
+#define SPR_IMG_Duplighost_Raster16 0x16
+#define SPR_IMG_Duplighost_Raster17 0x17
+#define SPR_IMG_Duplighost_Raster18 0x18
+#define SPR_IMG_Duplighost_Raster19 0x19
+#define SPR_IMG_Duplighost_Raster1A 0x1A
+#define SPR_IMG_Duplighost_Raster1B 0x1B
+
+#define SPR_PAL_Duplighost 0x0
+#define SPR_PAL_Duplighost_Poisoned 0x1
+#define SPR_PAL_Duplighost_Dizzy 0x2
+#define SPR_PAL_Duplighost_Shocked 0x3
+#define SPR_PAL_Duplighost_Burnt 0x4
+
+#define ANIM_Duplighost_Anim00 0x4E0000
+#define ANIM_Duplighost_Anim01 0x4E0001
+#define ANIM_Duplighost_Anim02 0x4E0002
+#define ANIM_Duplighost_Anim03 0x4E0003
+#define ANIM_Duplighost_Anim04 0x4E0004
+#define ANIM_Duplighost_Anim05 0x4E0005
+#define ANIM_Duplighost_Anim06 0x4E0006
+#define ANIM_Duplighost_Anim07 0x4E0007
+#define ANIM_Duplighost_Anim08 0x4E0008
+#define ANIM_Duplighost_Anim09 0x4E0009
+#define ANIM_Duplighost_Anim0A 0x4E000A
+#define ANIM_Duplighost_Anim0B 0x4E000B
+#define ANIM_Duplighost_Anim0C 0x4E000C
+#define ANIM_Duplighost_Anim0D 0x4E000D
+#define ANIM_Duplighost_Anim0E 0x4E000E
+
+#define ANIM_Duplighost_Poisoned_Anim00 0x4E0100
+#define ANIM_Duplighost_Poisoned_Anim01 0x4E0101
+#define ANIM_Duplighost_Poisoned_Anim02 0x4E0102
+#define ANIM_Duplighost_Poisoned_Anim03 0x4E0103
+#define ANIM_Duplighost_Poisoned_Anim04 0x4E0104
+#define ANIM_Duplighost_Poisoned_Anim05 0x4E0105
+#define ANIM_Duplighost_Poisoned_Anim06 0x4E0106
+#define ANIM_Duplighost_Poisoned_Anim07 0x4E0107
+#define ANIM_Duplighost_Poisoned_Anim08 0x4E0108
+#define ANIM_Duplighost_Poisoned_Anim09 0x4E0109
+#define ANIM_Duplighost_Poisoned_Anim0A 0x4E010A
+#define ANIM_Duplighost_Poisoned_Anim0B 0x4E010B
+#define ANIM_Duplighost_Poisoned_Anim0C 0x4E010C
+#define ANIM_Duplighost_Poisoned_Anim0D 0x4E010D
+#define ANIM_Duplighost_Poisoned_Anim0E 0x4E010E
+
+#define ANIM_Duplighost_Dizzy_Anim00 0x4E0200
+#define ANIM_Duplighost_Dizzy_Anim01 0x4E0201
+#define ANIM_Duplighost_Dizzy_Anim02 0x4E0202
+#define ANIM_Duplighost_Dizzy_Anim03 0x4E0203
+#define ANIM_Duplighost_Dizzy_Anim04 0x4E0204
+#define ANIM_Duplighost_Dizzy_Anim05 0x4E0205
+#define ANIM_Duplighost_Dizzy_Anim06 0x4E0206
+#define ANIM_Duplighost_Dizzy_Anim07 0x4E0207
+#define ANIM_Duplighost_Dizzy_Anim08 0x4E0208
+#define ANIM_Duplighost_Dizzy_Anim09 0x4E0209
+#define ANIM_Duplighost_Dizzy_Anim0A 0x4E020A
+#define ANIM_Duplighost_Dizzy_Anim0B 0x4E020B
+#define ANIM_Duplighost_Dizzy_Anim0C 0x4E020C
+#define ANIM_Duplighost_Dizzy_Anim0D 0x4E020D
+#define ANIM_Duplighost_Dizzy_Anim0E 0x4E020E
+
+#define ANIM_Duplighost_Shocked_Anim00 0x4E0300
+#define ANIM_Duplighost_Shocked_Anim01 0x4E0301
+#define ANIM_Duplighost_Shocked_Anim02 0x4E0302
+#define ANIM_Duplighost_Shocked_Anim03 0x4E0303
+#define ANIM_Duplighost_Shocked_Anim04 0x4E0304
+#define ANIM_Duplighost_Shocked_Anim05 0x4E0305
+#define ANIM_Duplighost_Shocked_Anim06 0x4E0306
+#define ANIM_Duplighost_Shocked_Anim07 0x4E0307
+#define ANIM_Duplighost_Shocked_Anim08 0x4E0308
+#define ANIM_Duplighost_Shocked_Anim09 0x4E0309
+#define ANIM_Duplighost_Shocked_Anim0A 0x4E030A
+#define ANIM_Duplighost_Shocked_Anim0B 0x4E030B
+#define ANIM_Duplighost_Shocked_Anim0C 0x4E030C
+#define ANIM_Duplighost_Shocked_Anim0D 0x4E030D
+#define ANIM_Duplighost_Shocked_Anim0E 0x4E030E
+
+#define ANIM_Duplighost_Burnt_Anim00 0x4E0400
+#define ANIM_Duplighost_Burnt_Anim01 0x4E0401
+#define ANIM_Duplighost_Burnt_Anim02 0x4E0402
+#define ANIM_Duplighost_Burnt_Anim03 0x4E0403
+#define ANIM_Duplighost_Burnt_Anim04 0x4E0404
+#define ANIM_Duplighost_Burnt_Anim05 0x4E0405
+#define ANIM_Duplighost_Burnt_Anim06 0x4E0406
+#define ANIM_Duplighost_Burnt_Anim07 0x4E0407
+#define ANIM_Duplighost_Burnt_Anim08 0x4E0408
+#define ANIM_Duplighost_Burnt_Anim09 0x4E0409
+#define ANIM_Duplighost_Burnt_Anim0A 0x4E040A
+#define ANIM_Duplighost_Burnt_Anim0B 0x4E040B
+#define ANIM_Duplighost_Burnt_Anim0C 0x4E040C
+#define ANIM_Duplighost_Burnt_Anim0D 0x4E040D
+#define ANIM_Duplighost_Burnt_Anim0E 0x4E040E
+
+#endif

@@ -1,0 +1,133 @@
+#ifndef _NPC_SPRITE_PYROGUY_H_
+#define _NPC_SPRITE_PYROGUY_H_
+
+#include "types.h"
+
+#define SPR_PyroGuy 0x3E
+
+#define SPR_IMG_PyroGuy_Raster00 0x0
+#define SPR_IMG_PyroGuy_Raster01 0x1
+#define SPR_IMG_PyroGuy_Raster02 0x2
+#define SPR_IMG_PyroGuy_Raster03 0x3
+#define SPR_IMG_PyroGuy_Raster04 0x4
+#define SPR_IMG_PyroGuy_Raster05 0x5
+#define SPR_IMG_PyroGuy_Raster06 0x6
+#define SPR_IMG_PyroGuy_Raster07 0x7
+#define SPR_IMG_PyroGuy_Raster08 0x8
+#define SPR_IMG_PyroGuy_Raster09 0x9
+#define SPR_IMG_PyroGuy_Raster0A 0xA
+#define SPR_IMG_PyroGuy_Raster0B 0xB
+#define SPR_IMG_PyroGuy_Raster0C 0xC
+#define SPR_IMG_PyroGuy_Raster0D 0xD
+#define SPR_IMG_PyroGuy_Raster0E 0xE
+#define SPR_IMG_PyroGuy_Raster0F 0xF
+#define SPR_IMG_PyroGuy_Raster10 0x10
+#define SPR_IMG_PyroGuy_Raster11 0x11
+#define SPR_IMG_PyroGuy_Raster12 0x12
+#define SPR_IMG_PyroGuy_Raster13 0x13
+#define SPR_IMG_PyroGuy_Raster14 0x14
+#define SPR_IMG_PyroGuy_Raster15 0x15
+#define SPR_IMG_PyroGuy_Raster16 0x16
+#define SPR_IMG_PyroGuy_Raster17 0x17
+#define SPR_IMG_PyroGuy_Raster18 0x18
+#define SPR_IMG_PyroGuy_Raster19 0x19
+#define SPR_IMG_PyroGuy_Raster1A 0x1A
+
+#define SPR_PAL_PyroGuy 0x0
+#define SPR_PAL_PyroGuy_Glow 0x1
+#define SPR_PAL_PyroGuy_Poisoned 0x2
+#define SPR_PAL_PyroGuy_Glow_Poisoned 0x3
+#define SPR_PAL_PyroGuy_Dizzy 0x4
+#define SPR_PAL_PyroGuy_Glow_Dizzy 0x5
+#define SPR_PAL_PyroGuy_Shocked 0x6
+#define SPR_PAL_PyroGuy_Glow_Shocked 0x7
+
+#define ANIM_PyroGuy_Anim00 0x3E0000
+#define ANIM_PyroGuy_Anim01 0x3E0001
+#define ANIM_PyroGuy_Anim02 0x3E0002
+#define ANIM_PyroGuy_Anim03 0x3E0003
+#define ANIM_PyroGuy_Anim04 0x3E0004
+#define ANIM_PyroGuy_Anim05 0x3E0005
+#define ANIM_PyroGuy_Anim06 0x3E0006
+#define ANIM_PyroGuy_Anim07 0x3E0007
+#define ANIM_PyroGuy_Anim08 0x3E0008
+#define ANIM_PyroGuy_Anim09 0x3E0009
+
+#define ANIM_PyroGuy_Glow_Anim00 0x3E0100
+#define ANIM_PyroGuy_Glow_Anim01 0x3E0101
+#define ANIM_PyroGuy_Glow_Anim02 0x3E0102
+#define ANIM_PyroGuy_Glow_Anim03 0x3E0103
+#define ANIM_PyroGuy_Glow_Anim04 0x3E0104
+#define ANIM_PyroGuy_Glow_Anim05 0x3E0105
+#define ANIM_PyroGuy_Glow_Anim06 0x3E0106
+#define ANIM_PyroGuy_Glow_Anim07 0x3E0107
+#define ANIM_PyroGuy_Glow_Anim08 0x3E0108
+#define ANIM_PyroGuy_Glow_Anim09 0x3E0109
+
+#define ANIM_PyroGuy_Poisoned_Anim00 0x3E0200
+#define ANIM_PyroGuy_Poisoned_Anim01 0x3E0201
+#define ANIM_PyroGuy_Poisoned_Anim02 0x3E0202
+#define ANIM_PyroGuy_Poisoned_Anim03 0x3E0203
+#define ANIM_PyroGuy_Poisoned_Anim04 0x3E0204
+#define ANIM_PyroGuy_Poisoned_Anim05 0x3E0205
+#define ANIM_PyroGuy_Poisoned_Anim06 0x3E0206
+#define ANIM_PyroGuy_Poisoned_Anim07 0x3E0207
+#define ANIM_PyroGuy_Poisoned_Anim08 0x3E0208
+#define ANIM_PyroGuy_Poisoned_Anim09 0x3E0209
+
+#define ANIM_PyroGuy_Glow_Poisoned_Anim00 0x3E0300
+#define ANIM_PyroGuy_Glow_Poisoned_Anim01 0x3E0301
+#define ANIM_PyroGuy_Glow_Poisoned_Anim02 0x3E0302
+#define ANIM_PyroGuy_Glow_Poisoned_Anim03 0x3E0303
+#define ANIM_PyroGuy_Glow_Poisoned_Anim04 0x3E0304
+#define ANIM_PyroGuy_Glow_Poisoned_Anim05 0x3E0305
+#define ANIM_PyroGuy_Glow_Poisoned_Anim06 0x3E0306
+#define ANIM_PyroGuy_Glow_Poisoned_Anim07 0x3E0307
+#define ANIM_PyroGuy_Glow_Poisoned_Anim08 0x3E0308
+#define ANIM_PyroGuy_Glow_Poisoned_Anim09 0x3E0309
+
+#define ANIM_PyroGuy_Dizzy_Anim00 0x3E0400
+#define ANIM_PyroGuy_Dizzy_Anim01 0x3E0401
+#define ANIM_PyroGuy_Dizzy_Anim02 0x3E0402
+#define ANIM_PyroGuy_Dizzy_Anim03 0x3E0403
+#define ANIM_PyroGuy_Dizzy_Anim04 0x3E0404
+#define ANIM_PyroGuy_Dizzy_Anim05 0x3E0405
+#define ANIM_PyroGuy_Dizzy_Anim06 0x3E0406
+#define ANIM_PyroGuy_Dizzy_Anim07 0x3E0407
+#define ANIM_PyroGuy_Dizzy_Anim08 0x3E0408
+#define ANIM_PyroGuy_Dizzy_Anim09 0x3E0409
+
+#define ANIM_PyroGuy_Glow_Dizzy_Anim00 0x3E0500
+#define ANIM_PyroGuy_Glow_Dizzy_Anim01 0x3E0501
+#define ANIM_PyroGuy_Glow_Dizzy_Anim02 0x3E0502
+#define ANIM_PyroGuy_Glow_Dizzy_Anim03 0x3E0503
+#define ANIM_PyroGuy_Glow_Dizzy_Anim04 0x3E0504
+#define ANIM_PyroGuy_Glow_Dizzy_Anim05 0x3E0505
+#define ANIM_PyroGuy_Glow_Dizzy_Anim06 0x3E0506
+#define ANIM_PyroGuy_Glow_Dizzy_Anim07 0x3E0507
+#define ANIM_PyroGuy_Glow_Dizzy_Anim08 0x3E0508
+#define ANIM_PyroGuy_Glow_Dizzy_Anim09 0x3E0509
+
+#define ANIM_PyroGuy_Shocked_Anim00 0x3E0600
+#define ANIM_PyroGuy_Shocked_Anim01 0x3E0601
+#define ANIM_PyroGuy_Shocked_Anim02 0x3E0602
+#define ANIM_PyroGuy_Shocked_Anim03 0x3E0603
+#define ANIM_PyroGuy_Shocked_Anim04 0x3E0604
+#define ANIM_PyroGuy_Shocked_Anim05 0x3E0605
+#define ANIM_PyroGuy_Shocked_Anim06 0x3E0606
+#define ANIM_PyroGuy_Shocked_Anim07 0x3E0607
+#define ANIM_PyroGuy_Shocked_Anim08 0x3E0608
+#define ANIM_PyroGuy_Shocked_Anim09 0x3E0609
+
+#define ANIM_PyroGuy_Glow_Shocked_Anim00 0x3E0700
+#define ANIM_PyroGuy_Glow_Shocked_Anim01 0x3E0701
+#define ANIM_PyroGuy_Glow_Shocked_Anim02 0x3E0702
+#define ANIM_PyroGuy_Glow_Shocked_Anim03 0x3E0703
+#define ANIM_PyroGuy_Glow_Shocked_Anim04 0x3E0704
+#define ANIM_PyroGuy_Glow_Shocked_Anim05 0x3E0705
+#define ANIM_PyroGuy_Glow_Shocked_Anim06 0x3E0706
+#define ANIM_PyroGuy_Glow_Shocked_Anim07 0x3E0707
+#define ANIM_PyroGuy_Glow_Shocked_Anim08 0x3E0708
+#define ANIM_PyroGuy_Glow_Shocked_Anim09 0x3E0709
+
+#endif

@@ -1,6 +1,6 @@
 #include "kmr_20.h"
-
-#include "world/area_kmr/kmr_20/records_screen.gfx.inc.c"
+#include "assets/world.h"
+#include "port/Engine.h"
 
 enum {
     RECORDS_STATE_BEGIN_FADE_IN     = 0,
@@ -68,7 +68,7 @@ void N(appendGfx_records_impl)(GameRecords* records, s32 alpha) {
 
     if (alpha > 0) {
 #if VERSION_JP
-        gSPDisplayList(gMainGfxPos++, N(records_screen_gfx));
+        gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(kmr_20_records_screen_gfx));
         gDPPipeSync(gMainGfxPos++);
         gDPSetPrimColor(gMainGfxPos++, 0, 0, 16, 120, 24, alpha * 0.65);
         gDPFillRectangle(gMainGfxPos++, 63, 43, 257, 192);
@@ -127,7 +127,7 @@ void N(appendGfx_records_impl)(GameRecords* records, s32 alpha) {
             draw_number(gPlayerData.powerBounces, 194, 170, 1, MSG_PAL_WHITE, alpha, 2);
         }
 #else
-        gSPDisplayList(gMainGfxPos++, N(records_screen_gfx));
+        gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(kmr_20_records_screen_gfx));
         gDPPipeSync(gMainGfxPos++);
         gDPSetPrimColor(gMainGfxPos++, 0, 0, 16, 120, 24, alpha * 0.65);
         gDPFillRectangle(gMainGfxPos++, 33, 43, 287, 192);

@@ -3,6 +3,7 @@
 #include "model.h"
 #include "game_modes.h"
 #include "sprite/player.h"
+#include "assets/world.h"
 
 extern EvtScript N(EVS_NpcAI_Eldstar_02);
 extern EvtScript N(EVS_NpcAI_Eldstar_02_NoAI);
@@ -334,13 +335,13 @@ API_CALLABLE(N(IsPlayerHPFull)) {
 
 BSS MessageImageData N(HeartBlockMsgImg);
 
-#include "world/area_kmr/kmr_02/heart_block.png.h"
+#include "port/Engine.h"
 
 API_CALLABLE(N(LoadHeartBlockMsgImg)) {
     N(HeartBlockMsgImg).raster   = N(heart_block_img);
     N(HeartBlockMsgImg).palette  = N(heart_block_pal);
-    N(HeartBlockMsgImg).width    = N(heart_block_img_width);
-    N(HeartBlockMsgImg).height   = N(heart_block_img_height);
+    N(HeartBlockMsgImg).width    = LOAD_ASSET_TEX_WIDTH(N(heart_block_img));
+    N(HeartBlockMsgImg).height   = LOAD_ASSET_TEX_HEIGHT(N(heart_block_img));
     N(HeartBlockMsgImg).format   = G_IM_FMT_CI;
     N(HeartBlockMsgImg).bitDepth = G_IM_SIZ_4b;
     set_message_images(&N(HeartBlockMsgImg));

@@ -1,0 +1,88 @@
+#ifndef _NPC_SPRITE_ALTBANDIT_H_
+#define _NPC_SPRITE_ALTBANDIT_H_
+
+#include "types.h"
+
+#define SPR_AltBandit 0x9C
+
+#define SPR_IMG_AltBandit_Step1 0x0
+#define SPR_IMG_AltBandit_Step2 0x1
+#define SPR_IMG_AltBandit_Step3 0x2
+#define SPR_IMG_AltBandit_Neutral 0x3
+#define SPR_IMG_AltBandit_CarryStep1 0x4
+#define SPR_IMG_AltBandit_CarryStep2 0x5
+#define SPR_IMG_AltBandit_CarryStep3 0x6
+#define SPR_IMG_AltBandit_CarryNeutral 0x7
+#define SPR_IMG_AltBandit_LookUp 0x8
+#define SPR_IMG_AltBandit_Taunt 0x9
+#define SPR_IMG_AltBandit_Tackle 0xA
+#define SPR_IMG_AltBandit_Hurt1 0xB
+#define SPR_IMG_AltBandit_Idle1 0xC
+#define SPR_IMG_AltBandit_Idle2 0xD
+#define SPR_IMG_AltBandit_CarryIdle1 0xE
+#define SPR_IMG_AltBandit_CarryIdle2 0xF
+#define SPR_IMG_AltBandit_Hurt2 0x10
+#define SPR_IMG_AltBandit_BurnHurt1 0x11
+#define SPR_IMG_AltBandit_BurnHurt2 0x12
+#define SPR_IMG_AltBandit_BurnStill 0x13
+#define SPR_IMG_AltBandit_Talk 0x14
+#define SPR_IMG_AltBandit_SmokeCloud1 0x15
+#define SPR_IMG_AltBandit_SmokeCloud2 0x16
+#define SPR_IMG_AltBandit_SmokeCloud3 0x17
+#define SPR_IMG_AltBandit_SmokeCloud4 0x18
+#define SPR_IMG_AltBandit_SmokeCloud5 0x19
+#define SPR_IMG_AltBandit_SmokeCloud6 0x1A
+
+#define SPR_PAL_AltBandit_Blue 0x0
+#define SPR_PAL_AltBandit_Red 0x1
+#define SPR_PAL_AltBandit_Smoke 0x2
+
+#define ANIM_AltBandit_Blue_Still 0x9C0000
+#define ANIM_AltBandit_Blue_Idle 0x9C0001
+#define ANIM_AltBandit_Blue_CarryIdle 0x9C0002
+#define ANIM_AltBandit_Blue_Walk 0x9C0003
+#define ANIM_AltBandit_Blue_CarryWalk 0x9C0004
+#define ANIM_AltBandit_Blue_Run 0x9C0005
+#define ANIM_AltBandit_Blue_CarryRun 0x9C0006
+#define ANIM_AltBandit_Blue_Hurt 0x9C0007
+#define ANIM_AltBandit_Blue_BurnHurt 0x9C0008
+#define ANIM_AltBandit_Blue_BurnStill 0x9C0009
+#define ANIM_AltBandit_Blue_SmokeCloud 0x9C000A
+#define ANIM_AltBandit_Blue_Tackle 0x9C000B
+#define ANIM_AltBandit_Blue_LookUp 0x9C000C
+#define ANIM_AltBandit_Blue_Taunt 0x9C000D
+#define ANIM_AltBandit_Blue_Talk 0x9C000E
+
+#define ANIM_AltBandit_Red_Still 0x9C0100
+#define ANIM_AltBandit_Red_Idle 0x9C0101
+#define ANIM_AltBandit_Red_CarryIdle 0x9C0102
+#define ANIM_AltBandit_Red_Walk 0x9C0103
+#define ANIM_AltBandit_Red_CarryWalk 0x9C0104
+#define ANIM_AltBandit_Red_Run 0x9C0105
+#define ANIM_AltBandit_Red_CarryRun 0x9C0106
+#define ANIM_AltBandit_Red_Hurt 0x9C0107
+#define ANIM_AltBandit_Red_BurnHurt 0x9C0108
+#define ANIM_AltBandit_Red_BurnStill 0x9C0109
+#define ANIM_AltBandit_Red_SmokeCloud 0x9C010A
+#define ANIM_AltBandit_Red_Tackle 0x9C010B
+#define ANIM_AltBandit_Red_LookUp 0x9C010C
+#define ANIM_AltBandit_Red_Taunt 0x9C010D
+#define ANIM_AltBandit_Red_Talk 0x9C010E
+
+#define ANIM_AltBandit_Smoke_Still 0x9C0200
+#define ANIM_AltBandit_Smoke_Idle 0x9C0201
+#define ANIM_AltBandit_Smoke_CarryIdle 0x9C0202
+#define ANIM_AltBandit_Smoke_Walk 0x9C0203
+#define ANIM_AltBandit_Smoke_CarryWalk 0x9C0204
+#define ANIM_AltBandit_Smoke_Run 0x9C0205
+#define ANIM_AltBandit_Smoke_CarryRun 0x9C0206
+#define ANIM_AltBandit_Smoke_Hurt 0x9C0207
+#define ANIM_AltBandit_Smoke_BurnHurt 0x9C0208
+#define ANIM_AltBandit_Smoke_BurnStill 0x9C0209
+#define ANIM_AltBandit_Smoke_SmokeCloud 0x9C020A
+#define ANIM_AltBandit_Smoke_Tackle 0x9C020B
+#define ANIM_AltBandit_Smoke_LookUp 0x9C020C
+#define ANIM_AltBandit_Smoke_Taunt 0x9C020D
+#define ANIM_AltBandit_Smoke_Talk 0x9C020E
+
+#endif

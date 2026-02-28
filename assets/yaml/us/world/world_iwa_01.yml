@@ -1,0 +1,17 @@
+# iwa_01 map overlay - splash water effect
+# VRAM: 0x80240000, ROM: 0x90F6B0
+
+:config:
+  virtual: [0x80240000, 0x90F6B0]
+
+# Splash texture (I8 32x32)
+area_iwa/iwa_01/splash:
+  { type: TEXTURE, format: I8, offset: 0x913070, width: 32, height: 32, symbol: iwa_01_splash_img }
+
+# Splash vertices (4 verts)
+area_iwa/iwa_01/splash.vtx:
+  { type: VTX, offset: 0x913470, count: 4, symbol: iwa_01_splash_vtx }
+
+# Splash display list
+area_iwa/iwa_01/splash.gfx:
+  { type: PM64:EFFECT_DL, offset: 0x9134B0, size: 0xC8, symbol: iwa_01_splash_gfx }

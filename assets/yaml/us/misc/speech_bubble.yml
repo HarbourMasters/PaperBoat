@@ -1,0 +1,12 @@
+# Speech bubble indicator icon overlay
+# ROM offsets from ver/us/splat.yaml
+
+:config:
+  virtual: [0x802B7000, 0xE20EB0]
+
+texture:
+  { type: TEXTURE, format: CI4, offset: 0xE215C0, width: 32, height: 32, symbol: speech_bubble_img }
+texture.pal:
+  { type: TEXTURE, format: TLUT, offset: 0xE217C0, colors: 16, symbol: speech_bubble_pal }
+gfx:
+  { type: GFX, offset: 0xE217E0, symbol: speech_bubble_gfx }

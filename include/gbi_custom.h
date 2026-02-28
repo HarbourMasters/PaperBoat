@@ -13,6 +13,7 @@
 // Declare middleware functions for OTR path resolution
 void gSPVertexOTR(Gfx* pkt, uintptr_t v, int n, int v0);
 void gDPSetTextureImageOTR(Gfx* pkt, int fmt, int siz, int width, uintptr_t img);
+void gbi_resolve_vtx_in_static_dl(Gfx* dl);
 
 #ifndef gSPVertex
 #define gSPVertex(pkt, v, n, v0) gSPVertexOTR(pkt, (uintptr_t)(v), n, v0)

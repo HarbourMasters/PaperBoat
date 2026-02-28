@@ -1,5 +1,6 @@
 #include "pause_common.h"
 #include "message_ids.h"
+#include "assets/pause.h"
 
 #if VERSION_PAL
 #define MAP_TITLE_X 36
@@ -15,7 +16,6 @@
 extern Gfx PauseGfxWorldMap[];
 extern Gfx PauseGfxPathPoints[];
 extern Gfx PauseGfxArrows[];
-extern u8 pause_world_map_png[];
 
 void pause_map_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width, s32 height, s32 opacity, s32 darkening);
 void pause_map_draw_title(MenuPanel* menu, s32 baseX, s32 baseY, s32 width, s32 height, s32 opacity, s32 darkening);

@@ -1,0 +1,154 @@
+#ifndef _NPC_SPRITE_BATTLESUSHIE_H_
+#define _NPC_SPRITE_BATTLESUSHIE_H_
+
+#include "types.h"
+
+#define SPR_BattleSushie 0x0F
+
+#define SPR_IMG_BattleSushie_Idle1 0x0
+#define SPR_IMG_BattleSushie_Idle2 0x1
+#define SPR_IMG_BattleSushie_Idle3 0x2
+#define SPR_IMG_BattleSushie_OpenMouth1 0x3
+#define SPR_IMG_BattleSushie_OpenMouth2 0x4
+#define SPR_IMG_BattleSushie_Tense1 0x5
+#define SPR_IMG_BattleSushie_Tense2 0x6
+#define SPR_IMG_BattleSushie_Jump 0x7
+#define SPR_IMG_BattleSushie_Fall 0x8
+#define SPR_IMG_BattleSushie_Land 0x9
+#define SPR_IMG_BattleSushie_Squirt1 0xA
+#define SPR_IMG_BattleSushie_Squirt2 0xB
+#define SPR_IMG_BattleSushie_SpitArc1 0xC
+#define SPR_IMG_BattleSushie_SpitArc2 0xD
+#define SPR_IMG_BattleSushie_Hurt1 0xE
+#define SPR_IMG_BattleSushie_Hurt2 0xF
+#define SPR_IMG_BattleSushie_BurnHurt1 0x10
+#define SPR_IMG_BattleSushie_BurnHurt2 0x11
+#define SPR_IMG_BattleSushie_BurnStill 0x12
+#define SPR_IMG_BattleSushie_Injured1 0x13
+#define SPR_IMG_BattleSushie_Injured2 0x14
+#define SPR_IMG_BattleSushie_Injured3 0x15
+#define SPR_IMG_BattleSushie_Injured4 0x16
+#define SPR_IMG_BattleSushie_Happy1 0x17
+#define SPR_IMG_BattleSushie_Happy2 0x18
+#define SPR_IMG_BattleSushie_Think 0x19
+#define SPR_IMG_BattleSushie_Pray 0x1A
+#define SPR_IMG_BattleSushie_HoldWater 0x1B
+#define SPR_IMG_BattleSushie_Block 0x1C
+
+#define SPR_PAL_BattleSushie 0x0
+#define SPR_PAL_BattleSushie_Poisoned 0x1
+#define SPR_PAL_BattleSushie_Inactive 0x2
+#define SPR_PAL_BattleSushie_Shocked 0x3
+#define SPR_PAL_BattleSushie_Burnt 0x4
+
+#define ANIM_BattleSushie_Still 0x0F0000
+#define ANIM_BattleSushie_Idle 0x0F0001
+#define ANIM_BattleSushie_Walk 0x0F0002
+#define ANIM_BattleSushie_Run 0x0F0003
+#define ANIM_BattleSushie_Tense1 0x0F0004
+#define ANIM_BattleSushie_Jump 0x0F0005
+#define ANIM_BattleSushie_Fall 0x0F0006
+#define ANIM_BattleSushie_Land 0x0F0007
+#define ANIM_BattleSushie_Tense2 0x0F0008
+#define ANIM_BattleSushie_Inhale 0x0F0009
+#define ANIM_BattleSushie_Squirt 0x0F000A
+#define ANIM_BattleSushie_HoldWater 0x0F000B
+#define ANIM_BattleSushie_SpitArc 0x0F000C
+#define ANIM_BattleSushie_Hurt 0x0F000D
+#define ANIM_BattleSushie_BurnHurt 0x0F000E
+#define ANIM_BattleSushie_BurnStill 0x0F000F
+#define ANIM_BattleSushie_Injured 0x0F0010
+#define ANIM_BattleSushie_Celebrate 0x0F0011
+#define ANIM_BattleSushie_Think 0x0F0012
+#define ANIM_BattleSushie_Pray 0x0F0013
+#define ANIM_BattleSushie_Block 0x0F0014
+
+#define ANIM_BattleSushie_Poisoned_Still 0x0F0100
+#define ANIM_BattleSushie_Poisoned_Idle 0x0F0101
+#define ANIM_BattleSushie_Poisoned_Walk 0x0F0102
+#define ANIM_BattleSushie_Poisoned_Run 0x0F0103
+#define ANIM_BattleSushie_Poisoned_Tense1 0x0F0104
+#define ANIM_BattleSushie_Poisoned_Jump 0x0F0105
+#define ANIM_BattleSushie_Poisoned_Fall 0x0F0106
+#define ANIM_BattleSushie_Poisoned_Land 0x0F0107
+#define ANIM_BattleSushie_Poisoned_Tense2 0x0F0108
+#define ANIM_BattleSushie_Poisoned_Inhale 0x0F0109
+#define ANIM_BattleSushie_Poisoned_Squirt 0x0F010A
+#define ANIM_BattleSushie_Poisoned_HoldWater 0x0F010B
+#define ANIM_BattleSushie_Poisoned_SpitArc 0x0F010C
+#define ANIM_BattleSushie_Poisoned_Hurt 0x0F010D
+#define ANIM_BattleSushie_Poisoned_BurnHurt 0x0F010E
+#define ANIM_BattleSushie_Poisoned_BurnStill 0x0F010F
+#define ANIM_BattleSushie_Poisoned_Injured 0x0F0110
+#define ANIM_BattleSushie_Poisoned_Celebrate 0x0F0111
+#define ANIM_BattleSushie_Poisoned_Think 0x0F0112
+#define ANIM_BattleSushie_Poisoned_Pray 0x0F0113
+#define ANIM_BattleSushie_Poisoned_Block 0x0F0114
+
+#define ANIM_BattleSushie_Inactive_Still 0x0F0200
+#define ANIM_BattleSushie_Inactive_Idle 0x0F0201
+#define ANIM_BattleSushie_Inactive_Walk 0x0F0202
+#define ANIM_BattleSushie_Inactive_Run 0x0F0203
+#define ANIM_BattleSushie_Inactive_Tense1 0x0F0204
+#define ANIM_BattleSushie_Inactive_Jump 0x0F0205
+#define ANIM_BattleSushie_Inactive_Fall 0x0F0206
+#define ANIM_BattleSushie_Inactive_Land 0x0F0207
+#define ANIM_BattleSushie_Inactive_Tense2 0x0F0208
+#define ANIM_BattleSushie_Inactive_Inhale 0x0F0209
+#define ANIM_BattleSushie_Inactive_Squirt 0x0F020A
+#define ANIM_BattleSushie_Inactive_HoldWater 0x0F020B
+#define ANIM_BattleSushie_Inactive_SpitArc 0x0F020C
+#define ANIM_BattleSushie_Inactive_Hurt 0x0F020D
+#define ANIM_BattleSushie_Inactive_BurnHurt 0x0F020E
+#define ANIM_BattleSushie_Inactive_BurnStill 0x0F020F
+#define ANIM_BattleSushie_Inactive_Injured 0x0F0210
+#define ANIM_BattleSushie_Inactive_Celebrate 0x0F0211
+#define ANIM_BattleSushie_Inactive_Think 0x0F0212
+#define ANIM_BattleSushie_Inactive_Pray 0x0F0213
+#define ANIM_BattleSushie_Inactive_Block 0x0F0214
+
+#define ANIM_BattleSushie_Shocked_Still 0x0F0300
+#define ANIM_BattleSushie_Shocked_Idle 0x0F0301
+#define ANIM_BattleSushie_Shocked_Walk 0x0F0302
+#define ANIM_BattleSushie_Shocked_Run 0x0F0303
+#define ANIM_BattleSushie_Shocked_Tense1 0x0F0304
+#define ANIM_BattleSushie_Shocked_Jump 0x0F0305
+#define ANIM_BattleSushie_Shocked_Fall 0x0F0306
+#define ANIM_BattleSushie_Shocked_Land 0x0F0307
+#define ANIM_BattleSushie_Shocked_Tense2 0x0F0308
+#define ANIM_BattleSushie_Shocked_Inhale 0x0F0309
+#define ANIM_BattleSushie_Shocked_Squirt 0x0F030A
+#define ANIM_BattleSushie_Shocked_HoldWater 0x0F030B
+#define ANIM_BattleSushie_Shocked_SpitArc 0x0F030C
+#define ANIM_BattleSushie_Shocked_Hurt 0x0F030D
+#define ANIM_BattleSushie_Shocked_BurnHurt 0x0F030E
+#define ANIM_BattleSushie_Shocked_BurnStill 0x0F030F
+#define ANIM_BattleSushie_Shocked_Injured 0x0F0310
+#define ANIM_BattleSushie_Shocked_Celebrate 0x0F0311
+#define ANIM_BattleSushie_Shocked_Think 0x0F0312
+#define ANIM_BattleSushie_Shocked_Pray 0x0F0313
+#define ANIM_BattleSushie_Shocked_Block 0x0F0314
+
+#define ANIM_BattleSushie_Burnt_Still 0x0F0400
+#define ANIM_BattleSushie_Burnt_Idle 0x0F0401
+#define ANIM_BattleSushie_Burnt_Walk 0x0F0402
+#define ANIM_BattleSushie_Burnt_Run 0x0F0403
+#define ANIM_BattleSushie_Burnt_Tense1 0x0F0404
+#define ANIM_BattleSushie_Burnt_Jump 0x0F0405
+#define ANIM_BattleSushie_Burnt_Fall 0x0F0406
+#define ANIM_BattleSushie_Burnt_Land 0x0F0407
+#define ANIM_BattleSushie_Burnt_Tense2 0x0F0408
+#define ANIM_BattleSushie_Burnt_Inhale 0x0F0409
+#define ANIM_BattleSushie_Burnt_Squirt 0x0F040A
+#define ANIM_BattleSushie_Burnt_HoldWater 0x0F040B
+#define ANIM_BattleSushie_Burnt_SpitArc 0x0F040C
+#define ANIM_BattleSushie_Burnt_Hurt 0x0F040D
+#define ANIM_BattleSushie_Burnt_BurnHurt 0x0F040E
+#define ANIM_BattleSushie_Burnt_BurnStill 0x0F040F
+#define ANIM_BattleSushie_Burnt_Injured 0x0F0410
+#define ANIM_BattleSushie_Burnt_Celebrate 0x0F0411
+#define ANIM_BattleSushie_Burnt_Think 0x0F0412
+#define ANIM_BattleSushie_Burnt_Pray 0x0F0413
+#define ANIM_BattleSushie_Burnt_Block 0x0F0414
+
+#endif

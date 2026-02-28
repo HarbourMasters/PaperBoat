@@ -1,0 +1,164 @@
+#ifndef _NPC_SPRITE_SPIKEDGOOMBA_H_
+#define _NPC_SPRITE_SPIKEDGOOMBA_H_
+
+#include "types.h"
+
+#define SPR_SpikedGoomba 0x27
+
+#define SPR_IMG_SpikedGoomba_Step1 0x0
+#define SPR_IMG_SpikedGoomba_Step2 0x1
+#define SPR_IMG_SpikedGoomba_Step3 0x2
+#define SPR_IMG_SpikedGoomba_Hurt1 0x3
+#define SPR_IMG_SpikedGoomba_Midair 0x4
+#define SPR_IMG_SpikedGoomba_Idle1 0x5
+#define SPR_IMG_SpikedGoomba_Idle2 0x6
+#define SPR_IMG_SpikedGoomba_Idle3 0x7
+#define SPR_IMG_SpikedGoomba_Sleep 0x8
+#define SPR_IMG_SpikedGoomba_Dizzy1 0x9
+#define SPR_IMG_SpikedGoomba_Dizzy2 0xA
+#define SPR_IMG_SpikedGoomba_Dizzy3 0xB
+#define SPR_IMG_SpikedGoomba_Dizzy4 0xC
+#define SPR_IMG_SpikedGoomba_BurnEyesClosed 0xD
+#define SPR_IMG_SpikedGoomba_BurnEyesOpen 0xE
+#define SPR_IMG_SpikedGoomba_Laugh1 0xF
+#define SPR_IMG_SpikedGoomba_Laugh2 0x10
+#define SPR_IMG_SpikedGoomba_Hurt2 0x11
+#define SPR_IMG_SpikedGoomba_Electrocute 0x12
+
+#define SPR_PAL_SpikedGoomba 0x0
+#define SPR_PAL_SpikedGoomba_Dark 0x1
+#define SPR_PAL_SpikedGoomba_Poisoned 0x2
+#define SPR_PAL_SpikedGoomba_Dark_Poisoned 0x3
+#define SPR_PAL_SpikedGoomba_Dizzy 0x4
+#define SPR_PAL_SpikedGoomba_Dark_Dizzy 0x5
+#define SPR_PAL_SpikedGoomba_Shocked 0x6
+#define SPR_PAL_SpikedGoomba_Dark_Shocked 0x7
+#define SPR_PAL_SpikedGoomba_Burnt 0x8
+
+#define ANIM_SpikedGoomba_Still 0x270000
+#define ANIM_SpikedGoomba_Idle 0x270001
+#define ANIM_SpikedGoomba_Walk 0x270002
+#define ANIM_SpikedGoomba_Run 0x270003
+#define ANIM_SpikedGoomba_Midair 0x270004
+#define ANIM_SpikedGoomba_HurtStill 0x270005
+#define ANIM_SpikedGoomba_Hurt 0x270006
+#define ANIM_SpikedGoomba_BurnEyesClosed 0x270007
+#define ANIM_SpikedGoomba_BurnEyesOpen 0x270008
+#define ANIM_SpikedGoomba_Dizzy 0x270009
+#define ANIM_SpikedGoomba_Sleep 0x27000A
+#define ANIM_SpikedGoomba_Laugh 0x27000B
+#define ANIM_SpikedGoomba_Electrocute 0x27000C
+
+#define ANIM_SpikedGoomba_Dark_Still 0x270100
+#define ANIM_SpikedGoomba_Dark_Idle 0x270101
+#define ANIM_SpikedGoomba_Dark_Walk 0x270102
+#define ANIM_SpikedGoomba_Dark_Run 0x270103
+#define ANIM_SpikedGoomba_Dark_Midair 0x270104
+#define ANIM_SpikedGoomba_Dark_HurtStill 0x270105
+#define ANIM_SpikedGoomba_Dark_Hurt 0x270106
+#define ANIM_SpikedGoomba_Dark_BurnEyesClosed 0x270107
+#define ANIM_SpikedGoomba_Dark_BurnEyesOpen 0x270108
+#define ANIM_SpikedGoomba_Dark_Dizzy 0x270109
+#define ANIM_SpikedGoomba_Dark_Sleep 0x27010A
+#define ANIM_SpikedGoomba_Dark_Laugh 0x27010B
+#define ANIM_SpikedGoomba_Dark_Electrocute 0x27010C
+
+#define ANIM_SpikedGoomba_Poisoned_Still 0x270200
+#define ANIM_SpikedGoomba_Poisoned_Idle 0x270201
+#define ANIM_SpikedGoomba_Poisoned_Walk 0x270202
+#define ANIM_SpikedGoomba_Poisoned_Run 0x270203
+#define ANIM_SpikedGoomba_Poisoned_Midair 0x270204
+#define ANIM_SpikedGoomba_Poisoned_HurtStill 0x270205
+#define ANIM_SpikedGoomba_Poisoned_Hurt 0x270206
+#define ANIM_SpikedGoomba_Poisoned_BurnEyesClosed 0x270207
+#define ANIM_SpikedGoomba_Poisoned_BurnEyesOpen 0x270208
+#define ANIM_SpikedGoomba_Poisoned_Dizzy 0x270209
+#define ANIM_SpikedGoomba_Poisoned_Sleep 0x27020A
+#define ANIM_SpikedGoomba_Poisoned_Laugh 0x27020B
+#define ANIM_SpikedGoomba_Poisoned_Electrocute 0x27020C
+
+#define ANIM_SpikedGoomba_Dark_Poisoned_Still 0x270300
+#define ANIM_SpikedGoomba_Dark_Poisoned_Idle 0x270301
+#define ANIM_SpikedGoomba_Dark_Poisoned_Walk 0x270302
+#define ANIM_SpikedGoomba_Dark_Poisoned_Run 0x270303
+#define ANIM_SpikedGoomba_Dark_Poisoned_Midair 0x270304
+#define ANIM_SpikedGoomba_Dark_Poisoned_HurtStill 0x270305
+#define ANIM_SpikedGoomba_Dark_Poisoned_Hurt 0x270306
+#define ANIM_SpikedGoomba_Dark_Poisoned_BurnEyesClosed 0x270307
+#define ANIM_SpikedGoomba_Dark_Poisoned_BurnEyesOpen 0x270308
+#define ANIM_SpikedGoomba_Dark_Poisoned_Dizzy 0x270309
+#define ANIM_SpikedGoomba_Dark_Poisoned_Sleep 0x27030A
+#define ANIM_SpikedGoomba_Dark_Poisoned_Laugh 0x27030B
+#define ANIM_SpikedGoomba_Dark_Poisoned_Electrocute 0x27030C
+
+#define ANIM_SpikedGoomba_Dizzy_Still 0x270400
+#define ANIM_SpikedGoomba_Dizzy_Idle 0x270401
+#define ANIM_SpikedGoomba_Dizzy_Walk 0x270402
+#define ANIM_SpikedGoomba_Dizzy_Run 0x270403
+#define ANIM_SpikedGoomba_Dizzy_Midair 0x270404
+#define ANIM_SpikedGoomba_Dizzy_HurtStill 0x270405
+#define ANIM_SpikedGoomba_Dizzy_Hurt 0x270406
+#define ANIM_SpikedGoomba_Dizzy_BurnEyesClosed 0x270407
+#define ANIM_SpikedGoomba_Dizzy_BurnEyesOpen 0x270408
+#define ANIM_SpikedGoomba_Dizzy_Dizzy 0x270409
+#define ANIM_SpikedGoomba_Dizzy_Sleep 0x27040A
+#define ANIM_SpikedGoomba_Dizzy_Laugh 0x27040B
+#define ANIM_SpikedGoomba_Dizzy_Electrocute 0x27040C
+
+#define ANIM_SpikedGoomba_Dark_Dizzy_Still 0x270500
+#define ANIM_SpikedGoomba_Dark_Dizzy_Idle 0x270501
+#define ANIM_SpikedGoomba_Dark_Dizzy_Walk 0x270502
+#define ANIM_SpikedGoomba_Dark_Dizzy_Run 0x270503
+#define ANIM_SpikedGoomba_Dark_Dizzy_Midair 0x270504
+#define ANIM_SpikedGoomba_Dark_Dizzy_HurtStill 0x270505
+#define ANIM_SpikedGoomba_Dark_Dizzy_Hurt 0x270506
+#define ANIM_SpikedGoomba_Dark_Dizzy_BurnEyesClosed 0x270507
+#define ANIM_SpikedGoomba_Dark_Dizzy_BurnEyesOpen 0x270508
+#define ANIM_SpikedGoomba_Dark_Dizzy_Dizzy 0x270509
+#define ANIM_SpikedGoomba_Dark_Dizzy_Sleep 0x27050A
+#define ANIM_SpikedGoomba_Dark_Dizzy_Laugh 0x27050B
+#define ANIM_SpikedGoomba_Dark_Dizzy_Electrocute 0x27050C
+
+#define ANIM_SpikedGoomba_Shocked_Still 0x270600
+#define ANIM_SpikedGoomba_Shocked_Idle 0x270601
+#define ANIM_SpikedGoomba_Shocked_Walk 0x270602
+#define ANIM_SpikedGoomba_Shocked_Run 0x270603
+#define ANIM_SpikedGoomba_Shocked_Midair 0x270604
+#define ANIM_SpikedGoomba_Shocked_HurtStill 0x270605
+#define ANIM_SpikedGoomba_Shocked_Hurt 0x270606
+#define ANIM_SpikedGoomba_Shocked_BurnEyesClosed 0x270607
+#define ANIM_SpikedGoomba_Shocked_BurnEyesOpen 0x270608
+#define ANIM_SpikedGoomba_Shocked_Dizzy 0x270609
+#define ANIM_SpikedGoomba_Shocked_Sleep 0x27060A
+#define ANIM_SpikedGoomba_Shocked_Laugh 0x27060B
+#define ANIM_SpikedGoomba_Shocked_Electrocute 0x27060C
+
+#define ANIM_SpikedGoomba_Dark_Shocked_Still 0x270700
+#define ANIM_SpikedGoomba_Dark_Shocked_Idle 0x270701
+#define ANIM_SpikedGoomba_Dark_Shocked_Walk 0x270702
+#define ANIM_SpikedGoomba_Dark_Shocked_Run 0x270703
+#define ANIM_SpikedGoomba_Dark_Shocked_Midair 0x270704
+#define ANIM_SpikedGoomba_Dark_Shocked_HurtStill 0x270705
+#define ANIM_SpikedGoomba_Dark_Shocked_Hurt 0x270706
+#define ANIM_SpikedGoomba_Dark_Shocked_BurnEyesClosed 0x270707
+#define ANIM_SpikedGoomba_Dark_Shocked_BurnEyesOpen 0x270708
+#define ANIM_SpikedGoomba_Dark_Shocked_Dizzy 0x270709
+#define ANIM_SpikedGoomba_Dark_Shocked_Sleep 0x27070A
+#define ANIM_SpikedGoomba_Dark_Shocked_Laugh 0x27070B
+#define ANIM_SpikedGoomba_Dark_Shocked_Electrocute 0x27070C
+
+#define ANIM_SpikedGoomba_Burnt_Still 0x270800
+#define ANIM_SpikedGoomba_Burnt_Idle 0x270801
+#define ANIM_SpikedGoomba_Burnt_Walk 0x270802
+#define ANIM_SpikedGoomba_Burnt_Run 0x270803
+#define ANIM_SpikedGoomba_Burnt_Midair 0x270804
+#define ANIM_SpikedGoomba_Burnt_HurtStill 0x270805
+#define ANIM_SpikedGoomba_Burnt_Hurt 0x270806
+#define ANIM_SpikedGoomba_Burnt_BurnEyesClosed 0x270807
+#define ANIM_SpikedGoomba_Burnt_BurnEyesOpen 0x270808
+#define ANIM_SpikedGoomba_Burnt_Dizzy 0x270809
+#define ANIM_SpikedGoomba_Burnt_Sleep 0x27080A
+#define ANIM_SpikedGoomba_Burnt_Laugh 0x27080B
+#define ANIM_SpikedGoomba_Burnt_Electrocute 0x27080C
+
+#endif

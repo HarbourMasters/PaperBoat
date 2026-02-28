@@ -1,0 +1,49 @@
+#ifndef _NPC_SPRITE_PARADEBANNER_H_
+#define _NPC_SPRITE_PARADEBANNER_H_
+
+#include "types.h"
+
+#define SPR_ParadeBanner 0xE2
+
+#define SPR_IMG_ParadeBanner_Step1 0x0
+#define SPR_IMG_ParadeBanner_Step2 0x1
+#define SPR_IMG_ParadeBanner_Step3 0x2
+#define SPR_IMG_ParadeBanner_BannerWave1 0x3
+#define SPR_IMG_ParadeBanner_BannerWave2 0x4
+#define SPR_IMG_ParadeBanner_BannerNeutral 0x5
+#define SPR_IMG_ParadeBanner_BannerWave3 0x6
+#define SPR_IMG_ParadeBanner_Idle1 0x7
+#define SPR_IMG_ParadeBanner_Idle2 0x8
+
+#define SPR_PAL_ParadeBanner 0x0
+#define SPR_PAL_ParadeBanner_Dark 0x1
+#define SPR_PAL_ParadeBanner_DarkGlow 0x2
+#define SPR_PAL_ParadeBanner_Banner 0x3
+#define SPR_PAL_ParadeBanner_BannerDark 0x4
+#define SPR_PAL_ParadeBanner_BannerDarkGlow 0x5
+
+#define ANIM_ParadeBanner_Still 0xE20000
+#define ANIM_ParadeBanner_Idle 0xE20001
+#define ANIM_ParadeBanner_Walk 0xE20002
+
+#define ANIM_ParadeBanner_Dark_Still 0xE20100
+#define ANIM_ParadeBanner_Dark_Idle 0xE20101
+#define ANIM_ParadeBanner_Dark_Walk 0xE20102
+
+#define ANIM_ParadeBanner_DarkGlow_Still 0xE20200
+#define ANIM_ParadeBanner_DarkGlow_Idle 0xE20201
+#define ANIM_ParadeBanner_DarkGlow_Walk 0xE20202
+
+#define ANIM_ParadeBanner_Banner_Still 0xE20300
+#define ANIM_ParadeBanner_Banner_Idle 0xE20301
+#define ANIM_ParadeBanner_Banner_Walk 0xE20302
+
+#define ANIM_ParadeBanner_BannerDark_Still 0xE20400
+#define ANIM_ParadeBanner_BannerDark_Idle 0xE20401
+#define ANIM_ParadeBanner_BannerDark_Walk 0xE20402
+
+#define ANIM_ParadeBanner_BannerDarkGlow_Still 0xE20500
+#define ANIM_ParadeBanner_BannerDarkGlow_Idle 0xE20501
+#define ANIM_ParadeBanner_BannerDarkGlow_Walk 0xE20502
+
+#endif

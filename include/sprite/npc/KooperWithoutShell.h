@@ -1,0 +1,53 @@
+#ifndef _NPC_SPRITE_KOOPERWITHOUTSHELL_H_
+#define _NPC_SPRITE_KOOPERWITHOUTSHELL_H_
+
+#include "types.h"
+
+#define SPR_KooperWithoutShell 0x11
+
+#define SPR_IMG_KooperWithoutShell_Step1 0x0
+#define SPR_IMG_KooperWithoutShell_Step2 0x1
+#define SPR_IMG_KooperWithoutShell_Step3 0x2
+#define SPR_IMG_KooperWithoutShell_Talk 0x3
+#define SPR_IMG_KooperWithoutShell_TalkAngry 0x4
+#define SPR_IMG_KooperWithoutShell_Bow 0x5
+#define SPR_IMG_KooperWithoutShell_Idle1 0x6
+#define SPR_IMG_KooperWithoutShell_Idle2 0x7
+#define SPR_IMG_KooperWithoutShell_Idle3 0x8
+#define SPR_IMG_KooperWithoutShell_Idle4 0x9
+#define SPR_IMG_KooperWithoutShell_Celebrate1 0xA
+#define SPR_IMG_KooperWithoutShell_Celebrate2 0xB
+#define SPR_IMG_KooperWithoutShell_Celebrate3 0xC
+#define SPR_IMG_KooperWithoutShell_StepAngry1 0xD
+#define SPR_IMG_KooperWithoutShell_StepAngry2 0xE
+#define SPR_IMG_KooperWithoutShell_StepAngry3 0xF
+#define SPR_IMG_KooperWithoutShell_Shout1 0x10
+#define SPR_IMG_KooperWithoutShell_Shout2 0x11
+#define SPR_IMG_KooperWithoutShell_Happy 0x12
+#define SPR_IMG_KooperWithoutShell_IdleAngry1 0x13
+#define SPR_IMG_KooperWithoutShell_IdleAngry2 0x14
+#define SPR_IMG_KooperWithoutShell_IdleAngry3 0x15
+#define SPR_IMG_KooperWithoutShell_IdleAngry4 0x16
+#define SPR_IMG_KooperWithoutShell_ShoutAngry1 0x17
+#define SPR_IMG_KooperWithoutShell_ShoutAngry2 0x18
+
+#define SPR_PAL_KooperWithoutShell 0x0
+
+#define ANIM_KooperWithoutShell_Still 0x110000
+#define ANIM_KooperWithoutShell_StillHappy 0x110001
+#define ANIM_KooperWithoutShell_StillAngry 0x110002
+#define ANIM_KooperWithoutShell_Idle 0x110003
+#define ANIM_KooperWithoutShell_IdleAngry 0x110004
+#define ANIM_KooperWithoutShell_Walk 0x110005
+#define ANIM_KooperWithoutShell_WalkAngry 0x110006
+#define ANIM_KooperWithoutShell_Run 0x110007
+#define ANIM_KooperWithoutShell_RunAngry 0x110008
+#define ANIM_KooperWithoutShell_Talk 0x110009
+#define ANIM_KooperWithoutShell_TalkAngry 0x11000A
+#define ANIM_KooperWithoutShell_Shout 0x11000B
+#define ANIM_KooperWithoutShell_ShoutAngry 0x11000C
+#define ANIM_KooperWithoutShell_Celebrate 0x11000D
+#define ANIM_KooperWithoutShell_CelebrateLoop 0x11000E
+#define ANIM_KooperWithoutShell_Bow 0x11000F
+
+#endif

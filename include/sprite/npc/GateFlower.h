@@ -1,0 +1,57 @@
+#ifndef _NPC_SPRITE_GATEFLOWER_H_
+#define _NPC_SPRITE_GATEFLOWER_H_
+
+#include "types.h"
+
+#define SPR_GateFlower 0xC6
+
+#define SPR_IMG_GateFlower_Head 0x0
+#define SPR_IMG_GateFlower_HeadDisgust 0x1
+#define SPR_IMG_GateFlower_HeadHappy 0x2
+#define SPR_IMG_GateFlower_HeadEat 0x3
+#define SPR_IMG_GateFlower_LPetal 0x4
+#define SPR_IMG_GateFlower_RPetal 0x5
+#define SPR_IMG_GateFlower_JawPetal 0x6
+#define SPR_IMG_GateFlower_Stem1 0x7
+#define SPR_IMG_GateFlower_Stem2 0x8
+#define SPR_IMG_GateFlower_Stem3 0x9
+#define SPR_IMG_GateFlower_Stem4 0xA
+
+#define SPR_PAL_GateFlower_Blue 0x0
+#define SPR_PAL_GateFlower_Red 0x1
+#define SPR_PAL_GateFlower_Yellow 0x2
+
+#define ANIM_GateFlower_Blue_Still 0xC60000
+#define ANIM_GateFlower_Blue_Idle 0xC60001
+#define ANIM_GateFlower_Blue_Talk 0xC60002
+#define ANIM_GateFlower_Blue_Eat 0xC60003
+#define ANIM_GateFlower_Blue_Chew 0xC60004
+#define ANIM_GateFlower_Blue_HappyDance 0xC60005
+#define ANIM_GateFlower_Blue_Disgust 0xC60006
+#define ANIM_GateFlower_Blue_OpenGate 0xC60007
+#define ANIM_GateFlower_Blue_HappyIdle 0xC60008
+#define ANIM_GateFlower_Blue_HappyTalk 0xC60009
+
+#define ANIM_GateFlower_Red_Still 0xC60100
+#define ANIM_GateFlower_Red_Idle 0xC60101
+#define ANIM_GateFlower_Red_Talk 0xC60102
+#define ANIM_GateFlower_Red_Eat 0xC60103
+#define ANIM_GateFlower_Red_Chew 0xC60104
+#define ANIM_GateFlower_Red_HappyDance 0xC60105
+#define ANIM_GateFlower_Red_Disgust 0xC60106
+#define ANIM_GateFlower_Red_OpenGate 0xC60107
+#define ANIM_GateFlower_Red_HappyIdle 0xC60108
+#define ANIM_GateFlower_Red_HappyTalk 0xC60109
+
+#define ANIM_GateFlower_Yellow_Still 0xC60200
+#define ANIM_GateFlower_Yellow_Idle 0xC60201
+#define ANIM_GateFlower_Yellow_Talk 0xC60202
+#define ANIM_GateFlower_Yellow_Eat 0xC60203
+#define ANIM_GateFlower_Yellow_Chew 0xC60204
+#define ANIM_GateFlower_Yellow_HappyDance 0xC60205
+#define ANIM_GateFlower_Yellow_Disgust 0xC60206
+#define ANIM_GateFlower_Yellow_OpenGate 0xC60207
+#define ANIM_GateFlower_Yellow_HappyIdle 0xC60208
+#define ANIM_GateFlower_Yellow_HappyTalk 0xC60209
+
+#endif

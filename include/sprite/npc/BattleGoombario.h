@@ -1,0 +1,150 @@
+#ifndef _NPC_SPRITE_BATTLEGOOMBARIO_H_
+#define _NPC_SPRITE_BATTLEGOOMBARIO_H_
+
+#include "types.h"
+
+#define SPR_BattleGoombario 0x09
+
+#define SPR_IMG_BattleGoombario_Step1 0x0
+#define SPR_IMG_BattleGoombario_Step2 0x1
+#define SPR_IMG_BattleGoombario_Step3 0x2
+#define SPR_IMG_BattleGoombario_Hurt 0x3
+#define SPR_IMG_BattleGoombario_Headbonk 0x4
+#define SPR_IMG_BattleGoombario_Idle1 0x5
+#define SPR_IMG_BattleGoombario_Idle2 0x6
+#define SPR_IMG_BattleGoombario_Idle3 0x7
+#define SPR_IMG_BattleGoombario_Talk1 0x8
+#define SPR_IMG_BattleGoombario_Talk2 0x9
+#define SPR_IMG_BattleGoombario_Jump 0xA
+#define SPR_IMG_BattleGoombario_Fall 0xB
+#define SPR_IMG_BattleGoombario_Celebrate1 0xC
+#define SPR_IMG_BattleGoombario_Celebrate2 0xD
+#define SPR_IMG_BattleGoombario_PreHeadbonk 0xE
+#define SPR_IMG_BattleGoombario_Injured1 0xF
+#define SPR_IMG_BattleGoombario_Injured2 0x10
+#define SPR_IMG_BattleGoombario_CloseEyes1 0x11
+#define SPR_IMG_BattleGoombario_CloseEyes2 0x12
+#define SPR_IMG_BattleGoombario_BurnStand 0x13
+#define SPR_IMG_BattleGoombario_BurnHurt1 0x14
+#define SPR_IMG_BattleGoombario_BurnHurt2 0x15
+#define SPR_IMG_BattleGoombario_Think 0x16
+#define SPR_IMG_BattleGoombario_Block1 0x17
+#define SPR_IMG_BattleGoombario_Block2 0x18
+
+#define SPR_PAL_BattleGoombario 0x0
+#define SPR_PAL_BattleGoombario_Poisoned 0x1
+#define SPR_PAL_BattleGoombario_Inactive 0x2
+#define SPR_PAL_BattleGoombario_Shocked 0x3
+#define SPR_PAL_BattleGoombario_Burnt 0x4
+
+#define ANIM_BattleGoombario_Still 0x090000
+#define ANIM_BattleGoombario_Idle 0x090001
+#define ANIM_BattleGoombario_Walk 0x090002
+#define ANIM_BattleGoombario_Run 0x090003
+#define ANIM_BattleGoombario_Jump 0x090004
+#define ANIM_BattleGoombario_Fall 0x090005
+#define ANIM_BattleGoombario_Headbonk 0x090006
+#define ANIM_BattleGoombario_PreHeadbonk 0x090007
+#define ANIM_BattleGoombario_OffsetHeadbonk 0x090008
+#define ANIM_BattleGoombario_BlockAlt 0x090009
+#define ANIM_BattleGoombario_HurtStill 0x09000A
+#define ANIM_BattleGoombario_BurnHurt1 0x09000B
+#define ANIM_BattleGoombario_BurnHurt2 0x09000C
+#define ANIM_BattleGoombario_BurnStand 0x09000D
+#define ANIM_BattleGoombario_Block 0x09000E
+#define ANIM_BattleGoombario_Talk 0x09000F
+#define ANIM_BattleGoombario_CelebrateLoop 0x090010
+#define ANIM_BattleGoombario_Celebrate 0x090011
+#define ANIM_BattleGoombario_Think 0x090012
+#define ANIM_BattleGoombario_CloseEyes 0x090013
+#define ANIM_BattleGoombario_Injured 0x090014
+
+#define ANIM_BattleGoombario_Poisoned_Still 0x090100
+#define ANIM_BattleGoombario_Poisoned_Idle 0x090101
+#define ANIM_BattleGoombario_Poisoned_Walk 0x090102
+#define ANIM_BattleGoombario_Poisoned_Run 0x090103
+#define ANIM_BattleGoombario_Poisoned_Jump 0x090104
+#define ANIM_BattleGoombario_Poisoned_Fall 0x090105
+#define ANIM_BattleGoombario_Poisoned_Headbonk 0x090106
+#define ANIM_BattleGoombario_Poisoned_PreHeadbonk 0x090107
+#define ANIM_BattleGoombario_Poisoned_OffsetHeadbonk 0x090108
+#define ANIM_BattleGoombario_Poisoned_BlockAlt 0x090109
+#define ANIM_BattleGoombario_Poisoned_HurtStill 0x09010A
+#define ANIM_BattleGoombario_Poisoned_BurnHurt1 0x09010B
+#define ANIM_BattleGoombario_Poisoned_BurnHurt2 0x09010C
+#define ANIM_BattleGoombario_Poisoned_BurnStand 0x09010D
+#define ANIM_BattleGoombario_Poisoned_Block 0x09010E
+#define ANIM_BattleGoombario_Poisoned_Talk 0x09010F
+#define ANIM_BattleGoombario_Poisoned_CelebrateLoop 0x090110
+#define ANIM_BattleGoombario_Poisoned_Celebrate 0x090111
+#define ANIM_BattleGoombario_Poisoned_Think 0x090112
+#define ANIM_BattleGoombario_Poisoned_CloseEyes 0x090113
+#define ANIM_BattleGoombario_Poisoned_Injured 0x090114
+
+#define ANIM_BattleGoombario_Inactive_Still 0x090200
+#define ANIM_BattleGoombario_Inactive_Idle 0x090201
+#define ANIM_BattleGoombario_Inactive_Walk 0x090202
+#define ANIM_BattleGoombario_Inactive_Run 0x090203
+#define ANIM_BattleGoombario_Inactive_Jump 0x090204
+#define ANIM_BattleGoombario_Inactive_Fall 0x090205
+#define ANIM_BattleGoombario_Inactive_Headbonk 0x090206
+#define ANIM_BattleGoombario_Inactive_PreHeadbonk 0x090207
+#define ANIM_BattleGoombario_Inactive_OffsetHeadbonk 0x090208
+#define ANIM_BattleGoombario_Inactive_BlockAlt 0x090209
+#define ANIM_BattleGoombario_Inactive_HurtStill 0x09020A
+#define ANIM_BattleGoombario_Inactive_BurnHurt1 0x09020B
+#define ANIM_BattleGoombario_Inactive_BurnHurt2 0x09020C
+#define ANIM_BattleGoombario_Inactive_BurnStand 0x09020D
+#define ANIM_BattleGoombario_Inactive_Block 0x09020E
+#define ANIM_BattleGoombario_Inactive_Talk 0x09020F
+#define ANIM_BattleGoombario_Inactive_CelebrateLoop 0x090210
+#define ANIM_BattleGoombario_Inactive_Celebrate 0x090211
+#define ANIM_BattleGoombario_Inactive_Think 0x090212
+#define ANIM_BattleGoombario_Inactive_CloseEyes 0x090213
+#define ANIM_BattleGoombario_Inactive_Injured 0x090214
+
+#define ANIM_BattleGoombario_Shocked_Still 0x090300
+#define ANIM_BattleGoombario_Shocked_Idle 0x090301
+#define ANIM_BattleGoombario_Shocked_Walk 0x090302
+#define ANIM_BattleGoombario_Shocked_Run 0x090303
+#define ANIM_BattleGoombario_Shocked_Jump 0x090304
+#define ANIM_BattleGoombario_Shocked_Fall 0x090305
+#define ANIM_BattleGoombario_Shocked_Headbonk 0x090306
+#define ANIM_BattleGoombario_Shocked_PreHeadbonk 0x090307
+#define ANIM_BattleGoombario_Shocked_OffsetHeadbonk 0x090308
+#define ANIM_BattleGoombario_Shocked_BlockAlt 0x090309
+#define ANIM_BattleGoombario_Shocked_HurtStill 0x09030A
+#define ANIM_BattleGoombario_Shocked_BurnHurt1 0x09030B
+#define ANIM_BattleGoombario_Shocked_BurnHurt2 0x09030C
+#define ANIM_BattleGoombario_Shocked_BurnStand 0x09030D
+#define ANIM_BattleGoombario_Shocked_Block 0x09030E
+#define ANIM_BattleGoombario_Shocked_Talk 0x09030F
+#define ANIM_BattleGoombario_Shocked_CelebrateLoop 0x090310
+#define ANIM_BattleGoombario_Shocked_Celebrate 0x090311
+#define ANIM_BattleGoombario_Shocked_Think 0x090312
+#define ANIM_BattleGoombario_Shocked_CloseEyes 0x090313
+#define ANIM_BattleGoombario_Shocked_Injured 0x090314
+
+#define ANIM_BattleGoombario_Burnt_Still 0x090400
+#define ANIM_BattleGoombario_Burnt_Idle 0x090401
+#define ANIM_BattleGoombario_Burnt_Walk 0x090402
+#define ANIM_BattleGoombario_Burnt_Run 0x090403
+#define ANIM_BattleGoombario_Burnt_Jump 0x090404
+#define ANIM_BattleGoombario_Burnt_Fall 0x090405
+#define ANIM_BattleGoombario_Burnt_Headbonk 0x090406
+#define ANIM_BattleGoombario_Burnt_PreHeadbonk 0x090407
+#define ANIM_BattleGoombario_Burnt_OffsetHeadbonk 0x090408
+#define ANIM_BattleGoombario_Burnt_BlockAlt 0x090409
+#define ANIM_BattleGoombario_Burnt_HurtStill 0x09040A
+#define ANIM_BattleGoombario_Burnt_BurnHurt1 0x09040B
+#define ANIM_BattleGoombario_Burnt_BurnHurt2 0x09040C
+#define ANIM_BattleGoombario_Burnt_BurnStand 0x09040D
+#define ANIM_BattleGoombario_Burnt_Block 0x09040E
+#define ANIM_BattleGoombario_Burnt_Talk 0x09040F
+#define ANIM_BattleGoombario_Burnt_CelebrateLoop 0x090410
+#define ANIM_BattleGoombario_Burnt_Celebrate 0x090411
+#define ANIM_BattleGoombario_Burnt_Think 0x090412
+#define ANIM_BattleGoombario_Burnt_CloseEyes 0x090413
+#define ANIM_BattleGoombario_Burnt_Injured 0x090414
+
+#endif

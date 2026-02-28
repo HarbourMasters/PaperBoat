@@ -1,0 +1,60 @@
+#ifndef _NPC_SPRITE_CHAINCHOMP_H_
+#define _NPC_SPRITE_CHAINCHOMP_H_
+
+#include "types.h"
+
+#define SPR_ChainChomp 0x69
+
+#define SPR_IMG_ChainChomp_Neutral 0x0
+#define SPR_IMG_ChainChomp_Chain 0x1
+#define SPR_IMG_ChainChomp_Bite 0x2
+#define SPR_IMG_ChainChomp_Hurt1 0x3
+#define SPR_IMG_ChainChomp_Hurt2 0x4
+#define SPR_IMG_ChainChomp_Sleep 0x5
+
+#define SPR_PAL_ChainChomp 0x0
+#define SPR_PAL_ChainChomp_Poisoned 0x1
+#define SPR_PAL_ChainChomp_Dizzy 0x2
+#define SPR_PAL_ChainChomp_Shocked 0x3
+
+#define ANIM_ChainChomp_Still 0x690000
+#define ANIM_ChainChomp_Idle 0x690001
+#define ANIM_ChainChomp_Chain 0x690002
+#define ANIM_ChainChomp_QuickBite 0x690003
+#define ANIM_ChainChomp_Bite 0x690004
+#define ANIM_ChainChomp_SlowBite 0x690005
+#define ANIM_ChainChomp_Hurt 0x690006
+#define ANIM_ChainChomp_Sleep 0x690007
+#define ANIM_ChainChomp_Dizzy 0x690008
+
+#define ANIM_ChainChomp_Poisoned_Still 0x690100
+#define ANIM_ChainChomp_Poisoned_Idle 0x690101
+#define ANIM_ChainChomp_Poisoned_Chain 0x690102
+#define ANIM_ChainChomp_Poisoned_QuickBite 0x690103
+#define ANIM_ChainChomp_Poisoned_Bite 0x690104
+#define ANIM_ChainChomp_Poisoned_SlowBite 0x690105
+#define ANIM_ChainChomp_Poisoned_Hurt 0x690106
+#define ANIM_ChainChomp_Poisoned_Sleep 0x690107
+#define ANIM_ChainChomp_Poisoned_Dizzy 0x690108
+
+#define ANIM_ChainChomp_Dizzy_Still 0x690200
+#define ANIM_ChainChomp_Dizzy_Idle 0x690201
+#define ANIM_ChainChomp_Dizzy_Chain 0x690202
+#define ANIM_ChainChomp_Dizzy_QuickBite 0x690203
+#define ANIM_ChainChomp_Dizzy_Bite 0x690204
+#define ANIM_ChainChomp_Dizzy_SlowBite 0x690205
+#define ANIM_ChainChomp_Dizzy_Hurt 0x690206
+#define ANIM_ChainChomp_Dizzy_Sleep 0x690207
+#define ANIM_ChainChomp_Dizzy_Dizzy 0x690208
+
+#define ANIM_ChainChomp_Shocked_Still 0x690300
+#define ANIM_ChainChomp_Shocked_Idle 0x690301
+#define ANIM_ChainChomp_Shocked_Chain 0x690302
+#define ANIM_ChainChomp_Shocked_QuickBite 0x690303
+#define ANIM_ChainChomp_Shocked_Bite 0x690304
+#define ANIM_ChainChomp_Shocked_SlowBite 0x690305
+#define ANIM_ChainChomp_Shocked_Hurt 0x690306
+#define ANIM_ChainChomp_Shocked_Sleep 0x690307
+#define ANIM_ChainChomp_Shocked_Dizzy 0x690308
+
+#endif

@@ -1,0 +1,120 @@
+#ifndef _NPC_SPRITE_TUFFPUFF_H_
+#define _NPC_SPRITE_TUFFPUFF_H_
+
+#include "types.h"
+
+#define SPR_TuffPuff 0x4C
+
+#define SPR_IMG_TuffPuff_Raster00 0x0
+#define SPR_IMG_TuffPuff_Raster01 0x1
+#define SPR_IMG_TuffPuff_Raster02 0x2
+#define SPR_IMG_TuffPuff_Raster03 0x3
+#define SPR_IMG_TuffPuff_Raster04 0x4
+#define SPR_IMG_TuffPuff_Raster05 0x5
+#define SPR_IMG_TuffPuff_Raster06 0x6
+#define SPR_IMG_TuffPuff_Raster07 0x7
+#define SPR_IMG_TuffPuff_Raster08 0x8
+#define SPR_IMG_TuffPuff_Raster09 0x9
+#define SPR_IMG_TuffPuff_Raster0A 0xA
+#define SPR_IMG_TuffPuff_Raster0B 0xB
+#define SPR_IMG_TuffPuff_Raster0C 0xC
+#define SPR_IMG_TuffPuff_Raster0D 0xD
+
+#define SPR_PAL_TuffPuff 0x0
+#define SPR_PAL_TuffPuff_Missing1 0x1
+#define SPR_PAL_TuffPuff_Missing2 0x2
+#define SPR_PAL_TuffPuff_Missing3 0x3
+
+#define ANIM_TuffPuff_Anim00 0x4C0000
+#define ANIM_TuffPuff_Anim01 0x4C0001
+#define ANIM_TuffPuff_Anim02 0x4C0002
+#define ANIM_TuffPuff_Anim03 0x4C0003
+#define ANIM_TuffPuff_Anim04 0x4C0004
+#define ANIM_TuffPuff_Anim05 0x4C0005
+#define ANIM_TuffPuff_Anim06 0x4C0006
+#define ANIM_TuffPuff_Anim07 0x4C0007
+#define ANIM_TuffPuff_Anim08 0x4C0008
+#define ANIM_TuffPuff_Anim09 0x4C0009
+#define ANIM_TuffPuff_Anim0A 0x4C000A
+#define ANIM_TuffPuff_Anim0B 0x4C000B
+#define ANIM_TuffPuff_Anim0C 0x4C000C
+#define ANIM_TuffPuff_Anim0D 0x4C000D
+#define ANIM_TuffPuff_Anim0E 0x4C000E
+#define ANIM_TuffPuff_Anim0F 0x4C000F
+#define ANIM_TuffPuff_Anim10 0x4C0010
+#define ANIM_TuffPuff_Anim11 0x4C0011
+#define ANIM_TuffPuff_Anim12 0x4C0012
+#define ANIM_TuffPuff_Anim13 0x4C0013
+#define ANIM_TuffPuff_Anim14 0x4C0014
+#define ANIM_TuffPuff_Anim15 0x4C0015
+
+#define ANIM_TuffPuff_Missing1_Anim00 0x4C0100
+#define ANIM_TuffPuff_Missing1_Anim01 0x4C0101
+#define ANIM_TuffPuff_Missing1_Anim02 0x4C0102
+#define ANIM_TuffPuff_Missing1_Anim03 0x4C0103
+#define ANIM_TuffPuff_Missing1_Anim04 0x4C0104
+#define ANIM_TuffPuff_Missing1_Anim05 0x4C0105
+#define ANIM_TuffPuff_Missing1_Anim06 0x4C0106
+#define ANIM_TuffPuff_Missing1_Anim07 0x4C0107
+#define ANIM_TuffPuff_Missing1_Anim08 0x4C0108
+#define ANIM_TuffPuff_Missing1_Anim09 0x4C0109
+#define ANIM_TuffPuff_Missing1_Anim0A 0x4C010A
+#define ANIM_TuffPuff_Missing1_Anim0B 0x4C010B
+#define ANIM_TuffPuff_Missing1_Anim0C 0x4C010C
+#define ANIM_TuffPuff_Missing1_Anim0D 0x4C010D
+#define ANIM_TuffPuff_Missing1_Anim0E 0x4C010E
+#define ANIM_TuffPuff_Missing1_Anim0F 0x4C010F
+#define ANIM_TuffPuff_Missing1_Anim10 0x4C0110
+#define ANIM_TuffPuff_Missing1_Anim11 0x4C0111
+#define ANIM_TuffPuff_Missing1_Anim12 0x4C0112
+#define ANIM_TuffPuff_Missing1_Anim13 0x4C0113
+#define ANIM_TuffPuff_Missing1_Anim14 0x4C0114
+#define ANIM_TuffPuff_Missing1_Anim15 0x4C0115
+
+#define ANIM_TuffPuff_Missing2_Anim00 0x4C0200
+#define ANIM_TuffPuff_Missing2_Anim01 0x4C0201
+#define ANIM_TuffPuff_Missing2_Anim02 0x4C0202
+#define ANIM_TuffPuff_Missing2_Anim03 0x4C0203
+#define ANIM_TuffPuff_Missing2_Anim04 0x4C0204
+#define ANIM_TuffPuff_Missing2_Anim05 0x4C0205
+#define ANIM_TuffPuff_Missing2_Anim06 0x4C0206
+#define ANIM_TuffPuff_Missing2_Anim07 0x4C0207
+#define ANIM_TuffPuff_Missing2_Anim08 0x4C0208
+#define ANIM_TuffPuff_Missing2_Anim09 0x4C0209
+#define ANIM_TuffPuff_Missing2_Anim0A 0x4C020A
+#define ANIM_TuffPuff_Missing2_Anim0B 0x4C020B
+#define ANIM_TuffPuff_Missing2_Anim0C 0x4C020C
+#define ANIM_TuffPuff_Missing2_Anim0D 0x4C020D
+#define ANIM_TuffPuff_Missing2_Anim0E 0x4C020E
+#define ANIM_TuffPuff_Missing2_Anim0F 0x4C020F
+#define ANIM_TuffPuff_Missing2_Anim10 0x4C0210
+#define ANIM_TuffPuff_Missing2_Anim11 0x4C0211
+#define ANIM_TuffPuff_Missing2_Anim12 0x4C0212
+#define ANIM_TuffPuff_Missing2_Anim13 0x4C0213
+#define ANIM_TuffPuff_Missing2_Anim14 0x4C0214
+#define ANIM_TuffPuff_Missing2_Anim15 0x4C0215
+
+#define ANIM_TuffPuff_Missing3_Anim00 0x4C0300
+#define ANIM_TuffPuff_Missing3_Anim01 0x4C0301
+#define ANIM_TuffPuff_Missing3_Anim02 0x4C0302
+#define ANIM_TuffPuff_Missing3_Anim03 0x4C0303
+#define ANIM_TuffPuff_Missing3_Anim04 0x4C0304
+#define ANIM_TuffPuff_Missing3_Anim05 0x4C0305
+#define ANIM_TuffPuff_Missing3_Anim06 0x4C0306
+#define ANIM_TuffPuff_Missing3_Anim07 0x4C0307
+#define ANIM_TuffPuff_Missing3_Anim08 0x4C0308
+#define ANIM_TuffPuff_Missing3_Anim09 0x4C0309
+#define ANIM_TuffPuff_Missing3_Anim0A 0x4C030A
+#define ANIM_TuffPuff_Missing3_Anim0B 0x4C030B
+#define ANIM_TuffPuff_Missing3_Anim0C 0x4C030C
+#define ANIM_TuffPuff_Missing3_Anim0D 0x4C030D
+#define ANIM_TuffPuff_Missing3_Anim0E 0x4C030E
+#define ANIM_TuffPuff_Missing3_Anim0F 0x4C030F
+#define ANIM_TuffPuff_Missing3_Anim10 0x4C0310
+#define ANIM_TuffPuff_Missing3_Anim11 0x4C0311
+#define ANIM_TuffPuff_Missing3_Anim12 0x4C0312
+#define ANIM_TuffPuff_Missing3_Anim13 0x4C0313
+#define ANIM_TuffPuff_Missing3_Anim14 0x4C0314
+#define ANIM_TuffPuff_Missing3_Anim15 0x4C0315
+
+#endif

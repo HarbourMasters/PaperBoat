@@ -1,0 +1,110 @@
+#ifndef _NPC_SPRITE_WORLDSUSHIE_H_
+#define _NPC_SPRITE_WORLDSUSHIE_H_
+
+#include "types.h"
+
+#define SPR_WorldSushie 0x07
+
+#define SPR_IMG_WorldSushie_Idle1 0x0
+#define SPR_IMG_WorldSushie_Idle2 0x1
+#define SPR_IMG_WorldSushie_Idle3 0x2
+#define SPR_IMG_WorldSushie_Talk1 0x3
+#define SPR_IMG_WorldSushie_Talk2 0x4
+#define SPR_IMG_WorldSushie_HappyTalk1 0x5
+#define SPR_IMG_WorldSushie_HappyTalk2 0x6
+#define SPR_IMG_WorldSushie_Sad1 0x7
+#define SPR_IMG_WorldSushie_Sad2 0x8
+#define SPR_IMG_WorldSushie_Hurt1 0x9
+#define SPR_IMG_WorldSushie_Hurt2 0xA
+#define SPR_IMG_WorldSushie_Celebrate1 0xB
+#define SPR_IMG_WorldSushie_Celebrate2 0xC
+#define SPR_IMG_WorldSushie_Ride1 0xD
+#define SPR_IMG_WorldSushie_Ride2 0xE
+#define SPR_IMG_WorldSushie_Dive1 0xF
+#define SPR_IMG_WorldSushie_Dive2 0x10
+#define SPR_IMG_WorldSushie_Rise1 0x11
+#define SPR_IMG_WorldSushie_Rise2 0x12
+#define SPR_IMG_WorldSushie_Read 0x13
+
+#define SPR_PAL_WorldSushie 0x0
+#define SPR_PAL_WorldSushie_Poisoned 0x1
+#define SPR_PAL_WorldSushie_Inactive 0x2
+#define SPR_PAL_WorldSushie_Shocked 0x3
+#define SPR_PAL_WorldSushie_Burnt 0x4
+
+#define ANIM_WorldSushie_Still 0x070000
+#define ANIM_WorldSushie_Idle 0x070001
+#define ANIM_WorldSushie_Walk 0x070002
+#define ANIM_WorldSushie_Run 0x070003
+#define ANIM_WorldSushie_Talk 0x070004
+#define ANIM_WorldSushie_HappyTalk 0x070005
+#define ANIM_WorldSushie_Celebrate 0x070006
+#define ANIM_WorldSushie_Sad 0x070007
+#define ANIM_WorldSushie_Hurt 0x070008
+#define ANIM_WorldSushie_RideStill 0x070009
+#define ANIM_WorldSushie_Ride 0x07000A
+#define ANIM_WorldSushie_Dive 0x07000B
+#define ANIM_WorldSushie_Rise 0x07000C
+#define ANIM_WorldSushie_Read 0x07000D
+
+#define ANIM_WorldSushie_Poisoned_Still 0x070100
+#define ANIM_WorldSushie_Poisoned_Idle 0x070101
+#define ANIM_WorldSushie_Poisoned_Walk 0x070102
+#define ANIM_WorldSushie_Poisoned_Run 0x070103
+#define ANIM_WorldSushie_Poisoned_Talk 0x070104
+#define ANIM_WorldSushie_Poisoned_HappyTalk 0x070105
+#define ANIM_WorldSushie_Poisoned_Celebrate 0x070106
+#define ANIM_WorldSushie_Poisoned_Sad 0x070107
+#define ANIM_WorldSushie_Poisoned_Hurt 0x070108
+#define ANIM_WorldSushie_Poisoned_RideStill 0x070109
+#define ANIM_WorldSushie_Poisoned_Ride 0x07010A
+#define ANIM_WorldSushie_Poisoned_Dive 0x07010B
+#define ANIM_WorldSushie_Poisoned_Rise 0x07010C
+#define ANIM_WorldSushie_Poisoned_Read 0x07010D
+
+#define ANIM_WorldSushie_Inactive_Still 0x070200
+#define ANIM_WorldSushie_Inactive_Idle 0x070201
+#define ANIM_WorldSushie_Inactive_Walk 0x070202
+#define ANIM_WorldSushie_Inactive_Run 0x070203
+#define ANIM_WorldSushie_Inactive_Talk 0x070204
+#define ANIM_WorldSushie_Inactive_HappyTalk 0x070205
+#define ANIM_WorldSushie_Inactive_Celebrate 0x070206
+#define ANIM_WorldSushie_Inactive_Sad 0x070207
+#define ANIM_WorldSushie_Inactive_Hurt 0x070208
+#define ANIM_WorldSushie_Inactive_RideStill 0x070209
+#define ANIM_WorldSushie_Inactive_Ride 0x07020A
+#define ANIM_WorldSushie_Inactive_Dive 0x07020B
+#define ANIM_WorldSushie_Inactive_Rise 0x07020C
+#define ANIM_WorldSushie_Inactive_Read 0x07020D
+
+#define ANIM_WorldSushie_Shocked_Still 0x070300
+#define ANIM_WorldSushie_Shocked_Idle 0x070301
+#define ANIM_WorldSushie_Shocked_Walk 0x070302
+#define ANIM_WorldSushie_Shocked_Run 0x070303
+#define ANIM_WorldSushie_Shocked_Talk 0x070304
+#define ANIM_WorldSushie_Shocked_HappyTalk 0x070305
+#define ANIM_WorldSushie_Shocked_Celebrate 0x070306
+#define ANIM_WorldSushie_Shocked_Sad 0x070307
+#define ANIM_WorldSushie_Shocked_Hurt 0x070308
+#define ANIM_WorldSushie_Shocked_RideStill 0x070309
+#define ANIM_WorldSushie_Shocked_Ride 0x07030A
+#define ANIM_WorldSushie_Shocked_Dive 0x07030B
+#define ANIM_WorldSushie_Shocked_Rise 0x07030C
+#define ANIM_WorldSushie_Shocked_Read 0x07030D
+
+#define ANIM_WorldSushie_Burnt_Still 0x070400
+#define ANIM_WorldSushie_Burnt_Idle 0x070401
+#define ANIM_WorldSushie_Burnt_Walk 0x070402
+#define ANIM_WorldSushie_Burnt_Run 0x070403
+#define ANIM_WorldSushie_Burnt_Talk 0x070404
+#define ANIM_WorldSushie_Burnt_HappyTalk 0x070405
+#define ANIM_WorldSushie_Burnt_Celebrate 0x070406
+#define ANIM_WorldSushie_Burnt_Sad 0x070407
+#define ANIM_WorldSushie_Burnt_Hurt 0x070408
+#define ANIM_WorldSushie_Burnt_RideStill 0x070409
+#define ANIM_WorldSushie_Burnt_Ride 0x07040A
+#define ANIM_WorldSushie_Burnt_Dive 0x07040B
+#define ANIM_WorldSushie_Burnt_Rise 0x07040C
+#define ANIM_WorldSushie_Burnt_Read 0x07040D
+
+#endif

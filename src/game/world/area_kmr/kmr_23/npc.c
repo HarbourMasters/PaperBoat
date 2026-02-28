@@ -1,6 +1,6 @@
 #include "kmr_23.h"
 #include "effects.h"
-#include "include_asset.h"
+#include "assets/world.h"
 
 void func_80240DA4_9087D4(void);
 
@@ -40,10 +40,8 @@ AnimID N(StarSpiritAnimations)[][2] = {
 
 s32 imgPadding = 0;
 
-INCLUDE_IMG("world/area_kmr/kmr_23/window_ul.png", kmr_23_window_ul_img);
-INCLUDE_IMG("world/area_kmr/kmr_23/window_ur.png", kmr_23_window_ur_img);
-INCLUDE_IMG("world/area_kmr/kmr_23/window_ll.png", kmr_23_window_ll_img);
-INCLUDE_IMG("world/area_kmr/kmr_23/window_lr.png", kmr_23_window_lr_img);
+// window textures extracted to OTR via world.yml
+// kmr_23_window_ul/ur/ll/lr_img defined in assets/world.h
 
 s32 D_802417C8_9091F8 = 0;
 

@@ -1,0 +1,72 @@
+#ifndef _NPC_SPRITE_PARADEKOOPAS_H_
+#define _NPC_SPRITE_PARADEKOOPAS_H_
+
+#include "types.h"
+
+#define SPR_ParadeKoopas 0xD7
+
+#define SPR_IMG_ParadeKoopas_ClownCar 0x0
+#define SPR_IMG_ParadeKoopas_Propeller1 0x1
+#define SPR_IMG_ParadeKoopas_Propeller2 0x2
+#define SPR_IMG_ParadeKoopas_Propeller3 0x3
+#define SPR_IMG_ParadeKoopas_Propeller4 0x4
+#define SPR_IMG_ParadeKoopas_Propeller5 0x5
+#define SPR_IMG_ParadeKoopas_BowserHair 0x6
+#define SPR_IMG_ParadeKoopas_BowserHead 0x7
+#define SPR_IMG_ParadeKoopas_BowserArmsCrossed 0x8
+#define SPR_IMG_ParadeKoopas_BowserBody 0x9
+#define SPR_IMG_ParadeKoopas_HammerBrosJuggle1 0xA
+#define SPR_IMG_ParadeKoopas_HammerBrosJuggle2 0xB
+#define SPR_IMG_ParadeKoopas_HammerBrosJuggle3 0xC
+#define SPR_IMG_ParadeKoopas_HammerBrosPanic1 0xD
+#define SPR_IMG_ParadeKoopas_HammerBrosPanic2 0xE
+#define SPR_IMG_ParadeKoopas_HammerBrosPanic3 0xF
+#define SPR_IMG_ParadeKoopas_Hammer 0x10
+#define SPR_IMG_ParadeKoopas_KoopatrolMarch1 0x11
+#define SPR_IMG_ParadeKoopas_KoopatrolMarch2 0x12
+#define SPR_IMG_ParadeKoopas_KoopatrolMarch3 0x13
+#define SPR_IMG_ParadeKoopas_KoopatrolPanic1 0x14
+#define SPR_IMG_ParadeKoopas_KoopatrolPanic2 0x15
+#define SPR_IMG_ParadeKoopas_KoopatrolPanic3 0x16
+#define SPR_IMG_ParadeKoopas_KoopatrolFlagMarch1 0x17
+#define SPR_IMG_ParadeKoopas_KoopatrolFlagMarch2 0x18
+#define SPR_IMG_ParadeKoopas_KoopatrolFlagMarch3 0x19
+#define SPR_IMG_ParadeKoopas_KoopatrolFlagPanic1 0x1A
+#define SPR_IMG_ParadeKoopas_KoopatrolFlagPanic2 0x1B
+#define SPR_IMG_ParadeKoopas_KoopatrolFlagPanic3 0x1C
+#define SPR_IMG_ParadeKoopas_KoopatrolFlagPanic4 0x1D
+
+#define SPR_PAL_ParadeKoopas_Bowser 0x0
+#define SPR_PAL_ParadeKoopas_HammerBros 0x1
+#define SPR_PAL_ParadeKoopas_Koopatrol 0x2
+#define SPR_PAL_ParadeKoopas_Banner 0x3
+
+#define ANIM_ParadeKoopas_Bowser_Bowser 0xD70000
+#define ANIM_ParadeKoopas_Bowser_Propeller 0xD70001
+#define ANIM_ParadeKoopas_Bowser_HammerBrosJuggle 0xD70002
+#define ANIM_ParadeKoopas_Bowser_KoopatrolMarch 0xD70003
+#define ANIM_ParadeKoopas_Bowser_HammerBrosPanic 0xD70004
+#define ANIM_ParadeKoopas_Bowser_KoopatrolPanic 0xD70005
+
+#define ANIM_ParadeKoopas_HammerBros_Bowser 0xD70100
+#define ANIM_ParadeKoopas_HammerBros_Propeller 0xD70101
+#define ANIM_ParadeKoopas_HammerBros_HammerBrosJuggle 0xD70102
+#define ANIM_ParadeKoopas_HammerBros_KoopatrolMarch 0xD70103
+#define ANIM_ParadeKoopas_HammerBros_HammerBrosPanic 0xD70104
+#define ANIM_ParadeKoopas_HammerBros_KoopatrolPanic 0xD70105
+
+#define ANIM_ParadeKoopas_Koopatrol_Bowser 0xD70200
+#define ANIM_ParadeKoopas_Koopatrol_Propeller 0xD70201
+#define ANIM_ParadeKoopas_Koopatrol_HammerBrosJuggle 0xD70202
+#define ANIM_ParadeKoopas_Koopatrol_KoopatrolMarch 0xD70203
+#define ANIM_ParadeKoopas_Koopatrol_HammerBrosPanic 0xD70204
+#define ANIM_ParadeKoopas_Koopatrol_KoopatrolPanic 0xD70205
+
+#define ANIM_ParadeKoopas_Banner_Bowser 0xD70300
+#define ANIM_ParadeKoopas_Banner_Propeller 0xD70301
+#define ANIM_ParadeKoopas_Banner_HammerBrosJuggle 0xD70302
+#define ANIM_ParadeKoopas_Banner_KoopatrolMarch 0xD70303
+#define ANIM_ParadeKoopas_Banner_HammerBrosPanic 0xD70304
+#define ANIM_ParadeKoopas_Banner_KoopatrolPanic 0xD70305
+
+#endif

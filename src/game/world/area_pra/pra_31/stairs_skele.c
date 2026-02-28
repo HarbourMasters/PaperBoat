@@ -1,46 +1,14 @@
 #include "pra_31.h"
+#include "assets/world.h"
 
-#include "world/area_pra/pra_31/unk_01.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_02.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_03.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_04.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_05.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_06.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_07.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_08.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_09.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_10.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_11.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_12.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_13.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_14.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_15.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_16.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_17.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_18.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_19.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_20.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_21.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_22.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_23.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_24.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_25.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_26.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_27.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_28.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_29.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_30.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_31.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_32.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_33.gfx.inc.c"
-#include "world/area_pra/pra_31/unk_34.gfx.inc.c"
+// All 34 stairs skeleton DLs and stairs VTX extracted to OTR via world_pra_31.yml
+// DL symbols (pra_31_unk_01_gfx through pra_31_unk_34_gfx) defined in assets/world.h
 
-// 0x10 long, doesnt seem to indicate a split
 s32 N(post_gfx_pad)[] = { 0, 0, 0, 0 };
 
 StaticAnimatorNode N(D_80245A90_D847F0) = {
     .pos = { 0.0f, 0.0f, 0.0f },
-    .displayList = &N(unk_29_gfx),
+    .displayList = (void*) pra_31_unk_29_gfx,
 };
 
 StaticAnimatorNode N(D_80245ABC_D8481C) = {
@@ -50,7 +18,7 @@ StaticAnimatorNode N(D_80245ABC_D8481C) = {
 
 StaticAnimatorNode N(D_80245AE8_D84848) = {
     .pos = { 0.0f, 0.0f, 0.0f },
-    .displayList = &N(unk_28_gfx),
+    .displayList = (void*) pra_31_unk_28_gfx,
 };
 
 StaticAnimatorNode N(D_80245B14_D84874) = {
@@ -61,7 +29,7 @@ StaticAnimatorNode N(D_80245B14_D84874) = {
 
 StaticAnimatorNode N(D_80245B40_D848A0) = {
     .pos = { 0.0f, 0.0f, 0.0f },
-    .displayList = &N(unk_27_gfx),
+    .displayList = (void*) pra_31_unk_27_gfx,
 };
 
 StaticAnimatorNode N(D_80245B6C_D848CC) = {
@@ -78,7 +46,7 @@ StaticAnimatorNode N(D_80245B98_D848F8) = {
 
 StaticAnimatorNode N(D_80245BC4_D84924) = {
     .pos = { 0.0f, 0.0f, 0.0f },
-    .displayList = &N(unk_25_gfx),
+    .displayList = (void*) pra_31_unk_25_gfx,
 };
 
 StaticAnimatorNode N(D_80245BF0_D84950) = {
@@ -90,7 +58,7 @@ StaticAnimatorNode N(D_80245BF0_D84950) = {
 
 StaticAnimatorNode N(D_80245C1C_D8497C) = {
     .pos = { 0.0f, 0.0f, 0.0f },
-    .displayList = &N(unk_21_gfx),
+    .displayList = (void*) pra_31_unk_21_gfx,
 };
 
 StaticAnimatorNode N(D_80245C48_D849A8) = {
@@ -102,7 +70,7 @@ StaticAnimatorNode N(D_80245C48_D849A8) = {
 
 StaticAnimatorNode N(D_80245C74_D849D4) = {
     .pos = { 0.0f, 0.0f, 0.0f },
-    .displayList = &N(unk_19_gfx),
+    .displayList = (void*) pra_31_unk_19_gfx,
 };
 
 StaticAnimatorNode N(D_80245CA0_D84A00) = {
@@ -114,7 +82,7 @@ StaticAnimatorNode N(D_80245CA0_D84A00) = {
 
 StaticAnimatorNode N(D_80245CCC_D84A2C) = {
     .pos = { 0.0f, 0.0f, 0.0f },
-    .displayList = &N(unk_15_gfx),
+    .displayList = (void*) pra_31_unk_15_gfx,
 };
 
 StaticAnimatorNode N(D_80245CF8_D84A58) = {
@@ -126,7 +94,7 @@ StaticAnimatorNode N(D_80245CF8_D84A58) = {
 
 StaticAnimatorNode N(D_80245D24_D84A84) = {
     .pos = { 0.0f, 0.0f, 0.0f },
-    .displayList = &N(unk_13_gfx),
+    .displayList = (void*) pra_31_unk_13_gfx,
 };
 
 StaticAnimatorNode N(D_80245D50_D84AB0) = {
@@ -138,7 +106,7 @@ StaticAnimatorNode N(D_80245D50_D84AB0) = {
 
 StaticAnimatorNode N(D_80245D7C_D84ADC) = {
     .pos = { 0.0f, 0.0f, 0.0f },
-    .displayList = &N(unk_11_gfx),
+    .displayList = (void*) pra_31_unk_11_gfx,
 };
 
 StaticAnimatorNode N(D_80245DA8_D84B08) = {
@@ -150,7 +118,7 @@ StaticAnimatorNode N(D_80245DA8_D84B08) = {
 
 StaticAnimatorNode N(D_80245DD4_D84B34) = {
     .pos = { 0.0f, 0.0f, 0.0f },
-    .displayList = &N(unk_09_gfx),
+    .displayList = (void*) pra_31_unk_09_gfx,
 };
 
 StaticAnimatorNode N(D_80245E00_D84B60) = {
@@ -162,7 +130,7 @@ StaticAnimatorNode N(D_80245E00_D84B60) = {
 
 StaticAnimatorNode N(D_80245E2C_D84B8C) = {
     .pos = { 0.0f, 0.0f, 0.0f },
-    .displayList = &N(unk_07_gfx),
+    .displayList = (void*) pra_31_unk_07_gfx,
 };
 
 StaticAnimatorNode N(D_80245E58_D84BB8) = {
@@ -174,7 +142,7 @@ StaticAnimatorNode N(D_80245E58_D84BB8) = {
 
 StaticAnimatorNode N(D_80245E84_D84BE4) = {
     .pos = { 0.0f, 0.0f, 0.0f },
-    .displayList = &N(unk_05_gfx),
+    .displayList = (void*) pra_31_unk_05_gfx,
 };
 
 StaticAnimatorNode N(D_80245EB0_D84C10) = {
@@ -186,7 +154,7 @@ StaticAnimatorNode N(D_80245EB0_D84C10) = {
 
 StaticAnimatorNode N(D_80245EDC_D84C3C) = {
     .pos = { 0.0f, 0.0f, 0.0f },
-    .displayList = &N(unk_03_gfx),
+    .displayList = (void*) pra_31_unk_03_gfx,
 };
 
 StaticAnimatorNode N(D_80245F08_D84C68) = {
@@ -198,7 +166,7 @@ StaticAnimatorNode N(D_80245F08_D84C68) = {
 
 StaticAnimatorNode N(D_80245F34_D84C94) = {
     .pos = { 0.0f, 0.0f, 0.0f },
-    .displayList = &N(unk_01_gfx),
+    .displayList = (void*) pra_31_unk_01_gfx,
 };
 
 StaticAnimatorNode N(D_80245F60_D84CC0) = {
@@ -210,7 +178,7 @@ StaticAnimatorNode N(D_80245F60_D84CC0) = {
 
 StaticAnimatorNode N(D_80245F8C_D84CEC) = {
     .pos = { 0.0f, 0.0f, 0.0f },
-    .displayList = &N(unk_17_gfx),
+    .displayList = (void*) pra_31_unk_17_gfx,
 };
 
 StaticAnimatorNode N(D_80245FB8_D84D18) = {
@@ -222,7 +190,7 @@ StaticAnimatorNode N(D_80245FB8_D84D18) = {
 
 StaticAnimatorNode N(D_80245FE4_D84D44) = {
     .pos = { 0.0f, 0.0f, 0.0f },
-    .displayList = &N(unk_23_gfx),
+    .displayList = (void*) pra_31_unk_23_gfx,
 };
 
 StaticAnimatorNode N(D_80246010_D84D70) = {

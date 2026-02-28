@@ -1,0 +1,10 @@
+# Miscellaneous textures from main code segment
+# ROM offsets from ver/us/splat.yaml
+
+# --- reset_tiles (main_pre.c) ---
+reset_tiles:
+  { type: TEXTURE, format: I4, offset: 0x4F210, width: 128, height: 8, symbol: misc_reset_tiles_png }
+
+# --- crash_screen font ---
+crash_screen/font:
+  { type: BLOB, offset: 0x52690, size: 0x100, symbol: misc_crash_screen_font_png }

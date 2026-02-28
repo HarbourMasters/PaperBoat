@@ -1,0 +1,167 @@
+#ifndef _NPC_SPRITE_YOSHIKID_H_
+#define _NPC_SPRITE_YOSHIKID_H_
+
+#include "types.h"
+
+#define SPR_YoshiKid 0x97
+
+#define SPR_IMG_YoshiKid_Idle1 0x0
+#define SPR_IMG_YoshiKid_Idle2 0x1
+#define SPR_IMG_YoshiKid_Talk 0x2
+#define SPR_IMG_YoshiKid_Step1 0x3
+#define SPR_IMG_YoshiKid_Step2 0x4
+#define SPR_IMG_YoshiKid_Step3 0x5
+#define SPR_IMG_YoshiKid_Land 0x6
+#define SPR_IMG_YoshiKid_Jump 0x7
+#define SPR_IMG_YoshiKid_Sleep1 0x8
+#define SPR_IMG_YoshiKid_Sleep2 0x9
+#define SPR_IMG_YoshiKid_Sleep3 0xA
+#define SPR_IMG_YoshiKid_Cry1 0xB
+#define SPR_IMG_YoshiKid_Cry2 0xC
+#define SPR_IMG_YoshiKid_Cry3 0xD
+#define SPR_IMG_YoshiKid_Cry4 0xE
+#define SPR_IMG_YoshiKid_SadIdle1 0xF
+#define SPR_IMG_YoshiKid_SadIdle2 0x10
+#define SPR_IMG_YoshiKid_SadTalk 0x11
+#define SPR_IMG_YoshiKid_LookUp 0x12
+#define SPR_IMG_YoshiKid_Exhale1 0x13
+#define SPR_IMG_YoshiKid_Exhale2 0x14
+#define SPR_IMG_YoshiKid_Exhale3 0x15
+#define SPR_IMG_YoshiKid_Eat1 0x16
+#define SPR_IMG_YoshiKid_Eat2 0x17
+#define SPR_IMG_YoshiKid_Eat3 0x18
+#define SPR_IMG_YoshiKid_Eat4 0x19
+#define SPR_IMG_YoshiKid_Tongue1 0x1A
+#define SPR_IMG_YoshiKid_Tongue2 0x1B
+#define SPR_IMG_YoshiKid_Food1 0x1C
+#define SPR_IMG_YoshiKid_Food2 0x1D
+#define SPR_IMG_YoshiKid_Food3 0x1E
+#define SPR_IMG_YoshiKid_Food4 0x1F
+#define SPR_IMG_YoshiKid_Food5 0x20
+#define SPR_IMG_YoshiKid_Food6 0x21
+#define SPR_IMG_YoshiKid_Tear1 0x22
+#define SPR_IMG_YoshiKid_Tear2 0x23
+#define SPR_IMG_YoshiKid_Tear3 0x24
+
+#define SPR_PAL_YoshiKid_Green 0x0
+#define SPR_PAL_YoshiKid_Blue 0x1
+#define SPR_PAL_YoshiKid_Purple 0x2
+#define SPR_PAL_YoshiKid_Yellow 0x3
+#define SPR_PAL_YoshiKid_Red 0x4
+#define SPR_PAL_YoshiKid_Food 0x5
+
+#define ANIM_YoshiKid_Green_Still 0x970000
+#define ANIM_YoshiKid_Green_Idle 0x970001
+#define ANIM_YoshiKid_Green_Walk 0x970002
+#define ANIM_YoshiKid_Green_Run 0x970003
+#define ANIM_YoshiKid_Green_Talk 0x970004
+#define ANIM_YoshiKid_Green_Celebrate 0x970005
+#define ANIM_YoshiKid_Green_Cry 0x970006
+#define ANIM_YoshiKid_Green_Sleep 0x970007
+#define ANIM_YoshiKid_Green_Jump 0x970008
+#define ANIM_YoshiKid_Green_Land 0x970009
+#define ANIM_YoshiKid_Green_SadIdle 0x97000A
+#define ANIM_YoshiKid_Green_SadTalk 0x97000B
+#define ANIM_YoshiKid_Green_LookUp 0x97000C
+#define ANIM_YoshiKid_Green_EatMiss 0x97000D
+#define ANIM_YoshiKid_Green_EatAim 0x97000E
+#define ANIM_YoshiKid_Green_EatGrab 0x97000F
+#define ANIM_YoshiKid_Green_EatDone 0x970010
+#define ANIM_YoshiKid_Green_Exhale 0x970011
+
+#define ANIM_YoshiKid_Blue_Still 0x970100
+#define ANIM_YoshiKid_Blue_Idle 0x970101
+#define ANIM_YoshiKid_Blue_Walk 0x970102
+#define ANIM_YoshiKid_Blue_Run 0x970103
+#define ANIM_YoshiKid_Blue_Talk 0x970104
+#define ANIM_YoshiKid_Blue_Celebrate 0x970105
+#define ANIM_YoshiKid_Blue_Cry 0x970106
+#define ANIM_YoshiKid_Blue_Sleep 0x970107
+#define ANIM_YoshiKid_Blue_Jump 0x970108
+#define ANIM_YoshiKid_Blue_Land 0x970109
+#define ANIM_YoshiKid_Blue_SadIdle 0x97010A
+#define ANIM_YoshiKid_Blue_SadTalk 0x97010B
+#define ANIM_YoshiKid_Blue_LookUp 0x97010C
+#define ANIM_YoshiKid_Blue_EatMiss 0x97010D
+#define ANIM_YoshiKid_Blue_EatAim 0x97010E
+#define ANIM_YoshiKid_Blue_EatGrab 0x97010F
+#define ANIM_YoshiKid_Blue_EatDone 0x970110
+#define ANIM_YoshiKid_Blue_Exhale 0x970111
+
+#define ANIM_YoshiKid_Purple_Still 0x970200
+#define ANIM_YoshiKid_Purple_Idle 0x970201
+#define ANIM_YoshiKid_Purple_Walk 0x970202
+#define ANIM_YoshiKid_Purple_Run 0x970203
+#define ANIM_YoshiKid_Purple_Talk 0x970204
+#define ANIM_YoshiKid_Purple_Celebrate 0x970205
+#define ANIM_YoshiKid_Purple_Cry 0x970206
+#define ANIM_YoshiKid_Purple_Sleep 0x970207
+#define ANIM_YoshiKid_Purple_Jump 0x970208
+#define ANIM_YoshiKid_Purple_Land 0x970209
+#define ANIM_YoshiKid_Purple_SadIdle 0x97020A
+#define ANIM_YoshiKid_Purple_SadTalk 0x97020B
+#define ANIM_YoshiKid_Purple_LookUp 0x97020C
+#define ANIM_YoshiKid_Purple_EatMiss 0x97020D
+#define ANIM_YoshiKid_Purple_EatAim 0x97020E
+#define ANIM_YoshiKid_Purple_EatGrab 0x97020F
+#define ANIM_YoshiKid_Purple_EatDone 0x970210
+#define ANIM_YoshiKid_Purple_Exhale 0x970211
+
+#define ANIM_YoshiKid_Yellow_Still 0x970300
+#define ANIM_YoshiKid_Yellow_Idle 0x970301
+#define ANIM_YoshiKid_Yellow_Walk 0x970302
+#define ANIM_YoshiKid_Yellow_Run 0x970303
+#define ANIM_YoshiKid_Yellow_Talk 0x970304
+#define ANIM_YoshiKid_Yellow_Celebrate 0x970305
+#define ANIM_YoshiKid_Yellow_Cry 0x970306
+#define ANIM_YoshiKid_Yellow_Sleep 0x970307
+#define ANIM_YoshiKid_Yellow_Jump 0x970308
+#define ANIM_YoshiKid_Yellow_Land 0x970309
+#define ANIM_YoshiKid_Yellow_SadIdle 0x97030A
+#define ANIM_YoshiKid_Yellow_SadTalk 0x97030B
+#define ANIM_YoshiKid_Yellow_LookUp 0x97030C
+#define ANIM_YoshiKid_Yellow_EatMiss 0x97030D
+#define ANIM_YoshiKid_Yellow_EatAim 0x97030E
+#define ANIM_YoshiKid_Yellow_EatGrab 0x97030F
+#define ANIM_YoshiKid_Yellow_EatDone 0x970310
+#define ANIM_YoshiKid_Yellow_Exhale 0x970311
+
+#define ANIM_YoshiKid_Red_Still 0x970400
+#define ANIM_YoshiKid_Red_Idle 0x970401
+#define ANIM_YoshiKid_Red_Walk 0x970402
+#define ANIM_YoshiKid_Red_Run 0x970403
+#define ANIM_YoshiKid_Red_Talk 0x970404
+#define ANIM_YoshiKid_Red_Celebrate 0x970405
+#define ANIM_YoshiKid_Red_Cry 0x970406
+#define ANIM_YoshiKid_Red_Sleep 0x970407
+#define ANIM_YoshiKid_Red_Jump 0x970408
+#define ANIM_YoshiKid_Red_Land 0x970409
+#define ANIM_YoshiKid_Red_SadIdle 0x97040A
+#define ANIM_YoshiKid_Red_SadTalk 0x97040B
+#define ANIM_YoshiKid_Red_LookUp 0x97040C
+#define ANIM_YoshiKid_Red_EatMiss 0x97040D
+#define ANIM_YoshiKid_Red_EatAim 0x97040E
+#define ANIM_YoshiKid_Red_EatGrab 0x97040F
+#define ANIM_YoshiKid_Red_EatDone 0x970410
+#define ANIM_YoshiKid_Red_Exhale 0x970411
+
+#define ANIM_YoshiKid_Food_Still 0x970500
+#define ANIM_YoshiKid_Food_Idle 0x970501
+#define ANIM_YoshiKid_Food_Walk 0x970502
+#define ANIM_YoshiKid_Food_Run 0x970503
+#define ANIM_YoshiKid_Food_Talk 0x970504
+#define ANIM_YoshiKid_Food_Celebrate 0x970505
+#define ANIM_YoshiKid_Food_Cry 0x970506
+#define ANIM_YoshiKid_Food_Sleep 0x970507
+#define ANIM_YoshiKid_Food_Jump 0x970508
+#define ANIM_YoshiKid_Food_Land 0x970509
+#define ANIM_YoshiKid_Food_SadIdle 0x97050A
+#define ANIM_YoshiKid_Food_SadTalk 0x97050B
+#define ANIM_YoshiKid_Food_LookUp 0x97050C
+#define ANIM_YoshiKid_Food_EatMiss 0x97050D
+#define ANIM_YoshiKid_Food_EatAim 0x97050E
+#define ANIM_YoshiKid_Food_EatGrab 0x97050F
+#define ANIM_YoshiKid_Food_EatDone 0x970510
+#define ANIM_YoshiKid_Food_Exhale 0x970511
+
+#endif

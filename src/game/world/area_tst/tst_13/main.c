@@ -1,4 +1,6 @@
 #include "tst_13.h"
+#include "assets/world.h"
+#include "port/Engine.h"
 
 void mdl_project_tex_coords(s32 modelID, Gfx* destGfx, Matrix4f destMtx, void* destVertices);
 
@@ -272,8 +274,8 @@ NpcGroupList N(DefaultNPCs) = {
     {}
 };
 
-#include "world/area_tst/tst_13/shockwave.vtx.inc.c"
-#include "world/area_tst/tst_13/shockwave.gfx.inc.c"
+// shockwave vtx and gfx extracted to OTR via world_tst_13.yml
+// tst_13_shockwave_gfx defined in assets/world.h
 
 Gfx N(dummy_gfx)[] = {
     gsSPEndDisplayList()
@@ -296,14 +298,14 @@ void N(build_gfx_floor)(void) {
     guScaleF(sp50, x, y, z);
     guMtxCatF(sp50, sp10, sp10);
     guMtxF2L(sp10, &gDisplayContext->matrixStack[gMatrixListPos]);
-    mdl_project_tex_coords(MODEL_o152, N(shockwave_gfx), sp10, nullptr);
+    mdl_project_tex_coords(MODEL_o152, (Gfx*) LOAD_ASSET(tst_13_shockwave_gfx), sp10, nullptr);
 
     gDPPipeSync(gMainGfxPos++);
     gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);
     gDPSetRenderMode(gMainGfxPos++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
     mdl_draw_hidden_panel_surface(&gMainGfxPos, 1);
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gMainGfxPos++, N(shockwave_gfx));
+    gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(tst_13_shockwave_gfx));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }
 

@@ -1,7 +1,42 @@
 #pragma once
 #include "alignment.h"
 
-// --- Chain DL (top-level, referenced by EMS_level_up) ---
+// --- Big letter textures (IA8 64x64) ---
+static const ALIGN_ASSET(2) char level_up_big_V_png[] = "__OTR__level_up/big_V";
+static const ALIGN_ASSET(2) char level_up_big_P_png[] = "__OTR__level_up/big_P";
+static const ALIGN_ASSET(2) char level_up_big_exclamation_mark_png[] = "__OTR__level_up/big_exclamation_mark";
+static const ALIGN_ASSET(2) char level_up_big_U_png[] = "__OTR__level_up/big_U";
+static const ALIGN_ASSET(2) char level_up_big_L_png[] = "__OTR__level_up/big_L";
+static const ALIGN_ASSET(2) char level_up_big_E_png[] = "__OTR__level_up/big_E";
+
+// VRAM aliases for level_up_letters_en_de.c
+#define D_PAL_802A6838_7F8418 level_up_big_V_png
+#define D_PAL_802A78B0_7F9490 level_up_big_P_png
+#define D_PAL_802A8928_7FA508 level_up_big_exclamation_mark_png
+#define D_PAL_802A99A0_7FB580 level_up_big_U_png
+#define D_PAL_802AAA18_7FC5F8 level_up_big_L_png
+#define D_PAL_802ABA90_7FD670 level_up_big_E_png
+
+// --- Big letter texture DLs ---
+static const ALIGN_ASSET(2) char level_up_big_V_gfx[] = "__OTR__level_up/big_V.gfx";
+static const ALIGN_ASSET(2) char level_up_big_P_gfx[] = "__OTR__level_up/big_P.gfx";
+static const ALIGN_ASSET(2) char level_up_big_exclamation_mark_gfx[] = "__OTR__level_up/big_exclamation_mark.gfx";
+static const ALIGN_ASSET(2) char level_up_big_U_gfx[] = "__OTR__level_up/big_U.gfx";
+static const ALIGN_ASSET(2) char level_up_big_L_gfx[] = "__OTR__level_up/big_L.gfx";
+static const ALIGN_ASSET(2) char level_up_big_E_gfx[] = "__OTR__level_up/big_E.gfx";
+
+// --- Letter composition DLs ---
+static const ALIGN_ASSET(2) char level_up_draw_exclamation_mark_gfx[] = "__OTR__level_up/draw_exclamation_mark.gfx";
+static const ALIGN_ASSET(2) char level_up_draw_U_gfx[] = "__OTR__level_up/draw_U.gfx";
+static const ALIGN_ASSET(2) char level_up_draw_P_gfx[] = "__OTR__level_up/draw_P.gfx";
+static const ALIGN_ASSET(2) char level_up_draw_L_gfx[] = "__OTR__level_up/draw_L.gfx";
+static const ALIGN_ASSET(2) char level_up_draw_second_L_gfx[] = "__OTR__level_up/draw_second_L.gfx";
+static const ALIGN_ASSET(2) char level_up_draw_E_gfx[] = "__OTR__level_up/draw_E.gfx";
+static const ALIGN_ASSET(2) char level_up_draw_V_gfx[] = "__OTR__level_up/draw_V.gfx";
+static const ALIGN_ASSET(2) char level_up_draw_second_E_gfx[] = "__OTR__level_up/draw_second_E.gfx";
+
+// --- Chain DLs ---
+static const ALIGN_ASSET(2) char level_up_letters_chain_gfx[] = "__OTR__level_up/letters_chain.gfx";
 static const ALIGN_ASSET(2) char level_up_chain_gfx[] = "__OTR__level_up/chain.gfx";
 
 // --- Icons (CI4 40x40) ---

@@ -1,0 +1,112 @@
+#ifndef _NPC_SPRITE_BULLETBILL_H_
+#define _NPC_SPRITE_BULLETBILL_H_
+
+#include "types.h"
+
+#define SPR_BulletBill 0x2D
+
+#define SPR_IMG_BulletBill_Neutral 0x0
+#define SPR_IMG_BulletBill_Tense 0x1
+#define SPR_IMG_BulletBill_Windup1 0x2
+#define SPR_IMG_BulletBill_Windup2 0x3
+#define SPR_IMG_BulletBill_Windup3 0x4
+#define SPR_IMG_BulletBill_Launch1 0x5
+#define SPR_IMG_BulletBill_Launch2 0x6
+#define SPR_IMG_BulletBill_Launch3 0x7
+#define SPR_IMG_BulletBill_Launch4 0x8
+#define SPR_IMG_BulletBill_Hurt 0x9
+#define SPR_IMG_BulletBill_Burned 0xA
+#define SPR_IMG_BulletBill_BurnedPuffy 0xB
+
+#define SPR_PAL_BulletBill 0x0
+#define SPR_PAL_BulletBill_Gold 0x1
+#define SPR_PAL_BulletBill_Poisoned 0x2
+#define SPR_PAL_BulletBill_Gold_Poisoned 0x3
+#define SPR_PAL_BulletBill_Dizzy 0x4
+#define SPR_PAL_BulletBill_Gold_Dizzy 0x5
+#define SPR_PAL_BulletBill_Shocked 0x6
+#define SPR_PAL_BulletBill_Gold_Shocked 0x7
+#define SPR_PAL_BulletBill_Burnt 0x8
+
+#define ANIM_BulletBill_Still 0x2D0000
+#define ANIM_BulletBill_Idle 0x2D0001
+#define ANIM_BulletBill_TenseCopy 0x2D0002
+#define ANIM_BulletBill_Tense 0x2D0003
+#define ANIM_BulletBill_Fire 0x2D0004
+#define ANIM_BulletBill_Hurt 0x2D0005
+#define ANIM_BulletBill_Recover 0x2D0006
+#define ANIM_BulletBill_BurnHurt 0x2D0007
+
+#define ANIM_BulletBill_Gold_Still 0x2D0100
+#define ANIM_BulletBill_Gold_Idle 0x2D0101
+#define ANIM_BulletBill_Gold_TenseCopy 0x2D0102
+#define ANIM_BulletBill_Gold_Tense 0x2D0103
+#define ANIM_BulletBill_Gold_Fire 0x2D0104
+#define ANIM_BulletBill_Gold_Hurt 0x2D0105
+#define ANIM_BulletBill_Gold_Recover 0x2D0106
+#define ANIM_BulletBill_Gold_BurnHurt 0x2D0107
+
+#define ANIM_BulletBill_Poisoned_Still 0x2D0200
+#define ANIM_BulletBill_Poisoned_Idle 0x2D0201
+#define ANIM_BulletBill_Poisoned_TenseCopy 0x2D0202
+#define ANIM_BulletBill_Poisoned_Tense 0x2D0203
+#define ANIM_BulletBill_Poisoned_Fire 0x2D0204
+#define ANIM_BulletBill_Poisoned_Hurt 0x2D0205
+#define ANIM_BulletBill_Poisoned_Recover 0x2D0206
+#define ANIM_BulletBill_Poisoned_BurnHurt 0x2D0207
+
+#define ANIM_BulletBill_Gold_Poisoned_Still 0x2D0300
+#define ANIM_BulletBill_Gold_Poisoned_Idle 0x2D0301
+#define ANIM_BulletBill_Gold_Poisoned_TenseCopy 0x2D0302
+#define ANIM_BulletBill_Gold_Poisoned_Tense 0x2D0303
+#define ANIM_BulletBill_Gold_Poisoned_Fire 0x2D0304
+#define ANIM_BulletBill_Gold_Poisoned_Hurt 0x2D0305
+#define ANIM_BulletBill_Gold_Poisoned_Recover 0x2D0306
+#define ANIM_BulletBill_Gold_Poisoned_BurnHurt 0x2D0307
+
+#define ANIM_BulletBill_Dizzy_Still 0x2D0400
+#define ANIM_BulletBill_Dizzy_Idle 0x2D0401
+#define ANIM_BulletBill_Dizzy_TenseCopy 0x2D0402
+#define ANIM_BulletBill_Dizzy_Tense 0x2D0403
+#define ANIM_BulletBill_Dizzy_Fire 0x2D0404
+#define ANIM_BulletBill_Dizzy_Hurt 0x2D0405
+#define ANIM_BulletBill_Dizzy_Recover 0x2D0406
+#define ANIM_BulletBill_Dizzy_BurnHurt 0x2D0407
+
+#define ANIM_BulletBill_Gold_Dizzy_Still 0x2D0500
+#define ANIM_BulletBill_Gold_Dizzy_Idle 0x2D0501
+#define ANIM_BulletBill_Gold_Dizzy_TenseCopy 0x2D0502
+#define ANIM_BulletBill_Gold_Dizzy_Tense 0x2D0503
+#define ANIM_BulletBill_Gold_Dizzy_Fire 0x2D0504
+#define ANIM_BulletBill_Gold_Dizzy_Hurt 0x2D0505
+#define ANIM_BulletBill_Gold_Dizzy_Recover 0x2D0506
+#define ANIM_BulletBill_Gold_Dizzy_BurnHurt 0x2D0507
+
+#define ANIM_BulletBill_Shocked_Still 0x2D0600
+#define ANIM_BulletBill_Shocked_Idle 0x2D0601
+#define ANIM_BulletBill_Shocked_TenseCopy 0x2D0602
+#define ANIM_BulletBill_Shocked_Tense 0x2D0603
+#define ANIM_BulletBill_Shocked_Fire 0x2D0604
+#define ANIM_BulletBill_Shocked_Hurt 0x2D0605
+#define ANIM_BulletBill_Shocked_Recover 0x2D0606
+#define ANIM_BulletBill_Shocked_BurnHurt 0x2D0607
+
+#define ANIM_BulletBill_Gold_Shocked_Still 0x2D0700
+#define ANIM_BulletBill_Gold_Shocked_Idle 0x2D0701
+#define ANIM_BulletBill_Gold_Shocked_TenseCopy 0x2D0702
+#define ANIM_BulletBill_Gold_Shocked_Tense 0x2D0703
+#define ANIM_BulletBill_Gold_Shocked_Fire 0x2D0704
+#define ANIM_BulletBill_Gold_Shocked_Hurt 0x2D0705
+#define ANIM_BulletBill_Gold_Shocked_Recover 0x2D0706
+#define ANIM_BulletBill_Gold_Shocked_BurnHurt 0x2D0707
+
+#define ANIM_BulletBill_Burnt_Still 0x2D0800
+#define ANIM_BulletBill_Burnt_Idle 0x2D0801
+#define ANIM_BulletBill_Burnt_TenseCopy 0x2D0802
+#define ANIM_BulletBill_Burnt_Tense 0x2D0803
+#define ANIM_BulletBill_Burnt_Fire 0x2D0804
+#define ANIM_BulletBill_Burnt_Hurt 0x2D0805
+#define ANIM_BulletBill_Burnt_Recover 0x2D0806
+#define ANIM_BulletBill_Burnt_BurnHurt 0x2D0807
+
+#endif

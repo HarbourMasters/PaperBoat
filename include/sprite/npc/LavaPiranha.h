@@ -1,0 +1,185 @@
+#ifndef _NPC_SPRITE_LAVAPIRANHA_H_
+#define _NPC_SPRITE_LAVAPIRANHA_H_
+
+#include "types.h"
+
+#define SPR_LavaPiranha 0x79
+
+#define SPR_IMG_LavaPiranha_Raster00 0x0
+#define SPR_IMG_LavaPiranha_Raster01 0x1
+#define SPR_IMG_LavaPiranha_Raster02 0x2
+#define SPR_IMG_LavaPiranha_Raster03 0x3
+#define SPR_IMG_LavaPiranha_Raster04 0x4
+#define SPR_IMG_LavaPiranha_Raster05 0x5
+#define SPR_IMG_LavaPiranha_Raster06 0x6
+#define SPR_IMG_LavaPiranha_Raster07 0x7
+#define SPR_IMG_LavaPiranha_Raster08 0x8
+#define SPR_IMG_LavaPiranha_Raster09 0x9
+#define SPR_IMG_LavaPiranha_Raster0A 0xA
+#define SPR_IMG_LavaPiranha_Raster0B 0xB
+#define SPR_IMG_LavaPiranha_Raster0C 0xC
+#define SPR_IMG_LavaPiranha_Raster0D 0xD
+#define SPR_IMG_LavaPiranha_Raster0E 0xE
+#define SPR_IMG_LavaPiranha_Raster0F 0xF
+#define SPR_IMG_LavaPiranha_Raster10 0x10
+#define SPR_IMG_LavaPiranha_Raster11 0x11
+#define SPR_IMG_LavaPiranha_Raster12 0x12
+#define SPR_IMG_LavaPiranha_Raster13 0x13
+#define SPR_IMG_LavaPiranha_Raster14 0x14
+#define SPR_IMG_LavaPiranha_Raster15 0x15
+#define SPR_IMG_LavaPiranha_Raster16 0x16
+
+#define SPR_PAL_LavaPiranha 0x0
+#define SPR_PAL_LavaPiranha_Glow 0x1
+#define SPR_PAL_LavaPiranha_Poisoned 0x2
+#define SPR_PAL_LavaPiranha_Glow_Poisoned 0x3
+#define SPR_PAL_LavaPiranha_Dizzy 0x4
+#define SPR_PAL_LavaPiranha_Glow_Dizzy 0x5
+#define SPR_PAL_LavaPiranha_Shocked 0x6
+#define SPR_PAL_LavaPiranha_Glow_Shocked 0x7
+
+#define ANIM_LavaPiranha_Anim00 0x790000
+#define ANIM_LavaPiranha_Anim01 0x790001
+#define ANIM_LavaPiranha_Anim02 0x790002
+#define ANIM_LavaPiranha_Anim03 0x790003
+#define ANIM_LavaPiranha_Anim04 0x790004
+#define ANIM_LavaPiranha_Anim05 0x790005
+#define ANIM_LavaPiranha_Anim06 0x790006
+#define ANIM_LavaPiranha_Anim07 0x790007
+#define ANIM_LavaPiranha_Anim08 0x790008
+#define ANIM_LavaPiranha_Anim09 0x790009
+#define ANIM_LavaPiranha_Anim0A 0x79000A
+#define ANIM_LavaPiranha_Anim0B 0x79000B
+#define ANIM_LavaPiranha_Anim0C 0x79000C
+#define ANIM_LavaPiranha_Anim0D 0x79000D
+#define ANIM_LavaPiranha_Anim0E 0x79000E
+#define ANIM_LavaPiranha_Anim0F 0x79000F
+#define ANIM_LavaPiranha_Anim10 0x790010
+
+#define ANIM_LavaPiranha_Glow_Anim00 0x790100
+#define ANIM_LavaPiranha_Glow_Anim01 0x790101
+#define ANIM_LavaPiranha_Glow_Anim02 0x790102
+#define ANIM_LavaPiranha_Glow_Anim03 0x790103
+#define ANIM_LavaPiranha_Glow_Anim04 0x790104
+#define ANIM_LavaPiranha_Glow_Anim05 0x790105
+#define ANIM_LavaPiranha_Glow_Anim06 0x790106
+#define ANIM_LavaPiranha_Glow_Anim07 0x790107
+#define ANIM_LavaPiranha_Glow_Anim08 0x790108
+#define ANIM_LavaPiranha_Glow_Anim09 0x790109
+#define ANIM_LavaPiranha_Glow_Anim0A 0x79010A
+#define ANIM_LavaPiranha_Glow_Anim0B 0x79010B
+#define ANIM_LavaPiranha_Glow_Anim0C 0x79010C
+#define ANIM_LavaPiranha_Glow_Anim0D 0x79010D
+#define ANIM_LavaPiranha_Glow_Anim0E 0x79010E
+#define ANIM_LavaPiranha_Glow_Anim0F 0x79010F
+#define ANIM_LavaPiranha_Glow_Anim10 0x790110
+
+#define ANIM_LavaPiranha_Poisoned_Anim00 0x790200
+#define ANIM_LavaPiranha_Poisoned_Anim01 0x790201
+#define ANIM_LavaPiranha_Poisoned_Anim02 0x790202
+#define ANIM_LavaPiranha_Poisoned_Anim03 0x790203
+#define ANIM_LavaPiranha_Poisoned_Anim04 0x790204
+#define ANIM_LavaPiranha_Poisoned_Anim05 0x790205
+#define ANIM_LavaPiranha_Poisoned_Anim06 0x790206
+#define ANIM_LavaPiranha_Poisoned_Anim07 0x790207
+#define ANIM_LavaPiranha_Poisoned_Anim08 0x790208
+#define ANIM_LavaPiranha_Poisoned_Anim09 0x790209
+#define ANIM_LavaPiranha_Poisoned_Anim0A 0x79020A
+#define ANIM_LavaPiranha_Poisoned_Anim0B 0x79020B
+#define ANIM_LavaPiranha_Poisoned_Anim0C 0x79020C
+#define ANIM_LavaPiranha_Poisoned_Anim0D 0x79020D
+#define ANIM_LavaPiranha_Poisoned_Anim0E 0x79020E
+#define ANIM_LavaPiranha_Poisoned_Anim0F 0x79020F
+#define ANIM_LavaPiranha_Poisoned_Anim10 0x790210
+
+#define ANIM_LavaPiranha_Glow_Poisoned_Anim00 0x790300
+#define ANIM_LavaPiranha_Glow_Poisoned_Anim01 0x790301
+#define ANIM_LavaPiranha_Glow_Poisoned_Anim02 0x790302
+#define ANIM_LavaPiranha_Glow_Poisoned_Anim03 0x790303
+#define ANIM_LavaPiranha_Glow_Poisoned_Anim04 0x790304
+#define ANIM_LavaPiranha_Glow_Poisoned_Anim05 0x790305
+#define ANIM_LavaPiranha_Glow_Poisoned_Anim06 0x790306
+#define ANIM_LavaPiranha_Glow_Poisoned_Anim07 0x790307
+#define ANIM_LavaPiranha_Glow_Poisoned_Anim08 0x790308
+#define ANIM_LavaPiranha_Glow_Poisoned_Anim09 0x790309
+#define ANIM_LavaPiranha_Glow_Poisoned_Anim0A 0x79030A
+#define ANIM_LavaPiranha_Glow_Poisoned_Anim0B 0x79030B
+#define ANIM_LavaPiranha_Glow_Poisoned_Anim0C 0x79030C
+#define ANIM_LavaPiranha_Glow_Poisoned_Anim0D 0x79030D
+#define ANIM_LavaPiranha_Glow_Poisoned_Anim0E 0x79030E
+#define ANIM_LavaPiranha_Glow_Poisoned_Anim0F 0x79030F
+#define ANIM_LavaPiranha_Glow_Poisoned_Anim10 0x790310
+
+#define ANIM_LavaPiranha_Dizzy_Anim00 0x790400
+#define ANIM_LavaPiranha_Dizzy_Anim01 0x790401
+#define ANIM_LavaPiranha_Dizzy_Anim02 0x790402
+#define ANIM_LavaPiranha_Dizzy_Anim03 0x790403
+#define ANIM_LavaPiranha_Dizzy_Anim04 0x790404
+#define ANIM_LavaPiranha_Dizzy_Anim05 0x790405
+#define ANIM_LavaPiranha_Dizzy_Anim06 0x790406
+#define ANIM_LavaPiranha_Dizzy_Anim07 0x790407
+#define ANIM_LavaPiranha_Dizzy_Anim08 0x790408
+#define ANIM_LavaPiranha_Dizzy_Anim09 0x790409
+#define ANIM_LavaPiranha_Dizzy_Anim0A 0x79040A
+#define ANIM_LavaPiranha_Dizzy_Anim0B 0x79040B
+#define ANIM_LavaPiranha_Dizzy_Anim0C 0x79040C
+#define ANIM_LavaPiranha_Dizzy_Anim0D 0x79040D
+#define ANIM_LavaPiranha_Dizzy_Anim0E 0x79040E
+#define ANIM_LavaPiranha_Dizzy_Anim0F 0x79040F
+#define ANIM_LavaPiranha_Dizzy_Anim10 0x790410
+
+#define ANIM_LavaPiranha_Glow_Dizzy_Anim00 0x790500
+#define ANIM_LavaPiranha_Glow_Dizzy_Anim01 0x790501
+#define ANIM_LavaPiranha_Glow_Dizzy_Anim02 0x790502
+#define ANIM_LavaPiranha_Glow_Dizzy_Anim03 0x790503
+#define ANIM_LavaPiranha_Glow_Dizzy_Anim04 0x790504
+#define ANIM_LavaPiranha_Glow_Dizzy_Anim05 0x790505
+#define ANIM_LavaPiranha_Glow_Dizzy_Anim06 0x790506
+#define ANIM_LavaPiranha_Glow_Dizzy_Anim07 0x790507
+#define ANIM_LavaPiranha_Glow_Dizzy_Anim08 0x790508
+#define ANIM_LavaPiranha_Glow_Dizzy_Anim09 0x790509
+#define ANIM_LavaPiranha_Glow_Dizzy_Anim0A 0x79050A
+#define ANIM_LavaPiranha_Glow_Dizzy_Anim0B 0x79050B
+#define ANIM_LavaPiranha_Glow_Dizzy_Anim0C 0x79050C
+#define ANIM_LavaPiranha_Glow_Dizzy_Anim0D 0x79050D
+#define ANIM_LavaPiranha_Glow_Dizzy_Anim0E 0x79050E
+#define ANIM_LavaPiranha_Glow_Dizzy_Anim0F 0x79050F
+#define ANIM_LavaPiranha_Glow_Dizzy_Anim10 0x790510
+
+#define ANIM_LavaPiranha_Shocked_Anim00 0x790600
+#define ANIM_LavaPiranha_Shocked_Anim01 0x790601
+#define ANIM_LavaPiranha_Shocked_Anim02 0x790602
+#define ANIM_LavaPiranha_Shocked_Anim03 0x790603
+#define ANIM_LavaPiranha_Shocked_Anim04 0x790604
+#define ANIM_LavaPiranha_Shocked_Anim05 0x790605
+#define ANIM_LavaPiranha_Shocked_Anim06 0x790606
+#define ANIM_LavaPiranha_Shocked_Anim07 0x790607
+#define ANIM_LavaPiranha_Shocked_Anim08 0x790608
+#define ANIM_LavaPiranha_Shocked_Anim09 0x790609
+#define ANIM_LavaPiranha_Shocked_Anim0A 0x79060A
+#define ANIM_LavaPiranha_Shocked_Anim0B 0x79060B
+#define ANIM_LavaPiranha_Shocked_Anim0C 0x79060C
+#define ANIM_LavaPiranha_Shocked_Anim0D 0x79060D
+#define ANIM_LavaPiranha_Shocked_Anim0E 0x79060E
+#define ANIM_LavaPiranha_Shocked_Anim0F 0x79060F
+#define ANIM_LavaPiranha_Shocked_Anim10 0x790610
+
+#define ANIM_LavaPiranha_Glow_Shocked_Anim00 0x790700
+#define ANIM_LavaPiranha_Glow_Shocked_Anim01 0x790701
+#define ANIM_LavaPiranha_Glow_Shocked_Anim02 0x790702
+#define ANIM_LavaPiranha_Glow_Shocked_Anim03 0x790703
+#define ANIM_LavaPiranha_Glow_Shocked_Anim04 0x790704
+#define ANIM_LavaPiranha_Glow_Shocked_Anim05 0x790705
+#define ANIM_LavaPiranha_Glow_Shocked_Anim06 0x790706
+#define ANIM_LavaPiranha_Glow_Shocked_Anim07 0x790707
+#define ANIM_LavaPiranha_Glow_Shocked_Anim08 0x790708
+#define ANIM_LavaPiranha_Glow_Shocked_Anim09 0x790709
+#define ANIM_LavaPiranha_Glow_Shocked_Anim0A 0x79070A
+#define ANIM_LavaPiranha_Glow_Shocked_Anim0B 0x79070B
+#define ANIM_LavaPiranha_Glow_Shocked_Anim0C 0x79070C
+#define ANIM_LavaPiranha_Glow_Shocked_Anim0D 0x79070D
+#define ANIM_LavaPiranha_Glow_Shocked_Anim0E 0x79070E
+#define ANIM_LavaPiranha_Glow_Shocked_Anim0F 0x79070F
+#define ANIM_LavaPiranha_Glow_Shocked_Anim10 0x790710
+
+#endif

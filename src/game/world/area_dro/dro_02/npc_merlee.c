@@ -1,7 +1,8 @@
 #include "dro_02.h"
 #include "model.h"
 #include "sprite/player.h"
-#include "include_asset.h"
+#include "assets/world.h"
+#include "port/Engine.h"
 
 // cards used during Merlee's ritual
 typedef struct RitualCard {
@@ -65,13 +66,8 @@ s8 N(MerleeCoinCosts)[] = {
 s32 N(pad_XX111)[] = { 0 };
 #endif
 
-INCLUDE_IMG("world/area_dro/dro_02/card.png", dro_02_card);
-INCLUDE_PAL("world/area_dro/dro_02/card.pal", dro_02_card_pal);
-#include "world/area_dro/dro_02/card_1.vtx.inc.c"
-#include "world/area_dro/dro_02/card_2.vtx.inc.c"
-#include "world/area_dro/dro_02/card_setup.gfx.inc.c"
-#include "world/area_dro/dro_02/card_1.gfx.inc.c"
-#include "world/area_dro/dro_02/card_2.gfx.inc.c"
+// card textures, vertices, and display lists extracted to OTR via world_dro_02.yml
+// dro_02_card (img), dro_02_card_pal, dro_02_card_setup_gfx, dro_02_card_1_gfx, dro_02_card_2_gfx defined in assets/world.h
 
 void N(card_worker_update)(void);
 void N(card_worker_render)(void);
@@ -213,7 +209,7 @@ u32 N(appendGfx_ritual_card)(RitualCard* card, Matrix4f mtxParent) {
         return 1;
     }
 
-    gSPDisplayList(gMainGfxPos++, N(card_setup_gfx));
+    gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(dro_02_card_setup_gfx));
 
     if (card->unk_00 == 1 || card->unk_00 == 4 || card->unk_00 == 5) {
         guTranslateF(mtxTemp, card->pos.x, card->pos.y, card->pos.z);
@@ -226,7 +222,7 @@ u32 N(appendGfx_ritual_card)(RitualCard* card, Matrix4f mtxParent) {
         gSPMatrix(gMainGfxPos++, VIRTUAL_TO_PHYSICAL(&gDisplayContext->matrixStack[gMatrixListPos++]), G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         if (card->unk_00 == 1 || card->unk_00 == 4) {
-            gSPDisplayList(gMainGfxPos++, N(card_1_gfx));
+            gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(dro_02_card_1_gfx));
         }
 
         if (card->unk_00 == 1 || card->unk_00 == 5) {
@@ -239,7 +235,7 @@ u32 N(appendGfx_ritual_card)(RitualCard* card, Matrix4f mtxParent) {
             guTranslateF(mtxTransform, card->xoffset + 30 - rasterInfo.width / 2, 0.0f, 0.0f);
             guMtxF2L(mtxTransform, &gDisplayContext->matrixStack[gMatrixListPos]);
             gSPMatrix(gMainGfxPos++, VIRTUAL_TO_PHYSICAL(&gDisplayContext->matrixStack[gMatrixListPos++]), G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPDisplayList(gMainGfxPos++, N(card_2_gfx));
+            gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(dro_02_card_2_gfx));
             gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         }
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);

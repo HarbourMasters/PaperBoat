@@ -1,0 +1,73 @@
+#ifndef _NPC_SPRITE_BABYBLOOPER_H_
+#define _NPC_SPRITE_BABYBLOOPER_H_
+
+#include "types.h"
+
+#define SPR_BabyBlooper 0x51
+
+#define SPR_IMG_BabyBlooper_Raster00 0x0
+#define SPR_IMG_BabyBlooper_Raster01 0x1
+#define SPR_IMG_BabyBlooper_Raster02 0x2
+#define SPR_IMG_BabyBlooper_Raster03 0x3
+#define SPR_IMG_BabyBlooper_Raster04 0x4
+#define SPR_IMG_BabyBlooper_Raster05 0x5
+#define SPR_IMG_BabyBlooper_Raster06 0x6
+#define SPR_IMG_BabyBlooper_Raster07 0x7
+#define SPR_IMG_BabyBlooper_Raster08 0x8
+#define SPR_IMG_BabyBlooper_Raster09 0x9
+#define SPR_IMG_BabyBlooper_Raster0A 0xA
+#define SPR_IMG_BabyBlooper_Raster0B 0xB
+#define SPR_IMG_BabyBlooper_Raster0C 0xC
+#define SPR_IMG_BabyBlooper_Raster0D 0xD
+#define SPR_IMG_BabyBlooper_Raster0E 0xE
+#define SPR_IMG_BabyBlooper_Raster0F 0xF
+#define SPR_IMG_BabyBlooper_Raster10 0x10
+#define SPR_IMG_BabyBlooper_Raster11 0x11
+#define SPR_IMG_BabyBlooper_Raster12 0x12
+
+#define SPR_PAL_BabyBlooper 0x0
+#define SPR_PAL_BabyBlooper_Poisoned 0x1
+#define SPR_PAL_BabyBlooper_Dizzy 0x2
+#define SPR_PAL_BabyBlooper_Burnt 0x3
+
+#define ANIM_BabyBlooper_Anim00 0x510000
+#define ANIM_BabyBlooper_Anim01 0x510001
+#define ANIM_BabyBlooper_Anim02 0x510002
+#define ANIM_BabyBlooper_Anim03 0x510003
+#define ANIM_BabyBlooper_Anim04 0x510004
+#define ANIM_BabyBlooper_Anim05 0x510005
+#define ANIM_BabyBlooper_Anim06 0x510006
+#define ANIM_BabyBlooper_Anim07 0x510007
+#define ANIM_BabyBlooper_Anim08 0x510008
+
+#define ANIM_BabyBlooper_Poisoned_Anim00 0x510100
+#define ANIM_BabyBlooper_Poisoned_Anim01 0x510101
+#define ANIM_BabyBlooper_Poisoned_Anim02 0x510102
+#define ANIM_BabyBlooper_Poisoned_Anim03 0x510103
+#define ANIM_BabyBlooper_Poisoned_Anim04 0x510104
+#define ANIM_BabyBlooper_Poisoned_Anim05 0x510105
+#define ANIM_BabyBlooper_Poisoned_Anim06 0x510106
+#define ANIM_BabyBlooper_Poisoned_Anim07 0x510107
+#define ANIM_BabyBlooper_Poisoned_Anim08 0x510108
+
+#define ANIM_BabyBlooper_Dizzy_Anim00 0x510200
+#define ANIM_BabyBlooper_Dizzy_Anim01 0x510201
+#define ANIM_BabyBlooper_Dizzy_Anim02 0x510202
+#define ANIM_BabyBlooper_Dizzy_Anim03 0x510203
+#define ANIM_BabyBlooper_Dizzy_Anim04 0x510204
+#define ANIM_BabyBlooper_Dizzy_Anim05 0x510205
+#define ANIM_BabyBlooper_Dizzy_Anim06 0x510206
+#define ANIM_BabyBlooper_Dizzy_Anim07 0x510207
+#define ANIM_BabyBlooper_Dizzy_Anim08 0x510208
+
+#define ANIM_BabyBlooper_Burnt_Anim00 0x510300
+#define ANIM_BabyBlooper_Burnt_Anim01 0x510301
+#define ANIM_BabyBlooper_Burnt_Anim02 0x510302
+#define ANIM_BabyBlooper_Burnt_Anim03 0x510303
+#define ANIM_BabyBlooper_Burnt_Anim04 0x510304
+#define ANIM_BabyBlooper_Burnt_Anim05 0x510305
+#define ANIM_BabyBlooper_Burnt_Anim06 0x510306
+#define ANIM_BabyBlooper_Burnt_Anim07 0x510307
+#define ANIM_BabyBlooper_Burnt_Anim08 0x510308
+
+#endif

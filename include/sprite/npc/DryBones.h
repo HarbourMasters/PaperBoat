@@ -1,0 +1,136 @@
+#ifndef _NPC_SPRITE_DRYBONES_H_
+#define _NPC_SPRITE_DRYBONES_H_
+
+#include "types.h"
+
+#define SPR_DryBones 0x53
+
+#define SPR_IMG_DryBones_Raster00 0x0
+#define SPR_IMG_DryBones_Raster01 0x1
+#define SPR_IMG_DryBones_Raster02 0x2
+#define SPR_IMG_DryBones_Raster03 0x3
+#define SPR_IMG_DryBones_Raster04 0x4
+#define SPR_IMG_DryBones_Raster05 0x5
+#define SPR_IMG_DryBones_Raster06 0x6
+#define SPR_IMG_DryBones_Raster07 0x7
+#define SPR_IMG_DryBones_Raster08 0x8
+#define SPR_IMG_DryBones_Raster09 0x9
+#define SPR_IMG_DryBones_Raster0A 0xA
+#define SPR_IMG_DryBones_Raster0B 0xB
+#define SPR_IMG_DryBones_Raster0C 0xC
+#define SPR_IMG_DryBones_Raster0D 0xD
+#define SPR_IMG_DryBones_Raster0E 0xE
+#define SPR_IMG_DryBones_Raster0F 0xF
+#define SPR_IMG_DryBones_Raster10 0x10
+#define SPR_IMG_DryBones_Raster11 0x11
+#define SPR_IMG_DryBones_Raster12 0x12
+#define SPR_IMG_DryBones_Raster13 0x13
+#define SPR_IMG_DryBones_Raster14 0x14
+#define SPR_IMG_DryBones_Raster15 0x15
+#define SPR_IMG_DryBones_Raster16 0x16
+#define SPR_IMG_DryBones_Raster17 0x17
+#define SPR_IMG_DryBones_Raster18 0x18
+#define SPR_IMG_DryBones_Raster19 0x19
+#define SPR_IMG_DryBones_Raster1A 0x1A
+#define SPR_IMG_DryBones_Raster1B 0x1B
+#define SPR_IMG_DryBones_Raster1C 0x1C
+#define SPR_IMG_DryBones_Raster1D 0x1D
+#define SPR_IMG_DryBones_Raster1E 0x1E
+#define SPR_IMG_DryBones_Raster1F 0x1F
+#define SPR_IMG_DryBones_Raster20 0x20
+#define SPR_IMG_DryBones_Raster21 0x21
+#define SPR_IMG_DryBones_Raster22 0x22
+#define SPR_IMG_DryBones_Raster23 0x23
+
+#define SPR_PAL_DryBones 0x0
+#define SPR_PAL_DryBones_Poisoned 0x1
+#define SPR_PAL_DryBones_Dizzy 0x2
+#define SPR_PAL_DryBones_Shocked 0x3
+#define SPR_PAL_DryBones_Burnt 0x4
+
+#define ANIM_DryBones_Anim00 0x530000
+#define ANIM_DryBones_Anim01 0x530001
+#define ANIM_DryBones_Anim02 0x530002
+#define ANIM_DryBones_Anim03 0x530003
+#define ANIM_DryBones_Anim04 0x530004
+#define ANIM_DryBones_Anim05 0x530005
+#define ANIM_DryBones_Anim06 0x530006
+#define ANIM_DryBones_Anim07 0x530007
+#define ANIM_DryBones_Anim08 0x530008
+#define ANIM_DryBones_Anim09 0x530009
+#define ANIM_DryBones_Anim0A 0x53000A
+#define ANIM_DryBones_Anim0B 0x53000B
+#define ANIM_DryBones_Anim0C 0x53000C
+#define ANIM_DryBones_Anim0D 0x53000D
+#define ANIM_DryBones_Anim0E 0x53000E
+#define ANIM_DryBones_Anim0F 0x53000F
+
+#define ANIM_DryBones_Poisoned_Anim00 0x530100
+#define ANIM_DryBones_Poisoned_Anim01 0x530101
+#define ANIM_DryBones_Poisoned_Anim02 0x530102
+#define ANIM_DryBones_Poisoned_Anim03 0x530103
+#define ANIM_DryBones_Poisoned_Anim04 0x530104
+#define ANIM_DryBones_Poisoned_Anim05 0x530105
+#define ANIM_DryBones_Poisoned_Anim06 0x530106
+#define ANIM_DryBones_Poisoned_Anim07 0x530107
+#define ANIM_DryBones_Poisoned_Anim08 0x530108
+#define ANIM_DryBones_Poisoned_Anim09 0x530109
+#define ANIM_DryBones_Poisoned_Anim0A 0x53010A
+#define ANIM_DryBones_Poisoned_Anim0B 0x53010B
+#define ANIM_DryBones_Poisoned_Anim0C 0x53010C
+#define ANIM_DryBones_Poisoned_Anim0D 0x53010D
+#define ANIM_DryBones_Poisoned_Anim0E 0x53010E
+#define ANIM_DryBones_Poisoned_Anim0F 0x53010F
+
+#define ANIM_DryBones_Dizzy_Anim00 0x530200
+#define ANIM_DryBones_Dizzy_Anim01 0x530201
+#define ANIM_DryBones_Dizzy_Anim02 0x530202
+#define ANIM_DryBones_Dizzy_Anim03 0x530203
+#define ANIM_DryBones_Dizzy_Anim04 0x530204
+#define ANIM_DryBones_Dizzy_Anim05 0x530205
+#define ANIM_DryBones_Dizzy_Anim06 0x530206
+#define ANIM_DryBones_Dizzy_Anim07 0x530207
+#define ANIM_DryBones_Dizzy_Anim08 0x530208
+#define ANIM_DryBones_Dizzy_Anim09 0x530209
+#define ANIM_DryBones_Dizzy_Anim0A 0x53020A
+#define ANIM_DryBones_Dizzy_Anim0B 0x53020B
+#define ANIM_DryBones_Dizzy_Anim0C 0x53020C
+#define ANIM_DryBones_Dizzy_Anim0D 0x53020D
+#define ANIM_DryBones_Dizzy_Anim0E 0x53020E
+#define ANIM_DryBones_Dizzy_Anim0F 0x53020F
+
+#define ANIM_DryBones_Shocked_Anim00 0x530300
+#define ANIM_DryBones_Shocked_Anim01 0x530301
+#define ANIM_DryBones_Shocked_Anim02 0x530302
+#define ANIM_DryBones_Shocked_Anim03 0x530303
+#define ANIM_DryBones_Shocked_Anim04 0x530304
+#define ANIM_DryBones_Shocked_Anim05 0x530305
+#define ANIM_DryBones_Shocked_Anim06 0x530306
+#define ANIM_DryBones_Shocked_Anim07 0x530307
+#define ANIM_DryBones_Shocked_Anim08 0x530308
+#define ANIM_DryBones_Shocked_Anim09 0x530309
+#define ANIM_DryBones_Shocked_Anim0A 0x53030A
+#define ANIM_DryBones_Shocked_Anim0B 0x53030B
+#define ANIM_DryBones_Shocked_Anim0C 0x53030C
+#define ANIM_DryBones_Shocked_Anim0D 0x53030D
+#define ANIM_DryBones_Shocked_Anim0E 0x53030E
+#define ANIM_DryBones_Shocked_Anim0F 0x53030F
+
+#define ANIM_DryBones_Burnt_Anim00 0x530400
+#define ANIM_DryBones_Burnt_Anim01 0x530401
+#define ANIM_DryBones_Burnt_Anim02 0x530402
+#define ANIM_DryBones_Burnt_Anim03 0x530403
+#define ANIM_DryBones_Burnt_Anim04 0x530404
+#define ANIM_DryBones_Burnt_Anim05 0x530405
+#define ANIM_DryBones_Burnt_Anim06 0x530406
+#define ANIM_DryBones_Burnt_Anim07 0x530407
+#define ANIM_DryBones_Burnt_Anim08 0x530408
+#define ANIM_DryBones_Burnt_Anim09 0x530409
+#define ANIM_DryBones_Burnt_Anim0A 0x53040A
+#define ANIM_DryBones_Burnt_Anim0B 0x53040B
+#define ANIM_DryBones_Burnt_Anim0C 0x53040C
+#define ANIM_DryBones_Burnt_Anim0D 0x53040D
+#define ANIM_DryBones_Burnt_Anim0E 0x53040E
+#define ANIM_DryBones_Burnt_Anim0F 0x53040F
+
+#endif

@@ -1,0 +1,180 @@
+#ifndef _NPC_SPRITE_PARAJRTROOPA_H_
+#define _NPC_SPRITE_PARAJRTROOPA_H_
+
+#include "types.h"
+
+#define SPR_ParaJrTroopa 0x25
+
+#define SPR_IMG_ParaJrTroopa_UpperBodyNeutral 0x0
+#define SPR_IMG_ParaJrTroopa_UpperBodyTalk 0x1
+#define SPR_IMG_ParaJrTroopa_UpperBodyPoint 0x2
+#define SPR_IMG_ParaJrTroopa_Sleep1 0x3
+#define SPR_IMG_ParaJrTroopa_Sleep2 0x4
+#define SPR_IMG_ParaJrTroopa_Sleep3 0x5
+#define SPR_IMG_ParaJrTroopa_Dizzy1 0x6
+#define SPR_IMG_ParaJrTroopa_Dizzy2 0x7
+#define SPR_IMG_ParaJrTroopa_Dizzy3 0x8
+#define SPR_IMG_ParaJrTroopa_Dizzy4 0x9
+#define SPR_IMG_ParaJrTroopa_WingsFlap1 0xA
+#define SPR_IMG_ParaJrTroopa_WingsFlap2 0xB
+#define SPR_IMG_ParaJrTroopa_WingsFlap3 0xC
+#define SPR_IMG_ParaJrTroopa_WingsFlap4 0xD
+#define SPR_IMG_ParaJrTroopa_LowerBody1 0xE
+#define SPR_IMG_ParaJrTroopa_LowerBody2 0xF
+#define SPR_IMG_ParaJrTroopa_LowerBodyRaised 0x10
+#define SPR_IMG_ParaJrTroopa_Dive1 0x11
+#define SPR_IMG_ParaJrTroopa_Dive2 0x12
+#define SPR_IMG_ParaJrTroopa_Flail1 0x13
+#define SPR_IMG_ParaJrTroopa_Flail2 0x14
+#define SPR_IMG_ParaJrTroopa_Hurt1 0x15
+#define SPR_IMG_ParaJrTroopa_Hurt2 0x16
+#define SPR_IMG_ParaJrTroopa_BurnStill 0x17
+#define SPR_IMG_ParaJrTroopa_BurnHurt1 0x18
+#define SPR_IMG_ParaJrTroopa_BurnHurt2 0x19
+
+#define SPR_PAL_ParaJrTroopa 0x0
+#define SPR_PAL_ParaJrTroopa_Ashen 0x1
+#define SPR_PAL_ParaJrTroopa_Poisoned 0x2
+#define SPR_PAL_ParaJrTroopa_Ashen_Poisoned 0x3
+#define SPR_PAL_ParaJrTroopa_Dizzy 0x4
+#define SPR_PAL_ParaJrTroopa_Ashen_Dizzy 0x5
+#define SPR_PAL_ParaJrTroopa_Shocked 0x6
+#define SPR_PAL_ParaJrTroopa_Ashen_Shocked 0x7
+#define SPR_PAL_ParaJrTroopa_Burnt 0x8
+
+#define ANIM_ParaJrTroopa_Still 0x250000
+#define ANIM_ParaJrTroopa_PointStill 0x250001
+#define ANIM_ParaJrTroopa_Idle 0x250002
+#define ANIM_ParaJrTroopa_PointIdle 0x250003
+#define ANIM_ParaJrTroopa_FlySlow 0x250004
+#define ANIM_ParaJrTroopa_FlyFast 0x250005
+#define ANIM_ParaJrTroopa_Dive 0x250006
+#define ANIM_ParaJrTroopa_Hurt 0x250007
+#define ANIM_ParaJrTroopa_BurnHurt 0x250008
+#define ANIM_ParaJrTroopa_BurnStill 0x250009
+#define ANIM_ParaJrTroopa_Sleep 0x25000A
+#define ANIM_ParaJrTroopa_Dizzy 0x25000B
+#define ANIM_ParaJrTroopa_Talk 0x25000C
+#define ANIM_ParaJrTroopa_Flail 0x25000D
+
+#define ANIM_ParaJrTroopa_Ashen_Still 0x250100
+#define ANIM_ParaJrTroopa_Ashen_PointStill 0x250101
+#define ANIM_ParaJrTroopa_Ashen_Idle 0x250102
+#define ANIM_ParaJrTroopa_Ashen_PointIdle 0x250103
+#define ANIM_ParaJrTroopa_Ashen_FlySlow 0x250104
+#define ANIM_ParaJrTroopa_Ashen_FlyFast 0x250105
+#define ANIM_ParaJrTroopa_Ashen_Dive 0x250106
+#define ANIM_ParaJrTroopa_Ashen_Hurt 0x250107
+#define ANIM_ParaJrTroopa_Ashen_BurnHurt 0x250108
+#define ANIM_ParaJrTroopa_Ashen_BurnStill 0x250109
+#define ANIM_ParaJrTroopa_Ashen_Sleep 0x25010A
+#define ANIM_ParaJrTroopa_Ashen_Dizzy 0x25010B
+#define ANIM_ParaJrTroopa_Ashen_Talk 0x25010C
+#define ANIM_ParaJrTroopa_Ashen_Flail 0x25010D
+
+#define ANIM_ParaJrTroopa_Poisoned_Still 0x250200
+#define ANIM_ParaJrTroopa_Poisoned_PointStill 0x250201
+#define ANIM_ParaJrTroopa_Poisoned_Idle 0x250202
+#define ANIM_ParaJrTroopa_Poisoned_PointIdle 0x250203
+#define ANIM_ParaJrTroopa_Poisoned_FlySlow 0x250204
+#define ANIM_ParaJrTroopa_Poisoned_FlyFast 0x250205
+#define ANIM_ParaJrTroopa_Poisoned_Dive 0x250206
+#define ANIM_ParaJrTroopa_Poisoned_Hurt 0x250207
+#define ANIM_ParaJrTroopa_Poisoned_BurnHurt 0x250208
+#define ANIM_ParaJrTroopa_Poisoned_BurnStill 0x250209
+#define ANIM_ParaJrTroopa_Poisoned_Sleep 0x25020A
+#define ANIM_ParaJrTroopa_Poisoned_Dizzy 0x25020B
+#define ANIM_ParaJrTroopa_Poisoned_Talk 0x25020C
+#define ANIM_ParaJrTroopa_Poisoned_Flail 0x25020D
+
+#define ANIM_ParaJrTroopa_Ashen_Poisoned_Still 0x250300
+#define ANIM_ParaJrTroopa_Ashen_Poisoned_PointStill 0x250301
+#define ANIM_ParaJrTroopa_Ashen_Poisoned_Idle 0x250302
+#define ANIM_ParaJrTroopa_Ashen_Poisoned_PointIdle 0x250303
+#define ANIM_ParaJrTroopa_Ashen_Poisoned_FlySlow 0x250304
+#define ANIM_ParaJrTroopa_Ashen_Poisoned_FlyFast 0x250305
+#define ANIM_ParaJrTroopa_Ashen_Poisoned_Dive 0x250306
+#define ANIM_ParaJrTroopa_Ashen_Poisoned_Hurt 0x250307
+#define ANIM_ParaJrTroopa_Ashen_Poisoned_BurnHurt 0x250308
+#define ANIM_ParaJrTroopa_Ashen_Poisoned_BurnStill 0x250309
+#define ANIM_ParaJrTroopa_Ashen_Poisoned_Sleep 0x25030A
+#define ANIM_ParaJrTroopa_Ashen_Poisoned_Dizzy 0x25030B
+#define ANIM_ParaJrTroopa_Ashen_Poisoned_Talk 0x25030C
+#define ANIM_ParaJrTroopa_Ashen_Poisoned_Flail 0x25030D
+
+#define ANIM_ParaJrTroopa_Dizzy_Still 0x250400
+#define ANIM_ParaJrTroopa_Dizzy_PointStill 0x250401
+#define ANIM_ParaJrTroopa_Dizzy_Idle 0x250402
+#define ANIM_ParaJrTroopa_Dizzy_PointIdle 0x250403
+#define ANIM_ParaJrTroopa_Dizzy_FlySlow 0x250404
+#define ANIM_ParaJrTroopa_Dizzy_FlyFast 0x250405
+#define ANIM_ParaJrTroopa_Dizzy_Dive 0x250406
+#define ANIM_ParaJrTroopa_Dizzy_Hurt 0x250407
+#define ANIM_ParaJrTroopa_Dizzy_BurnHurt 0x250408
+#define ANIM_ParaJrTroopa_Dizzy_BurnStill 0x250409
+#define ANIM_ParaJrTroopa_Dizzy_Sleep 0x25040A
+#define ANIM_ParaJrTroopa_Dizzy_Dizzy 0x25040B
+#define ANIM_ParaJrTroopa_Dizzy_Talk 0x25040C
+#define ANIM_ParaJrTroopa_Dizzy_Flail 0x25040D
+
+#define ANIM_ParaJrTroopa_Ashen_Dizzy_Still 0x250500
+#define ANIM_ParaJrTroopa_Ashen_Dizzy_PointStill 0x250501
+#define ANIM_ParaJrTroopa_Ashen_Dizzy_Idle 0x250502
+#define ANIM_ParaJrTroopa_Ashen_Dizzy_PointIdle 0x250503
+#define ANIM_ParaJrTroopa_Ashen_Dizzy_FlySlow 0x250504
+#define ANIM_ParaJrTroopa_Ashen_Dizzy_FlyFast 0x250505
+#define ANIM_ParaJrTroopa_Ashen_Dizzy_Dive 0x250506
+#define ANIM_ParaJrTroopa_Ashen_Dizzy_Hurt 0x250507
+#define ANIM_ParaJrTroopa_Ashen_Dizzy_BurnHurt 0x250508
+#define ANIM_ParaJrTroopa_Ashen_Dizzy_BurnStill 0x250509
+#define ANIM_ParaJrTroopa_Ashen_Dizzy_Sleep 0x25050A
+#define ANIM_ParaJrTroopa_Ashen_Dizzy_Dizzy 0x25050B
+#define ANIM_ParaJrTroopa_Ashen_Dizzy_Talk 0x25050C
+#define ANIM_ParaJrTroopa_Ashen_Dizzy_Flail 0x25050D
+
+#define ANIM_ParaJrTroopa_Shocked_Still 0x250600
+#define ANIM_ParaJrTroopa_Shocked_PointStill 0x250601
+#define ANIM_ParaJrTroopa_Shocked_Idle 0x250602
+#define ANIM_ParaJrTroopa_Shocked_PointIdle 0x250603
+#define ANIM_ParaJrTroopa_Shocked_FlySlow 0x250604
+#define ANIM_ParaJrTroopa_Shocked_FlyFast 0x250605
+#define ANIM_ParaJrTroopa_Shocked_Dive 0x250606
+#define ANIM_ParaJrTroopa_Shocked_Hurt 0x250607
+#define ANIM_ParaJrTroopa_Shocked_BurnHurt 0x250608
+#define ANIM_ParaJrTroopa_Shocked_BurnStill 0x250609
+#define ANIM_ParaJrTroopa_Shocked_Sleep 0x25060A
+#define ANIM_ParaJrTroopa_Shocked_Dizzy 0x25060B
+#define ANIM_ParaJrTroopa_Shocked_Talk 0x25060C
+#define ANIM_ParaJrTroopa_Shocked_Flail 0x25060D
+
+#define ANIM_ParaJrTroopa_Ashen_Shocked_Still 0x250700
+#define ANIM_ParaJrTroopa_Ashen_Shocked_PointStill 0x250701
+#define ANIM_ParaJrTroopa_Ashen_Shocked_Idle 0x250702
+#define ANIM_ParaJrTroopa_Ashen_Shocked_PointIdle 0x250703
+#define ANIM_ParaJrTroopa_Ashen_Shocked_FlySlow 0x250704
+#define ANIM_ParaJrTroopa_Ashen_Shocked_FlyFast 0x250705
+#define ANIM_ParaJrTroopa_Ashen_Shocked_Dive 0x250706
+#define ANIM_ParaJrTroopa_Ashen_Shocked_Hurt 0x250707
+#define ANIM_ParaJrTroopa_Ashen_Shocked_BurnHurt 0x250708
+#define ANIM_ParaJrTroopa_Ashen_Shocked_BurnStill 0x250709
+#define ANIM_ParaJrTroopa_Ashen_Shocked_Sleep 0x25070A
+#define ANIM_ParaJrTroopa_Ashen_Shocked_Dizzy 0x25070B
+#define ANIM_ParaJrTroopa_Ashen_Shocked_Talk 0x25070C
+#define ANIM_ParaJrTroopa_Ashen_Shocked_Flail 0x25070D
+
+#define ANIM_ParaJrTroopa_Burnt_Still 0x250800
+#define ANIM_ParaJrTroopa_Burnt_PointStill 0x250801
+#define ANIM_ParaJrTroopa_Burnt_Idle 0x250802
+#define ANIM_ParaJrTroopa_Burnt_PointIdle 0x250803
+#define ANIM_ParaJrTroopa_Burnt_FlySlow 0x250804
+#define ANIM_ParaJrTroopa_Burnt_FlyFast 0x250805
+#define ANIM_ParaJrTroopa_Burnt_Dive 0x250806
+#define ANIM_ParaJrTroopa_Burnt_Hurt 0x250807
+#define ANIM_ParaJrTroopa_Burnt_BurnHurt 0x250808
+#define ANIM_ParaJrTroopa_Burnt_BurnStill 0x250809
+#define ANIM_ParaJrTroopa_Burnt_Sleep 0x25080A
+#define ANIM_ParaJrTroopa_Burnt_Dizzy 0x25080B
+#define ANIM_ParaJrTroopa_Burnt_Talk 0x25080C
+#define ANIM_ParaJrTroopa_Burnt_Flail 0x25080D
+
+#endif

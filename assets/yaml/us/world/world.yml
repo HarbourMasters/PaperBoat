@@ -1,0 +1,66 @@
+# World area textures (standalone - no associated DLs)
+# Assets with DLs are in per-map YAML files (world_*.yml)
+
+# --- dgb_01 images (RGBA16) ---
+area_dgb/dgb_01/img0:
+  { type: TEXTURE, format: RGBA16, offset: 0xC047F0, width: 64, height: 32, symbol: dgb_01_img0_png }
+area_dgb/dgb_01/img1:
+  { type: TEXTURE, format: RGBA16, offset: 0xC05870, width: 64, height: 32, symbol: dgb_01_img1_png }
+area_dgb/dgb_01/img2:
+  { type: TEXTURE, format: RGBA16, offset: 0xC068F0, width: 32, height: 32, symbol: dgb_01_img2_png }
+area_dgb/dgb_01/img3:
+  { type: TEXTURE, format: RGBA16, offset: 0xC07170, width: 16, height: 32, symbol: dgb_01_img3_png }
+area_dgb/dgb_01/img4:
+  { type: TEXTURE, format: RGBA16, offset: 0xC075F0, width: 16, height: 32, symbol: dgb_01_img4_png }
+area_dgb/dgb_01/img5:
+  { type: TEXTURE, format: RGBA16, offset: 0xC07A70, width: 16, height: 32, symbol: dgb_01_img5_png }
+area_dgb/dgb_01/img6:
+  { type: TEXTURE, format: RGBA16, offset: 0xC07EF0, width: 32, height: 32, symbol: dgb_01_img6_png }
+area_dgb/dgb_01/img7:
+  { type: TEXTURE, format: RGBA16, offset: 0xC08770, width: 32, height: 32, symbol: dgb_01_img7_png }
+
+# --- kmr_02/heart_block (CI4 32x32) ---
+area_kmr/kmr_02/heart_block:
+  { type: TEXTURE, format: CI4, offset: 0x8C7B70, width: 32, height: 32, symbol: kmr_02_heart_block_img }
+area_kmr/kmr_02/heart_block.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x8C7D70, colors: 16, symbol: kmr_02_heart_block_pal }
+
+# --- kmr_04/hammer_block_message (CI4 48x48) ---
+area_kmr/kmr_04/hammer_block_message:
+  { type: TEXTURE, format: CI4, offset: 0x8CC4F0, width: 48, height: 48, symbol: kmr_04_hammer_block_message_img }
+area_kmr/kmr_04/hammer_block_message.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x8CC970, colors: 16, symbol: kmr_04_hammer_block_message_pal }
+
+# --- kmr_23/window corners (IA8 8x8) ---
+area_kmr/kmr_23/window_ul:
+  { type: TEXTURE, format: IA8, offset: 0x9090F8, width: 8, height: 8, symbol: kmr_23_window_ul_img }
+area_kmr/kmr_23/window_ur:
+  { type: TEXTURE, format: IA8, offset: 0x909138, width: 8, height: 8, symbol: kmr_23_window_ur_img }
+area_kmr/kmr_23/window_ll:
+  { type: TEXTURE, format: IA8, offset: 0x909178, width: 8, height: 8, symbol: kmr_23_window_ll_img }
+area_kmr/kmr_23/window_lr:
+  { type: TEXTURE, format: IA8, offset: 0x9091B8, width: 8, height: 8, symbol: kmr_23_window_lr_img }
+
+# --- mgm_01/panel images (CI4 32x32) ---
+area_mgm/mgm_01/panel_1_coin:
+  { type: TEXTURE, format: CI4, offset: 0xE15440, width: 32, height: 32, symbol: mgm_01_panel_1_coin_img }
+area_mgm/mgm_01/panel_1_coin.pal:
+  { type: TEXTURE, format: TLUT, offset: 0xE15640, colors: 16, symbol: mgm_01_panel_1_coin_pal }
+area_mgm/mgm_01/panel_5_coins:
+  { type: TEXTURE, format: CI4, offset: 0xE15660, width: 32, height: 32, symbol: mgm_01_panel_5_coins_img }
+area_mgm/mgm_01/panel_5_coins.pal:
+  { type: TEXTURE, format: TLUT, offset: 0xE15860, colors: 16, symbol: mgm_01_panel_5_coins_pal }
+area_mgm/mgm_01/panel_times_5:
+  { type: TEXTURE, format: CI4, offset: 0xE15880, width: 32, height: 32, symbol: mgm_01_panel_times_5_img }
+area_mgm/mgm_01/panel_times_5.pal:
+  { type: TEXTURE, format: TLUT, offset: 0xE15A80, colors: 16, symbol: mgm_01_panel_times_5_pal }
+area_mgm/mgm_01/panel_bowser:
+  { type: TEXTURE, format: CI4, offset: 0xE15AA0, width: 32, height: 32, symbol: mgm_01_panel_bowser_img }
+area_mgm/mgm_01/panel_bowser.pal:
+  { type: TEXTURE, format: TLUT, offset: 0xE15CA0, colors: 16, symbol: mgm_01_panel_bowser_pal }
+
+# --- mgm_02/panel_peach (CI4 32x32) ---
+area_mgm/mgm_02/panel_peach:
+  { type: TEXTURE, format: CI4, offset: 0xE1E020, width: 32, height: 32, symbol: mgm_02_panel_peach_img }
+area_mgm/mgm_02/panel_peach.pal:
+  { type: TEXTURE, format: TLUT, offset: 0xE1E220, colors: 16, symbol: mgm_02_panel_peach_pal }

@@ -860,6 +860,18 @@ s32 hud_element_update(HudElement* hudElement) {
                 const char* palPath = (const char*)*nextPos++;
                 hudElement->imageAddr = (u8*)LOAD_ASSET(rasterPath);
                 hudElement->paletteAddr = (u8*)LOAD_ASSET(palPath);
+
+                // Override custom size from OTR texture metadata to support HD texture replacements
+                if ((hudElement->flags & HUD_ELEMENT_FLAG_CUSTOM_SIZE) && GameEngine_OTRSigCheck(rasterPath)) {
+                    u16 texW = LOAD_ASSET_TEX_WIDTH(rasterPath);
+                    u16 texH = LOAD_ASSET_TEX_HEIGHT(rasterPath);
+                    if (texW != 0 && texH != 0) {
+                        hudElement->customImageSize.x = texW;
+                        hudElement->customImageSize.y = texH;
+                        hudElement->customDrawSize.x = texW;
+                        hudElement->customDrawSize.y = texH;
+                    }
+                }
             }
             hudElement->readPos = (HudScript*)nextPos;
 

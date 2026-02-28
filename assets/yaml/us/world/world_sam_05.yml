@@ -1,0 +1,23 @@
+# sam_05 map overlay - Monstar effect
+# VRAM: 0x80240000, ROM: 0xD187E0
+
+:config:
+  virtual: [0x80240000, 0xD187E0]
+
+# Monstar textures
+area_sam/sam_05/monstar:
+  { type: TEXTURE, format: CI4, offset: 0xD1AF50, width: 32, height: 32, symbol: sam_05_monstar_png }
+area_sam/sam_05/monstar_blank1:
+  { type: TEXTURE, format: IA4, offset: 0xD1B150, width: 32, height: 32, symbol: sam_05_monstar_blank1_png }
+area_sam/sam_05/monstar_blank2:
+  { type: TEXTURE, format: IA4, offset: 0xD1B350, width: 32, height: 32, symbol: sam_05_monstar_blank2_png }
+area_sam/sam_05/monstar_blank3:
+  { type: TEXTURE, format: IA4, offset: 0xD1B550, width: 32, height: 32, symbol: sam_05_monstar_blank3_png }
+area_sam/sam_05/monstar.pal:
+  { type: TEXTURE, format: TLUT, offset: 0xD1B750, colors: 16, symbol: sam_05_monstar_pal }
+
+# Monstar display list and vertices
+area_sam/sam_05/monstar.gfx:
+  { type: PM64:EFFECT_DL, offset: 0xD1F780, size: 0x110, symbol: sam_05_monstar_gfx }
+area_sam/sam_05/monstar.vtx:
+  { type: VTX, offset: 0xD1F890, count: 66, symbol: sam_05_monstar_vtx }

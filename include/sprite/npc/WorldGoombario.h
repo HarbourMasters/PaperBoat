@@ -1,0 +1,90 @@
+#ifndef _NPC_SPRITE_WORLDGOOMBARIO_H_
+#define _NPC_SPRITE_WORLDGOOMBARIO_H_
+
+#include "types.h"
+
+#define SPR_WorldGoombario 0x01
+
+#define SPR_IMG_WorldGoombario_Step1 0x0
+#define SPR_IMG_WorldGoombario_Step2 0x1
+#define SPR_IMG_WorldGoombario_Step3 0x2
+#define SPR_IMG_WorldGoombario_Hurt 0x3
+#define SPR_IMG_WorldGoombario_Headbonk 0x4
+#define SPR_IMG_WorldGoombario_Idle1 0x5
+#define SPR_IMG_WorldGoombario_Idle2 0x6
+#define SPR_IMG_WorldGoombario_Idle3 0x7
+#define SPR_IMG_WorldGoombario_Talk1 0x8
+#define SPR_IMG_WorldGoombario_Talk2 0x9
+#define SPR_IMG_WorldGoombario_Jump 0xA
+#define SPR_IMG_WorldGoombario_Fall 0xB
+#define SPR_IMG_WorldGoombario_Happy1 0xC
+#define SPR_IMG_WorldGoombario_Happy2 0xD
+#define SPR_IMG_WorldGoombario_Read 0xE
+
+#define SPR_PAL_WorldGoombario 0x0
+#define SPR_PAL_WorldGoombario_Poisoned 0x1
+#define SPR_PAL_WorldGoombario_Inactive 0x2
+#define SPR_PAL_WorldGoombario_Shocked 0x3
+#define SPR_PAL_WorldGoombario_Burnt 0x4
+
+#define ANIM_WorldGoombario_Still 0x010000
+#define ANIM_WorldGoombario_Idle 0x010001
+#define ANIM_WorldGoombario_Walk 0x010002
+#define ANIM_WorldGoombario_Run 0x010003
+#define ANIM_WorldGoombario_Jump 0x010004
+#define ANIM_WorldGoombario_Fall 0x010005
+#define ANIM_WorldGoombario_Headbonk 0x010006
+#define ANIM_WorldGoombario_Hurt 0x010007
+#define ANIM_WorldGoombario_Talk 0x010008
+#define ANIM_WorldGoombario_Celebrate 0x010009
+#define ANIM_WorldGoombario_Read 0x01000A
+
+#define ANIM_WorldGoombario_Poisoned_Still 0x010100
+#define ANIM_WorldGoombario_Poisoned_Idle 0x010101
+#define ANIM_WorldGoombario_Poisoned_Walk 0x010102
+#define ANIM_WorldGoombario_Poisoned_Run 0x010103
+#define ANIM_WorldGoombario_Poisoned_Jump 0x010104
+#define ANIM_WorldGoombario_Poisoned_Fall 0x010105
+#define ANIM_WorldGoombario_Poisoned_Headbonk 0x010106
+#define ANIM_WorldGoombario_Poisoned_Hurt 0x010107
+#define ANIM_WorldGoombario_Poisoned_Talk 0x010108
+#define ANIM_WorldGoombario_Poisoned_Celebrate 0x010109
+#define ANIM_WorldGoombario_Poisoned_Read 0x01010A
+
+#define ANIM_WorldGoombario_Inactive_Still 0x010200
+#define ANIM_WorldGoombario_Inactive_Idle 0x010201
+#define ANIM_WorldGoombario_Inactive_Walk 0x010202
+#define ANIM_WorldGoombario_Inactive_Run 0x010203
+#define ANIM_WorldGoombario_Inactive_Jump 0x010204
+#define ANIM_WorldGoombario_Inactive_Fall 0x010205
+#define ANIM_WorldGoombario_Inactive_Headbonk 0x010206
+#define ANIM_WorldGoombario_Inactive_Hurt 0x010207
+#define ANIM_WorldGoombario_Inactive_Talk 0x010208
+#define ANIM_WorldGoombario_Inactive_Celebrate 0x010209
+#define ANIM_WorldGoombario_Inactive_Read 0x01020A
+
+#define ANIM_WorldGoombario_Shocked_Still 0x010300
+#define ANIM_WorldGoombario_Shocked_Idle 0x010301
+#define ANIM_WorldGoombario_Shocked_Walk 0x010302
+#define ANIM_WorldGoombario_Shocked_Run 0x010303
+#define ANIM_WorldGoombario_Shocked_Jump 0x010304
+#define ANIM_WorldGoombario_Shocked_Fall 0x010305
+#define ANIM_WorldGoombario_Shocked_Headbonk 0x010306
+#define ANIM_WorldGoombario_Shocked_Hurt 0x010307
+#define ANIM_WorldGoombario_Shocked_Talk 0x010308
+#define ANIM_WorldGoombario_Shocked_Celebrate 0x010309
+#define ANIM_WorldGoombario_Shocked_Read 0x01030A
+
+#define ANIM_WorldGoombario_Burnt_Still 0x010400
+#define ANIM_WorldGoombario_Burnt_Idle 0x010401
+#define ANIM_WorldGoombario_Burnt_Walk 0x010402
+#define ANIM_WorldGoombario_Burnt_Run 0x010403
+#define ANIM_WorldGoombario_Burnt_Jump 0x010404
+#define ANIM_WorldGoombario_Burnt_Fall 0x010405
+#define ANIM_WorldGoombario_Burnt_Headbonk 0x010406
+#define ANIM_WorldGoombario_Burnt_Hurt 0x010407
+#define ANIM_WorldGoombario_Burnt_Talk 0x010408
+#define ANIM_WorldGoombario_Burnt_Celebrate 0x010409
+#define ANIM_WorldGoombario_Burnt_Read 0x01040A
+
+#endif

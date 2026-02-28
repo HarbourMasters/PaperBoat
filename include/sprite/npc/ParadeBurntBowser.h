@@ -1,0 +1,42 @@
+#ifndef _NPC_SPRITE_PARADEBURNTBOWSER_H_
+#define _NPC_SPRITE_PARADEBURNTBOWSER_H_
+
+#include "types.h"
+
+#define SPR_ParadeBurntBowser 0xD8
+
+#define SPR_IMG_ParadeBurntBowser_ClownCar 0x0
+#define SPR_IMG_ParadeBurntBowser_Hair 0x1
+#define SPR_IMG_ParadeBurntBowser_Head 0x2
+#define SPR_IMG_ParadeBurntBowser_HeadBlink 0x3
+#define SPR_IMG_ParadeBurntBowser_ArmsCrossed 0x4
+#define SPR_IMG_ParadeBurntBowser_Body 0x5
+#define SPR_IMG_ParadeBurntBowser_Propeller1 0x6
+#define SPR_IMG_ParadeBurntBowser_Propeller2 0x7
+#define SPR_IMG_ParadeBurntBowser_Propeller3 0x8
+#define SPR_IMG_ParadeBurntBowser_Propeller4 0x9
+#define SPR_IMG_ParadeBurntBowser_Propeller5 0xA
+#define SPR_IMG_ParadeBurntBowser_ShadowIdle1 0xB
+#define SPR_IMG_ParadeBurntBowser_ShadowIdle2 0xC
+#define SPR_IMG_ParadeBurntBowser_ShadowPropeller1 0xD
+#define SPR_IMG_ParadeBurntBowser_ShadowPropeller2 0xE
+#define SPR_IMG_ParadeBurntBowser_ShadowPropeller3 0xF
+#define SPR_IMG_ParadeBurntBowser_ShadowPropeller4 0x10
+#define SPR_IMG_ParadeBurntBowser_ShadowPropeller5 0x11
+
+#define SPR_PAL_ParadeBurntBowser 0x0
+#define SPR_PAL_ParadeBurntBowser_Shadow 0x1
+
+#define ANIM_ParadeBurntBowser_BurntIdle 0xD80000
+#define ANIM_ParadeBurntBowser_BurntDrawBack 0xD80001
+#define ANIM_ParadeBurntBowser_BurntPropeller 0xD80002
+#define ANIM_ParadeBurntBowser_ShadowStill 0xD80003
+#define ANIM_ParadeBurntBowser_ShadowFly 0xD80004
+
+#define ANIM_ParadeBurntBowser_Shadow_BurntIdle 0xD80100
+#define ANIM_ParadeBurntBowser_Shadow_BurntDrawBack 0xD80101
+#define ANIM_ParadeBurntBowser_Shadow_BurntPropeller 0xD80102
+#define ANIM_ParadeBurntBowser_Shadow_ShadowStill 0xD80103
+#define ANIM_ParadeBurntBowser_Shadow_ShadowFly 0xD80104
+
+#endif

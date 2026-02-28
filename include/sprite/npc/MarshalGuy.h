@@ -1,0 +1,109 @@
+#ifndef _NPC_SPRITE_MARSHALGUY_H_
+#define _NPC_SPRITE_MARSHALGUY_H_
+
+#include "types.h"
+
+#define SPR_MarshalGuy 0x6F
+
+#define SPR_IMG_MarshalGuy_Raster00 0x0
+#define SPR_IMG_MarshalGuy_Raster01 0x1
+#define SPR_IMG_MarshalGuy_Raster02 0x2
+#define SPR_IMG_MarshalGuy_Raster03 0x3
+#define SPR_IMG_MarshalGuy_Raster04 0x4
+#define SPR_IMG_MarshalGuy_Raster05 0x5
+#define SPR_IMG_MarshalGuy_Raster06 0x6
+#define SPR_IMG_MarshalGuy_Raster07 0x7
+#define SPR_IMG_MarshalGuy_Raster08 0x8
+#define SPR_IMG_MarshalGuy_Raster09 0x9
+#define SPR_IMG_MarshalGuy_Raster0A 0xA
+#define SPR_IMG_MarshalGuy_Raster0B 0xB
+#define SPR_IMG_MarshalGuy_Raster0C 0xC
+#define SPR_IMG_MarshalGuy_Raster0D 0xD
+#define SPR_IMG_MarshalGuy_Raster0E 0xE
+#define SPR_IMG_MarshalGuy_Raster0F 0xF
+#define SPR_IMG_MarshalGuy_Raster10 0x10
+#define SPR_IMG_MarshalGuy_Raster11 0x11
+#define SPR_IMG_MarshalGuy_Raster12 0x12
+#define SPR_IMG_MarshalGuy_Raster13 0x13
+#define SPR_IMG_MarshalGuy_Raster14 0x14
+#define SPR_IMG_MarshalGuy_Raster15 0x15
+#define SPR_IMG_MarshalGuy_Raster16 0x16
+#define SPR_IMG_MarshalGuy_Raster17 0x17
+#define SPR_IMG_MarshalGuy_Raster18 0x18
+#define SPR_IMG_MarshalGuy_Raster19 0x19
+#define SPR_IMG_MarshalGuy_Raster1A 0x1A
+
+#define SPR_PAL_MarshalGuy 0x0
+#define SPR_PAL_MarshalGuy_Poisoned 0x1
+#define SPR_PAL_MarshalGuy_Dizzy 0x2
+#define SPR_PAL_MarshalGuy_Shocked 0x3
+
+#define ANIM_MarshalGuy_Anim00 0x6F0000
+#define ANIM_MarshalGuy_Anim01 0x6F0001
+#define ANIM_MarshalGuy_Anim02 0x6F0002
+#define ANIM_MarshalGuy_Anim03 0x6F0003
+#define ANIM_MarshalGuy_Anim04 0x6F0004
+#define ANIM_MarshalGuy_Anim05 0x6F0005
+#define ANIM_MarshalGuy_Anim06 0x6F0006
+#define ANIM_MarshalGuy_Anim07 0x6F0007
+#define ANIM_MarshalGuy_Anim08 0x6F0008
+#define ANIM_MarshalGuy_Anim09 0x6F0009
+#define ANIM_MarshalGuy_Anim0A 0x6F000A
+#define ANIM_MarshalGuy_Anim0B 0x6F000B
+#define ANIM_MarshalGuy_Anim0C 0x6F000C
+#define ANIM_MarshalGuy_Anim0D 0x6F000D
+#define ANIM_MarshalGuy_Anim0E 0x6F000E
+#define ANIM_MarshalGuy_Anim0F 0x6F000F
+
+#define ANIM_MarshalGuy_Poisoned_Anim00 0x6F0100
+#define ANIM_MarshalGuy_Poisoned_Anim01 0x6F0101
+#define ANIM_MarshalGuy_Poisoned_Anim02 0x6F0102
+#define ANIM_MarshalGuy_Poisoned_Anim03 0x6F0103
+#define ANIM_MarshalGuy_Poisoned_Anim04 0x6F0104
+#define ANIM_MarshalGuy_Poisoned_Anim05 0x6F0105
+#define ANIM_MarshalGuy_Poisoned_Anim06 0x6F0106
+#define ANIM_MarshalGuy_Poisoned_Anim07 0x6F0107
+#define ANIM_MarshalGuy_Poisoned_Anim08 0x6F0108
+#define ANIM_MarshalGuy_Poisoned_Anim09 0x6F0109
+#define ANIM_MarshalGuy_Poisoned_Anim0A 0x6F010A
+#define ANIM_MarshalGuy_Poisoned_Anim0B 0x6F010B
+#define ANIM_MarshalGuy_Poisoned_Anim0C 0x6F010C
+#define ANIM_MarshalGuy_Poisoned_Anim0D 0x6F010D
+#define ANIM_MarshalGuy_Poisoned_Anim0E 0x6F010E
+#define ANIM_MarshalGuy_Poisoned_Anim0F 0x6F010F
+
+#define ANIM_MarshalGuy_Dizzy_Anim00 0x6F0200
+#define ANIM_MarshalGuy_Dizzy_Anim01 0x6F0201
+#define ANIM_MarshalGuy_Dizzy_Anim02 0x6F0202
+#define ANIM_MarshalGuy_Dizzy_Anim03 0x6F0203
+#define ANIM_MarshalGuy_Dizzy_Anim04 0x6F0204
+#define ANIM_MarshalGuy_Dizzy_Anim05 0x6F0205
+#define ANIM_MarshalGuy_Dizzy_Anim06 0x6F0206
+#define ANIM_MarshalGuy_Dizzy_Anim07 0x6F0207
+#define ANIM_MarshalGuy_Dizzy_Anim08 0x6F0208
+#define ANIM_MarshalGuy_Dizzy_Anim09 0x6F0209
+#define ANIM_MarshalGuy_Dizzy_Anim0A 0x6F020A
+#define ANIM_MarshalGuy_Dizzy_Anim0B 0x6F020B
+#define ANIM_MarshalGuy_Dizzy_Anim0C 0x6F020C
+#define ANIM_MarshalGuy_Dizzy_Anim0D 0x6F020D
+#define ANIM_MarshalGuy_Dizzy_Anim0E 0x6F020E
+#define ANIM_MarshalGuy_Dizzy_Anim0F 0x6F020F
+
+#define ANIM_MarshalGuy_Shocked_Anim00 0x6F0300
+#define ANIM_MarshalGuy_Shocked_Anim01 0x6F0301
+#define ANIM_MarshalGuy_Shocked_Anim02 0x6F0302
+#define ANIM_MarshalGuy_Shocked_Anim03 0x6F0303
+#define ANIM_MarshalGuy_Shocked_Anim04 0x6F0304
+#define ANIM_MarshalGuy_Shocked_Anim05 0x6F0305
+#define ANIM_MarshalGuy_Shocked_Anim06 0x6F0306
+#define ANIM_MarshalGuy_Shocked_Anim07 0x6F0307
+#define ANIM_MarshalGuy_Shocked_Anim08 0x6F0308
+#define ANIM_MarshalGuy_Shocked_Anim09 0x6F0309
+#define ANIM_MarshalGuy_Shocked_Anim0A 0x6F030A
+#define ANIM_MarshalGuy_Shocked_Anim0B 0x6F030B
+#define ANIM_MarshalGuy_Shocked_Anim0C 0x6F030C
+#define ANIM_MarshalGuy_Shocked_Anim0D 0x6F030D
+#define ANIM_MarshalGuy_Shocked_Anim0E 0x6F030E
+#define ANIM_MarshalGuy_Shocked_Anim0F 0x6F030F
+
+#endif

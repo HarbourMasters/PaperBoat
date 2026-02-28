@@ -126,4 +126,5 @@ Matrix4s N(unk_02_mtx) = {
     },
 };
 
-#include "world/area_pra/pra_31/stairs.vtx.inc.c"
+// stairs.vtx extracted to OTR via world_pra_31.yml
+// Referenced by stairs_skele DLs via G_VTX_OTR_HASH

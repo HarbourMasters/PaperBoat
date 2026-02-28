@@ -1,0 +1,45 @@
+#ifndef _NPC_SPRITE_MAYORPENGUINWIFE_H_
+#define _NPC_SPRITE_MAYORPENGUINWIFE_H_
+
+#include "types.h"
+
+#define SPR_MayorPenguinWife 0xCF
+
+#define SPR_IMG_MayorPenguinWife_Idle1 0x0
+#define SPR_IMG_MayorPenguinWife_Talk 0x1
+#define SPR_IMG_MayorPenguinWife_Idle2 0x2
+#define SPR_IMG_MayorPenguinWife_Laugh1 0x3
+#define SPR_IMG_MayorPenguinWife_Laugh2 0x4
+#define SPR_IMG_MayorPenguinWife_Step1 0x5
+#define SPR_IMG_MayorPenguinWife_Step2 0x6
+#define SPR_IMG_MayorPenguinWife_Step3 0x7
+#define SPR_IMG_MayorPenguinWife_Inspect1 0x8
+#define SPR_IMG_MayorPenguinWife_Inspect2 0x9
+#define SPR_IMG_MayorPenguinWife_Panic1 0xA
+#define SPR_IMG_MayorPenguinWife_Panic2 0xB
+#define SPR_IMG_MayorPenguinWife_Panic3 0xC
+#define SPR_IMG_MayorPenguinWife_Horror1 0xD
+#define SPR_IMG_MayorPenguinWife_Horror2 0xE
+#define SPR_IMG_MayorPenguinWife_Point1 0xF
+#define SPR_IMG_MayorPenguinWife_Point2 0x10
+#define SPR_IMG_MayorPenguinWife_Point3 0x11
+#define SPR_IMG_MayorPenguinWife_Surprise1 0x12
+#define SPR_IMG_MayorPenguinWife_Surprise2 0x13
+#define SPR_IMG_MayorPenguinWife_Surprise3 0x14
+#define SPR_IMG_MayorPenguinWife_Surprise4 0x15
+
+#define SPR_PAL_MayorPenguinWife 0x0
+
+#define ANIM_MayorPenguinWife_Still 0xCF0000
+#define ANIM_MayorPenguinWife_Idle 0xCF0001
+#define ANIM_MayorPenguinWife_Walk 0xCF0002
+#define ANIM_MayorPenguinWife_Panic 0xCF0003
+#define ANIM_MayorPenguinWife_Talk 0xCF0004
+#define ANIM_MayorPenguinWife_Laugh 0xCF0005
+#define ANIM_MayorPenguinWife_Inspect 0xCF0006
+#define ANIM_MayorPenguinWife_Point 0xCF0007
+#define ANIM_MayorPenguinWife_PointTalk 0xCF0008
+#define ANIM_MayorPenguinWife_Horror 0xCF0009
+#define ANIM_MayorPenguinWife_Surprise 0xCF000A
+
+#endif

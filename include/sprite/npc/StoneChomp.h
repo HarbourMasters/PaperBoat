@@ -1,0 +1,89 @@
+#ifndef _NPC_SPRITE_STONECHOMP_H_
+#define _NPC_SPRITE_STONECHOMP_H_
+
+#include "types.h"
+
+#define SPR_StoneChomp 0x35
+
+#define SPR_IMG_StoneChomp_Neutral 0x0
+#define SPR_IMG_StoneChomp_Chain 0x1
+#define SPR_IMG_StoneChomp_Bite 0x2
+#define SPR_IMG_StoneChomp_Hurt1 0x3
+#define SPR_IMG_StoneChomp_Hurt2 0x4
+#define SPR_IMG_StoneChomp_BurnHurt1 0x5
+#define SPR_IMG_StoneChomp_BurnHurt2 0x6
+#define SPR_IMG_StoneChomp_BurnChain 0x7
+#define SPR_IMG_StoneChomp_Sleep 0x8
+
+#define SPR_PAL_StoneChomp 0x0
+#define SPR_PAL_StoneChomp_Poisoned 0x1
+#define SPR_PAL_StoneChomp_Dizzy 0x2
+#define SPR_PAL_StoneChomp_Shocked 0x3
+#define SPR_PAL_StoneChomp_Burnt 0x4
+
+#define ANIM_StoneChomp_Still 0x350000
+#define ANIM_StoneChomp_Idle 0x350001
+#define ANIM_StoneChomp_Chain 0x350002
+#define ANIM_StoneChomp_QuickBite 0x350003
+#define ANIM_StoneChomp_Bite 0x350004
+#define ANIM_StoneChomp_SlowBite 0x350005
+#define ANIM_StoneChomp_Hurt 0x350006
+#define ANIM_StoneChomp_BurnHurt 0x350007
+#define ANIM_StoneChomp_BurnStill 0x350008
+#define ANIM_StoneChomp_BurnChain 0x350009
+#define ANIM_StoneChomp_Sleep 0x35000A
+#define ANIM_StoneChomp_Dizzy 0x35000B
+
+#define ANIM_StoneChomp_Poisoned_Still 0x350100
+#define ANIM_StoneChomp_Poisoned_Idle 0x350101
+#define ANIM_StoneChomp_Poisoned_Chain 0x350102
+#define ANIM_StoneChomp_Poisoned_QuickBite 0x350103
+#define ANIM_StoneChomp_Poisoned_Bite 0x350104
+#define ANIM_StoneChomp_Poisoned_SlowBite 0x350105
+#define ANIM_StoneChomp_Poisoned_Hurt 0x350106
+#define ANIM_StoneChomp_Poisoned_BurnHurt 0x350107
+#define ANIM_StoneChomp_Poisoned_BurnStill 0x350108
+#define ANIM_StoneChomp_Poisoned_BurnChain 0x350109
+#define ANIM_StoneChomp_Poisoned_Sleep 0x35010A
+#define ANIM_StoneChomp_Poisoned_Dizzy 0x35010B
+
+#define ANIM_StoneChomp_Dizzy_Still 0x350200
+#define ANIM_StoneChomp_Dizzy_Idle 0x350201
+#define ANIM_StoneChomp_Dizzy_Chain 0x350202
+#define ANIM_StoneChomp_Dizzy_QuickBite 0x350203
+#define ANIM_StoneChomp_Dizzy_Bite 0x350204
+#define ANIM_StoneChomp_Dizzy_SlowBite 0x350205
+#define ANIM_StoneChomp_Dizzy_Hurt 0x350206
+#define ANIM_StoneChomp_Dizzy_BurnHurt 0x350207
+#define ANIM_StoneChomp_Dizzy_BurnStill 0x350208
+#define ANIM_StoneChomp_Dizzy_BurnChain 0x350209
+#define ANIM_StoneChomp_Dizzy_Sleep 0x35020A
+#define ANIM_StoneChomp_Dizzy_Dizzy 0x35020B
+
+#define ANIM_StoneChomp_Shocked_Still 0x350300
+#define ANIM_StoneChomp_Shocked_Idle 0x350301
+#define ANIM_StoneChomp_Shocked_Chain 0x350302
+#define ANIM_StoneChomp_Shocked_QuickBite 0x350303
+#define ANIM_StoneChomp_Shocked_Bite 0x350304
+#define ANIM_StoneChomp_Shocked_SlowBite 0x350305
+#define ANIM_StoneChomp_Shocked_Hurt 0x350306
+#define ANIM_StoneChomp_Shocked_BurnHurt 0x350307
+#define ANIM_StoneChomp_Shocked_BurnStill 0x350308
+#define ANIM_StoneChomp_Shocked_BurnChain 0x350309
+#define ANIM_StoneChomp_Shocked_Sleep 0x35030A
+#define ANIM_StoneChomp_Shocked_Dizzy 0x35030B
+
+#define ANIM_StoneChomp_Burnt_Still 0x350400
+#define ANIM_StoneChomp_Burnt_Idle 0x350401
+#define ANIM_StoneChomp_Burnt_Chain 0x350402
+#define ANIM_StoneChomp_Burnt_QuickBite 0x350403
+#define ANIM_StoneChomp_Burnt_Bite 0x350404
+#define ANIM_StoneChomp_Burnt_SlowBite 0x350405
+#define ANIM_StoneChomp_Burnt_Hurt 0x350406
+#define ANIM_StoneChomp_Burnt_BurnHurt 0x350407
+#define ANIM_StoneChomp_Burnt_BurnStill 0x350408
+#define ANIM_StoneChomp_Burnt_BurnChain 0x350409
+#define ANIM_StoneChomp_Burnt_Sleep 0x35040A
+#define ANIM_StoneChomp_Burnt_Dizzy 0x35040B
+
+#endif

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "battle/action_cmd.h"
-#include "include_asset.h"
+#include "assets/battle.h"
 
 #define NAMESPACE action_command_three_chances
 
@@ -40,30 +40,6 @@ enum {
 
 // input window before the light appears where A inputs cause timing test to fail
 #define ANTI_MASH_TIME 5
-
-INCLUDE_IMG("battle/action_cmd/three_chances_1.png", battle_action_cmd_three_chances_1_png);
-INCLUDE_PAL("battle/action_cmd/three_chances_1.pal", battle_action_cmd_three_chances_1_pal);
-
-INCLUDE_IMG("battle/action_cmd/three_chances_2.png", battle_action_cmd_three_chances_2_png);
-INCLUDE_PAL("battle/action_cmd/three_chances_2.pal", battle_action_cmd_three_chances_2_pal);
-
-INCLUDE_IMG("battle/action_cmd/three_chances_3.png", battle_action_cmd_three_chances_3_png);
-INCLUDE_PAL("battle/action_cmd/three_chances_3.pal", battle_action_cmd_three_chances_3_pal);
-
-INCLUDE_IMG("battle/action_cmd/three_chances_0.png", battle_action_cmd_three_chances_0_png);
-INCLUDE_PAL("battle/action_cmd/three_chances_0.pal", battle_action_cmd_three_chances_0_pal);
-
-INCLUDE_IMG("battle/action_cmd/three_chances_block.png", battle_action_cmd_three_chances_block_png);
-INCLUDE_PAL("battle/action_cmd/three_chances_block.pal", battle_action_cmd_three_chances_block_pal);
-
-INCLUDE_IMG("battle/action_cmd/three_chances_circle.png", battle_action_cmd_three_chances_circle_png);
-INCLUDE_PAL("battle/action_cmd/three_chances_circle.pal", battle_action_cmd_three_chances_circle_pal);
-
-INCLUDE_IMG("battle/action_cmd/three_chances_cloud.png", battle_action_cmd_three_chances_cloud_png);
-INCLUDE_PAL("battle/action_cmd/three_chances_cloud.pal", battle_action_cmd_three_chances_cloud_pal);
-
-INCLUDE_IMG("battle/action_cmd/three_chances_4.png", battle_action_cmd_three_chances_4_png);
-INCLUDE_PAL("battle/action_cmd/three_chances_4.pal", battle_action_cmd_three_chances_4_pal);
 
 HudScript HES_Digit1 = HES_TEMPLATE_CI_ENUM_SIZE(battle_action_cmd_three_chances_1, 24, 24);
 HudScript HES_Digit2 = HES_TEMPLATE_CI_ENUM_SIZE(battle_action_cmd_three_chances_2, 24, 24);

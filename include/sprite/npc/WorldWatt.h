@@ -1,0 +1,111 @@
+#ifndef _NPC_SPRITE_WORLDWATT_H_
+#define _NPC_SPRITE_WORLDWATT_H_
+
+#include "types.h"
+
+#define SPR_WorldWatt 0x06
+
+#define SPR_IMG_WorldWatt_Idle1 0x0
+#define SPR_IMG_WorldWatt_Idle2 0x1
+#define SPR_IMG_WorldWatt_Idle3 0x2
+#define SPR_IMG_WorldWatt_Talk 0x3
+#define SPR_IMG_WorldWatt_Happy1 0x4
+#define SPR_IMG_WorldWatt_Happy2 0x5
+#define SPR_IMG_WorldWatt_Happy3 0x6
+#define SPR_IMG_WorldWatt_Hurt1 0x7
+#define SPR_IMG_WorldWatt_Hurt2 0x8
+#define SPR_IMG_WorldWatt_Hurt3 0x9
+#define SPR_IMG_WorldWatt_Strain1 0xA
+#define SPR_IMG_WorldWatt_Strain2 0xB
+#define SPR_IMG_WorldWatt_Strain3 0xC
+#define SPR_IMG_WorldWatt_ULBolt 0xD
+#define SPR_IMG_WorldWatt_LLBolt 0xE
+#define SPR_IMG_WorldWatt_URBolt 0xF
+#define SPR_IMG_WorldWatt_LRBolt 0x10
+
+#define SPR_PAL_WorldWatt 0x0
+#define SPR_PAL_WorldWatt_Poisoned 0x1
+#define SPR_PAL_WorldWatt_Inactive 0x2
+#define SPR_PAL_WorldWatt_Shocked 0x3
+#define SPR_PAL_WorldWatt_Burnt 0x4
+#define SPR_PAL_WorldWatt_Brightest 0x5
+#define SPR_PAL_WorldWatt_Brighter 0x6
+
+#define ANIM_WorldWatt_Still 0x060000
+#define ANIM_WorldWatt_Idle 0x060001
+#define ANIM_WorldWatt_Walk 0x060002
+#define ANIM_WorldWatt_Run 0x060003
+#define ANIM_WorldWatt_Talk 0x060004
+#define ANIM_WorldWatt_Strain 0x060005
+#define ANIM_WorldWatt_Celebrate 0x060006
+#define ANIM_WorldWatt_Hurt 0x060007
+#define ANIM_WorldWatt_Bolts1 0x060008
+#define ANIM_WorldWatt_Bolts2 0x060009
+
+#define ANIM_WorldWatt_Poisoned_Still 0x060100
+#define ANIM_WorldWatt_Poisoned_Idle 0x060101
+#define ANIM_WorldWatt_Poisoned_Walk 0x060102
+#define ANIM_WorldWatt_Poisoned_Run 0x060103
+#define ANIM_WorldWatt_Poisoned_Talk 0x060104
+#define ANIM_WorldWatt_Poisoned_Strain 0x060105
+#define ANIM_WorldWatt_Poisoned_Celebrate 0x060106
+#define ANIM_WorldWatt_Poisoned_Hurt 0x060107
+#define ANIM_WorldWatt_Poisoned_Bolts1 0x060108
+#define ANIM_WorldWatt_Poisoned_Bolts2 0x060109
+
+#define ANIM_WorldWatt_Inactive_Still 0x060200
+#define ANIM_WorldWatt_Inactive_Idle 0x060201
+#define ANIM_WorldWatt_Inactive_Walk 0x060202
+#define ANIM_WorldWatt_Inactive_Run 0x060203
+#define ANIM_WorldWatt_Inactive_Talk 0x060204
+#define ANIM_WorldWatt_Inactive_Strain 0x060205
+#define ANIM_WorldWatt_Inactive_Celebrate 0x060206
+#define ANIM_WorldWatt_Inactive_Hurt 0x060207
+#define ANIM_WorldWatt_Inactive_Bolts1 0x060208
+#define ANIM_WorldWatt_Inactive_Bolts2 0x060209
+
+#define ANIM_WorldWatt_Shocked_Still 0x060300
+#define ANIM_WorldWatt_Shocked_Idle 0x060301
+#define ANIM_WorldWatt_Shocked_Walk 0x060302
+#define ANIM_WorldWatt_Shocked_Run 0x060303
+#define ANIM_WorldWatt_Shocked_Talk 0x060304
+#define ANIM_WorldWatt_Shocked_Strain 0x060305
+#define ANIM_WorldWatt_Shocked_Celebrate 0x060306
+#define ANIM_WorldWatt_Shocked_Hurt 0x060307
+#define ANIM_WorldWatt_Shocked_Bolts1 0x060308
+#define ANIM_WorldWatt_Shocked_Bolts2 0x060309
+
+#define ANIM_WorldWatt_Burnt_Still 0x060400
+#define ANIM_WorldWatt_Burnt_Idle 0x060401
+#define ANIM_WorldWatt_Burnt_Walk 0x060402
+#define ANIM_WorldWatt_Burnt_Run 0x060403
+#define ANIM_WorldWatt_Burnt_Talk 0x060404
+#define ANIM_WorldWatt_Burnt_Strain 0x060405
+#define ANIM_WorldWatt_Burnt_Celebrate 0x060406
+#define ANIM_WorldWatt_Burnt_Hurt 0x060407
+#define ANIM_WorldWatt_Burnt_Bolts1 0x060408
+#define ANIM_WorldWatt_Burnt_Bolts2 0x060409
+
+#define ANIM_WorldWatt_Brightest_Still 0x060500
+#define ANIM_WorldWatt_Brightest_Idle 0x060501
+#define ANIM_WorldWatt_Brightest_Walk 0x060502
+#define ANIM_WorldWatt_Brightest_Run 0x060503
+#define ANIM_WorldWatt_Brightest_Talk 0x060504
+#define ANIM_WorldWatt_Brightest_Strain 0x060505
+#define ANIM_WorldWatt_Brightest_Celebrate 0x060506
+#define ANIM_WorldWatt_Brightest_Hurt 0x060507
+#define ANIM_WorldWatt_Brightest_Bolts1 0x060508
+#define ANIM_WorldWatt_Brightest_Bolts2 0x060509
+
+#define ANIM_WorldWatt_Brighter_Still 0x060600
+#define ANIM_WorldWatt_Brighter_Idle 0x060601
+#define ANIM_WorldWatt_Brighter_Walk 0x060602
+#define ANIM_WorldWatt_Brighter_Run 0x060603
+#define ANIM_WorldWatt_Brighter_Talk 0x060604
+#define ANIM_WorldWatt_Brighter_Strain 0x060605
+#define ANIM_WorldWatt_Brighter_Celebrate 0x060606
+#define ANIM_WorldWatt_Brighter_Hurt 0x060607
+#define ANIM_WorldWatt_Brighter_Bolts1 0x060608
+#define ANIM_WorldWatt_Brighter_Bolts2 0x060609
+
+#endif

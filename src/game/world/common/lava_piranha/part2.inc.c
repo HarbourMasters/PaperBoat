@@ -196,7 +196,7 @@ void N(appendGfx_piranha_vines)(void* data) {
     }
 
     gDPPipeSync(gMainGfxPos++);
-    gSPDisplayList(gMainGfxPos++, N(lava_piranha_vine_gfx));
+    gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(N(lava_piranha_vine_gfx)));
 
     for (i = 0; i < NUM_VINES; i++) {
         LavaPiranhaVine* vines = (LavaPiranhaVine*) evt_get_variable(nullptr, MV_VinesData);

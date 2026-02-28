@@ -1,0 +1,74 @@
+#ifndef _NPC_SPRITE_PARADETWIRLER_H_
+#define _NPC_SPRITE_PARADETWIRLER_H_
+
+#include "types.h"
+
+#define SPR_ParadeTwirler 0xE0
+
+#define SPR_IMG_ParadeTwirler_Neutral 0x0
+#define SPR_IMG_ParadeTwirler_Step1 0x1
+#define SPR_IMG_ParadeTwirler_Step2 0x2
+#define SPR_IMG_ParadeTwirler_Step3 0x3
+#define SPR_IMG_ParadeTwirler_Joy 0x4
+#define SPR_IMG_ParadeTwirler_Toss1 0x5
+#define SPR_IMG_ParadeTwirler_Toss2 0x6
+#define SPR_IMG_ParadeTwirler_Baton 0x7
+#define SPR_IMG_ParadeTwirler_Idle1 0x8
+#define SPR_IMG_ParadeTwirler_Idle2 0x9
+
+#define SPR_PAL_ParadeTwirler 0x0
+#define SPR_PAL_ParadeTwirler_Dark 0x1
+#define SPR_PAL_ParadeTwirler_DarkGlow 0x2
+#define SPR_PAL_ParadeTwirler_Baton 0x3
+#define SPR_PAL_ParadeTwirler_BatonDark 0x4
+#define SPR_PAL_ParadeTwirler_BatonDarkGlow 0x5
+
+#define ANIM_ParadeTwirler_Still 0xE00000
+#define ANIM_ParadeTwirler_Idle 0xE00001
+#define ANIM_ParadeTwirler_Walk 0xE00002
+#define ANIM_ParadeTwirler_Toss 0xE00003
+#define ANIM_ParadeTwirler_Spin 0xE00004
+#define ANIM_ParadeTwirler_Catch 0xE00005
+#define ANIM_ParadeTwirler_BatonSpin 0xE00006
+
+#define ANIM_ParadeTwirler_Dark_Still 0xE00100
+#define ANIM_ParadeTwirler_Dark_Idle 0xE00101
+#define ANIM_ParadeTwirler_Dark_Walk 0xE00102
+#define ANIM_ParadeTwirler_Dark_Toss 0xE00103
+#define ANIM_ParadeTwirler_Dark_Spin 0xE00104
+#define ANIM_ParadeTwirler_Dark_Catch 0xE00105
+#define ANIM_ParadeTwirler_Dark_BatonSpin 0xE00106
+
+#define ANIM_ParadeTwirler_DarkGlow_Still 0xE00200
+#define ANIM_ParadeTwirler_DarkGlow_Idle 0xE00201
+#define ANIM_ParadeTwirler_DarkGlow_Walk 0xE00202
+#define ANIM_ParadeTwirler_DarkGlow_Toss 0xE00203
+#define ANIM_ParadeTwirler_DarkGlow_Spin 0xE00204
+#define ANIM_ParadeTwirler_DarkGlow_Catch 0xE00205
+#define ANIM_ParadeTwirler_DarkGlow_BatonSpin 0xE00206
+
+#define ANIM_ParadeTwirler_Baton_Still 0xE00300
+#define ANIM_ParadeTwirler_Baton_Idle 0xE00301
+#define ANIM_ParadeTwirler_Baton_Walk 0xE00302
+#define ANIM_ParadeTwirler_Baton_Toss 0xE00303
+#define ANIM_ParadeTwirler_Baton_Spin 0xE00304
+#define ANIM_ParadeTwirler_Baton_Catch 0xE00305
+#define ANIM_ParadeTwirler_Baton_BatonSpin 0xE00306
+
+#define ANIM_ParadeTwirler_BatonDark_Still 0xE00400
+#define ANIM_ParadeTwirler_BatonDark_Idle 0xE00401
+#define ANIM_ParadeTwirler_BatonDark_Walk 0xE00402
+#define ANIM_ParadeTwirler_BatonDark_Toss 0xE00403
+#define ANIM_ParadeTwirler_BatonDark_Spin 0xE00404
+#define ANIM_ParadeTwirler_BatonDark_Catch 0xE00405
+#define ANIM_ParadeTwirler_BatonDark_BatonSpin 0xE00406
+
+#define ANIM_ParadeTwirler_BatonDarkGlow_Still 0xE00500
+#define ANIM_ParadeTwirler_BatonDarkGlow_Idle 0xE00501
+#define ANIM_ParadeTwirler_BatonDarkGlow_Walk 0xE00502
+#define ANIM_ParadeTwirler_BatonDarkGlow_Toss 0xE00503
+#define ANIM_ParadeTwirler_BatonDarkGlow_Spin 0xE00504
+#define ANIM_ParadeTwirler_BatonDarkGlow_Catch 0xE00505
+#define ANIM_ParadeTwirler_BatonDarkGlow_BatonSpin 0xE00506
+
+#endif

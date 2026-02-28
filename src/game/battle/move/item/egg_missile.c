@@ -4,7 +4,7 @@
 #include "entity.h"
 #include "ld_addrs.h"
 #include "sprite/player.h"
-#include "include_asset.h"
+#include "assets/battle.h"
 
 #define NAMESPACE battle_item_egg_missile
 
@@ -26,22 +26,6 @@ API_CALLABLE(N(func_802A123C_71CF1C)) {
 
 static s32 _pad = 0;
 
-#include "battle/move/item/egg_missile1.png.h"
-INCLUDE_IMG("battle/move/item/egg_missile1.png", battle_item_egg_missile1_png);
-INCLUDE_PAL("battle/move/item/egg_missile1.pal", battle_item_egg_missile1_pal);
-
-#include "battle/move/item/egg_missile2.png.h"
-INCLUDE_IMG("battle/move/item/egg_missile2.png", battle_item_egg_missile2_png);
-INCLUDE_PAL("battle/move/item/egg_missile2.pal", battle_item_egg_missile2_pal);
-
-#include "battle/move/item/egg_missile3.png.h"
-INCLUDE_IMG("battle/move/item/egg_missile3.png", battle_item_egg_missile3_png);
-INCLUDE_PAL("battle/move/item/egg_missile3.pal", battle_item_egg_missile3_pal);
-
-#include "battle/move/item/egg_missile4.png.h"
-INCLUDE_IMG("battle/move/item/egg_missile4.png", battle_item_egg_missile4_png);
-INCLUDE_PAL("battle/move/item/egg_missile4.pal", battle_item_egg_missile4_pal);
-
 Vtx N(EggMissileVtx)[] = {
     { .v = {{ -16, -16, 0 }, false, { 0,    0    }, { 0, 0, 0, 255 }}},
     { .v = {{ 15,  -16, 0 }, false, { 1024, 0    }, { 0, 0, 0, 255 }}},
@@ -61,7 +45,8 @@ Gfx N(Frame1Gfx)[] = {
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPLoadTLUT_pal16(0, battle_item_egg_missile1_pal),
-    gsDPLoadTextureTile_4b(battle_item_egg_missile1_png, G_IM_FMT_CI, battle_item_egg_missile1_png_width, battle_item_egg_missile1_png_height, 0, 0, battle_item_egg_missile1_png_width - 1, battle_item_egg_missile1_png_height - 1, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(battle_item_egg_missile1_png, G_IM_FMT_CI, 32, 32, 0, 0, 31, 31, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
     gsSPClearGeometryMode(G_LIGHTING),
     gsSPClearGeometryMode(G_SHADING_SMOOTH),
     gsSPVertex(N(EggMissileVtx), ARRAY_COUNT(N(EggMissileVtx)), 0),
@@ -83,7 +68,8 @@ Gfx N(Frame2Gfx)[] = {
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPLoadTLUT_pal16(0, battle_item_egg_missile2_pal),
-    gsDPLoadTextureTile_4b(battle_item_egg_missile2_png, G_IM_FMT_CI, battle_item_egg_missile2_png_width, 0, 0, 0, battle_item_egg_missile2_png_width - 1, battle_item_egg_missile2_png_height - 1, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(battle_item_egg_missile2_png, G_IM_FMT_CI, 32, 0, 0, 0, 31, 31, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
     gsSPClearGeometryMode(G_LIGHTING),
     gsSPClearGeometryMode(G_SHADING_SMOOTH),
     gsSPVertex(N(EggMissileVtx), ARRAY_COUNT(N(EggMissileVtx)), 0),
@@ -105,7 +91,8 @@ Gfx N(Frame3Gfx)[] = {
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPLoadTLUT_pal16(0, battle_item_egg_missile3_pal),
-    gsDPLoadTextureTile_4b(battle_item_egg_missile3_png, G_IM_FMT_CI, battle_item_egg_missile3_png_width, 0, 0, 0, battle_item_egg_missile3_png_width - 1, battle_item_egg_missile3_png_height - 1, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(battle_item_egg_missile3_png, G_IM_FMT_CI, 32, 0, 0, 0, 31, 31, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
     gsSPClearGeometryMode(G_LIGHTING),
     gsSPClearGeometryMode(G_SHADING_SMOOTH),
     gsSPVertex(N(EggMissileVtx), ARRAY_COUNT(N(EggMissileVtx)), 0),
@@ -127,7 +114,8 @@ Gfx N(Frame4Gfx)[] = {
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPLoadTLUT_pal16(0, battle_item_egg_missile4_pal),
-    gsDPLoadTextureTile_4b(battle_item_egg_missile4_png, G_IM_FMT_CI, battle_item_egg_missile4_png_width, 0, 0, 0, battle_item_egg_missile4_png_width - 1, battle_item_egg_missile4_png_height - 1, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(battle_item_egg_missile4_png, G_IM_FMT_CI, 32, 0, 0, 0, 31, 31, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
     gsSPClearGeometryMode(G_LIGHTING),
     gsSPClearGeometryMode(G_SHADING_SMOOTH),
     gsSPVertex(N(EggMissileVtx), ARRAY_COUNT(N(EggMissileVtx)), 0),

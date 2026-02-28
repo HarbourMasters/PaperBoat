@@ -1,0 +1,215 @@
+#ifndef _NPC_SPRITE_WORLDBOW_H_
+#define _NPC_SPRITE_WORLDBOW_H_
+
+#include "types.h"
+
+#define SPR_WorldBow 0x05
+
+#define SPR_IMG_WorldBow_Neutral 0x0
+#define SPR_IMG_WorldBow_Step1 0x1
+#define SPR_IMG_WorldBow_Step2 0x2
+#define SPR_IMG_WorldBow_Talk1 0x3
+#define SPR_IMG_WorldBow_Talk2 0x4
+#define SPR_IMG_WorldBow_Conceal 0x5
+#define SPR_IMG_WorldBow_Spook1 0x6
+#define SPR_IMG_WorldBow_Spook2 0x7
+#define SPR_IMG_WorldBow_Spook3 0x8
+#define SPR_IMG_WorldBow_Spook4 0x9
+#define SPR_IMG_WorldBow_Laugh1 0xA
+#define SPR_IMG_WorldBow_Laugh2 0xB
+#define SPR_IMG_WorldBow_Celebrate1 0xC
+#define SPR_IMG_WorldBow_Celebrate2 0xD
+#define SPR_IMG_WorldBow_Celebrate3 0xE
+#define SPR_IMG_WorldBow_Celebrate4 0xF
+#define SPR_IMG_WorldBow_Flail1 0x10
+#define SPR_IMG_WorldBow_Flail2 0x11
+#define SPR_IMG_WorldBow_TailDown 0x12
+#define SPR_IMG_WorldBow_Read 0x13
+#define SPR_IMG_WorldBow_FanAcrossBody1 0x14
+#define SPR_IMG_WorldBow_FanAcrossBody2 0x15
+#define SPR_IMG_WorldBow_ArmHoldingFan1 0x16
+#define SPR_IMG_WorldBow_ArmHoldingFan2 0x17
+#define SPR_IMG_WorldBow_SmallPatch 0x18
+
+#define SPR_PAL_WorldBow 0x0
+#define SPR_PAL_WorldBow_Fan 0x1
+#define SPR_PAL_WorldBow_Patch 0x2
+#define SPR_PAL_WorldBow_Poisoned 0x3
+#define SPR_PAL_WorldBow_Fan_Poisoned 0x4
+#define SPR_PAL_WorldBow_Patch_Poisoned 0x5
+#define SPR_PAL_WorldBow_Inactive 0x6
+#define SPR_PAL_WorldBow_Dizzy 0x7
+#define SPR_PAL_WorldBow_Fan_Dizzy 0x8
+#define SPR_PAL_WorldBow_Shocked 0x9
+#define SPR_PAL_WorldBow_Fan_Shocked 0xA
+#define SPR_PAL_WorldBow_Patch_Shocked 0xB
+
+#define ANIM_WorldBow_Still 0x050000
+#define ANIM_WorldBow_Idle 0x050001
+#define ANIM_WorldBow_Walk 0x050002
+#define ANIM_WorldBow_Run 0x050003
+#define ANIM_WorldBow_Talk 0x050004
+#define ANIM_WorldBow_Read 0x050005
+#define ANIM_WorldBow_Conceal 0x050006
+#define ANIM_WorldBow_SpookBegin 0x050007
+#define ANIM_WorldBow_SpookLoop 0x050008
+#define ANIM_WorldBow_Laugh 0x050009
+#define ANIM_WorldBow_CelebrateSlow 0x05000A
+#define ANIM_WorldBow_Celebrate 0x05000B
+#define ANIM_WorldBow_Flail 0x05000C
+
+#define ANIM_WorldBow_Fan_Still 0x050100
+#define ANIM_WorldBow_Fan_Idle 0x050101
+#define ANIM_WorldBow_Fan_Walk 0x050102
+#define ANIM_WorldBow_Fan_Run 0x050103
+#define ANIM_WorldBow_Fan_Talk 0x050104
+#define ANIM_WorldBow_Fan_Read 0x050105
+#define ANIM_WorldBow_Fan_Conceal 0x050106
+#define ANIM_WorldBow_Fan_SpookBegin 0x050107
+#define ANIM_WorldBow_Fan_SpookLoop 0x050108
+#define ANIM_WorldBow_Fan_Laugh 0x050109
+#define ANIM_WorldBow_Fan_CelebrateSlow 0x05010A
+#define ANIM_WorldBow_Fan_Celebrate 0x05010B
+#define ANIM_WorldBow_Fan_Flail 0x05010C
+
+#define ANIM_WorldBow_Patch_Still 0x050200
+#define ANIM_WorldBow_Patch_Idle 0x050201
+#define ANIM_WorldBow_Patch_Walk 0x050202
+#define ANIM_WorldBow_Patch_Run 0x050203
+#define ANIM_WorldBow_Patch_Talk 0x050204
+#define ANIM_WorldBow_Patch_Read 0x050205
+#define ANIM_WorldBow_Patch_Conceal 0x050206
+#define ANIM_WorldBow_Patch_SpookBegin 0x050207
+#define ANIM_WorldBow_Patch_SpookLoop 0x050208
+#define ANIM_WorldBow_Patch_Laugh 0x050209
+#define ANIM_WorldBow_Patch_CelebrateSlow 0x05020A
+#define ANIM_WorldBow_Patch_Celebrate 0x05020B
+#define ANIM_WorldBow_Patch_Flail 0x05020C
+
+#define ANIM_WorldBow_Poisoned_Still 0x050300
+#define ANIM_WorldBow_Poisoned_Idle 0x050301
+#define ANIM_WorldBow_Poisoned_Walk 0x050302
+#define ANIM_WorldBow_Poisoned_Run 0x050303
+#define ANIM_WorldBow_Poisoned_Talk 0x050304
+#define ANIM_WorldBow_Poisoned_Read 0x050305
+#define ANIM_WorldBow_Poisoned_Conceal 0x050306
+#define ANIM_WorldBow_Poisoned_SpookBegin 0x050307
+#define ANIM_WorldBow_Poisoned_SpookLoop 0x050308
+#define ANIM_WorldBow_Poisoned_Laugh 0x050309
+#define ANIM_WorldBow_Poisoned_CelebrateSlow 0x05030A
+#define ANIM_WorldBow_Poisoned_Celebrate 0x05030B
+#define ANIM_WorldBow_Poisoned_Flail 0x05030C
+
+#define ANIM_WorldBow_Fan_Poisoned_Still 0x050400
+#define ANIM_WorldBow_Fan_Poisoned_Idle 0x050401
+#define ANIM_WorldBow_Fan_Poisoned_Walk 0x050402
+#define ANIM_WorldBow_Fan_Poisoned_Run 0x050403
+#define ANIM_WorldBow_Fan_Poisoned_Talk 0x050404
+#define ANIM_WorldBow_Fan_Poisoned_Read 0x050405
+#define ANIM_WorldBow_Fan_Poisoned_Conceal 0x050406
+#define ANIM_WorldBow_Fan_Poisoned_SpookBegin 0x050407
+#define ANIM_WorldBow_Fan_Poisoned_SpookLoop 0x050408
+#define ANIM_WorldBow_Fan_Poisoned_Laugh 0x050409
+#define ANIM_WorldBow_Fan_Poisoned_CelebrateSlow 0x05040A
+#define ANIM_WorldBow_Fan_Poisoned_Celebrate 0x05040B
+#define ANIM_WorldBow_Fan_Poisoned_Flail 0x05040C
+
+#define ANIM_WorldBow_Patch_Poisoned_Still 0x050500
+#define ANIM_WorldBow_Patch_Poisoned_Idle 0x050501
+#define ANIM_WorldBow_Patch_Poisoned_Walk 0x050502
+#define ANIM_WorldBow_Patch_Poisoned_Run 0x050503
+#define ANIM_WorldBow_Patch_Poisoned_Talk 0x050504
+#define ANIM_WorldBow_Patch_Poisoned_Read 0x050505
+#define ANIM_WorldBow_Patch_Poisoned_Conceal 0x050506
+#define ANIM_WorldBow_Patch_Poisoned_SpookBegin 0x050507
+#define ANIM_WorldBow_Patch_Poisoned_SpookLoop 0x050508
+#define ANIM_WorldBow_Patch_Poisoned_Laugh 0x050509
+#define ANIM_WorldBow_Patch_Poisoned_CelebrateSlow 0x05050A
+#define ANIM_WorldBow_Patch_Poisoned_Celebrate 0x05050B
+#define ANIM_WorldBow_Patch_Poisoned_Flail 0x05050C
+
+#define ANIM_WorldBow_Inactive_Still 0x050600
+#define ANIM_WorldBow_Inactive_Idle 0x050601
+#define ANIM_WorldBow_Inactive_Walk 0x050602
+#define ANIM_WorldBow_Inactive_Run 0x050603
+#define ANIM_WorldBow_Inactive_Talk 0x050604
+#define ANIM_WorldBow_Inactive_Read 0x050605
+#define ANIM_WorldBow_Inactive_Conceal 0x050606
+#define ANIM_WorldBow_Inactive_SpookBegin 0x050607
+#define ANIM_WorldBow_Inactive_SpookLoop 0x050608
+#define ANIM_WorldBow_Inactive_Laugh 0x050609
+#define ANIM_WorldBow_Inactive_CelebrateSlow 0x05060A
+#define ANIM_WorldBow_Inactive_Celebrate 0x05060B
+#define ANIM_WorldBow_Inactive_Flail 0x05060C
+
+#define ANIM_WorldBow_Dizzy_Still 0x050700
+#define ANIM_WorldBow_Dizzy_Idle 0x050701
+#define ANIM_WorldBow_Dizzy_Walk 0x050702
+#define ANIM_WorldBow_Dizzy_Run 0x050703
+#define ANIM_WorldBow_Dizzy_Talk 0x050704
+#define ANIM_WorldBow_Dizzy_Read 0x050705
+#define ANIM_WorldBow_Dizzy_Conceal 0x050706
+#define ANIM_WorldBow_Dizzy_SpookBegin 0x050707
+#define ANIM_WorldBow_Dizzy_SpookLoop 0x050708
+#define ANIM_WorldBow_Dizzy_Laugh 0x050709
+#define ANIM_WorldBow_Dizzy_CelebrateSlow 0x05070A
+#define ANIM_WorldBow_Dizzy_Celebrate 0x05070B
+#define ANIM_WorldBow_Dizzy_Flail 0x05070C
+
+#define ANIM_WorldBow_Fan_Dizzy_Still 0x050800
+#define ANIM_WorldBow_Fan_Dizzy_Idle 0x050801
+#define ANIM_WorldBow_Fan_Dizzy_Walk 0x050802
+#define ANIM_WorldBow_Fan_Dizzy_Run 0x050803
+#define ANIM_WorldBow_Fan_Dizzy_Talk 0x050804
+#define ANIM_WorldBow_Fan_Dizzy_Read 0x050805
+#define ANIM_WorldBow_Fan_Dizzy_Conceal 0x050806
+#define ANIM_WorldBow_Fan_Dizzy_SpookBegin 0x050807
+#define ANIM_WorldBow_Fan_Dizzy_SpookLoop 0x050808
+#define ANIM_WorldBow_Fan_Dizzy_Laugh 0x050809
+#define ANIM_WorldBow_Fan_Dizzy_CelebrateSlow 0x05080A
+#define ANIM_WorldBow_Fan_Dizzy_Celebrate 0x05080B
+#define ANIM_WorldBow_Fan_Dizzy_Flail 0x05080C
+
+#define ANIM_WorldBow_Shocked_Still 0x050900
+#define ANIM_WorldBow_Shocked_Idle 0x050901
+#define ANIM_WorldBow_Shocked_Walk 0x050902
+#define ANIM_WorldBow_Shocked_Run 0x050903
+#define ANIM_WorldBow_Shocked_Talk 0x050904
+#define ANIM_WorldBow_Shocked_Read 0x050905
+#define ANIM_WorldBow_Shocked_Conceal 0x050906
+#define ANIM_WorldBow_Shocked_SpookBegin 0x050907
+#define ANIM_WorldBow_Shocked_SpookLoop 0x050908
+#define ANIM_WorldBow_Shocked_Laugh 0x050909
+#define ANIM_WorldBow_Shocked_CelebrateSlow 0x05090A
+#define ANIM_WorldBow_Shocked_Celebrate 0x05090B
+#define ANIM_WorldBow_Shocked_Flail 0x05090C
+
+#define ANIM_WorldBow_Fan_Shocked_Still 0x050A00
+#define ANIM_WorldBow_Fan_Shocked_Idle 0x050A01
+#define ANIM_WorldBow_Fan_Shocked_Walk 0x050A02
+#define ANIM_WorldBow_Fan_Shocked_Run 0x050A03
+#define ANIM_WorldBow_Fan_Shocked_Talk 0x050A04
+#define ANIM_WorldBow_Fan_Shocked_Read 0x050A05
+#define ANIM_WorldBow_Fan_Shocked_Conceal 0x050A06
+#define ANIM_WorldBow_Fan_Shocked_SpookBegin 0x050A07
+#define ANIM_WorldBow_Fan_Shocked_SpookLoop 0x050A08
+#define ANIM_WorldBow_Fan_Shocked_Laugh 0x050A09
+#define ANIM_WorldBow_Fan_Shocked_CelebrateSlow 0x050A0A
+#define ANIM_WorldBow_Fan_Shocked_Celebrate 0x050A0B
+#define ANIM_WorldBow_Fan_Shocked_Flail 0x050A0C
+
+#define ANIM_WorldBow_Patch_Shocked_Still 0x050B00
+#define ANIM_WorldBow_Patch_Shocked_Idle 0x050B01
+#define ANIM_WorldBow_Patch_Shocked_Walk 0x050B02
+#define ANIM_WorldBow_Patch_Shocked_Run 0x050B03
+#define ANIM_WorldBow_Patch_Shocked_Talk 0x050B04
+#define ANIM_WorldBow_Patch_Shocked_Read 0x050B05
+#define ANIM_WorldBow_Patch_Shocked_Conceal 0x050B06
+#define ANIM_WorldBow_Patch_Shocked_SpookBegin 0x050B07
+#define ANIM_WorldBow_Patch_Shocked_SpookLoop 0x050B08
+#define ANIM_WorldBow_Patch_Shocked_Laugh 0x050B09
+#define ANIM_WorldBow_Patch_Shocked_CelebrateSlow 0x050B0A
+#define ANIM_WorldBow_Patch_Shocked_Celebrate 0x050B0B
+#define ANIM_WorldBow_Patch_Shocked_Flail 0x050B0C
+
+#endif

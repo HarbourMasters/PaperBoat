@@ -1,0 +1,95 @@
+#ifndef _NPC_SPRITE_RAPHAELRAVEN_H_
+#define _NPC_SPRITE_RAPHAELRAVEN_H_
+
+#include "types.h"
+
+#define SPR_RaphaelRaven 0xC4
+
+#define SPR_IMG_RaphaelRaven_Feathers1 0x0
+#define SPR_IMG_RaphaelRaven_Feathers2 0x1
+#define SPR_IMG_RaphaelRaven_Feathers3 0x2
+#define SPR_IMG_RaphaelRaven_EyesHappy 0x3
+#define SPR_IMG_RaphaelRaven_EyesAngry 0x4
+#define SPR_IMG_RaphaelRaven_EyesSquint 0x5
+#define SPR_IMG_RaphaelRaven_Eyes 0x6
+#define SPR_IMG_RaphaelRaven_Beak1 0x7
+#define SPR_IMG_RaphaelRaven_Beak2 0x8
+#define SPR_IMG_RaphaelRaven_Beak3 0x9
+#define SPR_IMG_RaphaelRaven_Body1 0xA
+#define SPR_IMG_RaphaelRaven_Body2 0xB
+#define SPR_IMG_RaphaelRaven_Body3 0xC
+#define SPR_IMG_RaphaelRaven_Body4 0xD
+#define SPR_IMG_RaphaelRaven_Body5 0xE
+#define SPR_IMG_RaphaelRaven_LFoot1 0xF
+#define SPR_IMG_RaphaelRaven_RFoot1 0x10
+#define SPR_IMG_RaphaelRaven_LFoot2 0x11
+#define SPR_IMG_RaphaelRaven_RFoot2 0x12
+#define SPR_IMG_RaphaelRaven_LFoot3 0x13
+#define SPR_IMG_RaphaelRaven_RFoot3 0x14
+#define SPR_IMG_RaphaelRaven_FeathersAngry1 0x15
+#define SPR_IMG_RaphaelRaven_FeathersAngry2 0x16
+#define SPR_IMG_RaphaelRaven_BeakAngry1 0x17
+#define SPR_IMG_RaphaelRaven_BeakAngry2 0x18
+#define SPR_IMG_RaphaelRaven_BodyAngry 0x19
+#define SPR_IMG_RaphaelRaven_AngryEmote 0x1A
+#define SPR_IMG_RaphaelRaven_FuriousEmote 0x1B
+#define SPR_IMG_RaphaelRaven_BodyFurious1 0x1C
+#define SPR_IMG_RaphaelRaven_BodyFurious2 0x1D
+#define SPR_IMG_RaphaelRaven_BeakTalkAngry1 0x1E
+#define SPR_IMG_RaphaelRaven_BeakTalkAngry2 0x1F
+#define SPR_IMG_RaphaelRaven_LFootLand 0x20
+#define SPR_IMG_RaphaelRaven_RFootLand 0x21
+
+#define SPR_PAL_RaphaelRaven 0x0
+#define SPR_PAL_RaphaelRaven_Angry 0x1
+#define SPR_PAL_RaphaelRaven_Furious 0x2
+
+#define ANIM_RaphaelRaven_Still 0xC40000
+#define ANIM_RaphaelRaven_StillNoFeet 0xC40001
+#define ANIM_RaphaelRaven_Idle 0xC40002
+#define ANIM_RaphaelRaven_IdleNoFeet 0xC40003
+#define ANIM_RaphaelRaven_Walk 0xC40004
+#define ANIM_RaphaelRaven_Run 0xC40005
+#define ANIM_RaphaelRaven_TalkNoFeet 0xC40006
+#define ANIM_RaphaelRaven_TalkNoFeetHappy 0xC40007
+#define ANIM_RaphaelRaven_TalkNoFeetAngry 0xC40008
+#define ANIM_RaphaelRaven_Talk 0xC40009
+#define ANIM_RaphaelRaven_Happy 0xC4000A
+#define ANIM_RaphaelRaven_Angry 0xC4000B
+#define ANIM_RaphaelRaven_Jump 0xC4000C
+#define ANIM_RaphaelRaven_Fall 0xC4000D
+#define ANIM_RaphaelRaven_Land 0xC4000E
+
+#define ANIM_RaphaelRaven_Angry_Still 0xC40100
+#define ANIM_RaphaelRaven_Angry_StillNoFeet 0xC40101
+#define ANIM_RaphaelRaven_Angry_Idle 0xC40102
+#define ANIM_RaphaelRaven_Angry_IdleNoFeet 0xC40103
+#define ANIM_RaphaelRaven_Angry_Walk 0xC40104
+#define ANIM_RaphaelRaven_Angry_Run 0xC40105
+#define ANIM_RaphaelRaven_Angry_TalkNoFeet 0xC40106
+#define ANIM_RaphaelRaven_Angry_TalkNoFeetHappy 0xC40107
+#define ANIM_RaphaelRaven_Angry_TalkNoFeetAngry 0xC40108
+#define ANIM_RaphaelRaven_Angry_Talk 0xC40109
+#define ANIM_RaphaelRaven_Angry_Happy 0xC4010A
+#define ANIM_RaphaelRaven_Angry_Angry 0xC4010B
+#define ANIM_RaphaelRaven_Angry_Jump 0xC4010C
+#define ANIM_RaphaelRaven_Angry_Fall 0xC4010D
+#define ANIM_RaphaelRaven_Angry_Land 0xC4010E
+
+#define ANIM_RaphaelRaven_Furious_Still 0xC40200
+#define ANIM_RaphaelRaven_Furious_StillNoFeet 0xC40201
+#define ANIM_RaphaelRaven_Furious_Idle 0xC40202
+#define ANIM_RaphaelRaven_Furious_IdleNoFeet 0xC40203
+#define ANIM_RaphaelRaven_Furious_Walk 0xC40204
+#define ANIM_RaphaelRaven_Furious_Run 0xC40205
+#define ANIM_RaphaelRaven_Furious_TalkNoFeet 0xC40206
+#define ANIM_RaphaelRaven_Furious_TalkNoFeetHappy 0xC40207
+#define ANIM_RaphaelRaven_Furious_TalkNoFeetAngry 0xC40208
+#define ANIM_RaphaelRaven_Furious_Talk 0xC40209
+#define ANIM_RaphaelRaven_Furious_Happy 0xC4020A
+#define ANIM_RaphaelRaven_Furious_Angry 0xC4020B
+#define ANIM_RaphaelRaven_Furious_Jump 0xC4020C
+#define ANIM_RaphaelRaven_Furious_Fall 0xC4020D
+#define ANIM_RaphaelRaven_Furious_Land 0xC4020E
+
+#endif

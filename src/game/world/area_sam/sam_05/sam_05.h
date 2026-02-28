@@ -47,5 +47,5 @@ extern EvtScript N(EVS_MakeEntities);
 extern NpcGroupList N(BeforeNPCs);
 extern NpcGroupList N(AfterNPCs);
 
-extern Gfx N(monstar_gfx)[];
-extern Vtx N(monstar_vtx)[];
+// monstar_gfx and monstar_vtx extracted to OTR via world_sam_05.yml
+// symbols defined in assets/world.h

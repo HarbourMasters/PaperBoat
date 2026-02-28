@@ -3,7 +3,7 @@
 #include "ld_addrs.h"
 #include "entity.h"
 #include "sprite/player.h"
-#include "include_asset.h"
+#include "assets/battle.h"
 
 #define NAMESPACE battle_item_pebble
 
@@ -11,10 +11,6 @@
 #include "battle/common/move/UseItem.inc.c"
 
 static s32 _pad = 0;
-
-#include "battle/move/item/pebble.png.h"
-INCLUDE_IMG("battle/move/item/pebble.png", battle_item_pebble_png);
-INCLUDE_PAL("battle/move/item/pebble.pal", battle_item_pebble_pal);
 
 Vtx N(model)[] = {
     { .v = { { -16, -16, 0 }, false, { 0,    0 },    { 0, 0, 0, 255 } } },
@@ -35,7 +31,8 @@ Gfx N(displayList)[] = {
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPLoadTLUT_pal16(0, N(pal)),
-    gsDPLoadTextureTile_4b(N(png), G_IM_FMT_CI, battle_item_pebble_png_width, battle_item_pebble_png_height, 0, 0, battle_item_pebble_png_width - 1, battle_item_pebble_png_height - 1, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(N(png), G_IM_FMT_CI, 32, 32, 0, 0, 31, 31, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
     gsSPClearGeometryMode(G_LIGHTING),
     gsSPClearGeometryMode(G_SHADING_SMOOTH),
     gsSPVertex(N(model), ARRAY_COUNT(N(model)), 0),

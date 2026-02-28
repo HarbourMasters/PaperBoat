@@ -1,84 +1,10 @@
 #include "pause_common.h"
 #include "message_ids.h"
-#include "include_asset.h"
+#include "assets/pause.h"
 
-#include "pause/image_143BF0.png.h"
-#include "pause/image_143FF0.png.h"
-#include "pause/world_map.png.h"
-#include "pause/world_map.png.h"
-#include "pause/spirits_bg.png.h"
-#include "pause/orbs.png.h"
-#include "pause/map_location.png.h"
-#include "pause/map_path_marker.png.h"
-#include "pause/map_arrows.png.h"
-#include "pause/banner_hp.png.h"
-#include "pause/banner_fp.png.h"
-#include "pause/banner_bp.png.h"
-#include "pause/banner_boots.png.h"
-#include "pause/banner_hammer.png.h"
-#include "pause/banner_star_energy.png.h"
-#include "pause/available.png.h"
-#include "pause/prompt_check_abilities.png.h"
-#include "pause/stats_bar.png.h"
-
-INCLUDE_IMG("pause/image_1439F0.png", pause_image_1439F0_png);
-INCLUDE_IMG("pause/image_143BF0.png", pause_image_143BF0_png);
-INCLUDE_IMG("pause/image_143FF0.png", pause_image_143FF0_png);
-INCLUDE_IMG("pause/world_map.png", pause_world_map_png);
-INCLUDE_PAL("pause/world_map.pal", pause_world_map_pal);
-INCLUDE_IMG("pause/spirits_bg.png", pause_spirits_bg_png);
-INCLUDE_PAL("pause/spirits_bg.pal", pause_spirits_bg_pal);
-INCLUDE_IMG("pause/orbs.png", pause_orbs_png);
-INCLUDE_IMG("pause/map_location.png", pause_map_location_png);
-INCLUDE_IMG("pause/map_path_marker.png", pause_map_path_marker_png);
-INCLUDE_IMG("pause/map_arrows.png", pause_arrows_png);
-#if !VERSION_PAL
-INCLUDE_IMG("pause/banner_hp.png", pause_banner_hp_png);
-INCLUDE_PAL("pause/banner_hp.pal", pause_banner_hp_pal);
-INCLUDE_IMG("pause/banner_fp.png", pause_banner_fp_png);
-INCLUDE_PAL("pause/banner_fp.pal", pause_banner_fp_pal);
-INCLUDE_IMG("pause/banner_bp.png", pause_banner_bp_png);
-INCLUDE_PAL("pause/banner_bp.pal", pause_banner_bp_pal);
-INCLUDE_IMG("pause/banner_boots.png", pause_banner_boots_png);
-INCLUDE_PAL("pause/banner_boots.pal", pause_banner_boots_pal);
-INCLUDE_IMG("pause/banner_hammer.png", pause_banner_hammer_png);
-INCLUDE_PAL("pause/banner_hammer.pal", pause_banner_hammer_pal);
-#endif
-#if VERSION_JP
-INCLUDE_IMG("pause/stats_bar.png", pause_stats_bar_png);
-INCLUDE_PAL("pause/stats_bar.pal", pause_stats_bar_pal);
-#endif
-#if !VERSION_PAL
-INCLUDE_IMG("pause/banner_star_energy.png", pause_banner_star_energy_png);
-INCLUDE_PAL("pause/banner_star_energy.pal", pause_banner_star_energy_pal);
-INCLUDE_IMG("pause/available.png", pause_available_png);
-INCLUDE_PAL("pause/available.pal", pause_available_pal);
-INCLUDE_IMG("pause/prompt_check_abilities.png", pause_prompt_check_abilities_png);
-INCLUDE_PAL("pause/prompt_check_abilities.pal", pause_prompt_check_abilities_pal);
-#endif
-#if !VERSION_JP
-INCLUDE_IMG("pause/stats_bar.png", pause_stats_bar_png);
-INCLUDE_PAL("pause/stats_bar.pal", pause_stats_bar_pal);
-#endif
-
-#if VERSION_PAL
-extern u8 pause_prompt_check_abilities_png[];
-extern u8 pause_available_png[];
-extern u8 pause_available_pal[];
-extern u8 pause_banner_star_energy_png[];
-extern u8 pause_prompt_check_abilities_pal[];
-extern u8 pause_banner_hammer_png[];
-extern u8 pause_banner_hammer_pal[];
-extern u8 pause_banner_boots_png[];
-extern u8 pause_banner_hp_pal[];
-extern u8 pause_banner_hp_png[];
-extern u8 pause_banner_fp_pal[];
-extern u8 pause_banner_fp_png[];
-extern u8 pause_banner_bp_pal[];
-extern u8 pause_banner_bp_png[];
-extern u8 pause_banner_boots_pal[];
-extern u8 pause_banner_star_energy_pal[];
-#endif
+// All texture dimensions in static DLs below are hardcoded to original N64 values.
+// The Fast3D interpreter overrides them at runtime using OTR texture metadata,
+// so HD texture replacements with different dimensions work automatically.
 
 Gfx PauseGfxBannerHp[] = {
     gsDPPipeSync(),
@@ -91,7 +17,8 @@ Gfx PauseGfxBannerHp[] = {
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPLoadTLUT_pal16(0, pause_banner_hp_pal),
-    gsDPLoadTextureTile_4b(pause_banner_hp_png, G_IM_FMT_CI, pause_banner_hp_png_width, pause_banner_hp_png_height, 0, 0, pause_banner_hp_png_width - 1, pause_banner_hp_png_height - 1, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 6, 4, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(pause_banner_hp_png, G_IM_FMT_CI, 64, 16, 0, 0, 63, 15, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 6, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetRenderMode(AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM), AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM)),
     gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
     gsSPClearGeometryMode(G_LIGHTING),
@@ -110,7 +37,8 @@ Gfx PauseGfxBannerFp[] = {
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPLoadTLUT_pal16(0, pause_banner_fp_pal),
-    gsDPLoadTextureTile_4b(pause_banner_fp_png, G_IM_FMT_CI, pause_banner_fp_png_width, pause_banner_fp_png_height, 0, 0, pause_banner_fp_png_width - 1, pause_banner_fp_png_height - 1, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 6, 4, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(pause_banner_fp_png, G_IM_FMT_CI, 64, 16, 0, 0, 63, 15, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 6, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetRenderMode(AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM), AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM)),
     gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
     gsSPClearGeometryMode(G_LIGHTING),
@@ -129,7 +57,8 @@ Gfx PauseGfxBannerBp[] = {
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPLoadTLUT_pal16(0, pause_banner_bp_pal),
-    gsDPLoadTextureTile_4b(pause_banner_bp_png, G_IM_FMT_CI, pause_banner_bp_png_width, pause_banner_bp_png_height, 0, 0, pause_banner_bp_png_width - 1, pause_banner_bp_png_height - 1, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 6, 4, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(pause_banner_bp_png, G_IM_FMT_CI, 64, 16, 0, 0, 63, 15, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 6, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetRenderMode(AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM), AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM)),
     gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
     gsSPClearGeometryMode(G_LIGHTING),
@@ -148,7 +77,8 @@ Gfx PauseGfxBannerBoots[] = {
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPLoadTLUT_pal16(0, pause_banner_boots_pal),
-    gsDPLoadTextureTile_4b(pause_banner_boots_png, G_IM_FMT_CI, pause_banner_boots_png_width, pause_banner_boots_png_height, 0, 0, pause_banner_boots_png_width - 1, pause_banner_boots_png_height - 1, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 6, 4, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(pause_banner_boots_png, G_IM_FMT_CI, 48, 16, 0, 0, 47, 15, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 6, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetRenderMode(AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM), AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM)),
     gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
     gsSPClearGeometryMode(G_LIGHTING),
@@ -167,7 +97,8 @@ Gfx PauseGfxBannerHammer[] = {
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPLoadTLUT_pal16(0, pause_banner_hammer_pal),
-    gsDPLoadTextureTile_4b(pause_banner_hammer_png, G_IM_FMT_CI, pause_banner_hammer_png_width, pause_banner_hammer_png_height, 0, 0, pause_banner_hammer_png_width - 1, pause_banner_hammer_png_height - 1, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 6, 4, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(pause_banner_hammer_png, G_IM_FMT_CI, 48, 16, 0, 0, 47, 15, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 6, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetRenderMode(AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM), AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM)),
     gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
     gsSPClearGeometryMode(G_LIGHTING),
@@ -186,7 +117,8 @@ Gfx PauseGfxBannerStarEnergy[] = {
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPLoadTLUT_pal16(0, pause_banner_star_energy_pal),
-    gsDPLoadTextureTile_4b(pause_banner_star_energy_png, G_IM_FMT_CI, pause_banner_star_energy_png_width, pause_banner_star_energy_png_height, 0, 0, pause_banner_star_energy_png_width - 1, pause_banner_star_energy_png_height - 1, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 6, 4, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(pause_banner_star_energy_png, G_IM_FMT_CI, 48, 16, 0, 0, 47, 15, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 6, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetRenderMode(AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM), AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM)),
     gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
     gsSPClearGeometryMode(G_LIGHTING),
@@ -205,7 +137,8 @@ Gfx PauseGfxStatsBar[] = {
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPLoadTLUT_pal16(0, pause_stats_bar_pal),
-    gsDPLoadTextureTile_4b(pause_stats_bar_png, G_IM_FMT_CI, pause_stats_bar_png_width, pause_stats_bar_png_height, 0, 0, pause_stats_bar_png_width - 1, pause_stats_bar_png_height - 1, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_MIRROR | G_TX_WRAP, 8, 3, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(pause_stats_bar_png, G_IM_FMT_CI, 160, 8, 0, 0, 159, 7, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_MIRROR | G_TX_WRAP, 8, 3, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetRenderMode(AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM), AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM)),
     gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
     gsSPClearGeometryMode(G_LIGHTING),
@@ -261,7 +194,8 @@ Gfx PauseGfxArrows[] = {
     gsDPSetTextureFilter(G_TF_POINT),
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_NONE),
-    gsDPLoadTextureTile_4b(pause_arrows_png, G_IM_FMT_IA, pause_arrows_png_width, pause_arrows_png_height, 0, 0, pause_arrows_png_width - 1, pause_arrows_png_height - 1, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 4, 6, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(pause_arrows_png, G_IM_FMT_IA, 16, 64, 0, 0, 15, 63, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 4, 6, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetRenderMode(AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM), AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM)),
     gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
     gsSPClearGeometryMode(G_LIGHTING),
@@ -279,7 +213,8 @@ Gfx PauseGfxOrbs[] = {
     gsDPSetTextureFilter(G_TF_POINT),
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_NONE),
-    gsDPLoadTextureTile(pause_orbs_png, G_IM_FMT_RGBA, G_IM_SIZ_16b, pause_orbs_png_width, pause_orbs_png_height, 0, 0, pause_orbs_png_width - 1, pause_orbs_png_height - 1, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 3, 5, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile(pause_orbs_png, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 32, 0, 0, 7, 31, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 3, 5, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetRenderMode(AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM), AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM)),
     gsDPSetCombineMode(PM_CC_01, PM_CC_01),
     gsSPClearGeometryMode(G_LIGHTING),
@@ -298,18 +233,14 @@ Gfx PauseGfxAvailable[] = {
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPLoadTLUT_pal16(0, pause_available_pal),
-    gsDPLoadTextureTile_4b(pause_available_png, G_IM_FMT_CI, pause_available_png_width, pause_available_png_height, 0, 0, pause_available_png_width - 1, pause_available_png_height - 1, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 6, 4, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(pause_available_png, G_IM_FMT_CI, 64, 16, 0, 0, 63, 15, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 6, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetRenderMode(AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM), AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM)),
     gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
     gsSPClearGeometryMode(G_LIGHTING),
     gsSPSetGeometryMode(G_SHADE | G_CULL_BACK | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 };
-
-#if VERSION_IQUE
-#undef pause_prompt_check_abilities_png_height
-#define pause_prompt_check_abilities_png_height 16
-#endif
 
 Gfx PauseGfxCheckAbilities[] = {
     gsDPPipeSync(),
@@ -322,7 +253,8 @@ Gfx PauseGfxCheckAbilities[] = {
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPLoadTLUT_pal16(0, pause_prompt_check_abilities_pal),
-    gsDPLoadTextureTile_4b(pause_prompt_check_abilities_png, G_IM_FMT_CI, pause_prompt_check_abilities_png_width, pause_prompt_check_abilities_png_height, 0, 0, pause_prompt_check_abilities_png_width - 1, pause_prompt_check_abilities_png_height - 1, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 7, 4, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(pause_prompt_check_abilities_png, G_IM_FMT_CI, 128, 16, 0, 0, 127, 15, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 7, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetRenderMode(AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM), AA_EN | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM)),
     gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
     gsSPClearGeometryMode(G_LIGHTING),

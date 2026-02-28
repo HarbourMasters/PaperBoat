@@ -1,0 +1,87 @@
+#ifndef _NPC_SPRITE_PARADEYOSHI_H_
+#define _NPC_SPRITE_PARADEYOSHI_H_
+
+#include "types.h"
+
+#define SPR_ParadeYoshi 0xDB
+
+#define SPR_IMG_ParadeYoshi_IdleBrown1 0x0
+#define SPR_IMG_ParadeYoshi_IdleBrown2 0x1
+#define SPR_IMG_ParadeYoshi_BlinkBrown 0x2
+#define SPR_IMG_ParadeYoshi_BlinkGreen 0x3
+#define SPR_IMG_ParadeYoshi_BlinkBlue 0x4
+#define SPR_IMG_ParadeYoshi_BlinkYellow 0x5
+#define SPR_IMG_ParadeYoshi_IdleGreen1 0x6
+#define SPR_IMG_ParadeYoshi_IdleBlue1 0x7
+#define SPR_IMG_ParadeYoshi_IdleYellow1 0x8
+#define SPR_IMG_ParadeYoshi_IdleGreen2 0x9
+#define SPR_IMG_ParadeYoshi_IdleBlue2 0xA
+#define SPR_IMG_ParadeYoshi_IdleYellow2 0xB
+#define SPR_IMG_ParadeYoshi_IdleChief1 0xC
+#define SPR_IMG_ParadeYoshi_IdleChief2 0xD
+#define SPR_IMG_ParadeYoshi_IdleChief3 0xE
+#define SPR_IMG_ParadeYoshi_IdleBlink1 0xF
+#define SPR_IMG_ParadeYoshi_IdleBlink2 0x10
+
+#define SPR_PAL_ParadeYoshi 0x0
+#define SPR_PAL_ParadeYoshi_Green 0x1
+#define SPR_PAL_ParadeYoshi_Blue 0x2
+#define SPR_PAL_ParadeYoshi_Yellow 0x3
+#define SPR_PAL_ParadeYoshi_Chief 0x4
+
+#define ANIM_ParadeYoshi_StillGreen 0xDB0000
+#define ANIM_ParadeYoshi_StillBlue 0xDB0001
+#define ANIM_ParadeYoshi_StillYellow 0xDB0002
+#define ANIM_ParadeYoshi_StillBrown 0xDB0003
+#define ANIM_ParadeYoshi_StillLeader 0xDB0004
+#define ANIM_ParadeYoshi_IdleGreen 0xDB0005
+#define ANIM_ParadeYoshi_IdleBlue 0xDB0006
+#define ANIM_ParadeYoshi_IdleYellow 0xDB0007
+#define ANIM_ParadeYoshi_IdleBrown 0xDB0008
+#define ANIM_ParadeYoshi_IdleLeader 0xDB0009
+
+#define ANIM_ParadeYoshi_Green_StillGreen 0xDB0100
+#define ANIM_ParadeYoshi_Green_StillBlue 0xDB0101
+#define ANIM_ParadeYoshi_Green_StillYellow 0xDB0102
+#define ANIM_ParadeYoshi_Green_StillBrown 0xDB0103
+#define ANIM_ParadeYoshi_Green_StillLeader 0xDB0104
+#define ANIM_ParadeYoshi_Green_IdleGreen 0xDB0105
+#define ANIM_ParadeYoshi_Green_IdleBlue 0xDB0106
+#define ANIM_ParadeYoshi_Green_IdleYellow 0xDB0107
+#define ANIM_ParadeYoshi_Green_IdleBrown 0xDB0108
+#define ANIM_ParadeYoshi_Green_IdleLeader 0xDB0109
+
+#define ANIM_ParadeYoshi_Blue_StillGreen 0xDB0200
+#define ANIM_ParadeYoshi_Blue_StillBlue 0xDB0201
+#define ANIM_ParadeYoshi_Blue_StillYellow 0xDB0202
+#define ANIM_ParadeYoshi_Blue_StillBrown 0xDB0203
+#define ANIM_ParadeYoshi_Blue_StillLeader 0xDB0204
+#define ANIM_ParadeYoshi_Blue_IdleGreen 0xDB0205
+#define ANIM_ParadeYoshi_Blue_IdleBlue 0xDB0206
+#define ANIM_ParadeYoshi_Blue_IdleYellow 0xDB0207
+#define ANIM_ParadeYoshi_Blue_IdleBrown 0xDB0208
+#define ANIM_ParadeYoshi_Blue_IdleLeader 0xDB0209
+
+#define ANIM_ParadeYoshi_Yellow_StillGreen 0xDB0300
+#define ANIM_ParadeYoshi_Yellow_StillBlue 0xDB0301
+#define ANIM_ParadeYoshi_Yellow_StillYellow 0xDB0302
+#define ANIM_ParadeYoshi_Yellow_StillBrown 0xDB0303
+#define ANIM_ParadeYoshi_Yellow_StillLeader 0xDB0304
+#define ANIM_ParadeYoshi_Yellow_IdleGreen 0xDB0305
+#define ANIM_ParadeYoshi_Yellow_IdleBlue 0xDB0306
+#define ANIM_ParadeYoshi_Yellow_IdleYellow 0xDB0307
+#define ANIM_ParadeYoshi_Yellow_IdleBrown 0xDB0308
+#define ANIM_ParadeYoshi_Yellow_IdleLeader 0xDB0309
+
+#define ANIM_ParadeYoshi_Chief_StillGreen 0xDB0400
+#define ANIM_ParadeYoshi_Chief_StillBlue 0xDB0401
+#define ANIM_ParadeYoshi_Chief_StillYellow 0xDB0402
+#define ANIM_ParadeYoshi_Chief_StillBrown 0xDB0403
+#define ANIM_ParadeYoshi_Chief_StillLeader 0xDB0404
+#define ANIM_ParadeYoshi_Chief_IdleGreen 0xDB0405
+#define ANIM_ParadeYoshi_Chief_IdleBlue 0xDB0406
+#define ANIM_ParadeYoshi_Chief_IdleYellow 0xDB0407
+#define ANIM_ParadeYoshi_Chief_IdleBrown 0xDB0408
+#define ANIM_ParadeYoshi_Chief_IdleLeader 0xDB0409
+
+#endif

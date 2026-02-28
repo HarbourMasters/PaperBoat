@@ -1,0 +1,122 @@
+#ifndef _NPC_SPRITE_BATTLEKAMMY_H_
+#define _NPC_SPRITE_BATTLEKAMMY_H_
+
+#include "types.h"
+
+#define SPR_BattleKammy 0x61
+
+#define SPR_IMG_BattleKammy_Raster00 0x0
+#define SPR_IMG_BattleKammy_Raster01 0x1
+#define SPR_IMG_BattleKammy_Raster02 0x2
+#define SPR_IMG_BattleKammy_Raster03 0x3
+#define SPR_IMG_BattleKammy_Raster04 0x4
+#define SPR_IMG_BattleKammy_Raster05 0x5
+#define SPR_IMG_BattleKammy_Raster06 0x6
+#define SPR_IMG_BattleKammy_Raster07 0x7
+#define SPR_IMG_BattleKammy_Raster08 0x8
+#define SPR_IMG_BattleKammy_Raster09 0x9
+#define SPR_IMG_BattleKammy_Raster0A 0xA
+#define SPR_IMG_BattleKammy_Raster0B 0xB
+#define SPR_IMG_BattleKammy_Raster0C 0xC
+#define SPR_IMG_BattleKammy_Raster0D 0xD
+#define SPR_IMG_BattleKammy_Raster0E 0xE
+#define SPR_IMG_BattleKammy_Raster0F 0xF
+#define SPR_IMG_BattleKammy_Raster10 0x10
+#define SPR_IMG_BattleKammy_Raster11 0x11
+#define SPR_IMG_BattleKammy_Raster12 0x12
+#define SPR_IMG_BattleKammy_Raster13 0x13
+#define SPR_IMG_BattleKammy_Raster14 0x14
+#define SPR_IMG_BattleKammy_Raster15 0x15
+#define SPR_IMG_BattleKammy_Raster16 0x16
+#define SPR_IMG_BattleKammy_Raster17 0x17
+#define SPR_IMG_BattleKammy_Raster18 0x18
+#define SPR_IMG_BattleKammy_Raster19 0x19
+#define SPR_IMG_BattleKammy_Raster1A 0x1A
+#define SPR_IMG_BattleKammy_Raster1B 0x1B
+#define SPR_IMG_BattleKammy_Raster1C 0x1C
+#define SPR_IMG_BattleKammy_Raster1D 0x1D
+#define SPR_IMG_BattleKammy_Raster1E 0x1E
+#define SPR_IMG_BattleKammy_Raster1F 0x1F
+
+#define SPR_PAL_BattleKammy 0x0
+#define SPR_PAL_BattleKammy_Poisoned 0x1
+#define SPR_PAL_BattleKammy_Dizzy 0x2
+#define SPR_PAL_BattleKammy_Shocked 0x3
+#define SPR_PAL_BattleKammy_Burnt 0x4
+
+#define ANIM_BattleKammy_Anim00 0x610000
+#define ANIM_BattleKammy_Anim01 0x610001
+#define ANIM_BattleKammy_Anim02 0x610002
+#define ANIM_BattleKammy_Anim03 0x610003
+#define ANIM_BattleKammy_Anim04 0x610004
+#define ANIM_BattleKammy_Anim05 0x610005
+#define ANIM_BattleKammy_Anim06 0x610006
+#define ANIM_BattleKammy_Anim07 0x610007
+#define ANIM_BattleKammy_Anim08 0x610008
+#define ANIM_BattleKammy_Anim09 0x610009
+#define ANIM_BattleKammy_Anim0A 0x61000A
+#define ANIM_BattleKammy_Anim0B 0x61000B
+#define ANIM_BattleKammy_Anim0C 0x61000C
+#define ANIM_BattleKammy_Anim0D 0x61000D
+
+#define ANIM_BattleKammy_Poisoned_Anim00 0x610100
+#define ANIM_BattleKammy_Poisoned_Anim01 0x610101
+#define ANIM_BattleKammy_Poisoned_Anim02 0x610102
+#define ANIM_BattleKammy_Poisoned_Anim03 0x610103
+#define ANIM_BattleKammy_Poisoned_Anim04 0x610104
+#define ANIM_BattleKammy_Poisoned_Anim05 0x610105
+#define ANIM_BattleKammy_Poisoned_Anim06 0x610106
+#define ANIM_BattleKammy_Poisoned_Anim07 0x610107
+#define ANIM_BattleKammy_Poisoned_Anim08 0x610108
+#define ANIM_BattleKammy_Poisoned_Anim09 0x610109
+#define ANIM_BattleKammy_Poisoned_Anim0A 0x61010A
+#define ANIM_BattleKammy_Poisoned_Anim0B 0x61010B
+#define ANIM_BattleKammy_Poisoned_Anim0C 0x61010C
+#define ANIM_BattleKammy_Poisoned_Anim0D 0x61010D
+
+#define ANIM_BattleKammy_Dizzy_Anim00 0x610200
+#define ANIM_BattleKammy_Dizzy_Anim01 0x610201
+#define ANIM_BattleKammy_Dizzy_Anim02 0x610202
+#define ANIM_BattleKammy_Dizzy_Anim03 0x610203
+#define ANIM_BattleKammy_Dizzy_Anim04 0x610204
+#define ANIM_BattleKammy_Dizzy_Anim05 0x610205
+#define ANIM_BattleKammy_Dizzy_Anim06 0x610206
+#define ANIM_BattleKammy_Dizzy_Anim07 0x610207
+#define ANIM_BattleKammy_Dizzy_Anim08 0x610208
+#define ANIM_BattleKammy_Dizzy_Anim09 0x610209
+#define ANIM_BattleKammy_Dizzy_Anim0A 0x61020A
+#define ANIM_BattleKammy_Dizzy_Anim0B 0x61020B
+#define ANIM_BattleKammy_Dizzy_Anim0C 0x61020C
+#define ANIM_BattleKammy_Dizzy_Anim0D 0x61020D
+
+#define ANIM_BattleKammy_Shocked_Anim00 0x610300
+#define ANIM_BattleKammy_Shocked_Anim01 0x610301
+#define ANIM_BattleKammy_Shocked_Anim02 0x610302
+#define ANIM_BattleKammy_Shocked_Anim03 0x610303
+#define ANIM_BattleKammy_Shocked_Anim04 0x610304
+#define ANIM_BattleKammy_Shocked_Anim05 0x610305
+#define ANIM_BattleKammy_Shocked_Anim06 0x610306
+#define ANIM_BattleKammy_Shocked_Anim07 0x610307
+#define ANIM_BattleKammy_Shocked_Anim08 0x610308
+#define ANIM_BattleKammy_Shocked_Anim09 0x610309
+#define ANIM_BattleKammy_Shocked_Anim0A 0x61030A
+#define ANIM_BattleKammy_Shocked_Anim0B 0x61030B
+#define ANIM_BattleKammy_Shocked_Anim0C 0x61030C
+#define ANIM_BattleKammy_Shocked_Anim0D 0x61030D
+
+#define ANIM_BattleKammy_Burnt_Anim00 0x610400
+#define ANIM_BattleKammy_Burnt_Anim01 0x610401
+#define ANIM_BattleKammy_Burnt_Anim02 0x610402
+#define ANIM_BattleKammy_Burnt_Anim03 0x610403
+#define ANIM_BattleKammy_Burnt_Anim04 0x610404
+#define ANIM_BattleKammy_Burnt_Anim05 0x610405
+#define ANIM_BattleKammy_Burnt_Anim06 0x610406
+#define ANIM_BattleKammy_Burnt_Anim07 0x610407
+#define ANIM_BattleKammy_Burnt_Anim08 0x610408
+#define ANIM_BattleKammy_Burnt_Anim09 0x610409
+#define ANIM_BattleKammy_Burnt_Anim0A 0x61040A
+#define ANIM_BattleKammy_Burnt_Anim0B 0x61040B
+#define ANIM_BattleKammy_Burnt_Anim0C 0x61040C
+#define ANIM_BattleKammy_Burnt_Anim0D 0x61040D
+
+#endif

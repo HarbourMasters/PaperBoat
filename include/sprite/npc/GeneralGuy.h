@@ -1,0 +1,137 @@
+#ifndef _NPC_SPRITE_GENERALGUY_H_
+#define _NPC_SPRITE_GENERALGUY_H_
+
+#include "types.h"
+
+#define SPR_GeneralGuy 0x76
+
+#define SPR_IMG_GeneralGuy_Raster00 0x0
+#define SPR_IMG_GeneralGuy_Raster01 0x1
+#define SPR_IMG_GeneralGuy_Raster02 0x2
+#define SPR_IMG_GeneralGuy_Raster03 0x3
+#define SPR_IMG_GeneralGuy_Raster04 0x4
+#define SPR_IMG_GeneralGuy_Raster05 0x5
+#define SPR_IMG_GeneralGuy_Raster06 0x6
+#define SPR_IMG_GeneralGuy_Raster07 0x7
+#define SPR_IMG_GeneralGuy_Raster08 0x8
+#define SPR_IMG_GeneralGuy_Raster09 0x9
+#define SPR_IMG_GeneralGuy_Raster0A 0xA
+#define SPR_IMG_GeneralGuy_Raster0B 0xB
+#define SPR_IMG_GeneralGuy_Raster0C 0xC
+#define SPR_IMG_GeneralGuy_Raster0D 0xD
+#define SPR_IMG_GeneralGuy_Raster0E 0xE
+#define SPR_IMG_GeneralGuy_Raster0F 0xF
+#define SPR_IMG_GeneralGuy_Raster10 0x10
+#define SPR_IMG_GeneralGuy_Raster11 0x11
+#define SPR_IMG_GeneralGuy_Raster12 0x12
+#define SPR_IMG_GeneralGuy_Raster13 0x13
+#define SPR_IMG_GeneralGuy_Raster14 0x14
+#define SPR_IMG_GeneralGuy_Raster15 0x15
+#define SPR_IMG_GeneralGuy_Raster16 0x16
+#define SPR_IMG_GeneralGuy_Raster17 0x17
+#define SPR_IMG_GeneralGuy_Raster18 0x18
+#define SPR_IMG_GeneralGuy_Raster19 0x19
+#define SPR_IMG_GeneralGuy_Raster1A 0x1A
+
+#define SPR_PAL_GeneralGuy 0x0
+#define SPR_PAL_GeneralGuy_Poisoned 0x1
+#define SPR_PAL_GeneralGuy_Dizzy 0x2
+#define SPR_PAL_GeneralGuy_Shocked 0x3
+#define SPR_PAL_GeneralGuy_Burnt 0x4
+
+#define ANIM_GeneralGuy_Anim00 0x760000
+#define ANIM_GeneralGuy_Anim01 0x760001
+#define ANIM_GeneralGuy_Anim02 0x760002
+#define ANIM_GeneralGuy_Anim03 0x760003
+#define ANIM_GeneralGuy_Anim04 0x760004
+#define ANIM_GeneralGuy_Anim05 0x760005
+#define ANIM_GeneralGuy_Anim06 0x760006
+#define ANIM_GeneralGuy_Anim07 0x760007
+#define ANIM_GeneralGuy_Anim08 0x760008
+#define ANIM_GeneralGuy_Anim09 0x760009
+#define ANIM_GeneralGuy_Anim0A 0x76000A
+#define ANIM_GeneralGuy_Anim0B 0x76000B
+#define ANIM_GeneralGuy_Anim0C 0x76000C
+#define ANIM_GeneralGuy_Anim0D 0x76000D
+#define ANIM_GeneralGuy_Anim0E 0x76000E
+#define ANIM_GeneralGuy_Anim0F 0x76000F
+#define ANIM_GeneralGuy_Anim10 0x760010
+#define ANIM_GeneralGuy_Anim11 0x760011
+
+#define ANIM_GeneralGuy_Poisoned_Anim00 0x760100
+#define ANIM_GeneralGuy_Poisoned_Anim01 0x760101
+#define ANIM_GeneralGuy_Poisoned_Anim02 0x760102
+#define ANIM_GeneralGuy_Poisoned_Anim03 0x760103
+#define ANIM_GeneralGuy_Poisoned_Anim04 0x760104
+#define ANIM_GeneralGuy_Poisoned_Anim05 0x760105
+#define ANIM_GeneralGuy_Poisoned_Anim06 0x760106
+#define ANIM_GeneralGuy_Poisoned_Anim07 0x760107
+#define ANIM_GeneralGuy_Poisoned_Anim08 0x760108
+#define ANIM_GeneralGuy_Poisoned_Anim09 0x760109
+#define ANIM_GeneralGuy_Poisoned_Anim0A 0x76010A
+#define ANIM_GeneralGuy_Poisoned_Anim0B 0x76010B
+#define ANIM_GeneralGuy_Poisoned_Anim0C 0x76010C
+#define ANIM_GeneralGuy_Poisoned_Anim0D 0x76010D
+#define ANIM_GeneralGuy_Poisoned_Anim0E 0x76010E
+#define ANIM_GeneralGuy_Poisoned_Anim0F 0x76010F
+#define ANIM_GeneralGuy_Poisoned_Anim10 0x760110
+#define ANIM_GeneralGuy_Poisoned_Anim11 0x760111
+
+#define ANIM_GeneralGuy_Dizzy_Anim00 0x760200
+#define ANIM_GeneralGuy_Dizzy_Anim01 0x760201
+#define ANIM_GeneralGuy_Dizzy_Anim02 0x760202
+#define ANIM_GeneralGuy_Dizzy_Anim03 0x760203
+#define ANIM_GeneralGuy_Dizzy_Anim04 0x760204
+#define ANIM_GeneralGuy_Dizzy_Anim05 0x760205
+#define ANIM_GeneralGuy_Dizzy_Anim06 0x760206
+#define ANIM_GeneralGuy_Dizzy_Anim07 0x760207
+#define ANIM_GeneralGuy_Dizzy_Anim08 0x760208
+#define ANIM_GeneralGuy_Dizzy_Anim09 0x760209
+#define ANIM_GeneralGuy_Dizzy_Anim0A 0x76020A
+#define ANIM_GeneralGuy_Dizzy_Anim0B 0x76020B
+#define ANIM_GeneralGuy_Dizzy_Anim0C 0x76020C
+#define ANIM_GeneralGuy_Dizzy_Anim0D 0x76020D
+#define ANIM_GeneralGuy_Dizzy_Anim0E 0x76020E
+#define ANIM_GeneralGuy_Dizzy_Anim0F 0x76020F
+#define ANIM_GeneralGuy_Dizzy_Anim10 0x760210
+#define ANIM_GeneralGuy_Dizzy_Anim11 0x760211
+
+#define ANIM_GeneralGuy_Shocked_Anim00 0x760300
+#define ANIM_GeneralGuy_Shocked_Anim01 0x760301
+#define ANIM_GeneralGuy_Shocked_Anim02 0x760302
+#define ANIM_GeneralGuy_Shocked_Anim03 0x760303
+#define ANIM_GeneralGuy_Shocked_Anim04 0x760304
+#define ANIM_GeneralGuy_Shocked_Anim05 0x760305
+#define ANIM_GeneralGuy_Shocked_Anim06 0x760306
+#define ANIM_GeneralGuy_Shocked_Anim07 0x760307
+#define ANIM_GeneralGuy_Shocked_Anim08 0x760308
+#define ANIM_GeneralGuy_Shocked_Anim09 0x760309
+#define ANIM_GeneralGuy_Shocked_Anim0A 0x76030A
+#define ANIM_GeneralGuy_Shocked_Anim0B 0x76030B
+#define ANIM_GeneralGuy_Shocked_Anim0C 0x76030C
+#define ANIM_GeneralGuy_Shocked_Anim0D 0x76030D
+#define ANIM_GeneralGuy_Shocked_Anim0E 0x76030E
+#define ANIM_GeneralGuy_Shocked_Anim0F 0x76030F
+#define ANIM_GeneralGuy_Shocked_Anim10 0x760310
+#define ANIM_GeneralGuy_Shocked_Anim11 0x760311
+
+#define ANIM_GeneralGuy_Burnt_Anim00 0x760400
+#define ANIM_GeneralGuy_Burnt_Anim01 0x760401
+#define ANIM_GeneralGuy_Burnt_Anim02 0x760402
+#define ANIM_GeneralGuy_Burnt_Anim03 0x760403
+#define ANIM_GeneralGuy_Burnt_Anim04 0x760404
+#define ANIM_GeneralGuy_Burnt_Anim05 0x760405
+#define ANIM_GeneralGuy_Burnt_Anim06 0x760406
+#define ANIM_GeneralGuy_Burnt_Anim07 0x760407
+#define ANIM_GeneralGuy_Burnt_Anim08 0x760408
+#define ANIM_GeneralGuy_Burnt_Anim09 0x760409
+#define ANIM_GeneralGuy_Burnt_Anim0A 0x76040A
+#define ANIM_GeneralGuy_Burnt_Anim0B 0x76040B
+#define ANIM_GeneralGuy_Burnt_Anim0C 0x76040C
+#define ANIM_GeneralGuy_Burnt_Anim0D 0x76040D
+#define ANIM_GeneralGuy_Burnt_Anim0E 0x76040E
+#define ANIM_GeneralGuy_Burnt_Anim0F 0x76040F
+#define ANIM_GeneralGuy_Burnt_Anim10 0x760410
+#define ANIM_GeneralGuy_Burnt_Anim11 0x760411
+
+#endif

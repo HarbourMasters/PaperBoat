@@ -1,0 +1,354 @@
+#ifndef _NPC_SPRITE_TANKGUY_H_
+#define _NPC_SPRITE_TANKGUY_H_
+
+#include "types.h"
+
+#define SPR_TankGuy 0x78
+
+#define SPR_IMG_TankGuy_Raster00 0x0
+#define SPR_IMG_TankGuy_Raster01 0x1
+#define SPR_IMG_TankGuy_Raster02 0x2
+#define SPR_IMG_TankGuy_Raster03 0x3
+#define SPR_IMG_TankGuy_Raster04 0x4
+#define SPR_IMG_TankGuy_Raster05 0x5
+#define SPR_IMG_TankGuy_Raster06 0x6
+#define SPR_IMG_TankGuy_Raster07 0x7
+#define SPR_IMG_TankGuy_Raster08 0x8
+#define SPR_IMG_TankGuy_Raster09 0x9
+#define SPR_IMG_TankGuy_Raster0A 0xA
+#define SPR_IMG_TankGuy_Raster0B 0xB
+#define SPR_IMG_TankGuy_Raster0C 0xC
+#define SPR_IMG_TankGuy_Raster0D 0xD
+#define SPR_IMG_TankGuy_Raster0E 0xE
+#define SPR_IMG_TankGuy_Raster0F 0xF
+#define SPR_IMG_TankGuy_Raster10 0x10
+#define SPR_IMG_TankGuy_Raster11 0x11
+#define SPR_IMG_TankGuy_Raster12 0x12
+
+#define SPR_PAL_TankGuy 0x0
+#define SPR_PAL_TankGuy_Blue 0x1
+#define SPR_PAL_TankGuy_Green 0x2
+#define SPR_PAL_TankGuy_Pink 0x3
+#define SPR_PAL_TankGuy_Yellow 0x4
+#define SPR_PAL_TankGuy_Black 0x5
+#define SPR_PAL_TankGuy_Poisoned 0x6
+#define SPR_PAL_TankGuy_Blue_Poisoned 0x7
+#define SPR_PAL_TankGuy_Green_Poisoned 0x8
+#define SPR_PAL_TankGuy_Pink_Poisoned 0x9
+#define SPR_PAL_TankGuy_Yellow_Poisoned 0xA
+#define SPR_PAL_TankGuy_Black_Poisoned 0xB
+#define SPR_PAL_TankGuy_Dizzy 0xC
+#define SPR_PAL_TankGuy_Blue_Dizzy 0xD
+#define SPR_PAL_TankGuy_Green_Dizzy 0xE
+#define SPR_PAL_TankGuy_Pink_Dizzy 0xF
+#define SPR_PAL_TankGuy_Yellow_Dizzy 0x10
+#define SPR_PAL_TankGuy_Black_Dizzy 0x11
+#define SPR_PAL_TankGuy_Shocked 0x12
+#define SPR_PAL_TankGuy_Blue_Shocked 0x13
+#define SPR_PAL_TankGuy_Green_Shocked 0x14
+#define SPR_PAL_TankGuy_Pink_Shocked 0x15
+#define SPR_PAL_TankGuy_Yellow_Shocked 0x16
+#define SPR_PAL_TankGuy_Black_Shocked 0x17
+#define SPR_PAL_TankGuy_Burnt 0x18
+
+#define ANIM_TankGuy_Anim00 0x780000
+#define ANIM_TankGuy_Anim01 0x780001
+#define ANIM_TankGuy_Anim02 0x780002
+#define ANIM_TankGuy_Anim03 0x780003
+#define ANIM_TankGuy_Anim04 0x780004
+#define ANIM_TankGuy_Anim05 0x780005
+#define ANIM_TankGuy_Anim06 0x780006
+#define ANIM_TankGuy_Anim07 0x780007
+#define ANIM_TankGuy_Anim08 0x780008
+#define ANIM_TankGuy_Anim09 0x780009
+#define ANIM_TankGuy_Anim0A 0x78000A
+
+#define ANIM_TankGuy_Blue_Anim00 0x780100
+#define ANIM_TankGuy_Blue_Anim01 0x780101
+#define ANIM_TankGuy_Blue_Anim02 0x780102
+#define ANIM_TankGuy_Blue_Anim03 0x780103
+#define ANIM_TankGuy_Blue_Anim04 0x780104
+#define ANIM_TankGuy_Blue_Anim05 0x780105
+#define ANIM_TankGuy_Blue_Anim06 0x780106
+#define ANIM_TankGuy_Blue_Anim07 0x780107
+#define ANIM_TankGuy_Blue_Anim08 0x780108
+#define ANIM_TankGuy_Blue_Anim09 0x780109
+#define ANIM_TankGuy_Blue_Anim0A 0x78010A
+
+#define ANIM_TankGuy_Green_Anim00 0x780200
+#define ANIM_TankGuy_Green_Anim01 0x780201
+#define ANIM_TankGuy_Green_Anim02 0x780202
+#define ANIM_TankGuy_Green_Anim03 0x780203
+#define ANIM_TankGuy_Green_Anim04 0x780204
+#define ANIM_TankGuy_Green_Anim05 0x780205
+#define ANIM_TankGuy_Green_Anim06 0x780206
+#define ANIM_TankGuy_Green_Anim07 0x780207
+#define ANIM_TankGuy_Green_Anim08 0x780208
+#define ANIM_TankGuy_Green_Anim09 0x780209
+#define ANIM_TankGuy_Green_Anim0A 0x78020A
+
+#define ANIM_TankGuy_Pink_Anim00 0x780300
+#define ANIM_TankGuy_Pink_Anim01 0x780301
+#define ANIM_TankGuy_Pink_Anim02 0x780302
+#define ANIM_TankGuy_Pink_Anim03 0x780303
+#define ANIM_TankGuy_Pink_Anim04 0x780304
+#define ANIM_TankGuy_Pink_Anim05 0x780305
+#define ANIM_TankGuy_Pink_Anim06 0x780306
+#define ANIM_TankGuy_Pink_Anim07 0x780307
+#define ANIM_TankGuy_Pink_Anim08 0x780308
+#define ANIM_TankGuy_Pink_Anim09 0x780309
+#define ANIM_TankGuy_Pink_Anim0A 0x78030A
+
+#define ANIM_TankGuy_Yellow_Anim00 0x780400
+#define ANIM_TankGuy_Yellow_Anim01 0x780401
+#define ANIM_TankGuy_Yellow_Anim02 0x780402
+#define ANIM_TankGuy_Yellow_Anim03 0x780403
+#define ANIM_TankGuy_Yellow_Anim04 0x780404
+#define ANIM_TankGuy_Yellow_Anim05 0x780405
+#define ANIM_TankGuy_Yellow_Anim06 0x780406
+#define ANIM_TankGuy_Yellow_Anim07 0x780407
+#define ANIM_TankGuy_Yellow_Anim08 0x780408
+#define ANIM_TankGuy_Yellow_Anim09 0x780409
+#define ANIM_TankGuy_Yellow_Anim0A 0x78040A
+
+#define ANIM_TankGuy_Black_Anim00 0x780500
+#define ANIM_TankGuy_Black_Anim01 0x780501
+#define ANIM_TankGuy_Black_Anim02 0x780502
+#define ANIM_TankGuy_Black_Anim03 0x780503
+#define ANIM_TankGuy_Black_Anim04 0x780504
+#define ANIM_TankGuy_Black_Anim05 0x780505
+#define ANIM_TankGuy_Black_Anim06 0x780506
+#define ANIM_TankGuy_Black_Anim07 0x780507
+#define ANIM_TankGuy_Black_Anim08 0x780508
+#define ANIM_TankGuy_Black_Anim09 0x780509
+#define ANIM_TankGuy_Black_Anim0A 0x78050A
+
+#define ANIM_TankGuy_Poisoned_Anim00 0x780600
+#define ANIM_TankGuy_Poisoned_Anim01 0x780601
+#define ANIM_TankGuy_Poisoned_Anim02 0x780602
+#define ANIM_TankGuy_Poisoned_Anim03 0x780603
+#define ANIM_TankGuy_Poisoned_Anim04 0x780604
+#define ANIM_TankGuy_Poisoned_Anim05 0x780605
+#define ANIM_TankGuy_Poisoned_Anim06 0x780606
+#define ANIM_TankGuy_Poisoned_Anim07 0x780607
+#define ANIM_TankGuy_Poisoned_Anim08 0x780608
+#define ANIM_TankGuy_Poisoned_Anim09 0x780609
+#define ANIM_TankGuy_Poisoned_Anim0A 0x78060A
+
+#define ANIM_TankGuy_Blue_Poisoned_Anim00 0x780700
+#define ANIM_TankGuy_Blue_Poisoned_Anim01 0x780701
+#define ANIM_TankGuy_Blue_Poisoned_Anim02 0x780702
+#define ANIM_TankGuy_Blue_Poisoned_Anim03 0x780703
+#define ANIM_TankGuy_Blue_Poisoned_Anim04 0x780704
+#define ANIM_TankGuy_Blue_Poisoned_Anim05 0x780705
+#define ANIM_TankGuy_Blue_Poisoned_Anim06 0x780706
+#define ANIM_TankGuy_Blue_Poisoned_Anim07 0x780707
+#define ANIM_TankGuy_Blue_Poisoned_Anim08 0x780708
+#define ANIM_TankGuy_Blue_Poisoned_Anim09 0x780709
+#define ANIM_TankGuy_Blue_Poisoned_Anim0A 0x78070A
+
+#define ANIM_TankGuy_Green_Poisoned_Anim00 0x780800
+#define ANIM_TankGuy_Green_Poisoned_Anim01 0x780801
+#define ANIM_TankGuy_Green_Poisoned_Anim02 0x780802
+#define ANIM_TankGuy_Green_Poisoned_Anim03 0x780803
+#define ANIM_TankGuy_Green_Poisoned_Anim04 0x780804
+#define ANIM_TankGuy_Green_Poisoned_Anim05 0x780805
+#define ANIM_TankGuy_Green_Poisoned_Anim06 0x780806
+#define ANIM_TankGuy_Green_Poisoned_Anim07 0x780807
+#define ANIM_TankGuy_Green_Poisoned_Anim08 0x780808
+#define ANIM_TankGuy_Green_Poisoned_Anim09 0x780809
+#define ANIM_TankGuy_Green_Poisoned_Anim0A 0x78080A
+
+#define ANIM_TankGuy_Pink_Poisoned_Anim00 0x780900
+#define ANIM_TankGuy_Pink_Poisoned_Anim01 0x780901
+#define ANIM_TankGuy_Pink_Poisoned_Anim02 0x780902
+#define ANIM_TankGuy_Pink_Poisoned_Anim03 0x780903
+#define ANIM_TankGuy_Pink_Poisoned_Anim04 0x780904
+#define ANIM_TankGuy_Pink_Poisoned_Anim05 0x780905
+#define ANIM_TankGuy_Pink_Poisoned_Anim06 0x780906
+#define ANIM_TankGuy_Pink_Poisoned_Anim07 0x780907
+#define ANIM_TankGuy_Pink_Poisoned_Anim08 0x780908
+#define ANIM_TankGuy_Pink_Poisoned_Anim09 0x780909
+#define ANIM_TankGuy_Pink_Poisoned_Anim0A 0x78090A
+
+#define ANIM_TankGuy_Yellow_Poisoned_Anim00 0x780A00
+#define ANIM_TankGuy_Yellow_Poisoned_Anim01 0x780A01
+#define ANIM_TankGuy_Yellow_Poisoned_Anim02 0x780A02
+#define ANIM_TankGuy_Yellow_Poisoned_Anim03 0x780A03
+#define ANIM_TankGuy_Yellow_Poisoned_Anim04 0x780A04
+#define ANIM_TankGuy_Yellow_Poisoned_Anim05 0x780A05
+#define ANIM_TankGuy_Yellow_Poisoned_Anim06 0x780A06
+#define ANIM_TankGuy_Yellow_Poisoned_Anim07 0x780A07
+#define ANIM_TankGuy_Yellow_Poisoned_Anim08 0x780A08
+#define ANIM_TankGuy_Yellow_Poisoned_Anim09 0x780A09
+#define ANIM_TankGuy_Yellow_Poisoned_Anim0A 0x780A0A
+
+#define ANIM_TankGuy_Black_Poisoned_Anim00 0x780B00
+#define ANIM_TankGuy_Black_Poisoned_Anim01 0x780B01
+#define ANIM_TankGuy_Black_Poisoned_Anim02 0x780B02
+#define ANIM_TankGuy_Black_Poisoned_Anim03 0x780B03
+#define ANIM_TankGuy_Black_Poisoned_Anim04 0x780B04
+#define ANIM_TankGuy_Black_Poisoned_Anim05 0x780B05
+#define ANIM_TankGuy_Black_Poisoned_Anim06 0x780B06
+#define ANIM_TankGuy_Black_Poisoned_Anim07 0x780B07
+#define ANIM_TankGuy_Black_Poisoned_Anim08 0x780B08
+#define ANIM_TankGuy_Black_Poisoned_Anim09 0x780B09
+#define ANIM_TankGuy_Black_Poisoned_Anim0A 0x780B0A
+
+#define ANIM_TankGuy_Dizzy_Anim00 0x780C00
+#define ANIM_TankGuy_Dizzy_Anim01 0x780C01
+#define ANIM_TankGuy_Dizzy_Anim02 0x780C02
+#define ANIM_TankGuy_Dizzy_Anim03 0x780C03
+#define ANIM_TankGuy_Dizzy_Anim04 0x780C04
+#define ANIM_TankGuy_Dizzy_Anim05 0x780C05
+#define ANIM_TankGuy_Dizzy_Anim06 0x780C06
+#define ANIM_TankGuy_Dizzy_Anim07 0x780C07
+#define ANIM_TankGuy_Dizzy_Anim08 0x780C08
+#define ANIM_TankGuy_Dizzy_Anim09 0x780C09
+#define ANIM_TankGuy_Dizzy_Anim0A 0x780C0A
+
+#define ANIM_TankGuy_Blue_Dizzy_Anim00 0x780D00
+#define ANIM_TankGuy_Blue_Dizzy_Anim01 0x780D01
+#define ANIM_TankGuy_Blue_Dizzy_Anim02 0x780D02
+#define ANIM_TankGuy_Blue_Dizzy_Anim03 0x780D03
+#define ANIM_TankGuy_Blue_Dizzy_Anim04 0x780D04
+#define ANIM_TankGuy_Blue_Dizzy_Anim05 0x780D05
+#define ANIM_TankGuy_Blue_Dizzy_Anim06 0x780D06
+#define ANIM_TankGuy_Blue_Dizzy_Anim07 0x780D07
+#define ANIM_TankGuy_Blue_Dizzy_Anim08 0x780D08
+#define ANIM_TankGuy_Blue_Dizzy_Anim09 0x780D09
+#define ANIM_TankGuy_Blue_Dizzy_Anim0A 0x780D0A
+
+#define ANIM_TankGuy_Green_Dizzy_Anim00 0x780E00
+#define ANIM_TankGuy_Green_Dizzy_Anim01 0x780E01
+#define ANIM_TankGuy_Green_Dizzy_Anim02 0x780E02
+#define ANIM_TankGuy_Green_Dizzy_Anim03 0x780E03
+#define ANIM_TankGuy_Green_Dizzy_Anim04 0x780E04
+#define ANIM_TankGuy_Green_Dizzy_Anim05 0x780E05
+#define ANIM_TankGuy_Green_Dizzy_Anim06 0x780E06
+#define ANIM_TankGuy_Green_Dizzy_Anim07 0x780E07
+#define ANIM_TankGuy_Green_Dizzy_Anim08 0x780E08
+#define ANIM_TankGuy_Green_Dizzy_Anim09 0x780E09
+#define ANIM_TankGuy_Green_Dizzy_Anim0A 0x780E0A
+
+#define ANIM_TankGuy_Pink_Dizzy_Anim00 0x780F00
+#define ANIM_TankGuy_Pink_Dizzy_Anim01 0x780F01
+#define ANIM_TankGuy_Pink_Dizzy_Anim02 0x780F02
+#define ANIM_TankGuy_Pink_Dizzy_Anim03 0x780F03
+#define ANIM_TankGuy_Pink_Dizzy_Anim04 0x780F04
+#define ANIM_TankGuy_Pink_Dizzy_Anim05 0x780F05
+#define ANIM_TankGuy_Pink_Dizzy_Anim06 0x780F06
+#define ANIM_TankGuy_Pink_Dizzy_Anim07 0x780F07
+#define ANIM_TankGuy_Pink_Dizzy_Anim08 0x780F08
+#define ANIM_TankGuy_Pink_Dizzy_Anim09 0x780F09
+#define ANIM_TankGuy_Pink_Dizzy_Anim0A 0x780F0A
+
+#define ANIM_TankGuy_Yellow_Dizzy_Anim00 0x781000
+#define ANIM_TankGuy_Yellow_Dizzy_Anim01 0x781001
+#define ANIM_TankGuy_Yellow_Dizzy_Anim02 0x781002
+#define ANIM_TankGuy_Yellow_Dizzy_Anim03 0x781003
+#define ANIM_TankGuy_Yellow_Dizzy_Anim04 0x781004
+#define ANIM_TankGuy_Yellow_Dizzy_Anim05 0x781005
+#define ANIM_TankGuy_Yellow_Dizzy_Anim06 0x781006
+#define ANIM_TankGuy_Yellow_Dizzy_Anim07 0x781007
+#define ANIM_TankGuy_Yellow_Dizzy_Anim08 0x781008
+#define ANIM_TankGuy_Yellow_Dizzy_Anim09 0x781009
+#define ANIM_TankGuy_Yellow_Dizzy_Anim0A 0x78100A
+
+#define ANIM_TankGuy_Black_Dizzy_Anim00 0x781100
+#define ANIM_TankGuy_Black_Dizzy_Anim01 0x781101
+#define ANIM_TankGuy_Black_Dizzy_Anim02 0x781102
+#define ANIM_TankGuy_Black_Dizzy_Anim03 0x781103
+#define ANIM_TankGuy_Black_Dizzy_Anim04 0x781104
+#define ANIM_TankGuy_Black_Dizzy_Anim05 0x781105
+#define ANIM_TankGuy_Black_Dizzy_Anim06 0x781106
+#define ANIM_TankGuy_Black_Dizzy_Anim07 0x781107
+#define ANIM_TankGuy_Black_Dizzy_Anim08 0x781108
+#define ANIM_TankGuy_Black_Dizzy_Anim09 0x781109
+#define ANIM_TankGuy_Black_Dizzy_Anim0A 0x78110A
+
+#define ANIM_TankGuy_Shocked_Anim00 0x781200
+#define ANIM_TankGuy_Shocked_Anim01 0x781201
+#define ANIM_TankGuy_Shocked_Anim02 0x781202
+#define ANIM_TankGuy_Shocked_Anim03 0x781203
+#define ANIM_TankGuy_Shocked_Anim04 0x781204
+#define ANIM_TankGuy_Shocked_Anim05 0x781205
+#define ANIM_TankGuy_Shocked_Anim06 0x781206
+#define ANIM_TankGuy_Shocked_Anim07 0x781207
+#define ANIM_TankGuy_Shocked_Anim08 0x781208
+#define ANIM_TankGuy_Shocked_Anim09 0x781209
+#define ANIM_TankGuy_Shocked_Anim0A 0x78120A
+
+#define ANIM_TankGuy_Blue_Shocked_Anim00 0x781300
+#define ANIM_TankGuy_Blue_Shocked_Anim01 0x781301
+#define ANIM_TankGuy_Blue_Shocked_Anim02 0x781302
+#define ANIM_TankGuy_Blue_Shocked_Anim03 0x781303
+#define ANIM_TankGuy_Blue_Shocked_Anim04 0x781304
+#define ANIM_TankGuy_Blue_Shocked_Anim05 0x781305
+#define ANIM_TankGuy_Blue_Shocked_Anim06 0x781306
+#define ANIM_TankGuy_Blue_Shocked_Anim07 0x781307
+#define ANIM_TankGuy_Blue_Shocked_Anim08 0x781308
+#define ANIM_TankGuy_Blue_Shocked_Anim09 0x781309
+#define ANIM_TankGuy_Blue_Shocked_Anim0A 0x78130A
+
+#define ANIM_TankGuy_Green_Shocked_Anim00 0x781400
+#define ANIM_TankGuy_Green_Shocked_Anim01 0x781401
+#define ANIM_TankGuy_Green_Shocked_Anim02 0x781402
+#define ANIM_TankGuy_Green_Shocked_Anim03 0x781403
+#define ANIM_TankGuy_Green_Shocked_Anim04 0x781404
+#define ANIM_TankGuy_Green_Shocked_Anim05 0x781405
+#define ANIM_TankGuy_Green_Shocked_Anim06 0x781406
+#define ANIM_TankGuy_Green_Shocked_Anim07 0x781407
+#define ANIM_TankGuy_Green_Shocked_Anim08 0x781408
+#define ANIM_TankGuy_Green_Shocked_Anim09 0x781409
+#define ANIM_TankGuy_Green_Shocked_Anim0A 0x78140A
+
+#define ANIM_TankGuy_Pink_Shocked_Anim00 0x781500
+#define ANIM_TankGuy_Pink_Shocked_Anim01 0x781501
+#define ANIM_TankGuy_Pink_Shocked_Anim02 0x781502
+#define ANIM_TankGuy_Pink_Shocked_Anim03 0x781503
+#define ANIM_TankGuy_Pink_Shocked_Anim04 0x781504
+#define ANIM_TankGuy_Pink_Shocked_Anim05 0x781505
+#define ANIM_TankGuy_Pink_Shocked_Anim06 0x781506
+#define ANIM_TankGuy_Pink_Shocked_Anim07 0x781507
+#define ANIM_TankGuy_Pink_Shocked_Anim08 0x781508
+#define ANIM_TankGuy_Pink_Shocked_Anim09 0x781509
+#define ANIM_TankGuy_Pink_Shocked_Anim0A 0x78150A
+
+#define ANIM_TankGuy_Yellow_Shocked_Anim00 0x781600
+#define ANIM_TankGuy_Yellow_Shocked_Anim01 0x781601
+#define ANIM_TankGuy_Yellow_Shocked_Anim02 0x781602
+#define ANIM_TankGuy_Yellow_Shocked_Anim03 0x781603
+#define ANIM_TankGuy_Yellow_Shocked_Anim04 0x781604
+#define ANIM_TankGuy_Yellow_Shocked_Anim05 0x781605
+#define ANIM_TankGuy_Yellow_Shocked_Anim06 0x781606
+#define ANIM_TankGuy_Yellow_Shocked_Anim07 0x781607
+#define ANIM_TankGuy_Yellow_Shocked_Anim08 0x781608
+#define ANIM_TankGuy_Yellow_Shocked_Anim09 0x781609
+#define ANIM_TankGuy_Yellow_Shocked_Anim0A 0x78160A
+
+#define ANIM_TankGuy_Black_Shocked_Anim00 0x781700
+#define ANIM_TankGuy_Black_Shocked_Anim01 0x781701
+#define ANIM_TankGuy_Black_Shocked_Anim02 0x781702
+#define ANIM_TankGuy_Black_Shocked_Anim03 0x781703
+#define ANIM_TankGuy_Black_Shocked_Anim04 0x781704
+#define ANIM_TankGuy_Black_Shocked_Anim05 0x781705
+#define ANIM_TankGuy_Black_Shocked_Anim06 0x781706
+#define ANIM_TankGuy_Black_Shocked_Anim07 0x781707
+#define ANIM_TankGuy_Black_Shocked_Anim08 0x781708
+#define ANIM_TankGuy_Black_Shocked_Anim09 0x781709
+#define ANIM_TankGuy_Black_Shocked_Anim0A 0x78170A
+
+#define ANIM_TankGuy_Burnt_Anim00 0x781800
+#define ANIM_TankGuy_Burnt_Anim01 0x781801
+#define ANIM_TankGuy_Burnt_Anim02 0x781802
+#define ANIM_TankGuy_Burnt_Anim03 0x781803
+#define ANIM_TankGuy_Burnt_Anim04 0x781804
+#define ANIM_TankGuy_Burnt_Anim05 0x781805
+#define ANIM_TankGuy_Burnt_Anim06 0x781806
+#define ANIM_TankGuy_Burnt_Anim07 0x781807
+#define ANIM_TankGuy_Burnt_Anim08 0x781808
+#define ANIM_TankGuy_Burnt_Anim09 0x781809
+#define ANIM_TankGuy_Burnt_Anim0A 0x78180A
+
+#endif

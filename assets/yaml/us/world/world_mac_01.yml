@@ -1,0 +1,17 @@
+# mac_01 map overlay - Toad House blanket animation
+# VRAM: 0x80240000, ROM: 0x800880
+
+:config:
+  virtual: [0x80240000, 0x800880]
+
+# Blanket vertices (350 verts)
+toad_house/blanket.vtx:
+  { type: VTX, offset: 0x80BE10, count: 350, symbol: toad_house_blanket_vtx }
+
+# Blanket display list
+toad_house/blanket.gfx:
+  { type: PM64:EFFECT_DL, offset: 0x80D3F0, size: 0x168, symbol: toad_house_blanket_gfx }
+
+# Blanket texture (RGBA16 16x32)
+toad_house/blanket:
+  { type: TEXTURE, format: RGBA16, offset: 0x80D558, width: 16, height: 32, symbol: toad_house_blanket_img }

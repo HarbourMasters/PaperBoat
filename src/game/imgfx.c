@@ -1757,6 +1757,10 @@ void imgfx_appendGfx_mesh_anim(ImgFXState* state, Matrix4f mtx) {
 
 void imgfx_appendGfx_mesh_strip(ImgFXState* state, Matrix4f mtx) {
     ImgFXOverlayTexture* ufs = state->ints.overlay.pattern;
+    u16 texW = LOAD_ASSET_TEX_WIDTH(ufs->raster);
+    u16 texH = LOAD_ASSET_TEX_HEIGHT(ufs->raster);
+    if (texW != 0) { ufs->width = texW; }
+    if (texH != 0) { ufs->height = texH; }
     s32 shifts = integer_log(ufs->width, 2);
     s32 shiftt = integer_log(ufs->height, 2);
     s32 uls, ult;
@@ -1774,8 +1778,8 @@ void imgfx_appendGfx_mesh_strip(ImgFXState* state, Matrix4f mtx) {
         gDPSetCombineMode(gMainGfxPos++, G_CC_MODULATEIA, G_CC_MODULATEIA);
     }
     gDPSetTextureLUT(gMainGfxPos++, G_TT_RGBA16);
-    gDPLoadTLUT_pal16(gMainGfxPos++, 0, ufs->palette);
-    gDPScrollTextureTile_4b(gMainGfxPos++, ufs->raster, G_IM_FMT_CI, ufs->width, ufs->height,
+    gDPLoadTLUT_pal16(gMainGfxPos++, 0, LOAD_ASSET(ufs->palette));
+    gDPScrollTextureTile_4b(gMainGfxPos++, LOAD_ASSET(ufs->raster), G_IM_FMT_CI, ufs->width, ufs->height,
                           0, 0, ufs->width - 1, ufs->height - 1, 0,
                           G_TX_WRAP, G_TX_WRAP, shifts, shiftt, G_TX_NOLOD, G_TX_NOLOD,
                           256, 256);
@@ -1788,7 +1792,7 @@ void imgfx_appendGfx_mesh_strip(ImgFXState* state, Matrix4f mtx) {
 
     state->floats.overlay.posX = (s32)(state->floats.overlay.posX + ufs->offsetX) % (ufs->width * 4);
     state->floats.overlay.posY = (s32)(state->floats.overlay.posY + ufs->offsetY) % (ufs->height * 4);
-    gSPDisplayList(gMainGfxPos++, ufs->displayList);
+    gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(ufs->displayList));
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }
 

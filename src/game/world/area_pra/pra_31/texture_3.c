@@ -1,6 +1,5 @@
 #include "pra_31.h"
-#include "include_asset.h"
+#include "assets/world.h"
 
-INCLUDE_IMG("world/area_pra/pra_31/texture_3.png", pra_31_texture_3_img);
-
-#include "world/area_pra/pra_31/texture_3.gfx.inc.c"
+// texture_3 texture and gfx extracted to OTR via world_pra_31.yml
+// pra_31_texture_3_img, pra_31_texture_3_gfx defined in assets/world.h

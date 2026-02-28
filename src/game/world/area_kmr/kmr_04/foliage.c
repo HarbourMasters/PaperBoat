@@ -1,10 +1,10 @@
 #include "kmr_04.h"
 #include "sprite/player.h"
-#include "include_asset.h"
+#include "assets/world.h"
 
-#include "world/area_kmr/kmr_04/hammer_block_message.png.h"
-INCLUDE_IMG("world/area_kmr/kmr_04/hammer_block_message.png", kmr_04_hammer_block_message_img);
-INCLUDE_PAL("world/area_kmr/kmr_04/hammer_block_message.pal", kmr_04_hammer_block_message_pal);
+// hammer_block_message texture and palette extracted to OTR via world.yml
+// kmr_04_hammer_block_message_img, kmr_04_hammer_block_message_pal defined in assets/world.h
+#include "port/Engine.h"
 
 #include "common/foliage.inc.c"
 
@@ -19,8 +19,8 @@ static MessageImageData MessageImage;
 API_CALLABLE(N(SetMessageImage_HammerBlock)) {
     MessageImage.raster = N(hammer_block_message_img);
     MessageImage.palette = N(hammer_block_message_pal);
-    MessageImage.width = N(hammer_block_message_img_width);
-    MessageImage.height = N(hammer_block_message_img_height);
+    MessageImage.width = LOAD_ASSET_TEX_WIDTH(N(hammer_block_message_img));
+    MessageImage.height = LOAD_ASSET_TEX_HEIGHT(N(hammer_block_message_img));
     MessageImage.format = G_IM_FMT_CI;
     MessageImage.bitDepth = G_IM_SIZ_4b;
     set_message_images(&MessageImage);

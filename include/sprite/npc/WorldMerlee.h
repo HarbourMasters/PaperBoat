@@ -1,0 +1,75 @@
+#ifndef _NPC_SPRITE_WORLDMERLEE_H_
+#define _NPC_SPRITE_WORLDMERLEE_H_
+
+#include "types.h"
+
+#define SPR_WorldMerlee 0xBA
+
+#define SPR_IMG_WorldMerlee_Idle1 0x0
+#define SPR_IMG_WorldMerlee_Idle2 0x1
+#define SPR_IMG_WorldMerlee_Idle3 0x2
+#define SPR_IMG_WorldMerlee_Step1 0x3
+#define SPR_IMG_WorldMerlee_Step2 0x4
+#define SPR_IMG_WorldMerlee_Talk 0x5
+#define SPR_IMG_WorldMerlee_Release1 0x6
+#define SPR_IMG_WorldMerlee_Release2 0x7
+#define SPR_IMG_WorldMerlee_Kneel 0x8
+#define SPR_IMG_WorldMerlee_SpinArmsUp 0x9
+#define SPR_IMG_WorldMerlee_SpinFront 0xA
+#define SPR_IMG_WorldMerlee_SpinBack 0xB
+#define SPR_IMG_WorldMerlee_Bow 0xC
+#define SPR_IMG_WorldMerlee_Gather1 0xD
+#define SPR_IMG_WorldMerlee_Gather2 0xE
+#define SPR_IMG_WorldMerlee_Gather3 0xF
+#define SPR_IMG_WorldMerlee_Gather4 0x10
+
+#define SPR_PAL_WorldMerlee 0x0
+#define SPR_PAL_WorldMerlee_Brighter 0x1
+#define SPR_PAL_WorldMerlee_Brightest 0x2
+
+#define ANIM_WorldMerlee_Still 0xBA0000
+#define ANIM_WorldMerlee_SpinBack 0xBA0001
+#define ANIM_WorldMerlee_SpinFront 0xBA0002
+#define ANIM_WorldMerlee_ArmsRaised 0xBA0003
+#define ANIM_WorldMerlee_Idle 0xBA0004
+#define ANIM_WorldMerlee_Walk 0xBA0005
+#define ANIM_WorldMerlee_Run 0xBA0006
+#define ANIM_WorldMerlee_Talk 0xBA0007
+#define ANIM_WorldMerlee_Spin 0xBA0008
+#define ANIM_WorldMerlee_Bow 0xBA0009
+#define ANIM_WorldMerlee_Gather 0xBA000A
+#define ANIM_WorldMerlee_Release 0xBA000B
+#define ANIM_WorldMerlee_ReleaseStill 0xBA000C
+#define ANIM_WorldMerlee_GatherStill 0xBA000D
+
+#define ANIM_WorldMerlee_Brighter_Still 0xBA0100
+#define ANIM_WorldMerlee_Brighter_SpinBack 0xBA0101
+#define ANIM_WorldMerlee_Brighter_SpinFront 0xBA0102
+#define ANIM_WorldMerlee_Brighter_ArmsRaised 0xBA0103
+#define ANIM_WorldMerlee_Brighter_Idle 0xBA0104
+#define ANIM_WorldMerlee_Brighter_Walk 0xBA0105
+#define ANIM_WorldMerlee_Brighter_Run 0xBA0106
+#define ANIM_WorldMerlee_Brighter_Talk 0xBA0107
+#define ANIM_WorldMerlee_Brighter_Spin 0xBA0108
+#define ANIM_WorldMerlee_Brighter_Bow 0xBA0109
+#define ANIM_WorldMerlee_Brighter_Gather 0xBA010A
+#define ANIM_WorldMerlee_Brighter_Release 0xBA010B
+#define ANIM_WorldMerlee_Brighter_ReleaseStill 0xBA010C
+#define ANIM_WorldMerlee_Brighter_GatherStill 0xBA010D
+
+#define ANIM_WorldMerlee_Brightest_Still 0xBA0200
+#define ANIM_WorldMerlee_Brightest_SpinBack 0xBA0201
+#define ANIM_WorldMerlee_Brightest_SpinFront 0xBA0202
+#define ANIM_WorldMerlee_Brightest_ArmsRaised 0xBA0203
+#define ANIM_WorldMerlee_Brightest_Idle 0xBA0204
+#define ANIM_WorldMerlee_Brightest_Walk 0xBA0205
+#define ANIM_WorldMerlee_Brightest_Run 0xBA0206
+#define ANIM_WorldMerlee_Brightest_Talk 0xBA0207
+#define ANIM_WorldMerlee_Brightest_Spin 0xBA0208
+#define ANIM_WorldMerlee_Brightest_Bow 0xBA0209
+#define ANIM_WorldMerlee_Brightest_Gather 0xBA020A
+#define ANIM_WorldMerlee_Brightest_Release 0xBA020B
+#define ANIM_WorldMerlee_Brightest_ReleaseStill 0xBA020C
+#define ANIM_WorldMerlee_Brightest_GatherStill 0xBA020D
+
+#endif

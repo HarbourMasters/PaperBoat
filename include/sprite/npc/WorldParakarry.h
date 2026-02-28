@@ -1,0 +1,97 @@
+#ifndef _NPC_SPRITE_WORLDPARAKARRY_H_
+#define _NPC_SPRITE_WORLDPARAKARRY_H_
+
+#include "types.h"
+
+#define SPR_WorldParakarry 0x04
+
+#define SPR_IMG_WorldParakarry_LWingFlap1 0x0
+#define SPR_IMG_WorldParakarry_LWingFlap2 0x1
+#define SPR_IMG_WorldParakarry_LWingFlap3 0x2
+#define SPR_IMG_WorldParakarry_LWingFlap4 0x3
+#define SPR_IMG_WorldParakarry_LegsBack 0x4
+#define SPR_IMG_WorldParakarry_LegsForward 0x5
+#define SPR_IMG_WorldParakarry_Talk 0x6
+#define SPR_IMG_WorldParakarry_Celebrate1 0x7
+#define SPR_IMG_WorldParakarry_Celebrate2 0x8
+#define SPR_IMG_WorldParakarry_Hurt1 0x9
+#define SPR_IMG_WorldParakarry_Hurt2 0xA
+#define SPR_IMG_WorldParakarry_Lift1 0xB
+#define SPR_IMG_WorldParakarry_Lift2 0xC
+#define SPR_IMG_WorldParakarry_RWingFlap1 0xD
+#define SPR_IMG_WorldParakarry_RWingFlap2 0xE
+#define SPR_IMG_WorldParakarry_RWingFlap3 0xF
+#define SPR_IMG_WorldParakarry_RWingFlap4 0x10
+#define SPR_IMG_WorldParakarry_RWingFlap5 0x11
+#define SPR_IMG_WorldParakarry_LWingFlap5 0x12
+#define SPR_IMG_WorldParakarry_Blink1 0x13
+#define SPR_IMG_WorldParakarry_Blink2 0x14
+#define SPR_IMG_WorldParakarry_RaisedArm 0x15
+
+#define SPR_PAL_WorldParakarry 0x0
+#define SPR_PAL_WorldParakarry_Poisoned 0x1
+#define SPR_PAL_WorldParakarry_Inactive 0x2
+#define SPR_PAL_WorldParakarry_Shocked 0x3
+#define SPR_PAL_WorldParakarry_Burnt 0x4
+
+#define ANIM_WorldParakarry_Still 0x040000
+#define ANIM_WorldParakarry_Idle 0x040001
+#define ANIM_WorldParakarry_Walk 0x040002
+#define ANIM_WorldParakarry_Run 0x040003
+#define ANIM_WorldParakarry_HurtStill 0x040004
+#define ANIM_WorldParakarry_Hurt 0x040005
+#define ANIM_WorldParakarry_Talk 0x040006
+#define ANIM_WorldParakarry_Celebrate 0x040007
+#define ANIM_WorldParakarry_FlyFast 0x040008
+#define ANIM_WorldParakarry_CarryLight 0x040009
+#define ANIM_WorldParakarry_CarryHeavy 0x04000A
+
+#define ANIM_WorldParakarry_Poisoned_Still 0x040100
+#define ANIM_WorldParakarry_Poisoned_Idle 0x040101
+#define ANIM_WorldParakarry_Poisoned_Walk 0x040102
+#define ANIM_WorldParakarry_Poisoned_Run 0x040103
+#define ANIM_WorldParakarry_Poisoned_HurtStill 0x040104
+#define ANIM_WorldParakarry_Poisoned_Hurt 0x040105
+#define ANIM_WorldParakarry_Poisoned_Talk 0x040106
+#define ANIM_WorldParakarry_Poisoned_Celebrate 0x040107
+#define ANIM_WorldParakarry_Poisoned_FlyFast 0x040108
+#define ANIM_WorldParakarry_Poisoned_CarryLight 0x040109
+#define ANIM_WorldParakarry_Poisoned_CarryHeavy 0x04010A
+
+#define ANIM_WorldParakarry_Inactive_Still 0x040200
+#define ANIM_WorldParakarry_Inactive_Idle 0x040201
+#define ANIM_WorldParakarry_Inactive_Walk 0x040202
+#define ANIM_WorldParakarry_Inactive_Run 0x040203
+#define ANIM_WorldParakarry_Inactive_HurtStill 0x040204
+#define ANIM_WorldParakarry_Inactive_Hurt 0x040205
+#define ANIM_WorldParakarry_Inactive_Talk 0x040206
+#define ANIM_WorldParakarry_Inactive_Celebrate 0x040207
+#define ANIM_WorldParakarry_Inactive_FlyFast 0x040208
+#define ANIM_WorldParakarry_Inactive_CarryLight 0x040209
+#define ANIM_WorldParakarry_Inactive_CarryHeavy 0x04020A
+
+#define ANIM_WorldParakarry_Shocked_Still 0x040300
+#define ANIM_WorldParakarry_Shocked_Idle 0x040301
+#define ANIM_WorldParakarry_Shocked_Walk 0x040302
+#define ANIM_WorldParakarry_Shocked_Run 0x040303
+#define ANIM_WorldParakarry_Shocked_HurtStill 0x040304
+#define ANIM_WorldParakarry_Shocked_Hurt 0x040305
+#define ANIM_WorldParakarry_Shocked_Talk 0x040306
+#define ANIM_WorldParakarry_Shocked_Celebrate 0x040307
+#define ANIM_WorldParakarry_Shocked_FlyFast 0x040308
+#define ANIM_WorldParakarry_Shocked_CarryLight 0x040309
+#define ANIM_WorldParakarry_Shocked_CarryHeavy 0x04030A
+
+#define ANIM_WorldParakarry_Burnt_Still 0x040400
+#define ANIM_WorldParakarry_Burnt_Idle 0x040401
+#define ANIM_WorldParakarry_Burnt_Walk 0x040402
+#define ANIM_WorldParakarry_Burnt_Run 0x040403
+#define ANIM_WorldParakarry_Burnt_HurtStill 0x040404
+#define ANIM_WorldParakarry_Burnt_Hurt 0x040405
+#define ANIM_WorldParakarry_Burnt_Talk 0x040406
+#define ANIM_WorldParakarry_Burnt_Celebrate 0x040407
+#define ANIM_WorldParakarry_Burnt_FlyFast 0x040408
+#define ANIM_WorldParakarry_Burnt_CarryLight 0x040409
+#define ANIM_WorldParakarry_Burnt_CarryHeavy 0x04040A
+
+#endif

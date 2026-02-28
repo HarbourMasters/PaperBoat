@@ -1,9 +1,14 @@
 #include "dgb_01.h"
-#include "ld_addrs.h"
 #include "sprite/player.h"
+#include "gbi_custom.h"
 
 API_CALLABLE(N(LoadSmashBridgesGraphics)) {
-    DMA_COPY_SEGMENT(dgb_01_smash_bridges);
+    StaticAnimatorNode** skeleton = N(SmashBridgesSkeleton);
+    for (s32 i = 0; skeleton[i] != NULL; i++) {
+        if (skeleton[i]->displayList != NULL) {
+            gbi_resolve_vtx_in_static_dl((Gfx*)skeleton[i]->displayList);
+        }
+    }
     return ApiStatus_DONE2;
 }
 

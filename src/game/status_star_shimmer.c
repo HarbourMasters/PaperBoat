@@ -1,5 +1,6 @@
 #include "common.h"
-#include "assets/ui.h"
+#include "assets/status_star_shimmer.h"
+#include "port/Engine.h"
 
 Vp ShimmerViewport = {
     .vp = {
@@ -7,11 +8,6 @@ Vp ShimmerViewport = {
         .vtrans = { 640, 480, 511, 0 }
     }
 };
-
-#include "A2B70.vtx.inc.c" // Vtx_StatusShimmer_Particle
-
-#include "A2BC0.gfx.inc.c" // Gfx_StatusShimmer_SetupTex
-#include "A2C88.gfx.inc.c" // Gfx_StatusShimmer_DrawParticle
 
 #define NUM_PARTICLES 56
 
@@ -162,7 +158,7 @@ void star_power_shimmer_draw(void) {
     guMtxF2L(viewMtx, &gDisplayContext->matrixStack[gMatrixListPos]);
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
-    gSPDisplayList(gMainGfxPos++, D_80109710); // setup texture
+    gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(D_80109710)); // setup texture
     gDPSetEnvColor(gMainGfxPos++, 127, 127, 127, 127);
 
     for (i = 0; i < ARRAY_COUNT(ShimmerEmitters); i++, emitter++) {
@@ -181,7 +177,7 @@ void star_power_shimmer_draw(void) {
                     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
                               G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
                     gDPSetPrimColor(gMainGfxPos++, 0, 80 - particle->animTime, particle->rgba.r, particle->rgba.g, particle->rgba.b, particle->rgba.a);
-                    gSPDisplayList(gMainGfxPos++, D_801097D8); // draw particle
+                    gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(D_801097D8)); // draw particle
                     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
                 }
             }

@@ -1,0 +1,174 @@
+#ifndef _NPC_SPRITE_MONSTAR_H_
+#define _NPC_SPRITE_MONSTAR_H_
+
+#include "types.h"
+
+#define SPR_Monstar 0x7E
+
+#define SPR_IMG_Monstar_OutlineIdle1 0x0
+#define SPR_IMG_Monstar_OutlineIdle2 0x1
+#define SPR_IMG_Monstar_OutlineGather1 0x2
+#define SPR_IMG_Monstar_OutlineGather2 0x3
+#define SPR_IMG_Monstar_OutlineRearUp1 0x4
+#define SPR_IMG_Monstar_OutlineRearUp2 0x5
+#define SPR_IMG_Monstar_BodyIdle1 0x6
+#define SPR_IMG_Monstar_BodyIdle2 0x7
+#define SPR_IMG_Monstar_BodyGather1 0x8
+#define SPR_IMG_Monstar_BodyGather2 0x9
+#define SPR_IMG_Monstar_BodyRearUp1 0xA
+#define SPR_IMG_Monstar_BodyRearUp2 0xB
+#define SPR_IMG_Monstar_BodyFlail1 0xC
+#define SPR_IMG_Monstar_BodyFlail2 0xD
+#define SPR_IMG_Monstar_FaceNeutral 0xE
+#define SPR_IMG_Monstar_FaceHappy 0xF
+#define SPR_IMG_Monstar_FaceScared 0x10
+#define SPR_IMG_Monstar_FaceGather1 0x11
+#define SPR_IMG_Monstar_FaceHurt 0x12
+#define SPR_IMG_Monstar_FaceTalk 0x13
+#define SPR_IMG_Monstar_FaceHappyTalk 0x14
+#define SPR_IMG_Monstar_FaceScaredTalk 0x15
+#define SPR_IMG_Monstar_FaceGather2 0x16
+#define SPR_IMG_Monstar_FaceRelease1 0x17
+#define SPR_IMG_Monstar_FaceHappyRearUp1 0x18
+#define SPR_IMG_Monstar_FaceRelease2 0x19
+#define SPR_IMG_Monstar_FaceHappyRearUp2 0x1A
+#define SPR_IMG_Monstar_FaceScaredFlail 0x1B
+
+#define SPR_PAL_Monstar 0x0
+#define SPR_PAL_Monstar_Outline 0x1
+#define SPR_PAL_Monstar_Unused1 0x2
+#define SPR_PAL_Monstar_Unused2 0x3
+#define SPR_PAL_Monstar_Unused3 0x4
+#define SPR_PAL_Monstar_Unused4 0x5
+#define SPR_PAL_Monstar_Unused5 0x6
+#define SPR_PAL_Monstar_Unused6 0x7
+
+#define ANIM_Monstar_Still 0x7E0000
+#define ANIM_Monstar_Idle1 0x7E0001
+#define ANIM_Monstar_Idle2 0x7E0002
+#define ANIM_Monstar_Idle3 0x7E0003
+#define ANIM_Monstar_GatherStrength1 0x7E0004
+#define ANIM_Monstar_GatherStrength2 0x7E0005
+#define ANIM_Monstar_GatherStrength3 0x7E0006
+#define ANIM_Monstar_Release 0x7E0007
+#define ANIM_Monstar_Hurt 0x7E0008
+#define ANIM_Monstar_Talk 0x7E0009
+#define ANIM_Monstar_ScaredTalk 0x7E000A
+#define ANIM_Monstar_HappyTalk 0x7E000B
+#define ANIM_Monstar_Flail 0x7E000C
+#define ANIM_Monstar_HappyRearUp 0x7E000D
+#define ANIM_Monstar_RearUp 0x7E000E
+
+#define ANIM_Monstar_Outline_Still 0x7E0100
+#define ANIM_Monstar_Outline_Idle1 0x7E0101
+#define ANIM_Monstar_Outline_Idle2 0x7E0102
+#define ANIM_Monstar_Outline_Idle3 0x7E0103
+#define ANIM_Monstar_Outline_GatherStrength1 0x7E0104
+#define ANIM_Monstar_Outline_GatherStrength2 0x7E0105
+#define ANIM_Monstar_Outline_GatherStrength3 0x7E0106
+#define ANIM_Monstar_Outline_Release 0x7E0107
+#define ANIM_Monstar_Outline_Hurt 0x7E0108
+#define ANIM_Monstar_Outline_Talk 0x7E0109
+#define ANIM_Monstar_Outline_ScaredTalk 0x7E010A
+#define ANIM_Monstar_Outline_HappyTalk 0x7E010B
+#define ANIM_Monstar_Outline_Flail 0x7E010C
+#define ANIM_Monstar_Outline_HappyRearUp 0x7E010D
+#define ANIM_Monstar_Outline_RearUp 0x7E010E
+
+#define ANIM_Monstar_Unused1_Still 0x7E0200
+#define ANIM_Monstar_Unused1_Idle1 0x7E0201
+#define ANIM_Monstar_Unused1_Idle2 0x7E0202
+#define ANIM_Monstar_Unused1_Idle3 0x7E0203
+#define ANIM_Monstar_Unused1_GatherStrength1 0x7E0204
+#define ANIM_Monstar_Unused1_GatherStrength2 0x7E0205
+#define ANIM_Monstar_Unused1_GatherStrength3 0x7E0206
+#define ANIM_Monstar_Unused1_Release 0x7E0207
+#define ANIM_Monstar_Unused1_Hurt 0x7E0208
+#define ANIM_Monstar_Unused1_Talk 0x7E0209
+#define ANIM_Monstar_Unused1_ScaredTalk 0x7E020A
+#define ANIM_Monstar_Unused1_HappyTalk 0x7E020B
+#define ANIM_Monstar_Unused1_Flail 0x7E020C
+#define ANIM_Monstar_Unused1_HappyRearUp 0x7E020D
+#define ANIM_Monstar_Unused1_RearUp 0x7E020E
+
+#define ANIM_Monstar_Unused2_Still 0x7E0300
+#define ANIM_Monstar_Unused2_Idle1 0x7E0301
+#define ANIM_Monstar_Unused2_Idle2 0x7E0302
+#define ANIM_Monstar_Unused2_Idle3 0x7E0303
+#define ANIM_Monstar_Unused2_GatherStrength1 0x7E0304
+#define ANIM_Monstar_Unused2_GatherStrength2 0x7E0305
+#define ANIM_Monstar_Unused2_GatherStrength3 0x7E0306
+#define ANIM_Monstar_Unused2_Release 0x7E0307
+#define ANIM_Monstar_Unused2_Hurt 0x7E0308
+#define ANIM_Monstar_Unused2_Talk 0x7E0309
+#define ANIM_Monstar_Unused2_ScaredTalk 0x7E030A
+#define ANIM_Monstar_Unused2_HappyTalk 0x7E030B
+#define ANIM_Monstar_Unused2_Flail 0x7E030C
+#define ANIM_Monstar_Unused2_HappyRearUp 0x7E030D
+#define ANIM_Monstar_Unused2_RearUp 0x7E030E
+
+#define ANIM_Monstar_Unused3_Still 0x7E0400
+#define ANIM_Monstar_Unused3_Idle1 0x7E0401
+#define ANIM_Monstar_Unused3_Idle2 0x7E0402
+#define ANIM_Monstar_Unused3_Idle3 0x7E0403
+#define ANIM_Monstar_Unused3_GatherStrength1 0x7E0404
+#define ANIM_Monstar_Unused3_GatherStrength2 0x7E0405
+#define ANIM_Monstar_Unused3_GatherStrength3 0x7E0406
+#define ANIM_Monstar_Unused3_Release 0x7E0407
+#define ANIM_Monstar_Unused3_Hurt 0x7E0408
+#define ANIM_Monstar_Unused3_Talk 0x7E0409
+#define ANIM_Monstar_Unused3_ScaredTalk 0x7E040A
+#define ANIM_Monstar_Unused3_HappyTalk 0x7E040B
+#define ANIM_Monstar_Unused3_Flail 0x7E040C
+#define ANIM_Monstar_Unused3_HappyRearUp 0x7E040D
+#define ANIM_Monstar_Unused3_RearUp 0x7E040E
+
+#define ANIM_Monstar_Unused4_Still 0x7E0500
+#define ANIM_Monstar_Unused4_Idle1 0x7E0501
+#define ANIM_Monstar_Unused4_Idle2 0x7E0502
+#define ANIM_Monstar_Unused4_Idle3 0x7E0503
+#define ANIM_Monstar_Unused4_GatherStrength1 0x7E0504
+#define ANIM_Monstar_Unused4_GatherStrength2 0x7E0505
+#define ANIM_Monstar_Unused4_GatherStrength3 0x7E0506
+#define ANIM_Monstar_Unused4_Release 0x7E0507
+#define ANIM_Monstar_Unused4_Hurt 0x7E0508
+#define ANIM_Monstar_Unused4_Talk 0x7E0509
+#define ANIM_Monstar_Unused4_ScaredTalk 0x7E050A
+#define ANIM_Monstar_Unused4_HappyTalk 0x7E050B
+#define ANIM_Monstar_Unused4_Flail 0x7E050C
+#define ANIM_Monstar_Unused4_HappyRearUp 0x7E050D
+#define ANIM_Monstar_Unused4_RearUp 0x7E050E
+
+#define ANIM_Monstar_Unused5_Still 0x7E0600
+#define ANIM_Monstar_Unused5_Idle1 0x7E0601
+#define ANIM_Monstar_Unused5_Idle2 0x7E0602
+#define ANIM_Monstar_Unused5_Idle3 0x7E0603
+#define ANIM_Monstar_Unused5_GatherStrength1 0x7E0604
+#define ANIM_Monstar_Unused5_GatherStrength2 0x7E0605
+#define ANIM_Monstar_Unused5_GatherStrength3 0x7E0606
+#define ANIM_Monstar_Unused5_Release 0x7E0607
+#define ANIM_Monstar_Unused5_Hurt 0x7E0608
+#define ANIM_Monstar_Unused5_Talk 0x7E0609
+#define ANIM_Monstar_Unused5_ScaredTalk 0x7E060A
+#define ANIM_Monstar_Unused5_HappyTalk 0x7E060B
+#define ANIM_Monstar_Unused5_Flail 0x7E060C
+#define ANIM_Monstar_Unused5_HappyRearUp 0x7E060D
+#define ANIM_Monstar_Unused5_RearUp 0x7E060E
+
+#define ANIM_Monstar_Unused6_Still 0x7E0700
+#define ANIM_Monstar_Unused6_Idle1 0x7E0701
+#define ANIM_Monstar_Unused6_Idle2 0x7E0702
+#define ANIM_Monstar_Unused6_Idle3 0x7E0703
+#define ANIM_Monstar_Unused6_GatherStrength1 0x7E0704
+#define ANIM_Monstar_Unused6_GatherStrength2 0x7E0705
+#define ANIM_Monstar_Unused6_GatherStrength3 0x7E0706
+#define ANIM_Monstar_Unused6_Release 0x7E0707
+#define ANIM_Monstar_Unused6_Hurt 0x7E0708
+#define ANIM_Monstar_Unused6_Talk 0x7E0709
+#define ANIM_Monstar_Unused6_ScaredTalk 0x7E070A
+#define ANIM_Monstar_Unused6_HappyTalk 0x7E070B
+#define ANIM_Monstar_Unused6_Flail 0x7E070C
+#define ANIM_Monstar_Unused6_HappyRearUp 0x7E070D
+#define ANIM_Monstar_Unused6_RearUp 0x7E070E
+
+#endif

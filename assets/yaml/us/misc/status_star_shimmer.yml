@@ -1,0 +1,12 @@
+# Status star shimmer - engine1 overlay
+# ROM offsets from ver/us/splat.yaml
+
+:config:
+  virtual: [0x800DC500, 0x759B0]
+
+vtx:
+  { type: VTX, offset: 0xA2B70, count: 5, symbol: D_801096C0 }
+setup_gfx:
+  { type: GFX, offset: 0xA2BC0, symbol: D_80109710 }
+draw_gfx:
+  { type: GFX, offset: 0xA2C88, symbol: D_801097D8 }

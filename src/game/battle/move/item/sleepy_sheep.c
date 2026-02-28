@@ -4,7 +4,7 @@
 #include "ld_addrs.h"
 #include "effects.h"
 #include "sprite/player.h"
-#include "include_asset.h"
+#include "assets/battle.h"
 
 #define NAMESPACE battle_item_sleepy_sheep
 
@@ -172,18 +172,6 @@ API_CALLABLE(N(func_802A1848_71EE98)) {
 
 static s32 _pad = 0;
 
-#include "battle/move/item/sleepy_sheep1.png.h"
-INCLUDE_IMG("battle/move/item/sleepy_sheep1.png", battle_item_sleepy_sheep1_png);
-INCLUDE_PAL("battle/move/item/sleepy_sheep1.pal", battle_item_sleepy_sheep1_pal);
-
-#include "battle/move/item/sleepy_sheep2.png.h"
-INCLUDE_IMG("battle/move/item/sleepy_sheep2.png", battle_item_sleepy_sheep2_png);
-INCLUDE_PAL("battle/move/item/sleepy_sheep2.pal", battle_item_sleepy_sheep2_pal);
-
-#include "battle/move/item/sleepy_sheep3.png.h"
-INCLUDE_IMG("battle/move/item/sleepy_sheep3.png", battle_item_sleepy_sheep3_png);
-INCLUDE_PAL("battle/move/item/sleepy_sheep3.pal", battle_item_sleepy_sheep3_pal);
-
 Vtx N(model)[] = {
     { .v = {{ -28,  0,  0 }, false, { 0,    1536 }, { 0, 0, 0, 255 }}},
     { .v = {{  27,  0,  0 }, false, { 1792, 1536 }, { 0, 0, 0, 255 }}},
@@ -203,7 +191,8 @@ Gfx N(frame1_displayList)[] = {
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPLoadTLUT_pal16(0, battle_item_sleepy_sheep1_pal),
-    gsDPLoadTextureTile_4b(battle_item_sleepy_sheep1_png, G_IM_FMT_CI, battle_item_sleepy_sheep1_png_width, battle_item_sleepy_sheep1_png_height, 0, 0, battle_item_sleepy_sheep1_png_width - 1, battle_item_sleepy_sheep1_png_height - 1, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(battle_item_sleepy_sheep1_png, G_IM_FMT_CI, 56, 48, 0, 0, 55, 47, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
     gsSPClearGeometryMode(G_LIGHTING),
     gsSPClearGeometryMode(G_SHADING_SMOOTH),
     gsSPVertex(N(model), ARRAY_COUNT(N(model)), 0),
@@ -225,7 +214,8 @@ Gfx N(frame2_displayList)[] = {
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPLoadTLUT_pal16(0, battle_item_sleepy_sheep2_pal),
-    gsDPLoadTextureTile_4b(battle_item_sleepy_sheep2_png, G_IM_FMT_CI, battle_item_sleepy_sheep2_png_width, battle_item_sleepy_sheep2_png_height, 0, 0, battle_item_sleepy_sheep2_png_width - 1, battle_item_sleepy_sheep2_png_height - 1, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(battle_item_sleepy_sheep2_png, G_IM_FMT_CI, 56, 48, 0, 0, 55, 47, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
     gsSPClearGeometryMode(G_LIGHTING),
     gsSPClearGeometryMode(G_SHADING_SMOOTH),
     gsSPVertex(N(model), ARRAY_COUNT(N(model)), 0),
@@ -247,7 +237,8 @@ Gfx N(frame3_displayList)[] = {
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPLoadTLUT_pal16(0, battle_item_sleepy_sheep3_pal),
-    gsDPLoadTextureTile_4b(battle_item_sleepy_sheep3_png, G_IM_FMT_CI, battle_item_sleepy_sheep3_png_width, battle_item_sleepy_sheep3_png_height, 0, 0, battle_item_sleepy_sheep3_png_width - 1, battle_item_sleepy_sheep3_png_height - 1, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
+    // dimensions are overridden at runtime by the interpreter using OTR texture metadata
+    gsDPLoadTextureTile_4b(battle_item_sleepy_sheep3_png, G_IM_FMT_CI, 56, 48, 0, 0, 55, 47, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
     gsSPClearGeometryMode(G_LIGHTING),
     gsSPClearGeometryMode(G_SHADING_SMOOTH),
     gsSPVertex(N(model), ARRAY_COUNT(N(model)), 0),

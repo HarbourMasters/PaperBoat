@@ -2,7 +2,7 @@
 #include "effects.h"
 #include "entity.h"
 #include "sprite/player.h"
-#include "include_asset.h"
+#include "assets/battle.h"
 
 #define NAMESPACE battle_move_hammer_throw
 
@@ -10,29 +10,10 @@
 
 static s32 pad_images = 0;
 
-INCLUDE_IMG("battle/move/hammer/dusty_hammer.png", battle_move_hammer_throw_dusty_hammer_png);
-INCLUDE_PAL("battle/move/hammer/dusty_hammer.pal", battle_move_hammer_throw_dusty_hammer_pal);
-
-INCLUDE_IMG("battle/move/hammer/basic_hammer.png", battle_move_hammer_throw_basic_hammer_png);
-INCLUDE_PAL("battle/move/hammer/basic_hammer.pal", battle_move_hammer_throw_basic_hammer_pal);
-
-INCLUDE_IMG("battle/move/hammer/super_hammer.png", battle_move_hammer_throw_super_hammer_png);
-INCLUDE_PAL("battle/move/hammer/super_hammer.pal", battle_move_hammer_throw_super_hammer_pal);
-
-INCLUDE_IMG("battle/move/hammer/ultra_hammer.png", battle_move_hammer_throw_ultra_hammer_png);
-INCLUDE_PAL("battle/move/hammer/ultra_hammer.pal", battle_move_hammer_throw_ultra_hammer_pal);
-
-#include "battle/move/hammer/hammer_throw.vtx.inc.c"
-
-#include "battle/move/hammer/dusty_hammer.gfx.inc.c"
-#include "battle/move/hammer/basic_hammer.gfx.inc.c"
-#include "battle/move/hammer/super_hammer.gfx.inc.c"
-#include "battle/move/hammer/ultra_hammer.gfx.inc.c"
-
-EntityModelScript N(EMS_DustyHammer) = STANDARD_ENTITY_MODEL_SCRIPT(N(dusty_hammer_gfx), RENDER_MODE_ALPHATEST);
-EntityModelScript N(EMS_BasicHammer) = STANDARD_ENTITY_MODEL_SCRIPT(N(basic_hammer_gfx), RENDER_MODE_ALPHATEST);
-EntityModelScript N(EMS_SuperHammer) = STANDARD_ENTITY_MODEL_SCRIPT(N(super_hammer_gfx), RENDER_MODE_ALPHATEST);
-EntityModelScript N(EMS_UltraHammer) = STANDARD_ENTITY_MODEL_SCRIPT(N(ultra_hammer_gfx), RENDER_MODE_ALPHATEST);
+EntityModelScript N(EMS_DustyHammer) = STANDARD_ENTITY_MODEL_SCRIPT(battle_move_hammer_throw_dusty_hammer_gfx, RENDER_MODE_ALPHATEST);
+EntityModelScript N(EMS_BasicHammer) = STANDARD_ENTITY_MODEL_SCRIPT(battle_move_hammer_throw_basic_hammer_gfx, RENDER_MODE_ALPHATEST);
+EntityModelScript N(EMS_SuperHammer) = STANDARD_ENTITY_MODEL_SCRIPT(battle_move_hammer_throw_super_hammer_gfx, RENDER_MODE_ALPHATEST);
+EntityModelScript N(EMS_UltraHammer) = STANDARD_ENTITY_MODEL_SCRIPT(battle_move_hammer_throw_ultra_hammer_gfx, RENDER_MODE_ALPHATEST);
 
 extern EvtScript N(EVS_UseMove_Impl);
 

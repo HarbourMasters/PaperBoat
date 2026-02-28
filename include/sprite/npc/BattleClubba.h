@@ -1,0 +1,161 @@
+#ifndef _NPC_SPRITE_BATTLECLUBBA_H_
+#define _NPC_SPRITE_BATTLECLUBBA_H_
+
+#include "types.h"
+
+#define SPR_BattleClubba 0x3A
+
+#define SPR_IMG_BattleClubba_Raster00 0x0
+#define SPR_IMG_BattleClubba_Raster01 0x1
+#define SPR_IMG_BattleClubba_Raster02 0x2
+#define SPR_IMG_BattleClubba_Raster03 0x3
+#define SPR_IMG_BattleClubba_Raster04 0x4
+#define SPR_IMG_BattleClubba_Raster05 0x5
+#define SPR_IMG_BattleClubba_Raster06 0x6
+#define SPR_IMG_BattleClubba_Raster07 0x7
+#define SPR_IMG_BattleClubba_Raster08 0x8
+#define SPR_IMG_BattleClubba_Raster09 0x9
+#define SPR_IMG_BattleClubba_Raster0A 0xA
+#define SPR_IMG_BattleClubba_Raster0B 0xB
+#define SPR_IMG_BattleClubba_Raster0C 0xC
+#define SPR_IMG_BattleClubba_Raster0D 0xD
+#define SPR_IMG_BattleClubba_Raster0E 0xE
+#define SPR_IMG_BattleClubba_Raster0F 0xF
+#define SPR_IMG_BattleClubba_Raster10 0x10
+#define SPR_IMG_BattleClubba_Raster11 0x11
+#define SPR_IMG_BattleClubba_Raster12 0x12
+#define SPR_IMG_BattleClubba_Raster13 0x13
+#define SPR_IMG_BattleClubba_Raster14 0x14
+#define SPR_IMG_BattleClubba_Raster15 0x15
+#define SPR_IMG_BattleClubba_Raster16 0x16
+#define SPR_IMG_BattleClubba_Raster17 0x17
+#define SPR_IMG_BattleClubba_Raster18 0x18
+#define SPR_IMG_BattleClubba_Raster19 0x19
+#define SPR_IMG_BattleClubba_Raster1A 0x1A
+#define SPR_IMG_BattleClubba_Raster1B 0x1B
+#define SPR_IMG_BattleClubba_Raster1C 0x1C
+#define SPR_IMG_BattleClubba_Raster1D 0x1D
+#define SPR_IMG_BattleClubba_Raster1E 0x1E
+#define SPR_IMG_BattleClubba_Raster1F 0x1F
+#define SPR_IMG_BattleClubba_Raster20 0x20
+#define SPR_IMG_BattleClubba_Raster21 0x21
+
+#define SPR_PAL_BattleClubba 0x0
+#define SPR_PAL_BattleClubba_Frost 0x1
+#define SPR_PAL_BattleClubba_Poisoned 0x2
+#define SPR_PAL_BattleClubba_Frost_Poisoned 0x3
+#define SPR_PAL_BattleClubba_Dizzy 0x4
+#define SPR_PAL_BattleClubba_Frost_Dizzy 0x5
+#define SPR_PAL_BattleClubba_Shocked 0x6
+#define SPR_PAL_BattleClubba_Frost_Shocked 0x7
+#define SPR_PAL_BattleClubba_Burnt 0x8
+
+#define ANIM_BattleClubba_Anim00 0x3A0000
+#define ANIM_BattleClubba_Anim01 0x3A0001
+#define ANIM_BattleClubba_Anim02 0x3A0002
+#define ANIM_BattleClubba_Anim03 0x3A0003
+#define ANIM_BattleClubba_Anim04 0x3A0004
+#define ANIM_BattleClubba_Anim05 0x3A0005
+#define ANIM_BattleClubba_Anim06 0x3A0006
+#define ANIM_BattleClubba_Anim07 0x3A0007
+#define ANIM_BattleClubba_Anim08 0x3A0008
+#define ANIM_BattleClubba_Anim09 0x3A0009
+#define ANIM_BattleClubba_Anim0A 0x3A000A
+
+#define ANIM_BattleClubba_Frost_Anim00 0x3A0100
+#define ANIM_BattleClubba_Frost_Anim01 0x3A0101
+#define ANIM_BattleClubba_Frost_Anim02 0x3A0102
+#define ANIM_BattleClubba_Frost_Anim03 0x3A0103
+#define ANIM_BattleClubba_Frost_Anim04 0x3A0104
+#define ANIM_BattleClubba_Frost_Anim05 0x3A0105
+#define ANIM_BattleClubba_Frost_Anim06 0x3A0106
+#define ANIM_BattleClubba_Frost_Anim07 0x3A0107
+#define ANIM_BattleClubba_Frost_Anim08 0x3A0108
+#define ANIM_BattleClubba_Frost_Anim09 0x3A0109
+#define ANIM_BattleClubba_Frost_Anim0A 0x3A010A
+
+#define ANIM_BattleClubba_Poisoned_Anim00 0x3A0200
+#define ANIM_BattleClubba_Poisoned_Anim01 0x3A0201
+#define ANIM_BattleClubba_Poisoned_Anim02 0x3A0202
+#define ANIM_BattleClubba_Poisoned_Anim03 0x3A0203
+#define ANIM_BattleClubba_Poisoned_Anim04 0x3A0204
+#define ANIM_BattleClubba_Poisoned_Anim05 0x3A0205
+#define ANIM_BattleClubba_Poisoned_Anim06 0x3A0206
+#define ANIM_BattleClubba_Poisoned_Anim07 0x3A0207
+#define ANIM_BattleClubba_Poisoned_Anim08 0x3A0208
+#define ANIM_BattleClubba_Poisoned_Anim09 0x3A0209
+#define ANIM_BattleClubba_Poisoned_Anim0A 0x3A020A
+
+#define ANIM_BattleClubba_Frost_Poisoned_Anim00 0x3A0300
+#define ANIM_BattleClubba_Frost_Poisoned_Anim01 0x3A0301
+#define ANIM_BattleClubba_Frost_Poisoned_Anim02 0x3A0302
+#define ANIM_BattleClubba_Frost_Poisoned_Anim03 0x3A0303
+#define ANIM_BattleClubba_Frost_Poisoned_Anim04 0x3A0304
+#define ANIM_BattleClubba_Frost_Poisoned_Anim05 0x3A0305
+#define ANIM_BattleClubba_Frost_Poisoned_Anim06 0x3A0306
+#define ANIM_BattleClubba_Frost_Poisoned_Anim07 0x3A0307
+#define ANIM_BattleClubba_Frost_Poisoned_Anim08 0x3A0308
+#define ANIM_BattleClubba_Frost_Poisoned_Anim09 0x3A0309
+#define ANIM_BattleClubba_Frost_Poisoned_Anim0A 0x3A030A
+
+#define ANIM_BattleClubba_Dizzy_Anim00 0x3A0400
+#define ANIM_BattleClubba_Dizzy_Anim01 0x3A0401
+#define ANIM_BattleClubba_Dizzy_Anim02 0x3A0402
+#define ANIM_BattleClubba_Dizzy_Anim03 0x3A0403
+#define ANIM_BattleClubba_Dizzy_Anim04 0x3A0404
+#define ANIM_BattleClubba_Dizzy_Anim05 0x3A0405
+#define ANIM_BattleClubba_Dizzy_Anim06 0x3A0406
+#define ANIM_BattleClubba_Dizzy_Anim07 0x3A0407
+#define ANIM_BattleClubba_Dizzy_Anim08 0x3A0408
+#define ANIM_BattleClubba_Dizzy_Anim09 0x3A0409
+#define ANIM_BattleClubba_Dizzy_Anim0A 0x3A040A
+
+#define ANIM_BattleClubba_Frost_Dizzy_Anim00 0x3A0500
+#define ANIM_BattleClubba_Frost_Dizzy_Anim01 0x3A0501
+#define ANIM_BattleClubba_Frost_Dizzy_Anim02 0x3A0502
+#define ANIM_BattleClubba_Frost_Dizzy_Anim03 0x3A0503
+#define ANIM_BattleClubba_Frost_Dizzy_Anim04 0x3A0504
+#define ANIM_BattleClubba_Frost_Dizzy_Anim05 0x3A0505
+#define ANIM_BattleClubba_Frost_Dizzy_Anim06 0x3A0506
+#define ANIM_BattleClubba_Frost_Dizzy_Anim07 0x3A0507
+#define ANIM_BattleClubba_Frost_Dizzy_Anim08 0x3A0508
+#define ANIM_BattleClubba_Frost_Dizzy_Anim09 0x3A0509
+#define ANIM_BattleClubba_Frost_Dizzy_Anim0A 0x3A050A
+
+#define ANIM_BattleClubba_Shocked_Anim00 0x3A0600
+#define ANIM_BattleClubba_Shocked_Anim01 0x3A0601
+#define ANIM_BattleClubba_Shocked_Anim02 0x3A0602
+#define ANIM_BattleClubba_Shocked_Anim03 0x3A0603
+#define ANIM_BattleClubba_Shocked_Anim04 0x3A0604
+#define ANIM_BattleClubba_Shocked_Anim05 0x3A0605
+#define ANIM_BattleClubba_Shocked_Anim06 0x3A0606
+#define ANIM_BattleClubba_Shocked_Anim07 0x3A0607
+#define ANIM_BattleClubba_Shocked_Anim08 0x3A0608
+#define ANIM_BattleClubba_Shocked_Anim09 0x3A0609
+#define ANIM_BattleClubba_Shocked_Anim0A 0x3A060A
+
+#define ANIM_BattleClubba_Frost_Shocked_Anim00 0x3A0700
+#define ANIM_BattleClubba_Frost_Shocked_Anim01 0x3A0701
+#define ANIM_BattleClubba_Frost_Shocked_Anim02 0x3A0702
+#define ANIM_BattleClubba_Frost_Shocked_Anim03 0x3A0703
+#define ANIM_BattleClubba_Frost_Shocked_Anim04 0x3A0704
+#define ANIM_BattleClubba_Frost_Shocked_Anim05 0x3A0705
+#define ANIM_BattleClubba_Frost_Shocked_Anim06 0x3A0706
+#define ANIM_BattleClubba_Frost_Shocked_Anim07 0x3A0707
+#define ANIM_BattleClubba_Frost_Shocked_Anim08 0x3A0708
+#define ANIM_BattleClubba_Frost_Shocked_Anim09 0x3A0709
+#define ANIM_BattleClubba_Frost_Shocked_Anim0A 0x3A070A
+
+#define ANIM_BattleClubba_Burnt_Anim00 0x3A0800
+#define ANIM_BattleClubba_Burnt_Anim01 0x3A0801
+#define ANIM_BattleClubba_Burnt_Anim02 0x3A0802
+#define ANIM_BattleClubba_Burnt_Anim03 0x3A0803
+#define ANIM_BattleClubba_Burnt_Anim04 0x3A0804
+#define ANIM_BattleClubba_Burnt_Anim05 0x3A0805
+#define ANIM_BattleClubba_Burnt_Anim06 0x3A0806
+#define ANIM_BattleClubba_Burnt_Anim07 0x3A0807
+#define ANIM_BattleClubba_Burnt_Anim08 0x3A0808
+#define ANIM_BattleClubba_Burnt_Anim09 0x3A0809
+#define ANIM_BattleClubba_Burnt_Anim0A 0x3A080A
+
+#endif

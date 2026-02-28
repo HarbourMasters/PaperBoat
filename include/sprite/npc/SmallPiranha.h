@@ -1,0 +1,97 @@
+#ifndef _NPC_SPRITE_SMALLPIRANHA_H_
+#define _NPC_SPRITE_SMALLPIRANHA_H_
+
+#include "types.h"
+
+#define SPR_SmallPiranha 0x37
+
+#define SPR_IMG_SmallPiranha_Raster00 0x0
+#define SPR_IMG_SmallPiranha_Raster01 0x1
+#define SPR_IMG_SmallPiranha_Raster02 0x2
+#define SPR_IMG_SmallPiranha_Raster03 0x3
+#define SPR_IMG_SmallPiranha_Raster04 0x4
+#define SPR_IMG_SmallPiranha_Raster05 0x5
+#define SPR_IMG_SmallPiranha_Raster06 0x6
+#define SPR_IMG_SmallPiranha_Raster07 0x7
+#define SPR_IMG_SmallPiranha_Raster08 0x8
+#define SPR_IMG_SmallPiranha_Raster09 0x9
+#define SPR_IMG_SmallPiranha_Raster0A 0xA
+#define SPR_IMG_SmallPiranha_Raster0B 0xB
+#define SPR_IMG_SmallPiranha_Raster0C 0xC
+#define SPR_IMG_SmallPiranha_Raster0D 0xD
+#define SPR_IMG_SmallPiranha_Raster0E 0xE
+#define SPR_IMG_SmallPiranha_Raster0F 0xF
+#define SPR_IMG_SmallPiranha_Raster10 0x10
+
+#define SPR_PAL_SmallPiranha 0x0
+#define SPR_PAL_SmallPiranha_Poisoned 0x1
+#define SPR_PAL_SmallPiranha_Dizzy 0x2
+#define SPR_PAL_SmallPiranha_Shocked 0x3
+#define SPR_PAL_SmallPiranha_Burnt 0x4
+
+#define ANIM_SmallPiranha_Anim00 0x370000
+#define ANIM_SmallPiranha_Anim01 0x370001
+#define ANIM_SmallPiranha_Anim02 0x370002
+#define ANIM_SmallPiranha_Anim03 0x370003
+#define ANIM_SmallPiranha_Anim04 0x370004
+#define ANIM_SmallPiranha_Anim05 0x370005
+#define ANIM_SmallPiranha_Anim06 0x370006
+#define ANIM_SmallPiranha_Anim07 0x370007
+#define ANIM_SmallPiranha_Anim08 0x370008
+#define ANIM_SmallPiranha_Anim09 0x370009
+#define ANIM_SmallPiranha_Anim0A 0x37000A
+#define ANIM_SmallPiranha_Anim0B 0x37000B
+
+#define ANIM_SmallPiranha_Poisoned_Anim00 0x370100
+#define ANIM_SmallPiranha_Poisoned_Anim01 0x370101
+#define ANIM_SmallPiranha_Poisoned_Anim02 0x370102
+#define ANIM_SmallPiranha_Poisoned_Anim03 0x370103
+#define ANIM_SmallPiranha_Poisoned_Anim04 0x370104
+#define ANIM_SmallPiranha_Poisoned_Anim05 0x370105
+#define ANIM_SmallPiranha_Poisoned_Anim06 0x370106
+#define ANIM_SmallPiranha_Poisoned_Anim07 0x370107
+#define ANIM_SmallPiranha_Poisoned_Anim08 0x370108
+#define ANIM_SmallPiranha_Poisoned_Anim09 0x370109
+#define ANIM_SmallPiranha_Poisoned_Anim0A 0x37010A
+#define ANIM_SmallPiranha_Poisoned_Anim0B 0x37010B
+
+#define ANIM_SmallPiranha_Dizzy_Anim00 0x370200
+#define ANIM_SmallPiranha_Dizzy_Anim01 0x370201
+#define ANIM_SmallPiranha_Dizzy_Anim02 0x370202
+#define ANIM_SmallPiranha_Dizzy_Anim03 0x370203
+#define ANIM_SmallPiranha_Dizzy_Anim04 0x370204
+#define ANIM_SmallPiranha_Dizzy_Anim05 0x370205
+#define ANIM_SmallPiranha_Dizzy_Anim06 0x370206
+#define ANIM_SmallPiranha_Dizzy_Anim07 0x370207
+#define ANIM_SmallPiranha_Dizzy_Anim08 0x370208
+#define ANIM_SmallPiranha_Dizzy_Anim09 0x370209
+#define ANIM_SmallPiranha_Dizzy_Anim0A 0x37020A
+#define ANIM_SmallPiranha_Dizzy_Anim0B 0x37020B
+
+#define ANIM_SmallPiranha_Shocked_Anim00 0x370300
+#define ANIM_SmallPiranha_Shocked_Anim01 0x370301
+#define ANIM_SmallPiranha_Shocked_Anim02 0x370302
+#define ANIM_SmallPiranha_Shocked_Anim03 0x370303
+#define ANIM_SmallPiranha_Shocked_Anim04 0x370304
+#define ANIM_SmallPiranha_Shocked_Anim05 0x370305
+#define ANIM_SmallPiranha_Shocked_Anim06 0x370306
+#define ANIM_SmallPiranha_Shocked_Anim07 0x370307
+#define ANIM_SmallPiranha_Shocked_Anim08 0x370308
+#define ANIM_SmallPiranha_Shocked_Anim09 0x370309
+#define ANIM_SmallPiranha_Shocked_Anim0A 0x37030A
+#define ANIM_SmallPiranha_Shocked_Anim0B 0x37030B
+
+#define ANIM_SmallPiranha_Burnt_Anim00 0x370400
+#define ANIM_SmallPiranha_Burnt_Anim01 0x370401
+#define ANIM_SmallPiranha_Burnt_Anim02 0x370402
+#define ANIM_SmallPiranha_Burnt_Anim03 0x370403
+#define ANIM_SmallPiranha_Burnt_Anim04 0x370404
+#define ANIM_SmallPiranha_Burnt_Anim05 0x370405
+#define ANIM_SmallPiranha_Burnt_Anim06 0x370406
+#define ANIM_SmallPiranha_Burnt_Anim07 0x370407
+#define ANIM_SmallPiranha_Burnt_Anim08 0x370408
+#define ANIM_SmallPiranha_Burnt_Anim09 0x370409
+#define ANIM_SmallPiranha_Burnt_Anim0A 0x37040A
+#define ANIM_SmallPiranha_Burnt_Anim0B 0x37040B
+
+#endif

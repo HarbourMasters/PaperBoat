@@ -1,0 +1,68 @@
+#ifndef _NPC_SPRITE_KOOPAWITHOUTSHELL_H_
+#define _NPC_SPRITE_KOOPAWITHOUTSHELL_H_
+
+#include "types.h"
+
+#define SPR_KoopaWithoutShell 0x90
+
+#define SPR_IMG_KoopaWithoutShell_Step1 0x0
+#define SPR_IMG_KoopaWithoutShell_Step2 0x1
+#define SPR_IMG_KoopaWithoutShell_Step3 0x2
+#define SPR_IMG_KoopaWithoutShell_Idle1 0x3
+#define SPR_IMG_KoopaWithoutShell_Idle2 0x4
+#define SPR_IMG_KoopaWithoutShell_Talk 0x5
+#define SPR_IMG_KoopaWithoutShell_Happy1 0x6
+#define SPR_IMG_KoopaWithoutShell_Happy2 0x7
+#define SPR_IMG_KoopaWithoutShell_Happy3 0x8
+#define SPR_IMG_KoopaWithoutShell_Happy4 0x9
+#define SPR_IMG_KoopaWithoutShell_Toppled1 0xA
+#define SPR_IMG_KoopaWithoutShell_Toppled2 0xB
+#define SPR_IMG_KoopaWithoutShell_Blink 0xC
+#define SPR_IMG_KoopaWithoutShell_SadStep1 0xD
+#define SPR_IMG_KoopaWithoutShell_SadStep2 0xE
+#define SPR_IMG_KoopaWithoutShell_SadStep3 0xF
+#define SPR_IMG_KoopaWithoutShell_SadIdle1 0x10
+#define SPR_IMG_KoopaWithoutShell_SadIdle2 0x11
+#define SPR_IMG_KoopaWithoutShell_SadTalk 0x12
+#define SPR_IMG_KoopaWithoutShell_CryStep1 0x13
+#define SPR_IMG_KoopaWithoutShell_CryStep2 0x14
+#define SPR_IMG_KoopaWithoutShell_CryStep3 0x15
+#define SPR_IMG_KoopaWithoutShell_CryIdle1 0x16
+#define SPR_IMG_KoopaWithoutShell_CryIdle2 0x17
+#define SPR_IMG_KoopaWithoutShell_CryTalk1 0x18
+#define SPR_IMG_KoopaWithoutShell_CryTalk2 0x19
+#define SPR_IMG_KoopaWithoutShell_Tear1 0x1A
+#define SPR_IMG_KoopaWithoutShell_Tear2 0x1B
+
+#define SPR_PAL_KoopaWithoutShell 0x0
+#define SPR_PAL_KoopaWithoutShell_Tear 0x1
+
+#define ANIM_KoopaWithoutShell_Still 0x900000
+#define ANIM_KoopaWithoutShell_Idle 0x900001
+#define ANIM_KoopaWithoutShell_CryIdle 0x900002
+#define ANIM_KoopaWithoutShell_SadIdle 0x900003
+#define ANIM_KoopaWithoutShell_Walk 0x900004
+#define ANIM_KoopaWithoutShell_Run 0x900005
+#define ANIM_KoopaWithoutShell_CryRun 0x900006
+#define ANIM_KoopaWithoutShell_SadRun 0x900007
+#define ANIM_KoopaWithoutShell_Talk 0x900008
+#define ANIM_KoopaWithoutShell_CryTalk 0x900009
+#define ANIM_KoopaWithoutShell_SadTalk 0x90000A
+#define ANIM_KoopaWithoutShell_Happy 0x90000B
+#define ANIM_KoopaWithoutShell_Toppled 0x90000C
+
+#define ANIM_KoopaWithoutShell_Tear_Still 0x900100
+#define ANIM_KoopaWithoutShell_Tear_Idle 0x900101
+#define ANIM_KoopaWithoutShell_Tear_CryIdle 0x900102
+#define ANIM_KoopaWithoutShell_Tear_SadIdle 0x900103
+#define ANIM_KoopaWithoutShell_Tear_Walk 0x900104
+#define ANIM_KoopaWithoutShell_Tear_Run 0x900105
+#define ANIM_KoopaWithoutShell_Tear_CryRun 0x900106
+#define ANIM_KoopaWithoutShell_Tear_SadRun 0x900107
+#define ANIM_KoopaWithoutShell_Tear_Talk 0x900108
+#define ANIM_KoopaWithoutShell_Tear_CryTalk 0x900109
+#define ANIM_KoopaWithoutShell_Tear_SadTalk 0x90010A
+#define ANIM_KoopaWithoutShell_Tear_Happy 0x90010B
+#define ANIM_KoopaWithoutShell_Tear_Toppled 0x90010C
+
+#endif

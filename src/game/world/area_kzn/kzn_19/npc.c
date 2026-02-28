@@ -1,7 +1,8 @@
 #include "kzn_19.h"
 #include "ld_addrs.h"
 #include "sprite/player.h"
-#include "include_asset.h"
+#include "assets/world.h"
+#include "port/Engine.h"
 
 #include "world/common/npc/Kolorado.h"
 #include "world/common/npc/StarSpirit.h"
@@ -9,9 +10,8 @@
 
 #include "world/common/lava_piranha/part1.inc.c"
 
-INCLUDE_IMG("world/lava_piranha/vine.png", kzn_19_lava_piranha_vine_img);
-INCLUDE_PAL("world/lava_piranha/vine.pal", kzn_19_lava_piranha_vine_pal);
-#include "world/lava_piranha/vine.gfx.inc.c"
+// vine textures and gfx extracted to OTR via world_kzn_19.yml
+// kzn_19_lava_piranha_vine_img, kzn_19_lava_piranha_vine_pal, kzn_19_lava_piranha_vine_gfx defined in assets/world.h
 
 #include "world/common/lava_piranha/part2.inc.c"
 

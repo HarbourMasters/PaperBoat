@@ -1,8 +1,6 @@
 #include "common.h"
 #include "assets/ui.h"
-extern s8 pause_image_1439F0_png[];
-extern s8 pause_image_143BF0_png[];
-extern s8 pause_image_143FF0_png[];
+#include "assets/pause.h"
 
 //TODO replace with array when pause_stats_draw_contents is matched
 WindowStyleCustom gPauseWS_0 = {

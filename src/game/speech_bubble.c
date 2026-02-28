@@ -1,5 +1,6 @@
 #include "common.h"
-#include "include_asset.h"
+#include "assets/speech_bubble.h"
+#include "port/Engine.h"
 
 #define NAMESPACE speech_bubble
 
@@ -10,10 +11,8 @@ enum {
     SPEECH_BUBBLE_VANISH    = 3,
 };
 
-#include "speech_bubble.png.h"
-INCLUDE_IMG("speech_bubble.png", speech_bubble_img);
-INCLUDE_PAL("speech_bubble.pal", speech_bubble_pal);
-#include "speech_bubble.gfx.inc.c"
+#define speech_bubble_img_width 32
+#define speech_bubble_img_height 32
 
 BSS SpeechBubbleData SpeechBubble;
 SpeechBubbleData* SpeechBubblePtr = &SpeechBubble;
@@ -59,7 +58,7 @@ void appendGfx_speech_bubble(void) {
 
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
                   G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, &speech_bubble_gfx);
+        gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(speech_bubble_gfx));
 
         ifxImg.raster  = speech_bubble_img;
         ifxImg.palette = speech_bubble_pal;
