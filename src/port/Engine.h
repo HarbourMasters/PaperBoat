@@ -66,6 +66,8 @@ class GameEngine {
     static void ShowMessage(const char* title, const char* message, SDL_MessageBoxFlags type = SDL_MESSAGEBOX_ERROR);
 
   private:
+    mutable bool mPrevAltAssets = false;
+
     static struct {
         std::thread thread;
         std::mutex mutex;

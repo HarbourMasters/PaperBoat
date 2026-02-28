@@ -119,6 +119,28 @@ GameEngine::GameEngine() {
         // Log
     }
 
+    const std::string hd_path = Ship::Context::GetPathRelativeToAppDirectory("starrod.o2r");
+    if (std::filesystem::exists(hd_path)) {
+        SPDLOG_INFO("Loading HD asset archive: starrod.o2r");
+        archiveFiles.push_back(hd_path);
+    }
+
+    const std::string mods_path = Ship::Context::GetPathRelativeToAppDirectory("mods");
+    if (std::filesystem::exists(mods_path) && std::filesystem::is_directory(mods_path)) {
+        std::vector<std::string> mod_archives;
+        for (const auto& entry : std::filesystem::directory_iterator(mods_path)) {
+            const auto ext = entry.path().extension().string();
+            if (entry.is_regular_file() && (ext == ".o2r" || ext == ".otr" || ext == ".zip")) {
+                mod_archives.push_back(std::filesystem::absolute(entry.path()).string());
+            }
+        }
+        std::sort(mod_archives.begin(), mod_archives.end());
+        for (const auto& mod : mod_archives) {
+            SPDLOG_INFO("Loading mod archive: {}", mod);
+            archiveFiles.push_back(mod);
+        }
+    }
+
     this->context->InitConfiguration();
     this->context->InitConsoleVariables();
 
@@ -184,14 +206,22 @@ void GameEngine::StartFrame() const {
     // so that WriteToPad() sees current key state when called from update_input().
     this->context->GetWindow()->HandleEvents();
 
+    const bool altAssets = CVarGetInteger("gEnhancements.Mods.AlternateAssets", 0) != 0;
+    if (altAssets != mPrevAltAssets) {
+        mPrevAltAssets = altAssets;
+        context->GetResourceManager()->SetAltAssetsEnabled(altAssets);
+        gfx_texture_cache_clear();
+        SPDLOG_INFO("Alt assets {}", altAssets ? "enabled" : "disabled");
+    }
+
     using Ship::KbScancode;
     const int32_t dwScancode = this->context->GetWindow()->GetLastScancode();
     this->context->GetWindow()->SetLastScancode(-1);
 
     switch (dwScancode) {
         case KbScancode::LUS_KB_TAB: {
-            // Toggle HD Assets
-            //CVarSetInteger("gEnhancements.Mods.AlternateAssets", !CVarGetInteger("gEnhancements.Mods.AlternateAssets", 0));
+            CVarSetInteger("gEnhancements.Mods.AlternateAssets",
+                           !CVarGetInteger("gEnhancements.Mods.AlternateAssets", 0));
             break;
         }
         case KbScancode::LUS_KB_F4: {
