@@ -25,7 +25,6 @@
 #include "factories/PM64MapTextureFactory.h"
 #include "factories/PM64AudioFactory.h"
 #include "factories/PM64StoryImageFactory.h"
-#include "factories/PM64MessageFactory.h"
 #include "factories/PM64ImgFXAnimFactory.h"
 #include "factories/PM64TitleDataFactory.h"
 #include "factories/PM64EntityGfxFactory.h"
@@ -79,7 +78,6 @@ static void ExtractAssets(const std::string& romPath, const std::string& outputP
     Companion::Instance->RegisterFactory("PM64:MAP_TEXTURE", std::make_shared<PM64MapTextureFactory>());
     Companion::Instance->RegisterFactory("PM64:AUDIO", std::make_shared<PM64AudioFactory>());
     Companion::Instance->RegisterFactory("PM64:STORY_IMAGE", std::make_shared<PM64StoryImageFactory>());
-    Companion::Instance->RegisterFactory("PM64:MESSAGE", std::make_shared<PM64MessageFactory>());
     Companion::Instance->RegisterFactory("PM64:IMGFX_ANIM", std::make_shared<PM64ImgFXAnimFactory>());
     Companion::Instance->RegisterFactory("PM64:TITLE_DATA", std::make_shared<PM64TitleDataFactory>());
     Companion::Instance->RegisterFactory("PM64:ENTITY_GFX", std::make_shared<PM64EntityGfxFactory>());

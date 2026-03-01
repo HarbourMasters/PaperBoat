@@ -6,7 +6,6 @@
 #include "Engine.h"
 #include "assets/charset.h"
 #include "assets/messages.h"
-#include <ship/utils/binarytools/endianness.h>
 
 // On N64, KSEG0 pointers (0x80xxxxxx) are negative as s32, so the original code
 // used sign checks to distinguish message IDs from buffer pointers passed as intptr_t.
@@ -22,13 +21,6 @@ enum RewindArrowStates {
     REWIND_ARROW_STATE_CHANGE_COLOR_BACK = 4,
 };
 
-#ifdef SHIFT
-#define MSG_ROM_START (s32)msg_ROM_START
-#elif VERSION_JP
-#define MSG_ROM_START 0x1D40000
-#else
-#define MSG_ROM_START 0x1B83000
-#endif
 
 #if VERSION_PAL
 #define CHOICE_POINTER_MOVE_RATE 5.0
@@ -66,7 +58,6 @@ void* D_PAL_8014AE50[] = {
 };
 #endif
 
-s16 gNextMessageBuffer = 0;
 
 Vtx gRewindArrowQuad[] = {
     { .v = { .ob = { -16, 9, 0 }, .tc = { 0x0000, 0x0000 }, .cn = { 0xFF, 0xFF, 0xFF, 0xFF }}},
@@ -99,7 +90,6 @@ s32 gMsgBGScrollAmtY;
 u8* D_8015131C;
 Gfx* D_80151338;
 
-static char gMessageBuffers[2][1024];
 static MessagePrintState gMessagePrinters[3];
 #if VERSION_JP
 static s32 D_80155C38;
@@ -107,7 +97,6 @@ static s32 D_80155C38;
 static u8 gMessageMsgVars[3][32];
 static s16 D_80155C98;
 static Mtx gMessageWindowProjMatrix[2];
-static u8* gMsgData = NULL;
 
 IMG_BIN D_80159B50[0x200];
 PAL_BIN D_8015C7E0[0x10];
@@ -212,10 +201,6 @@ void clear_printers(void) {
 
     D_80151338 = nullptr;
     gMsgGlobalWaveCounter = 0;
-
-    if (gMsgData == NULL) {
-        gMsgData = (u8*)LOAD_ASSET(MSG_DATA);
-    }
 
     load_font(0);
 }
@@ -1362,52 +1347,14 @@ void initialize_printer(MessagePrintState* printer, s32 arg1, s32 arg2) {
     printer->sizeScale = 1.0f;
 }
 
-#if VERSION_PAL
-void dma_load_msg(u32 msgID, void* dest) {
-    u8* langPtr = D_PAL_8014AE50[gCurrentLanguage];
-    u8* new_langPtr;
-    u8* addr = (u8*) langPtr + (msgID >> 14); // (msgID >> 16) * 4
-    u8* offset[2]; // start, end
-
-    dma_copy(addr, addr + 4, &offset[0]); // Load section offset
-
-    new_langPtr = langPtr;
-    new_langPtr = offset[0] + ((u32) new_langPtr);
-    addr = new_langPtr + ((msgID & 0xFFFF) * 4);
-    dma_copy(addr, addr + 8, &offset); // Load message start and end offsets
-
-    // Load the msg data
-    dma_copy(&langPtr[(u32)offset[0]], &langPtr[(u32)offset[1]], dest);
+static u8* load_msg_asset(u32 msgID) {
+    u32 section = msgID >> 16;
+    u32 index = msgID & 0xFFFF;
+    return (u8*)LOAD_ASSET(gMsgSectionPaths[section][index]);
 }
-#else
-void dma_load_msg(u32 msgID, void* dest) {
-    u32 sectionOffset;
-    u32 msgOffsets[2];
-
-    // Message data is stored as raw big-endian; swap u32 offsets at read time
-    memcpy(&sectionOffset, gMsgData + (msgID >> 14), 4);
-    sectionOffset = BSWAP32(sectionOffset);
-
-    memcpy(msgOffsets, gMsgData + sectionOffset + (msgID & 0xFFFF) * 4, 8);
-    msgOffsets[0] = BSWAP32(msgOffsets[0]);
-    msgOffsets[1] = BSWAP32(msgOffsets[1]);
-
-    memcpy(dest, gMsgData + msgOffsets[0], msgOffsets[1] - msgOffsets[0]);
-}
-#endif
 
 s8* load_message_to_buffer(s32 msgID) {
-    s8* prevBufferPos;
-
-    dma_load_msg(msgID, &gMessageBuffers[gNextMessageBuffer]);
-    prevBufferPos = gMessageBuffers[gNextMessageBuffer];
-
-    gNextMessageBuffer++;
-    if (gNextMessageBuffer >= ARRAY_COUNT(gMessageBuffers)) {
-        gNextMessageBuffer = 0;
-    }
-
-    return prevBufferPos;
+    return (s8*)load_msg_asset(msgID);
 }
 
 MessagePrintState* msg_get_printer_for_msg(intptr_t msgID, bool* donePrintingWriteback) {
@@ -1507,21 +1454,21 @@ void set_message_images(MessageImageData* images) {
 }
 
 void set_message_text_var(intptr_t msgID, s32 index) {
-    u8* mallocSpace = nullptr;
     s32 i;
     u8* msgVars;
+    u8* msgData;
 
     if (!MSG_ID_IS_PTR(msgID)) {
-        mallocSpace = general_heap_malloc(0x400);
-        dma_load_msg(msgID, mallocSpace);
-        msgID = (intptr_t)mallocSpace;
+        msgData = load_msg_asset(msgID);
+    } else {
+        msgData = (u8*)msgID;
     }
 
     i = 0;
     msgVars = gMessageMsgVars[index];
     while (true) {
-        msgVars[i] = ((u8*)msgID)[i];
-        if (((u8*)msgID)[i] == MSG_CHAR_READ_END) {
+        msgVars[i] = msgData[i];
+        if (msgData[i] == MSG_CHAR_READ_END) {
             break;
         }
 
@@ -1529,10 +1476,6 @@ void set_message_text_var(intptr_t msgID, s32 index) {
             msgVars[i - 1] = MSG_CHAR_READ_END;
             break;
         }
-    }
-
-    if (mallocSpace != nullptr) {
-        general_heap_free(mallocSpace);
     }
 }
 
@@ -1678,7 +1621,6 @@ void get_msg_properties(intptr_t msgID, s32* height, s32* width, s32* maxLineCha
     s32 lineCount;
     u16 varIndex;
     u16 font;
-    u8* buffer;
     u16 maxLineWidth;
     u16 maxCharsPerLine;
     u16 maxLinesOnPage;
@@ -1694,7 +1636,6 @@ void get_msg_properties(intptr_t msgID, s32* height, s32* width, s32* maxLineCha
     pageCount = 0;
     varIndex = 0;
     font = 0;
-    buffer = nullptr;
     maxLineWidth = 0;
     maxCharsPerLine = 0;
     maxLinesOnPage = 0;
@@ -1705,9 +1646,7 @@ void get_msg_properties(intptr_t msgID, s32* height, s32* width, s32* maxLineCha
     }
 
     if (!MSG_ID_IS_PTR(msgID)) {
-        buffer = general_heap_malloc(0x400);
-        dma_load_msg(msgID, buffer);
-        message = buffer;
+        message = load_msg_asset(msgID);
     } else {
         message = (u8*)msgID;
     }
@@ -1914,9 +1853,6 @@ void get_msg_properties(intptr_t msgID, s32* height, s32* width, s32* maxLineCha
         }
     } while (!stop);
 
-    if (buffer != nullptr) {
-        general_heap_free(buffer);
-    }
 
     for (i = 0; i < lineIndex; i++) {
         if (maxLineWidth < lineWidths[i]) {
@@ -1977,14 +1913,12 @@ void draw_msg(intptr_t msgID, s32 posX, s32 posY, s32 opacity, s32 palette, u8 s
     MessagePrintState stackPrinter;
     MessagePrintState* printer;
     u16 bufferPos;
-    s8* mallocSpace;
     s32 charset;
     u16 flags;
     s32 width;
 
     flags = 0;
     bufferPos = 0;
-    mallocSpace = nullptr;
     charset = 0;
 
     if (msgID != 0) {
@@ -2003,9 +1937,7 @@ void draw_msg(intptr_t msgID, s32 posX, s32 posY, s32 opacity, s32 palette, u8 s
         if (MSG_ID_IS_PTR(msgID)) {
             printer->srcBuffer = (u8*)msgID;
         } else {
-            mallocSpace = general_heap_malloc(0x400);
-            dma_load_msg(msgID, mallocSpace);
-            printer->srcBuffer = mallocSpace;
+            printer->srcBuffer = load_msg_asset(msgID);
             get_msg_properties((intptr_t) printer->srcBuffer, 0, &width, 0, 0, 0, 0, charset);
             printer->msgWidth = width;
         }
@@ -2040,10 +1972,6 @@ void draw_msg(intptr_t msgID, s32 posX, s32 posY, s32 opacity, s32 palette, u8 s
 
         msg_copy_to_print_buffer(printer, 10000, 1);
         appendGfx_message(printer, (s16)posX, (s16)posY, 0, 0, flags, opacity & 0xFF);
-
-        if (mallocSpace != nullptr) {
-            general_heap_free(mallocSpace);
-        }
     }
 }
 

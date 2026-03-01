@@ -1,24 +1,15 @@
 #include "common.h"
 #include "Credits.h"
 
-#if VERSION_PAL
-#define CREDITS_MESSAGE_BUFFER_COUNT (24)
-#elif VERSION_JP
-#define CREDITS_MESSAGE_BUFFER_COUNT (20)
-#else
-#define CREDITS_MESSAGE_BUFFER_COUNT (23)
-#endif
-
 s32 msg_get_print_char_width(s32 character, s32 charset, s32 variation, f32 msgScale, s32 overrideCharWidth, u8 flags);
 void msg_get_glyph(s32 font, s32 variation, s32 charIndex, s32 palette, MesasgeFontGlyphData* out);
-void dma_load_msg(u32 msgID, void* dest);
+s8* load_message_to_buffer(s32 msgID);
 
 BSS CreditsData N(CreditsData);
 BSS CreditsData* N(CreditsDataPtr);
 #if VERSION_US || VERSION_PAL
 BSS s32 N(BSS_PAD_1)[2];
 #endif
-BSS u8 N(CreditsMessageBuffers)[CREDITS_MESSAGE_BUFFER_COUNT][256];
 BSS Mtx N(CreditsProjMatrices)[2];
 
 enum {
@@ -104,8 +95,6 @@ Vp N(CreditsViewport) = {
         .vtrans = { 640, 480, 511, 0 }
     }
 };
-
-s32 N(CreditsBufferIndex) = 0;
 
 // unused
 void N(CharAnim_FadeIn_0)(CreditsLine* line, CreditsChar* chr) {
@@ -779,12 +768,7 @@ void N(credits_load_message)(CreditsEntry* entry) {
     line = &N(CreditsDataPtr)->lines[i];
     if (entry->msgID != MSG_NONE) {
         if (entry->msgID >= 0) {
-            dma_load_msg(entry->msgID, N(CreditsMessageBuffers)[N(CreditsBufferIndex)]);
-            line->message = N(CreditsMessageBuffers)[N(CreditsBufferIndex)];
-            N(CreditsBufferIndex)++;
-            if (N(CreditsBufferIndex) >= ARRAY_COUNT(N(CreditsMessageBuffers))) {
-                N(CreditsBufferIndex) = 0;
-            }
+            line->message = (u8*)load_message_to_buffer(entry->msgID);
         } else {
             line->message = (u8*) entry->msgID;
         }

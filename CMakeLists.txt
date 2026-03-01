@@ -66,7 +66,6 @@ set(PORT_SOURCES
     src/port/factories/PM64MapTextureFactory.cpp
     src/port/factories/PM64AudioFactory.cpp
     src/port/factories/PM64StoryImageFactory.cpp
-    src/port/factories/PM64MessageFactory.cpp
     src/port/factories/PM64ImgFXAnimFactory.cpp
     src/port/factories/PM64TitleDataFactory.cpp
     src/port/factories/PM64EntityGfxFactory.cpp
