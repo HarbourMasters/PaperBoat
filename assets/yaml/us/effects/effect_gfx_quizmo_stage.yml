@@ -2,6 +2,9 @@
   segments:
     - [0x09, 0x398BC0]
 
+lights_0:
+  { type: LIGHTS, offset: 0x09000000, symbol: D_09000000_398BC0 }
+
 tex_18:
   { type: TEXTURE, format: IA4, offset: 0x09000018, width: 64, height: 16, symbol: D_09000018_398BD8 }
 

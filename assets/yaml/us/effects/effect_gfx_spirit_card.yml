@@ -71,6 +71,9 @@ tex_3C00:
 vtx_3E00:
   { type: VTX, offset: 0x09003E00, count: 25, symbol: D_09003E00_3FE2B0 }
 
+lights_3F80:
+  { type: LIGHTS, offset: 0x09003F80, symbol: D_09003F80_3FE430 }
+
 dlist_3F98:
   { type: PM64:EFFECT_DL, offset: 0x09003F98, symbol: D_09003F98_3FE448 }
 
