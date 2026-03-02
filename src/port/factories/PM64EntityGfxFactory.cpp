@@ -267,17 +267,16 @@ static void ExportVertexResource_Entity(const std::string& entityName, const uin
     std::string path = pathBuf;
 
     auto writer = LUS::BinaryWriter();
-    BaseExporter::WriteHeader(writer, Torch::ResourceType::Vertex, 1);
+    BaseExporter::WriteHeader(writer, Torch::ResourceType::Vertex, 0);
 
     // Write vertex count and per-vertex data (read from raw BE ROM data)
     uint32_t count = size / 16;
     writer.Write(count);
     for (uint32_t i = 0; i < count; i++) {
         const uint8_t* src = data + offset + i * 16;
-        // Read BE s16 ob[] -> write as float
-        writer.Write(static_cast<float>(static_cast<int16_t>((src[0] << 8) | src[1])));
-        writer.Write(static_cast<float>(static_cast<int16_t>((src[2] << 8) | src[3])));
-        writer.Write(static_cast<float>(static_cast<int16_t>((src[4] << 8) | src[5])));
+        writer.Write(static_cast<int16_t>((src[0] << 8) | src[1]));     // ob[0]
+        writer.Write(static_cast<int16_t>((src[2] << 8) | src[3]));     // ob[1]
+        writer.Write(static_cast<int16_t>((src[4] << 8) | src[5]));     // ob[2]
         writer.Write(static_cast<uint16_t>((src[6] << 8) | src[7]));    // flag
         writer.Write(static_cast<int16_t>((src[8] << 8) | src[9]));     // tc[0]
         writer.Write(static_cast<int16_t>((src[10] << 8) | src[11]));   // tc[1]

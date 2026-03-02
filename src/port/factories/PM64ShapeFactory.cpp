@@ -570,8 +570,7 @@ static std::string ExportVertexResource(const std::string& shapeName, const uint
     std::string path = shapeName + "/vtx";
     auto writer = LUS::BinaryWriter();
 
-    // Write Vertex resource header (version 1 = float ob[])
-    BaseExporter::WriteHeader(writer, Torch::ResourceType::Vertex, 1);
+    BaseExporter::WriteHeader(writer, Torch::ResourceType::Vertex, 0);
 
     // Write vertex count and per-vertex data
     // Shape data has already been byte-swapped to native endian by ByteSwapShapeData
@@ -579,13 +578,9 @@ static std::string ExportVertexResource(const std::string& shapeName, const uint
     writer.Write(count);
     for (uint32_t i = 0; i < count; i++) {
         const uint8_t* src = shapeData + vtxTableOffset + i * 16;
-        // Read native-endian s16 ob[] (already BSWAP16'd) and write as float
-        int16_t ob0 = *reinterpret_cast<const int16_t*>(src + 0);
-        int16_t ob1 = *reinterpret_cast<const int16_t*>(src + 2);
-        int16_t ob2 = *reinterpret_cast<const int16_t*>(src + 4);
-        writer.Write(static_cast<float>(ob0));
-        writer.Write(static_cast<float>(ob1));
-        writer.Write(static_cast<float>(ob2));
+        writer.Write(*reinterpret_cast<const int16_t*>(src + 0));   // ob[0]
+        writer.Write(*reinterpret_cast<const int16_t*>(src + 2));   // ob[1]
+        writer.Write(*reinterpret_cast<const int16_t*>(src + 4));   // ob[2]
         writer.Write(*reinterpret_cast<const uint16_t*>(src + 6));  // flag
         writer.Write(*reinterpret_cast<const int16_t*>(src + 8));   // tc[0]
         writer.Write(*reinterpret_cast<const int16_t*>(src + 10));  // tc[1]

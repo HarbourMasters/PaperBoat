@@ -29,7 +29,6 @@
 #include "factories/PM64TitleDataFactory.h"
 #include "factories/PM64EntityGfxFactory.h"
 #include "factories/PM64EffectDListFactory.h"
-#include "factories/PM64VertexFactory.h"
 
 namespace fs = std::filesystem;
 
@@ -168,8 +167,6 @@ GameEngine::GameEngine() {
                                     "DisplayList", static_cast<uint32_t>(Fast::ResourceType::DisplayList), 0);
     loader->RegisterResourceFactory(std::make_shared<Fast::ResourceFactoryBinaryVertexV0>(), RESOURCE_FORMAT_BINARY,
                                     "Vertex", static_cast<uint32_t>(Fast::ResourceType::Vertex), 0);
-    loader->RegisterResourceFactory(std::make_shared<ResourceFactoryBinaryVertexV1>(), RESOURCE_FORMAT_BINARY,
-                                    "Vertex", static_cast<uint32_t>(Fast::ResourceType::Vertex), 1);
     loader->RegisterResourceFactory(std::make_shared<Fast::ResourceFactoryBinaryLightV0>(), RESOURCE_FORMAT_BINARY,
                                     "Light", static_cast<uint32_t>(Fast::ResourceType::Light), 0);
     loader->RegisterResourceFactory(std::make_shared<Fast::ResourceFactoryBinaryMatrixV0>(), RESOURCE_FORMAT_BINARY,
