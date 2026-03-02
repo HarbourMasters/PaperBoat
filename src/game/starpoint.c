@@ -1,6 +1,6 @@
 #include "common.h"
 #include "entity.h"
-#include "assets/starpoint.h"
+#include "assets/misc/starpoint.h"
 
 #if !VERSION_PAL
 EntityModelScript EMS_starpoint_starpoint = STANDARD_ENTITY_MODEL_SCRIPT(D_802A2158_7A9AF8, RENDER_MODE_CLOUD_NO_ZCMP);

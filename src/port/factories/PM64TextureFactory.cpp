@@ -21,10 +21,6 @@ ResourceFactoryBinaryTextureV0::ReadResource(std::shared_ptr<Ship::File> file,
     uint32_t height = reader->ReadUInt32();
     uint32_t imageDataSize = reader->ReadUInt32();
 
-    SPDLOG_INFO("PM64TextureFactory: Loading texture '{}'", initData->Path);
-    SPDLOG_INFO("  Type: {}, Width: {}, Height: {}, ImageDataSize: {}",
-                type, width, height, imageDataSize);
-
     texture->Type = (Fast::TextureType)type;
     texture->Width = static_cast<uint16_t>(width);
     texture->Height = static_cast<uint16_t>(height);

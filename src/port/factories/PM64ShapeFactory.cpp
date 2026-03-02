@@ -396,8 +396,6 @@ static void ByteSwapShapeData(uint8_t* data, size_t size, std::vector<PM64Displa
     if (rootFileOffset > 0 && rootAddr > 0x80000000) {
         // Compute base from actual ROOT node location: base = rootAddr - rootFileOffset
         gShapeBaseAddr = rootAddr - rootFileOffset;
-        SPDLOG_INFO("Computed shape base address: 0x{:X} (from ROOT at offset 0x{:X}, addr 0x{:X})",
-                    gShapeBaseAddr, rootFileOffset, rootAddr);
     } else {
         // Fallback to known PM64 base (verified across all tested shapes)
         gShapeBaseAddr = 0x80210000;
@@ -648,8 +646,6 @@ static void ExportDisplayListResource(const std::string& shapeName, const PM64Di
         if (opcode == F3DEX2_G_SETTIMG) {
             // Replace G_SETTIMG with G_NOOP - PM64 textures are loaded via texture handle system
             // G_NOOP is a standard 8-byte command
-            SPDLOG_INFO("Converting G_SETTIMG to G_NOOP in {}/dlist_{:X} (w0=0x{:08X}, w1=0x{:08X})",
-                        shapeName, dlInfo.offset, w0, w1);
             writer.Write(static_cast<uint32_t>(0x00 << 24));  // G_NOOP
             writer.Write(static_cast<uint32_t>(0));
             // NO PADDING - standard command is 8 bytes

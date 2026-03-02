@@ -1,6 +1,6 @@
 #include "pause_common.h"
 #include "message_ids.h"
-#include "assets/pause.h"
+#include "assets/misc/pause.h"
 
 #if VERSION_PAL
 #define MAP_TITLE_X 36

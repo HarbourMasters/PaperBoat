@@ -37,10 +37,6 @@ static s32 shadow_dls_initialized = false;
 static void shadow_build_dls(void) {
     Gfx* g;
 
-    fprintf(stderr, "[shadow_build_dls] ENTER: shadow_dl_render_circular=%p shadow_dl_render_square=%p\n",
-        (void*)shadow_dl_render_circular, (void*)shadow_dl_render_square);
-    fflush(stderr);
-
     // Entity_Shadow_GfxCommon
     g = shadow_dl_common;
     gSPTexture(g++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
@@ -84,10 +80,6 @@ static void shadow_build_dls(void) {
     gSPEndDisplayList(g++);
 
     shadow_dls_initialized = true;
-
-    fprintf(stderr, "[shadow_build_dls] DONE: circular[0].w0=0x%08X square[0].w0=0x%08X\n",
-        shadow_dl_render_circular[0].words.w0, shadow_dl_render_square[0].words.w0);
-    fflush(stderr);
 }
 
 Gfx Entity_RenderNone[] = {

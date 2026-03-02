@@ -3,9 +3,6 @@
 #include "Engine.h"
 #include <stdio.h>
 
-// Display list context tracking for debugging
-extern void GameEngine_SetDisplayListContext(const char* context);
-
 EntityModelScript D_8014C260 = {
     ems_End
     ems_End
@@ -214,12 +211,6 @@ s32 step_entity_model_commandlist(EntityModel* entityModel) {
             entityModel->nextFrameTime = (f32) *curPos++;
             void* dlArg = (void*)*curPos++;
             void* loaded = LOAD_ASSET(dlArg);
-            if (GameEngine_OTRSigCheck((const char*)dlArg)) {
-                fprintf(stderr, "[entity_draw] OTR DL: path='%.60s' loaded=%p\n", (const char*)dlArg, loaded);
-            } else {
-                fprintf(stderr, "[entity_draw] raw DL: addr=%p first_w0=0x%08X\n", dlArg, dlArg ? ((Gfx*)dlArg)->words.w0 : 0);
-            }
-            fflush(stderr);
             entityModel->gfx.displayList = (Gfx*) loaded;
             entityModel->cmdListReadPos = (EntityModelScript*) curPos;
             break;
@@ -382,7 +373,6 @@ void appendGfx_entity_model(EntityModel* model) {
         }
         gDPPipeSync(gMainGfxPos++);
 
-        GameEngine_SetDisplayListContext("entity_model_displaylist");
         if (model->gfx.displayList != NULL) {
             Gfx* dl = model->gfx.displayList;
             //fprintf(stderr, "[appendGfx_entity] DL=%p w0=0x%08X w1=0x%08X flags=0x%X renderMode=%d\n",
@@ -390,7 +380,6 @@ void appendGfx_entity_model(EntityModel* model) {
             //fflush(stderr);
             gSPDisplayList(gMainGfxPos++, dl);
         }
-        GameEngine_SetDisplayListContext(NULL);
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         gDPPipeSync(gMainGfxPos++);
 
@@ -404,9 +393,7 @@ void appendGfx_entity_model(EntityModel* model) {
         guMtxF2L(mtx, &model->transform);
         gDisplayContext->matrixStack[gMatrixListPos] = model->transform;
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        GameEngine_SetDisplayListContext("entity_model_displaylist_reflect");
         gSPDisplayList(gMainGfxPos++, model->gfx.displayList);
-        GameEngine_SetDisplayListContext(NULL);
     } else {
         SpriteRasterInfo* imageData;
 
@@ -697,9 +684,7 @@ void draw_entity_model_E(s32 modelIdx, Mtx* transformMtx) {
         if (model->vertexArray != nullptr) {
             gSPSegment(gMainGfxPos++, D_80154374, VIRTUAL_TO_PHYSICAL(model->vertexArray));
         }
-        GameEngine_SetDisplayListContext("entity_model_displaylist2");
         gSPDisplayList(gMainGfxPos++, model->gfx.displayList);
-        GameEngine_SetDisplayListContext(NULL);
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
         gDPPipeSync(gMainGfxPos++);
         if (!(model->flags & ENTITY_MODEL_FLAG_REFLECT)) {
@@ -712,9 +697,7 @@ void draw_entity_model_E(s32 modelIdx, Mtx* transformMtx) {
         guMtxF2L(mtx, &model->transform);
         gDisplayContext->matrixStack[gMatrixListPos] = model->transform;
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        GameEngine_SetDisplayListContext("entity_model_displaylist2_reflect");
         gSPDisplayList(gMainGfxPos++, model->gfx.displayList);
-        GameEngine_SetDisplayListContext(NULL);
     } else {
         SpriteRasterInfo* imageData;
 

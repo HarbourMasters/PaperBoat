@@ -23,13 +23,6 @@ void gbi_resolve_vtx_in_static_dl(Gfx* dl);
 #define gSPSegment(pkt, segment, base) __gSPSegment(pkt, segment, base)
 #endif
 
-// =============================================================================
-// Debug wrapper for gDPSetTextureImage to catch uninitialized textures
-// =============================================================================
-
-// Extern function implemented in Engine.cpp
-void _gbi_debug_check_texture(const void* img, const char* file, int line);
-
 // Override gDPSetTextureImage to use OTR middleware for path resolution
 #undef gDPSetTextureImage
 #define gDPSetTextureImage(pkt, f, s, w, i) \

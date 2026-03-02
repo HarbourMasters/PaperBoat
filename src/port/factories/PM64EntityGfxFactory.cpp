@@ -134,8 +134,6 @@ std::optional<std::shared_ptr<IParsedData>> PM64EntityGfxFactory::parse(std::vec
         if (offset + expandedSize > buffer.size()) {
             expandedSize = buffer.size() - offset;
         }
-        SPDLOG_INFO("PM64:ENTITY_GFX: Expanding buffer from 0x{:X} to 0x{:X} (DLs reference data beyond declared size)",
-                    size, expandedSize);
         entityData.assign(buffer.data() + offset, buffer.data() + offset + expandedSize);
     }
 
@@ -147,9 +145,6 @@ std::optional<std::shared_ptr<IParsedData>> PM64EntityGfxFactory::parse(std::vec
             standaloneMtx.push_back(standaloneMtxNode[i].as<uint32_t>());
         }
     }
-
-    SPDLOG_INFO("PM64:ENTITY_GFX: Parsed at 0x{:X}, size=0x{:X}, {} display lists, {} standalone mtx",
-                offset, entityData.size(), collectedDLs.size(), standaloneMtx.size());
 
     auto data = std::make_shared<PM64EntityGfxData>(std::move(entityData), std::move(collectedDLs));
     data->mStandaloneMtx = std::move(standaloneMtx);

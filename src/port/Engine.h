@@ -96,14 +96,6 @@ void GameEngine_LogStackTrace(const char* label);
 // Controller input - reads all 4 pads from libultraship ControlDeck
 void GameEngine_ReadController(OSContPad* pads);
 
-// C-callable context tracking for display list debugging
-void GameEngine_SetDisplayListContext(const char* context);
-const char* GameEngine_GetDisplayListContext(void);
-
-// Texture debug tracking - maps memory addresses to source asset paths
-void GameEngine_RegisterTextureDebugInfo(const void* addr, const char* assetPath, int rasterIdx);
-const char* GameEngine_LookupTextureSource(const void* addr);
-
 // Invalidate GPU texture cache entry for a specific RAM address.
 // Call when player raster cache overwrites a buffer with new image data,
 // since the Fast3D interpreter caches textures by pointer address.

@@ -51,9 +51,6 @@ extern "C" {
 #define AUDIO_SAMPLES 184
 #define HARDWARE_OUTPUT_RATE 32000
 
-// Thread-local context for display list debugging
-static thread_local const char* gDisplayListContext = nullptr;
-
 // Access to the display list pointer for emitting context markers
 // Gfx is already defined in libultraship's gbi.h (included via libultraship.h)
 extern "C" {
@@ -472,81 +469,6 @@ extern "C" void GameEngine_LogStackTrace(const char* label) {
 #else
     SPDLOG_INFO("Stack trace [{}]: (not available on this platform)", label ? label : "unnamed");
 #endif
-}
-
-// C-callable display list context tracking for debugging
-// This emits a G_NOOP marker command into the display list so the context
-// survives from construction time to execution time in the interpreter.
-extern "C" void GameEngine_SetDisplayListContext(const char* context) {
-    gDisplayListContext = context;
-
-    // Emit G_NOOP with p=9 (context marker) into the display list
-    // Format: w0 = (G_NOOP << 24) | (p << 16) | l, w1 = context pointer
-    // G_NOOP = 0x00 for F3DEX2
-    if (gMainGfxPos != nullptr) {
-        Gfx* g = gMainGfxPos++;
-        g->words.w0 = (0x00 << 24) | (9 << 16) | 0;  // G_NOOP, p=9 (context), l=0
-        g->words.w1 = (uintptr_t)context;
-    }
-}
-
-extern "C" const char* GameEngine_GetDisplayListContext() {
-    return gDisplayListContext ? gDisplayListContext : "(unknown)";
-}
-
-// Debug check for uninitialized textures - called from gDPSetTextureImage macro
-extern "C" void _gbi_debug_check_texture(const void* img, const char* file, int line) {
-    if (img == nullptr) {
-        SPDLOG_WARN("[GBI DEBUG] NULL texture at {}:{}", file, line);
-        return;
-    }
-    // Check if this is an OTR path
-    if (GameEngine_OTRSigCheck((const char*)img)) {
-        SPDLOG_INFO("[GBI DEBUG] OTR texture path at {}:{}, path='{}'", file, line, (const char*)img);
-        return;
-    }
-    // Check if first 16 bytes are all zeros
-    // Note: This is normal for CI4 textures with transparent regions (palette index 0)
-    static const char zeros[16] = {0};
-    if (memcmp(img, zeros, 16) == 0) {
-        SPDLOG_DEBUG("[GBI DEBUG] Texture starts with 16 zero bytes at {}:{}, addr={} (may be CI4 transparent region)",
-                    file, line, img);
-    }
-}
-
-// Texture debug tracking system - maps memory addresses to source asset paths
-// This helps diagnose texture issues by showing which asset file a texture came from
-struct TextureDebugInfo {
-    std::string assetPath;
-    int rasterIdx;
-};
-
-static std::mutex sTextureDebugMutex;
-static std::unordered_map<uintptr_t, TextureDebugInfo> sTextureDebugRegistry;
-
-extern "C" void GameEngine_RegisterTextureDebugInfo(const void* addr, const char* assetPath, int rasterIdx) {
-    if (addr == nullptr || assetPath == nullptr) {
-        return;
-    }
-    std::lock_guard<std::mutex> lock(sTextureDebugMutex);
-    sTextureDebugRegistry[reinterpret_cast<uintptr_t>(addr)] = { assetPath, rasterIdx };
-}
-
-// Thread-local buffer for returning texture source info
-static thread_local char sTextureSourceBuffer[256];
-
-extern "C" const char* GameEngine_LookupTextureSource(const void* addr) {
-    if (addr == nullptr) {
-        return nullptr;
-    }
-    std::lock_guard<std::mutex> lock(sTextureDebugMutex);
-    auto it = sTextureDebugRegistry.find(reinterpret_cast<uintptr_t>(addr));
-    if (it != sTextureDebugRegistry.end()) {
-        snprintf(sTextureSourceBuffer, sizeof(sTextureSourceBuffer), "%s (raster %d)",
-                 it->second.assetPath.c_str(), it->second.rasterIdx);
-        return sTextureSourceBuffer;
-    }
-    return nullptr;
 }
 
 extern "C" void GameEngine_InvalidateTextureCache(const void* addr) {

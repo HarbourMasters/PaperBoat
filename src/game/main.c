@@ -37,7 +37,7 @@ extern u16* ResetSavedFrameImg;
 extern s16 D_80073E08;
 extern s16 D_80073E0A;
 
-#include "assets/misc.h"
+#include "assets/misc/misc.h"
 
 #if defined(SHIFT) || VERSION_IQUE
 #define shim_create_audio_system_obfuscated create_audio_system

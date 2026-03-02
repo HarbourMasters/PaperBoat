@@ -154,8 +154,6 @@ std::optional<std::shared_ptr<IParsedData>> PM64CollisionFactory::parse(std::vec
         std::vector<uint8_t> colData(decoded->data, decoded->data + decoded->size);
         ByteSwapCollisionData(colData.data(), colData.size());
 
-        SPDLOG_INFO("PM64:COLLISION parsed at 0x{:X}, decompressed size: {}", offset, colData.size());
-
         return std::make_shared<RawBuffer>(colData);
     } else {
         // Uncompressed - read raw data with size from YAML

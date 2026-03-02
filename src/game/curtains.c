@@ -4,8 +4,6 @@
 #include "nu/nusys.h"
 #include "game_modes.h"
 
-extern void GameEngine_SetDisplayListContext(const char* context);
-
 Vp TheaterViewport = {
     {
         {(SCREEN_WIDTH/2)*4, (SCREEN_HEIGHT/2)*4, 0x200 - 1, 0},
@@ -203,8 +201,6 @@ void render_curtains(void) {
         gCurtainFade += (gCurtainFadeGoal - gCurtainFade) * 0.03;
     }
 
-    GameEngine_SetDisplayListContext("curtains");
-
     if (gCurtainScale < 1.9) {
         Matrix4f m;
         f32 scale;
@@ -288,7 +284,6 @@ void render_curtains(void) {
         }
     }
 
-    GameEngine_SetDisplayListContext(NULL);
 }
 
 void set_curtain_scale_goal(f32 scale) {

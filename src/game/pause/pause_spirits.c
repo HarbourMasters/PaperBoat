@@ -1,7 +1,7 @@
 #include "pause_common.h"
 #include "message_ids.h"
 #include "sprite.h"
-#include "assets/pause.h"
+#include "assets/misc/pause.h"
 #include "sprite/npc/WorldEldstar.h"
 #include "sprite/npc/WorldMamar.h"
 #include "sprite/npc/WorldSkolar.h"

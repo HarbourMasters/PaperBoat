@@ -4,6 +4,8 @@
 :config:
   virtual: [0x800DC500, 0x759B0]
 
+shimmer_particle:
+  { type: TEXTURE, format: IA8, offset: 0xA2960, width: 32, height: 16, symbol: D_801094B0 }
 vtx:
   { type: VTX, offset: 0xA2B70, count: 5, symbol: D_801096C0 }
 setup_gfx:

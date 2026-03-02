@@ -1,2 +1,2 @@
 #include "common.h"
-#include "assets/dgb_smash_bridges.h"
+#include "assets/misc/dgb_smash_bridges.h"

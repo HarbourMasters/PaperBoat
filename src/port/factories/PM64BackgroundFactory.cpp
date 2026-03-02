@@ -46,10 +46,6 @@ static void ByteSwapBackgroundData(uint8_t* data, size_t size) {
     header32[0] = rasterOffset;
     header32[1] = paletteOffset;
 
-    SPDLOG_INFO("Background header: using fixed offsets rasterOffset=0x{:X}, paletteOffset=0x{:X}, startX={}, startY={}, width={}, height={}",
-                rasterOffset, paletteOffset,
-                header16[4], header16[5], header16[6], header16[7]);
-
     // Background palettes are swapped internally by libultraship, no need to swap them here
     // Also, Raster data is CI8 (byte indices) - no swap needed
 }
@@ -69,8 +65,6 @@ std::optional<std::shared_ptr<IParsedData>> PM64BackgroundFactory::parse(std::ve
 
         std::vector<uint8_t> bgData(decoded->data, decoded->data + decoded->size);
         ByteSwapBackgroundData(bgData.data(), bgData.size());
-
-        SPDLOG_INFO("PM64:BACKGROUND parsed at 0x{:X}, decompressed size: {}", offset, bgData.size());
 
         return std::make_shared<RawBuffer>(bgData);
     } else {

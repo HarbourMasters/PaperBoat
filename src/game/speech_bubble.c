@@ -1,5 +1,5 @@
 #include "common.h"
-#include "assets/speech_bubble.h"
+#include "assets/misc/speech_bubble.h"
 #include "port/Engine.h"
 
 #define NAMESPACE speech_bubble

@@ -2,9 +2,6 @@
 #include "port/Engine.h"
 #include "sprite/player.h"
 
-// Display list context tracking for debugging
-extern void GameEngine_SetDisplayListContext(const char* context);
-
 #define MAX_SPRITE_ID 0xEA // todo generate this
 
 extern HeapNode heap_generalHead;
@@ -389,24 +386,16 @@ void spr_appendGfx_component(
 
     if ((gSpriteShadingProfile->flags & SPR_SHADING_FLAG_ENABLED)) {
         if ((u8) opacity == 255) {
-            GameEngine_SetDisplayListContext("sprite_opaque_shaded");
             gSPDisplayList(gMainGfxPos++, OpaqueShadedSpriteGfx);
-            GameEngine_SetDisplayListContext(NULL);
         } else {
-            GameEngine_SetDisplayListContext("sprite_translucent_shaded");
             gSPDisplayList(gMainGfxPos++, TranslucentShadedSpriteGfx);
-            GameEngine_SetDisplayListContext(NULL);
         }
     } else {
         if ((u8) opacity == 255) {
-            GameEngine_SetDisplayListContext("sprite_opaque");
             gSPDisplayList(gMainGfxPos++, OpaqueSpriteGfx);
-            GameEngine_SetDisplayListContext(NULL);
         } else {
             gDPSetPrimColor(gMainGfxPos++, 0, 0, 0, 0, 0, (u8) opacity);
-            GameEngine_SetDisplayListContext("sprite_translucent");
             gSPDisplayList(gMainGfxPos++, TranslucentSpriteGfx);
-            GameEngine_SetDisplayListContext(NULL);
         }
     }
 

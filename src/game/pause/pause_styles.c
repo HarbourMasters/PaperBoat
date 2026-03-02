@@ -1,6 +1,6 @@
 #include "common.h"
 #include "assets/ui.h"
-#include "assets/pause.h"
+#include "assets/misc/pause.h"
 
 //TODO replace with array when pause_stats_draw_contents is matched
 WindowStyleCustom gPauseWS_0 = {

@@ -3,7 +3,6 @@
 #include "battle/battle.h"
 #include "sprite.h"
 #include "game_modes.h"
-#include "port/Engine.h"
 
 typedef struct DemoSceneData {
     /* 0x0 */ s16 sceneType;
@@ -143,9 +142,6 @@ DemoSceneData DemoScenes[] = {
 };
 
 void state_init_demo(void) {
-    GameEngine_LogInfo("[DEMO] state_init_demo: demoState=%d nextDemoScene=%d",
-        gGameStatusPtr->demoState, gGameStatusPtr->nextDemoScene);
-
     if (gGameStatusPtr->demoState == DEMO_STATE_NONE) {
         gGameStatusPtr->nextDemoScene = 0;
         gGameStatusPtr->demoState = DEMO_STATE_ACTIVE;
@@ -176,12 +172,8 @@ void state_step_demo(void) {
         mode = DEMO_SCENE_EXIT;
     }
 
-    GameEngine_LogInfo("[DEMO] state_step_demo: nextDemoScene=%d sceneType=%d demoState=%d mode=%d",
-        gGameStatusPtr->nextDemoScene, demoSceneData->sceneType, gGameStatusPtr->demoState, mode);
-
     switch (mode) {
         case DEMO_SCENE_DONE:
-            GameEngine_LogInfo("[DEMO] DEMO_SCENE_DONE");
             startup_set_fade_screen_alpha(255);
             startup_set_fade_screen_color(224);
             gGameStatusPtr->startupState = 3;
@@ -233,8 +225,6 @@ void state_step_demo(void) {
             }
             return;
         case DEMO_SCENE_WORLD:
-            GameEngine_LogInfo("[DEMO] DEMO_SCENE_WORLD: map=%s entry=%d partner=%d",
-                demoSceneData->mapName, demoSceneData->index, demoSceneData->partnerID);
             get_map_IDs_by_name(demoSceneData->mapName, &areaID, &mapID);
             gGameStatusPtr->areaID = areaID;
             gGameStatusPtr->mapID = mapID;
@@ -271,9 +261,7 @@ void state_step_demo(void) {
             set_game_mode(GAME_MODE_ENTER_DEMO_WORLD);
             break;
         case DEMO_SCENE_BATTLE:
-            GameEngine_LogInfo("[DEMO] DEMO_SCENE_BATTLE: index=%d", demoSceneData->index);
             load_demo_battle(demoSceneData->index);
-            GameEngine_LogInfo("[DEMO] load_demo_battle returned");
             break;
     }
 

@@ -100,8 +100,6 @@ ExportResult PM64EffectDListBinaryExporter::Export(std::ostream& write, std::sha
                 if (hash == 0) {
                     throw std::runtime_error("Vtx hash is 0 for " + dec.value());
                 }
-                SPDLOG_INFO("Found vtx: 0x{:X} Hash: 0x{:X} Path: {}", ptr, hash, dec.value());
-
                 // Construct G_VTX_OTR_HASH: preserve n/v0 bits, zero the vtx offset
                 uint32_t newW0 = (G_VTX_OTR_HASH << 24) | (w0 & 0x00FFFFFF);
                 writer.Write(newW0);
@@ -130,7 +128,6 @@ ExportResult PM64EffectDListBinaryExporter::Export(std::ostream& write, std::sha
 
             if (dec.has_value()) {
                 uint64_t hash = CRC64(dec.value().c_str());
-                SPDLOG_INFO("Found display list: 0x{:X} Hash: 0x{:X} Path: {}", ptr, hash, dec.value());
                 writer.Write(static_cast<uint32_t>(hash >> 32));
                 writer.Write(static_cast<uint32_t>(hash & 0xFFFFFFFF));
             } else {
@@ -156,7 +153,7 @@ ExportResult PM64EffectDListBinaryExporter::Export(std::ostream& write, std::sha
                 res = Companion::Instance->GetStringByAddr(ptr - 0x8);
                 hasOffset = res.has_value();
                 if (!hasOffset) {
-                    SPDLOG_INFO("Could not find light {:X}", ptr);
+                    SPDLOG_WARN("Could not find light {:X}", ptr);
                 }
             }
 
@@ -171,7 +168,6 @@ ExportResult PM64EffectDListBinaryExporter::Export(std::ostream& write, std::sha
 
             if (res.has_value()) {
                 uint64_t hash = CRC64(res.value().c_str());
-                SPDLOG_INFO("Found movemem: 0x{:X} Hash: 0x{:X} Path: {}", ptr, hash, res.value());
                 writer.Write(static_cast<uint32_t>(hash >> 32));
                 writer.Write(static_cast<uint32_t>(hash & 0xFFFFFFFF));
             } else {
@@ -196,7 +192,6 @@ ExportResult PM64EffectDListBinaryExporter::Export(std::ostream& write, std::sha
                 if (hash == 0) {
                     throw std::runtime_error("Texture hash is 0 for " + dec.value());
                 }
-                SPDLOG_INFO("Found texture: 0x{:X} Hash: 0x{:X} Path: {}", ptr, hash, dec.value());
                 writer.Write(static_cast<uint32_t>(hash >> 32));
                 writer.Write(static_cast<uint32_t>(hash & 0xFFFFFFFF));
             } else {
@@ -220,7 +215,6 @@ ExportResult PM64EffectDListBinaryExporter::Export(std::ostream& write, std::sha
                 if (hash == 0) {
                     throw std::runtime_error("Matrix hash is 0 for " + dec.value());
                 }
-                SPDLOG_INFO("Found matrix: 0x{:X} Hash: 0x{:X} Path: {}", ptr, hash, dec.value());
                 writer.Write(static_cast<uint32_t>(hash >> 32));
                 writer.Write(static_cast<uint32_t>(hash & 0xFFFFFFFF));
             } else {

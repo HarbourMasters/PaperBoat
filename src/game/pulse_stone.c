@@ -1,5 +1,5 @@
 #include "common.h"
-#include "assets/pulse_stone.h"
+#include "assets/misc/pulse_stone.h"
 #include "port/Engine.h"
 
 typedef struct PulseStoneData {

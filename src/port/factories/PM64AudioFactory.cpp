@@ -586,8 +586,6 @@ std::optional<std::shared_ptr<IParsedData>> PM64AudioFactory::parse(std::vector<
     // Byte-swap for little-endian
     ByteSwapAudioData(audioData.data(), audioData.size());
 
-    SPDLOG_INFO("PM64:AUDIO parsed at 0x{:X}, size: {} bytes", offset, audioData.size());
-
     return std::make_shared<RawBuffer>(audioData);
 }
 

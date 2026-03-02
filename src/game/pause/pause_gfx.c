@@ -1,6 +1,6 @@
 #include "pause_common.h"
 #include "message_ids.h"
-#include "assets/pause.h"
+#include "assets/misc/pause.h"
 
 // All texture dimensions in static DLs below are hardcoded to original N64 values.
 // The Fast3D interpreter overrides them at runtime using OTR texture metadata,

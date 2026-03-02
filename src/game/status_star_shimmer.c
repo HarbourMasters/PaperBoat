@@ -1,5 +1,5 @@
 #include "common.h"
-#include "assets/status_star_shimmer.h"
+#include "assets/misc/status_star_shimmer.h"
 #include "port/Engine.h"
 
 Vp ShimmerViewport = {

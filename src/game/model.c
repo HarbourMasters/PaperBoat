@@ -8,9 +8,6 @@
 #include <stdio.h>
 #include "port/Engine.h"
 
-// Display list context tracking for debugging
-extern void GameEngine_SetDisplayListContext(const char* context);
-
 // Check if a GBI opcode is a double-width OTR command (2 Gfx entries instead of 1)
 static s32 mdl_is_otr_expanded_opcode(u32 opcode) {
     return opcode == G_SETTIMG_OTR_HASH
@@ -1420,7 +1417,6 @@ void appendGfx_model(void* data) {
     s32 fogMin, fogMax;
     s32 fogR, fogG, fogB, fogA;
     Gfx** gfxPos = &gMainGfxPos;
-    static char dlContextBuf[64];  // For display list debugging context
 
     mtxPushMode = G_MTX_PUSH;
     mtxLoadMode = G_MTX_LOAD;
@@ -1542,17 +1538,11 @@ void appendGfx_model(void* data) {
                         textureHandle->combinedPalette);
 
                 } else {
-                    snprintf(dlContextBuf, sizeof(dlContextBuf), "model_%d_texgfx_special", model->modelID);
-                    GameEngine_SetDisplayListContext(dlContextBuf);
                     gSPDisplayList((*gfxPos)++, textureHandle->gfx);
-                    GameEngine_SetDisplayListContext(NULL);
                 }
                 break;
             default:
-                snprintf(dlContextBuf, sizeof(dlContextBuf), "model_%d_texgfx_default", model->modelID);
-                GameEngine_SetDisplayListContext(dlContextBuf);
                 gSPDisplayList((*gfxPos)++, textureHandle->gfx);
-                GameEngine_SetDisplayListContext(NULL);
                 break;
         }
     } else {
@@ -1661,10 +1651,7 @@ void appendGfx_model(void* data) {
                     renderModeIdx = RENDER_MODE_IDX_00;
                     break;
             }
-            snprintf(dlContextBuf, sizeof(dlContextBuf), "model_%d_rendermode_1cyc", model->modelID);
-            GameEngine_SetDisplayListContext(dlContextBuf);
             gSPDisplayList((*gfxPos)++, ModelRenderModes[renderModeIdx]);
-            GameEngine_SetDisplayListContext(NULL);
             break;
         case RENDER_CLASS_2CYC:
             switch (renderMode) {
@@ -1728,10 +1715,7 @@ void appendGfx_model(void* data) {
                     renderModeIdx = RENDER_MODE_IDX_10;
                     break;
             }
-            snprintf(dlContextBuf, sizeof(dlContextBuf), "model_%d_rendermode_2cyc", model->modelID);
-            GameEngine_SetDisplayListContext(dlContextBuf);
             gSPDisplayList((*gfxPos)++, ModelRenderModes[renderModeIdx]);
-            GameEngine_SetDisplayListContext(NULL);
             break;
         case RENDER_CLASS_FOG:
             switch (renderMode) {
@@ -1795,10 +1779,7 @@ void appendGfx_model(void* data) {
                     renderModeIdx = RENDER_MODE_IDX_1F;
                     break;
             }
-            snprintf(dlContextBuf, sizeof(dlContextBuf), "model_%d_rendermode_fog", model->modelID);
-            GameEngine_SetDisplayListContext(dlContextBuf);
             gSPDisplayList((*gfxPos)++, ModelRenderModes[renderModeIdx]);
-            GameEngine_SetDisplayListContext(NULL);
             gDPSetFogColor((*gfxPos)++, gFogSettings->color.r, gFogSettings->color.g, gFogSettings->color.b, gFogSettings->color.a);
             gSPFogPosition((*gfxPos)++, gFogSettings->startDistance, gFogSettings->endDistance);
             break;
@@ -1807,10 +1788,7 @@ void appendGfx_model(void* data) {
             if (ShroudTintAmt == 255) {
                 return;
             }
-            snprintf(dlContextBuf, sizeof(dlContextBuf), "model_%d_rendermode_shroud_init", model->modelID);
-            GameEngine_SetDisplayListContext(dlContextBuf);
             gSPDisplayList((*gfxPos)++, ModelRenderModes[RENDER_MODE_IDX_10]);
-            GameEngine_SetDisplayListContext(NULL);
             switch (renderMode) {
                 case RENDER_MODE_SURFACE_OPA:
                     gDPSetRenderMode(gMainGfxPos++, PM_RM_SHROUD, G_RM_AA_ZB_OPA_SURF2);
@@ -1936,10 +1914,7 @@ void appendGfx_model(void* data) {
                     renderModeIdx = RENDER_MODE_IDX_1F;
                     break;
             }
-            snprintf(dlContextBuf, sizeof(dlContextBuf), "model_%d_rendermode_fog_shroud", model->modelID);
-            GameEngine_SetDisplayListContext(dlContextBuf);
             gSPDisplayList((*gfxPos)++, ModelRenderModes[renderModeIdx]);
-            GameEngine_SetDisplayListContext(NULL);
 
             // lerp between scene fog and shroud fog based on ShroudTintAmt
             fogR = (gFogSettings->color.r * (255 - ShroudTintAmt) + ShroudTintR * ShroudTintAmt) / 255;
@@ -1977,10 +1952,7 @@ void appendGfx_model(void* data) {
                     renderModeIdx = RENDER_MODE_IDX_1F;
                     break;
             }
-            snprintf(dlContextBuf, sizeof(dlContextBuf), "model_%d_rendermode_depth", model->modelID);
-            GameEngine_SetDisplayListContext(dlContextBuf);
             gSPDisplayList((*gfxPos)++, ModelRenderModes[renderModeIdx]);
-            GameEngine_SetDisplayListContext(NULL);
             break;
     }
 
@@ -2008,10 +1980,7 @@ void appendGfx_model(void* data) {
     if (flags & MODEL_FLAG_USES_CUSTOM_GFX) {
         customGfxIndex = (model->customGfxIndex & 0xF) * 2;
         if ((*gCurrentCustomModelGfxPtr)[customGfxIndex] != nullptr) {
-            snprintf(dlContextBuf, sizeof(dlContextBuf), "model_%d_customgfx_pre", model->modelID);
-            GameEngine_SetDisplayListContext(dlContextBuf);
             gSPDisplayList((*gfxPos)++, (*gCurrentCustomModelGfxPtr)[customGfxIndex]);
-            GameEngine_SetDisplayListContext(NULL);
         }
     }
 
@@ -2051,20 +2020,14 @@ void appendGfx_model(void* data) {
 
     // render the model
     if (!(flags & MODEL_FLAG_HAS_LOCAL_VERTEX_COPY)) {
-        snprintf(dlContextBuf, sizeof(dlContextBuf), "model_%d_displaylist", model->modelID);
-        GameEngine_SetDisplayListContext(dlContextBuf);
         gSPDisplayList((*gfxPos)++, modelNode->displayData->displayList);
-        GameEngine_SetDisplayListContext(NULL);
     }
 
     // custom gfx 'post'
     if (flags & MODEL_FLAG_USES_CUSTOM_GFX) {
         customGfxIndex++;
         if ((*gCurrentCustomModelGfxPtr)[customGfxIndex] != nullptr) {
-            snprintf(dlContextBuf, sizeof(dlContextBuf), "model_%d_customgfx_post", model->modelID);
-            GameEngine_SetDisplayListContext(dlContextBuf);
             gSPDisplayList((*gfxPos)++, (*gCurrentCustomModelGfxPtr)[customGfxIndex]);
-            GameEngine_SetDisplayListContext(NULL);
         }
     }
 
@@ -4861,13 +4824,9 @@ void execute_render_tasks(void) {
             if (task->renderMode & RENDER_TASK_FLAG_REFLECT_FLOOR) {
                 gSPEndDisplayList(gMainGfxPos++);
                 gSPBranchList(savedGfxPos, gMainGfxPos);
-                GameEngine_SetDisplayListContext("floor_reflection_1");
                 gSPDisplayList(gMainGfxPos++, savedGfxPos + 1);
-                GameEngine_SetDisplayListContext(NULL);
                 gSPMatrix(gMainGfxPos++, dispMtx, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
-                GameEngine_SetDisplayListContext("floor_reflection_2");
                 gSPDisplayList(gMainGfxPos++, savedGfxPos + 1);
-                GameEngine_SetDisplayListContext(NULL);
                 gSPMatrix(gMainGfxPos++, &gDisplayContext->camPerspMatrix[gCurrentCamID], G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
             }
         }

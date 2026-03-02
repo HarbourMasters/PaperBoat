@@ -6,8 +6,6 @@
 #include "world/partners.h"
 #include "sprite/npc/WorldWatt.h"
 
-extern void GameEngine_LogInfo(const char* fmt, ...);
-
 s16 gNpcCount;
 static NpcList gWorldNpcList;
 static NpcList gBattleNpcList;
@@ -198,12 +196,8 @@ s32 create_npc_impl(NpcBlueprint* blueprint, AnimID* animList, s32 isPeachNpc) {
         if (!(npc->flags & NPC_FLAG_HAS_NO_SPRITE)) {
             if (!(npc->flags & NPC_FLAG_PARTNER)) {
                 npc->spriteInstanceID = spr_load_npc_sprite(npc->curAnim, animList);
-                GameEngine_LogInfo("npc_init_basic_data: npc=%p id=%d spriteInstanceID=%d (curAnim=0x%08X)",
-                    (void*)npc, npc->npcID, npc->spriteInstanceID, npc->curAnim);
             } else {
                 npc->spriteInstanceID = spr_load_npc_sprite(npc->curAnim | SPRITE_ID_TAIL_ALLOCATE, animList);
-                GameEngine_LogInfo("npc_init_basic_data: partner npc=%p id=%d spriteInstanceID=%d (curAnim=0x%08X)",
-                    (void*)npc, npc->npcID, npc->spriteInstanceID, npc->curAnim);
             }
         } else {
             npc->flags |= NPC_FLAG_INVISIBLE;

@@ -88,9 +88,6 @@ std::optional<std::shared_ptr<IParsedData>> PM64ImgFXAnimFactory::parse(std::vec
         words[1] = BSWAP32(words[1]);
     }
 
-    SPDLOG_INFO("PM64:IMGFX_ANIM: headerOffset=0x{:X}, vtxCount={}, gfxCount={}, keyframesCount={}, flags=0x{:X}, blobSize=0x{:X}",
-                headerOffset, vtxCount, gfxCount, keyframesCount, flags, blobSize);
-
     return std::make_shared<RawBuffer>(blob);
 }
 

@@ -32,9 +32,6 @@ std::optional<std::shared_ptr<IParsedData>> PM64TitleDataFactory::parse(std::vec
     std::vector<uint8_t> result(size);
     std::memcpy(result.data(), decoded->data + subOffset, size);
 
-    SPDLOG_INFO("PM64:TITLE_DATA parsed at ROM 0x{:X}, sub_offset=0x{:X}, size={}",
-                offset, subOffset, size);
-
     return std::make_shared<RawBuffer>(result);
 }
 

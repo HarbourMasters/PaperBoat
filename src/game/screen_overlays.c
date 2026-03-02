@@ -2,8 +2,6 @@
 #include "overlay.h"
 #include "assets/ui.h"
 
-extern void GameEngine_SetDisplayListContext(const char* context);
-
 BSS s32 screen_overlay_frontType;
 BSS f32 screen_overlay_frontZoom;
 BSS s32 screen_overlay_backType;
@@ -89,8 +87,6 @@ void _render_transition_stencil(u8 stencilType, f32 progress, ScreenOverlay* ove
         return;
     }
 
-    GameEngine_SetDisplayListContext("screen_overlay");
-
     if (overlay != nullptr) {
         colR = overlay->color.r;
         colG = overlay->color.g;
@@ -122,7 +118,6 @@ void _render_transition_stencil(u8 stencilType, f32 progress, ScreenOverlay* ove
             gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
             gDPFillRectangle(gMainGfxPos++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
             gDPSetColorDither(gMainGfxPos++, G_CD_DISABLE);
-            GameEngine_SetDisplayListContext(NULL);
             return;
         case OVERLAY_VIEWPORT_COLOR:
             gDPPipeSync(gMainGfxPos++);
@@ -140,7 +135,6 @@ void _render_transition_stencil(u8 stencilType, f32 progress, ScreenOverlay* ove
             gDPFillRectangle(gMainGfxPos++, camera->viewportStartX, camera->viewportStartY,
                              camera->viewportStartX + camera->viewportW, camera->viewportStartY + camera->viewportH);
             gDPSetColorDither(gMainGfxPos++, G_CD_DISABLE);
-            GameEngine_SetDisplayListContext(NULL);
             return;
     }
 
@@ -209,7 +203,6 @@ void _render_transition_stencil(u8 stencilType, f32 progress, ScreenOverlay* ove
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->camPerspMatrix[gCurrentCameraID], G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
 
-    GameEngine_SetDisplayListContext(NULL);
 }
 
 void set_screen_overlay_params_front(u8 type, f32 zoom) {

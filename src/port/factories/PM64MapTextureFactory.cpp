@@ -205,7 +205,6 @@ std::optional<std::shared_ptr<IParsedData>> PM64MapTextureFactory::parse(std::ve
         }
 
         textureData.assign(decoded->data, decoded->data + decoded->size);
-        SPDLOG_INFO("PM64:MAP_TEXTURE decompressed from YAY0 at 0x{:X}, size: {}", offset, textureData.size());
     } else {
         // Uncompressed - read raw data
         // For uncompressed textures, we need to determine the size from somewhere
@@ -224,7 +223,6 @@ std::optional<std::shared_ptr<IParsedData>> PM64MapTextureFactory::parse(std::ve
         }
 
         textureData.assign(buffer.begin() + offset, buffer.begin() + offset + size);
-        SPDLOG_INFO("PM64:MAP_TEXTURE raw at 0x{:X}, size: {}", offset, textureData.size());
     }
 
     // Byte-swap all texture headers in the data

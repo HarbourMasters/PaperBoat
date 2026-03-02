@@ -9,8 +9,6 @@
 #include "Engine.h"
 #include "assets/logos.h"
 
-extern void GameEngine_SetDisplayListContext(const char* context);
-
 void appendGfx_intro_logos(void);
 
 #if VERSION_JP
@@ -261,8 +259,6 @@ void state_drawUI_logos(void) {
 void appendGfx_intro_logos(void) {
     s32 i;
 
-    GameEngine_SetDisplayListContext("state_logos");
-
     gDPPipeSync(gMainGfxPos++);
     gDPSetRenderMode(gMainGfxPos++, G_RM_NOOP, G_RM_NOOP2);
     gDPSetCombineMode(gMainGfxPos++, G_CC_DECALRGB, G_CC_DECALRGB);
@@ -330,5 +326,4 @@ void appendGfx_intro_logos(void) {
             break;
     }
 
-    GameEngine_SetDisplayListContext(NULL);
 }

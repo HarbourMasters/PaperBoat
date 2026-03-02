@@ -40,9 +40,6 @@ std::optional<std::shared_ptr<IParsedData>> PM64StoryImageFactory::parse(std::ve
     // Palette is kept big-endian as the interpreter expects it that way
     std::memcpy(result.data(), buffer.data() + offset, totalSize);
 
-    SPDLOG_INFO("PM64:STORY_IMAGE parsed at 0x{:X}, {}x{}, has_palette={}, size={}",
-                offset, width, height, hasPalette, totalSize);
-
     return std::make_shared<RawBuffer>(result);
 }
 

@@ -11,9 +11,6 @@
 // Forward declaration of ResourceGetDataByName from Engine
 extern "C" void* ResourceGetDataByName(const char* name);
 
-// Forward declaration of texture debug tracking from Engine
-extern "C" void GameEngine_RegisterTextureDebugInfo(const void* addr, const char* assetPath, int rasterIdx);
-
 // Forward declaration of N64 sprite converter
 static size_t ConvertN64SpriteToNative(const uint8_t* srcBlob, size_t srcSize,
                                        uint8_t* destBuffer, size_t destBufferSize,
@@ -479,11 +476,6 @@ static size_t ConvertN64SpriteToNative(const uint8_t* srcBlob, size_t srcSize,
         uint32_t imgOffset = n64Raster->imageOffset;
         nativeRaster->image = rawDataPtr + imgOffset;
 
-        // Register texture address for debug tracking
-        if (assetPath != nullptr) {
-            GameEngine_RegisterTextureDebugInfo(nativeRaster->image, assetPath, i);
-        }
-
         nativeRaster->width = n64Raster->width;
         nativeRaster->height = n64Raster->height;
         nativeRaster->palette = n64Raster->palette;
@@ -688,11 +680,6 @@ SpriteS32 Sprite_LoadPlayerRaster(SpriteS32 rasterOffset, void* destBuffer, Spri
     // Copy raster data (CI4 image data is byte-level, no byte-swap needed)
     uint8_t* src = (uint8_t*)imageData;
     memcpy(destBuffer, src + rasterOffset, size);
-
-    // Register texture address for debug tracking
-    char debugPath[64];
-    snprintf(debugPath, sizeof(debugPath), "__OTR__sprites/player_raster@0x%X", rasterOffset);
-    GameEngine_RegisterTextureDebugInfo(destBuffer, debugPath, 0);
 
     // Note: CI4 rasters can legitimately contain many zero bytes (palette index 0 = transparent)
     // So all-zeros at the start is normal for sprites with transparent regions
