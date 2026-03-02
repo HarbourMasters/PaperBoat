@@ -10,6 +10,20 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_EXTENSIONS ON)  # Enable GNU extensions (gnu99)
 set(CMAKE_CXX_STANDARD 20)
 
+################################################################################
+# Windows vcpkg bootstrap (must happen BEFORE add_subdirectory)
+################################################################################
+if (WIN32)
+    include(cmake/automate-vcpkg.cmake)
+    set(VCPKG_TRIPLET x64-windows-static)
+    set(VCPKG_TARGET_TRIPLET x64-windows-static)
+    vcpkg_bootstrap()
+    vcpkg_install_packages(zlib bzip2 sdl2 glew libzip nlohmann-json tinyxml2 spdlog)
+
+    set_property(DIRECTORY ${CMAKE_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
+    set_property(DIRECTORY ${CMAKE_SOURCE_DIR} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+endif()
+
 # Add libultraship BEFORE setting include directories to avoid polluting its builds
 add_subdirectory(external/libultraship ${CMAKE_CURRENT_SOURCE_DIR}/external/libultraship)
 
@@ -89,13 +103,14 @@ add_executable(${PROJECT_NAME}
     ${PORT_SOURCES}
 )
 
-target_compile_options(${PROJECT_NAME} PRIVATE
-    $<$<COMPILE_LANGUAGE:C>:-Wno-implicit-function-declaration>
-    $<$<COMPILE_LANGUAGE:C>:-Wno-int-conversion>
-    $<$<COMPILE_LANGUAGE:C>:-Wno-initializer-overrides>
-    "-Wa,-I${CMAKE_SOURCE_DIR}"  # tells assembler to search project root for .incbin files
-    "-Wreturn-mismatch"
-)
+if (NOT MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        $<$<COMPILE_LANGUAGE:C>:-Wno-implicit-function-declaration>
+        $<$<COMPILE_LANGUAGE:C>:-Wno-int-conversion>
+        $<$<COMPILE_LANGUAGE:C>:-Wno-initializer-overrides>
+        $<$<C_COMPILER_ID:GNU>:-Wreturn-mismatch>
+    )
+endif()
 
 # __CTX__ disables INCLUDE_ASM macros and inline assembly
 target_compile_definitions(${PROJECT_NAME} PRIVATE
@@ -172,13 +187,101 @@ add_custom_command(
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
+################################################################################
 # Platform-specific configuration
-if(WIN32)
-    # Windows-specific settings
+################################################################################
+if(MSVC)
+    # MSVC runtime library (static CRT)
+    get_property(MSVC_RUNTIME_LIBRARY_DEFAULT TARGET ${PROJECT_NAME} PROPERTY MSVC_RUNTIME_LIBRARY)
+    string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
+        $<$<CONFIG:Debug>:MultiThreadedDebug>
+        $<$<CONFIG:Release>:MultiThreaded>
+        $<$<NOT:$<OR:$<CONFIG:Debug>,$<CONFIG:Release>>>:${MSVC_RUNTIME_LIBRARY_DEFAULT}>
+    )
+    set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUNTIME_LIBRARY_STR})
+
+    # Windows compile definitions
+    target_compile_definitions(${PROJECT_NAME} PRIVATE
+        "$<$<CONFIG:Debug>:_DEBUG;_CRT_SECURE_NO_WARNINGS;ENABLE_DX11>"
+        "$<$<CONFIG:Release>:NDEBUG>"
+        UNICODE
+        _UNICODE
+        _CRT_SECURE_NO_WARNINGS
+        _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS
+    )
+    add_compile_definitions(STORMLIB_NO_AUTO_LINK)
+    set(STORMLIB_NO_AUTO_LINK ON)
+
+    # MSVC compile options
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Debug>:/w;/Od;/MTd;/ZI>
+        $<$<CONFIG:Release>:/Oi;/Gy;/W3;/MT;/Zi>
+        /permissive-
+        /MP
+    )
+
+    # MSVC link options
+    target_link_options(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Debug>:/INCREMENTAL>
+        $<$<CONFIG:Release>:/OPT:REF;/OPT:ICF;/INCREMENTAL:NO;/FORCE:MULTIPLE>
+        /MANIFEST:NO
+        /DEBUG
+        /SUBSYSTEM:WINDOWS
+    )
+
+    # Remove /RTC from MSVC flags
+    foreach(fentry CMAKE_C_FLAGS CMAKE_CXX_FLAGS)
+        string(REGEX REPLACE "/RTC(su|[1su])" "" ${fentry} "${${fentry}}")
+    endforeach()
+
 elseif(APPLE)
     # macOS-specific settings
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        -Wall -Wextra -Wno-error
+        -Wno-unused-parameter
+        -Wno-unused-function
+        -Wno-unused-variable
+        -Wno-missing-field-initializers
+        -Wno-parentheses
+        -Wno-narrowing
+        -Wno-missing-braces
+        $<$<COMPILE_LANGUAGE:CXX>:-fpermissive>
+        $<$<COMPILE_LANGUAGE:CXX>:-Wno-c++11-narrowing>
+        $<$<COMPILE_LANGUAGE:CXX>:-Wno-deprecated-enum-enum-conversion>
+        -pthread
+    )
+    target_link_options(${PROJECT_NAME} PRIVATE -pthread)
+
 elseif(UNIX)
     # Linux-specific settings
+    find_package(OpenGL REQUIRED)
+
+    # CPU-specific optimizations
+    if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
+        set(CPU_OPTION -msse2 -mfpmath=sse)
+    elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
+        set(CPU_OPTION -mcpu=native)
+    endif()
+
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        -Wall -Wextra -Wno-error
+        -Wno-unused-parameter
+        -Wno-unused-function
+        -Wno-unused-variable
+        -Wno-missing-field-initializers
+        -Wno-parentheses
+        -Wno-narrowing
+        -Wno-missing-braces
+        $<$<COMPILE_LANGUAGE:C>:-Wno-incompatible-pointer-types>
+        $<$<COMPILE_LANGUAGE:CXX>:-fpermissive>
+        $<$<COMPILE_LANGUAGE:CXX>:-Wno-deprecated-enum-enum-conversion>
+        -pthread
+        ${CPU_OPTION}
+    )
+    target_link_options(${PROJECT_NAME} PRIVATE
+        -pthread
+        -Wl,-export-dynamic
+    )
 endif()
 
 message(STATUS "Configuring ${PROJECT_NAME} v${PROJECT_VERSION}")
