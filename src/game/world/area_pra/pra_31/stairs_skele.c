@@ -1,8 +1,8 @@
 #include "pra_31.h"
 #include "assets/world.h"
 
-// All 34 stairs skeleton DLs and stairs VTX extracted to OTR via world_pra_31.yml
-// DL symbols (pra_31_unk_01_gfx through pra_31_unk_34_gfx) defined in assets/world.h
+// All 33 stairs skeleton DLs and stairs VTX extracted to OTR via world_pra_31.yml
+// DL symbols (pra_31_unk_01_gfx through pra_31_unk_33_gfx) defined in assets/world.h
 
 s32 N(post_gfx_pad)[] = { 0, 0, 0, 0 };
 

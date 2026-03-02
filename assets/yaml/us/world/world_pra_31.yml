@@ -93,9 +93,6 @@ area_pra/pra_31/unk_32.gfx:
   { type: PM64:EFFECT_DL, offset: 0xD84790, size: 0x28, symbol: pra_31_unk_32_gfx }
 area_pra/pra_31/unk_33.gfx:
   { type: PM64:EFFECT_DL, offset: 0xD847B8, size: 0x38, symbol: pra_31_unk_33_gfx }
-area_pra/pra_31/unk_34.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD847F0, size: 0x10, symbol: pra_31_unk_34_gfx }
-
 # --- Stairs vertices (28 verts) ---
 area_pra/pra_31/stairs.vtx:
   { type: VTX, offset: 0xD86820, count: 28, symbol: pra_31_stairs_vtx }

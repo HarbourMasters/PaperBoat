@@ -1,9 +1,9 @@
 filemenu/copyarrow:
-  { type: BLOB, offset: 0x16AA60, size: 0x200, symbol: ui_filemenu_copyarrow_png }
+  { type: TEXTURE, format: IA4, offset: 0x16AA60, width: 64, height: 16, symbol: ui_filemenu_copyarrow_png }
 filemenu/corners_yellow:
-  { type: BLOB, offset: 0x16AC60, size: 0x1000, symbol: ui_filemenu_corners_yellow_png }
+  { type: TEXTURE, format: RGBA32, offset: 0x16AC60, width: 16, height: 64, symbol: ui_filemenu_corners_yellow_png }
 filemenu/corners_gray:
-  { type: BLOB, offset: 0x16BC60, size: 0x200, symbol: ui_filemenu_corners_gray_png }
+  { type: TEXTURE, format: IA8, offset: 0x16BC60, width: 16, height: 32, symbol: ui_filemenu_corners_gray_png }
 no_controller:
   { type: TEXTURE, format: IA8, offset: 0x51540, width: 128, height: 32, symbol: ui_no_controller_png }
 input/a_button_unpressed:
