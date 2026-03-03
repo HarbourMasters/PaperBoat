@@ -117,10 +117,22 @@ if (NOT MSVC)
     )
 endif()
 
+# VS generator can't handle COMPILE_LANGUAGE generator expressions,
+# so set _LANGUAGE_C / _LANGUAGE_C_PLUS_PLUS per-file based on extension
+if(MSVC)
+    foreach(src ${GAME_SOURCES} ${PORT_SOURCES})
+        if(src MATCHES "\\.c$")
+            set_source_files_properties(${src} PROPERTIES COMPILE_DEFINITIONS "_LANGUAGE_C")
+        else()
+            set_source_files_properties(${src} PROPERTIES COMPILE_DEFINITIONS "_LANGUAGE_C_PLUS_PLUS")
+        endif()
+    endforeach()
+endif()
+
 # __CTX__ disables INCLUDE_ASM macros and inline assembly
 target_compile_definitions(${PROJECT_NAME} PRIVATE
-    $<$<COMPILE_LANGUAGE:C>:_LANGUAGE_C>
-    $<$<COMPILE_LANGUAGE:CXX>:_LANGUAGE_C_PLUS_PLUS>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:$<$<COMPILE_LANGUAGE:C>:_LANGUAGE_C>>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:$<$<COMPILE_LANGUAGE:CXX>:_LANGUAGE_C_PLUS_PLUS>>
     PORT
     MODERN_COMPILER
     VERSION=us
