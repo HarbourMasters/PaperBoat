@@ -240,17 +240,17 @@
     __VA_OPT__(, FOR_EACH(BYTECODE_CAST, __VA_ARGS__))
 #else
 // This definition that passes in 0 for the number of args is used for pycparser since it can't handle varargs
-#define EVT_CMD(opcode, argv...) \
+#define EVT_CMD(opcode, ...) \
     opcode, \
     0, \
-    ##argv
+    ##__VA_ARGS__
 #endif
 #else
 // This definition that passes in 0 for the number of args is used for pycparser since it can't handle varargs
-#define EVT_CMD(opcode, argv...) \
+#define EVT_CMD(opcode, ...) \
     opcode, \
     0, \
-    ##argv
+    ##__VA_ARGS__
 #endif
 
 /// Signals the end of EVT script data. A script missing this will likely crash on load.
@@ -617,7 +617,7 @@
 ///     Call(ApiFunction)
 ///
 /// The given arguments can be accessed from the API function using `thread->ptrReadPos`.
-#define Call(FUNC, ARGS...)                     EVT_CMD(EVT_OP_CALL, FUNC, ##ARGS),
+#define Call(FUNC, ...)                          EVT_CMD(EVT_OP_CALL, FUNC, ##__VA_ARGS__),
 
 /// Does nothing in release version
 #define EVT_DEBUG_LOG(STRING)                   EVT_CMD(EVT_OP_DEBUG_LOG, STRING),
@@ -798,10 +798,10 @@
 // allow macros with variable number of arguments
 // see https://stackoverflow.com/questions/11761703/overloading-macro-on-number-of-arguments
 // solution provided by R1tschY and edited by Gabriel Staples
-#define __NARG__(args...) \
-    __NARG_I_(args,__RSEQ_N())
-#define __NARG_I_(args...) \
-    __ARG_N(args)
+#define __NARG__(...) \
+    __NARG_I_(__VA_ARGS__,__RSEQ_N())
+#define __NARG_I_(...) \
+    __ARG_N(__VA_ARGS__)
 #define __ARG_N( \
       _1, _2, _3, _4, _5, _6, _7, _8, _9,_10, \
      _11,_12,_13,_14,_15,_16,_17,_18,_19,_20, \
@@ -820,9 +820,9 @@
      9,8,7,6,5,4,3,2,1,0
 #define _VFUNC_(name, n) name##n
 #define _VFUNC(name, n) _VFUNC_(name, n)
-#define VFUNC(func, args...) _VFUNC(func, __NARG__(args)) (args)
+#define VFUNC(func, ...) _VFUNC(func, __NARG__(__VA_ARGS__)) (__VA_ARGS__)
 
-#define PlayEffect(args...) VFUNC(PlayEffect, args)
+#define PlayEffect(...) VFUNC(PlayEffect, __VA_ARGS__)
 #define PlayEffect1(effect) \
     Call(PlayEffect_impl, effect, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 #define PlayEffect2(effect, subtype) \

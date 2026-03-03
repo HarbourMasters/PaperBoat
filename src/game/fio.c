@@ -116,7 +116,7 @@ bool fio_load_globals(void) {
         return true;
     }
 
-    bzero(&gSaveGlobals, sizeof(gSaveGlobals));
+    memset(&gSaveGlobals, 0, sizeof(gSaveGlobals));
     return false;
 }
 

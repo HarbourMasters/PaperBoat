@@ -227,8 +227,8 @@ extern BattleArea gBattleAreas[0x30];
 #define BATTLE(formation, stage, name) { name, ARRAY_COUNT(formation), (Formation*) formation, &stage }
 #define BATTLE_WITH_SCRIPT(formation, stage, script, name) { name, ARRAY_COUNT(formation), (Formation*) formation, &stage, &script }
 
-#define ACTOR_BY_IDX(_name, _idx, _priority, args...) { .actor = &_name, .home = { .index = _idx }, .priority = _priority, args }
-#define ACTOR_BY_POS(_name, _pos, _priority, args...) { .actor = &_name, .home = { .vec = &_pos }, .priority = _priority, args }
+#define ACTOR_BY_IDX(_name, _idx, _priority, ...) { .actor = &_name, .home = { .index = _idx }, .priority = _priority, __VA_ARGS__ }
+#define ACTOR_BY_POS(_name, _pos, _priority, ...) { .actor = &_name, .home = { .vec = &_pos }, .priority = _priority, __VA_ARGS__ }
 
 #define STAGE(_name, _stage) { .name = _name, .stage = &_stage }
 

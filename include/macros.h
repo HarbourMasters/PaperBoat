@@ -9,7 +9,11 @@
 #if defined(PORT) || defined(M2CTX)
 #define SHIFT_BSS
 #define BSS
+#ifdef _MSC_VER
+#define TRANSPARENT_UNION
+#else
 #define TRANSPARENT_UNION __attribute__ ((__transparent_union__))
+#endif
 #define MATCHING_BSS(size)
 #else
 
@@ -29,7 +33,11 @@
 #define TRANSPARENT_UNION __attribute__ ((__transparent_union__))
 #endif
 
+#ifdef _MSC_VER
+#define ALIGNED(x) __declspec(align(x))
+#else
 #define ALIGNED(x) __attribute__((aligned(x)))
+#endif
 
 #ifndef BBPLAYER
 # define OSALIGNED(x) ALIGNED(x)
@@ -228,10 +236,10 @@ typedef s32 Difficulty2D[AC_DIFFICULTY_LEN][2];
 
 #define INTEGER_LOG2(x) ((x) <= 2 ? 1 : (x) <= 4 ? 2 : (x) <= 8 ? 3 : (x) <= 16 ? 4 : (x) <= 32 ? 5 : (x) <= 64 ? 6 : (x) <= 128 ? 7 : (x) <= 256 ? 8 : (x) <= 512 ? 9 : 10)
 
-#define FOLIAGE_MODEL_LIST(names...) \
+#define FOLIAGE_MODEL_LIST(...) \
 { \
-    .count = __NARG__(names), \
-    .models = {  names } \
+    .count = __NARG__(__VA_ARGS__), \
+    .models = {  __VA_ARGS__ } \
 }
 
 #define STATUS_KEY_IGNORE_RES 0xFE

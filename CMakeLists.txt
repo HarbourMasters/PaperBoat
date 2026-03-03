@@ -280,6 +280,7 @@ elseif(UNIX)
     target_link_options(${PROJECT_NAME} PRIVATE
         -pthread
         -Wl,-export-dynamic
+        -Wl,--allow-multiple-definition
     )
 endif()
 

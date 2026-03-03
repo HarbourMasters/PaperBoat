@@ -1,7 +1,7 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
-#include <strings.h>
+#include <string.h>
 
 #include "ultra64.h"
 #include "gbi_custom.h"

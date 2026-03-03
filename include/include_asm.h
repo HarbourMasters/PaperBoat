@@ -6,7 +6,7 @@
 
 #if !defined(SPLAT) && !defined(__CTX__) && !defined(PERMUTER)
 #ifndef INCLUDE_ASM
-#define INCLUDE_ASM_INTERNAL(TYPE, BASE_FOLDER, FOLDER, NAME, ARGS...) \
+#define INCLUDE_ASM_INTERNAL(TYPE, BASE_FOLDER, FOLDER, NAME, ...) \
    __asm__( \
         ".section .text\n" \
         "\t.align\t2\n" \
@@ -18,12 +18,12 @@
         "\t.set at\n" \
         "\t.end\t"#NAME \
     );
-#define INCLUDE_ASM(TYPE, FOLDER, NAME, ARGS...) INCLUDE_ASM_INTERNAL(TYPE, "nonmatchings", FOLDER, NAME, ARGS)
-#define INCLUDE_ASM_SHIFT(TYPE, FOLDER, NAME, ARGS...) INCLUDE_ASM_INTERNAL(TYPE, "shiftable", FOLDER, NAME, ARGS)
+#define INCLUDE_ASM(TYPE, FOLDER, NAME, ...) INCLUDE_ASM_INTERNAL(TYPE, "nonmatchings", FOLDER, NAME, __VA_ARGS__)
+#define INCLUDE_ASM_SHIFT(TYPE, FOLDER, NAME, ...) INCLUDE_ASM_INTERNAL(TYPE, "shiftable", FOLDER, NAME, __VA_ARGS__)
 #endif
 __asm__(".include \"include/macro.inc\"\n");
 #else
-#define INCLUDE_ASM(TYPE, FOLDER, NAME, ARGS...)
+#define INCLUDE_ASM(TYPE, FOLDER, NAME, ...)
 #endif
 
 

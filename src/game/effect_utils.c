@@ -2,6 +2,8 @@
 #include "effects.h"
 #include "nu/nusys.h"
 
+float sqrtf(float);
+
 u32 effect_prng_seed = 0x1E6D3457;
 
 void* effectFuncs[] = {

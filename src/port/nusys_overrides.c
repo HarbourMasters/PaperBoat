@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <execinfo.h>
 #include "common.h"
 #include "nu/nusys.h"
 #include "Engine.h"

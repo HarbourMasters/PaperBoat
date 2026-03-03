@@ -302,8 +302,8 @@ void sfx_reset_door_sounds(void) {
 }
 
 void sfx_clear_sounds(void) {
-    bzero(&wEnvSounds, sizeof(wEnvSounds));
-    bzero(&bEnvSounds, sizeof(bEnvSounds));
+    memset(&wEnvSounds, 0, sizeof(wEnvSounds));
+    memset(&bEnvSounds, 0, sizeof(bEnvSounds));
     gCurrentEnvSounds = wEnvSounds;
     sfx_set_reverb_mode(0);
     sfx_reset_door_sounds();
@@ -327,7 +327,7 @@ void sfx_clear_env_sounds(s16 playSounds) {
             }
         }
     } else {
-        bzero(gCurrentEnvSounds, MAX_SOUND_INSTANCES * sizeof(SoundInstance));
+        memset(gCurrentEnvSounds, 0, MAX_SOUND_INSTANCES * sizeof(SoundInstance));
     }
 }
 

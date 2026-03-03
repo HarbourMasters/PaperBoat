@@ -3,20 +3,20 @@
 
 #include "script_api/macros.h"
 
-#define SpeakToPlayer(ARGS...) \
-    _EVT_CMD(EVT_OP_CALL, evt_SpeakToPlayer, ##ARGS),
+#define SpeakToPlayer(...) \
+    EVT_CMD(EVT_OP_CALL, evt_SpeakToPlayer, ##__VA_ARGS__),
 API_CALLABLE(evt_SpeakToPlayer);
 
-#define EndSpeech(ARGS...) \
-    _EVT_CMD(EVT_OP_CALL, evt_EndSpeech, ##ARGS),
+#define EndSpeech(...) \
+    EVT_CMD(EVT_OP_CALL, evt_EndSpeech, ##__VA_ARGS__),
 API_CALLABLE(evt_EndSpeech);
 
-#define ContinueSpeech(ARGS...) \
-    _EVT_CMD(EVT_OP_CALL, evt_ContinueSpeech, ##ARGS),
+#define ContinueSpeech(...) \
+    EVT_CMD(EVT_OP_CALL, evt_ContinueSpeech, ##__VA_ARGS__),
 API_CALLABLE(evt_ContinueSpeech);
 
-#define SpeakToNpc(ARGS...) \
-    _EVT_CMD(EVT_OP_CALL, evt_SpeakToNpc, ##ARGS),
+#define SpeakToNpc(...) \
+    EVT_CMD(EVT_OP_CALL, evt_SpeakToNpc, ##__VA_ARGS__),
 API_CALLABLE(evt_SpeakToNpc);
 
 #endif
