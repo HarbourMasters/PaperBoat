@@ -300,7 +300,7 @@ void nuContDataGetExAll(NUContData* contdata) {
         contdata[i].stick_x = sContPads[i].stick_x;
         contdata[i].stick_y = sContPads[i].stick_y;
         contdata[i].trigger = 0;
-        contdata[i].errno = sContPads[i].err_no;
+        contdata[i].cont_errno = sContPads[i].err_no;
     }
 }
 

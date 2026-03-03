@@ -514,7 +514,7 @@ typedef struct st_ContData {
     u16	button;			/* A,B,C,Z,L,R,START,PAD ,button 	*/
     s8	stick_x;		/* Range acutally used:   -61 <= stick X <= 61	*/
     s8	stick_y;		/* Range actually used:  -63 <= stick Y <= 63	*/
-    u8	errno;		/* Error				*/
+    u8	cont_errno;		/* Error				*/
     u16	trigger;		/* Button trigger data		*/
 } NUContData;
 
