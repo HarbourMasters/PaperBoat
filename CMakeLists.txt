@@ -54,11 +54,13 @@ list(FILTER GAME_SOURCES EXCLUDE REGEX "/(npc_composer|npc_hint_dryite_companion
 list(FILTER GAME_SOURCES EXCLUDE REGEX "/kzn_19_anim[0-9]+\\.c$")
 
 #=================== SSE2NEON ===================
-set(SSE2NEON_DIR ${CMAKE_BINARY_DIR}/_deps/sse2neon)
-file(DOWNLOAD "https://raw.githubusercontent.com/DLTcollab/sse2neon/refs/heads/master/sse2neon.h" "${SSE2NEON_DIR}/sse2neon.h")
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64|ARM64")
+    set(SSE2NEON_DIR ${CMAKE_BINARY_DIR}/_deps/sse2neon)
+    file(DOWNLOAD "https://raw.githubusercontent.com/DLTcollab/sse2neon/refs/heads/master/sse2neon.h" "${SSE2NEON_DIR}/sse2neon.h")
+    include_directories(${SSE2NEON_DIR})
+endif()
 
-include_directories(${SSE2NEON_DIR})
-
+include(FetchContent)
 FetchContent_Declare(
     dr_libs
     GIT_REPOSITORY https://github.com/mackron/dr_libs.git
@@ -101,6 +103,10 @@ add_executable(${PROJECT_NAME}
     ${GAME_SOURCES}
     ${PORT_SOURCES}
 )
+
+# Organize source files into folders for Visual Studio Solution Explorer
+source_group(TREE ${CMAKE_SOURCE_DIR}/src/game PREFIX "Game" FILES ${GAME_SOURCES})
+source_group(TREE ${CMAKE_SOURCE_DIR}/src/port PREFIX "Port" FILES ${PORT_SOURCES})
 
 if (NOT MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE

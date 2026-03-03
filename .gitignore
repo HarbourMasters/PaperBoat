@@ -29,16 +29,11 @@ TempComp.bin.mio0
 torch.hash.yml
 cmake-build-*/
 .idea/
-.vs
+.vs/
 build*
 logs/
 /mods/
 default.sav
-imgui.ini
-.vs
-default.sav
-imgui.ini
-starrod.cfg.json
 imgui.ini
 starrod.cfg.json
 Starrod.log
@@ -62,3 +57,10 @@ logs.txt
 .vscode
 CLAUDE.md
 .claude/
+
+# Visual Studio
+*.user
+*.suo
+out/
+CMakeSettings.json
+CMakeUserPresets.json
