@@ -147,7 +147,11 @@ void* _heap_malloc(HeapNode* head, u32 size) {
             heap_nextMallocID = HeapEntryID2 + 1;
             pPrevHeapNode->entryID = HeapEntryID2;
         }
-        return (u8*)pPrevHeapNode + sizeof(HeapNode);
+        {
+            void* result = (u8*)pPrevHeapNode + sizeof(HeapNode);
+            mem_clear(result, size);
+            return result;
+        }
     }
     return nullptr;
 }
