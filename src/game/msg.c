@@ -1613,7 +1613,7 @@ void get_msg_properties(intptr_t msgID, s32* height, s32* width, s32* maxLineCha
     s32 functionCode;
     u8 packedScaleY;
     f32 scale;
-    s32 temp;
+    s32 temp = 4;
 
     u16 lineWidths[32];
     u16 lineCharNumbers[32];
