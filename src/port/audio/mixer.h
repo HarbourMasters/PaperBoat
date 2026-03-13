@@ -1,111 +1,54 @@
-#pragma once
+#ifndef MIXER_H
+#define MIXER_H
 
-#include <stdbool.h>
 #include <stdint.h>
-#include "libultraship/libultra/abi.h"
-
-// ============================================================================
-// Standard ABI macro overrides (non-n_* versions)
-// ============================================================================
+#include <ultra64.h>
 
 #undef aSegment
 #undef aClearBuffer
+#undef aSetBuffer
+#undef aLoadBuffer
+#undef aSaveBuffer
 #undef aDMEMMove
 #undef aMix
+#undef aEnvMixer
+#undef aResample
+#undef aInterleave
+#undef aSetVolume
+#undef aSetVolume32
 #undef aSetLoop
 #undef aLoadADPCM
-
-// ============================================================================
-// n_abi.h macro overrides
-// ============================================================================
-
-#undef n_aADPCMdec
-#undef n_aPoleFilter
-#undef n_aEnvMixer
-#undef n_aInterleave
-#undef n_aLoadBuffer
-#undef n_aResample
-#undef n_aSaveBuffer
-#undef n_aSetVolume
-#undef n_aLoadADPCM
-
-// ============================================================================
-// Standard ABI implementation declarations
-// ============================================================================
+#undef aADPCMdec
 
 void aClearBufferImpl(uint16_t addr, int nbytes);
-void aLoadADPCMImpl(int num_entries_times_16, const int16_t* book_source_addr);
+void aLoadADPCMImpl(int num_entries_times_16, const int16_t *book_source_addr);
 void aDMEMMoveImpl(uint16_t in_addr, uint16_t out_addr, int nbytes);
-void aSetLoopImpl(ADPCM_STATE* adpcm_loop_state);
-void aMixImpl(uint16_t count, int16_t gain, uint16_t in_addr, uint16_t out_addr);
+void aSetLoopImpl(ADPCM_STATE *adpcm_loop_state);
+void aADPCMdecImpl(uint8_t flags, ADPCM_STATE state, int nbytes, uint16_t inofs, uint16_t outofs);
+void aResampleImpl(uint8_t flags, uint16_t pitch, RESAMPLE_STATE state, uint16_t inofs, uint8_t outflag);
+void aLoadBufferImpl(const void *source_addr, uint16_t dest_addr, uint16_t nbytes);
+void aSaveBufferImpl(uint16_t source_addr, int16_t *dest_addr, uint16_t nbytes);
+void aInterleaveImpl(void);
+void aMixImpl(uint8_t flags, int16_t gain, uint16_t in_addr, uint16_t out_addr);
+void aEnvMixerImpl(uint8_t flags, ENVMIX_STATE state, int16_t some_vol);
+void aSetVolumeImpl(uint8_t flags, int16_t v, int16_t t, int16_t r);
+void aPoleFilterImpl(uint8_t flags, int16_t gain, uint32_t t, uint32_t addr);
+void aDisableImpl(uint16_t outp, uint32_t b, uint32_t c);
 
-// ============================================================================
-// n_abi implementation declarations
-// ============================================================================
-
-// n_aADPCMdec(pkt, s, f, c, a, d)
-// s = state pointer (ADPCM_STATE), f = flags, c = count (samples * 2), a = align offset, d = dmem output addr
-void n_aADPCMdecImpl(void* state, uint8_t flags, uint16_t count, uint8_t align, uint16_t dmem_out);
-
-// n_aPoleFilter(pkt, f, g, t, s)
-// f = flags (first = A_INIT), g = gain, t = dmem buffer (shifted), s = state pointer
-void n_aPoleFilterImpl(uint8_t flags, uint16_t gain, uint8_t dmem_shift, void* state);
-
-// n_aEnvMixer(pkt, f, t, s)
-// f = flags (A_INIT or A_CONTINUE), t = initial right volume (when A_INIT), s = state pointer
-void n_aEnvMixerImpl(uint8_t flags, uint16_t init_vol_r, void* state);
-
-// n_aInterleave(pkt)
-// No parameters - uses preset DMEM addresses
-void n_aInterleaveImpl(void);
-
-// n_aLoadBuffer(pkt, c, d, s)
-// c = count in bytes, d = dmem dest, s = dram source
-void n_aLoadBufferImpl(uint16_t count, uint16_t dmem, void* dram);
-
-// n_aResample(pkt, s, f, p, i, o)
-// s = state pointer, f = flags (first = true), p = pitch, i = dmem in offset, o = dmem out offset (0-3)
-void n_aResampleImpl(void* state, uint8_t flags, uint16_t pitch, uint16_t in_offset, uint8_t out_offset);
-
-// n_aSaveBuffer(pkt, c, d, s)
-// c = count in bytes, d = dmem source, s = dram dest
-void n_aSaveBufferImpl(uint16_t count, uint16_t dmem, void* dram);
-
-// n_aSetVolume(pkt, f, v, t, r)
-// f = flags: A_RATE, A_VOL|A_LEFT, A_VOL|A_RIGHT
-// Parameters vary based on flags:
-//   A_RATE:        v = left target, t = left rate M, r = left rate L
-//   A_VOL|A_LEFT:  v = left volume, t = dry amount, r = wet amount
-//   A_VOL|A_RIGHT: v = right target, t = right rate M, r = right rate L
-void n_aSetVolumeImpl(uint8_t flags, uint16_t vol, uint16_t target, uint16_t rate);
-
-// n_aLoadADPCM(pkt, c, d)
-// c = count in bytes, d = ADPCM codebook data pointer
-void n_aLoadADPCMImpl(uint16_t count, void* data);
-
-// ============================================================================
-// Standard ABI macro redirects
-// ============================================================================
-
-#define aSegment(pkt, s, b) \
-    do {                    \
-    } while (0)
+#define aDisable(pkt, o, b, c) aDisableImpl(o, b, c)
 #define aClearBuffer(pkt, d, c) aClearBufferImpl(d, c)
-#define aLoadADPCM(pkt, c, d) aLoadADPCMImpl(c, d)
+#define aLoadBuffer(pkt, c, d, s) aLoadBufferImpl((void *)(s), d, c)
+#define aSaveBuffer(pkt, c, s, d) aSaveBufferImpl(s, (int16_t *)(d), c)
+#define aLoadADPCM(pkt, c, d) aLoadADPCMImpl(c, (int16_t *)(d))
 #define aDMEMMove(pkt, i, o, c) aDMEMMoveImpl(i, o, c)
-#define aSetLoop(pkt, a) aSetLoopImpl(a)
-#define aMix(pkt, c, g, i, o) aMixImpl(c, g, i, o)
+#define aSetLoop(pkt, a) aSetLoopImpl((void *)(a))
+#define aADPCMdec(pkt, s, f, c, i, o) aADPCMdecImpl(f, (void *)(s), c, i, o)
+#define aResample(pkt, s, f, p, i, o) aResampleImpl(f, p, (void *)(s), i, o)
+#define aInterleave(pkt) aInterleaveImpl()
+#define aMix(pkt, f, g, i, o) aMixImpl(f, g, i, o)
+#define aEnvMixer(pkt, f, t, s) aEnvMixerImpl(f, (void *)(s), t)
+#define aSetVolume(pkt, f, v, t, r) aSetVolumeImpl(f, v, t, r)
+#define aPoleFilter(pkt, f, g, t, s) aPoleFilterImpl(f, g, t, s)
+#define aPlayMP3(pkt, a, b, c, r) aPlayMP3Impl((void *)(a), b, (void *)(c), r)
 
-// ============================================================================
-// n_abi macro redirects (ignore pkt parameter, call Impl functions)
-// ============================================================================
-
-#define n_aADPCMdec(pkt, s, f, c, a, d) n_aADPCMdecImpl((void*)(s), f, c, a, d)
-#define n_aPoleFilter(pkt, f, g, t, s) n_aPoleFilterImpl(f, g, t, (void*)(s))
-#define n_aEnvMixer(pkt, f, t, s) n_aEnvMixerImpl(f, t, (void*)(s))
-#define n_aInterleave(pkt) n_aInterleaveImpl()
-#define n_aLoadBuffer(pkt, c, d, s) n_aLoadBufferImpl(c, d, (void*)(s))
-#define n_aResample(pkt, s, f, p, i, o) n_aResampleImpl((void*)(s), f, p, i, o)
-#define n_aSaveBuffer(pkt, c, d, s) n_aSaveBufferImpl(c, d, (void*)(s))
-#define n_aSetVolume(pkt, f, v, t, r) n_aSetVolumeImpl(f, v, t, r)
-#define n_aLoadADPCM(pkt, c, d) n_aLoadADPCMImpl(c, (void*)(d))
+#endif

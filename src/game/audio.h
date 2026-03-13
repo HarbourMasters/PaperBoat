@@ -4,7 +4,6 @@
 #include "nu/nusys.h"
 #include "nu/nualsgi.h"
 #include "PR/n_abi.h"
-#include "port/audio/mixer.h"
 #include "common.h"
 #include "ship/utils/binarytools/endianness.h"
 

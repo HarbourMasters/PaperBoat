@@ -289,7 +289,7 @@ void nuContDataGetEx(NUContData* contdata, u32 padno) {
     contdata->stick_x = pad.stick_x;
     contdata->stick_y = pad.stick_y;
     contdata->trigger = 0;
-    contdata->errno = pad.err_no;
+    contdata->cont_errno = pad.err_no;
 }
 
 void nuContDataGetExAll(NUContData* contdata) {
