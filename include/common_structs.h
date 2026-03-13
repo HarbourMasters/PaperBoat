@@ -2,7 +2,7 @@
 #define _COMMON_STRUCTS_H_
 
 #include "macros.h"
-#include "ultra64.h"
+#include <libultraship/libultraship.h>
 #include "types.h"
 #include "evt.h"
 #include "enums.h"
@@ -38,14 +38,6 @@ typedef s8 b8;
 typedef s32 HitID;
 typedef u32 AnimID;
 typedef s32 HudElemID;
-
-typedef struct {
-    u8 r, g, b, a;
-} Color_RGBA8;
-
-typedef struct {
-    u8 r, g, b;
-} Color_RGB8;
 
 typedef struct Vec2b {
     /* 0x00 */ s8 x;

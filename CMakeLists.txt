@@ -10,6 +10,70 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_EXTENSIONS ON)  # Enable GNU extensions (gnu99)
 set(CMAKE_CXX_STANDARD 20)
 
+include(cmake/star-rod-cvars.cmake)
+include(cmake/lus-cvars.cmake)
+
+set(NATO_PHONETIC_ALPHABET
+  "Alfa" "Bravo" "Charlie" "Delta" "Echo" "Foxtrot" "Golf" "Hotel"
+  "India" "Juliett" "Kilo" "Lima" "Mike" "November" "Oscar" "Papa"
+  "Quebec" "Romeo" "Sierra" "Tango" "Uniform" "Victor" "Whiskey"
+  "Xray" "Yankee" "Zulu"
+)
+
+# Get the patch version number from the project version
+math(EXPR PATCH_INDEX "${PROJECT_VERSION_PATCH}")
+
+# Use the patch number to select the correct word
+list(GET NATO_PHONETIC_ALPHABET ${PATCH_INDEX} PROJECT_PATCH_WORD)
+
+set(PROJECT_BUILD_NAME "Dutchman ${PROJECT_PATCH_WORD}" CACHE STRING "" FORCE)
+set(PROJECT_TEAM "Lywx" CACHE STRING "" FORCE)
+
+# Get Git Information
+execute_process(
+    COMMAND git branch --show-current
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_BRANCH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+set(CMAKE_PROJECT_GIT_BRANCH "${GIT_BRANCH}" CACHE STRING "Git branch" FORCE)
+
+execute_process(
+    COMMAND git rev-parse HEAD
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_COMMIT_HASH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+# Get only the first 7 characters of the hash
+string(SUBSTRING "${GIT_COMMIT_HASH}" 0 7 SHORT_COMMIT_HASH)
+
+set(CMAKE_PROJECT_GIT_COMMIT_HASH "${SHORT_COMMIT_HASH}" CACHE STRING "Git commit hash" FORCE)
+
+execute_process(
+    COMMAND git describe --tags --abbrev=0 --exact-match HEAD
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_COMMIT_TAG
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+if(NOT GIT_COMMIT_TAG)
+    set(GIT_COMMIT_TAG "" CACHE STRING "Git commit tag" FORCE)
+endif()
+
+set(CMAKE_PROJECT_GIT_COMMIT_TAG "${GIT_COMMIT_TAG}" CACHE STRING "Git commit tag" FORCE)
+
+################################################################################
+# Sources
+################################################################################
+configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/src/port/build.c.in ${CMAKE_CURRENT_SOURCE_DIR}/src/port/build.c @ONLY)
+
+################################################################################
+# Use solution folders feature
+################################################################################
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 ################################################################################
 # Windows vcpkg bootstrap (must happen BEFORE add_subdirectory)
 ################################################################################
@@ -69,25 +133,16 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(dr_libs)
 
-set(PORT_SOURCES
-    src/port/Game.cpp
-    src/port/Engine.cpp
-    src/port/GBIMiddleware.cpp
-    src/port/audio/AudioLoader.cpp
-    src/port/audio/mixer.c
-    src/port/factories/PM64TextureFactory.cpp
-    src/port/sprite/SpriteLoader.cpp
-    src/port/nusys_overrides.c
-    src/port/gu.c
-    src/port/ld_addr.c
-    src/port/undefined_symbols.c
-    src/port/libc_compat.c
-    src/port/decode_yay0.c
-    src/port/effects_shim.c
-    src/port/shape_loader.c
-    src/port/init_globals.c
-    src/port/gfx_frame.c
+file(GLOB_RECURSE PORT_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
+    src/port/*.cpp
+    src/port/audio/*.c
+    src/port/audio/*.cpp
+    src/port/importer/*.cpp
+    src/port/sprite/*.cpp
+    src/port/*.c
 )
+
+list(FILTER PORT_SOURCES EXCLUDE REGEX ".*.inc.c")
 
 add_executable(${PROJECT_NAME}
     ${GAME_SOURCES}
@@ -184,12 +239,12 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/assets/" "$<TARGET_FILE_DIR:${PROJECT_NAME}>/assets/"
 )
 
-# Generate f3d.o2r shader archive from libultraship shaders
+# Generate paperboat.o2r shader archive from libultraship shaders
 add_custom_command(
     TARGET ${PROJECT_NAME} POST_BUILD
-    COMMENT "Generating f3d.o2r shader archive..."
-    COMMAND ${CMAKE_COMMAND} -E tar cf "$<TARGET_FILE_DIR:${PROJECT_NAME}>/f3d.o2r" --format=zip -- shaders
-    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/external/libultraship/src/fast"
+    COMMENT "Generating paperboat.o2r shader archive..."
+    COMMAND ${CMAKE_COMMAND} -E tar cf "$<TARGET_FILE_DIR:${PROJECT_NAME}>/paperboat.o2r" --format=zip -- .
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/port"
 )
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")

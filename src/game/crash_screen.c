@@ -1,7 +1,7 @@
 #include "common.h"
 #include "stdlib/stdarg.h"
 #include "PR/os_internal_thread.h"
-#include "libc/xstdio.h"
+// #include "libc/xstdio.h"
 #include "gcc/string.h"
 #include "assets/misc/misc.h"
 #include "port/Engine.h"

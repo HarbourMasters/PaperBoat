@@ -5,10 +5,15 @@
 #include <mutex>
 #include <unordered_map>
 #include <libultraship.h>
+#include "ShipInit.hpp"
+#include <ship/window/gui/Fonts.h>
+#include <ship/window/gui/resource/Font.h>
 #include <ship/resource/factory/BlobFactory.h>
 #include <libultraship/controller/controldeck/ControlDeck.h>
 #include <fast/Fast3dWindow.h>
 #include <fast/interpreter.h>
+#include "ui/PaperboatGui.hpp"
+#include "port/console/DevConsole.h"
 #include <fast/resource/factory/TextureFactory.h>
 #include <fast/resource/factory/DisplayListFactory.h>
 #include <fast/resource/factory/VertexFactory.h>
@@ -17,7 +22,15 @@
 #include <fast/resource/ResourceType.h>
 #include <filesystem>
 #include "src/Companion.h"
-#include "factories/PM64TextureFactory.h"
+#include "port/ui/cvar_prefixes.h"
+#include "importer/PM64TextureFactory.h"
+#include "port/enhancements/PortEnhancements.h"
+
+const float imguiScaleOptionToValue[4] = { 0.75f, 1.0f, 1.5f, 2.0f };
+std::shared_ptr<Fast::Fast3dWindow> gsFast3dWindow;
+const uint32_t defaultImGuiScale = 1;
+int32_t previousImGuiScaleIndex = -1;
+float previousImGuiScale = defaultImGuiScale;
 
 namespace fs = std::filesystem;
 
@@ -62,7 +75,7 @@ GameEngine::GameEngine() {
 
     std::vector<std::string> archiveFiles;
     const std::string main_path = Ship::Context::GetPathRelativeToAppDirectory("pm64.o2r");
-    const std::string assets_path = Ship::Context::LocateFileAcrossAppDirs("f3d.o2r");
+    const std::string assets_path = Ship::Context::LocateFileAcrossAppDirs("paperboat.o2r");
 
 #ifdef _WIN32
     AllocConsole();
@@ -147,19 +160,88 @@ GameEngine::GameEngine() {
     loader->RegisterResourceFactory(std::make_shared<Fast::ResourceFactoryBinaryMatrixV0>(), RESOURCE_FORMAT_BINARY,
                                     "Matrix", static_cast<uint32_t>(Fast::ResourceType::Matrix), 0);
 
+    PaperboatGui::SetupMenu();
+
+    if (std::filesystem::exists(assets_path)) {
+        fontMono = CreateFontWithSize(16.0f, "fonts/Inconsolata-Regular.ttf");
+        fontMonoLarger = CreateFontWithSize(20.0f, "fonts/Inconsolata-Regular.ttf");
+        fontMonoLargest = CreateFontWithSize(24.0f, "fonts/Inconsolata-Regular.ttf");
+        fontStandard = CreateFontWithSize(16.0f, "fonts/Montserrat-Regular.ttf");
+        fontStandardLarger = CreateFontWithSize(20.0f, "fonts/Montserrat-Regular.ttf");
+        fontStandardLargest = CreateFontWithSize(24.0f, "fonts/Montserrat-Regular.ttf");
+        ImGui::GetIO().FontDefault = fontStandardLarger;
+    }
+
+    previousImGuiScaleIndex = -1;
+    previousImGuiScale = defaultImGuiScale;
+    ScaleImGui();
+
+    PaperboatGui::SetupGuiElements();
+    DevConsole_Init();
+    PortEnhancements_Init();
+    ShipInit::InitAll();
 }
 
 bool GameEngine::GenAssetFile(bool exitOnFail) {
     return false;
 }
 
+ImFont* GameEngine::CreateFontWithSize(float size, std::string fontPath) {
+    auto mImGuiIo = &ImGui::GetIO();
+    ImFont* font;
+    if (fontPath == "") {
+        ImFontConfig fontCfg = ImFontConfig();
+        fontCfg.OversampleH = fontCfg.OversampleV = 1;
+        fontCfg.PixelSnapH = true;
+        fontCfg.SizePixels = size;
+        font = mImGuiIo->Fonts->AddFontDefault(&fontCfg);
+    } else {
+        auto initData = std::make_shared<Ship::ResourceInitData>();
+        ImFontConfig config;
+        config.FontDataOwnedByAtlas = false;
+
+        initData->Format = RESOURCE_FORMAT_BINARY;
+        initData->Type = static_cast<uint32_t>(RESOURCE_TYPE_FONT);
+        initData->ResourceVersion = 0;
+        initData->Path = fontPath;
+        std::shared_ptr<Ship::Font> fontData = std::static_pointer_cast<Ship::Font>(
+            Ship::Context::GetInstance()->GetResourceManager()->LoadResource(fontPath, false, initData));
+        font = mImGuiIo->Fonts->AddFontFromMemoryTTF(fontData->Data, fontData->DataSize, size, &config);
+    }
+    // FontAwesome fonts need to have their sizes reduced by 2.0f/3.0f in order to align correctly
+    float iconFontSize = size * 2.0f / 3.0f;
+    static const ImWchar sIconsRanges[] = { ICON_MIN_FA, ICON_MAX_16_FA, 0 };
+    ImFontConfig iconsConfig;
+    iconsConfig.MergeMode = true;
+    iconsConfig.PixelSnapH = true;
+    iconsConfig.GlyphMinAdvanceX = iconFontSize;
+    mImGuiIo->Fonts->AddFontFromMemoryCompressedBase85TTF(fontawesome_compressed_data_base85, iconFontSize,
+                                                          &iconsConfig, sIconsRanges);
+
+    return font;
+}
+
+void GameEngine::ScaleImGui() {
+    int32_t imGuiScaleIndex = CVarGetInteger("gSettings.ImGuiScale", defaultImGuiScale);
+    if (imGuiScaleIndex == previousImGuiScaleIndex) {
+        return;
+    }
+
+    float scale = imguiScaleOptionToValue[imGuiScaleIndex];
+    float newScale = scale / previousImGuiScale;
+    ImGui::GetStyle().ScaleAllSizes(newScale);
+    ImGui::GetIO().FontGlobalScale = scale;
+    previousImGuiScale = scale;
+    previousImGuiScaleIndex = imGuiScaleIndex;
+}
+
 void GameEngine::Create() {
     const auto instance = Instance = new GameEngine();
     instance->AudioInit();
-//    DisplayListPatch::Run();
 }
 
 void GameEngine::Destroy() {
+    PortEnhancements_Exit();
     AudioExit();
     for (auto ptr : MemoryPool) {
         free(ptr);
@@ -199,6 +281,19 @@ void GameEngine::StartFrame() const {
             break;
     }
 }
+
+uint32_t GameEngine::GetInterpolationFPS() {
+    if (CVarGetInteger(CVAR_SETTING("MatchRefreshRate"), 0)) {
+        return Ship::Context::GetInstance()->GetWindow()->GetCurrentRefreshRate();
+    } else if (CVarGetInteger(CVAR_VSYNC_ENABLED, 1) ||
+               !Ship::Context::GetInstance()->GetWindow()->CanDisableVerticalSync()) {
+        return std::min<uint32_t>(Ship::Context::GetInstance()->GetWindow()->GetCurrentRefreshRate(),
+                                  CVarGetInteger(CVAR_SETTING("InterpolationFPS"), 30));
+    }
+    return CVarGetInteger(CVAR_SETTING("InterpolationFPS"), 30);
+}
+
+// Audio
 
 void GameEngine::HandleAudioThread() {
     int16_t audioBuffer[AUDIO_SAMPLES * 4 * 2];
@@ -466,10 +561,6 @@ extern "C" int GameEngine_GetSaveFilePath(char* buf, int bufSize) {
     strncpy(buf, path.c_str(), bufSize);
     buf[bufSize - 1] = '\0';
     return 0;
-}
-
-extern "C" int GameEngine_CVarGetInteger(const char* name, int defaultValue) {
-    return CVarGetInteger(name, defaultValue);
 }
 
 extern "C" void GameEngine_ClearDepthBuffer(void) {
