@@ -678,38 +678,38 @@ void aSetVolumeImpl(uint8_t flags, int16_t v, int16_t t, int16_t r) {
 }
 
 void aPoleFilterImpl(uint8_t flags, int16_t gain, uint32_t t, uint32_t addr) {
-    // int16_t* buf = BUF_S16(OFS_BASE);
-    // POLEF_STATE* filterState = (POLEF_STATE*)BUF_S16(addr);
-    //
-    // // Single-pole IIR lowpass: y[n] = (gain * x[n] + coef[8] * y[n-1]) >> 14
-    // // gain = fgain (SCALE - timeConstant), coef[8] = timeConstant
-    // // SCALE = 16384 = 2^14, so gain + coef[8] = SCALE (unity DC gain)
-    // int16_t* coef = (int16_t*)rspa.adpcm_table;
-    //
-    // int32_t prev;
-    // if (flags & A_INIT) {
-    //     prev = 0;
-    // } else if (filterState != NULL) {
-    //     prev = (*filterState)[0];
-    // } else {
-    //     prev = 0;
-    // }
-    //
-    // int32_t g = (int32_t)(int16_t)gain;
-    // int32_t fc = (int32_t)coef[8];
-    //
-    // for (int i = 0; i < NUM_SAMPLES; i++) {
-    //     int32_t x = buf[i];
-    //     int32_t y = (g * x + fc * prev) >> 14;
-    //     y = clamp16(y);
-    //     buf[i] = (int16_t)y;
-    //     prev = y;
-    // }
-    //
-    // // Save state
-    // if (filterState != NULL) {
-    //     (*filterState)[0] = (int16_t)prev;
-    // }
+    int16_t* buf = BUF_S16(OFS_BASE);
+    POLEF_STATE* filterState = (POLEF_STATE*)BUF_S16(addr);
+    
+    // Single-pole IIR lowpass: y[n] = (gain * x[n] + coef[8] * y[n-1]) >> 14
+    // gain = fgain (SCALE - timeConstant), coef[8] = timeConstant
+    // SCALE = 16384 = 2^14, so gain + coef[8] = SCALE (unity DC gain)
+    int16_t* coef = (int16_t*)rspa.adpcm_table;
+    
+    int32_t prev;
+    if (flags & A_INIT) {
+        prev = 0;
+    } else if (filterState != NULL) {
+        prev = (*filterState)[0];
+    } else {
+        prev = 0;
+    }
+    
+    int32_t g = (int32_t)(int16_t)gain;
+    int32_t fc = (int32_t)coef[8];
+    
+    for (int i = 0; i < NUM_SAMPLES; i++) {
+        int32_t x = buf[i];
+        int32_t y = (g * x + fc * prev) >> 14;
+        y = clamp16(y);
+        buf[i] = (int16_t)y;
+        prev = y;
+    }
+    
+    // Save state
+    if (filterState != NULL) {
+        (*filterState)[0] = (int16_t)prev;
+    }
 }
 
 void aDisableImpl(uint16_t outp, uint32_t b, uint32_t c) {
