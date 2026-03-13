@@ -10,7 +10,7 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_EXTENSIONS ON)  # Enable GNU extensions (gnu99)
 set(CMAKE_CXX_STANDARD 20)
 
-include(cmake/star-rod-cvars.cmake)
+include(cmake/paperboat-cvars.cmake)
 include(cmake/lus-cvars.cmake)
 
 set(NATO_PHONETIC_ALPHABET
