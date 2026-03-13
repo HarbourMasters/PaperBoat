@@ -17,18 +17,7 @@
 #include <fast/resource/ResourceType.h>
 #include <filesystem>
 #include "src/Companion.h"
-#include "factories/PM64SpriteFactory.h"
-#include "factories/PM64ShapeFactory.h"
-#include "factories/PM64BackgroundFactory.h"
 #include "factories/PM64TextureFactory.h"
-#include "factories/PM64CollisionFactory.h"
-#include "factories/PM64MapTextureFactory.h"
-#include "factories/PM64AudioFactory.h"
-#include "factories/PM64StoryImageFactory.h"
-#include "factories/PM64ImgFXAnimFactory.h"
-#include "factories/PM64TitleDataFactory.h"
-#include "factories/PM64EntityGfxFactory.h"
-#include "factories/PM64EffectDListFactory.h"
 
 namespace fs = std::filesystem;
 
@@ -65,20 +54,6 @@ static void ExtractAssets(const std::string& romPath, const std::string& outputP
     std::string destDir = Ship::Context::GetAppDirectoryPath();
 
     Companion::Instance = new Companion(romData, ArchiveType::O2R, false, assetsDir, destDir);
-
-    // Register PM64-specific factories before Init()
-    Companion::Instance->RegisterFactory("PM64:SPRITE", std::make_shared<PM64SpriteFactory>());
-    Companion::Instance->RegisterFactory("PM64:SHAPE", std::make_shared<PM64ShapeFactory>());
-    Companion::Instance->RegisterFactory("PM64:BACKGROUND", std::make_shared<PM64BackgroundFactory>());
-    Companion::Instance->RegisterFactory("PM64:COLLISION", std::make_shared<PM64CollisionFactory>());
-    Companion::Instance->RegisterFactory("PM64:MAP_TEXTURE", std::make_shared<PM64MapTextureFactory>());
-    Companion::Instance->RegisterFactory("PM64:AUDIO", std::make_shared<PM64AudioFactory>());
-    Companion::Instance->RegisterFactory("PM64:STORY_IMAGE", std::make_shared<PM64StoryImageFactory>());
-    Companion::Instance->RegisterFactory("PM64:IMGFX_ANIM", std::make_shared<PM64ImgFXAnimFactory>());
-    Companion::Instance->RegisterFactory("PM64:TITLE_DATA", std::make_shared<PM64TitleDataFactory>());
-    Companion::Instance->RegisterFactory("PM64:ENTITY_GFX", std::make_shared<PM64EntityGfxFactory>());
-    Companion::Instance->RegisterFactory("PM64:EFFECT_DL", std::make_shared<PM64EffectDListFactory>());
-
     Companion::Instance->Init(ExportType::Binary);
 }
 
