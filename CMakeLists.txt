@@ -29,6 +29,7 @@ add_subdirectory(external/libultraship ${CMAKE_CURRENT_SOURCE_DIR}/external/libu
 
 # Add torch as a library for asset extraction
 set(USE_STANDALONE OFF CACHE BOOL "" FORCE)
+set(BUILD_PM64 ON CACHE BOOL "" FORCE)
 set(BUILD_SM64 OFF CACHE BOOL "" FORCE)
 set(BUILD_MK64 OFF CACHE BOOL "" FORCE)
 set(BUILD_SF64 OFF CACHE BOOL "" FORCE)
@@ -74,18 +75,7 @@ set(PORT_SOURCES
     src/port/GBIMiddleware.cpp
     src/port/audio/AudioLoader.cpp
     src/port/audio/mixer.c
-    src/port/factories/PM64SpriteFactory.cpp
-    src/port/factories/PM64ShapeFactory.cpp
     src/port/factories/PM64TextureFactory.cpp
-    src/port/factories/PM64BackgroundFactory.cpp
-    src/port/factories/PM64CollisionFactory.cpp
-    src/port/factories/PM64MapTextureFactory.cpp
-    src/port/factories/PM64AudioFactory.cpp
-    src/port/factories/PM64StoryImageFactory.cpp
-    src/port/factories/PM64ImgFXAnimFactory.cpp
-    src/port/factories/PM64TitleDataFactory.cpp
-    src/port/factories/PM64EntityGfxFactory.cpp
-    src/port/factories/PM64EffectDListFactory.cpp
     src/port/sprite/SpriteLoader.cpp
     src/port/nusys_overrides.c
     src/port/gu.c
