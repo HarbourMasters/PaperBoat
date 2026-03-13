@@ -241,16 +241,15 @@ void GameEngine::HandleAudioThread() {
         // Generate audio twice per game frame, matching N64's 60Hz audio thread.
         // On N64, nuAuMgr wakes every VI retrace (60Hz) and generates AlFrameSize
         // (~552) samples. The game loop runs at 30fps → 2 audio frames per game frame.
-        // This ensures au_update_clients_for_video_frame() runs at the correct 60Hz.
+        // This ensures au_update_clients_for_video_frame() runs at the correct 60Hz
         for (int pass = 0; pass < 2; pass++) {
-            int samplesToGen = AlFrameSize;
-
-            memset(audioBuffer, 0, samplesToGen * 2 * sizeof(int16_t));
             int32_t cmdLen = 0;
-            alAudioFrame(cmdList, &cmdLen, audioBuffer, samplesToGen);
+            int samplesToGen = AlFrameSize * 2 * sizeof(int16_t);
 
-            size_t bufferSize = samplesToGen * 2 * sizeof(int16_t);
-            AudioPlayerPlayFrame((uint8_t*)audioBuffer, bufferSize);
+            memset(audioBuffer, 0, samplesToGen);
+
+            alAudioFrame(cmdList, &cmdLen, audioBuffer, AlFrameSize);
+            AudioPlayerPlayFrame((uint8_t*)audioBuffer, samplesToGen);
         }
 
         {
