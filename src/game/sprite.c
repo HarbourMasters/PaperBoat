@@ -10,7 +10,6 @@ extern HeapNode heap_spriteHead;
 // Pool of combined palettes for sprite shading (one per shaded sprite per frame).
 // The Fast3D interpreter stores palette pointers (not copies), so each sprite
 // needs its own buffer that persists until the display list is flushed.
-#define MAX_SHADED_SPRITES 64
 BSS PAL_BIN sShadingPalettePool[MAX_SHADED_SPRITES][32];
 BSS s32 sShadingPaletteIdx;
 
@@ -276,7 +275,6 @@ void spr_appendGfx_component_flat(
         // Emit a combined 32-entry load so both palettes are in palettes[0].
         // Each sprite needs its own buffer since the interpreter stores pointers.
         {
-            extern PAL_BIN SpriteShadingPalette[];
             PAL_BIN* combinedPal = sShadingPalettePool[sShadingPaletteIdx % MAX_SHADED_SPRITES];
             sShadingPaletteIdx++;
             memcpy(&combinedPal[0], palette, 16 * sizeof(PAL_BIN));
