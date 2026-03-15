@@ -1532,19 +1532,21 @@ void imgfx_appendGfx_mesh_basic(ImgFXState* state, Matrix4f mtx) {
                 }
                 create_shading_palette(mtx, uls, ult, lrs, lrt, alpha, state->otherModeL);
 
-                // Combined palette fix: interpreter stores pal16(pal=1) in palettes[1],
-                // but CI4 palette=1 reads from palettes[0]+32. Load combined 32-entry palette.
                 {
                     PAL_BIN* combinedPal = sShadingPalettePool[sShadingPaletteIdx % MAX_SHADED_SPRITES];
                     sShadingPaletteIdx++;
+                    PAL_BIN* shadePal = sShadingPalettePool[sShadingPaletteIdx % MAX_SHADED_SPRITES];
+                    sShadingPaletteIdx++;
                     memcpy(&combinedPal[0], ImgFXCurrentTexturePtr->tex.palette, 16 * sizeof(PAL_BIN));
                     memcpy(&combinedPal[16], SpriteShadingPalette, 16 * sizeof(PAL_BIN));
+                    memcpy(shadePal, SpriteShadingPalette, 16 * sizeof(PAL_BIN));
                     gDPSetTextureImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, combinedPal);
                     gDPTileSync(gMainGfxPos++);
                     gDPSetTile(gMainGfxPos++, 0, 0, 0, 256, G_TX_LOADTILE, 0, 0, 0, 0, 0, 0, 0);
                     gDPLoadSync(gMainGfxPos++);
                     gDPLoadTLUTCmd(gMainGfxPos++, G_TX_LOADTILE, 31);
                     gDPPipeSync(gMainGfxPos++);
+                    gDPLoadTLUT_pal16(gMainGfxPos++, 1, shadePal);
                 }
             } else {
                 gDPScrollTextureTile_4b(gMainGfxPos++,
@@ -1694,19 +1696,21 @@ void imgfx_appendGfx_mesh_grid(ImgFXState* state, Matrix4f mtx) {
                                            (imgfx_vtxBuf[lrIdx].v.tc[0] >> 5) - 0x100, (imgfx_vtxBuf[lrIdx].v.tc[1] >> 5) - 0x100,
                                            alpha, state->otherModeL);
                     
-                    // Combined palette fix: interpreter stores pal16(pal=1) in palettes[1],
-                    // but CI4 palette=1 reads from palettes[0]+32. Load combined 32-entry palette.
                     {
                         PAL_BIN* combinedPal = sShadingPalettePool[sShadingPaletteIdx % MAX_SHADED_SPRITES];
                         sShadingPaletteIdx++;
+                        PAL_BIN* shadePal = sShadingPalettePool[sShadingPaletteIdx % MAX_SHADED_SPRITES];
+                        sShadingPaletteIdx++;
                         memcpy(&combinedPal[0], ImgFXCurrentTexturePtr->tex.palette, 16 * sizeof(PAL_BIN));
                         memcpy(&combinedPal[16], SpriteShadingPalette, 16 * sizeof(PAL_BIN));
+                        memcpy(shadePal, SpriteShadingPalette, 16 * sizeof(PAL_BIN));
                         gDPSetTextureImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, combinedPal);
                         gDPTileSync(gMainGfxPos++);
                         gDPSetTile(gMainGfxPos++, 0, 0, 0, 256, G_TX_LOADTILE, 0, 0, 0, 0, 0, 0, 0);
                         gDPLoadSync(gMainGfxPos++);
                         gDPLoadTLUTCmd(gMainGfxPos++, G_TX_LOADTILE, 31);
                         gDPPipeSync(gMainGfxPos++);
+                        gDPLoadTLUT_pal16(gMainGfxPos++, 1, shadePal);
                     }
                 } else {
                     gDPScrollTextureTile_4b(gMainGfxPos++,
@@ -1774,19 +1778,21 @@ void imgfx_appendGfx_mesh_anim(ImgFXState* state, Matrix4f mtx) {
             }
             create_shading_palette(mtx, 0, 0, ImgFXCurrentTexturePtr->tex.width, ImgFXCurrentTexturePtr->tex.height, alpha, state->otherModeL);
 
-            // Combined palette fix: interpreter stores pal16(pal=1) in palettes[1],
-            // but CI4 palette=1 reads from palettes[0]+32. Load combined 32-entry palette.
             {
                 PAL_BIN* combinedPal = sShadingPalettePool[sShadingPaletteIdx % MAX_SHADED_SPRITES];
                 sShadingPaletteIdx++;
+                PAL_BIN* shadePal = sShadingPalettePool[sShadingPaletteIdx % MAX_SHADED_SPRITES];
+                sShadingPaletteIdx++;
                 memcpy(&combinedPal[0], ImgFXCurrentTexturePtr->tex.palette, 16 * sizeof(PAL_BIN));
                 memcpy(&combinedPal[16], SpriteShadingPalette, 16 * sizeof(PAL_BIN));
+                memcpy(shadePal, SpriteShadingPalette, 16 * sizeof(PAL_BIN));
                 gDPSetTextureImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, combinedPal);
                 gDPTileSync(gMainGfxPos++);
                 gDPSetTile(gMainGfxPos++, 0, 0, 0, 256, G_TX_LOADTILE, 0, 0, 0, 0, 0, 0, 0);
                 gDPLoadSync(gMainGfxPos++);
                 gDPLoadTLUTCmd(gMainGfxPos++, G_TX_LOADTILE, 31);
                 gDPPipeSync(gMainGfxPos++);
+                gDPLoadTLUT_pal16(gMainGfxPos++, 1, shadePal);
             }
         } else {
             gDPScrollTextureTile_4b(gMainGfxPos++, ImgFXCurrentTexturePtr->tex.raster, G_IM_FMT_CI,

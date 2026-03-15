@@ -10,19 +10,12 @@
 static const ALIGN_ASSET(2) char D_0A000080_E59F80[] = "__OTR__entities/entity_model_ArrowSign/tex_80";
 static const ALIGN_ASSET(2) char D_0A000880_E5A780[] = "__OTR__entities/entity_model_ArrowSign/tlut_880";
 static const ALIGN_ASSET(2) char Entity_ArrowSign_LoadTexture[] = "__OTR__entities/entity_model_ArrowSign/dlist_9A8";
-static const ALIGN_ASSET(2) char Entity_ArrowSign_LoadTexture_OTR[] = "__OTR__entities/entity_model_ArrowSign/dlist_9A8";
 static const ALIGN_ASSET(2) char Entity_ArrowSign_RenderPole[] = "__OTR__entities/entity_model_ArrowSign/dlist_B68";
-static const ALIGN_ASSET(2) char Entity_ArrowSign_RenderPole_OTR[] = "__OTR__entities/entity_model_ArrowSign/dlist_B68";
 static const ALIGN_ASSET(2) char Entity_ArrowSign_RenderPole_[] = "__OTR__entities/entity_model_ArrowSign/dlist_BB8";
-static const ALIGN_ASSET(2) char Entity_ArrowSign_RenderPole__OTR[] = "__OTR__entities/entity_model_ArrowSign/dlist_BB8";
 static const ALIGN_ASSET(2) char Entity_ArrowSign_RenderRotatedSign[] = "__OTR__entities/entity_model_ArrowSign/dlist_BC8";
-static const ALIGN_ASSET(2) char Entity_ArrowSign_RenderRotatedSign_OTR[] = "__OTR__entities/entity_model_ArrowSign/dlist_BC8";
 static const ALIGN_ASSET(2) char Entity_ArrowSign_RenderSign[] = "__OTR__entities/entity_model_ArrowSign/dlist_C10";
-static const ALIGN_ASSET(2) char Entity_ArrowSign_RenderSign_OTR[] = "__OTR__entities/entity_model_ArrowSign/dlist_C10";
 static const ALIGN_ASSET(2) char Entity_ArrowSign_RenderPole__[] = "__OTR__entities/entity_model_ArrowSign/dlist_C30";
-static const ALIGN_ASSET(2) char Entity_ArrowSign_RenderPole___OTR[] = "__OTR__entities/entity_model_ArrowSign/dlist_C30";
 static const ALIGN_ASSET(2) char Entity_ArrowSign_Render[] = "__OTR__entities/entity_model_ArrowSign/dlist_C40";
-static const ALIGN_ASSET(2) char Entity_ArrowSign_Render_OTR[] = "__OTR__entities/entity_model_ArrowSign/dlist_C40";
 static const ALIGN_ASSET(2) char Entity_ArrowSign_mtxSign[] = "__OTR__entities/entity_model_ArrowSign/mtx_50";
 
 // entity_model_BellbellPlant_gfx
@@ -32,16 +25,11 @@ static const ALIGN_ASSET(2) char D_0A000640_E6B7F0[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000720_E6B8D0[] = "__OTR__entities/entity_model_BellbellPlant_gfx/vtx_720";
 static const ALIGN_ASSET(2) char D_0A000A10_E6BBC0[] = "__OTR__entities/entity_model_BellbellPlant_gfx/vtx_A10";
 static const ALIGN_ASSET(2) char D_0A001090_E6C240[] = "__OTR__entities/entity_model_BellbellPlant_gfx/tex_1090";
-static const ALIGN_ASSET(2) char Entity_BellbellPlant_RenderNode5[] = "__OTR__entities/entity_model_BellbellPlant_gfx/dlist_220";
-static const ALIGN_ASSET(2) char Entity_BellbellPlant_RenderNode5_OTR[] = "__OTR__entities/entity_model_BellbellPlant_gfx/dlist_220";
+static const ALIGN_ASSET(2) char Entity_BellbellPlant_RenderNode5[] = "__OTR__entities/entity_model_BellbellPlant_gfx/dlist_398";
 static const ALIGN_ASSET(2) char Entity_BellbellPlant_RenderNode4[] = "__OTR__entities/entity_model_BellbellPlant_gfx/dlist_B88";
-static const ALIGN_ASSET(2) char Entity_BellbellPlant_RenderNode4_OTR[] = "__OTR__entities/entity_model_BellbellPlant_gfx/dlist_B88";
 static const ALIGN_ASSET(2) char Entity_BellbellPlant_RenderNode3[] = "__OTR__entities/entity_model_BellbellPlant_gfx/dlist_CE8";
-static const ALIGN_ASSET(2) char Entity_BellbellPlant_RenderNode3_OTR[] = "__OTR__entities/entity_model_BellbellPlant_gfx/dlist_CE8";
 static const ALIGN_ASSET(2) char Entity_BellbellPlant_RenderNode2[] = "__OTR__entities/entity_model_BellbellPlant_gfx/dlist_D80";
-static const ALIGN_ASSET(2) char Entity_BellbellPlant_RenderNode2_OTR[] = "__OTR__entities/entity_model_BellbellPlant_gfx/dlist_D80";
 static const ALIGN_ASSET(2) char Entity_BellbellPlant_RenderNode1[] = "__OTR__entities/entity_model_BellbellPlant_gfx/dlist_EE0";
-static const ALIGN_ASSET(2) char Entity_BellbellPlant_RenderNode1_OTR[] = "__OTR__entities/entity_model_BellbellPlant_gfx/dlist_EE0";
 
 // entity_model_BlueSwitch
 static const ALIGN_ASSET(2) char D_0A000000_E639C0[] = "__OTR__entities/entity_model_BlueSwitch/vtx_0";
@@ -52,27 +40,16 @@ static const ALIGN_ASSET(2) char D_0A0005D0_E63F90[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A0006D0_E64090[] = "__OTR__entities/entity_model_BlueSwitch/tlut_6D0";
 static const ALIGN_ASSET(2) char D_0A000978_E64338[] = "__OTR__entities/entity_model_BlueSwitch/tex_978";
 static const ALIGN_ASSET(2) char Entity_BlueSwitch_LoadTexture[] = "__OTR__entities/entity_model_BlueSwitch/dlist_8D0";
-static const ALIGN_ASSET(2) char Entity_BlueSwitch_LoadTexture_OTR[] = "__OTR__entities/entity_model_BlueSwitch/dlist_8D0";
 static const ALIGN_ASSET(2) char Entity_BlueSwitch_LoadExclMark[] = "__OTR__entities/entity_model_BlueSwitch/dlist_980";
-static const ALIGN_ASSET(2) char Entity_BlueSwitch_LoadExclMark_OTR[] = "__OTR__entities/entity_model_BlueSwitch/dlist_980";
-static const ALIGN_ASSET(2) char Entity_BlueSwitch_RenderBlueBubble[] = "__OTR__entities/entity_model_BlueSwitch/dlist_B48";
-static const ALIGN_ASSET(2) char Entity_BlueSwitch_RenderBlueBubble_OTR[] = "__OTR__entities/entity_model_BlueSwitch/dlist_B48";
+static const ALIGN_ASSET(2) char Entity_BlueSwitch_RenderBlueBubble[] = "__OTR__entities/entity_model_BlueSwitch/dlist_B68";
 static const ALIGN_ASSET(2) char Entity_BlueSwitch_RenderRotatedBlueBubble[] = "__OTR__entities/entity_model_BlueSwitch/dlist_CB8";
-static const ALIGN_ASSET(2) char Entity_BlueSwitch_RenderRotatedBlueBubble_OTR[] = "__OTR__entities/entity_model_BlueSwitch/dlist_CB8";
 static const ALIGN_ASSET(2) char Entity_BlueSwitch_RenderExclMark[] = "__OTR__entities/entity_model_BlueSwitch/dlist_CD8";
-static const ALIGN_ASSET(2) char Entity_BlueSwitch_RenderExclMark_OTR[] = "__OTR__entities/entity_model_BlueSwitch/dlist_CD8";
 static const ALIGN_ASSET(2) char Entity_BlueSwitch_RenderRotatedExclMark[] = "__OTR__entities/entity_model_BlueSwitch/dlist_D20";
-static const ALIGN_ASSET(2) char Entity_BlueSwitch_RenderRotatedExclMark_OTR[] = "__OTR__entities/entity_model_BlueSwitch/dlist_D20";
 static const ALIGN_ASSET(2) char Entity_BlueSwitch_RenderBase2[] = "__OTR__entities/entity_model_BlueSwitch/dlist_D40";
-static const ALIGN_ASSET(2) char Entity_BlueSwitch_RenderBase2_OTR[] = "__OTR__entities/entity_model_BlueSwitch/dlist_D40";
 static const ALIGN_ASSET(2) char Entity_BlueSwitch_RenderBase[] = "__OTR__entities/entity_model_BlueSwitch/dlist_DA8";
-static const ALIGN_ASSET(2) char Entity_BlueSwitch_RenderBase_OTR[] = "__OTR__entities/entity_model_BlueSwitch/dlist_DA8";
 static const ALIGN_ASSET(2) char Entity_BlueSwitch_RenderBaseMain[] = "__OTR__entities/entity_model_BlueSwitch/dlist_EC0";
-static const ALIGN_ASSET(2) char Entity_BlueSwitch_RenderBaseMain_OTR[] = "__OTR__entities/entity_model_BlueSwitch/dlist_EC0";
 static const ALIGN_ASSET(2) char Entity_BlueSwitch_RenderMain[] = "__OTR__entities/entity_model_BlueSwitch/dlist_ED8";
-static const ALIGN_ASSET(2) char Entity_BlueSwitch_RenderMain_OTR[] = "__OTR__entities/entity_model_BlueSwitch/dlist_ED8";
 static const ALIGN_ASSET(2) char Entity_BlueSwitch_Render[] = "__OTR__entities/entity_model_BlueSwitch/dlist_EF8";
-static const ALIGN_ASSET(2) char Entity_BlueSwitch_Render_OTR[] = "__OTR__entities/entity_model_BlueSwitch/dlist_EF8";
 static const ALIGN_ASSET(2) char Entity_BlueSwitch_mtxExclMark[] = "__OTR__entities/entity_model_BlueSwitch/mtx_AF0";
 static const ALIGN_ASSET(2) char Entity_BlueSwitch_mtxBlueBubble[] = "__OTR__entities/entity_model_BlueSwitch/mtx_B30";
 
@@ -85,13 +62,9 @@ static const ALIGN_ASSET(2) char D_0A0003A0_E59070[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000470_E59140[] = "__OTR__entities/entity_model_BlueWarpPipe/tex_470";
 static const ALIGN_ASSET(2) char D_0A000570_E59240[] = "__OTR__entities/entity_model_BlueWarpPipe/tlut_570";
 static const ALIGN_ASSET(2) char Entity_BlueWarpPipe_LoadTextureBase[] = "__OTR__entities/entity_model_BlueWarpPipe/dlist_3C0";
-static const ALIGN_ASSET(2) char Entity_BlueWarpPipe_LoadTextureBase_OTR[] = "__OTR__entities/entity_model_BlueWarpPipe/dlist_3C0";
 static const ALIGN_ASSET(2) char Entity_BlueWarpPipe_LoadTexturePipe[] = "__OTR__entities/entity_model_BlueWarpPipe/dlist_590";
-static const ALIGN_ASSET(2) char Entity_BlueWarpPipe_LoadTexturePipe_OTR[] = "__OTR__entities/entity_model_BlueWarpPipe/dlist_590";
 static const ALIGN_ASSET(2) char Entity_BlueWarpPipe_RenderBase[] = "__OTR__entities/entity_model_BlueWarpPipe/dlist_680";
-static const ALIGN_ASSET(2) char Entity_BlueWarpPipe_RenderBase_OTR[] = "__OTR__entities/entity_model_BlueWarpPipe/dlist_680";
 static const ALIGN_ASSET(2) char Entity_BlueWarpPipe_RenderPipe[] = "__OTR__entities/entity_model_BlueWarpPipe/dlist_6B8";
-static const ALIGN_ASSET(2) char Entity_BlueWarpPipe_RenderPipe_OTR[] = "__OTR__entities/entity_model_BlueWarpPipe/dlist_6B8";
 static const ALIGN_ASSET(2) char Entity_BlueWarpPipe_mtx[] = "__OTR__entities/entity_model_BlueWarpPipe/mtx_640";
 
 // entity_model_BoardedFloor
@@ -163,13 +136,9 @@ static const ALIGN_ASSET(2) char D_0A000000_E3DDB0[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000140_E3DEF0[] = "__OTR__entities/entity_model_BrickBlock/tex_140";
 static const ALIGN_ASSET(2) char D_0A000340_E3E0F0[] = "__OTR__entities/entity_model_BrickBlock/tlut_340";
 static const ALIGN_ASSET(2) char Entity_BrickBlock_LoadTexture[] = "__OTR__entities/entity_model_BrickBlock/dlist_360";
-static const ALIGN_ASSET(2) char Entity_BrickBlock_LoadTexture_OTR[] = "__OTR__entities/entity_model_BrickBlock/dlist_360";
 static const ALIGN_ASSET(2) char Entity_BrickBlock_InitTexture[] = "__OTR__entities/entity_model_BrickBlock/dlist_418";
-static const ALIGN_ASSET(2) char Entity_BrickBlock_InitTexture_OTR[] = "__OTR__entities/entity_model_BrickBlock/dlist_418";
 static const ALIGN_ASSET(2) char Entity_BrickBlock_RenderFaces[] = "__OTR__entities/entity_model_BrickBlock/dlist_450";
-static const ALIGN_ASSET(2) char Entity_BrickBlock_RenderFaces_OTR[] = "__OTR__entities/entity_model_BrickBlock/dlist_450";
 static const ALIGN_ASSET(2) char Entity_BrickBlock_Render[] = "__OTR__entities/entity_model_BrickBlock/dlist_4A0";
-static const ALIGN_ASSET(2) char Entity_BrickBlock_Render_OTR[] = "__OTR__entities/entity_model_BrickBlock/dlist_4A0";
 
 // entity_model_Chest
 static const ALIGN_ASSET(2) char D_0A000000_E648D0[] = "__OTR__entities/entity_model_Chest/vtx_0";
@@ -182,23 +151,14 @@ static const ALIGN_ASSET(2) char D_0A000998_E65268[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000A70_E65340[] = "__OTR__entities/entity_model_Chest/tex_A70";
 static const ALIGN_ASSET(2) char D_0A000B70_E65440[] = "__OTR__entities/entity_model_Chest/tlut_B70";
 static const ALIGN_ASSET(2) char Entity_Chest_LoadTexture1[] = "__OTR__entities/entity_model_Chest/dlist_810";
-static const ALIGN_ASSET(2) char Entity_Chest_LoadTexture1_OTR[] = "__OTR__entities/entity_model_Chest/dlist_810";
 static const ALIGN_ASSET(2) char Entity_Chest_LoadTexture2[] = "__OTR__entities/entity_model_Chest/dlist_9B8";
-static const ALIGN_ASSET(2) char Entity_Chest_LoadTexture2_OTR[] = "__OTR__entities/entity_model_Chest/dlist_9B8";
 static const ALIGN_ASSET(2) char Entity_Chest_LoadTextureLock[] = "__OTR__entities/entity_model_Chest/dlist_B90";
-static const ALIGN_ASSET(2) char Entity_Chest_LoadTextureLock_OTR[] = "__OTR__entities/entity_model_Chest/dlist_B90";
 static const ALIGN_ASSET(2) char Entity_Chest_RenderLidLock[] = "__OTR__entities/entity_model_Chest/dlist_C88";
-static const ALIGN_ASSET(2) char Entity_Chest_RenderLidLock_OTR[] = "__OTR__entities/entity_model_Chest/dlist_C88";
 static const ALIGN_ASSET(2) char Entity_Chest_RenderLidWooden[] = "__OTR__entities/entity_model_Chest/dlist_CE8";
-static const ALIGN_ASSET(2) char Entity_Chest_RenderLidWooden_OTR[] = "__OTR__entities/entity_model_Chest/dlist_CE8";
 static const ALIGN_ASSET(2) char Entity_Chest_RenderLid[] = "__OTR__entities/entity_model_Chest/dlist_DC0";
-static const ALIGN_ASSET(2) char Entity_Chest_RenderLid_OTR[] = "__OTR__entities/entity_model_Chest/dlist_DC0";
 static const ALIGN_ASSET(2) char Entity_Chest_RenderBoxLock[] = "__OTR__entities/entity_model_Chest/dlist_DD8";
-static const ALIGN_ASSET(2) char Entity_Chest_RenderBoxLock_OTR[] = "__OTR__entities/entity_model_Chest/dlist_DD8";
 static const ALIGN_ASSET(2) char Entity_Chest_RenderBoxWooden[] = "__OTR__entities/entity_model_Chest/dlist_E40";
-static const ALIGN_ASSET(2) char Entity_Chest_RenderBoxWooden_OTR[] = "__OTR__entities/entity_model_Chest/dlist_E40";
 static const ALIGN_ASSET(2) char Entity_Chest_RenderBox[] = "__OTR__entities/entity_model_Chest/dlist_EB8";
-static const ALIGN_ASSET(2) char Entity_Chest_RenderBox_OTR[] = "__OTR__entities/entity_model_Chest/dlist_EB8";
 static const ALIGN_ASSET(2) char Entity_Chest_LidMtx[] = "__OTR__entities/entity_model_Chest/mtx_C48";
 
 // entity_model_CymbalPlant_gfx
@@ -219,23 +179,14 @@ static const ALIGN_ASSET(2) char D_0A001658_E9A948[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A001670_E9A960[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_1670";
 static const ALIGN_ASSET(2) char D_0A001688_E9A978[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_1688";
 static const ALIGN_ASSET(2) char Entity_CymbalPlant_LoadTexture[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_820";
-static const ALIGN_ASSET(2) char Entity_CymbalPlant_LoadTexture_OTR[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_820";
 static const ALIGN_ASSET(2) char Entity_CymbalPlant_RenderNode3[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_10F8";
-static const ALIGN_ASSET(2) char Entity_CymbalPlant_RenderNode3_OTR[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_10F8";
 static const ALIGN_ASSET(2) char Entity_CymbalPlant_RenderNode4[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_11C0";
-static const ALIGN_ASSET(2) char Entity_CymbalPlant_RenderNode4_OTR[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_11C0";
 static const ALIGN_ASSET(2) char Entity_CymbalPlant_RenderNode5[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_1288";
-static const ALIGN_ASSET(2) char Entity_CymbalPlant_RenderNode5_OTR[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_1288";
 static const ALIGN_ASSET(2) char Entity_CymbalPlant_RenderNode7[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_1338";
-static const ALIGN_ASSET(2) char Entity_CymbalPlant_RenderNode7_OTR[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_1338";
 static const ALIGN_ASSET(2) char Entity_CymbalPlant_RenderNode9[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_1400";
-static const ALIGN_ASSET(2) char Entity_CymbalPlant_RenderNode9_OTR[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_1400";
 static const ALIGN_ASSET(2) char Entity_CymbalPlant_RenderNode8[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_14C8";
-static const ALIGN_ASSET(2) char Entity_CymbalPlant_RenderNode8_OTR[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_14C8";
 static const ALIGN_ASSET(2) char Entity_CymbalPlant_RenderNode10[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_1588";
-static const ALIGN_ASSET(2) char Entity_CymbalPlant_RenderNode10_OTR[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_1588";
 static const ALIGN_ASSET(2) char Entity_CymbalPlant_RenderNode1[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_15E0";
-static const ALIGN_ASSET(2) char Entity_CymbalPlant_RenderNode1_OTR[] = "__OTR__entities/entity_model_CymbalPlant_gfx/dlist_15E0";
 static const ALIGN_ASSET(2) char Entity_CymbalPlant_RightMtx[] = "__OTR__entities/entity_model_CymbalPlant_gfx/mtx_1078";
 static const ALIGN_ASSET(2) char Entity_CymbalPlant_LeftMtx[] = "__OTR__entities/entity_model_CymbalPlant_gfx/mtx_10B8";
 
@@ -247,17 +198,11 @@ static const ALIGN_ASSET(2) char D_0A000300_E62670[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A0003D8_E62748[] = "__OTR__entities/entity_model_GreenStompSwitch/tex_3D8";
 static const ALIGN_ASSET(2) char D_0A0004D8_E62848[] = "__OTR__entities/entity_model_GreenStompSwitch/tlut_4D8";
 static const ALIGN_ASSET(2) char Entity_GreenStompSwitch_LoadTexture[] = "__OTR__entities/entity_model_GreenStompSwitch/dlist_320";
-static const ALIGN_ASSET(2) char Entity_GreenStompSwitch_LoadTexture_OTR[] = "__OTR__entities/entity_model_GreenStompSwitch/dlist_320";
 static const ALIGN_ASSET(2) char Entity_GreenStompSwitch_LoadExclMark[] = "__OTR__entities/entity_model_GreenStompSwitch/dlist_4F8";
-static const ALIGN_ASSET(2) char Entity_GreenStompSwitch_LoadExclMark_OTR[] = "__OTR__entities/entity_model_GreenStompSwitch/dlist_4F8";
 static const ALIGN_ASSET(2) char Entity_GreenStompSwitch_RenderBase[] = "__OTR__entities/entity_model_GreenStompSwitch/dlist_5F0";
-static const ALIGN_ASSET(2) char Entity_GreenStompSwitch_RenderBase_OTR[] = "__OTR__entities/entity_model_GreenStompSwitch/dlist_5F0";
 static const ALIGN_ASSET(2) char Entity_GreenStompSwitch_RenderExclMark[] = "__OTR__entities/entity_model_GreenStompSwitch/dlist_6C0";
-static const ALIGN_ASSET(2) char Entity_GreenStompSwitch_RenderExclMark_OTR[] = "__OTR__entities/entity_model_GreenStompSwitch/dlist_6C0";
 static const ALIGN_ASSET(2) char Entity_GreenStompSwitch_RenderMain[] = "__OTR__entities/entity_model_GreenStompSwitch/dlist_718";
-static const ALIGN_ASSET(2) char Entity_GreenStompSwitch_RenderMain_OTR[] = "__OTR__entities/entity_model_GreenStompSwitch/dlist_718";
 static const ALIGN_ASSET(2) char Entity_GreenStompSwitch_Render[] = "__OTR__entities/entity_model_GreenStompSwitch/dlist_740";
-static const ALIGN_ASSET(2) char Entity_GreenStompSwitch_Render_OTR[] = "__OTR__entities/entity_model_GreenStompSwitch/dlist_740";
 static const ALIGN_ASSET(2) char Entity_GreenStompSwitch_mtx[] = "__OTR__entities/entity_model_GreenStompSwitch/mtx_5B0";
 
 // entity_model_Hammer1Block
@@ -265,47 +210,33 @@ static const ALIGN_ASSET(2) char D_0A000000_E31530[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000280_E317B0[] = "__OTR__entities/entity_model_Hammer1Block/tex_280";
 static const ALIGN_ASSET(2) char D_0A000380_E318B0[] = "__OTR__entities/entity_model_Hammer1Block/tlut_380";
 static const ALIGN_ASSET(2) char Entity_Hammer1Block_LoadTexture[] = "__OTR__entities/entity_model_Hammer1Block/dlist_3A0";
-static const ALIGN_ASSET(2) char Entity_Hammer1Block_LoadTexture_OTR[] = "__OTR__entities/entity_model_Hammer1Block/dlist_3A0";
 static const ALIGN_ASSET(2) char Entity_Hammer1Block_RenderFaces[] = "__OTR__entities/entity_model_Hammer1Block/dlist_440";
-static const ALIGN_ASSET(2) char Entity_Hammer1Block_RenderFaces_OTR[] = "__OTR__entities/entity_model_Hammer1Block/dlist_440";
 static const ALIGN_ASSET(2) char Entity_Hammer1Block_RenderBlock[] = "__OTR__entities/entity_model_Hammer1Block/dlist_4E0";
-static const ALIGN_ASSET(2) char Entity_Hammer1Block_RenderBlock_OTR[] = "__OTR__entities/entity_model_Hammer1Block/dlist_4E0";
 static const ALIGN_ASSET(2) char Entity_Hammer1Block_Render[] = "__OTR__entities/entity_model_Hammer1Block/dlist_4F0";
-static const ALIGN_ASSET(2) char Entity_Hammer1Block_Render_OTR[] = "__OTR__entities/entity_model_Hammer1Block/dlist_4F0";
 
 // entity_model_Hammer2Block
 static const ALIGN_ASSET(2) char D_0A000000_E31A30[] = "__OTR__entities/entity_model_Hammer2Block/vtx_0";
 static const ALIGN_ASSET(2) char D_0A000280_E31CB0[] = "__OTR__entities/entity_model_Hammer2Block/tex_280";
 static const ALIGN_ASSET(2) char D_0A000380_E31DB0[] = "__OTR__entities/entity_model_Hammer2Block/tlut_380";
 static const ALIGN_ASSET(2) char Entity_Hammer2Block_LoadTexture[] = "__OTR__entities/entity_model_Hammer2Block/dlist_3A0";
-static const ALIGN_ASSET(2) char Entity_Hammer2Block_LoadTexture_OTR[] = "__OTR__entities/entity_model_Hammer2Block/dlist_3A0";
 static const ALIGN_ASSET(2) char Entity_Hammer2Block_RenderFaces[] = "__OTR__entities/entity_model_Hammer2Block/dlist_440";
-static const ALIGN_ASSET(2) char Entity_Hammer2Block_RenderFaces_OTR[] = "__OTR__entities/entity_model_Hammer2Block/dlist_440";
 static const ALIGN_ASSET(2) char Entity_Hammer2Block_RenderBlock[] = "__OTR__entities/entity_model_Hammer2Block/dlist_4E0";
-static const ALIGN_ASSET(2) char Entity_Hammer2Block_RenderBlock_OTR[] = "__OTR__entities/entity_model_Hammer2Block/dlist_4E0";
 static const ALIGN_ASSET(2) char Entity_Hammer2Block_Render[] = "__OTR__entities/entity_model_Hammer2Block/dlist_4F0";
-static const ALIGN_ASSET(2) char Entity_Hammer2Block_Render_OTR[] = "__OTR__entities/entity_model_Hammer2Block/dlist_4F0";
 
 // entity_model_Hammer3Block
 static const ALIGN_ASSET(2) char D_0A000000_E31F30[] = "__OTR__entities/entity_model_Hammer3Block/vtx_0";
 static const ALIGN_ASSET(2) char D_0A000280_E321B0[] = "__OTR__entities/entity_model_Hammer3Block/tex_280";
 static const ALIGN_ASSET(2) char D_0A000380_E322B0[] = "__OTR__entities/entity_model_Hammer3Block/tlut_380";
-static const ALIGN_ASSET(2) char Entity_Hammer3Block_LoadTexture[] = "__OTR__entities/entity_model_Hammer3Block/dlist_398";
-static const ALIGN_ASSET(2) char Entity_Hammer3Block_LoadTexture_OTR[] = "__OTR__entities/entity_model_Hammer3Block/dlist_398";
+static const ALIGN_ASSET(2) char Entity_Hammer3Block_LoadTexture[] = "__OTR__entities/entity_model_Hammer3Block/dlist_3A0";
 static const ALIGN_ASSET(2) char Entity_Hammer3Block_RenderBlock[] = "__OTR__entities/entity_model_Hammer3Block/dlist_440";
-static const ALIGN_ASSET(2) char Entity_Hammer3Block_RenderBlock_OTR[] = "__OTR__entities/entity_model_Hammer3Block/dlist_440";
 static const ALIGN_ASSET(2) char Entity_Hammer3Block_Render[] = "__OTR__entities/entity_model_Hammer3Block/dlist_4E0";
-static const ALIGN_ASSET(2) char Entity_Hammer3Block_Render_OTR[] = "__OTR__entities/entity_model_Hammer3Block/dlist_4E0";
 
 // entity_model_HeartBlock
 static const ALIGN_ASSET(2) char D_0A000000_E431F0[] = "__OTR__entities/entity_model_HeartBlock/vtx_0";
 static const ALIGN_ASSET(2) char D_0A0003C0_E435B0[] = "__OTR__entities/entity_model_HeartBlock/tex_3C0";
 static const ALIGN_ASSET(2) char Entity_HeartBlock_LoadTexture[] = "__OTR__entities/entity_model_HeartBlock/dlist_7C0";
-static const ALIGN_ASSET(2) char Entity_HeartBlock_LoadTexture_OTR[] = "__OTR__entities/entity_model_HeartBlock/dlist_7C0";
 static const ALIGN_ASSET(2) char Entity_HeartBlock_RenderBlock[] = "__OTR__entities/entity_model_HeartBlock/dlist_848";
-static const ALIGN_ASSET(2) char Entity_HeartBlock_RenderBlock_OTR[] = "__OTR__entities/entity_model_HeartBlock/dlist_848";
 static const ALIGN_ASSET(2) char Entity_HeartBlock_Render[] = "__OTR__entities/entity_model_HeartBlock/dlist_918";
-static const ALIGN_ASSET(2) char Entity_HeartBlock_Render_OTR[] = "__OTR__entities/entity_model_HeartBlock/dlist_918";
 
 // entity_model_HeartBlockContent
 static const ALIGN_ASSET(2) char D_0A000000_E49E40[] = "__OTR__entities/entity_model_HeartBlockContent/tex_0";
@@ -313,75 +244,54 @@ static const ALIGN_ASSET(2) char D_0A000200_E4A040[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000400_E4A240[] = "__OTR__entities/entity_model_HeartBlockContent/tex_400";
 static const ALIGN_ASSET(2) char D_0A000600_E4A440[] = "__OTR__entities/entity_model_HeartBlockContent/tex_600";
 static const ALIGN_ASSET(2) char D_0A000758_E4A598[] = "__OTR__entities/entity_model_HeartBlockContent/dlist_758";
-static const ALIGN_ASSET(2) char Entity_HeartBlockContent_LoadPalette[] = "__OTR__entities/entity_model_HeartBlockContent/dlist_630";
-static const ALIGN_ASSET(2) char Entity_HeartBlockContent_LoadPalette_OTR[] = "__OTR__entities/entity_model_HeartBlockContent/dlist_630";
+static const ALIGN_ASSET(2) char Entity_HeartBlockContent_LoadPalette[] = "__OTR__entities/entity_model_HeartBlockContent/dlist_638";
 static const ALIGN_ASSET(2) char Entity_HeartBlockContent_RenderImage[] = "__OTR__entities/entity_model_HeartBlockContent/dlist_6D0";
-static const ALIGN_ASSET(2) char Entity_HeartBlockContent_RenderImage_OTR[] = "__OTR__entities/entity_model_HeartBlockContent/dlist_6D0";
 static const ALIGN_ASSET(2) char Entity_HeartBlockContent_RenderHeartSleeping[] = "__OTR__entities/entity_model_HeartBlockContent/dlist_700";
-static const ALIGN_ASSET(2) char Entity_HeartBlockContent_RenderHeartSleeping_OTR[] = "__OTR__entities/entity_model_HeartBlockContent/dlist_700";
 static const ALIGN_ASSET(2) char Entity_HeartBlockContent_RenderHeartAwake[] = "__OTR__entities/entity_model_HeartBlockContent/dlist_7B0";
-static const ALIGN_ASSET(2) char Entity_HeartBlockContent_RenderHeartAwake_OTR[] = "__OTR__entities/entity_model_HeartBlockContent/dlist_7B0";
 static const ALIGN_ASSET(2) char Entity_HeartBlockContent_RenderHeartHappy[] = "__OTR__entities/entity_model_HeartBlockContent/dlist_808";
-static const ALIGN_ASSET(2) char Entity_HeartBlockContent_RenderHeartHappy_OTR[] = "__OTR__entities/entity_model_HeartBlockContent/dlist_808";
 
 // entity_model_HiddenPanel
 static const ALIGN_ASSET(2) char D_0A000016_E56BA0[] = "__OTR__entities/entity_model_HiddenPanel/vtx_16";
 static const ALIGN_ASSET(2) char D_0A000020_E56BA0[] = "__OTR__entities/entity_model_HiddenPanel/vtx_20";
 static const ALIGN_ASSET(2) char Gfx_HiddenPanel_RenderTop[] = "__OTR__entities/entity_model_HiddenPanel/dlist_8";
-static const ALIGN_ASSET(2) char Gfx_HiddenPanel_RenderTop_OTR[] = "__OTR__entities/entity_model_HiddenPanel/dlist_8";
-static const ALIGN_ASSET(2) char Gfx_AltHiddenPanel_RenderTop[] = "__OTR__entities/entity_model_HiddenPanel/dlist_30";
-static const ALIGN_ASSET(2) char Gfx_AltHiddenPanel_RenderTop_OTR[] = "__OTR__entities/entity_model_HiddenPanel/dlist_30";
+static const ALIGN_ASSET(2) char Gfx_AltHiddenPanel_RenderTop[] = "__OTR__entities/entity_model_HiddenPanel/dlist_38";
 static const ALIGN_ASSET(2) char Gfx_HiddenPanel_RenderBottom[] = "__OTR__entities/entity_model_HiddenPanel/dlist_1D0";
-static const ALIGN_ASSET(2) char Gfx_HiddenPanel_RenderBottom_OTR[] = "__OTR__entities/entity_model_HiddenPanel/dlist_1D0";
 static const ALIGN_ASSET(2) char Gfx_HiddenPanel_RenderHole[] = "__OTR__entities/entity_model_HiddenPanel/dlist_200";
-static const ALIGN_ASSET(2) char Gfx_HiddenPanel_RenderHole_OTR[] = "__OTR__entities/entity_model_HiddenPanel/dlist_200";
 static const ALIGN_ASSET(2) char Gfx_HiddenPanel_Render[] = "__OTR__entities/entity_model_HiddenPanel/dlist_250";
-static const ALIGN_ASSET(2) char Gfx_HiddenPanel_Render_OTR[] = "__OTR__entities/entity_model_HiddenPanel/dlist_250";
 static const ALIGN_ASSET(2) char Gfx_HiddenPanel_Render2[] = "__OTR__entities/entity_model_HiddenPanel/dlist_2A0";
-static const ALIGN_ASSET(2) char Gfx_HiddenPanel_Render2_OTR[] = "__OTR__entities/entity_model_HiddenPanel/dlist_2A0";
 
 // entity_model_HitFloatingYellowBlock_gfx
 static const ALIGN_ASSET(2) char D_0A000000_E470B0[] = "__OTR__entities/entity_model_HitFloatingYellowBlock_gfx/vtx_0";
 static const ALIGN_ASSET(2) char D_0A000160_E47210[] = "__OTR__entities/entity_model_HitFloatingYellowBlock_gfx/vtx_160";
 static const ALIGN_ASSET(2) char D_0A000440_E474F0[] = "__OTR__entities/entity_model_HitFloatingYellowBlock_gfx/tex_440";
 static const ALIGN_ASSET(2) char D_0A000C40_E47CF0[] = "__OTR__entities/entity_model_HitFloatingYellowBlock_gfx/tex_C40";
-static const ALIGN_ASSET(2) char Entity_HitFloatingYellowBlock_RenderBlock2[] = "__OTR__entities/entity_model_HitFloatingYellowBlock_gfx/dlist_10";
-static const ALIGN_ASSET(2) char Entity_HitFloatingYellowBlock_RenderBlock2_OTR[] = "__OTR__entities/entity_model_HitFloatingYellowBlock_gfx/dlist_10";
+static const ALIGN_ASSET(2) char Entity_HitFloatingYellowBlock_RenderBlock2[] = "__OTR__entities/entity_model_HitFloatingYellowBlock_gfx/dlist_18";
 static const ALIGN_ASSET(2) char Entity_HitFloatingYellowBlock_RenderBlock1[] = "__OTR__entities/entity_model_HitFloatingYellowBlock_gfx/dlist_390";
-static const ALIGN_ASSET(2) char Entity_HitFloatingYellowBlock_RenderBlock1_OTR[] = "__OTR__entities/entity_model_HitFloatingYellowBlock_gfx/dlist_390";
 
 // entity_model_HitRedBlock_gfx
 static const ALIGN_ASSET(2) char D_0A000000_E48780[] = "__OTR__entities/entity_model_HitRedBlock_gfx/vtx_0";
 static const ALIGN_ASSET(2) char D_0A000160_E488E0[] = "__OTR__entities/entity_model_HitRedBlock_gfx/vtx_160";
 static const ALIGN_ASSET(2) char D_0A000460_E48BE0[] = "__OTR__entities/entity_model_HitRedBlock_gfx/tex_460";
 static const ALIGN_ASSET(2) char D_0A000C60_E493E0[] = "__OTR__entities/entity_model_HitRedBlock_gfx/tex_C60";
-static const ALIGN_ASSET(2) char Entity_HitRedBlock_RenderBlock2[] = "__OTR__entities/entity_model_HitRedBlock_gfx/dlist_10";
-static const ALIGN_ASSET(2) char Entity_HitRedBlock_RenderBlock2_OTR[] = "__OTR__entities/entity_model_HitRedBlock_gfx/dlist_10";
+static const ALIGN_ASSET(2) char Entity_HitRedBlock_RenderBlock2[] = "__OTR__entities/entity_model_HitRedBlock_gfx/dlist_18";
 static const ALIGN_ASSET(2) char Entity_HitRedBlock_RenderBlock1[] = "__OTR__entities/entity_model_HitRedBlock_gfx/dlist_390";
-static const ALIGN_ASSET(2) char Entity_HitRedBlock_RenderBlock1_OTR[] = "__OTR__entities/entity_model_HitRedBlock_gfx/dlist_390";
 
 // entity_model_HitYellowBlock_gfx
 static const ALIGN_ASSET(2) char D_0A000000_E459F0[] = "__OTR__entities/entity_model_HitYellowBlock_gfx/vtx_0";
 static const ALIGN_ASSET(2) char D_0A000160_E45B50[] = "__OTR__entities/entity_model_HitYellowBlock_gfx/vtx_160";
 static const ALIGN_ASSET(2) char D_0A000420_E45E10[] = "__OTR__entities/entity_model_HitYellowBlock_gfx/tex_420";
 static const ALIGN_ASSET(2) char D_0A000C20_E46610[] = "__OTR__entities/entity_model_HitYellowBlock_gfx/tex_C20";
-static const ALIGN_ASSET(2) char Entity_HitYellowBlock_RenderBlock2[] = "__OTR__entities/entity_model_HitYellowBlock_gfx/dlist_10";
-static const ALIGN_ASSET(2) char Entity_HitYellowBlock_RenderBlock2_OTR[] = "__OTR__entities/entity_model_HitYellowBlock_gfx/dlist_10";
+static const ALIGN_ASSET(2) char Entity_HitYellowBlock_RenderBlock2[] = "__OTR__entities/entity_model_HitYellowBlock_gfx/dlist_18";
 static const ALIGN_ASSET(2) char Entity_HitYellowBlock_RenderBlock1[] = "__OTR__entities/entity_model_HitYellowBlock_gfx/dlist_370";
-static const ALIGN_ASSET(2) char Entity_HitYellowBlock_RenderBlock1_OTR[] = "__OTR__entities/entity_model_HitYellowBlock_gfx/dlist_370";
 
 // entity_model_InertRedBlock
 static const ALIGN_ASSET(2) char D_0A000000_E42740[] = "__OTR__entities/entity_model_InertRedBlock/vtx_0";
 static const ALIGN_ASSET(2) char D_0A000100_E42840[] = "__OTR__entities/entity_model_InertRedBlock/vtx_100";
 static const ALIGN_ASSET(2) char D_0A000180_E428C0[] = "__OTR__entities/entity_model_InertRedBlock/tex_180";
 static const ALIGN_ASSET(2) char Entity_InertRedBlock_LoadTexture[] = "__OTR__entities/entity_model_InertRedBlock/dlist_980";
-static const ALIGN_ASSET(2) char Entity_InertRedBlock_LoadTexture_OTR[] = "__OTR__entities/entity_model_InertRedBlock/dlist_980";
 static const ALIGN_ASSET(2) char Entity_InertRedBlock_RenderTopBottom[] = "__OTR__entities/entity_model_InertRedBlock/dlist_9F0";
-static const ALIGN_ASSET(2) char Entity_InertRedBlock_RenderTopBottom_OTR[] = "__OTR__entities/entity_model_InertRedBlock/dlist_9F0";
 static const ALIGN_ASSET(2) char Entity_InertRedBlock_RenderFaces[] = "__OTR__entities/entity_model_InertRedBlock/dlist_A38";
-static const ALIGN_ASSET(2) char Entity_InertRedBlock_RenderFaces_OTR[] = "__OTR__entities/entity_model_InertRedBlock/dlist_A38";
 static const ALIGN_ASSET(2) char Entity_InertRedBlock_Render[] = "__OTR__entities/entity_model_InertRedBlock/dlist_A90";
-static const ALIGN_ASSET(2) char Entity_InertRedBlock_Render_OTR[] = "__OTR__entities/entity_model_InertRedBlock/dlist_A90";
 
 // entity_model_InertYellowBlock
 static const ALIGN_ASSET(2) char D_0A000000_E42240[] = "__OTR__entities/entity_model_InertYellowBlock/vtx_0";
@@ -389,55 +299,44 @@ static const ALIGN_ASSET(2) char D_0A000100_E42340[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000180_E423C0[] = "__OTR__entities/entity_model_InertYellowBlock/tex_180";
 static const ALIGN_ASSET(2) char D_0A000380_E425C0[] = "__OTR__entities/entity_model_InertYellowBlock/tlut_380";
 static const ALIGN_ASSET(2) char Entity_InertYellowBlock_LoadTexture[] = "__OTR__entities/entity_model_InertYellowBlock/dlist_3A0";
-static const ALIGN_ASSET(2) char Entity_InertYellowBlock_LoadTexture_OTR[] = "__OTR__entities/entity_model_InertYellowBlock/dlist_3A0";
 static const ALIGN_ASSET(2) char Entity_InertYellowBlock_RenderTopBottom[] = "__OTR__entities/entity_model_InertYellowBlock/dlist_440";
-static const ALIGN_ASSET(2) char Entity_InertYellowBlock_RenderTopBottom_OTR[] = "__OTR__entities/entity_model_InertYellowBlock/dlist_440";
 static const ALIGN_ASSET(2) char Entity_InertYellowBlock_RenderFaces[] = "__OTR__entities/entity_model_InertYellowBlock/dlist_488";
-static const ALIGN_ASSET(2) char Entity_InertYellowBlock_RenderFaces_OTR[] = "__OTR__entities/entity_model_InertYellowBlock/dlist_488";
 static const ALIGN_ASSET(2) char Entity_InertYellowBlock_Render[] = "__OTR__entities/entity_model_InertYellowBlock/dlist_4E0";
-static const ALIGN_ASSET(2) char Entity_InertYellowBlock_Render_OTR[] = "__OTR__entities/entity_model_InertYellowBlock/dlist_4E0";
 
 // entity_model_MunchlesiaBeginChew_gfx
 static const ALIGN_ASSET(2) char D_0A000000_E815F0[] = "__OTR__entities/entity_model_MunchlesiaBeginChew_gfx/vtx_0";
 static const ALIGN_ASSET(2) char D_0A006840_E87E30[] = "__OTR__entities/entity_model_MunchlesiaBeginChew_gfx/tex_6840";
-static const ALIGN_ASSET(2) char Entity_MunchlesiaBeginChew_Render[] = "__OTR__entities/entity_model_MunchlesiaBeginChew_gfx/dlist_5EE0";
-static const ALIGN_ASSET(2) char Entity_MunchlesiaBeginChew_Render_OTR[] = "__OTR__entities/entity_model_MunchlesiaBeginChew_gfx/dlist_5EE0";
+static const ALIGN_ASSET(2) char Entity_MunchlesiaBeginChew_Render[] = "__OTR__entities/entity_model_MunchlesiaBeginChew_gfx/dlist_63C0";
 
 // entity_model_MunchlesiaChewing_gfx
 static const ALIGN_ASSET(2) char D_0A000000_E884A0[] = "__OTR__entities/entity_model_MunchlesiaChewing_gfx/vtx_0";
 static const ALIGN_ASSET(2) char D_0A001D70_E8A210[] = "__OTR__entities/entity_model_MunchlesiaChewing_gfx/tex_1D70";
-static const ALIGN_ASSET(2) char Entity_MunchlesiaChewing_Render[] = "__OTR__entities/entity_model_MunchlesiaChewing_gfx/dlist_1740";
-static const ALIGN_ASSET(2) char Entity_MunchlesiaChewing_Render_OTR[] = "__OTR__entities/entity_model_MunchlesiaChewing_gfx/dlist_1740";
+static const ALIGN_ASSET(2) char Entity_MunchlesiaChewing_Render[] = "__OTR__entities/entity_model_MunchlesiaChewing_gfx/dlist_1748";
 
 // entity_model_MunchlesiaEnvelop_gfx
 static const ALIGN_ASSET(2) char D_0A000000_E7B0E0[] = "__OTR__entities/entity_model_MunchlesiaEnvelop_gfx/vtx_0";
 static const ALIGN_ASSET(2) char D_0A005EE8_E80FC8[] = "__OTR__entities/entity_model_MunchlesiaEnvelop_gfx/tex_5EE8";
-static const ALIGN_ASSET(2) char Entity_MunchlesiaEnvelop_Render[] = "__OTR__entities/entity_model_MunchlesiaEnvelop_gfx/dlist_5580";
-static const ALIGN_ASSET(2) char Entity_MunchlesiaEnvelop_Render_OTR[] = "__OTR__entities/entity_model_MunchlesiaEnvelop_gfx/dlist_5580";
+static const ALIGN_ASSET(2) char Entity_MunchlesiaEnvelop_Render[] = "__OTR__entities/entity_model_MunchlesiaEnvelop_gfx/dlist_5A68";
 
 // entity_model_MunchlesiaGrab_gfx
 static const ALIGN_ASSET(2) char D_0A000000_E74BD0[] = "__OTR__entities/entity_model_MunchlesiaGrab_gfx/vtx_0";
 static const ALIGN_ASSET(2) char D_0A005EE8_E7AAB8[] = "__OTR__entities/entity_model_MunchlesiaGrab_gfx/tex_5EE8";
-static const ALIGN_ASSET(2) char Entity_MunchlesiaGrab_Render[] = "__OTR__entities/entity_model_MunchlesiaGrab_gfx/dlist_5580";
-static const ALIGN_ASSET(2) char Entity_MunchlesiaGrab_Render_OTR[] = "__OTR__entities/entity_model_MunchlesiaGrab_gfx/dlist_5580";
+static const ALIGN_ASSET(2) char Entity_MunchlesiaGrab_Render[] = "__OTR__entities/entity_model_MunchlesiaGrab_gfx/dlist_5A68";
 
 // entity_model_MunchlesiaReset1_gfx
 static const ALIGN_ASSET(2) char D_0A000000_E91890[] = "__OTR__entities/entity_model_MunchlesiaReset1_gfx/vtx_0";
 static const ALIGN_ASSET(2) char D_0A006840_E980D0[] = "__OTR__entities/entity_model_MunchlesiaReset1_gfx/tex_6840";
-static const ALIGN_ASSET(2) char Entity_MunchlesiaReset1_Render[] = "__OTR__entities/entity_model_MunchlesiaReset1_gfx/dlist_5EE0";
-static const ALIGN_ASSET(2) char Entity_MunchlesiaReset1_Render_OTR[] = "__OTR__entities/entity_model_MunchlesiaReset1_gfx/dlist_5EE0";
+static const ALIGN_ASSET(2) char Entity_MunchlesiaReset1_Render[] = "__OTR__entities/entity_model_MunchlesiaReset1_gfx/dlist_63C0";
 
 // entity_model_MunchlesiaReset_gfx
 static const ALIGN_ASSET(2) char D_0A000000_E6E660[] = "__OTR__entities/entity_model_MunchlesiaReset_gfx/vtx_0";
 static const ALIGN_ASSET(2) char D_0A005EE8_E74548[] = "__OTR__entities/entity_model_MunchlesiaReset_gfx/tex_5EE8";
-static const ALIGN_ASSET(2) char Entity_MunchlesiaReset_Render[] = "__OTR__entities/entity_model_MunchlesiaReset_gfx/dlist_5580";
-static const ALIGN_ASSET(2) char Entity_MunchlesiaReset_Render_OTR[] = "__OTR__entities/entity_model_MunchlesiaReset_gfx/dlist_5580";
+static const ALIGN_ASSET(2) char Entity_MunchlesiaReset_Render[] = "__OTR__entities/entity_model_MunchlesiaReset_gfx/dlist_5A68";
 
 // entity_model_MunchlesiaSpitOut_gfx
 static const ALIGN_ASSET(2) char D_0A000000_E8A9E0[] = "__OTR__entities/entity_model_MunchlesiaSpitOut_gfx/vtx_0";
 static const ALIGN_ASSET(2) char D_0A006840_E91220[] = "__OTR__entities/entity_model_MunchlesiaSpitOut_gfx/tex_6840";
-static const ALIGN_ASSET(2) char Entity_MunchlesiaSpitOut_Render[] = "__OTR__entities/entity_model_MunchlesiaSpitOut_gfx/dlist_5EE0";
-static const ALIGN_ASSET(2) char Entity_MunchlesiaSpitOut_Render_OTR[] = "__OTR__entities/entity_model_MunchlesiaSpitOut_gfx/dlist_5EE0";
+static const ALIGN_ASSET(2) char Entity_MunchlesiaSpitOut_Render[] = "__OTR__entities/entity_model_MunchlesiaSpitOut_gfx/dlist_63C0";
 
 // entity_model_Padlock
 static const ALIGN_ASSET(2) char D_0A000000_E5AB50[] = "__OTR__entities/entity_model_Padlock/vtx_0";
@@ -451,23 +350,14 @@ static const ALIGN_ASSET(2) char D_0A0015A8_E5C0F8[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A001850_E5C3A0[] = "__OTR__entities/entity_model_Padlock/tex_1850";
 static const ALIGN_ASSET(2) char D_0A001C50_E5C7A0[] = "__OTR__entities/entity_model_Padlock/tlut_1C50";
 static const ALIGN_ASSET(2) char Entity_Padlock_LoadTextureFace[] = "__OTR__entities/entity_model_Padlock/dlist_D00";
-static const ALIGN_ASSET(2) char Entity_Padlock_LoadTextureFace_OTR[] = "__OTR__entities/entity_model_Padlock/dlist_D00";
 static const ALIGN_ASSET(2) char Entity_Padlock_LoadTextureKeyhole[] = "__OTR__entities/entity_model_Padlock/dlist_17A8";
-static const ALIGN_ASSET(2) char Entity_Padlock_LoadTextureKeyhole_OTR[] = "__OTR__entities/entity_model_Padlock/dlist_17A8";
 static const ALIGN_ASSET(2) char Entity_Padlock_LoadTextureBody[] = "__OTR__entities/entity_model_Padlock/dlist_1E50";
-static const ALIGN_ASSET(2) char Entity_Padlock_LoadTextureBody_OTR[] = "__OTR__entities/entity_model_Padlock/dlist_1E50";
 static const ALIGN_ASSET(2) char Entity_Padlock_RenderShackleMain[] = "__OTR__entities/entity_model_Padlock/dlist_1F38";
-static const ALIGN_ASSET(2) char Entity_Padlock_RenderShackleMain_OTR[] = "__OTR__entities/entity_model_Padlock/dlist_1F38";
 static const ALIGN_ASSET(2) char Entity_Padlock_RenderShackle[] = "__OTR__entities/entity_model_Padlock/dlist_1FA0";
-static const ALIGN_ASSET(2) char Entity_Padlock_RenderShackle_OTR[] = "__OTR__entities/entity_model_Padlock/dlist_1FA0";
 static const ALIGN_ASSET(2) char Entity_Padlock_RenderKeyhole[] = "__OTR__entities/entity_model_Padlock/dlist_1FB0";
-static const ALIGN_ASSET(2) char Entity_Padlock_RenderKeyhole_OTR[] = "__OTR__entities/entity_model_Padlock/dlist_1FB0";
 static const ALIGN_ASSET(2) char Entity_Padlock_RenderFace[] = "__OTR__entities/entity_model_Padlock/dlist_1FF8";
-static const ALIGN_ASSET(2) char Entity_Padlock_RenderFace_OTR[] = "__OTR__entities/entity_model_Padlock/dlist_1FF8";
 static const ALIGN_ASSET(2) char Entity_Padlock_RenderBody[] = "__OTR__entities/entity_model_Padlock/dlist_2048";
-static const ALIGN_ASSET(2) char Entity_Padlock_RenderBody_OTR[] = "__OTR__entities/entity_model_Padlock/dlist_2048";
 static const ALIGN_ASSET(2) char Entity_Padlock_Render[] = "__OTR__entities/entity_model_Padlock/dlist_2210";
-static const ALIGN_ASSET(2) char Entity_Padlock_Render_OTR[] = "__OTR__entities/entity_model_Padlock/dlist_2210";
 static const ALIGN_ASSET(2) char Entity_Padlock_mtxShackle[] = "__OTR__entities/entity_model_Padlock/mtx_1EF8";
 
 // entity_model_PadlockBlueFace
@@ -481,25 +371,15 @@ static const ALIGN_ASSET(2) char D_0A001178_E616C8[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A001420_E61970[] = "__OTR__entities/entity_model_PadlockBlueFace/tex_1420";
 static const ALIGN_ASSET(2) char D_0A001820_E61D70[] = "__OTR__entities/entity_model_PadlockBlueFace/tlut_1820";
 static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_LoadTextureFace[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_900";
-static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_LoadTextureFace_OTR[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_900";
 static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_LoadTextureKeyhole[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1378";
-static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_LoadTextureKeyhole_OTR[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1378";
 static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_LoadTextureBody[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1A20";
-static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_LoadTextureBody_OTR[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1A20";
 static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_RenderShackleMain[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1B08";
-static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_RenderShackleMain_OTR[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1B08";
 static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_RenderShackle[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1B70";
-static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_RenderShackle_OTR[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1B70";
 static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_RenderKeyhole[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1B80";
-static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_RenderKeyhole_OTR[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1B80";
 static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_RenderFace[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1BC8";
-static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_RenderFace_OTR[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1BC8";
 static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_RenderBody[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1C18";
-static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_RenderBody_OTR[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1C18";
 static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_RenderMain[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1DE0";
-static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_RenderMain_OTR[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1DE0";
 static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_Render[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1E00";
-static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_Render_OTR[] = "__OTR__entities/entity_model_PadlockBlueFace/dlist_1E00";
 static const ALIGN_ASSET(2) char Entity_PadlockBlueFace_mtxShackle[] = "__OTR__entities/entity_model_PadlockBlueFace/mtx_1AC8";
 
 // entity_model_PadlockRedFace
@@ -513,25 +393,15 @@ static const ALIGN_ASSET(2) char D_0A001178_E5F8A8[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A001420_E5FB50[] = "__OTR__entities/entity_model_PadlockRedFace/tex_1420";
 static const ALIGN_ASSET(2) char D_0A001820_E5FF50[] = "__OTR__entities/entity_model_PadlockRedFace/tlut_1820";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFace_LoadTextureFace[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_900";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFace_LoadTextureFace_OTR[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_900";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFace_LoadTextureKeyhole[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1378";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFace_LoadTextureKeyhole_OTR[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1378";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFace_LoadTextureBody[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1A20";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFace_LoadTextureBody_OTR[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1A20";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFace_RenderShackleMain[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1B08";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFace_RenderShackleMain_OTR[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1B08";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFace_RenderShackle[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1B70";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFace_RenderShackle_OTR[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1B70";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFace_RenderKeyhole[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1B80";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFace_RenderKeyhole_OTR[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1B80";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFace_RenderFace[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1BC8";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFace_RenderFace_OTR[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1BC8";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFace_RenderBody[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1C18";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFace_RenderBody_OTR[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1C18";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFace_RenderMain[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1DE0";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFace_RenderMain_OTR[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1DE0";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFace_Render[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1E00";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFace_Render_OTR[] = "__OTR__entities/entity_model_PadlockRedFace/dlist_1E00";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFace_mtxShackle[] = "__OTR__entities/entity_model_PadlockRedFace/mtx_1AC8";
 
 // entity_model_PadlockRedFrame
@@ -544,23 +414,14 @@ static const ALIGN_ASSET(2) char D_0A000D40_E5DAC0[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000FE8_E5DD68[] = "__OTR__entities/entity_model_PadlockRedFrame/tex_FE8";
 static const ALIGN_ASSET(2) char D_0A0013E8_E5E168[] = "__OTR__entities/entity_model_PadlockRedFrame/tlut_13E8";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_LoadTextureKeyhole[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_F40";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_LoadTextureKeyhole_OTR[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_F40";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_LoadTextureFace[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_15E8";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_LoadTextureFace_OTR[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_15E8";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_RenderShackleMain[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_16D0";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_RenderShackleMain_OTR[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_16D0";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_RenderShackle[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_1840";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_RenderShackle_OTR[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_1840";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_RenderKeyhole[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_1850";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_RenderKeyhole_OTR[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_1850";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_RenderFace[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_1898";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_RenderFace_OTR[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_1898";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_RenderBody[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_18E0";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_RenderBody_OTR[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_18E0";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_RenderMain[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_1970";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_RenderMain_OTR[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_1970";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_Render[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_1990";
-static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_Render_OTR[] = "__OTR__entities/entity_model_PadlockRedFrame/dlist_1990";
 static const ALIGN_ASSET(2) char Entity_PadlockRedFrame_mtxShackle[] = "__OTR__entities/entity_model_PadlockRedFrame/mtx_1690";
 
 // entity_model_PinkFlower_gfx
@@ -575,31 +436,21 @@ static const ALIGN_ASSET(2) char D_0A000820_E9BD20[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A001020_E9C520[] = "__OTR__entities/entity_model_PinkFlower_gfx/dlist_1020";
 static const ALIGN_ASSET(2) char D_0A001098_E9C598[] = "__OTR__entities/entity_model_PinkFlower_gfx/mtx_1098";
 static const ALIGN_ASSET(2) char D_0A0013B8_E9C8B8[] = "__OTR__entities/entity_model_PinkFlower_gfx/dlist_13B8";
-static const ALIGN_ASSET(2) char Entity_PinkFlower_RenderNode3[] = "__OTR__entities/entity_model_PinkFlower_gfx/dlist_2A0";
-static const ALIGN_ASSET(2) char Entity_PinkFlower_RenderNode3_OTR[] = "__OTR__entities/entity_model_PinkFlower_gfx/dlist_2A0";
-static const ALIGN_ASSET(2) char Entity_PinkFlower_RenderNode2[] = "__OTR__entities/entity_model_PinkFlower_gfx/dlist_10B0";
-static const ALIGN_ASSET(2) char Entity_PinkFlower_RenderNode2_OTR[] = "__OTR__entities/entity_model_PinkFlower_gfx/dlist_10B0";
-static const ALIGN_ASSET(2) char Entity_PinkFlower_RenderNode1[] = "__OTR__entities/entity_model_PinkFlower_gfx/dlist_1160";
-static const ALIGN_ASSET(2) char Entity_PinkFlower_RenderNode1_OTR[] = "__OTR__entities/entity_model_PinkFlower_gfx/dlist_1160";
-static const ALIGN_ASSET(2) char Entity_PinkFlower_RenderNode5[] = "__OTR__entities/entity_model_PinkFlower_gfx/dlist_11E8";
-static const ALIGN_ASSET(2) char Entity_PinkFlower_RenderNode5_OTR[] = "__OTR__entities/entity_model_PinkFlower_gfx/dlist_11E8";
+static const ALIGN_ASSET(2) char Entity_PinkFlower_RenderNode3[] = "__OTR__entities/entity_model_PinkFlower_gfx/dlist_10D8";
+static const ALIGN_ASSET(2) char Entity_PinkFlower_RenderNode2[] = "__OTR__entities/entity_model_PinkFlower_gfx/dlist_1160";
+static const ALIGN_ASSET(2) char Entity_PinkFlower_RenderNode1[] = "__OTR__entities/entity_model_PinkFlower_gfx/dlist_11E8";
+static const ALIGN_ASSET(2) char Entity_PinkFlower_RenderNode5[] = "__OTR__entities/entity_model_PinkFlower_gfx/dlist_1270";
 
 // entity_model_PowBlock
 static const ALIGN_ASSET(2) char D_0A000000_E43B20[] = "__OTR__entities/entity_model_PowBlock/vtx_0";
 static const ALIGN_ASSET(2) char D_0A000100_E43C20[] = "__OTR__entities/entity_model_PowBlock/tex_100";
 static const ALIGN_ASSET(2) char D_0A000900_E44420[] = "__OTR__entities/entity_model_PowBlock/tlut_900";
 static const ALIGN_ASSET(2) char Entity_PowBlock_LoadTexture[] = "__OTR__entities/entity_model_PowBlock/dlist_B00";
-static const ALIGN_ASSET(2) char Entity_PowBlock_LoadTexture_OTR[] = "__OTR__entities/entity_model_PowBlock/dlist_B00";
 static const ALIGN_ASSET(2) char Entity_PowBlock_RenderTopBottom[] = "__OTR__entities/entity_model_PowBlock/dlist_BE8";
-static const ALIGN_ASSET(2) char Entity_PowBlock_RenderTopBottom_OTR[] = "__OTR__entities/entity_model_PowBlock/dlist_BE8";
 static const ALIGN_ASSET(2) char Entity_PowBlock_RenderSides[] = "__OTR__entities/entity_model_PowBlock/dlist_C40";
-static const ALIGN_ASSET(2) char Entity_PowBlock_RenderSides_OTR[] = "__OTR__entities/entity_model_PowBlock/dlist_C40";
 static const ALIGN_ASSET(2) char Entity_PowBlock_RenderFaces[] = "__OTR__entities/entity_model_PowBlock/dlist_CA0";
-static const ALIGN_ASSET(2) char Entity_PowBlock_RenderFaces_OTR[] = "__OTR__entities/entity_model_PowBlock/dlist_CA0";
 static const ALIGN_ASSET(2) char Entity_PowBlock_RenderBlock[] = "__OTR__entities/entity_model_PowBlock/dlist_CB8";
-static const ALIGN_ASSET(2) char Entity_PowBlock_RenderBlock_OTR[] = "__OTR__entities/entity_model_PowBlock/dlist_CB8";
 static const ALIGN_ASSET(2) char Entity_PowBlock_Render[] = "__OTR__entities/entity_model_PowBlock/dlist_CC8";
-static const ALIGN_ASSET(2) char Entity_PowBlock_Render_OTR[] = "__OTR__entities/entity_model_PowBlock/dlist_CC8";
 static const ALIGN_ASSET(2) char Entity_PowBlock_mtx[] = "__OTR__entities/entity_model_PowBlock/mtx_BA8";
 
 // entity_model_PushBlock
@@ -607,26 +458,18 @@ static const ALIGN_ASSET(2) char D_0A000000_E3DA60[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000120_E3DB80[] = "__OTR__entities/entity_model_PushBlock/tex_120";
 static const ALIGN_ASSET(2) char D_0A0001A0_E3DC00[] = "__OTR__entities/entity_model_PushBlock/tlut_1A0";
 static const ALIGN_ASSET(2) char Entity_PushBlock_LoadTexture[] = "__OTR__entities/entity_model_PushBlock/dlist_1C0";
-static const ALIGN_ASSET(2) char Entity_PushBlock_LoadTexture_OTR[] = "__OTR__entities/entity_model_PushBlock/dlist_1C0";
 static const ALIGN_ASSET(2) char Entity_PushBlock_RenderFaces[] = "__OTR__entities/entity_model_PushBlock/dlist_2A8";
-static const ALIGN_ASSET(2) char Entity_PushBlock_RenderFaces_OTR[] = "__OTR__entities/entity_model_PushBlock/dlist_2A8";
 static const ALIGN_ASSET(2) char Entity_PushBlock_RenderBlock[] = "__OTR__entities/entity_model_PushBlock/dlist_318";
-static const ALIGN_ASSET(2) char Entity_PushBlock_RenderBlock_OTR[] = "__OTR__entities/entity_model_PushBlock/dlist_318";
 static const ALIGN_ASSET(2) char Entity_PushBlock_Render[] = "__OTR__entities/entity_model_PushBlock/dlist_338";
-static const ALIGN_ASSET(2) char Entity_PushBlock_Render_OTR[] = "__OTR__entities/entity_model_PushBlock/dlist_338";
 static const ALIGN_ASSET(2) char Entity_PushBlock_mtx[] = "__OTR__entities/entity_model_PushBlock/mtx_268";
 
 // entity_model_RedBlock
 static const ALIGN_ASSET(2) char D_0A000000_E3C320[] = "__OTR__entities/entity_model_RedBlock/vtx_0";
 static const ALIGN_ASSET(2) char D_0A000180_E3C4A0[] = "__OTR__entities/entity_model_RedBlock/tex_180";
 static const ALIGN_ASSET(2) char Entity_RedBlock_LoadTexture[] = "__OTR__entities/entity_model_RedBlock/dlist_900";
-static const ALIGN_ASSET(2) char Entity_RedBlock_LoadTexture_OTR[] = "__OTR__entities/entity_model_RedBlock/dlist_900";
 static const ALIGN_ASSET(2) char Entity_RedBlock_RenderTopBottom[] = "__OTR__entities/entity_model_RedBlock/dlist_9F0";
-static const ALIGN_ASSET(2) char Entity_RedBlock_RenderTopBottom_OTR[] = "__OTR__entities/entity_model_RedBlock/dlist_9F0";
 static const ALIGN_ASSET(2) char Entity_RedBlock_RenderSides[] = "__OTR__entities/entity_model_RedBlock/dlist_A38";
-static const ALIGN_ASSET(2) char Entity_RedBlock_RenderSides_OTR[] = "__OTR__entities/entity_model_RedBlock/dlist_A38";
 static const ALIGN_ASSET(2) char Entity_RedBlock_Render[] = "__OTR__entities/entity_model_RedBlock/dlist_A90";
-static const ALIGN_ASSET(2) char Entity_RedBlock_Render_OTR[] = "__OTR__entities/entity_model_RedBlock/dlist_A90";
 
 // entity_model_RedSwitch
 static const ALIGN_ASSET(2) char D_0A000000_E62AC0[] = "__OTR__entities/entity_model_RedSwitch/vtx_0";
@@ -636,25 +479,15 @@ static const ALIGN_ASSET(2) char D_0A0005D0_E63090[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A0006D0_E63190[] = "__OTR__entities/entity_model_RedSwitch/tlut_6D0";
 static const ALIGN_ASSET(2) char D_0A000978_E63438[] = "__OTR__entities/entity_model_RedSwitch/tex_978";
 static const ALIGN_ASSET(2) char Entity_RedSwitch_LoadTexture[] = "__OTR__entities/entity_model_RedSwitch/dlist_8D0";
-static const ALIGN_ASSET(2) char Entity_RedSwitch_LoadTexture_OTR[] = "__OTR__entities/entity_model_RedSwitch/dlist_8D0";
 static const ALIGN_ASSET(2) char Entity_RedSwitch_LoadExclMark[] = "__OTR__entities/entity_model_RedSwitch/dlist_980";
-static const ALIGN_ASSET(2) char Entity_RedSwitch_LoadExclMark_OTR[] = "__OTR__entities/entity_model_RedSwitch/dlist_980";
-static const ALIGN_ASSET(2) char Entity_RedSwitch_RenderRedBubble[] = "__OTR__entities/entity_model_RedSwitch/dlist_B48";
-static const ALIGN_ASSET(2) char Entity_RedSwitch_RenderRedBubble_OTR[] = "__OTR__entities/entity_model_RedSwitch/dlist_B48";
+static const ALIGN_ASSET(2) char Entity_RedSwitch_RenderRedBubble[] = "__OTR__entities/entity_model_RedSwitch/dlist_B68";
 static const ALIGN_ASSET(2) char Entity_RedSwitch_RenderRotatedRedBubble[] = "__OTR__entities/entity_model_RedSwitch/dlist_CB8";
-static const ALIGN_ASSET(2) char Entity_RedSwitch_RenderRotatedRedBubble_OTR[] = "__OTR__entities/entity_model_RedSwitch/dlist_CB8";
 static const ALIGN_ASSET(2) char Entity_RedSwitch_RenderExclMark[] = "__OTR__entities/entity_model_RedSwitch/dlist_CD8";
-static const ALIGN_ASSET(2) char Entity_RedSwitch_RenderExclMark_OTR[] = "__OTR__entities/entity_model_RedSwitch/dlist_CD8";
 static const ALIGN_ASSET(2) char Entity_RedSwitch_RenderRotatedExclMark[] = "__OTR__entities/entity_model_RedSwitch/dlist_D20";
-static const ALIGN_ASSET(2) char Entity_RedSwitch_RenderRotatedExclMark_OTR[] = "__OTR__entities/entity_model_RedSwitch/dlist_D20";
 static const ALIGN_ASSET(2) char Entity_RedSwitch_RenderBase[] = "__OTR__entities/entity_model_RedSwitch/dlist_D40";
-static const ALIGN_ASSET(2) char Entity_RedSwitch_RenderBase_OTR[] = "__OTR__entities/entity_model_RedSwitch/dlist_D40";
 static const ALIGN_ASSET(2) char Entity_RedSwitch_RenderBaseMain[] = "__OTR__entities/entity_model_RedSwitch/dlist_EB8";
-static const ALIGN_ASSET(2) char Entity_RedSwitch_RenderBaseMain_OTR[] = "__OTR__entities/entity_model_RedSwitch/dlist_EB8";
 static const ALIGN_ASSET(2) char Entity_RedSwitch_RenderMain[] = "__OTR__entities/entity_model_RedSwitch/dlist_EC8";
-static const ALIGN_ASSET(2) char Entity_RedSwitch_RenderMain_OTR[] = "__OTR__entities/entity_model_RedSwitch/dlist_EC8";
 static const ALIGN_ASSET(2) char Entity_RedSwitch_Render[] = "__OTR__entities/entity_model_RedSwitch/dlist_EE8";
-static const ALIGN_ASSET(2) char Entity_RedSwitch_Render_OTR[] = "__OTR__entities/entity_model_RedSwitch/dlist_EE8";
 static const ALIGN_ASSET(2) char Entity_RedSwitch_mtxExclMark[] = "__OTR__entities/entity_model_RedSwitch/mtx_AF0";
 static const ALIGN_ASSET(2) char Entity_RedSwitch_mtxRedBubble[] = "__OTR__entities/entity_model_RedSwitch/mtx_B30";
 
@@ -665,22 +498,14 @@ static const ALIGN_ASSET(2) char D_0A0006C0_E4B9A0[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000900_E4BBE0[] = "__OTR__entities/entity_model_SaveBlock/tex_900";
 static const ALIGN_ASSET(2) char D_0A001170_E4C450[] = "__OTR__entities/entity_model_SaveBlock/tex_1170";
 static const ALIGN_ASSET(2) char D_0A0021E8_E4D4C8[] = "__OTR__entities/entity_model_SaveBlock/tex_21E8";
-static const ALIGN_ASSET(2) char Entity_SaveBlock_LoadTextureStar[] = "__OTR__entities/entity_model_SaveBlock/dlist_8F0";
-static const ALIGN_ASSET(2) char Entity_SaveBlock_LoadTextureStar_OTR[] = "__OTR__entities/entity_model_SaveBlock/dlist_8F0";
+static const ALIGN_ASSET(2) char Entity_SaveBlock_LoadTextureStar[] = "__OTR__entities/entity_model_SaveBlock/dlist_1100";
 static const ALIGN_ASSET(2) char Entity_SaveBlock_LoadTextureFace[] = "__OTR__entities/entity_model_SaveBlock/dlist_2170";
-static const ALIGN_ASSET(2) char Entity_SaveBlock_LoadTextureFace_OTR[] = "__OTR__entities/entity_model_SaveBlock/dlist_2170";
-static const ALIGN_ASSET(2) char Entity_SaveBlock_LoadTextureLetterS[] = "__OTR__entities/entity_model_SaveBlock/dlist_28F8";
-static const ALIGN_ASSET(2) char Entity_SaveBlock_LoadTextureLetterS_OTR[] = "__OTR__entities/entity_model_SaveBlock/dlist_28F8";
-static const ALIGN_ASSET(2) char Entity_SaveBlock_LoadTextureLetterG[] = "__OTR__entities/entity_model_SaveBlock/dlist_32A0";
-static const ALIGN_ASSET(2) char Entity_SaveBlock_LoadTextureLetterG_OTR[] = "__OTR__entities/entity_model_SaveBlock/dlist_32A0";
-static const ALIGN_ASSET(2) char Entity_SaveBlock_RenderLetterS[] = "__OTR__entities/entity_model_SaveBlock/dlist_3360";
-static const ALIGN_ASSET(2) char Entity_SaveBlock_RenderLetterS_OTR[] = "__OTR__entities/entity_model_SaveBlock/dlist_3360";
-static const ALIGN_ASSET(2) char Entity_SaveBlock_RenderLetterG[] = "__OTR__entities/entity_model_SaveBlock/dlist_3468";
-static const ALIGN_ASSET(2) char Entity_SaveBlock_RenderLetterG_OTR[] = "__OTR__entities/entity_model_SaveBlock/dlist_3468";
-static const ALIGN_ASSET(2) char Entity_SaveBlock_RenderFaces[] = "__OTR__entities/entity_model_SaveBlock/dlist_34E0";
-static const ALIGN_ASSET(2) char Entity_SaveBlock_RenderFaces_OTR[] = "__OTR__entities/entity_model_SaveBlock/dlist_34E0";
-static const ALIGN_ASSET(2) char Entity_SaveBlock_RenderStar[] = "__OTR__entities/entity_model_SaveBlock/dlist_34F0";
-static const ALIGN_ASSET(2) char Entity_SaveBlock_RenderStar_OTR[] = "__OTR__entities/entity_model_SaveBlock/dlist_34F0";
+static const ALIGN_ASSET(2) char Entity_SaveBlock_LoadTextureLetterS[] = "__OTR__entities/entity_model_SaveBlock/dlist_31E8";
+static const ALIGN_ASSET(2) char Entity_SaveBlock_RenderLetterS[] = "__OTR__entities/entity_model_SaveBlock/dlist_32A0";
+static const ALIGN_ASSET(2) char Entity_SaveBlock_RenderBlock[] = "__OTR__entities/entity_model_SaveBlock/dlist_3360";
+static const ALIGN_ASSET(2) char Entity_SaveBlock_RenderStar[] = "__OTR__entities/entity_model_SaveBlock/dlist_3468";
+static const ALIGN_ASSET(2) char Entity_SaveBlock_RenderStarWrapper[] = "__OTR__entities/entity_model_SaveBlock/dlist_34E0";
+static const ALIGN_ASSET(2) char Entity_SaveBlock_RenderContent[] = "__OTR__entities/entity_model_SaveBlock/dlist_34F0";
 static const ALIGN_ASSET(2) char Entity_SaveBlock_Mtx[] = "__OTR__entities/entity_model_SaveBlock/mtx_3260";
 
 // entity_model_ScriptSpring_gfx
@@ -698,25 +523,15 @@ static const ALIGN_ASSET(2) char D_0A000D08_E664A8[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000FB0_E66750[] = "__OTR__entities/entity_model_ScriptSpring_gfx/tex_FB0";
 static const ALIGN_ASSET(2) char D_0A0013B0_E66B50[] = "__OTR__entities/entity_model_ScriptSpring_gfx/tlut_13B0";
 static const ALIGN_ASSET(2) char Entity_ScriptSpring_LoadTexture1[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_B60";
-static const ALIGN_ASSET(2) char Entity_ScriptSpring_LoadTexture1_OTR[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_B60";
 static const ALIGN_ASSET(2) char Entity_ScriptSpring_LoadTexture2[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_F08";
-static const ALIGN_ASSET(2) char Entity_ScriptSpring_LoadTexture2_OTR[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_F08";
 static const ALIGN_ASSET(2) char Entity_ScriptSpring_LoadTextureStar[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_15B0";
-static const ALIGN_ASSET(2) char Entity_ScriptSpring_LoadTextureStar_OTR[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_15B0";
 static const ALIGN_ASSET(2) char Entity_ScriptSpring_RenderPart2[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_1658";
-static const ALIGN_ASSET(2) char Entity_ScriptSpring_RenderPart2_OTR[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_1658";
 static const ALIGN_ASSET(2) char Entity_ScriptSpring_RenderPart6[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_16B0";
-static const ALIGN_ASSET(2) char Entity_ScriptSpring_RenderPart6_OTR[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_16B0";
 static const ALIGN_ASSET(2) char Entity_ScriptSpring_RenderPart1[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_1710";
-static const ALIGN_ASSET(2) char Entity_ScriptSpring_RenderPart1_OTR[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_1710";
 static const ALIGN_ASSET(2) char Entity_ScriptSpring_RenderPart3[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_17B8";
-static const ALIGN_ASSET(2) char Entity_ScriptSpring_RenderPart3_OTR[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_17B8";
 static const ALIGN_ASSET(2) char Entity_ScriptSpring_RenderPart4[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_1818";
-static const ALIGN_ASSET(2) char Entity_ScriptSpring_RenderPart4_OTR[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_1818";
 static const ALIGN_ASSET(2) char Entity_ScriptSpring_RenderPart5[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_1878";
-static const ALIGN_ASSET(2) char Entity_ScriptSpring_RenderPart5_OTR[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_1878";
 static const ALIGN_ASSET(2) char Entity_ScriptSpring_RenderPart7[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_18D8";
-static const ALIGN_ASSET(2) char Entity_ScriptSpring_RenderPart7_OTR[] = "__OTR__entities/entity_model_ScriptSpring_gfx/dlist_18D8";
 
 // entity_model_ShatteringBrickBlock
 static const ALIGN_ASSET(2) char D_0A000000_E3E260[] = "__OTR__entities/entity_model_ShatteringBrickBlock/vtx_0";
@@ -1060,15 +875,10 @@ static const ALIGN_ASSET(2) char D_0A000120_E595A0[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000580_E59A00[] = "__OTR__entities/entity_model_Signpost/tex_580";
 static const ALIGN_ASSET(2) char D_0A000780_E59C00[] = "__OTR__entities/entity_model_Signpost/tlut_780";
 static const ALIGN_ASSET(2) char Entity_Signpost_LoadTexture[] = "__OTR__entities/entity_model_Signpost/dlist_7A0";
-static const ALIGN_ASSET(2) char Entity_Signpost_LoadTexture_OTR[] = "__OTR__entities/entity_model_Signpost/dlist_7A0";
 static const ALIGN_ASSET(2) char Entity_Signpost_RenderSign[] = "__OTR__entities/entity_model_Signpost/dlist_850";
-static const ALIGN_ASSET(2) char Entity_Signpost_RenderSign_OTR[] = "__OTR__entities/entity_model_Signpost/dlist_850";
 static const ALIGN_ASSET(2) char Entity_Signpost_RenderPole[] = "__OTR__entities/entity_model_Signpost/dlist_9F0";
-static const ALIGN_ASSET(2) char Entity_Signpost_RenderPole_OTR[] = "__OTR__entities/entity_model_Signpost/dlist_9F0";
 static const ALIGN_ASSET(2) char Entity_Signpost_RenderMain[] = "__OTR__entities/entity_model_Signpost/dlist_A50";
-static const ALIGN_ASSET(2) char Entity_Signpost_RenderMain_OTR[] = "__OTR__entities/entity_model_Signpost/dlist_A50";
 static const ALIGN_ASSET(2) char Entity_Signpost_Render[] = "__OTR__entities/entity_model_Signpost/dlist_A68";
-static const ALIGN_ASSET(2) char Entity_Signpost_Render_OTR[] = "__OTR__entities/entity_model_Signpost/dlist_A68";
 
 // entity_model_SimpleSpring_gfx
 static const ALIGN_ASSET(2) char D_0A000000_E68580[] = "__OTR__entities/entity_model_SimpleSpring_gfx/vtx_0";
@@ -1083,25 +893,15 @@ static const ALIGN_ASSET(2) char D_0A000B88_E69108[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000E00_E69380[] = "__OTR__entities/entity_model_SimpleSpring_gfx/tex_E00";
 static const ALIGN_ASSET(2) char D_0A001200_E69780[] = "__OTR__entities/entity_model_SimpleSpring_gfx/tlut_1200";
 static const ALIGN_ASSET(2) char Entity_SimpleSpring_LoadTexture1[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_AE0";
-static const ALIGN_ASSET(2) char Entity_SimpleSpring_LoadTexture1_OTR[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_AE0";
 static const ALIGN_ASSET(2) char Entity_SimpleSpring_LoadTexture2[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_D88";
-static const ALIGN_ASSET(2) char Entity_SimpleSpring_LoadTexture2_OTR[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_D88";
-static const ALIGN_ASSET(2) char Entity_SimpleSpring_LoadTextureStar[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_13E0";
-static const ALIGN_ASSET(2) char Entity_SimpleSpring_LoadTextureStar_OTR[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_13E0";
+static const ALIGN_ASSET(2) char Entity_SimpleSpring_LoadTextureStar[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_1400";
 static const ALIGN_ASSET(2) char Entity_SimpleSpring_RenderPart2[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_14A8";
-static const ALIGN_ASSET(2) char Entity_SimpleSpring_RenderPart2_OTR[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_14A8";
 static const ALIGN_ASSET(2) char Entity_SimpleSpring_RenderPart6[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_1500";
-static const ALIGN_ASSET(2) char Entity_SimpleSpring_RenderPart6_OTR[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_1500";
 static const ALIGN_ASSET(2) char Entity_SimpleSpring_RenderPart1[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_1560";
-static const ALIGN_ASSET(2) char Entity_SimpleSpring_RenderPart1_OTR[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_1560";
 static const ALIGN_ASSET(2) char Entity_SimpleSpring_RenderPart3[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_1608";
-static const ALIGN_ASSET(2) char Entity_SimpleSpring_RenderPart3_OTR[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_1608";
 static const ALIGN_ASSET(2) char Entity_SimpleSpring_RenderPart4[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_1668";
-static const ALIGN_ASSET(2) char Entity_SimpleSpring_RenderPart4_OTR[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_1668";
 static const ALIGN_ASSET(2) char Entity_SimpleSpring_RenderPart5[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_16C8";
-static const ALIGN_ASSET(2) char Entity_SimpleSpring_RenderPart5_OTR[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_16C8";
 static const ALIGN_ASSET(2) char Entity_SimpleSpring_RenderPart7[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_1728";
-static const ALIGN_ASSET(2) char Entity_SimpleSpring_RenderPart7_OTR[] = "__OTR__entities/entity_model_SimpleSpring_gfx/dlist_1728";
 
 // entity_model_SpinningFlower
 static const ALIGN_ASSET(2) char D_0A000000_E9C900[] = "__OTR__entities/entity_model_SpinningFlower/vtx_0";
@@ -1121,7 +921,6 @@ static const ALIGN_ASSET(2) char D_0A000CC8_E9D5C8[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000D18_E9D618[] = "__OTR__entities/entity_model_SpinningFlower/dlist_D18";
 static const ALIGN_ASSET(2) char D_0A000D30_E9D630[] = "__OTR__entities/entity_model_SpinningFlower/dlist_D30";
 static const ALIGN_ASSET(2) char Entity_SpinningFlower_Render[] = "__OTR__entities/entity_model_SpinningFlower/dlist_D40";
-static const ALIGN_ASSET(2) char Entity_SpinningFlower_Render_OTR[] = "__OTR__entities/entity_model_SpinningFlower/dlist_D40";
 
 // entity_model_StarBoxLauncher
 static const ALIGN_ASSET(2) char D_0A000000_E55A40[] = "__OTR__entities/entity_model_StarBoxLauncher/vtx_0";
@@ -1134,19 +933,12 @@ static const ALIGN_ASSET(2) char D_0A000D08_E56748[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000DD0_E56810[] = "__OTR__entities/entity_model_StarBoxLauncher/tex_DD0";
 static const ALIGN_ASSET(2) char D_0A000ED0_E56910[] = "__OTR__entities/entity_model_StarBoxLauncher/tlut_ED0";
 static const ALIGN_ASSET(2) char Entity_StarBoxLauncher_LoadTextureLink[] = "__OTR__entities/entity_model_StarBoxLauncher/dlist_490";
-static const ALIGN_ASSET(2) char Entity_StarBoxLauncher_LoadTextureLink_OTR[] = "__OTR__entities/entity_model_StarBoxLauncher/dlist_490";
 static const ALIGN_ASSET(2) char Entity_StarBoxLauncher_LoadTextureFace[] = "__OTR__entities/entity_model_StarBoxLauncher/dlist_D28";
-static const ALIGN_ASSET(2) char Entity_StarBoxLauncher_LoadTextureFace_OTR[] = "__OTR__entities/entity_model_StarBoxLauncher/dlist_D28";
 static const ALIGN_ASSET(2) char Entity_StarBoxLauncher_LoadTextureBox[] = "__OTR__entities/entity_model_StarBoxLauncher/dlist_EE8";
-static const ALIGN_ASSET(2) char Entity_StarBoxLauncher_LoadTextureBox_OTR[] = "__OTR__entities/entity_model_StarBoxLauncher/dlist_EE8";
 static const ALIGN_ASSET(2) char Entity_StarBoxLauncher_RenderChain[] = "__OTR__entities/entity_model_StarBoxLauncher/dlist_FD8";
-static const ALIGN_ASSET(2) char Entity_StarBoxLauncher_RenderChain_OTR[] = "__OTR__entities/entity_model_StarBoxLauncher/dlist_FD8";
 static const ALIGN_ASSET(2) char Entity_StarBoxLauncher_RenderFace[] = "__OTR__entities/entity_model_StarBoxLauncher/dlist_1020";
-static const ALIGN_ASSET(2) char Entity_StarBoxLauncher_RenderFace_OTR[] = "__OTR__entities/entity_model_StarBoxLauncher/dlist_1020";
 static const ALIGN_ASSET(2) char Entity_StarBoxLauncher_RenderBoxCover[] = "__OTR__entities/entity_model_StarBoxLauncher/dlist_1060";
-static const ALIGN_ASSET(2) char Entity_StarBoxLauncher_RenderBoxCover_OTR[] = "__OTR__entities/entity_model_StarBoxLauncher/dlist_1060";
 static const ALIGN_ASSET(2) char Entity_StarBoxLauncher_RenderTop[] = "__OTR__entities/entity_model_StarBoxLauncher/dlist_10C8";
-static const ALIGN_ASSET(2) char Entity_StarBoxLauncher_RenderTop_OTR[] = "__OTR__entities/entity_model_StarBoxLauncher/dlist_10C8";
 static const ALIGN_ASSET(2) char Entity_StarBoxLauncher_mtx[] = "__OTR__entities/entity_model_StarBoxLauncher/mtx_F98";
 
 // entity_model_SuperBlock
@@ -1154,23 +946,14 @@ static const ALIGN_ASSET(2) char D_0A000000_E44800[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000480_E44C80[] = "__OTR__entities/entity_model_SuperBlock/tex_480";
 static const ALIGN_ASSET(2) char D_0A000580_E44D80[] = "__OTR__entities/entity_model_SuperBlock/tlut_580";
 static const ALIGN_ASSET(2) char Entity_SuperBlock_LoadTexture[] = "__OTR__entities/entity_model_SuperBlock/dlist_588";
-static const ALIGN_ASSET(2) char Entity_SuperBlock_LoadTexture_OTR[] = "__OTR__entities/entity_model_SuperBlock/dlist_588";
 static const ALIGN_ASSET(2) char Entity_SuperBlock_RenderTop[] = "__OTR__entities/entity_model_SuperBlock/dlist_688";
-static const ALIGN_ASSET(2) char Entity_SuperBlock_RenderTop_OTR[] = "__OTR__entities/entity_model_SuperBlock/dlist_688";
 static const ALIGN_ASSET(2) char Entity_SuperBlock_RenderRightFrontEdge[] = "__OTR__entities/entity_model_SuperBlock/dlist_728";
-static const ALIGN_ASSET(2) char Entity_SuperBlock_RenderRightFrontEdge_OTR[] = "__OTR__entities/entity_model_SuperBlock/dlist_728";
 static const ALIGN_ASSET(2) char Entity_SuperBlock_RenderLeftFrontEdge[] = "__OTR__entities/entity_model_SuperBlock/dlist_770";
-static const ALIGN_ASSET(2) char Entity_SuperBlock_RenderLeftFrontEdge_OTR[] = "__OTR__entities/entity_model_SuperBlock/dlist_770";
 static const ALIGN_ASSET(2) char Entity_SuperBlock_RenderRightBackEdge[] = "__OTR__entities/entity_model_SuperBlock/dlist_7B8";
-static const ALIGN_ASSET(2) char Entity_SuperBlock_RenderRightBackEdge_OTR[] = "__OTR__entities/entity_model_SuperBlock/dlist_7B8";
 static const ALIGN_ASSET(2) char Entity_SuperBlock_RenderLeftBackEdge[] = "__OTR__entities/entity_model_SuperBlock/dlist_800";
-static const ALIGN_ASSET(2) char Entity_SuperBlock_RenderLeftBackEdge_OTR[] = "__OTR__entities/entity_model_SuperBlock/dlist_800";
 static const ALIGN_ASSET(2) char Entity_SuperBlock_RenderBottom[] = "__OTR__entities/entity_model_SuperBlock/dlist_848";
-static const ALIGN_ASSET(2) char Entity_SuperBlock_RenderBottom_OTR[] = "__OTR__entities/entity_model_SuperBlock/dlist_848";
 static const ALIGN_ASSET(2) char Entity_SuperBlock_RenderBlock[] = "__OTR__entities/entity_model_SuperBlock/dlist_8B0";
-static const ALIGN_ASSET(2) char Entity_SuperBlock_RenderBlock_OTR[] = "__OTR__entities/entity_model_SuperBlock/dlist_8B0";
 static const ALIGN_ASSET(2) char Entity_SuperBlock_Render[] = "__OTR__entities/entity_model_SuperBlock/dlist_8F8";
-static const ALIGN_ASSET(2) char Entity_SuperBlock_Render_OTR[] = "__OTR__entities/entity_model_SuperBlock/dlist_8F8";
 static const ALIGN_ASSET(2) char Entity_SuperBlock_mtx[] = "__OTR__entities/entity_model_SuperBlock/mtx_648";
 
 // entity_model_SuperBlockContent
@@ -1180,20 +963,15 @@ static const ALIGN_ASSET(2) char D_0A000220_E4A8C0[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000240_E4A8E0[] = "__OTR__entities/entity_model_SuperBlockContent/tlut_240";
 static const ALIGN_ASSET(2) char D_0A000260_E4A900[] = "__OTR__entities/entity_model_SuperBlockContent/tlut_260";
 static const ALIGN_ASSET(2) char Entity_SuperBlockContent_Prepare[] = "__OTR__entities/entity_model_SuperBlockContent/dlist_2F8";
-static const ALIGN_ASSET(2) char Entity_SuperBlockContent_Prepare_OTR[] = "__OTR__entities/entity_model_SuperBlockContent/dlist_2F8";
 static const ALIGN_ASSET(2) char Entity_SuperBlockContent_RenderImage[] = "__OTR__entities/entity_model_SuperBlockContent/dlist_328";
-static const ALIGN_ASSET(2) char Entity_SuperBlockContent_RenderImage_OTR[] = "__OTR__entities/entity_model_SuperBlockContent/dlist_328";
 static const ALIGN_ASSET(2) char Entity_SuperBlockContent_Render[] = "__OTR__entities/entity_model_SuperBlockContent/dlist_380";
-static const ALIGN_ASSET(2) char Entity_SuperBlockContent_Render_OTR[] = "__OTR__entities/entity_model_SuperBlockContent/dlist_380";
 
 // entity_model_TrumpetPlant_gfx
 static const ALIGN_ASSET(2) char D_0A000000_E6D390[] = "__OTR__entities/entity_model_TrumpetPlant_gfx/vtx_0";
 static const ALIGN_ASSET(2) char D_0A000240_E6D5D0[] = "__OTR__entities/entity_model_TrumpetPlant_gfx/vtx_240";
 static const ALIGN_ASSET(2) char D_0A000D40_E6E0D0[] = "__OTR__entities/entity_model_TrumpetPlant_gfx/tex_D40";
 static const ALIGN_ASSET(2) char Entity_TrumpetPlant_RenderNode2[] = "__OTR__entities/entity_model_TrumpetPlant_gfx/dlist_2F8";
-static const ALIGN_ASSET(2) char Entity_TrumpetPlant_RenderNode2_OTR[] = "__OTR__entities/entity_model_TrumpetPlant_gfx/dlist_2F8";
 static const ALIGN_ASSET(2) char Entity_TrumpetPlant_RenderNode1[] = "__OTR__entities/entity_model_TrumpetPlant_gfx/dlist_C60";
-static const ALIGN_ASSET(2) char Entity_TrumpetPlant_RenderNode1_OTR[] = "__OTR__entities/entity_model_TrumpetPlant_gfx/dlist_C60";
 
 // entity_model_Tweester
 static const ALIGN_ASSET(2) char D_0A000000_E56E60[] = "__OTR__entities/entity_model_Tweester/vtx_0";
@@ -1209,15 +987,10 @@ static const ALIGN_ASSET(2) char D_0A001B10_E58970[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A001B50_E589B0[] = "__OTR__entities/entity_model_Tweester/dlist_1B50";
 static const ALIGN_ASSET(2) char D_0A001CD0_E58B30[] = "__OTR__entities/entity_model_Tweester/dlist_1CD0";
 static const ALIGN_ASSET(2) char Entity_Tweester_LoadTextures[] = "__OTR__entities/entity_model_Tweester/dlist_13F0";
-static const ALIGN_ASSET(2) char Entity_Tweester_LoadTextures_OTR[] = "__OTR__entities/entity_model_Tweester/dlist_13F0";
 static const ALIGN_ASSET(2) char Entity_Tweester_LoadTextureFace[] = "__OTR__entities/entity_model_Tweester/dlist_16D8";
-static const ALIGN_ASSET(2) char Entity_Tweester_LoadTextureFace_OTR[] = "__OTR__entities/entity_model_Tweester/dlist_16D8";
 static const ALIGN_ASSET(2) char Entity_Tweester_RenderOuterWhirl[] = "__OTR__entities/entity_model_Tweester/dlist_1B68";
-static const ALIGN_ASSET(2) char Entity_Tweester_RenderOuterWhirl_OTR[] = "__OTR__entities/entity_model_Tweester/dlist_1B68";
 static const ALIGN_ASSET(2) char Entity_Tweester_RenderInnerWhirl[] = "__OTR__entities/entity_model_Tweester/dlist_1CF0";
-static const ALIGN_ASSET(2) char Entity_Tweester_RenderInnerWhirl_OTR[] = "__OTR__entities/entity_model_Tweester/dlist_1CF0";
 static const ALIGN_ASSET(2) char Entity_Tweester_Render[] = "__OTR__entities/entity_model_Tweester/dlist_1E58";
-static const ALIGN_ASSET(2) char Entity_Tweester_Render_OTR[] = "__OTR__entities/entity_model_Tweester/dlist_1E58";
 static const ALIGN_ASSET(2) char Entity_Tweester_mtxInnerWhirl[] = "__OTR__entities/entity_model_Tweester/mtx_40";
 static const ALIGN_ASSET(2) char Entity_Tweester_mtxOuterWhirl[] = "__OTR__entities/entity_model_Tweester/mtx_100";
 
@@ -1226,23 +999,14 @@ static const ALIGN_ASSET(2) char D_0A000000_E45110[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000480_E45590[] = "__OTR__entities/entity_model_UltraBlock/tex_480";
 static const ALIGN_ASSET(2) char D_0A000580_E45690[] = "__OTR__entities/entity_model_UltraBlock/tlut_580";
 static const ALIGN_ASSET(2) char Entity_UltraBlock_LoadTexture[] = "__OTR__entities/entity_model_UltraBlock/dlist_5A0";
-static const ALIGN_ASSET(2) char Entity_UltraBlock_LoadTexture_OTR[] = "__OTR__entities/entity_model_UltraBlock/dlist_5A0";
 static const ALIGN_ASSET(2) char Entity_UltraBlock_RenderTop[] = "__OTR__entities/entity_model_UltraBlock/dlist_688";
-static const ALIGN_ASSET(2) char Entity_UltraBlock_RenderTop_OTR[] = "__OTR__entities/entity_model_UltraBlock/dlist_688";
 static const ALIGN_ASSET(2) char Entity_UltraBlock_RenderRightFrontEdge[] = "__OTR__entities/entity_model_UltraBlock/dlist_720";
-static const ALIGN_ASSET(2) char Entity_UltraBlock_RenderRightFrontEdge_OTR[] = "__OTR__entities/entity_model_UltraBlock/dlist_720";
 static const ALIGN_ASSET(2) char Entity_UltraBlock_RenderLeftFrontEdge[] = "__OTR__entities/entity_model_UltraBlock/dlist_760";
-static const ALIGN_ASSET(2) char Entity_UltraBlock_RenderLeftFrontEdge_OTR[] = "__OTR__entities/entity_model_UltraBlock/dlist_760";
 static const ALIGN_ASSET(2) char Entity_UltraBlock_RenderRightBackEdge[] = "__OTR__entities/entity_model_UltraBlock/dlist_7A0";
-static const ALIGN_ASSET(2) char Entity_UltraBlock_RenderRightBackEdge_OTR[] = "__OTR__entities/entity_model_UltraBlock/dlist_7A0";
 static const ALIGN_ASSET(2) char Entity_UltraBlock_RenderLeftBackEdge[] = "__OTR__entities/entity_model_UltraBlock/dlist_7E0";
-static const ALIGN_ASSET(2) char Entity_UltraBlock_RenderLeftBackEdge_OTR[] = "__OTR__entities/entity_model_UltraBlock/dlist_7E0";
 static const ALIGN_ASSET(2) char Entity_UltraBlock_RenderBottom[] = "__OTR__entities/entity_model_UltraBlock/dlist_820";
-static const ALIGN_ASSET(2) char Entity_UltraBlock_RenderBottom_OTR[] = "__OTR__entities/entity_model_UltraBlock/dlist_820";
 static const ALIGN_ASSET(2) char Entity_UltraBlock_RenderBlock[] = "__OTR__entities/entity_model_UltraBlock/dlist_880";
-static const ALIGN_ASSET(2) char Entity_UltraBlock_RenderBlock_OTR[] = "__OTR__entities/entity_model_UltraBlock/dlist_880";
 static const ALIGN_ASSET(2) char Entity_UltraBlock_Render[] = "__OTR__entities/entity_model_UltraBlock/dlist_8C8";
-static const ALIGN_ASSET(2) char Entity_UltraBlock_Render_OTR[] = "__OTR__entities/entity_model_UltraBlock/dlist_8C8";
 static const ALIGN_ASSET(2) char Entity_UltraBlock_mtx[] = "__OTR__entities/entity_model_UltraBlock/mtx_648";
 
 // entity_model_UltraBlockContent
@@ -1250,18 +1014,12 @@ static const ALIGN_ASSET(2) char D_0A000000_E4AA80[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A000200_E4AC80[] = "__OTR__entities/entity_model_UltraBlockContent/tex_200";
 static const ALIGN_ASSET(2) char D_0A000400_E4AE80[] = "__OTR__entities/entity_model_UltraBlockContent/tex_400";
 static const ALIGN_ASSET(2) char D_0A000600_E4B080[] = "__OTR__entities/entity_model_UltraBlockContent/tex_600";
-static const ALIGN_ASSET(2) char Entity_UltraBlockContent_LoadPalette[] = "__OTR__entities/entity_model_UltraBlockContent/dlist_630";
-static const ALIGN_ASSET(2) char Entity_UltraBlockContent_LoadPalette_OTR[] = "__OTR__entities/entity_model_UltraBlockContent/dlist_630";
+static const ALIGN_ASSET(2) char Entity_UltraBlockContent_LoadPalette[] = "__OTR__entities/entity_model_UltraBlockContent/dlist_638";
 static const ALIGN_ASSET(2) char Entity_UltraBlockContent_RenderImage[] = "__OTR__entities/entity_model_UltraBlockContent/dlist_6C8";
-static const ALIGN_ASSET(2) char Entity_UltraBlockContent_RenderImage_OTR[] = "__OTR__entities/entity_model_UltraBlockContent/dlist_6C8";
 static const ALIGN_ASSET(2) char Entity_UltraBlockContent_Render4[] = "__OTR__entities/entity_model_UltraBlockContent/dlist_6F8";
-static const ALIGN_ASSET(2) char Entity_UltraBlockContent_Render4_OTR[] = "__OTR__entities/entity_model_UltraBlockContent/dlist_6F8";
 static const ALIGN_ASSET(2) char Entity_UltraBlockContent_Render2[] = "__OTR__entities/entity_model_UltraBlockContent/dlist_750";
-static const ALIGN_ASSET(2) char Entity_UltraBlockContent_Render2_OTR[] = "__OTR__entities/entity_model_UltraBlockContent/dlist_750";
 static const ALIGN_ASSET(2) char Entity_UltraBlockContent_Render3[] = "__OTR__entities/entity_model_UltraBlockContent/dlist_7A8";
-static const ALIGN_ASSET(2) char Entity_UltraBlockContent_Render3_OTR[] = "__OTR__entities/entity_model_UltraBlockContent/dlist_7A8";
 static const ALIGN_ASSET(2) char Entity_UltraBlockContent_Render[] = "__OTR__entities/entity_model_UltraBlockContent/dlist_800";
-static const ALIGN_ASSET(2) char Entity_UltraBlockContent_Render_OTR[] = "__OTR__entities/entity_model_UltraBlockContent/dlist_800";
 
 // entity_model_UnusedBlock
 static const ALIGN_ASSET(2) char D_0A000000_E3CDD0[] = "__OTR__entities/entity_model_UnusedBlock/vtx_0";
@@ -1378,24 +1136,17 @@ static const ALIGN_ASSET(2) char D_0A004130_E55770[] = "__OTR__entities/entity_m
 static const ALIGN_ASSET(2) char D_0A004140_E55780[] = "__OTR__entities/entity_model_WoodenCrate/dlist_4140";
 static const ALIGN_ASSET(2) char D_0A004268_E558A8[] = "__OTR__entities/entity_model_WoodenCrate/dlist_4268";
 static const ALIGN_ASSET(2) char Entity_WoodenCrate_LoadTexture1[] = "__OTR__entities/entity_model_WoodenCrate/dlist_1D80";
-static const ALIGN_ASSET(2) char Entity_WoodenCrate_LoadTexture1_OTR[] = "__OTR__entities/entity_model_WoodenCrate/dlist_1D80";
 static const ALIGN_ASSET(2) char Entity_WoodenCrate_LoadTexture2[] = "__OTR__entities/entity_model_WoodenCrate/dlist_2648";
-static const ALIGN_ASSET(2) char Entity_WoodenCrate_LoadTexture2_OTR[] = "__OTR__entities/entity_model_WoodenCrate/dlist_2648";
 static const ALIGN_ASSET(2) char Entity_WoodenCrate_Render[] = "__OTR__entities/entity_model_WoodenCrate/dlist_4338";
-static const ALIGN_ASSET(2) char Entity_WoodenCrate_Render_OTR[] = "__OTR__entities/entity_model_WoodenCrate/dlist_4338";
 // Entity_WoodenCrate_FragmentsMatrices: 46 matrices (exported by factory as mtx blobs)
 
 // entity_model_YellowBlock
 static const ALIGN_ASSET(2) char D_0A000000_E3B870[] = "__OTR__entities/entity_model_YellowBlock/vtx_0";
 static const ALIGN_ASSET(2) char D_0A000180_E3B9F0[] = "__OTR__entities/entity_model_YellowBlock/tex_180";
 static const ALIGN_ASSET(2) char Entity_YellowBlock_LoadTexture[] = "__OTR__entities/entity_model_YellowBlock/dlist_980";
-static const ALIGN_ASSET(2) char Entity_YellowBlock_LoadTexture_OTR[] = "__OTR__entities/entity_model_YellowBlock/dlist_980";
 static const ALIGN_ASSET(2) char Entity_YellowBlock_RenderTopBottom[] = "__OTR__entities/entity_model_YellowBlock/dlist_9F0";
-static const ALIGN_ASSET(2) char Entity_YellowBlock_RenderTopBottom_OTR[] = "__OTR__entities/entity_model_YellowBlock/dlist_9F0";
 static const ALIGN_ASSET(2) char Entity_YellowBlock_RenderSides[] = "__OTR__entities/entity_model_YellowBlock/dlist_A38";
-static const ALIGN_ASSET(2) char Entity_YellowBlock_RenderSides_OTR[] = "__OTR__entities/entity_model_YellowBlock/dlist_A38";
 static const ALIGN_ASSET(2) char Entity_YellowBlock_Render[] = "__OTR__entities/entity_model_YellowBlock/dlist_A90";
-static const ALIGN_ASSET(2) char Entity_YellowBlock_Render_OTR[] = "__OTR__entities/entity_model_YellowBlock/dlist_A90";
 
 // Shadow entity data
 static const ALIGN_ASSET(2) char Entity_Shadow_TexSquare[] = "__OTR__entities/entity_shadow_tex_square";

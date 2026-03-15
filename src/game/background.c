@@ -10,6 +10,7 @@ s16 gBackroundTextureYOffset = 0;
 f32 gBackroundWavePhase = 0.0f;
 
 BSS PAL_BIN gBackgroundPalette[256];
+static PAL_BIN* gBackgroundPaletteTlut = NULL;
 BSS f32 gBackroundLastScrollValue;
 BSS s32 D_801595A4[3];
 #if !VERSION_PAL
@@ -56,6 +57,8 @@ void reset_background_settings(void) {
     gBackroundWaveEnabled = false;
     gGameStatusPtr->backgroundDarkness = 180;
     gGameStatusPtr->backgroundFlags &= BACKGROUND_RENDER_STATE_MASK;
+    free(gBackgroundPaletteTlut);
+    gBackgroundPaletteTlut = NULL;
 }
 
 void set_background(BackgroundHeader* bg) {
@@ -168,7 +171,7 @@ void appendGfx_background_texture(void) {
             case ENV_TINT_SHROUD:
                 if (fogA == 255) {
                     for (i = 0; i < ARRAY_COUNT(gBackgroundPalette); i++) {
-                        gBackgroundPalette[i] = 1;
+                        gBackgroundPalette[i] = PACK_PAL_RGBA(0, 0, 0, 1);
                     }
                 } else {
                     // lerp from background palette color to fog color based on fog alpha
@@ -206,6 +209,11 @@ void appendGfx_background_texture(void) {
                 }
                 break;
         }
+        // Malloc a fresh copy so the TLUT pointer is unique each frame.
+        // The texture cache keys by palette pointer — new address = cache miss.
+        // BSS gBackgroundPalette keeps original layout; only the TLUT copy leaks.
+        gBackgroundPaletteTlut = malloc(256 * sizeof(PAL_BIN));
+        memcpy(gBackgroundPaletteTlut, gBackgroundPalette, 256 * sizeof(PAL_BIN));
     }
 
     theta = clamp_angle(-cam->curBoomYaw);
@@ -243,7 +251,7 @@ void appendGfx_background_texture(void) {
     if (!(gGameStatusPtr->backgroundFlags & BACKGROUND_FLAG_FOG)) {
         gDPLoadTLUT_pal256(gMainGfxPos++, gGameStatusPtr->backgroundPalette);
     } else {
-        gDPLoadTLUT_pal256(gMainGfxPos++, gBackgroundPalette);
+        gDPLoadTLUT_pal256(gMainGfxPos++, gBackgroundPaletteTlut);
     }
 
     if (!gBackroundWaveEnabled) {

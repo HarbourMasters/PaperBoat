@@ -270,21 +270,24 @@ void spr_appendGfx_component_flat(
         }
         create_shading_palette(mtx, 0, 0, width, height, alpha, alpha == 255 ? 0x111238 : 0x104B50); // TODO make macro for render mode
 
-        // Fix: Fast3D interpreter stores pal16(pal=1) in palettes[1], but
-        // CI4 lookup with palette index 1 reads from palettes[0]+32.
-        // Emit a combined 32-entry load so both palettes are in palettes[0].
-        // Each sprite needs its own buffer since the interpreter stores pointers.
+        // Load combined 32-entry palette into palettes[0] (CI4 pal=1 reads
+        // palettes[0]+32, NOT palettes[1]). Then also load pal16(1) to update
+        // palettes[1] for the texture cache key.
         {
             PAL_BIN* combinedPal = sShadingPalettePool[sShadingPaletteIdx % MAX_SHADED_SPRITES];
             sShadingPaletteIdx++;
+            PAL_BIN* shadePal = sShadingPalettePool[sShadingPaletteIdx % MAX_SHADED_SPRITES];
+            sShadingPaletteIdx++;
             memcpy(&combinedPal[0], palette, 16 * sizeof(PAL_BIN));
             memcpy(&combinedPal[16], SpriteShadingPalette, 16 * sizeof(PAL_BIN));
+            memcpy(shadePal, SpriteShadingPalette, 16 * sizeof(PAL_BIN));
             gDPSetTextureImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, combinedPal);
             gDPTileSync(gMainGfxPos++);
             gDPSetTile(gMainGfxPos++, 0, 0, 0, 256, G_TX_LOADTILE, 0, 0, 0, 0, 0, 0, 0);
             gDPLoadSync(gMainGfxPos++);
             gDPLoadTLUTCmd(gMainGfxPos++, G_TX_LOADTILE, 31);
             gDPPipeSync(gMainGfxPos++);
+            gDPLoadTLUT_pal16(gMainGfxPos++, 1, shadePal);
         }
     } else {
         gDPScrollTextureBlock_4b(gMainGfxPos++, raster, G_IM_FMT_CI, width, height, 0,
