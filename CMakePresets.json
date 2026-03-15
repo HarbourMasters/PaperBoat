@@ -23,20 +23,22 @@
             }
         },
         {
-            "name": "windows-msvc-debug",
-            "displayName": "MSVC Debug (Visual Studio)",
-            "description": "Visual Studio 2022, Debug, x64",
+            "name": "windows-vs-debug",
+            "displayName": "ClangCL Debug (Visual Studio)",
+            "description": "Visual Studio 2022 with ClangCL toolset, Debug, x64",
             "inherits": "windows-base",
             "generator": "Visual Studio 17 2022",
-            "binaryDir": "${sourceDir}/build-msvc"
+            "toolset": "ClangCL",
+            "binaryDir": "${sourceDir}/build/x64"
         },
         {
-            "name": "windows-msvc-release",
-            "displayName": "MSVC Release (Visual Studio)",
-            "description": "Visual Studio 2022, Release, x64",
+            "name": "windows-vs-release",
+            "displayName": "ClangCL Release (Visual Studio)",
+            "description": "Visual Studio 2022 with ClangCL toolset, Release, x64",
             "inherits": "windows-base",
             "generator": "Visual Studio 17 2022",
-            "binaryDir": "${sourceDir}/build-msvc"
+            "toolset": "ClangCL",
+            "binaryDir": "${sourceDir}/build/x64"
         },
         {
             "name": "windows-ninja-debug",
@@ -63,15 +65,15 @@
     ],
     "buildPresets": [
         {
-            "name": "windows-msvc-debug",
-            "displayName": "Build Debug (MSVC)",
-            "configurePreset": "windows-msvc-debug",
+            "name": "windows-vs-debug",
+            "displayName": "Build Debug (Visual Studio)",
+            "configurePreset": "windows-vs-debug",
             "configuration": "Debug"
         },
         {
-            "name": "windows-msvc-release",
-            "displayName": "Build Release (MSVC)",
-            "configurePreset": "windows-msvc-release",
+            "name": "windows-vs-release",
+            "displayName": "Build Release (Visual Studio)",
+            "configurePreset": "windows-vs-release",
             "configuration": "Release"
         },
         {

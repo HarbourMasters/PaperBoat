@@ -274,13 +274,23 @@ if(MSVC)
     add_compile_definitions(STORMLIB_NO_AUTO_LINK)
     set(STORMLIB_NO_AUTO_LINK ON)
 
-    # MSVC compile options
-    target_compile_options(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:/w;/Od;/MTd;/ZI>
-        $<$<CONFIG:Release>:/Oi;/Gy;/W3;/MT;/Zi>
-        /permissive-
-        /MP
-    )
+    # Compile options (clang-cl vs MSVC)
+    if(CMAKE_C_COMPILER_ID STREQUAL "Clang")
+        # Clang-CL: no /ZI (Edit & Continue), no /MP (handled by build system)
+        target_compile_options(${PROJECT_NAME} PRIVATE
+            $<$<CONFIG:Debug>:/w;/Od;/MTd;/Zi>
+            $<$<CONFIG:Release>:/Oi;/Gy;/W3;/MT;/Zi>
+            /permissive-
+        )
+    else()
+        # MSVC (cl.exe)
+        target_compile_options(${PROJECT_NAME} PRIVATE
+            $<$<CONFIG:Debug>:/w;/Od;/MTd;/ZI>
+            $<$<CONFIG:Release>:/Oi;/Gy;/W3;/MT;/Zi>
+            /permissive-
+            /MP
+        )
+    endif()
 
     # MSVC link options
     target_link_options(${PROJECT_NAME} PRIVATE
