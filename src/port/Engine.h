@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include "build.h"
 
 // Forward declarations for C code
 #ifdef __cplusplus
@@ -45,6 +46,13 @@ class GameEngine {
   public:
     static GameEngine* Instance;
 
+    ImFont *fontStandard;
+    ImFont *fontStandardLarger;
+    ImFont *fontStandardLargest;
+    ImFont *fontMono;
+    ImFont *fontMonoLarger;
+    ImFont *fontMonoLargest;
+
     std::shared_ptr<Ship::Context> context;
 
     GameEngine();
@@ -58,12 +66,14 @@ class GameEngine {
     static void AudioExit();
     static void RunCommands(Gfx* Commands, const std::vector<std::unordered_map<Mtx*, MtxF>>& mtx_replacements);
     static void Destroy();
-	static uint32_t GetInterpolationFPS();
-	static uint32_t GetInterpolationFrameCount();
+    static uint32_t GetInterpolationFPS();
+    static uint32_t GetInterpolationFrameCount();
     static void ProcessGfxCommands(Gfx* commands);
 
     static int ShowYesNoBox(const char* title, const char* box);
     static void ShowMessage(const char* title, const char* message, SDL_MessageBoxFlags type = SDL_MESSAGEBOX_ERROR);
+    static ImFont *CreateFontWithSize(float size, std::string fontPath);
+    static void ScaleImGui();
 
   private:
     mutable bool mPrevAltAssets = false;
@@ -107,9 +117,6 @@ int GameEngine_GetSaveFilePath(char* buf, int bufSize);
 
 // Clear the GPU depth buffer (replaces N64 gDPSetColorImage-to-ZBuffer hack)
 void GameEngine_ClearDepthBuffer(void);
-
-// CVar access for game C code
-int GameEngine_CVarGetInteger(const char* name, int defaultValue);
 
 #ifdef __cplusplus
 }

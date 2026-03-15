@@ -1,6 +1,6 @@
 #define NO_EXTERN_VARIABLES
 #include "common.h"
-#include "PR/osint.h"
+// #include "PR/osint.h"
 // #include "PR/controller.h" // Not needed - types already in ultra64.h from libultraship
 #include "nu/nusys.h"
 #include "npc.h"
