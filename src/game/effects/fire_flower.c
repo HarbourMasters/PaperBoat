@@ -223,7 +223,7 @@ void fire_flower_appendGfx(void* effect) {
         guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
 
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000DE0_381180));
+        gSPDisplayList(gMainGfxPos++, D_09000DE0_381180);
 
         part++;
         for (i = 1; i < ((EffectInstance*)effect)->numParts; i++, part++) {
@@ -234,7 +234,7 @@ void fire_flower_appendGfx(void* effect) {
                 guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
 
                 gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-                gSPDisplayList(gMainGfxPos++, part->unk_00 != 0 ? LOAD_ASSET(D_09000ED8_381278) : LOAD_ASSET(D_09000EB8_381258));
+                gSPDisplayList(gMainGfxPos++, part->unk_00 != 0 ? D_09000ED8_381278 : D_09000EB8_381258);
                 gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
             }
         }
@@ -242,18 +242,20 @@ void fire_flower_appendGfx(void* effect) {
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 
-    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000D40_3810E0));
+    gSPDisplayList(gMainGfxPos++, D_09000D40_3810E0);
     {
         static const char* sFireFlowerTex[] = {
             D_09000000_3803A0, D_09000200_3805A0, D_09000400_3807A0, D_09000600_3809A0
         };
+        s32 texIdx0 = MAX(0, 3 - unk_34);
+        s32 texIdx1 = MAX(0, 2 - unk_34);
         gDPLoadTextureTile_4b(
-            gMainGfxPos++, LOAD_ASSET(sFireFlowerTex[3 - unk_34]),
+            gMainGfxPos++, sFireFlowerTex[texIdx0],
             G_IM_FMT_CI, 32, 0, 0, 0, 31, 31, 0,
             G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
             5, 5, G_TX_NOLOD, G_TX_NOLOD);
         gDPLoadMultiTile_4b(
-            gMainGfxPos++, LOAD_ASSET(sFireFlowerTex[2 - unk_34]),
+            gMainGfxPos++, sFireFlowerTex[texIdx1],
             0x0080, 1, G_IM_FMT_CI, 32, 0, 0, 0, 31, 31, 0,
             G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
             5, 5, G_TX_NOLOD, G_TX_NOLOD);
@@ -267,7 +269,7 @@ void fire_flower_appendGfx(void* effect) {
     guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_09000EF8_381298));
+    gSPDisplayList(gMainGfxPos++, D_09000EF8_381298);
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }
