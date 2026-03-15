@@ -666,6 +666,9 @@ extern "C" float GameEngine_GetAspectRatio() {
     return interpreter->mCurDimensions.aspect_ratio;
 }
 
+extern "C" bool GameEngine_IsWidescreen() {
+    return GameEngine_GetAspectRatio() > (4.0f / 3.0f);
+}
 
 // Gets the width of the main ImGui window
 extern "C" uint32_t OTRGetCurrentWidth() {

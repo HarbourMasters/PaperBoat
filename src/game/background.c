@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "common.h"
 #include "model.h"
 #include "gcc/string.h"
@@ -255,9 +257,41 @@ void appendGfx_background_texture(void) {
     }
 
     if (!gBackroundWaveEnabled) {
+        // For widescreen: extend background to fill the full screen after AdjXForAspectRatio.
+        // AdjX normalizes to NDC: ndc = game_x/(4*HALF_SCREEN_WIDTH) - 1.0, then ndc *= arx.
+        // To reach NDC=-1.0 (left edge): game_x = (-1/arx + 1) * 4 * HALF_SCREEN_WIDTH
+        // To reach NDC=+1.0 (right edge): game_x = (1/arx + 1) * 4 * HALF_SCREEN_WIDTH
+        // For 16:9 (arx=0.75): left=-53px, right=373px. Need gSPWideTextureRectangle for negative X.
+        s32 drawStartX;
+        s32 drawEndX;
+        s32 drawStartY;
+        s32 drawHeight;
+        s32 useWideRect;
+
+        if (GameEngine_IsWidescreen()) {
+            f32 arx = (4.0f / 3.0f) / GameEngine_GetAspectRatio();
+            drawStartX = (s32)((-1.0f / arx + 1.0f) * (SCREEN_WIDTH / 2)) - 1;
+            drawEndX = (s32)((1.0f / arx + 1.0f) * (SCREEN_WIDTH / 2)) + 1;
+            drawStartY = bgMinY;
+            drawHeight = bgMaxY;
+            useWideRect = 1;
+        } else {
+            drawStartX = bgMinX;
+            drawEndX = bgMinX + bgMaxX;
+            drawStartY = bgMinY;
+            drawHeight = bgMaxY;
+            useWideRect = 0;
+        }
+        s32 drawWidth = drawEndX - drawStartX;
+
+        // Calculate the texture S offset at drawStartX.
+        // Original mapping: screen bgMinX → texel (bgMaxX - bgXOffset)
+        // So screen x → texel (bgMaxX - bgXOffset + x - bgMinX) % bgMaxX
+        s32 texStartS = ((bgMaxX - bgXOffset + drawStartX - bgMinX) % bgMaxX + bgMaxX) % bgMaxX;
+
         lineHeight = 2048 / gGameStatusPtr->backgroundMaxX;
-        numLines = gGameStatusPtr->backgroundMaxY / lineHeight;
-        extraHeight = gGameStatusPtr->backgroundMaxY % lineHeight;
+        numLines = drawHeight / lineHeight;
+        extraHeight = drawHeight % lineHeight;
         for (i = 0; i < numLines; i++) {
             texOffsetY = gBackroundTextureYOffset + lineHeight * i;
             if (texOffsetY > gGameStatusPtr->backgroundMaxY) {
@@ -265,15 +299,38 @@ void appendGfx_background_texture(void) {
             }
             gDPLoadTextureTile(gMainGfxPos++, gGameStatusPtr->backgroundRaster + bgMaxX * texOffsetY,
                                G_IM_FMT_CI, G_IM_SIZ_8b, bgMaxX, 6,
-                               0, 0, 295, 5, 0,
+                               0, 0, bgMaxX - 1, 5, 0,
                                G_TX_WRAP, G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-            gSPTextureRectangle(gMainGfxPos++, bgMinX * 4, (lineHeight * i + bgMinY) * 4,
-                                                 (bgXOffset + bgMinX - 1) * 4, (lineHeight * i + lineHeight - 1 + bgMinY) * 4,
-                                                 G_TX_RENDERTILE, (bgMaxX - bgXOffset) * 32, 0, 4096, 1024);
-            gSPTextureRectangle(gMainGfxPos++, (bgXOffset + bgMinX) * 4, (lineHeight * i + bgMinY) * 4,
-                                                 (bgMaxX + bgMinX - 1) * 4, (lineHeight * i + lineHeight - 1 + bgMinY) * 4,
-                                                 G_TX_RENDERTILE, 0, 0, 4096, 1024);
+            {
+                s32 screenX = drawStartX;
+                s32 remaining = drawWidth;
+                s32 texS = texStartS;
+                s32 screenY = lineHeight * i + drawStartY;
+
+                while (remaining > 0) {
+                    s32 pixelsUntilWrap = bgMaxX - texS;
+                    s32 drawPixels = (remaining < pixelsUntilWrap) ? remaining : pixelsUntilWrap;
+
+                    if (drawPixels > 0) {
+                        if (useWideRect) {
+                            gSPWideTextureRectangle(gMainGfxPos++,
+                                screenX * 4, screenY * 4,
+                                (screenX + drawPixels - 1) * 4, (screenY + lineHeight - 1) * 4,
+                                G_TX_RENDERTILE, texS * 32, 0, 4096, 1024);
+                        } else {
+                            gSPTextureRectangle(gMainGfxPos++,
+                                screenX * 4, screenY * 4,
+                                (screenX + drawPixels - 1) * 4, (screenY + lineHeight - 1) * 4,
+                                G_TX_RENDERTILE, texS * 32, 0, 4096, 1024);
+                        }
+                    }
+
+                    screenX += drawPixels;
+                    remaining -= drawPixels;
+                    texS = 0;
+                }
+            }
         }
         if (extraHeight != 0) {
             texOffsetY = gBackroundTextureYOffset + lineHeight * i;
@@ -282,14 +339,39 @@ void appendGfx_background_texture(void) {
             }
             gDPLoadTextureTile(gMainGfxPos++, gGameStatusPtr->backgroundRaster + bgMaxX * texOffsetY,
                                G_IM_FMT_CI, G_IM_SIZ_8b, bgMaxX, extraHeight,
-                               0, 0, 295, extraHeight - 1, 0,
+                               0, 0, bgMaxX - 1, extraHeight - 1, 0,
                                G_TX_WRAP, G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-            gSPTextureRectangle(gMainGfxPos++, bgMinX * 4, (lineHeight * i + bgMinY) * 4,
-                                                 (bgXOffset + bgMinX - 1) * 4, (bgMaxY - 1 + bgMinY) * 4,
-                                                 G_TX_RENDERTILE, (bgMaxX - bgXOffset) * 32, 0, 4096, 1024);
-            gSPTextureRectangle(gMainGfxPos++, (bgXOffset + bgMinX) * 4, (lineHeight * i + bgMinY) * 4,
-                                                 (bgMaxX + bgMinX - 1) * 4, (bgMaxY - 1 + bgMinY) * 4,
-                                                 G_TX_RENDERTILE, 0, 0, 4096, 1024);
+
+            {
+                s32 screenX = drawStartX;
+                s32 remaining = drawWidth;
+                s32 texS = texStartS;
+                s32 screenY = lineHeight * i + drawStartY;
+                s32 stripH = extraHeight;
+
+                while (remaining > 0) {
+                    s32 pixelsUntilWrap = bgMaxX - texS;
+                    s32 drawPixels = (remaining < pixelsUntilWrap) ? remaining : pixelsUntilWrap;
+
+                    if (drawPixels > 0) {
+                        if (useWideRect) {
+                            gSPWideTextureRectangle(gMainGfxPos++,
+                                screenX * 4, screenY * 4,
+                                (screenX + drawPixels - 1) * 4, (screenY + stripH - 1) * 4,
+                                G_TX_RENDERTILE, texS * 32, 0, 4096, 1024);
+                        } else {
+                            gSPTextureRectangle(gMainGfxPos++,
+                                screenX * 4, screenY * 4,
+                                (screenX + drawPixels - 1) * 4, (screenY + stripH - 1) * 4,
+                                G_TX_RENDERTILE, texS * 32, 0, 4096, 1024);
+                        }
+                    }
+
+                    screenX += drawPixels;
+                    remaining -= drawPixels;
+                    texS = 0;
+                }
+            }
         }
     } else {
         lineHeight = 6;

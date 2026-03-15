@@ -350,7 +350,7 @@ void gfx_draw_background(void) {
             gDPSetPrimDepth(gMainGfxPos++, 0xFFFF, 0xFFFF);
             gDPSetDepthSource(gMainGfxPos++, G_ZS_PRIM);
             gDPSetRenderMode(gMainGfxPos++, G_RM_VISCVG, G_RM_VISCVG2);
-            gDPFillRectangle(gMainGfxPos++, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            gDPFillWideRectangle(gMainGfxPos++, OTRGetRectDimensionFromLeftEdge(0), 0, OTRGetDimensionFromRightEdge(0), SCREEN_HEIGHT);
             gDPPipeSync(gMainGfxPos++);
             gDPSetDepthSource(gMainGfxPos++, G_ZS_PIXEL);
             gGameStatusPtr->backgroundFlags &= ~BACKGROUND_RENDER_STATE_MASK;
@@ -376,7 +376,7 @@ void gfx_draw_background(void) {
             gDPSetRenderMode(gMainGfxPos++, G_RM_NOOP, G_RM_NOOP2);
             gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(nuGfxCfb_ptr));
             gDPSetFillColor(gMainGfxPos++, PACK_FILL_COLOR(0, 0, 0, 1));
-            gDPFillRectangle(gMainGfxPos++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+            gDPFillWideRectangle(gMainGfxPos++, OTRGetRectDimensionFromLeftEdge(0), 0, OTRGetDimensionFromRightEdge(0), SCREEN_HEIGHT);
             gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);
             gDPSetTexturePersp(gMainGfxPos++, G_TP_NONE);
             gDPSetTextureLUT(gMainGfxPos++, G_TT_NONE);
@@ -416,7 +416,7 @@ void gfx_draw_background(void) {
             gDPSetRenderMode(gMainGfxPos++, G_RM_NOOP, G_RM_NOOP2);
             gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, OS_K0_TO_PHYSICAL(nuGfxZBuffer));
             gDPSetFillColor(gMainGfxPos++, PACK_FILL_DEPTH(G_MAXFBZ, 0));
-            gDPFillRectangle(gMainGfxPos++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+            gDPFillRectangle(gMainGfxPos++, OTRGetRectDimensionFromLeftEdge(0), 0, OTRGetDimensionFromRightEdge(0), SCREEN_HEIGHT);
             gDPPipeSync(gMainGfxPos++);
             gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(nuGfxCfb_ptr));
             gDPSetFillColor(gMainGfxPos++, PACK_FILL_COLOR(camera->bgColor[0], camera->bgColor[1], camera->bgColor[2], 1));
@@ -487,23 +487,27 @@ void gfx_draw_background(void) {
             gDPSetFillColor(gMainGfxPos++, PACK_FILL_COLOR(0, 0, 0, 1));
             gDPPipeSync(gMainGfxPos++);
 
+            // Top Border
             if (backgroundMinY > 0) {
-                gDPFillRectangle(gMainGfxPos++, 0, 0, SCREEN_WIDTH - 1, backgroundMinY - 1);
+                gDPFillWideRectangle(gMainGfxPos++, OTRGetRectDimensionFromLeftEdge(0), 0, OTRGetDimensionFromRightEdge(0), backgroundMinY);
                 gDPNoOp(gMainGfxPos++);
             }
 
+            // Left Border
             if (backgroundMinX > 0) {
-                gDPFillRectangle(gMainGfxPos++, 0, backgroundMinY, backgroundMinX - 1, backgroundMaxY - 1);
+                gDPFillWideRectangle(gMainGfxPos++, OTRGetRectDimensionFromLeftEdge(0), backgroundMinY, OTRGetRectDimensionFromLeftEdge((backgroundMinX) * 2), backgroundMaxY);
                 gDPNoOp(gMainGfxPos++);
             }
 
+            // Right Border
             if (backgroundMaxX < SCREEN_WIDTH) {
-                gDPFillRectangle(gMainGfxPos++, backgroundMaxX, backgroundMinY, SCREEN_WIDTH - 1, backgroundMaxY - 1);
+                gDPFillWideRectangle(gMainGfxPos++, OTRGetDimensionFromRightEdge((SCREEN_WIDTH - backgroundMaxX) * 2), backgroundMinY, OTRGetDimensionFromRightEdge(0), backgroundMaxY);
                 gDPNoOp(gMainGfxPos++);
             }
 
+            // Bottom Border
             if (backgroundMaxY < SCREEN_HEIGHT) {
-                gDPFillRectangle(gMainGfxPos++, 0, backgroundMaxY, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+                gDPFillWideRectangle(gMainGfxPos++, OTRGetRectDimensionFromLeftEdge(0), backgroundMaxY, OTRGetDimensionFromRightEdge(0), SCREEN_HEIGHT);
                 gDPNoOp(gMainGfxPos++);
             }
             break;

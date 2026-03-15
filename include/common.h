@@ -22,6 +22,7 @@
 #include "port/hooks/Events.h"
 #include <libultraship/bridge.h>
 #include "port/ui/cvar_prefixes.h"
+#include "port/Engine.h"
 #include "port/interpolation/FrameInterpolation.h"
 
 #ifdef PERMUTER

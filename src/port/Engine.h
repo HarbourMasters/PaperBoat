@@ -119,6 +119,7 @@ int GameEngine_GetSaveFilePath(char* buf, int bufSize);
 void GameEngine_ClearDepthBuffer(void);
 
 // HUD and Rendering related
+bool GameEngine_IsWidescreen(void);
 float GameEngine_GetAspectRatio();
 uint32_t OTRGetCurrentWidth(void);
 uint32_t OTRGetCurrentHeight(void);
