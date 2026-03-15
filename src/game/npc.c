@@ -986,6 +986,9 @@ void render_npcs(void) {
                 renderTaskPtr->appendGfxArg = npc;
                 renderTaskPtr->appendGfx = appendGfx_npc;
                 renderTaskPtr->renderMode = npc->renderMode;
+                renderTaskPtr->needsInterpolation = true;
+                renderTaskPtr->interpolationName = "render_npcs";
+                renderTaskPtr->interpolationTag = TAG_NPC(i, npc);
 
                 if (npc->flags & NPC_FLAG_HIDING) {
                     u8 r, g, b, a;
@@ -1004,6 +1007,7 @@ void render_npcs(void) {
                     renderTaskPtr->appendGfx = appendGfx_npc_blur;
                     renderTaskPtr->appendGfxArg = npc;
                     renderTaskPtr->renderMode = RENDER_MODE_SURFACE_XLU_LAYER1;
+                    renderTaskPtr->interpolationTag = TAG_NPC(i * 0xFFF, npc);
                     queue_render_task(renderTaskPtr);
                 }
             }

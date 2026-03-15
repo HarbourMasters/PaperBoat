@@ -21,6 +21,7 @@
 #include "battle/actor_types.h"
 #include "port/hooks/Events.h"
 #include <libultraship/bridge.h>
+#include "port/interpolation/FrameInterpolation.h"
 
 #ifdef PERMUTER
 extern int TEXEL0, TEXEL1, PRIMITIVE, PRIMITIVE_ALPHA;

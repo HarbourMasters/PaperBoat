@@ -715,7 +715,7 @@ void animator_node_update_model_transform(ModelAnimator* animator, f32 (*flipMtx
     }
 }
 
-void render_animated_model(s32 animatorID, Mtx* rootTransform) {
+void render_animated_model(s32 animatorID, Mtx* rootTransform, u32 interpolationTag) {
     ModelAnimator* animator;
     RenderTask rt;
     RenderTask* rtPtr = &rt;
@@ -741,11 +741,14 @@ void render_animated_model(s32 animatorID, Mtx* rootTransform) {
         rtPtr->appendGfx = (void (*)(void*))appendGfx_animator;
         rtPtr->dist = 0;
         rtPtr->renderMode = animator->renderMode;
+        rtPtr->needsInterpolation = true;
+        rtPtr->interpolationName = "animator";
+        rtPtr->interpolationTag = interpolationTag;
         queue_render_task(rtPtr);
     }
 }
 
-void render_animated_model_with_vertices(s32 animatorID, Mtx* rootTransform, s32 segment, void* baseAddr) {
+void render_animated_model_with_vertices(s32 animatorID, Mtx* rootTransform, s32 segment, void* baseAddr, u32 interpolationTag) {
     ModelAnimator* animator;
     RenderTask rt;
     RenderTask* rtPtr = &rt;
@@ -772,6 +775,9 @@ void render_animated_model_with_vertices(s32 animatorID, Mtx* rootTransform, s32
         rtPtr->appendGfx = (void (*)(void*))appendGfx_animator;
         rtPtr->dist = 0;
         rtPtr->renderMode = animator->renderMode;
+        rtPtr->needsInterpolation = true;
+        rtPtr->interpolationName = "animator_with_vertices";
+        rtPtr->interpolationTag = interpolationTag;
         queue_render_task(rtPtr);
     }
 }

@@ -24,6 +24,7 @@
 #include <ship/window/gui/Fonts.h>
 #include <ship/window/gui/resource/Font.h>
 #include <unordered_map>
+#include "port/interpolation/FrameInterpolation.h"
 
 const float imguiScaleOptionToValue[4] = {0.75f, 1.0f, 1.5f, 2.0f};
 std::shared_ptr<Fast::Fast3dWindow> gsFast3dWindow;
@@ -323,7 +324,9 @@ void GameEngine::StartFrame() const {
 uint32_t GameEngine::GetInterpolationFPS() {
   if (CVarGetInteger(CVAR_SETTING("MatchRefreshRate"), 0)) {
     return Ship::Context::GetInstance()->GetWindow()->GetCurrentRefreshRate();
-  } else if (CVarGetInteger(CVAR_VSYNC_ENABLED, 1) ||
+  }
+
+  if (CVarGetInteger(CVAR_VSYNC_ENABLED, 1) ||
              !Ship::Context::GetInstance()
                   ->GetWindow()
                   ->CanDisableVerticalSync()) {
@@ -466,14 +469,41 @@ void GameEngine::ProcessGfxCommands(Gfx *commands) {
   // Set microcode handler
   wnd->SetRendererUCode(UcodeHandlers::ucode_f3dex2);
 
-  // Build matrix replacements for interpolation
-  std::vector<std::unordered_map<Mtx *, MtxF>> mtx_replacements;
+  std::vector<std::unordered_map<Mtx*, MtxF>> mtx_replacements;
 
-  // For now, just one pass (no interpolation)
-  // Later: Generate multiple matrix sets for 30fps->60fps or 60fps->120fps
-  mtx_replacements.push_back({});
+  int target_fps = GetInterpolationFPS();
+  static int last_fps;
+  static int time;
+  int fps = target_fps;
+  int original_fps = 60 / 2;
 
+  if (target_fps == 30 || original_fps > target_fps) {
+      fps = original_fps;
+  }
+
+  if (last_fps != fps) {
+      time = 0;
+  }
+
+  int next_original_frame = fps;
+  while (time + original_fps <= next_original_frame) {
+      time += original_fps;
+      if (time != next_original_frame) {
+          mtx_replacements.push_back(FrameInterpolation_Interpolate((float)time / next_original_frame));
+      } else {
+          mtx_replacements.emplace_back(); // No interpolation for key frames
+      }
+  }
+
+  time -= fps;
+
+  if (wnd != nullptr) {
+      wnd->SetTargetFps(GetInterpolationFPS());
+      wnd->SetMaximumFrameLatency(1);
+  }
   RunCommands(commands, mtx_replacements);
+
+  last_fps = fps;
 }
 
 static const char *sOtrSignature = "__OTR__";

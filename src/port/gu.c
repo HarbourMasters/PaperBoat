@@ -1,6 +1,7 @@
 #include <libultraship/libultra/gu.h>
 #include <math.h>
 #include <string.h>
+#include "port/interpolation/FrameInterpolation.h"
 
 static void guIdentityF(float mf[4][4]) {
   int i, j;
@@ -44,6 +45,9 @@ void guMtxCatF(float m[4][4], float n[4][4], float r[4][4]) {
       }
     }
   }
+
+  // @port: Review this
+  FrameInterpolation_RecordMatrixMtxFToMtx(m, (Mtx*)m);
 }
 
 void guScaleF(float mf[4][4], float x, float y, float z) {
@@ -105,11 +109,13 @@ void guRotateRPYF(float mf[4][4], float r, float p, float h) {
 void guMtxF2L(float mf[4][4], Mtx *m) {
   // With GBI_FLOATS, Mtx is MtxF (float[4][4]) — direct copy
   memcpy(m, mf, sizeof(float) * 16);
+  FrameInterpolation_RecordMatrixMtxFToMtx(mf, m);
 }
 
 void guMtxL2F(float mf[4][4], Mtx *m) {
   // With GBI_FLOATS, Mtx is MtxF (float[4][4]) — direct copy
   memcpy(mf, m, sizeof(float) * 16);
+  FrameInterpolation_RecordMatrixMtxFToMtx(mf, m);
 }
 
 void guOrthoF(float mf[4][4], float l, float r, float b, float t, float n,

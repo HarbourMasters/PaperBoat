@@ -2928,6 +2928,9 @@ void render_models(void) {
         }
         rtPtr->dist = -distance;
         rtPtr->renderMode = model->renderMode;
+        rtPtr->needsInterpolation = true;
+        rtPtr->interpolationName = "model";
+        rtPtr->interpolationTag = TAG_MODEL(i, model);
         queue_render_task(rtPtr);
     }
 
@@ -2967,6 +2970,9 @@ void render_models(void) {
             rtPtr->appendGfxArg = transformGroup;
             rtPtr->dist = -distance;
             rtPtr->renderMode = transformGroup->renderMode;
+            rtPtr->needsInterpolation = true;
+            rtPtr->interpolationName = "render_models";
+            rtPtr->interpolationTag = TAG_GENERIC(i, transformGroup);
             queue_render_task(rtPtr);
         }
     }
@@ -4814,6 +4820,10 @@ void execute_render_tasks(void) {
         for (i = 0; i < taskCount; i++) {
             task = &taskList[sorted[i]];
             appendGfx = task->appendGfx;
+            char* interpName = task->needsInterpolation ? task->interpolationName : "RenderTask";
+            u32 interpTag = task->needsInterpolation ? task->interpolationTag : TAG_RENDER_TASK(task->appendGfx);
+
+            FrameInterpolation_RecordOpenChild(interpName, interpTag);
 
             if (task->renderMode & RENDER_TASK_FLAG_REFLECT_FLOOR) {
                 savedGfxPos = gMainGfxPos++;
@@ -4829,12 +4839,19 @@ void execute_render_tasks(void) {
                 gSPDisplayList(gMainGfxPos++, savedGfxPos + 1);
                 gSPMatrix(gMainGfxPos++, &gDisplayContext->camPerspMatrix[gCurrentCamID], G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
             }
+
+            FrameInterpolation_RecordCloseChild();
         }
     } else {
         for (i = 0; i < taskCount; i++) {
             task = &taskList[sorted[i]];
             appendGfx = task->appendGfx;
+            char* interpName = task->needsInterpolation ? task->interpolationName : "RenderTask";
+            u32 interpTag = task->needsInterpolation ?  task->interpolationTag : TAG_RENDER_TASK(task->appendGfx);
+
+            FrameInterpolation_RecordOpenChild(interpName, interpTag);
             appendGfx(task->appendGfxArg);
+            FrameInterpolation_RecordCloseChild();
         }
     }
 

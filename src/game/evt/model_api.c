@@ -42,7 +42,7 @@ void render_animated_models(void) {
             guMtxCatF(sp1D8, sp118, sp158);
             guMtxCatF(sp158, sp18, sp198);
             guMtxF2L(sp198, &model->mtx);
-            render_animated_model(model->animModelID, &model->mtx);
+            render_animated_model(model->animModelID, &model->mtx, TAG_GENERIC(i, model));
         }
     }
 }

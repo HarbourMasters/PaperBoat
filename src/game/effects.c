@@ -142,6 +142,7 @@ void render_effects_scene(void) {
         EffectInstance* effectInstance = gEffectInstances[i];
 
         if (effectInstance != nullptr) {
+            FrameInterpolation_RecordOpenChild("effect_render", TAG_EFFECT(i, effectInstance));
             if (effectInstance->flags & FX_INSTANCE_FLAG_ENABLED) {
                 if (effectInstance->flags & FX_INSTANCE_FLAG_HAS_UPDATED) {
                     void (*sceneFunc)(EffectInstance*) = effectInstance->shared->renderScene;
@@ -159,6 +160,7 @@ void render_effects_scene(void) {
                     }
                 }
             }
+            FrameInterpolation_RecordCloseChild();
         }
     }
 }
@@ -185,6 +187,7 @@ void render_effects_UI(void) {
 
                     renderUI = effectInstance->shared->renderUI;
                     if (renderUI != NULL && renderUI != stub_effect_delegate) {
+                        FrameInterpolation_RecordOpenChild("effect_renderUI", TAG_EFFECT(i, effectInstance));
                         if (cond) {
                             Camera* camera = &gCameras[gCurrentCameraID];
 
@@ -210,6 +213,7 @@ void render_effects_UI(void) {
                         }
 
                         renderUI(effectInstance);
+                        FrameInterpolation_RecordCloseChild();
                     }
                 }
             }
