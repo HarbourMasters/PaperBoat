@@ -506,6 +506,13 @@ void GameEngine::ProcessGfxCommands(Gfx *commands) {
   last_fps = fps;
 }
 
+Fast::Interpreter* GameEngine_GetInterpreter() {
+    return static_pointer_cast<Fast::Fast3dWindow>(Ship::Context::GetInstance()->GetWindow())
+        ->GetInterpreterWeak()
+        .lock()
+        .get();
+}
+
 static const char *sOtrSignature = "__OTR__";
 
 extern "C" uint8_t GameEngine_OTRSigCheck(const char *data) {
@@ -652,4 +659,118 @@ extern "C" void GameEngine_ClearDepthBuffer(void) {
       interp->GetCurrentRenderingAPI()->ClearFramebuffer(false, true);
     }
   }
+}
+
+extern "C" float GameEngine_GetAspectRatio() {
+    auto interpreter = GameEngine_GetInterpreter();
+    return interpreter->mCurDimensions.aspect_ratio;
+}
+
+
+// Gets the width of the main ImGui window
+extern "C" uint32_t OTRGetCurrentWidth() {
+    return GameEngine::Instance->context->GetWindow()->GetWidth();
+}
+
+// Gets the height of the main ImGui window
+extern "C" uint32_t OTRGetCurrentHeight() {
+    return GameEngine::Instance->context->GetWindow()->GetHeight();
+}
+
+extern "C" float OTRGetHUDAspectRatio() {
+    if (CVarGetInteger("gHUDAspectRatio.Enabled", 0) == 0 || CVarGetInteger("gHUDAspectRatio.X", 0) == 0 ||
+        CVarGetInteger("gHUDAspectRatio.Y", 0) == 0) {
+        return GameEngine_GetAspectRatio();
+    }
+    return ((float)CVarGetInteger("gHUDAspectRatio.X", 1) / (float)CVarGetInteger("gHUDAspectRatio.Y", 1));
+}
+
+extern "C" float OTRGetDimensionFromLeftEdge(float v) {
+    auto interpreter = GameEngine_GetInterpreter();
+    return (interpreter->mNativeDimensions.width / 2 -
+            interpreter->mNativeDimensions.height / 2 * interpreter->mCurDimensions.aspect_ratio + (v));
+}
+
+extern "C" float OTRGetDimensionFromRightEdge(float v) {
+    auto interpreter = GameEngine_GetInterpreter();
+    return (interpreter->mNativeDimensions.width / 2 +
+            interpreter->mNativeDimensions.height / 2 * interpreter->mCurDimensions.aspect_ratio - (v));
+}
+
+extern "C" float OTRGetDimensionFromLeftEdgeForcedAspect(float v, float aspectRatio) {
+    auto interpreter = GameEngine_GetInterpreter();
+    return (interpreter->mNativeDimensions.width / 2 -
+            interpreter->mNativeDimensions.height / 2 *
+                (aspectRatio > 0 ? aspectRatio : interpreter->mCurDimensions.aspect_ratio) +
+            (v));
+}
+
+extern "C" float OTRGetDimensionFromRightEdgeForcedAspect(float v, float aspectRatio) {
+    auto interpreter = GameEngine_GetInterpreter();
+    return (interpreter->mNativeDimensions.width / 2 +
+            interpreter->mNativeDimensions.height / 2 *
+                (aspectRatio > 0 ? aspectRatio : interpreter->mCurDimensions.aspect_ratio) -
+            (v));
+}
+
+extern "C" float OTRGetDimensionFromLeftEdgeOverride(float v) {
+    return OTRGetDimensionFromLeftEdgeForcedAspect(v, OTRGetHUDAspectRatio());
+}
+
+extern "C" float OTRGetDimensionFromRightEdgeOverride(float v) {
+    return OTRGetDimensionFromRightEdgeForcedAspect(v, OTRGetHUDAspectRatio());
+}
+
+// Gets the width of the current render target area
+extern "C" uint32_t OTRGetGameRenderWidth() {
+    auto interpreter = GameEngine_GetInterpreter();
+    return interpreter->mCurDimensions.width;
+}
+
+// Gets the height of the current render target area
+extern "C" uint32_t OTRGetGameRenderHeight() {
+    auto interpreter = GameEngine_GetInterpreter();
+    return interpreter->mCurDimensions.height;
+}
+
+extern "C" int16_t OTRGetRectDimensionFromLeftEdge(float v) {
+    return ((int)floorf(OTRGetDimensionFromLeftEdge(v)));
+}
+
+extern "C" int16_t OTRGetRectDimensionFromRightEdge(float v) {
+    return ((int)ceilf(OTRGetDimensionFromRightEdge(v)));
+}
+
+extern "C" int16_t OTRGetRectDimensionFromLeftEdgeForcedAspect(float v, float aspectRatio) {
+    return ((int)floorf(OTRGetDimensionFromLeftEdgeForcedAspect(v, aspectRatio)));
+}
+
+extern "C" int16_t OTRGetRectDimensionFromRightEdgeForcedAspect(float v, float aspectRatio) {
+    return ((int)ceilf(OTRGetDimensionFromRightEdgeForcedAspect(v, aspectRatio)));
+}
+
+extern "C" int16_t OTRGetRectDimensionFromLeftEdgeOverride(float v) {
+    return OTRGetRectDimensionFromLeftEdgeForcedAspect(v, OTRGetHUDAspectRatio());
+}
+
+extern "C" int16_t OTRGetRectDimensionFromRightEdgeOverride(float v) {
+    return OTRGetRectDimensionFromRightEdgeForcedAspect(v, OTRGetHUDAspectRatio());
+}
+
+extern "C" int32_t OTRConvertHUDXToScreenX(int32_t v) {
+    auto interpreter = GameEngine_GetInterpreter();
+    float gameAspectRatio = interpreter->mCurDimensions.aspect_ratio;
+    int32_t gameHeight = interpreter->mCurDimensions.height;
+    int32_t gameWidth = interpreter->mCurDimensions.width;
+    float hudAspectRatio = 4.0f / 3.0f;
+    int32_t hudHeight = gameHeight;
+    int32_t hudWidth = hudHeight * hudAspectRatio;
+    float hudScreenRatio = (hudWidth / 320.0f);
+    float hudCoord = v * hudScreenRatio;
+    float gameOffset = (gameWidth - hudWidth) / 2;
+    float gameCoord = hudCoord + gameOffset;
+    float gameScreenRatio = (320.0f / gameWidth);
+    float screenScaledCoord = gameCoord * gameScreenRatio;
+    int32_t screenScaledCoordInt = screenScaledCoord;
+    return screenScaledCoordInt;
 }

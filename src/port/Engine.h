@@ -118,6 +118,27 @@ int GameEngine_GetSaveFilePath(char* buf, int bufSize);
 // Clear the GPU depth buffer (replaces N64 gDPSetColorImage-to-ZBuffer hack)
 void GameEngine_ClearDepthBuffer(void);
 
+// HUD and Rendering related
+float GameEngine_GetAspectRatio();
+uint32_t OTRGetCurrentWidth(void);
+uint32_t OTRGetCurrentHeight(void);
+float OTRGetHUDAspectRatio();
+int32_t OTRConvertHUDXToScreenX(int32_t v);
+float OTRGetDimensionFromLeftEdge(float v);
+float OTRGetDimensionFromRightEdge(float v);
+int16_t OTRGetRectDimensionFromLeftEdge(float v);
+int16_t OTRGetRectDimensionFromRightEdge(float v);
+float OTRGetDimensionFromLeftEdgeForcedAspect(float v, float aspectRatio);
+float OTRGetDimensionFromRightEdgeForcedAspect(float v, float aspectRatio);
+int16_t OTRGetRectDimensionFromLeftEdgeForcedAspect(float v, float aspectRatio);
+int16_t OTRGetRectDimensionFromRightEdgeForcedAspect(float v, float aspectRatio);
+float OTRGetDimensionFromLeftEdgeOverride(float v);
+float OTRGetDimensionFromRightEdgeOverride(float v);
+int16_t OTRGetRectDimensionFromLeftEdgeOverride(float v);
+int16_t OTRGetRectDimensionFromRightEdgeOverride(float v);
+uint32_t OTRGetGameRenderWidth();
+uint32_t OTRGetGameRenderHeight();
+
 #ifdef __cplusplus
 }
 #endif

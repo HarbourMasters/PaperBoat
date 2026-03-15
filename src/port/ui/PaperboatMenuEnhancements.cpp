@@ -125,6 +125,13 @@ void PaperboatMenu::AddMenuEnhancements() {
   AddSidebarEntry("Enhancements", path.sidebarName, 1);
   path.column = SECTION_COLUMN_1;
 
+  AddWidget(path, "Disable Object Culling", WIDGET_CVAR_CHECKBOX)
+      .CVar("gEnhancements.DisableObjectCulling")
+      .RaceDisable(false)
+      .Options(CheckboxOptions().Tooltip(
+          "Disables object culling, making all objects visible regardless of "
+          "distance. This may cause performance issues on lower-end hardware."));
+  
   AddWidget(path, "Skip Intro", WIDGET_CVAR_CHECKBOX)
       .CVar("gEnhancements.NoIntro")
       .RaceDisable(false)

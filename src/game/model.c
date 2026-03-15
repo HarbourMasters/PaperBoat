@@ -2614,7 +2614,7 @@ void mdl_create_model(ModelBlueprint* bp, s32 unused) {
         bb->halfSizeY = y * 0.5;
         bb->halfSizeZ = z * 0.5;
 
-        if (model->bakedMtx == nullptr && x < 100.0f && y < 100.0f && z < 100.0f) {
+        if (CVarGetInteger(CVAR_ENHANCEMENT("DisableObjectCulling"), 0) == 0 && model->bakedMtx == nullptr && x < 100.0f && y < 100.0f && z < 100.0f) {
             model->flags |= MODEL_FLAG_DO_BOUNDS_CULLING;
         }
     }
