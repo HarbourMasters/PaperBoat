@@ -385,7 +385,11 @@ void appendGfx_shading_palette(
     }
 
     // Generate shading palette on CPU (N64 used RDP render-to-palette which doesn't work on port)
+    // Use a pool slot so the TLUT pointer is unique per sprite component —
+    // the texture cache keys by palette pointer, not data content.
     {
+        PAL_BIN* palSlot = sShadingPalettePool[sShadingPaletteIdx % MAX_SHADED_SPRITES];
+        sShadingPaletteIdx++;
         s32 j;
         for (j = 0; j < 16; j++) {
             s32 r = shadowR + (highlightR - shadowR) * j / 15;
@@ -393,10 +397,10 @@ void appendGfx_shading_palette(
             s32 b = shadowB + (highlightB - shadowB) * j / 15;
             u16 rgba = ((r >> 3) << 11) | ((g >> 3) << 6) | ((b >> 3) << 1) | 1;
             SpriteShadingPalette[j] = _PAL_BSWAP16(rgba);
+            palSlot[j] = _PAL_BSWAP16(rgba);
         }
+        gDPLoadTLUT_pal16(gMainGfxPos++, 1, palSlot);
     }
-
-    gDPLoadTLUT_pal16(gMainGfxPos++, 1, SpriteShadingPalette);
 
     gSPSetOtherMode(gMainGfxPos++, G_SETOTHERMODE_H, 4, 18,
                     G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_RGBA16 | G_TL_TILE |

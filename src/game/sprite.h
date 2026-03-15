@@ -173,6 +173,14 @@ void create_shading_palette(Matrix4f mtx, s32 uls, s32 ult, s32 lrs, s32 lrt, s3
 
 void func_801491E4(Matrix4f mtx, s32, s32, s32, s32, s32 alpha);
 
+// Shared sprite shading palette pool for combined palette fix.
+// The Fast3D interpreter stores palette pointers (not copies), so each shaded
+// sprite needs its own persistent buffer until the display list is flushed.
+#define MAX_SHADED_SPRITES 64
+extern PAL_BIN sShadingPalettePool[MAX_SHADED_SPRITES][32];
+extern s32 sShadingPaletteIdx;
+extern PAL_BIN SpriteShadingPalette[16];
+
 SpriteAnimData* spr_load_sprite(s32 idx, s32 arg1, s32 arg2);
 
 #endif

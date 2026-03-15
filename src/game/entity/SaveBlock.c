@@ -35,7 +35,9 @@ void entity_SaveBlock_setupGfx(s32 index) {
     gDPSetRenderMode(gfxPos++, G_RM_ZB_CLD_SURF, G_RM_ZB_CLD_SURF2);
     gDPSetCombineMode(gfxPos++, PM_CC_01, PM_CC_02);
     gDPSetPrimColor(gfxPos++, 0, 0, 0, 0, 0, alpha);
-    // Entity_SaveBlock_RenderContent was a wrapper that just called RenderStar
+    // Port fix: only draw the star in the rotating block.
+    // On N64, RenderContent drew everything rotating and the static block overwrote via z-buffer,
+    // but the port's z-buffer doesn't support same-depth overdraw with XLU modes.
     gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderStar));
     gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
 
@@ -48,19 +50,19 @@ void entity_SaveBlock_setupGfx(s32 index) {
     gDPSetRenderMode(gfxPos++, G_RM_AA_XLU_SURF | Z_CMP, G_RM_AA_XLU_SURF2 | Z_CMP);
     gDPSetCombineMode(gfxPos++, PM_CC_01, PM_CC_02);
     gDPSetPrimColor(gfxPos++, 0, 0, 0, 0, 0, alpha);
-    // Entity_SaveBlock_RenderBlock was a wrapper calling RenderFaces + letter DL
+    // Static block: block edges + S letter
 #if VERSION_PAL
-    gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderFaces));
+    gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderBlock));
     switch (gCurrentLanguage) {
         default:
             gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderLetterS));
             break;
         case LANGUAGE_ES:
-            gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderLetterG));
+            gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderStar));
             break;
     }
 #else
-    gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderFaces));
+    gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderBlock));
     gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderLetterS));
 #endif
     gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
