@@ -2,17 +2,18 @@
  * Global Variable Initialization for PC Port
  *
  * BSS section globals are not automatically zero-initialized on the PC port,
- * which can cause crashes when garbage values are read (e.g., gPlayerData.curPartner = 70).
- * This file provides centralized initialization of all critical game globals.
+ * which can cause crashes when garbage values are read (e.g.,
+ * gPlayerData.curPartner = 70). This file provides centralized initialization
+ * of all critical game globals.
  */
 
 #include "common.h"
-#include "entity.h"
-#include "npc.h"
-#include "model.h"
-#include "overlay.h"
 #include "effects.h"
+#include "entity.h"
+#include "model.h"
+#include "npc.h"
 #include "nu/nusys.h"
+#include "overlay.h"
 
 // External declarations for all globals that need initialization
 
@@ -76,104 +77,106 @@ extern PlayerPathElement gPlayerMoveHistory[40];
 extern s32 gPlayerMoveHistoryIndex;
 
 // Effect instances (from main_post_bss.c)
-extern EffectInstance* gEffectInstances[96];
+extern EffectInstance *gEffectInstances[96];
 
 // Script system (from evt/script_list.c)
-extern u32* gMapFlags;
-extern Bytecode* gMapVars;
+extern u32 *gMapFlags;
+extern Bytecode *gMapVars;
 extern s32 gNumScripts;
 extern ScriptList gWorldScriptList;
 extern ScriptList gBattleScriptList;
-extern ScriptList* gCurrentScriptListPtr;
+extern ScriptList *gCurrentScriptListPtr;
 extern s32 gScriptIndexList[MAX_SCRIPTS];
 extern s32 gScriptIdList[MAX_SCRIPTS];
 extern s32 gScriptListCount;
 
 void init_game_globals(void) {
-    // Initialize NuSystem graphics globals (nuGfxCfb, nuGfxCfb_ptr)
-    // This is normally done by boot_main() -> nuGfxInit(), but the port doesn't call boot_main
-    nuGfxInit();
+  // Initialize NuSystem graphics globals (nuGfxCfb, nuGfxCfb_ptr)
+  // This is normally done by boot_main() -> nuGfxInit(), but the port doesn't
+  // call boot_main
+  nuGfxInit();
 
-    // Initialize controller input (normally boot_main -> nuContInit -> osContInit).
-    // This loads SDL gamepad support and default keyboard/gamepad mappings in libultraship.
-    nuContInit();
+  // Initialize controller input (normally boot_main -> nuContInit ->
+  // osContInit). This loads SDL gamepad support and default keyboard/gamepad
+  // mappings in libultraship.
+  nuContInit();
 
-    // Player state
-    mem_clear(&gPlayerData, sizeof(gPlayerData));
-    mem_clear(&gPlayerStatus, sizeof(gPlayerStatus));
-    mem_clear(&gPartnerStatus, sizeof(gPartnerStatus));
-    mem_clear(&gStatusBar, sizeof(gStatusBar));
-    mem_clear(&gPlayerSpinState, sizeof(gPlayerSpinState));
+  // Player state
+  mem_clear(&gPlayerData, sizeof(gPlayerData));
+  mem_clear(&gPlayerStatus, sizeof(gPlayerStatus));
+  mem_clear(&gPartnerStatus, sizeof(gPartnerStatus));
+  mem_clear(&gStatusBar, sizeof(gStatusBar));
+  mem_clear(&gPlayerSpinState, sizeof(gPlayerSpinState));
 
-    // Player physics/animation state
-    mem_clear(gSpinHistoryPosX, sizeof(gSpinHistoryPosX));
-    mem_clear(gSpinHistoryPosY, sizeof(gSpinHistoryPosY));
-    mem_clear(gSpinHistoryPosZ, sizeof(gSpinHistoryPosZ));
-    mem_clear(gSpinHistoryPosAngle, sizeof(gSpinHistoryPosAngle));
+  // Player physics/animation state
+  mem_clear(gSpinHistoryPosX, sizeof(gSpinHistoryPosX));
+  mem_clear(gSpinHistoryPosY, sizeof(gSpinHistoryPosY));
+  mem_clear(gSpinHistoryPosZ, sizeof(gSpinHistoryPosZ));
+  mem_clear(gSpinHistoryPosAngle, sizeof(gSpinHistoryPosAngle));
 
-    // Partner movement history
-    mem_clear(gPlayerMoveHistory, sizeof(gPlayerMoveHistory));
-    gPlayerMoveHistoryIndex = 0;
+  // Partner movement history
+  mem_clear(gPlayerMoveHistory, sizeof(gPlayerMoveHistory));
+  gPlayerMoveHistoryIndex = 0;
 
-    // Battle state
-    mem_clear(&gBattleStatus, sizeof(gBattleStatus));
-    gBattleState = 0;
-    gBattleSubState = 0;
-    gLastDrawBattleState = 0;
-    gDefeatedBattleState = 0;
-    gDefeatedBattleSubstate = 0;
-    gCurrentBattleID = 0;
-    gCurrentStageID = 0;
+  // Battle state
+  mem_clear(&gBattleStatus, sizeof(gBattleStatus));
+  gBattleState = 0;
+  gBattleSubState = 0;
+  gLastDrawBattleState = 0;
+  gDefeatedBattleState = 0;
+  gDefeatedBattleSubstate = 0;
+  gCurrentBattleID = 0;
+  gCurrentStageID = 0;
 
-    // Collision data
-    mem_clear(&gCollisionStatus, sizeof(gCollisionStatus));
-    mem_clear(&gCollisionData, sizeof(gCollisionData));
-    mem_clear(&gZoneCollisionData, sizeof(gZoneCollisionData));
-    mem_clear(&gCurrentHiddenPanels, sizeof(gCurrentHiddenPanels));
+  // Collision data
+  mem_clear(&gCollisionStatus, sizeof(gCollisionStatus));
+  mem_clear(&gCollisionData, sizeof(gCollisionData));
+  mem_clear(&gZoneCollisionData, sizeof(gZoneCollisionData));
+  mem_clear(&gCurrentHiddenPanels, sizeof(gCurrentHiddenPanels));
 
-    // Encounter
-    mem_clear(&gCurrentEncounter, sizeof(gCurrentEncounter));
+  // Encounter
+  mem_clear(&gCurrentEncounter, sizeof(gCurrentEncounter));
 
-    // Save data
-    mem_clear(&gCurrentSaveFile, sizeof(gCurrentSaveFile));
-    mem_clear(&gSaveGlobals, sizeof(gSaveGlobals));
+  // Save data
+  mem_clear(&gCurrentSaveFile, sizeof(gCurrentSaveFile));
+  mem_clear(&gSaveGlobals, sizeof(gSaveGlobals));
 
-    // UI/Graphics
-    mem_clear(gWindows, sizeof(gWindows));
-    mem_clear(ScreenOverlays, sizeof(ScreenOverlays));
-    mem_clear(TextureHandles, sizeof(TextureHandles));
-    mem_clear(gMusicControlData, sizeof(gMusicControlData));
-    mem_clear(D_80164000, sizeof(D_80164000));
+  // UI/Graphics
+  mem_clear(gWindows, sizeof(gWindows));
+  mem_clear(ScreenOverlays, sizeof(ScreenOverlays));
+  mem_clear(TextureHandles, sizeof(TextureHandles));
+  mem_clear(gMusicControlData, sizeof(gMusicControlData));
+  mem_clear(D_80164000, sizeof(D_80164000));
 
-    // Camera
-    mem_clear(gCameras, sizeof(gCameras));
+  // Camera
+  mem_clear(gCameras, sizeof(gCameras));
 
-    // Game status (only partially initialized at definition)
-    mem_clear(&gGameStatus, sizeof(gGameStatus));
-    gGameStatus.contBitPattern = 1; // Controller 1 connected (port skips boot_main)
+  // Game status (only partially initialized at definition)
+  mem_clear(&gGameStatus, sizeof(gGameStatus));
+  gGameStatus.contBitPattern =
+      1; // Controller 1 connected (port skips boot_main)
 
-    // Entity/Worker lists
-    mem_clear(&gWorldWorkerList, sizeof(gWorldWorkerList));
-    mem_clear(&gBattleWorkerList, sizeof(gBattleWorkerList));
-    mem_clear(&gWorldEntityModelList, sizeof(gWorldEntityModelList));
-    mem_clear(&gBattleEntityModelList, sizeof(gBattleEntityModelList));
-    mem_clear(&gWorldEntityList, sizeof(gWorldEntityList));
-    mem_clear(&gBattleEntityList, sizeof(gBattleEntityList));
-    mem_clear(&gWorldShadowList, sizeof(gWorldShadowList));
-    mem_clear(&gBattleShadowList, sizeof(gBattleShadowList));
+  // Entity/Worker lists
+  mem_clear(&gWorldWorkerList, sizeof(gWorldWorkerList));
+  mem_clear(&gBattleWorkerList, sizeof(gBattleWorkerList));
+  mem_clear(&gWorldEntityModelList, sizeof(gWorldEntityModelList));
+  mem_clear(&gBattleEntityModelList, sizeof(gBattleEntityModelList));
+  mem_clear(&gWorldEntityList, sizeof(gWorldEntityList));
+  mem_clear(&gBattleEntityList, sizeof(gBattleEntityList));
+  mem_clear(&gWorldShadowList, sizeof(gWorldShadowList));
+  mem_clear(&gBattleShadowList, sizeof(gBattleShadowList));
 
-    // Effect instances
-    mem_clear(gEffectInstances, sizeof(gEffectInstances));
+  // Effect instances
+  mem_clear(gEffectInstances, sizeof(gEffectInstances));
 
-    // Script list (must be zeroed before clear_script_list() is called)
-    gCurrentScriptListPtr = NULL;
-    gMapFlags = NULL;
-    gMapVars = NULL;
-    gNumScripts = 0;
-    gScriptListCount = 0;
-    mem_clear(&gWorldScriptList, sizeof(gWorldScriptList));
-    mem_clear(&gBattleScriptList, sizeof(gBattleScriptList));
-    mem_clear(gScriptIndexList, sizeof(gScriptIndexList));
-    mem_clear(gScriptIdList, sizeof(gScriptIdList));
-
+  // Script list (must be zeroed before clear_script_list() is called)
+  gCurrentScriptListPtr = NULL;
+  gMapFlags = NULL;
+  gMapVars = NULL;
+  gNumScripts = 0;
+  gScriptListCount = 0;
+  mem_clear(&gWorldScriptList, sizeof(gWorldScriptList));
+  mem_clear(&gBattleScriptList, sizeof(gBattleScriptList));
+  mem_clear(gScriptIndexList, sizeof(gScriptIndexList));
+  mem_clear(gScriptIdList, sizeof(gScriptIdList));
 }

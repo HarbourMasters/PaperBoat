@@ -90,7 +90,7 @@ void state_step_startup(void) {
 #endif
 
     gOverrideFlags &= ~GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME;
-    if (CVarGetInteger("gStarRod.NoIntro", 1) == 1) {
+    if (CVarGetInteger("gEnhancements.NoIntro", 1) == 1) {
         set_game_mode(GAME_MODE_TITLE_SCREEN);
     } else {
         set_game_mode(GAME_MODE_LOGOS);
