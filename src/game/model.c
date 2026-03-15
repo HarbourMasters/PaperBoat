@@ -2650,6 +2650,7 @@ void mdl_update_transform_matrices(void) {
     for (i = 0; i < ARRAY_COUNT(*gCurrentModels); i++) {
         model = (*gCurrentModels)[i];
         if (model != nullptr && (model->flags != 0) && !(model->flags & MODEL_FLAG_INACTIVE)) {
+            FrameInterpolation_RecordOpenChild("model_matrix", TAG_MODEL(i, model));
             if (!(model->flags & MODEL_FLAG_MATRIX_DIRTY)) {
                 if (model->matrixFreshness != 0) {
                     // matrix was recalculated recently and stored on the matrix stack
@@ -2699,12 +2700,14 @@ void mdl_update_transform_matrices(void) {
                 // disable bounds culling for models with dynamic transformations
                 model->flags &= ~MODEL_FLAG_DO_BOUNDS_CULLING;
             }
+            FrameInterpolation_RecordCloseChild();
         }
     }
 
     for (i = 0; i < ARRAY_COUNT((*gCurrentTransformGroups)); i++) {
         mtg = (*gCurrentTransformGroups)[i];
         if (mtg != nullptr && mtg->flags != 0 && !(mtg->flags & TRANSFORM_GROUP_FLAG_INACTIVE)) {
+            FrameInterpolation_RecordOpenChild("group_matrix", TAG_GROUP(i, mtg));
             if (!(mtg->flags & TRANSFORM_GROUP_FLAG_MATRIX_DIRTY)) {
                 if (mtg->matrixFreshness != 0) {
                     // matrix was recalculated recently and stored on the matrix stack
@@ -2751,6 +2754,7 @@ void mdl_update_transform_matrices(void) {
                 // point matrix for gfx building to our matrix on the stack
                 mtg->finalMtx = curMtx;
             }
+            FrameInterpolation_RecordCloseChild();
         }
     }
 
@@ -2972,7 +2976,7 @@ void render_models(void) {
             rtPtr->renderMode = transformGroup->renderMode;
             rtPtr->needsInterpolation = true;
             rtPtr->interpolationName = "render_models";
-            rtPtr->interpolationTag = TAG_GENERIC(i, transformGroup);
+            rtPtr->interpolationTag = TAG_TRANSFORM_GROUP(i, transformGroup);
             queue_render_task(rtPtr);
         }
     }

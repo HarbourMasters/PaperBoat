@@ -1661,7 +1661,7 @@ void render_transformed_hud_elements(void) {
                     gSPSetOtherMode(gMainGfxPos++, G_SETOTHERMODE_H, G_MDSFT_ALPHADITHER, 18, G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE | G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE);
 
                     for (i = 0; i < count; i++) {
-                        FrameInterpolation_RecordOpenChild("HUD Elements", TAG_GENERIC(i, (*gHudElements)[sortedElements[i]]));
+                        FrameInterpolation_RecordOpenChild("HUD Elements", (*gHudElements)[sortedElements[i]]);
                         render_hud_element((*gHudElements)[sortedElements[i]]);
                         FrameInterpolation_RecordCloseChild();
                     }

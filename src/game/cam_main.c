@@ -116,7 +116,7 @@ void render_frame(s32 isSecondPass) {
         }
 
         gCurrentCamID = camID;
-        FrameInterpolation_RecordOpenChild("camera_render", TAG_GENERIC(camID, camera));
+        FrameInterpolation_RecordOpenChild("camera_render", TAG_CAMERA(camID, camera));
 
         if (camera->fpDoPreRender != nullptr) {
             camera->fpDoPreRender(camera);

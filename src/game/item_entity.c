@@ -1058,7 +1058,7 @@ void draw_item_entities(void) {
             rtPtr->dist = 0;
             rtPtr->needsInterpolation = true;
             rtPtr->interpolationName = "item_entity";
-            rtPtr->interpolationTag = TAG_GENERIC(i, item);
+            rtPtr->interpolationTag = TAG_ITEM_ENTITY(i, item);
 
             retTask = queue_render_task(rtPtr);
             retTask->renderMode |= RENDER_TASK_FLAG_REFLECT_FLOOR;

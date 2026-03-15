@@ -10,26 +10,27 @@ std::unordered_map<Mtx*, MtxF> FrameInterpolation_Interpolate(float step);
 extern "C" {
 #endif
 
-#define TAG_OBJ(id, ptr) (((((ptr)->listIndex) << 16) & 0x0FFF0000) | (((id) << 8) & 0x0000FF00))
-#define TAG_ACTOR(id, ptr) (((((ptr)->actorID) << 16) & 0x0FFF0000) | (((id) << 8) & 0x0000FF00))
-#define TAG_ITEM(id, ptr) (((((ptr)->itemID) << 16) & 0x0FFF0000) | (((id) << 8) & 0x0000FF00))
-#define TAG_MODEL(id, ptr) (((((ptr)->modelID) << 16) & 0x0FFF0000) | (((id) << 8) & 0x0000FF00))
-#define TAG_NPC(id, ptr) (((((ptr)->npcID) << 16) & 0x0FFF0000) | (((id) << 8) & 0x0000FF00))
-#define TAG_EFFECT(id, ptr) (((((ptr)->effectID) << 16) & 0x0FFF0000) | (((id) << 8) & 0x0000FF00))
-#define TAG_GENERIC(id, ptr) ((((id) << 8) & 0x0000FF00) | (u32)(ptr))
-#define TAG_TASK(x) ((u32)0x30000000 | ((u32) (uintptr_t) (x) & 0x0FFFFFFF))
+#define TAG_ENTRY(id, ptrIdx) (((((ptrIdx) << 16) & 0x0FFF0000) | (((id) << 8) & 0x0000FF00)))
 
-#define TAG_ITEM_ADDR(x) ((u32) 0x10000000 | (u32)x)
-#define TAG_SMOKE_DUST(x) ((u32) 0x20000000 | (u32) (x))
-#define TAG_LETTER(x) ((u32)0x30000000 | ((u32) (uintptr_t) (x) & 0x0FFFFFFF))
-#define TAG_OBJECT(x) ((u32)0x40000000 | (u32)  (uintptr_t) (x))
-#define TAG_CLOUDS(x) ((u32)0x50000000 | (u32)  (uintptr_t) (x))
-#define TAG_RENDER_LAYER(layer, x) ((u32)layer | (u32)  (uintptr_t) (x))
-#define TAG_RENDER_TASK(x) ((u32)0x60000000 | (u32)  (uintptr_t) (x))
-//                          Mask the bits so that the 7 can't get overridden
-#define TAG_TRACK(x) ((u32)0x70000000 | ((u32)(x) & 0x0FFFFFFF))
-#define TAG_MINIMAP_DOTS(x) ((u32)0x80000000 | ((u32)(x) & 0x0FFFFFFF))
-#define TAG_PORTRAITS(x) ((u32)0x90000000 | ((u32)(x) & 0x0FFFFFFF))
+#define TAG_OBJ(id, ptr) ((u32) (0x10000000 | (TAG_ENTRY((id), (ptr)->listIndex))))
+#define TAG_ACTOR(id, ptr) ((u32) (0x20000000 | (TAG_ENTRY((id), (ptr)->actorID))))
+#define TAG_ITEM(id, ptr) ((u32) (0x30000000 | (TAG_ENTRY((id), (ptr)->itemID))))
+#define TAG_MODEL(id, ptr) ((u32) (0x40000000 | (TAG_ENTRY((id), (ptr)->modelID))))
+#define TAG_GROUP(id, ptr) ((u32) (0x50000000 | (TAG_ENTRY((id), (ptr)->groupModelID))))
+#define TAG_NPC(id, ptr) ((u32) (0x60000000 | (TAG_ENTRY((id), (ptr)->npcID))))
+#define TAG_EFFECT(id, ptr) ((u32) (0x70000000 | (TAG_ENTRY((id), (ptr)->effectID))))
+
+#define TAG_TASK(x) ((u32)0x80000000 | ((u32) (uintptr_t) (x) & 0x0FFFFFFF))
+#define TAG_RENDER_LAYER(layer, x) ((u32)0x90000000 | (((layer) << 24) & 0x0F000000) | ((u32) (uintptr_t) (x) & 0x00FFFFFF))
+#define TAG_RENDER_TASK(x) ((u32)0xA0000000 | ((u32) (uintptr_t) (x) & 0x0FFFFFFF))
+#define TAG_ANIMATOR(id, ptr) ((u32) (0xB0000000 | (TAG_ENTRY((id), (ptr)->treeIndexPos))))
+#define TAG_CAMERA(id, ptr) ((u32) (0xC0000000 | (TAG_ENTRY((id), (u32) ptr))))
+#define TAG_SHADOW(id, ptr) ((u32) (0xD0000000 | (TAG_ENTRY((id), (ptr)->listIndex))))
+#define TAG_ITEM_ENTITY(id, ptr) ((u32) (0xE0000000 | (TAG_ENTRY((id), (ptr)->itemID))))
+#define TAG_TRANSFORM_GROUP(id, ptr) ((u32) (0xF0000000 | (TAG_ENTRY((id), (ptr)->groupModelID))))
+#define TAG_WORKER(id, ptr) ((u32) (0x0F000000 | (TAG_ENTRY((id), (uint32_t)(ptr)->draw))))
+#define TAG_ANIMATED_MODEL(id, ptr) ((u32) (0x00F00000 | (TAG_ENTRY((id), (ptr)->animModelID))))
+#define TAG_GENERIC(id, ptr) ((u32) (0x00000000 | (TAG_ENTRY((id), (uint32_t)(ptr)))))
 
 void FrameInterpolation_ShouldInterpolateFrame(bool shouldInterpolate);
 

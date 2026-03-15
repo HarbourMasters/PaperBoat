@@ -473,7 +473,11 @@ void update_model_animator(s32 animatorID) {
         return;
     }
 
+    FrameInterpolation_RecordOpenChild("animator", TAG_ANIMATOR(animatorID, animator));
+
     animator_update_model_transforms(animator, nullptr);
+
+    FrameInterpolation_RecordCloseChild();
 
     for (i = 0; i < ARRAY_COUNT(D_801533C0); i++) {
         if (D_801533C0[i].ttl >= 0) {
