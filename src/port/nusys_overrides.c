@@ -70,8 +70,8 @@ NUScTask nuGfxTask[NU_GFX_TASK_NUM];
 s32 D_800B91D0[NU_GFX_RDP_OUTPUTBUFF_SIZE / sizeof(u32)] ALIGNED(16);
 u64 D_800DA040[0x400 / sizeof(u64)] ALIGNED(16);
 
-// RSP boot ucode buffer
-u8 rspbootUcodeBuffer[0x100] ALIGNED(16);
+// RSP boot ucode buffer (defined in audio/core/system.c)
+extern u8 rspbootUcodeBuffer[];
 
 // Microcode reference
 static u64 dummy_ucode[16];
