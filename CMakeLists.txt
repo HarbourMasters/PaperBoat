@@ -85,11 +85,15 @@ if (WIN32)
     vcpkg_install_packages(zlib bzip2 sdl2 glew libzip nlohmann-json tinyxml2 spdlog)
 
     set_property(DIRECTORY ${CMAKE_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
-    set_property(DIRECTORY ${CMAKE_SOURCE_DIR} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 endif()
 
 # Add libultraship BEFORE setting include directories to avoid polluting its builds
 add_subdirectory(external/libultraship ${CMAKE_CURRENT_SOURCE_DIR}/external/libultraship)
+
+# Prism (fetched by libultraship) misdetects clang-cl as non-MSVC and skips /EHsc
+if(MSVC AND TARGET prism)
+    target_compile_options(prism PRIVATE /EHsc)
+endif()
 
 # Add torch as a library for asset extraction
 set(USE_STANDALONE OFF CACHE BOOL "" FORCE)
@@ -176,8 +180,8 @@ endif()
 
 # __CTX__ disables INCLUDE_ASM macros and inline assembly
 target_compile_definitions(${PROJECT_NAME} PRIVATE
-    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:$<$<COMPILE_LANGUAGE:C>:_LANGUAGE_C>>
-    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:$<$<COMPILE_LANGUAGE:CXX>:_LANGUAGE_C_PLUS_PLUS>>
+    $<$<NOT:$<BOOL:${MSVC}>>:$<$<COMPILE_LANGUAGE:C>:_LANGUAGE_C>>
+    $<$<NOT:$<BOOL:${MSVC}>>:$<$<COMPILE_LANGUAGE:CXX>:_LANGUAGE_C_PLUS_PLUS>>
     PORT
     MODERN_COMPILER
     VERSION=us
@@ -262,6 +266,9 @@ if(MSVC)
     )
     set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUNTIME_LIBRARY_STR})
 
+    # Set working directory for visual studio debugger
+    set_property(DIRECTORY ${CMAKE_SOURCE_DIR} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+
     # Windows compile definitions
     target_compile_definitions(${PROJECT_NAME} PRIVATE
         "$<$<CONFIG:Debug>:_DEBUG;_CRT_SECURE_NO_WARNINGS;ENABLE_DX11>"
@@ -276,11 +283,16 @@ if(MSVC)
 
     # Compile options (clang-cl vs MSVC)
     if(CMAKE_C_COMPILER_ID STREQUAL "Clang")
-        # Clang-CL: no /ZI (Edit & Continue), no /MP (handled by build system)
+        # Clang-CL: no /ZI (Edit & Continue)
         target_compile_options(${PROJECT_NAME} PRIVATE
             $<$<CONFIG:Debug>:/w;/Od;/MTd;/Zi>
             $<$<CONFIG:Release>:/Oi;/Gy;/W3;/MT;/Zi>
             /permissive-
+            /clang:-Wno-implicit-function-declaration
+            /clang:-Wno-int-conversion
+            /clang:-Wno-narrowing
+            /clang:-fcommon
+            /MP
         )
     else()
         # MSVC (cl.exe)
@@ -294,7 +306,7 @@ if(MSVC)
 
     # MSVC link options
     target_link_options(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:/INCREMENTAL>
+        $<$<CONFIG:Debug>:/INCREMENTAL;/FORCE:MULTIPLE>
         $<$<CONFIG:Release>:/OPT:REF;/OPT:ICF;/INCREMENTAL:NO;/FORCE:MULTIPLE>
         /MANIFEST:NO
         /DEBUG

@@ -8,8 +8,8 @@
 
 #include "FrameInterpolation.h"
 
-extern "C" {
 extern MtxF* gInterpolationMatrix;
+extern "C" {
 void guOrtho(Mtx* dest, float left, float right, float bottom, float oTop, float oNear, float oFar, float oScale);
 }
 

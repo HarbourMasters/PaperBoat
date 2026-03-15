@@ -750,9 +750,9 @@ void aSetVolumeImpl(uint8_t flags, int16_t v, int16_t t, int16_t r) {
   }
 }
 
-void aPoleFilterImpl(uint8_t flags, int16_t gain, uint32_t t, uint32_t addr) {
+void aPoleFilterImpl(uint8_t flags, int16_t gain, uint32_t t, void *addr) {
   int16_t *buf = BUF_S16(OFS_BASE);
-  POLEF_STATE *filterState = (POLEF_STATE *)BUF_S16(addr);
+  POLEF_STATE *filterState = (POLEF_STATE *)addr;
 
   // Single-pole IIR lowpass: y[n] = (gain * x[n] + coef[8] * y[n-1]) >> 14
   // gain = fgain (SCALE - timeConstant), coef[8] = timeConstant

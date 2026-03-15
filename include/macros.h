@@ -33,7 +33,7 @@
 #define TRANSPARENT_UNION __attribute__ ((__transparent_union__))
 #endif
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) && !defined(__clang__)
 #define ALIGNED(x) __declspec(align(x))
 #else
 #define ALIGNED(x) __attribute__((aligned(x)))

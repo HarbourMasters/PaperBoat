@@ -23,12 +23,14 @@ void is_debug_init(void) {
 }
 #endif
 
+#ifndef _WIN32
 void printf(const char* fmt, ...) {
     va_list args;
     va_start(args, fmt);
 
     _Printf(is_debug_print, nullptr, fmt, args);
 }
+#endif
 
 void osSyncPrintf(const char* fmt, ...) {
     va_list args;

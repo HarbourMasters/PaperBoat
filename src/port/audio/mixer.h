@@ -32,7 +32,7 @@ void aInterleaveImpl(void);
 void aMixImpl(uint8_t flags, int16_t gain, uint16_t in_addr, uint16_t out_addr);
 void aEnvMixerImpl(uint8_t flags, ENVMIX_STATE state, int16_t some_vol);
 void aSetVolumeImpl(uint8_t flags, int16_t v, int16_t t, int16_t r);
-void aPoleFilterImpl(uint8_t flags, int16_t gain, uint32_t t, uint32_t addr);
+void aPoleFilterImpl(uint8_t flags, int16_t gain, uint32_t t, void* addr);
 void aDisableImpl(uint16_t outp, uint32_t b, uint32_t c);
 
 #define aDisable(pkt, o, b, c) aDisableImpl(o, b, c)
