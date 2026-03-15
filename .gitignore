@@ -32,6 +32,7 @@ cmake-build-*/
 .vs/
 build*
 !src/port/build.c.in
+!src/port/build.h
 logs/
 /mods/
 default.sav
