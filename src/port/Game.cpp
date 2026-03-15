@@ -3,6 +3,10 @@
 #include <libultraship.h>
 
 #include "Engine.h"
+#include "port/interpolation/FrameInterpolation.h"
+
+MtxF sInterpolationMatrixStack[0x1000];
+MtxF* gInterpolationMatrix = &sInterpolationMatrixStack[0];
 
 // Forward declarations for game C functions
 extern "C" {
@@ -38,12 +42,12 @@ extern "C"
   // AudioInit()
   load_engine_data(); // Then configure them (calls clear_script_list(), etc.)
 
-  wnd->SetTargetFps(30);
-
   // Main loop - single frame function handles everything
   while (wnd->IsRunning()) {
     GameEngine::Instance->StartFrame(); // Handle input/hotkeys
+    FrameInterpolation_StartRecord();
     Graphics_ThreadUpdate();            // Game logic + build DL + submit
+    FrameInterpolation_StopRecord();
   }
 
   GameEngine::Instance->Destroy();

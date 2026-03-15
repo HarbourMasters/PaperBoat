@@ -378,12 +378,12 @@ void render_entities(void) {
                     }
 
                     if (entity->gfxBaseAddr == nullptr) {
-                        render_animated_model(entity->virtualModelIndex, &entity->transformMatrix);
+                        render_animated_model(entity->virtualModelIndex, &entity->transformMatrix, TAG_OBJ(i, entity));
                     } else {
                         render_animated_model_with_vertices(entity->virtualModelIndex,
                                       &entity->transformMatrix,
                                       entity->vertexSegment,
-                                      entity->gfxBaseAddr);
+                                      entity->gfxBaseAddr, TAG_OBJ(i, entity));
                     }
                 } else {
                     if (D_8014AFB0 == 255) {
@@ -436,12 +436,12 @@ void render_shadows(void) {
                 }
             } else if (shadow->flags & ENTITY_FLAG_HAS_ANIMATED_MODEL) {
                 if (shadow->vertexArray == nullptr) {
-                    render_animated_model(shadow->entityModelID, &shadow->transformMatrix);
+                    render_animated_model(shadow->entityModelID, &shadow->transformMatrix, TAG_SHADOW(i, shadow));
                 } else {
                     render_animated_model_with_vertices(shadow->entityModelID,
                                   &shadow->transformMatrix,
                                   shadow->vertexSegment,
-                                  shadow->vertexArray);
+                                  shadow->vertexArray, TAG_SHADOW(i, shadow));
                 }
             } else {
                 if (shadow->flags & ENTITY_FLAG_FADING_AWAY) {

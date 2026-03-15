@@ -1519,6 +1519,9 @@ void render_player_model(void) {
             }
 
             rtPtr->appendGfx = appendGfx;
+            rtPtr->interpolationName = "player_render";
+            rtPtr->needsInterpolation = true;
+            rtPtr->interpolationTag = TAG_GENERIC(0, playerStatus);
             queue_render_task(rtPtr);
         }
 

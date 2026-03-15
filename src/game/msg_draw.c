@@ -2049,7 +2049,7 @@ void msg_draw_frame(s32 posX, s32 posY, s32 sizeX, s32 sizeY, s32 style, s32 pal
     s32 frameType;
     IMG_BIN* textures[16];
     u8 r, g, b;
-    Rect quads[16];
+    Rect_t quads[16];
 
     if (sizeX < 16 || sizeY < 16) {
         return;

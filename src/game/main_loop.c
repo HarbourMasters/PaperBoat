@@ -6,6 +6,7 @@
 #include "sprite.h"
 #include "overlay.h"
 #include "game_modes.h"
+#include "port/interpolation/FrameInterpolation.h"
 
 extern s32 gOverrideFlags;    // Defined in main_pre_bss.c
 extern s32 gTimeFreezeMode;   // Defined in main_pre_bss.c
@@ -81,6 +82,11 @@ void step_game_loop(void) {
             return;
         }
     }
+
+    #define CALL_AND_RECORD_FUNC(func) \
+        FrameInterpolation_RecordOpenChild(#func, 0); \
+        func(); \
+        FrameInterpolation_RecordCloseChild();
 
     mdl_reset_transform_flags();
     npc_iter_no_op();

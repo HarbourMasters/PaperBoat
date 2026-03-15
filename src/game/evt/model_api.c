@@ -11,7 +11,9 @@ void update_animated_models(void) {
         AnimatedModel* anim = (*gCurrentMeshAnimationListPtr)[i];
 
         if (anim->animModelID >= 0) {
+            FrameInterpolation_RecordOpenChild("animator_matrix", TAG_ANIMATED_MODEL(i, anim));
             update_model_animator_with_transform(anim->animModelID, &anim->mtx);
+            FrameInterpolation_RecordCloseChild();
         }
     }
 }
@@ -42,7 +44,7 @@ void render_animated_models(void) {
             guMtxCatF(sp1D8, sp118, sp158);
             guMtxCatF(sp158, sp18, sp198);
             guMtxF2L(sp198, &model->mtx);
-            render_animated_model(model->animModelID, &model->mtx);
+            render_animated_model(model->animModelID, &model->mtx, TAG_ANIMATED_MODEL(i, model));
         }
     }
 }

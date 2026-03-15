@@ -1056,6 +1056,9 @@ void draw_item_entities(void) {
             rtPtr->appendGfxArg = item;
             rtPtr->appendGfx = appendGfx_item_entity;
             rtPtr->dist = 0;
+            rtPtr->needsInterpolation = true;
+            rtPtr->interpolationName = "item_entity";
+            rtPtr->interpolationTag = TAG_ITEM_ENTITY(i, item);
 
             retTask = queue_render_task(rtPtr);
             retTask->renderMode |= RENDER_TASK_FLAG_REFLECT_FLOOR;
@@ -1114,6 +1117,7 @@ void render_item_entities(void) {
             if ((item->flags != 0)) {
                 if (!(item->flags & ITEM_ENTITY_FLAG_HIDDEN)) {
                     if ((item->flags & ITEM_ENTITY_FLAG_INVISIBLE)) {
+                        FrameInterpolation_RecordOpenChild("item_entity", TAG_ITEM(i, item));
                         if (!(item->flags & ITEM_ENTITY_FLAG_FULLSIZE)) {
                             offsetY = -4;
                         } else {
@@ -1226,6 +1230,7 @@ void render_item_entities(void) {
                         }
                         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
                         gDPPipeSync(gMainGfxPos++);
+                        FrameInterpolation_RecordCloseChild();
                     }
                 }
             }

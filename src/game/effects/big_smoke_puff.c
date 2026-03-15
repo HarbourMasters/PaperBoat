@@ -108,6 +108,8 @@ void big_smoke_puff_render(EffectInstance* effect) {
     renderTask.appendGfxArg = effect;
     renderTask.dist = 0;
     renderTask.renderMode = RENDER_MODE_CLOUD_NO_ZCMP;
+    renderTask.interpolationName = "big_smoke_puff_render";
+    renderTask.interpolationTag = TAG_EFFECT(0, effect);
 
     retTask = queue_render_task(&renderTask);
     retTask->renderMode |= RENDER_TASK_FLAG_REFLECT_FLOOR;

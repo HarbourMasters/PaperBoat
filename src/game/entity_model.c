@@ -2,6 +2,7 @@
 #include "entity.h"
 #include "Engine.h"
 #include <stdio.h>
+#include "port/interpolation/FrameInterpolation.h"
 
 EntityModelScript D_8014C260 = {
     ems_End
@@ -450,6 +451,9 @@ void draw_entity_model_A(s32 modelIdx, Mtx* transformMtx) {
                             rtPtr->appendGfxArg = model;
                             rtPtr->appendGfx = (void(*)(void*))appendGfx_entity_model;
                             rtPtr->dist = ((u32)(model->flags & 0xF000) >> 8) + inZ;
+                            rtPtr->needsInterpolation = true;
+                            rtPtr->interpolationName = "draw_entity_model_A";
+                            rtPtr->interpolationTag = TAG_RENDER_LAYER(1, transformMtx);
                             queue_render_task(rtPtr);
                         }
                     }
@@ -489,6 +493,9 @@ void draw_entity_model_B(s32 modelIdx, Mtx* transformMtx, s32 vertexSegment, Vec
                             rtPtr->appendGfxArg = model;
                             rtPtr->appendGfx = (void(*)(void*))appendGfx_entity_model;
                             rtPtr->dist = ((u32)(model->flags & 0xF000) >> 8) + inZ;
+                            rtPtr->needsInterpolation = true;
+                            rtPtr->interpolationName = "draw_entity_model_B";
+                            rtPtr->interpolationTag = TAG_RENDER_LAYER(2, transformMtx);
                             queue_render_task(rtPtr);
                         }
                     }
@@ -519,6 +526,9 @@ void draw_entity_model_C(s32 modelIdx, Mtx* transformMtx) {
                             rtPtr->appendGfxArg = model;
                             rtPtr->appendGfx = (void(*)(void*))appendGfx_entity_model;
                             rtPtr->dist = (u32)(model->flags & 0xF000) >> 8;
+                            rtPtr->needsInterpolation = true;
+                            rtPtr->interpolationName = "draw_entity_model_C";
+                            rtPtr->interpolationTag = TAG_RENDER_LAYER(3, transformMtx);
                             queue_render_task(rtPtr);
                         }
                     }
@@ -550,6 +560,9 @@ void draw_entity_model_D(s32 modelIdx, Mtx* transformMtx, s32 arg2, Vec3s* verte
                             rtPtr->appendGfxArg = model;
                             rtPtr->appendGfx = (void(*)(void*))appendGfx_entity_model;
                             rtPtr->dist = (u32)(model->flags & 0xF000) >> 8;
+                            rtPtr->needsInterpolation = true;
+                            rtPtr->interpolationName = "draw_entity_model_D";
+                            rtPtr->interpolationTag = TAG_RENDER_LAYER(4, transformMtx);
                             queue_render_task(rtPtr);
                         }
                     }

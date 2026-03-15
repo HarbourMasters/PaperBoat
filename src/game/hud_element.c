@@ -856,7 +856,7 @@ s32 hud_element_update(HudElement* hudElement) {
             {
                 const char* rasterPath = (const char*)*nextPos++;
                 const char* palPath = (const char*)*nextPos++;
-                hudElement->imageAddr = (u8*)LOAD_ASSET(rasterPath);
+                hudElement->imageAddr = (u8*)rasterPath;
                 hudElement->paletteAddr = (u8*)LOAD_ASSET(palPath);
 
                 // Override custom size from OTR texture metadata to support HD texture replacements
@@ -1661,7 +1661,9 @@ void render_transformed_hud_elements(void) {
                     gSPSetOtherMode(gMainGfxPos++, G_SETOTHERMODE_H, G_MDSFT_ALPHADITHER, 18, G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE | G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE);
 
                     for (i = 0; i < count; i++) {
+                        FrameInterpolation_RecordOpenChild("HUD Elements", (*gHudElements)[sortedElements[i]]);
                         render_hud_element((*gHudElements)[sortedElements[i]]);
+                        FrameInterpolation_RecordCloseChild();
                     }
                 }
             }

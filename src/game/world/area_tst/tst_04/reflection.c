@@ -98,7 +98,7 @@ void N(worker_render_animator)(void) {
 
     guTranslateF(m1, -484.0f, 25.0f, -40.0f);
     guMtxF2L(m1, &m4);
-    render_animated_model(N(Animator), &m4);
+    render_animated_model(N(Animator), &m4, TAG_GENERIC(0, N(Animator)));
 }
 
 API_CALLABLE(N(SetupAnimatedModel)) {

@@ -531,6 +531,8 @@ void N(worker_render_piranha_vines)(void) {
     renderTask.appendGfxArg = 0;
     renderTask.dist = 10;
     renderTask.renderMode = RENDER_MODE_SURFACE_OPA;
+    renderTask.interpolationName = "piranha_vines_render";
+    renderTask.interpolationTag = TAG_GENERIC(0, &N(VineRenderState));
 
     queue_render_task(&renderTask);
 }

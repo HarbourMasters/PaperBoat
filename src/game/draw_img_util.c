@@ -174,8 +174,8 @@ s32 draw_tiled_image(IMG_PTR raster, u32 width, u32 height, u8 fmt, u8 bitDepth,
                      s16 posX, s16 posY,
                      u16 clipX, u16 clipY, u16 clipWidth, u16 clipHeight,
                      f32 scaleX, f32 scaleY) {
-    Rect texRect;
-    Rect drawRect;
+    Rect_t texRect;
+    Rect_t drawRect;
     s32 dsdx, dtdy;
     s32 texOffsetX, texOffsetY;
     u8 stopDrawing;
@@ -317,8 +317,8 @@ s32 draw_adjustable_tiled_image(IMG_PTR raster, u32 width, u32 height, u8 fmt, u
                      s16 posX, s16 posY,
                      u16 clipX, u16 clipY, u16 clipWidth, u16 clipHeight,
                      f32 scaleX, f32 scaleY) {
-    Rect texRect;
-    Rect drawRect;
+    Rect_t texRect;
+    Rect_t drawRect;
     u16 overlap;
     s32 dsdx, dtdy;
     s32 texOffsetX, texOffsetY;

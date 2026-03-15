@@ -1,6 +1,7 @@
 #ifndef _COMMON_STRUCTS_H_
 #define _COMMON_STRUCTS_H_
 
+#undef __MACTYPES__
 #include "macros.h"
 #include <libultraship/libultraship.h>
 #include "types.h"
@@ -1544,7 +1545,10 @@ typedef struct RenderTask {
     /* 0x04 */ s32 dist; /* value between 0 and -10k */
     /* 0x08 */ void* appendGfxArg;
     /* 0x0C */ void (*appendGfx)(void*);
-} RenderTask; // size = 0x10
+    /* 0x10 */ bool needsInterpolation;
+    /* 0x14 */ char* interpolationName;
+    /* 0x18 */ u32 interpolationTag;
+} RenderTask; // size = 0x38
 
 typedef struct SelectableTarget {
     /* 0x00 */ s16 actorID;
@@ -2549,12 +2553,12 @@ typedef struct MsgVoice {
     /* 0x08 */ s32 pitchShift;
 } MsgVoice; // size = 0x0C
 
-typedef struct Rect {
+typedef struct Rect_t {
     /* 0x00 */ s32 ulx;
     /* 0x04 */ s32 uly;
     /* 0x08 */ s32 lrx;
     /* 0x0C */ s32 lry;
-} Rect; // size = 0x10
+} Rect_t; // size = 0x10
 
 typedef struct LavaPiranhaVine {
     /* 0x000 */ Vec3f bonePos[9];
