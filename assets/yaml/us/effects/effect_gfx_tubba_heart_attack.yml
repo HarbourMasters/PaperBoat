@@ -9,10 +9,10 @@ tex_200:
   { type: TEXTURE, format: TLUT, offset: 0x09000200, colors: 16, symbol: D_09000000_3D2580 }
 
 dlist_400:
-  { type: PM64:EFFECT_DL, offset: 0x09000400, symbol: D_09000400_3D2980 }
+  { type: GFX, offset: 0x09000400, symbol: D_09000400_3D2980 }
 
 vtx_4D8:
   { type: VTX, offset: 0x090004D8, count: 4, symbol: D_090004D8_3D2A58 }
 
 dlist_518:
-  { type: PM64:EFFECT_DL, offset: 0x09000518, symbol: D_09000518_3D2A98 }
+  { type: GFX, offset: 0x09000518, symbol: D_09000518_3D2A98 }

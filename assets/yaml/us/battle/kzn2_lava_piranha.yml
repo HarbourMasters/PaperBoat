@@ -1,6 +1,9 @@
 # battle/area/kzn2 overlay - lava_piranha vine assets
 # VRAM base: 0x80218000, ROM start: 0x59E6E0
 
+:config:
+  virtual: [0x80218000, 0x59E6E0]
+
 # Vine texture (CI4 64x32 + 16-color palette)
 battle/area/kzn2/lava_piranha_vine:
   { type: TEXTURE, format: CI4, offset: 0x5A3020, width: 64, height: 32, symbol: D_8021C940_5A3020 }
@@ -9,4 +12,4 @@ battle/area/kzn2/lava_piranha_vine.pal:
 
 # Vine display list (sets up texture state, no vertices)
 battle/area/kzn2/lava_piranha_vine_gfx:
-  { type: PM64:EFFECT_DL, offset: 0x5A3620, symbol: D_8021CF40_5A3620 }
+  { type: GFX, offset: 0x5A3620, symbol: D_8021CF40_5A3620 }

@@ -10,7 +10,7 @@ toad_house/blanket.vtx:
 
 # Blanket display list
 toad_house/blanket.gfx:
-  { type: PM64:EFFECT_DL, offset: 0x80D3F0, size: 0x168, symbol: toad_house_blanket_gfx }
+  { type: GFX, offset: 0x80D3F0, size: 0x168, symbol: toad_house_blanket_gfx }
 
 # Blanket texture (RGBA16 16x32)
 toad_house/blanket:

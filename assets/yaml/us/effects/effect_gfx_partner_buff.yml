@@ -39,19 +39,19 @@ tex_1600:
   { type: TEXTURE, format: TLUT, offset: 0x09001600, colors: 16, symbol: world/numbers }
 
 dlist_1800:
-  { type: PM64:EFFECT_DL, offset: 0x09001800, symbol: D_09001800_406740 }
+  { type: GFX, offset: 0x09001800, symbol: D_09001800_406740 }
 
 dlist_19A0:
-  { type: PM64:EFFECT_DL, offset: 0x090019A0, symbol: D_090019A0_4068E0 }
+  { type: GFX, offset: 0x090019A0, symbol: D_090019A0_4068E0 }
 
 dlist_1A18:
-  { type: PM64:EFFECT_DL, offset: 0x09001A18, symbol: D_09001A18_406958 }
+  { type: GFX, offset: 0x09001A18, symbol: D_09001A18_406958 }
 
 dlist_1A90:
-  { type: PM64:EFFECT_DL, offset: 0x09001A90, symbol: D_09001A90_4069D0 }
+  { type: GFX, offset: 0x09001A90, symbol: D_09001A90_4069D0 }
 
 dlist_1B08:
-  { type: PM64:EFFECT_DL, offset: 0x09001B08, symbol: D_09001B08_406A48 }
+  { type: GFX, offset: 0x09001B08, symbol: D_09001B08_406A48 }
 
 dlist_1B80:
-  { type: PM64:EFFECT_DL, offset: 0x09001B80, symbol: D_09001B80_406AC0 }
+  { type: GFX, offset: 0x09001B80, symbol: D_09001B80_406AC0 }

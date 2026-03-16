@@ -12,4 +12,4 @@ lava_piranha/vine.pal:
 
 # Vine display list
 lava_piranha/vine.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xC91688, size: 0xE0, symbol: kzn_19_lava_piranha_vine_gfx }
+  { type: GFX, offset: 0xC91688, size: 0xE0, symbol: kzn_19_lava_piranha_vine_gfx }

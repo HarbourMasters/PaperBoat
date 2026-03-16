@@ -18,8 +18,8 @@ area_dro/dro_02/card_2.vtx:
 
 # Card display lists
 area_dro/dro_02/card_setup.gfx:
-  { type: PM64:EFFECT_DL, offset: 0x970A88, size: 0xF0, symbol: dro_02_card_setup_gfx }
+  { type: GFX, offset: 0x970A88, size: 0xF0, symbol: dro_02_card_setup_gfx }
 area_dro/dro_02/card_1.gfx:
-  { type: PM64:EFFECT_DL, offset: 0x970B78, size: 0x80, symbol: dro_02_card_1_gfx }
+  { type: GFX, offset: 0x970B78, size: 0x80, symbol: dro_02_card_1_gfx }
 area_dro/dro_02/card_2.gfx:
-  { type: PM64:EFFECT_DL, offset: 0x970BF8, size: 0x48, symbol: dro_02_card_2_gfx }
+  { type: GFX, offset: 0x970BF8, size: 0x48, symbol: dro_02_card_2_gfx }

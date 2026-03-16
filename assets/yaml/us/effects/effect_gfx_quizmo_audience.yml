@@ -6,61 +6,61 @@ tex_0:
   { type: TEXTURE, format: IA4, offset: 0x09000000, width: 32, height: 64, symbol: D_09000000_3A77A0 }
 
 dlist_400:
-  { type: PM64:EFFECT_DL, offset: 0x09000400, symbol: D_09000400_3A7BA0 }
+  { type: GFX, offset: 0x09000400, symbol: D_09000400_3A7BA0 }
 
 tex_470:
   { type: TEXTURE, format: IA4, offset: 0x09000470, width: 32, height: 64, symbol: D_09000470_3A7C10 }
 
 dlist_870:
-  { type: PM64:EFFECT_DL, offset: 0x09000870, symbol: D_09000870_3A8010 }
+  { type: GFX, offset: 0x09000870, symbol: D_09000870_3A8010 }
 
 tex_8E0:
   { type: TEXTURE, format: IA4, offset: 0x090008E0, width: 32, height: 64, symbol: D_090008E0_3A8080 }
 
 dlist_CE0:
-  { type: PM64:EFFECT_DL, offset: 0x09000CE0, symbol: D_09000CE0_3A8480 }
+  { type: GFX, offset: 0x09000CE0, symbol: D_09000CE0_3A8480 }
 
 tex_D50:
   { type: TEXTURE, format: IA4, offset: 0x09000D50, width: 32, height: 64, symbol: D_09000D50_3A84F0 }
 
 dlist_1150:
-  { type: PM64:EFFECT_DL, offset: 0x09001150, symbol: D_09001150_3A88F0 }
+  { type: GFX, offset: 0x09001150, symbol: D_09001150_3A88F0 }
 
 tex_11C0:
   { type: TEXTURE, format: IA4, offset: 0x090011C0, width: 32, height: 64, symbol: D_090011C0_3A8960 }
 
 dlist_15C0:
-  { type: PM64:EFFECT_DL, offset: 0x090015C0, symbol: D_090015C0_3A8D60 }
+  { type: GFX, offset: 0x090015C0, symbol: D_090015C0_3A8D60 }
 
 tex_1630:
   { type: TEXTURE, format: IA4, offset: 0x09001630, width: 32, height: 64, symbol: D_09001630_3A8DD0 }
 
 dlist_1A30:
-  { type: PM64:EFFECT_DL, offset: 0x09001A30, symbol: D_09001A30_3A91D0 }
+  { type: GFX, offset: 0x09001A30, symbol: D_09001A30_3A91D0 }
 
 tex_1AA0:
   { type: TEXTURE, format: IA4, offset: 0x09001AA0, width: 32, height: 64, symbol: D_09001AA0_3A9240 }
 
 dlist_1EA0:
-  { type: PM64:EFFECT_DL, offset: 0x09001EA0, symbol: D_09001EA0_3A9640 }
+  { type: GFX, offset: 0x09001EA0, symbol: D_09001EA0_3A9640 }
 
 tex_1F10:
   { type: TEXTURE, format: IA4, offset: 0x09001F10, width: 32, height: 64, symbol: D_09001F10_3A96B0 }
 
 dlist_2310:
-  { type: PM64:EFFECT_DL, offset: 0x09002310, symbol: D_09002310_3A9AB0 }
+  { type: GFX, offset: 0x09002310, symbol: D_09002310_3A9AB0 }
 
 tex_2380:
   { type: TEXTURE, format: IA4, offset: 0x09002380, width: 32, height: 64, symbol: D_09002380_3A9B20 }
 
 dlist_2780:
-  { type: PM64:EFFECT_DL, offset: 0x09002780, symbol: D_09002780_3A9F20 }
+  { type: GFX, offset: 0x09002780, symbol: D_09002780_3A9F20 }
 
 tex_27F0:
   { type: TEXTURE, format: IA4, offset: 0x090027F0, width: 32, height: 64, symbol: D_090027F0_3A9F90 }
 
 dlist_2BF0:
-  { type: PM64:EFFECT_DL, offset: 0x09002BF0, symbol: D_09002BF0_3AA390 }
+  { type: GFX, offset: 0x09002BF0, symbol: D_09002BF0_3AA390 }
 
 vtx_2C60:
   { type: VTX, offset: 0x09002C60, count: 4, symbol: D_09002C60_3AA400 }
@@ -93,34 +93,34 @@ vtx_2EA0:
   { type: VTX, offset: 0x09002EA0, count: 4, symbol: D_09002EA0_3AA640 }
 
 dlist_2EE0:
-  { type: PM64:EFFECT_DL, offset: 0x09002EE0, symbol: D_09002EE0_3AA680 }
+  { type: GFX, offset: 0x09002EE0, symbol: D_09002EE0_3AA680 }
 
 dlist_2F18:
-  { type: PM64:EFFECT_DL, offset: 0x09002F18, symbol: D_09002F18_3AA6B8 }
+  { type: GFX, offset: 0x09002F18, symbol: D_09002F18_3AA6B8 }
 
 dlist_2F50:
-  { type: PM64:EFFECT_DL, offset: 0x09002F50, symbol: D_09002F50_3AA6F0 }
+  { type: GFX, offset: 0x09002F50, symbol: D_09002F50_3AA6F0 }
 
 dlist_2F88:
-  { type: PM64:EFFECT_DL, offset: 0x09002F88, symbol: D_09002F88_3AA728 }
+  { type: GFX, offset: 0x09002F88, symbol: D_09002F88_3AA728 }
 
 dlist_2FC0:
-  { type: PM64:EFFECT_DL, offset: 0x09002FC0, symbol: D_09002FC0_3AA760 }
+  { type: GFX, offset: 0x09002FC0, symbol: D_09002FC0_3AA760 }
 
 dlist_2FF8:
-  { type: PM64:EFFECT_DL, offset: 0x09002FF8, symbol: D_09002FF8_3AA798 }
+  { type: GFX, offset: 0x09002FF8, symbol: D_09002FF8_3AA798 }
 
 dlist_3030:
-  { type: PM64:EFFECT_DL, offset: 0x09003030, symbol: D_09003030_3AA7D0 }
+  { type: GFX, offset: 0x09003030, symbol: D_09003030_3AA7D0 }
 
 dlist_3068:
-  { type: PM64:EFFECT_DL, offset: 0x09003068, symbol: D_09003068_3AA808 }
+  { type: GFX, offset: 0x09003068, symbol: D_09003068_3AA808 }
 
 dlist_30A0:
-  { type: PM64:EFFECT_DL, offset: 0x090030A0, symbol: D_090030A0_3AA840 }
+  { type: GFX, offset: 0x090030A0, symbol: D_090030A0_3AA840 }
 
 dlist_30D8:
-  { type: PM64:EFFECT_DL, offset: 0x090030D8, symbol: D_090030D8_3AA878 }
+  { type: GFX, offset: 0x090030D8, symbol: D_090030D8_3AA878 }
 
 dlist_3110:
-  { type: PM64:EFFECT_DL, offset: 0x09003110, symbol: D_09003110_3AA8B0 }
+  { type: GFX, offset: 0x09003110, symbol: D_09003110_3AA8B0 }

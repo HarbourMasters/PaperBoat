@@ -12,16 +12,16 @@ tex_C00:
   { type: TEXTURE, format: I4, offset: 0x09000C00, width: 64, height: 64, symbol: D_09000C00_37B9D0 }
 
 dlist_1400:
-  { type: PM64:EFFECT_DL, offset: 0x09001400, symbol: D_09001400_37C1D0 }
+  { type: GFX, offset: 0x09001400, symbol: D_09001400_37C1D0 }
 
 dlist_14B8:
-  { type: PM64:EFFECT_DL, offset: 0x090014B8, symbol: D_090014B8_37C288 }
+  { type: GFX, offset: 0x090014B8, symbol: D_090014B8_37C288 }
 
 dlist_1570:
-  { type: PM64:EFFECT_DL, offset: 0x09001570, symbol: D_09001570_37C340 }
+  { type: GFX, offset: 0x09001570, symbol: D_09001570_37C340 }
 
 dlist_1618:
-  { type: PM64:EFFECT_DL, offset: 0x09001618, symbol: D_09001618_37C3E8 }
+  { type: GFX, offset: 0x09001618, symbol: D_09001618_37C3E8 }
 
 dlist_16C0:
-  { type: PM64:EFFECT_DL, offset: 0x090016C0, symbol: D_090016C0_37C490 }
+  { type: GFX, offset: 0x090016C0, symbol: D_090016C0_37C490 }

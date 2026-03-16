@@ -72,40 +72,40 @@ vtx_2D40:
   { type: VTX, offset: 0x09002D40, count: 180, symbol: D_09002D40_3ADD70 }
 
 dlist_3880:
-  { type: PM64:EFFECT_DL, offset: 0x09003880, symbol: D_09003880_3AE8B0 }
+  { type: GFX, offset: 0x09003880, symbol: D_09003880_3AE8B0 }
 
 dlist_38F8:
-  { type: PM64:EFFECT_DL, offset: 0x090038F8, symbol: D_090038F8_3AE928 }
+  { type: GFX, offset: 0x090038F8, symbol: D_090038F8_3AE928 }
 
 dlist_3968:
-  { type: PM64:EFFECT_DL, offset: 0x09003968, symbol: D_09003968_3AE998 }
+  { type: GFX, offset: 0x09003968, symbol: D_09003968_3AE998 }
 
 dlist_39D8:
-  { type: PM64:EFFECT_DL, offset: 0x090039D8, symbol: D_090039D8_3AEA08 }
+  { type: GFX, offset: 0x090039D8, symbol: D_090039D8_3AEA08 }
 
 dlist_3A48:
-  { type: PM64:EFFECT_DL, offset: 0x09003A48, symbol: D_09003A48_3AEA78 }
+  { type: GFX, offset: 0x09003A48, symbol: D_09003A48_3AEA78 }
 
 dlist_3AB8:
-  { type: PM64:EFFECT_DL, offset: 0x09003AB8, symbol: D_09003AB8_3AEAE8 }
+  { type: GFX, offset: 0x09003AB8, symbol: D_09003AB8_3AEAE8 }
 
 dlist_3B28:
-  { type: PM64:EFFECT_DL, offset: 0x09003B28, symbol: D_09003B28_3AEB58 }
+  { type: GFX, offset: 0x09003B28, symbol: D_09003B28_3AEB58 }
 
 dlist_3B98:
-  { type: PM64:EFFECT_DL, offset: 0x09003B98, symbol: D_09003B98_3AEBC8 }
+  { type: GFX, offset: 0x09003B98, symbol: D_09003B98_3AEBC8 }
 
 dlist_3C08:
-  { type: PM64:EFFECT_DL, offset: 0x09003C08, symbol: D_09003C08_3AEC38 }
+  { type: GFX, offset: 0x09003C08, symbol: D_09003C08_3AEC38 }
 
 dlist_3C78:
-  { type: PM64:EFFECT_DL, offset: 0x09003C78, symbol: D_09003C78_3AECA8 }
+  { type: GFX, offset: 0x09003C78, symbol: D_09003C78_3AECA8 }
 
 dlist_3CE8:
-  { type: PM64:EFFECT_DL, offset: 0x09003CE8, symbol: D_09003CE8_3AED18 }
+  { type: GFX, offset: 0x09003CE8, symbol: D_09003CE8_3AED18 }
 
 dlist_3D58:
-  { type: PM64:EFFECT_DL, offset: 0x09003D58, symbol: D_09003D58_3AED88 }
+  { type: GFX, offset: 0x09003D58, symbol: D_09003D58_3AED88 }
 
 dlist_3DC8:
-  { type: PM64:EFFECT_DL, offset: 0x09003DC8, symbol: D_09003DC8_3AEDF8 }
+  { type: GFX, offset: 0x09003DC8, symbol: D_09003DC8_3AEDF8 }

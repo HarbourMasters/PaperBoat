@@ -6,4 +6,4 @@ tex_0:
   { type: TEXTURE, format: I4, offset: 0x09000000, width: 64, height: 32, symbol: D_09000000_3D3930 }
 
 dlist_400:
-  { type: PM64:EFFECT_DL, offset: 0x09000400, symbol: D_09000400_3D3D30 }
+  { type: GFX, offset: 0x09000400, symbol: D_09000400_3D3D30 }

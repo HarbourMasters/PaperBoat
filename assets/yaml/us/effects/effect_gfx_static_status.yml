@@ -9,10 +9,10 @@ tex_80:
   { type: TEXTURE, format: TLUT, offset: 0x09000080, colors: 16, symbol: D_09000000_3E12D0 }
 
 dlist_280:
-  { type: PM64:EFFECT_DL, offset: 0x09000280, symbol: D_09000280_3E1550 }
+  { type: GFX, offset: 0x09000280, symbol: D_09000280_3E1550 }
 
 vtx_360:
   { type: VTX, offset: 0x09000360, count: 4, symbol: D_09000360_3E1630 }
 
 dlist_3A0:
-  { type: PM64:EFFECT_DL, offset: 0x090003A0, symbol: D_090003A0_3E1670 }
+  { type: GFX, offset: 0x090003A0, symbol: D_090003A0_3E1670 }

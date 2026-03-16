@@ -12,7 +12,7 @@ vtx_400:
   { type: VTX, offset: 0x09000400, count: 20, symbol: D_09000400_365DB0 }
 
 dlist_540:
-  { type: PM64:EFFECT_DL, offset: 0x09000540, symbol: D_09000540_365EF0 }
+  { type: GFX, offset: 0x09000540, symbol: D_09000540_365EF0 }
 
 dlist_5A0:
-  { type: PM64:EFFECT_DL, offset: 0x090005A0, symbol: D_090005A0_365F50 }
+  { type: GFX, offset: 0x090005A0, symbol: D_090005A0_365F50 }

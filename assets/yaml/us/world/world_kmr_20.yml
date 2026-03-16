@@ -6,4 +6,4 @@
 
 # Records screen display list (render mode setup)
 area_kmr/kmr_20/records_screen:
-  { type: PM64:EFFECT_DL, offset: 0x8FEB70, size: 0x70, symbol: kmr_20_records_screen_gfx }
+  { type: GFX, offset: 0x8FEB70, size: 0x70, symbol: kmr_20_records_screen_gfx }

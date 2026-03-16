@@ -21,10 +21,10 @@ vtx_900:
   { type: VTX, offset: 0x09000900, count: 4, symbol: D_09000900_38C4A0 }
 
 dlist_940:
-  { type: PM64:EFFECT_DL, offset: 0x09000940, symbol: D_09000940_38C4E0 }
+  { type: GFX, offset: 0x09000940, symbol: D_09000940_38C4E0 }
 
 dlist_9E8:
-  { type: PM64:EFFECT_DL, offset: 0x090009E8, symbol: D_090009E8_38C588 }
+  { type: GFX, offset: 0x090009E8, symbol: D_090009E8_38C588 }
 
 dlist_A00:
-  { type: PM64:EFFECT_DL, offset: 0x09000A00, symbol: D_09000A00_38C5A0 }
+  { type: GFX, offset: 0x09000A00, symbol: D_09000A00_38C5A0 }

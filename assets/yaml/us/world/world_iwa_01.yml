@@ -14,4 +14,4 @@ area_iwa/iwa_01/splash.vtx:
 
 # Splash display list
 area_iwa/iwa_01/splash.gfx:
-  { type: PM64:EFFECT_DL, offset: 0x9134B0, size: 0xC8, symbol: iwa_01_splash_gfx }
+  { type: GFX, offset: 0x9134B0, size: 0xC8, symbol: iwa_01_splash_gfx }
