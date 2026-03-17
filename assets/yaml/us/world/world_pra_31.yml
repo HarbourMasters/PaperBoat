@@ -10,7 +10,7 @@ area_pra/pra_31/texture_1:
 area_pra/pra_31/texture_1.pal:
   { type: TEXTURE, format: TLUT, offset: 0xD82A70, colors: 16, symbol: pra_31_texture_1_pal }
 area_pra/pra_31/texture_1.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD82A90, size: 0xB8, symbol: pra_31_texture_1_gfx }
+  { type: GFX, offset: 0xD82A90, symbol: pra_31_texture_1_gfx }
 
 # --- Texture 2 (CI4 64x64) ---
 area_pra/pra_31/texture_2:
@@ -18,81 +18,81 @@ area_pra/pra_31/texture_2:
 area_pra/pra_31/texture_2.pal:
   { type: TEXTURE, format: TLUT, offset: 0xD83350, colors: 16, symbol: pra_31_texture_2_pal }
 area_pra/pra_31/texture_2.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD83370, size: 0xA8, symbol: pra_31_texture_2_gfx }
+  { type: GFX, offset: 0xD83370, symbol: pra_31_texture_2_gfx }
 
 # --- Texture 3 (RGBA16 32x32) ---
 area_pra/pra_31/texture_3:
   { type: TEXTURE, format: RGBA16, offset: 0xD83420, width: 32, height: 32, symbol: pra_31_texture_3_img }
 area_pra/pra_31/texture_3.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD83C20, size: 0x88, symbol: pra_31_texture_3_gfx }
+  { type: GFX, offset: 0xD83C20, symbol: pra_31_texture_3_gfx }
 
 # --- Stairs skeleton display lists (34 DLs) ---
 area_pra/pra_31/unk_01.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD83CB0, size: 0x78, symbol: pra_31_unk_01_gfx }
+  { type: GFX, offset: 0xD83CB0, symbol: pra_31_unk_01_gfx }
 area_pra/pra_31/unk_02.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD83D28, size: 0x38, symbol: pra_31_unk_02_gfx }
+  { type: GFX, offset: 0xD83D28, symbol: pra_31_unk_02_gfx }
 area_pra/pra_31/unk_03.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD83D60, size: 0x68, symbol: pra_31_unk_03_gfx }
+  { type: GFX, offset: 0xD83D60, symbol: pra_31_unk_03_gfx }
 area_pra/pra_31/unk_04.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD83DC8, size: 0x38, symbol: pra_31_unk_04_gfx }
+  { type: GFX, offset: 0xD83DC8, symbol: pra_31_unk_04_gfx }
 area_pra/pra_31/unk_05.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD83E00, size: 0x78, symbol: pra_31_unk_05_gfx }
+  { type: GFX, offset: 0xD83E00, symbol: pra_31_unk_05_gfx }
 area_pra/pra_31/unk_06.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD83E78, size: 0x38, symbol: pra_31_unk_06_gfx }
+  { type: GFX, offset: 0xD83E78, symbol: pra_31_unk_06_gfx }
 area_pra/pra_31/unk_07.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD83EB0, size: 0x78, symbol: pra_31_unk_07_gfx }
+  { type: GFX, offset: 0xD83EB0, symbol: pra_31_unk_07_gfx }
 area_pra/pra_31/unk_08.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD83F28, size: 0x38, symbol: pra_31_unk_08_gfx }
+  { type: GFX, offset: 0xD83F28, symbol: pra_31_unk_08_gfx }
 area_pra/pra_31/unk_09.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD83F60, size: 0x68, symbol: pra_31_unk_09_gfx }
+  { type: GFX, offset: 0xD83F60, symbol: pra_31_unk_09_gfx }
 area_pra/pra_31/unk_10.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD83FC8, size: 0x38, symbol: pra_31_unk_10_gfx }
+  { type: GFX, offset: 0xD83FC8, symbol: pra_31_unk_10_gfx }
 area_pra/pra_31/unk_11.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD84000, size: 0x78, symbol: pra_31_unk_11_gfx }
+  { type: GFX, offset: 0xD84000, symbol: pra_31_unk_11_gfx }
 area_pra/pra_31/unk_12.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD84078, size: 0x38, symbol: pra_31_unk_12_gfx }
+  { type: GFX, offset: 0xD84078, symbol: pra_31_unk_12_gfx }
 area_pra/pra_31/unk_13.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD840B0, size: 0x78, symbol: pra_31_unk_13_gfx }
+  { type: GFX, offset: 0xD840B0, symbol: pra_31_unk_13_gfx }
 area_pra/pra_31/unk_14.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD84128, size: 0x38, symbol: pra_31_unk_14_gfx }
+  { type: GFX, offset: 0xD84128, symbol: pra_31_unk_14_gfx }
 area_pra/pra_31/unk_15.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD84160, size: 0x68, symbol: pra_31_unk_15_gfx }
+  { type: GFX, offset: 0xD84160, symbol: pra_31_unk_15_gfx }
 area_pra/pra_31/unk_16.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD841C8, size: 0x38, symbol: pra_31_unk_16_gfx }
+  { type: GFX, offset: 0xD841C8, symbol: pra_31_unk_16_gfx }
 area_pra/pra_31/unk_17.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD84200, size: 0x78, symbol: pra_31_unk_17_gfx }
+  { type: GFX, offset: 0xD84200, symbol: pra_31_unk_17_gfx }
 area_pra/pra_31/unk_18.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD84278, size: 0x38, symbol: pra_31_unk_18_gfx }
+  { type: GFX, offset: 0xD84278, symbol: pra_31_unk_18_gfx }
 area_pra/pra_31/unk_19.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD842B0, size: 0x78, symbol: pra_31_unk_19_gfx }
+  { type: GFX, offset: 0xD842B0, symbol: pra_31_unk_19_gfx }
 area_pra/pra_31/unk_20.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD84328, size: 0x38, symbol: pra_31_unk_20_gfx }
+  { type: GFX, offset: 0xD84328, symbol: pra_31_unk_20_gfx }
 area_pra/pra_31/unk_21.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD84360, size: 0x68, symbol: pra_31_unk_21_gfx }
+  { type: GFX, offset: 0xD84360, symbol: pra_31_unk_21_gfx }
 area_pra/pra_31/unk_22.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD843C8, size: 0x38, symbol: pra_31_unk_22_gfx }
+  { type: GFX, offset: 0xD843C8, symbol: pra_31_unk_22_gfx }
 area_pra/pra_31/unk_23.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD84400, size: 0x78, symbol: pra_31_unk_23_gfx }
+  { type: GFX, offset: 0xD84400, symbol: pra_31_unk_23_gfx }
 area_pra/pra_31/unk_24.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD84478, size: 0x38, symbol: pra_31_unk_24_gfx }
+  { type: GFX, offset: 0xD84478, symbol: pra_31_unk_24_gfx }
 area_pra/pra_31/unk_25.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD84528, size: 0x78, symbol: pra_31_unk_25_gfx }
+  { type: GFX, offset: 0xD84528, symbol: pra_31_unk_25_gfx }
 area_pra/pra_31/unk_26.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD84560, size: 0x38, symbol: pra_31_unk_26_gfx }
+  { type: GFX, offset: 0xD84560, symbol: pra_31_unk_26_gfx }
 area_pra/pra_31/unk_27.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD845C8, size: 0x68, symbol: pra_31_unk_27_gfx }
+  { type: GFX, offset: 0xD845C8, symbol: pra_31_unk_27_gfx }
 area_pra/pra_31/unk_28.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD84628, size: 0x68, symbol: pra_31_unk_28_gfx }
+  { type: GFX, offset: 0xD84628, symbol: pra_31_unk_28_gfx }
 area_pra/pra_31/unk_29.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD84690, size: 0x48, symbol: pra_31_unk_29_gfx }
+  { type: GFX, offset: 0xD84690, symbol: pra_31_unk_29_gfx }
 area_pra/pra_31/unk_30.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD846D8, size: 0x90, symbol: pra_31_unk_30_gfx }
+  { type: GFX, offset: 0xD846D8, symbol: pra_31_unk_30_gfx }
 area_pra/pra_31/unk_31.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD84768, size: 0x28, symbol: pra_31_unk_31_gfx }
+  { type: GFX, offset: 0xD84768, symbol: pra_31_unk_31_gfx }
 area_pra/pra_31/unk_32.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD84790, size: 0x28, symbol: pra_31_unk_32_gfx }
+  { type: GFX, offset: 0xD84790, symbol: pra_31_unk_32_gfx }
 area_pra/pra_31/unk_33.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD847B8, size: 0x38, symbol: pra_31_unk_33_gfx }
+  { type: GFX, offset: 0xD847B8, symbol: pra_31_unk_33_gfx }
 # --- Stairs vertices (28 verts) ---
 area_pra/pra_31/stairs.vtx:
   { type: VTX, offset: 0xD86820, count: 28, symbol: pra_31_stairs_vtx }

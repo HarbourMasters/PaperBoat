@@ -21,22 +21,22 @@ vtx_1E00:
   { type: VTX, offset: 0x09001E00, count: 4, symbol: D_09001E00_36CCE0 }
 
 dlist_1E40:
-  { type: PM64:EFFECT_DL, offset: 0x09001E40, symbol: D_09001E40_36CD20 }
+  { type: GFX, offset: 0x09001E40, symbol: D_09001E40_36CD20 }
 
 dlist_1EA8:
-  { type: PM64:EFFECT_DL, offset: 0x09001EA8, symbol: D_09001EA8_36CD88 }
+  { type: GFX, offset: 0x09001EA8, symbol: D_09001EA8_36CD88 }
 
 dlist_1F10:
-  { type: PM64:EFFECT_DL, offset: 0x09001F10, symbol: D_09001F10_36CDF0 }
+  { type: GFX, offset: 0x09001F10, symbol: D_09001F10_36CDF0 }
 
 dlist_1F78:
-  { type: PM64:EFFECT_DL, offset: 0x09001F78, symbol: D_09001F78_36CE58 }
+  { type: GFX, offset: 0x09001F78, symbol: D_09001F78_36CE58 }
 
 vtx_2018:
   { type: VTX, offset: 0x09002018, count: 4, symbol: D_09002018_36CEF8 }
 
 dlist_2058:
-  { type: PM64:EFFECT_DL, offset: 0x09002058, symbol: D_09002058_36CF38 }
+  { type: GFX, offset: 0x09002058, symbol: D_09002058_36CF38 }
 
 dlist_2078:
-  { type: PM64:EFFECT_DL, offset: 0x09002078, symbol: D_09002078_36CF58 }
+  { type: GFX, offset: 0x09002078, symbol: D_09002078_36CF58 }

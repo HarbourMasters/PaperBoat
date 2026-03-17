@@ -52,7 +52,7 @@ API_CALLABLE(MakeNpcs) {
 
     switch (script->functionTemp[0]) {
         case 0:
-            make_npcs(evt_get_variable(script, *args++), gGameStatusPtr->mapID, (s32*) evt_get_variable(script, *args++));
+            make_npcs(evt_get_variable(script, args[0]), gGameStatusPtr->mapID, (s32*)evt_get_variable(script, args[1]));
             script->functionTemp[0] = 1;
             break;
         case 1:

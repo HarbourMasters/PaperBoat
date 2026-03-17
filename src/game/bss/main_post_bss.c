@@ -32,21 +32,29 @@ BSS u32 __osFlashID[4] OSALIGNED(8);
 #endif
 BSS OSContPad nuContData[NU_CONT_MAXCONTROLLERS];
 BSS Camera gCameras[4] ALIGNED(16);
+
+#ifndef _WIN32
 BSS unsigned char D_800B32E0[0x800] ALIGNED(16);
 BSS unsigned char D_800B3AE0[0x800] ALIGNED(16);
+#endif
+
 BSS CollisionData gCollisionData;
 BSS OSMesgQueue	nuGfxMesgQ;
 BSS OSPiHandle __CartRomHandle OSALIGNED(8);
 BSS OSMesgQueue __osPiAccessQueue OSALIGNED(8);
 BSS EffectInstance* gEffectInstances[96] ALIGNED(8);
 BSS OSPiHandle __Dom1SpeedParam OSALIGNED(8);
-#if !VERSION_PAL
+#if !VERSION_PAL && !defined(_WIN32)
 BSS u8 nuBootStack[0x2000] ALIGNED(8);
 #endif
 BSS u64 nuMainStack[NU_SC_STACK_SIZE / sizeof(u64)];
 BSS u8 nuYieldBuf[NU_GFX_YIELD_BUF_SIZE];
 BSS AuSynDriver auSynDriver;
+
+#ifndef _WIN32
 BSS s32 D_800B91D0[NU_GFX_RDP_OUTPUTBUFF_SIZE / sizeof(u32)] ALIGNED(16);
+#endif
+
 #if VERSION_IQUE || VERSION_PAL
 BSS OSPiHandle __osFlashHandler OSALIGNED(8);
 #endif
@@ -68,7 +76,7 @@ BSS NUScTask nuGfxTask[NU_GFX_TASK_NUM];
 BSS SaveGlobals gSaveGlobals;
 BSS char wMapBgName[0x14];
 BSS __OSInode __osPfsInodeCache OSALIGNED(8);
-#if !VERSION_IQUE
+#if !VERSION_IQUE && !defined(_WIN32)
 BSS u8 rspbootUcodeBuffer[0x100] ALIGNED(16);
 BSS char D_800D9880[0x700];
 #endif

@@ -12,4 +12,4 @@ area_kmr/kmr_22/lava_piranha_vine.pal:
 
 # Vine display list
 area_kmr/kmr_22/lava_piranha_vine.gfx:
-  { type: PM64:EFFECT_DL, offset: 0x901570, size: 0xE0, symbol: kmr_22_lava_piranha_vine_gfx }
+  { type: GFX, offset: 0x901570, size: 0xE0, symbol: kmr_22_lava_piranha_vine_gfx }

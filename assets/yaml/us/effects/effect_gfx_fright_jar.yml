@@ -24,10 +24,10 @@ vtx_4720:
   { type: VTX, offset: 0x09004720, count: 1100, symbol: D_09004720_3C62C0 }
 
 dlist_8BE0:
-  { type: PM64:EFFECT_DL, offset: 0x09008BE0, symbol: D_09008BE0_3CA780 }
+  { type: GFX, offset: 0x09008BE0, symbol: D_09008BE0_3CA780 }
 
 dlist_8CB0:
-  { type: PM64:EFFECT_DL, offset: 0x09008CB0, symbol: D_09008CB0_3CA850 }
+  { type: GFX, offset: 0x09008CB0, symbol: D_09008CB0_3CA850 }
 
 dlist_8CD0:
-  { type: PM64:EFFECT_DL, offset: 0x09008CD0, symbol: D_09008CD0_3CA870 }
+  { type: GFX, offset: 0x09008CD0, symbol: D_09008CD0_3CA870 }

@@ -18,10 +18,10 @@ vtx_A80:
   { type: VTX, offset: 0x09000A80, count: 25, symbol: D_09000A80_38DAF0 }
 
 dlist_C10:
-  { type: PM64:EFFECT_DL, offset: 0x09000C10, symbol: D_09000C10_38DC80 }
+  { type: GFX, offset: 0x09000C10, symbol: D_09000C10_38DC80 }
 
 dlist_D30:
-  { type: PM64:EFFECT_DL, offset: 0x09000D30, symbol: D_09000D30_38DDA0 }
+  { type: GFX, offset: 0x09000D30, symbol: D_09000D30_38DDA0 }
 
 dlist_D50:
-  { type: PM64:EFFECT_DL, offset: 0x09000D50, symbol: D_09000D50_38DDC0 }
+  { type: GFX, offset: 0x09000D50, symbol: D_09000D50_38DDC0 }

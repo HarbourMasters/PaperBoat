@@ -15,13 +15,13 @@ tex_600:
   { type: TEXTURE, format: TLUT, offset: 0x09000600, colors: 16, symbol: D_09000400_3CFEF0 }
 
 dlist_800:
-  { type: PM64:EFFECT_DL, offset: 0x09000800, symbol: D_09000800_3D02F0 }
+  { type: GFX, offset: 0x09000800, symbol: D_09000800_3D02F0 }
 
 dlist_8D8:
-  { type: PM64:EFFECT_DL, offset: 0x090008D8, symbol: D_090008D8_3D03C8 }
+  { type: GFX, offset: 0x090008D8, symbol: D_090008D8_3D03C8 }
 
 vtx_9B0:
   { type: VTX, offset: 0x090009B0, count: 4, symbol: D_090009B0_3D04A0 }
 
 dlist_9F0:
-  { type: PM64:EFFECT_DL, offset: 0x090009F0, symbol: D_090009F0_3D04E0 }
+  { type: GFX, offset: 0x090009F0, symbol: D_090009F0_3D04E0 }

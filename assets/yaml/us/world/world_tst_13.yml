@@ -10,4 +10,4 @@ area_tst/tst_13/shockwave.vtx:
 
 # Shockwave display list
 area_tst/tst_13/shockwave.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xB1FFC0, size: 0x390, symbol: tst_13_shockwave_gfx }
+  { type: GFX, offset: 0xB1FFC0, size: 0x390, symbol: tst_13_shockwave_gfx }

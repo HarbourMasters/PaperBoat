@@ -1,6 +1,9 @@
 # battle/move/hammer/hammer_throw overlay
 # VRAM base: 0x802A1000, ROM start: 0x752450
 
+:config:
+  virtual: [0x802A1000, 0x752450]
+
 # Textures (CI4 32x32 + 16-color palettes)
 battle/move/hammer/dusty_hammer:
   { type: TEXTURE, format: CI4, offset: 0x754498, width: 32, height: 32, symbol: battle_move_hammer_throw_dusty_hammer_png }
@@ -28,10 +31,10 @@ battle/move/hammer/hammer_throw_vtx:
 
 # Display Lists (each loads a texture + draws the quad)
 battle/move/hammer/dusty_hammer_gfx:
-  { type: PM64:EFFECT_DL, offset: 0x754D58, symbol: battle_move_hammer_throw_dusty_hammer_gfx }
+  { type: GFX, offset: 0x754D58, symbol: battle_move_hammer_throw_dusty_hammer_gfx }
 battle/move/hammer/basic_hammer_gfx:
-  { type: PM64:EFFECT_DL, offset: 0x754E48, symbol: battle_move_hammer_throw_basic_hammer_gfx }
+  { type: GFX, offset: 0x754E48, symbol: battle_move_hammer_throw_basic_hammer_gfx }
 battle/move/hammer/super_hammer_gfx:
-  { type: PM64:EFFECT_DL, offset: 0x754F38, symbol: battle_move_hammer_throw_super_hammer_gfx }
+  { type: GFX, offset: 0x754F38, symbol: battle_move_hammer_throw_super_hammer_gfx }
 battle/move/hammer/ultra_hammer_gfx:
-  { type: PM64:EFFECT_DL, offset: 0x755028, symbol: battle_move_hammer_throw_ultra_hammer_gfx }
+  { type: GFX, offset: 0x755028, symbol: battle_move_hammer_throw_ultra_hammer_gfx }

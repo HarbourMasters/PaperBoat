@@ -9,7 +9,7 @@ tex_800:
   { type: TEXTURE, format: I4, offset: 0x09000800, width: 64, height: 64, symbol: D_09000800_3A63E0 }
 
 dlist_1000:
-  { type: PM64:EFFECT_DL, offset: 0x09001000, symbol: D_09001000_3A6BE0 }
+  { type: GFX, offset: 0x09001000, symbol: D_09001000_3A6BE0 }
 
 vtx_10F8:
   { type: VTX, offset: 0x090010F8, count: 25, symbol: D_090010F8_3A6CD8 }
@@ -30,4 +30,4 @@ vtx_12E8:
   { type: VTX, offset: 0x090012E8, count: 19, symbol: D_090012E8_3A6EC8 }
 
 dlist_1418:
-  { type: PM64:EFFECT_DL, offset: 0x09001418, symbol: D_09001418_3A6FF8 }
+  { type: GFX, offset: 0x09001418, symbol: D_09001418_3A6FF8 }

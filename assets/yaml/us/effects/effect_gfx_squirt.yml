@@ -9,13 +9,13 @@ tex_400:
   { type: TEXTURE, format: IA8, offset: 0x09000400, width: 32, height: 32, symbol: D_09000400_3B5740 }
 
 dlist_800:
-  { type: PM64:EFFECT_DL, offset: 0x09000800, symbol: D_09000800_3B5B40 }
+  { type: GFX, offset: 0x09000800, symbol: D_09000800_3B5B40 }
 
 dlist_8A8:
-  { type: PM64:EFFECT_DL, offset: 0x090008A8, symbol: D_090008A8_3B5BE8 }
+  { type: GFX, offset: 0x090008A8, symbol: D_090008A8_3B5BE8 }
 
 vtx_950:
   { type: VTX, offset: 0x09000950, count: 4, symbol: D_09000950_3B5C90 }
 
 dlist_990:
-  { type: PM64:EFFECT_DL, offset: 0x09000990, symbol: D_09000990_3B5CD0 }
+  { type: GFX, offset: 0x09000990, symbol: D_09000990_3B5CD0 }

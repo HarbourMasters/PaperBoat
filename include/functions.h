@@ -1092,4 +1092,7 @@ void restore_map_collision_data(void);
 void mdl_load_all_textures(struct ModelNode* model, u8* textureData, s32 size);
 void mdl_calculate_model_sizes(void);
 
+//s16 sins(u16 x);
+//s16 coss(u16 angle);
+
 #endif

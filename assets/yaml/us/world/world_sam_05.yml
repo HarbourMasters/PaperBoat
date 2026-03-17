@@ -18,6 +18,6 @@ area_sam/sam_05/monstar.pal:
 
 # Monstar display list and vertices
 area_sam/sam_05/monstar.gfx:
-  { type: PM64:EFFECT_DL, offset: 0xD1F780, size: 0x110, symbol: sam_05_monstar_gfx }
+  { type: GFX, offset: 0xD1F780, size: 0x110, symbol: sam_05_monstar_gfx }
 area_sam/sam_05/monstar.vtx:
   { type: VTX, offset: 0xD1F890, count: 66, symbol: sam_05_monstar_vtx }

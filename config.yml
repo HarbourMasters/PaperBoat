@@ -5,7 +5,7 @@
   name: pm64
   path: ./assets/yaml/us
   config:
-    gbi: F3DEX2
+    gbi: F3DEX2_PM64
     gbi_floats: true
     sort: OFFSET
     logging: INFO

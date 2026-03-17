@@ -2,6 +2,7 @@
 #define _COMMON_H_
 
 #include <string.h>
+#include <math.h>
 
 #include "ultra64.h"
 #include "gbi_custom.h"
@@ -26,6 +27,11 @@
 
 #ifdef PERMUTER
 extern int TEXEL0, TEXEL1, PRIMITIVE, PRIMITIVE_ALPHA;
+#endif
+
+#ifdef _WIN32
+// bcopy for Windows
+void bcopy(const void* src, void* dest, size_t n);
 #endif
 
 #endif

@@ -18,7 +18,7 @@ vtx_8B8:
   { type: VTX, offset: 0x090008B8, count: 4, symbol: D_090008B8_354468 }
 
 dlist_8F8:
-  { type: PM64:EFFECT_DL, offset: 0x090008F8, symbol: D_090008F8_3544A8 }
+  { type: GFX, offset: 0x090008F8, symbol: D_090008F8_3544A8 }
 
 dlist_918:
-  { type: PM64:EFFECT_DL, offset: 0x09000918, symbol: D_09000918_3544C8 }
+  { type: GFX, offset: 0x09000918, symbol: D_09000918_3544C8 }

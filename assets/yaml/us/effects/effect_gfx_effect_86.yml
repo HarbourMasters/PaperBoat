@@ -6,7 +6,7 @@ tex_0:
   { type: TEXTURE, format: I4, offset: 0x09000000, width: 256, height: 16, symbol: D_09000000_415060 }
 
 dlist_800:
-  { type: PM64:EFFECT_DL, offset: 0x09000800, symbol: D_09000800_415860 }
+  { type: GFX, offset: 0x09000800, symbol: D_09000800_415860 }
 
 vtx_8A8:
   { type: VTX, offset: 0x090008A8, count: 4, symbol: D_090008A8_415908 }
@@ -45,37 +45,37 @@ vtx_B68:
   { type: VTX, offset: 0x09000B68, count: 4, symbol: D_09000B68_415BC8 }
 
 dlist_BA8:
-  { type: PM64:EFFECT_DL, offset: 0x09000BA8, symbol: D_09000BA8_415C08 }
+  { type: GFX, offset: 0x09000BA8, symbol: D_09000BA8_415C08 }
 
 dlist_BC8:
-  { type: PM64:EFFECT_DL, offset: 0x09000BC8, symbol: D_09000BC8_415C28 }
+  { type: GFX, offset: 0x09000BC8, symbol: D_09000BC8_415C28 }
 
 dlist_BE8:
-  { type: PM64:EFFECT_DL, offset: 0x09000BE8, symbol: D_09000BE8_415C48 }
+  { type: GFX, offset: 0x09000BE8, symbol: D_09000BE8_415C48 }
 
 dlist_C08:
-  { type: PM64:EFFECT_DL, offset: 0x09000C08, symbol: D_09000C08_415C68 }
+  { type: GFX, offset: 0x09000C08, symbol: D_09000C08_415C68 }
 
 dlist_C28:
-  { type: PM64:EFFECT_DL, offset: 0x09000C28, symbol: D_09000C28_415C88 }
+  { type: GFX, offset: 0x09000C28, symbol: D_09000C28_415C88 }
 
 dlist_C48:
-  { type: PM64:EFFECT_DL, offset: 0x09000C48, symbol: D_09000C48_415CA8 }
+  { type: GFX, offset: 0x09000C48, symbol: D_09000C48_415CA8 }
 
 dlist_C68:
-  { type: PM64:EFFECT_DL, offset: 0x09000C68, symbol: D_09000C68_415CC8 }
+  { type: GFX, offset: 0x09000C68, symbol: D_09000C68_415CC8 }
 
 dlist_C88:
-  { type: PM64:EFFECT_DL, offset: 0x09000C88, symbol: D_09000C88_415CE8 }
+  { type: GFX, offset: 0x09000C88, symbol: D_09000C88_415CE8 }
 
 dlist_CA8:
-  { type: PM64:EFFECT_DL, offset: 0x09000CA8, symbol: D_09000CA8_415D08 }
+  { type: GFX, offset: 0x09000CA8, symbol: D_09000CA8_415D08 }
 
 dlist_CC8:
-  { type: PM64:EFFECT_DL, offset: 0x09000CC8, symbol: D_09000CC8_415D28 }
+  { type: GFX, offset: 0x09000CC8, symbol: D_09000CC8_415D28 }
 
 dlist_CE8:
-  { type: PM64:EFFECT_DL, offset: 0x09000CE8, symbol: D_09000CE8_415D48 }
+  { type: GFX, offset: 0x09000CE8, symbol: D_09000CE8_415D48 }
 
 dlist_D08:
-  { type: PM64:EFFECT_DL, offset: 0x09000D08, symbol: D_09000D08_415D68 }
+  { type: GFX, offset: 0x09000D08, symbol: D_09000D08_415D68 }

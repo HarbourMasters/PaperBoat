@@ -27,7 +27,7 @@ tex_2200:
   { type: TEXTURE, format: TLUT, offset: 0x09002200, colors: 16, symbol: D_09001A00_408A80 }
 
 dlist_2400:
-  { type: PM64:EFFECT_DL, offset: 0x09002400, symbol: D_09002400_409480 }
+  { type: GFX, offset: 0x09002400, symbol: D_09002400_409480 }
 
 vtx_2468:
   { type: VTX, offset: 0x09002468, count: 4, symbol: D_09002468_4094E8 }
@@ -39,16 +39,16 @@ vtx_24E8:
   { type: VTX, offset: 0x090024E8, count: 4, symbol: D_090024E8_409568 }
 
 dlist_2528:
-  { type: PM64:EFFECT_DL, offset: 0x09002528, symbol: D_09002528_4095A8 }
+  { type: GFX, offset: 0x09002528, symbol: D_09002528_4095A8 }
 
 dlist_25B8:
-  { type: PM64:EFFECT_DL, offset: 0x090025B8, symbol: D_090025B8_409638 }
+  { type: GFX, offset: 0x090025B8, symbol: D_090025B8_409638 }
 
 dlist_2648:
-  { type: PM64:EFFECT_DL, offset: 0x09002648, symbol: D_09002648_4096C8 }
+  { type: GFX, offset: 0x09002648, symbol: D_09002648_4096C8 }
 
 dlist_26D8:
-  { type: PM64:EFFECT_DL, offset: 0x090026D8, symbol: D_090026D8_409758 }
+  { type: GFX, offset: 0x090026D8, symbol: D_090026D8_409758 }
 
 dlist_27F0:
-  { type: PM64:EFFECT_DL, offset: 0x090027F0, symbol: D_090027F0_409870 }
+  { type: GFX, offset: 0x090027F0, symbol: D_090027F0_409870 }
