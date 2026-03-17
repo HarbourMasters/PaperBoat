@@ -1003,6 +1003,9 @@ BKFileBuffer* au_load_BK_to_bank(s32 bkFileOffset, BKFileBuffer* bkFile, s32 ban
                 }
                 break;
             case BK_READ_SWIZZLE_CR:
+                // Reset header->swizzled so freshly-allocated instruments always
+                // get their file-relative offsets converted to real pointers.
+                bkFile->header.swizzled = false;
                 au_swizzle_BK_instruments(bkFileOffset, bkFile, *group, 16, true);
                 readState = BK_READ_DONE;
                 break;
@@ -1131,6 +1134,9 @@ BKFileBuffer* au_load_static_BK_to_bank(s32* inAddr, void* outAddr, s32 bankInde
                 }
                 break;
             case BK_READ_SWIZZLE:
+                // Reset header->swizzled so freshly-allocated instruments always
+                // get their file-relative offsets converted to real pointers.
+                bkFile->header.swizzled = false;
                 au_swizzle_BK_instruments((intptr_t)bkFile, bkFile, *group, 16, useDma);
                 readState = BK_READ_DONE;
                 break;
