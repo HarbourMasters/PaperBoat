@@ -137,7 +137,17 @@ void fright_jar_appendGfx(void* effect) {
         idx = 0;
     }
 
-    gSPVertex(gMainGfxPos++, (Vtx*)LOAD_ASSET(D_09004040_3C5BE0) + idx, 22, 0);
+    // vtx_4720 is contiguous. Indexing with [idx] steps by 22 vertices,
+    // overflowing into vtx_4720 for idx >= 5. We need to compute the correct pointer.
+    {
+        Vtx* vtxPtr;
+        if (idx < 5) {
+            vtxPtr = (Vtx*)LOAD_ASSET(D_09004040_3C5BE0) + idx * 22;
+        } else {
+            vtxPtr = (Vtx*)LOAD_ASSET(D_09004720_3C62C0) + (idx - 5) * 22;
+        }
+        gSPVertex(gMainGfxPos++, vtxPtr, 22, 0);
+    }
 
     alpha = D_E00C2990[unk_14 % 16];
     gDPSetEnvColor(gMainGfxPos++, 0, 0, 0, alpha);

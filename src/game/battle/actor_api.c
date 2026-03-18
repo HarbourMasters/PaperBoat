@@ -3471,7 +3471,7 @@ API_CALLABLE(VanishActor) {
         }
         vanished = evt_get_variable(script, *args++);
         actor = get_actor(actorID);
-        script->functionTemp[1] = (s32) actor;
+        script->functionTemp[1] = (intptr_t) actor;
         script->functionTemp[2] = vanished;
 
         btl_cam_use_preset(BTL_CAM_ACTOR_SIMPLE);

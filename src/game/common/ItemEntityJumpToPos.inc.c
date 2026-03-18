@@ -17,7 +17,7 @@ API_CALLABLE(N(ItemEntityJumpToPos)) {
 
     if (isInitialCall) {
         jumpState = heap_malloc(sizeof(*jumpState));
-        script->functionTemp[0] = (s32) jumpState;
+        script->functionTemp[0] = (intptr_t) jumpState;
         jumpState->itemEntityIndex = evt_get_variable(script, *args++);
         jumpState->pos.x = evt_get_float_variable(script, *args++);
         jumpState->pos.y = evt_get_float_variable(script, *args++);

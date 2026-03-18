@@ -15,10 +15,7 @@ tex_4020:
   { type: TEXTURE, format: TLUT, offset: 0x09004020, colors: 16, symbol: D_09002020_3C3BC0 }
 
 vtx_4040:
-  { type: VTX, offset: 0x09004040, count: 55, symbol: D_09004040_3C5BE0 }
-
-vtx_43B0:
-  { type: VTX, offset: 0x090043B0, count: 55, symbol: D_090043B0_3C5F50 }
+  { type: VTX, offset: 0x09004040, count: 110, symbol: D_09004040_3C5BE0 }
 
 vtx_4720:
   { type: VTX, offset: 0x09004720, count: 1100, symbol: D_09004720_3C62C0 }
