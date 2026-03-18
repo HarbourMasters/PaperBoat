@@ -88,6 +88,8 @@ void update_entities(void) {
             entity_numEntities++;
 
             if (!(entity->flags & ENTITY_FLAG_SKIP_UPDATE)) {
+                CALL_CANCELLABLE_CONTINUE_EVENT(EntityPreUpdate, entity);
+
                 if (entity->flags & ENTITY_FLAG_BOUND_SCRIPT_DIRTY) {
                     entity->flags &= ~ENTITY_FLAG_BOUND_SCRIPT_DIRTY;
                     if (!(entity->flags & ENTITY_FLAG_8000)) {
@@ -187,6 +189,8 @@ void update_entities(void) {
                 if (entity->flags & ENTITY_FLAG_PENDING_FULL_DELETE) {
                     delete_entity_and_unload_data(entity->listIndex);
                 }
+
+                CALL_EVENT(EntityPostUpdate, entity);
             }
         }
     }
@@ -205,8 +209,10 @@ void update_shadows(void) {
 
         if (shadow != nullptr) {
             entity_numShadows++;
-
+            
             if (!(shadow->flags & ENTITY_FLAG_SKIP_UPDATE)) {
+                CALL_CANCELLABLE_CONTINUE_EVENT(ShadowPreUpdate, shadow);
+                
                 if (shadow->flags & ENTITY_FLAG_ALWAYS_FACE_CAMERA) {
                     shadow->rot.y = -gCameras[gCurrentCameraID].curYaw;
                 }
@@ -222,6 +228,8 @@ void update_shadows(void) {
                 if (shadow->flags & ENTITY_FLAG_PENDING_INSTANCE_DELETE) {
                     _delete_shadow(shadow->listIndex);
                 }
+
+                CALL_EVENT(ShadowPostUpdate, shadow);
             }
         }
     }
@@ -337,6 +345,8 @@ void render_entities(void) {
         Entity* entity = get_entity_by_index(i);
 
         if (entity != nullptr) {
+            CALL_CANCELLABLE_CONTINUE_EVENT(EntityPreDraw, entity);
+
             if (gGameStatusPtr->context == CONTEXT_WORLD) {
                 if (gEntityHideMode != ENTITY_HIDE_MODE_0 &&
                     !(entity->flags & ENTITY_FLAG_IGNORE_DISTANCE_CULLING) &&
@@ -414,6 +424,8 @@ void render_entities(void) {
                     }
                 }
             }
+
+            CALL_EVENT(EntityPostDraw, entity);
         }
     }
 
@@ -427,6 +439,7 @@ void render_shadows(void) {
         Shadow* shadow = get_shadow_by_index(i);
 
         if (shadow != nullptr) {
+            CALL_CANCELLABLE_CONTINUE_EVENT(ShadowPreDraw, shadow);
             if (shadow->flags & ENTITY_FLAG_HIDDEN) {
                 if (shadow->flags & ENTITY_FLAG_FADING_AWAY) {
                     shadow->alpha -= 20;
@@ -462,6 +475,7 @@ void render_shadows(void) {
                                            shadow->vertexArray);
                 }
             }
+            CALL_EVENT(ShadowPostDraw, shadow);
         }
     }
 }

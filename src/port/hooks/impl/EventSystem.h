@@ -71,6 +71,11 @@ typedef struct EventListener {
     EventSystem_CallEvent(eventType##ID, &eventType##_, __FILE__, __LINE__, FILE_AND_LINE); \
     if (!eventType##_.event.cancelled)
 
+#define CALL_CANCELLABLE_EVENT_INV(eventType, ...) \
+    eventType eventType##_ = { {false}, __VA_ARGS__ }; \
+    EventSystem_CallEvent(eventType##ID, &eventType##_, __FILE__, __LINE__, FILE_AND_LINE); \
+    if (eventType##_.event.cancelled)
+
 #define CHECK_IF_NOT_CANCELLED(eventType) \
     if (!eventType##_.event.cancelled)
 
@@ -79,6 +84,13 @@ typedef struct EventListener {
     EventSystem_CallEvent(eventType##ID, &eventType##_, __FILE__, __LINE__, FILE_AND_LINE); \
     if (eventType##_.event.cancelled) { \
         return; \
+    }
+
+#define CALL_CANCELLABLE_CONTINUE_EVENT(eventType, ...) \
+    eventType eventType##_ = { {false}, __VA_ARGS__ }; \
+    EventSystem_CallEvent(eventType##ID, &eventType##_, __FILE__, __LINE__, FILE_AND_LINE); \
+    if (eventType##_.event.cancelled) { \
+        continue; \
     }
 
 #define REGISTER_VB_SHOULD(flag, body)                                              \

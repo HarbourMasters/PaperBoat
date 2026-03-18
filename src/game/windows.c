@@ -149,6 +149,8 @@ void update_windows(void) {
     for (i = 0, window = gWindows; i < ARRAY_COUNT(gWindows); i++, window++) {
         flags = window->flags;
 
+        CALL_CANCELLABLE_CONTINUE_EVENT(WindowUpdate, window);
+
         if (!flags || (flags & WINDOW_FLAG_DISABLED)) {
             continue;
         }
@@ -164,6 +166,9 @@ void update_windows(void) {
 void basic_window_update(s32 windowID, s32* flags, s32* posX, s32* posY, s32* posZ, f32* scaleX, f32* scaleY,
                         f32* rotX, f32* rotY, f32* rotZ, s32* darkening, s32* opacity) {
     Window* window = &gWindows[windowID];
+
+    CALL_CANCELLABLE_RETURN_EVENT(WindowUpdate, window);
+
     s32 counter = window->updateCounter;
 
     if (counter == 0) {
@@ -189,6 +194,8 @@ void basic_hidden_window_update(s32 windowID, s32* flags, s32* posX, s32* posY, 
     Window* window = &gWindows[windowID];
     s32 counter = window->updateCounter;
 
+    CALL_CANCELLABLE_RETURN_EVENT(WindowUpdate, window);
+
     if (counter < 10) {
         *flags = gWindowDisappearFlags[counter];
         *scaleX = (f32)gWindowDisappearScales[counter] * 0.01;
@@ -208,6 +215,8 @@ void main_menu_window_update(s32 windowID, s32* flags, s32* posX, s32* posY, s32
                         f32* rotX, f32* rotY, f32* rotZ, s32* darkening, s32* opacity) {
     Window* window = &gWindows[windowID];
     s32 counter = window->updateCounter;
+
+    CALL_CANCELLABLE_RETURN_EVENT(WindowUpdate, window);
 
     if (counter < 10) {
         *darkening = (counter + 1) * 16;
@@ -245,6 +254,8 @@ void render_windows(s32* windowsArray, s32 parent, s32 flags, s32 baseX, s32 bas
     for (i = 0, windowArrayIt = windowsArray; i < ARRAY_COUNT(gWindows); i++, windowArrayIt++) {
         window = &gWindows[parent];
         childWindowID = *windowArrayIt;
+
+        CALL_CANCELLABLE_CONTINUE_EVENT(WindowPreDraw, window, &childWindowID);
 
         if (childWindowID < 0) {
             continue;
@@ -348,6 +359,8 @@ void render_windows(s32* windowsArray, s32 parent, s32 flags, s32 baseX, s32 bas
                 render_windows(windowsArray, childWindowIdCopy, childFlags, posX, posY, childOpacity, childDarkening, outMtx);
             }
         }
+
+        CALL_EVENT(WindowPostDraw, childWindow, &childWindowIdCopy);
     }
 }
 
@@ -366,6 +379,8 @@ void render_window_root(void) {
         }
     }
 
+    CALL_CANCELLABLE_RETURN_EVENT(WindowRootPreDraw);
+
     gSPLoadGeometryMode(gMainGfxPos++, 0);
     gSPSetGeometryMode(gMainGfxPos++, G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_SHADING_SMOOTH);
     gDPPipelineMode(gMainGfxPos++, G_PM_NPRIMITIVE);
@@ -376,6 +391,8 @@ void render_window_root(void) {
     gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(nuGfxCfb_ptr));
     gDPPipeSync(gMainGfxPos++);
     render_windows(priorityArray, WIN_NONE, 0, 0, 0, 255, 0, nullptr);
+
+    CALL_EVENT(WindowRootPostDraw);
 }
 
 void set_window_properties(s32 windowID, s32 posX, s32 posY, s32 width, s32 height, u8 priority, void* fpDrawContents, void* drawContentsArg0, s8 parent) {

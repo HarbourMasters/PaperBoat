@@ -246,6 +246,8 @@ void hud_element_draw_rect(HudElement* hudElement, s16 texSizeX, s16 texSizeY, s
     u16 renderPosX, renderPosY;
     s16 tempX, tempY;
 
+    CALL_CANCELLABLE_RETURN_EVENT(HudElementPreDraw, hudElement, &texSizeX, &texSizeY, &drawSizeX, &drawSizeY, &offsetX, &offsetY, &clamp, &dropShadow);
+
     imageAddr = hudElement->imageAddr;
     paletteAddr = (u16*) hudElement->paletteAddr;
 
@@ -568,6 +570,8 @@ void hud_element_draw_rect(HudElement* hudElement, s16 texSizeX, s16 texSizeY, s
     }
 
     gDPPipeSync(gMainGfxPos++);
+
+    CALL_EVENT(HudElementPostDraw, hudElement, texSizeX, texSizeY, drawSizeX, drawSizeY, offsetX, offsetY, clamp, dropShadow);
 }
 
 void hud_element_clear_cache(void) {
@@ -775,11 +779,16 @@ s32 hud_element_update(HudElement* hudElement) {
     s32 raster, palette;
     s32 s1, s2;
     s32 arg1, arg2;
+    s32 result = 1;
     f32 uniformScale;
     HudScript* newReadPos;
 
     HudTransform* hudTransform = hudElement->hudTransform;
     intptr_t* nextPos = (intptr_t*)hudElement->readPos;
+
+    CALL_CANCELLABLE_EVENT_INV(HudElementUpdate, hudElement, &result) {
+        return result;
+    }
 
     switch (*nextPos++) {
         case HUD_ELEMENT_OP_End:

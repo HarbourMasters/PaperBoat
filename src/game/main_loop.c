@@ -83,11 +83,6 @@ void step_game_loop(void) {
         }
     }
 
-    #define CALL_AND_RECORD_FUNC(func) \
-        FrameInterpolation_RecordOpenChild(#func, 0); \
-        func(); \
-        FrameInterpolation_RecordCloseChild();
-
     mdl_reset_transform_flags();
     npc_iter_no_op();
     update_workers();
