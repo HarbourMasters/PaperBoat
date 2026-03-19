@@ -37,8 +37,8 @@ logs/
 /mods/
 default.sav
 imgui.ini
-starrod.cfg.json
-Starrod.log
+paperboat.cfg.json
+Paperboat.log
 *.sav
 *.lib
 *.pdb

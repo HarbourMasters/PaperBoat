@@ -75,7 +75,7 @@ static void ExtractAssets(const std::string &romPath,
 
 GameEngine::GameEngine() {
   this->context = Ship::Context::CreateUninitializedInstance(
-      "StarRod", "ship", "starrod.cfg.json");
+      "Paperboat", "boat", "paperboat.cfg.json");
 
   std::vector<std::string> archiveFiles;
   const std::string main_path =
@@ -110,9 +110,9 @@ GameEngine::GameEngine() {
   }
 
   const std::string hd_path =
-      Ship::Context::GetPathRelativeToAppDirectory("starrod.o2r");
+      Ship::Context::GetPathRelativeToAppDirectory("paperboat-hd.o2r");
   if (std::filesystem::exists(hd_path)) {
-    SPDLOG_INFO("Loading HD asset archive: starrod.o2r");
+    SPDLOG_INFO("Loading HD asset archive: paperboat-hd.o2r");
     archiveFiles.push_back(hd_path);
   }
 
@@ -584,7 +584,7 @@ extern "C" void GameEngine_LogStackTrace(const char *label) {
       char *symbol = symbols[i];
       char *demangled = nullptr;
 
-      // macOS format: "1   StarRod  0x00000001000abcde _Z12someFunctionv + 42"
+      // macOS format: "1   Paperboat  0x00000001000abcde _Z12someFunctionv + 42"
       // Try to extract and demangle the symbol name
       char *start = strchr(symbol, '_');
       if (start) {

@@ -43,16 +43,16 @@ if %ERRORLEVEL% neq 0 (
 
 echo.
 echo ============================================================
-echo  Solution generated: build\x64\StarRod.sln
+echo  Solution generated: build\x64\Paperboat.sln
 echo  Open it with Visual Studio 2022.
-echo  StarRod is set as the startup project.
+echo  Paperboat is set as the startup project.
 echo ============================================================
 echo.
 
 REM Optionally open the solution
 set /p OPEN_SOL="Open solution now? [Y/n] "
 if /i "%OPEN_SOL%" neq "n" (
-    start "" "build\x64\StarRod.sln"
+    start "" "build\x64\Paperboat.sln"
 )
 
 pause
