@@ -5,11 +5,11 @@
   virtual: [0x80240000, 0x8FF670]
 
 # Vine texture (CI4 64x32)
-area_kmr/kmr_22/lava_piranha_vine:
+lava_piranha_vine:
   { type: TEXTURE, format: CI4, offset: 0x900F70, width: 64, height: 32, symbol: kmr_22_lava_piranha_vine_img }
-area_kmr/kmr_22/lava_piranha_vine.pal:
+lava_piranha_vine.pal:
   { type: TEXTURE, format: TLUT, offset: 0x901370, colors: 16, symbol: kmr_22_lava_piranha_vine_pal }
 
 # Vine display list
-area_kmr/kmr_22/lava_piranha_vine.gfx:
+lava_piranha_vine.gfx:
   { type: GFX, offset: 0x901570, size: 0xE0, symbol: kmr_22_lava_piranha_vine_gfx }

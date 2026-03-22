@@ -5,5 +5,5 @@
   virtual: [0x80240000, 0x8EBE20]
 
 # Records screen display list (render mode setup)
-area_kmr/kmr_20/records_screen:
+records_screen:
   { type: GFX, offset: 0x8FEB70, size: 0x70, symbol: kmr_20_records_screen_gfx }

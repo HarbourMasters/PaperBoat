@@ -31,15 +31,9 @@ area_kmr/kmr_04/hammer_block_message:
 area_kmr/kmr_04/hammer_block_message.pal:
   { type: TEXTURE, format: TLUT, offset: 0x8CC970, colors: 16, symbol: kmr_04_hammer_block_message_pal }
 
-# --- kmr_23/window corners (IA8 8x8) ---
-area_kmr/kmr_23/window_ul:
-  { type: TEXTURE, format: IA8, offset: 0x9090F8, width: 8, height: 8, symbol: kmr_23_window_ul_img }
-area_kmr/kmr_23/window_ur:
-  { type: TEXTURE, format: IA8, offset: 0x909138, width: 8, height: 8, symbol: kmr_23_window_ur_img }
-area_kmr/kmr_23/window_ll:
-  { type: TEXTURE, format: IA8, offset: 0x909178, width: 8, height: 8, symbol: kmr_23_window_ll_img }
-area_kmr/kmr_23/window_lr:
-  { type: TEXTURE, format: IA8, offset: 0x9091B8, width: 8, height: 8, symbol: kmr_23_window_lr_img }
+# --- kmr_23/window corners (IA8 8x8 × 4 corners combined) ---
+area_kmr/kmr_23/window_corners:
+  { type: TEXTURE, format: IA8, offset: 0x9090F8, width: 8, height: 32, symbol: kmr_23_window_ul_img }
 
 # --- mgm_01/panel images (CI4 32x32) ---
 area_mgm/mgm_01/panel_1_coin:

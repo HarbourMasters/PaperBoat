@@ -21,7 +21,10 @@ tex_2580:
   { type: TEXTURE, format: IA8, offset: 0x09002580, width: 128, height: 10, symbol: D_09002580_3EE3E0 }
 
 tex_2A80:
-  { type: TEXTURE, format: IA8, offset: 0x09002A80, width: 104, height: 40, symbol: world/text_end_of }
+  { type: TEXTURE, format: IA8, offset: 0x09002A80, width: 104, height: 20, symbol: world/text_end_of_top }
+
+tex_32A0:
+  { type: TEXTURE, format: IA8, offset: 0x090032A0, width: 104, height: 20, symbol: world/text_end_of_bottom }
 
 tex_3AC0:
   { type: TEXTURE, format: IA8, offset: 0x09003AC0, width: 16, height: 40, symbol: world/exclamation_point }

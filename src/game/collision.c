@@ -310,7 +310,8 @@ void parent_collider_to_model(s16 colliderID, s16 modelIndex) {
     collider->parentModelIndex = modelIndex;
     collider->flags |= COLLIDER_FLAG_HAS_MODEL_PARENT;
 
-    vertexBuffer = collision_heap_malloc(collider->numTriangles * sizeof(Vec3f));
+    // Buffer stores Vec3f* pointers, not Vec3f values — up to 3 per triangle
+    vertexBuffer = collision_heap_malloc(collider->numTriangles * 3 * sizeof(Vec3f*));
     vertexBufferSize = 0;
     vertexPtr = vertexBuffer;
 
