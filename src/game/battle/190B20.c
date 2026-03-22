@@ -1042,7 +1042,9 @@ void deduct_current_move_fp(void) {
         }
     }
 
-    playerData->curFP -= fpCost;
+    CALL_CANCELLABLE_EVENT(PlayerFPDeduct, fpCost) {
+        playerData->curFP -= fpCost;
+    }
 }
 
 void reset_actor_turn_info(void) {

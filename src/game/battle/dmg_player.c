@@ -1060,6 +1060,7 @@ bool dispatch_damage_event_player(s32 damageAmount, s32 event, bool noHitSound) 
     s32 oldPlayerHP;
     s32 temp;
 
+    CALL_EVENT(PlayerDamage, &damageAmount);
     battleStatus->curAttackDamage = damageAmount;
 
     temp = (s16)damageAmount; //TODO usage of temp here required to match

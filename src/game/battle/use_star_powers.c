@@ -115,12 +115,17 @@ API_CALLABLE(LoadStarPowerScript) {
     PlayerData* playerData = &gPlayerData;
     s16 starPowerIdx;
 
-    playerData->starPower -= gMoveTable[battleStatus->selectedMoveID].costFP * SP_PER_BAR;
+    {
+        s32 spCost = gMoveTable[battleStatus->selectedMoveID].costFP * SP_PER_BAR;
+        CALL_CANCELLABLE_EVENT(StarPowerDeduct, spCost) {
+            playerData->starPower -= spCost;
+        }
+    }
     starPowerIdx = battleStatus->moveArgument;
     dma_copy((&StarPowersTable[starPowerIdx])->romStart,
              (&StarPowersTable[starPowerIdx])->romEnd,
              (&StarPowersTable[starPowerIdx])->vramStart);
-    script->varTable[0] = (s32) (&StarPowersTable[starPowerIdx])->mainScript;
+    script->varTable[0] = (Bytecode)(uintptr_t)(&StarPowersTable[starPowerIdx])->mainScript;
     return ApiStatus_DONE2;
 }
 
