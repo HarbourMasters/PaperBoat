@@ -11,9 +11,9 @@ enum {
 API_CALLABLE(N(SetModelTintMode)) {
     Bytecode* args = script->ptrReadPos;
     s32 mode = evt_get_variable(script, *args++);
-    s32 testS0 = evt_get_variable(script, *args++);
+    Bytecode testS0 = evt_get_variable(script, *args++);
     s32 tintType = evt_get_variable(script, *args++);
-    s32* modelIDList = (s32*) testS0;
+    s32* modelIDList = (s32*)(uintptr_t) testS0;
     s32 listIndex;
     Model* mdl;
 

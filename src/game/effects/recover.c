@@ -176,9 +176,9 @@ void func_E0080448(EffectInstance* effect) {
                 gDPSetCombineMode(gMainGfxPos++, PM_CC_49, PM_CC_49);
             }
 
-            gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET((type == 0 || type == 2) ?
+            gSPDisplayList(gMainGfxPos++, (type == 0 || type == 2) ?
                 (unk_44 == 0 ? D_09003200_385000 : D_09003298_385098) :
-                D_09003330_385130));
+                D_09003330_385130);
 
             guTranslateF(sp18, part->pos.x + part->offsetX, part->pos.y, part->pos.z);
             guScaleF(sp58, part->scaleX, part->scaleY, 1.0f);
@@ -193,24 +193,24 @@ void func_E0080448(EffectInstance* effect) {
             gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
 
             if (i == 1 && type != 2) {
-                gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090033D0_3851D0));
+                gSPDisplayList(gMainGfxPos++, D_090033D0_3851D0);
                 gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
-                gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090034D0_3852D0));
+                gSPDisplayList(gMainGfxPos++, D_090034D0_3852D0);
 
                 if (unk_40 < 10 && unk_44 == 0) {
-                    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0080AC0[unk_40]));
-                    gSPDisplayList(gMainGfxPos++, type == 0 ? LOAD_ASSET(D_09003410_385210) : LOAD_ASSET(D_09003470_385270));
+                    gSPDisplayList(gMainGfxPos++, D_E0080AC0[unk_40]);
+                    gSPDisplayList(gMainGfxPos++, type == 0 ? D_09003410_385210 : D_09003470_385270);
                 } else {
                     s32 ones = unk_40 % 10;
                     s32 tens = unk_44 == 0 ? (unk_40 / 10) : 10;
 
-                    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0080AC0[ones]));
-                    gSPDisplayList(gMainGfxPos++, type == 0 ? LOAD_ASSET(D_09003450_385250) : LOAD_ASSET(D_090034B0_3852B0));
-                    gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_E0080AC0[tens]));
-                    gSPDisplayList(gMainGfxPos++, type == 0 ? LOAD_ASSET(D_09003430_385230) : LOAD_ASSET(D_09003490_385290));
+                    gSPDisplayList(gMainGfxPos++, D_E0080AC0[ones]);
+                    gSPDisplayList(gMainGfxPos++, type == 0 ? D_09003450_385250 : D_090034B0_3852B0);
+                    gSPDisplayList(gMainGfxPos++, D_E0080AC0[tens]);
+                    gSPDisplayList(gMainGfxPos++, type == 0 ? D_09003430_385230 : D_09003490_385290);
                 }
             } else {
-                gSPDisplayList(gMainGfxPos++, LOAD_ASSET(D_090033F0_3851F0));
+                gSPDisplayList(gMainGfxPos++, D_090033F0_3851F0);
                 gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
             }
 

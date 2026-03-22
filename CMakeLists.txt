@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(StarRod
+project(Paperboat
     VERSION 0.1.0
     LANGUAGES C CXX
     DESCRIPTION "PM64"
@@ -192,7 +192,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     SPDLOG_ACTIVE_LEVEL=0
 )
 
-# Target-specific include directories (only applies to StarRod, not dependencies)
+# Target-specific include directories (only applies to Paperboat, not dependencies)
 # Note: We exclude include/gcc and include/stdlib
 # Note: We use libultraship's headers for most things, but keep some of include/PR
 target_include_directories(${PROJECT_NAME} PRIVATE

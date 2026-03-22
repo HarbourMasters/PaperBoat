@@ -5,94 +5,94 @@
   virtual: [0x80240000, 0xD7ED60]
 
 # --- Texture 1 (CI4 64x64) ---
-area_pra/pra_31/texture_1:
+texture_1:
   { type: TEXTURE, format: CI4, offset: 0xD82270, width: 64, height: 64, symbol: pra_31_texture_1_img }
-area_pra/pra_31/texture_1.pal:
+texture_1.pal:
   { type: TEXTURE, format: TLUT, offset: 0xD82A70, colors: 16, symbol: pra_31_texture_1_pal }
-area_pra/pra_31/texture_1.gfx:
+texture_1.gfx:
   { type: GFX, offset: 0xD82A90, symbol: pra_31_texture_1_gfx }
 
 # --- Texture 2 (CI4 64x64) ---
-area_pra/pra_31/texture_2:
+texture_2:
   { type: TEXTURE, format: CI4, offset: 0xD82B50, width: 64, height: 64, symbol: pra_31_texture_2_img }
-area_pra/pra_31/texture_2.pal:
+texture_2.pal:
   { type: TEXTURE, format: TLUT, offset: 0xD83350, colors: 16, symbol: pra_31_texture_2_pal }
-area_pra/pra_31/texture_2.gfx:
+texture_2.gfx:
   { type: GFX, offset: 0xD83370, symbol: pra_31_texture_2_gfx }
 
 # --- Texture 3 (RGBA16 32x32) ---
-area_pra/pra_31/texture_3:
+texture_3:
   { type: TEXTURE, format: RGBA16, offset: 0xD83420, width: 32, height: 32, symbol: pra_31_texture_3_img }
-area_pra/pra_31/texture_3.gfx:
+texture_3.gfx:
   { type: GFX, offset: 0xD83C20, symbol: pra_31_texture_3_gfx }
 
 # --- Stairs skeleton display lists (34 DLs) ---
-area_pra/pra_31/unk_01.gfx:
+unk_01.gfx:
   { type: GFX, offset: 0xD83CB0, symbol: pra_31_unk_01_gfx }
-area_pra/pra_31/unk_02.gfx:
+unk_02.gfx:
   { type: GFX, offset: 0xD83D28, symbol: pra_31_unk_02_gfx }
-area_pra/pra_31/unk_03.gfx:
+unk_03.gfx:
   { type: GFX, offset: 0xD83D60, symbol: pra_31_unk_03_gfx }
-area_pra/pra_31/unk_04.gfx:
+unk_04.gfx:
   { type: GFX, offset: 0xD83DC8, symbol: pra_31_unk_04_gfx }
-area_pra/pra_31/unk_05.gfx:
+unk_05.gfx:
   { type: GFX, offset: 0xD83E00, symbol: pra_31_unk_05_gfx }
-area_pra/pra_31/unk_06.gfx:
+unk_06.gfx:
   { type: GFX, offset: 0xD83E78, symbol: pra_31_unk_06_gfx }
-area_pra/pra_31/unk_07.gfx:
+unk_07.gfx:
   { type: GFX, offset: 0xD83EB0, symbol: pra_31_unk_07_gfx }
-area_pra/pra_31/unk_08.gfx:
+unk_08.gfx:
   { type: GFX, offset: 0xD83F28, symbol: pra_31_unk_08_gfx }
-area_pra/pra_31/unk_09.gfx:
+unk_09.gfx:
   { type: GFX, offset: 0xD83F60, symbol: pra_31_unk_09_gfx }
-area_pra/pra_31/unk_10.gfx:
+unk_10.gfx:
   { type: GFX, offset: 0xD83FC8, symbol: pra_31_unk_10_gfx }
-area_pra/pra_31/unk_11.gfx:
+unk_11.gfx:
   { type: GFX, offset: 0xD84000, symbol: pra_31_unk_11_gfx }
-area_pra/pra_31/unk_12.gfx:
+unk_12.gfx:
   { type: GFX, offset: 0xD84078, symbol: pra_31_unk_12_gfx }
-area_pra/pra_31/unk_13.gfx:
+unk_13.gfx:
   { type: GFX, offset: 0xD840B0, symbol: pra_31_unk_13_gfx }
-area_pra/pra_31/unk_14.gfx:
+unk_14.gfx:
   { type: GFX, offset: 0xD84128, symbol: pra_31_unk_14_gfx }
-area_pra/pra_31/unk_15.gfx:
+unk_15.gfx:
   { type: GFX, offset: 0xD84160, symbol: pra_31_unk_15_gfx }
-area_pra/pra_31/unk_16.gfx:
+unk_16.gfx:
   { type: GFX, offset: 0xD841C8, symbol: pra_31_unk_16_gfx }
-area_pra/pra_31/unk_17.gfx:
+unk_17.gfx:
   { type: GFX, offset: 0xD84200, symbol: pra_31_unk_17_gfx }
-area_pra/pra_31/unk_18.gfx:
+unk_18.gfx:
   { type: GFX, offset: 0xD84278, symbol: pra_31_unk_18_gfx }
-area_pra/pra_31/unk_19.gfx:
+unk_19.gfx:
   { type: GFX, offset: 0xD842B0, symbol: pra_31_unk_19_gfx }
-area_pra/pra_31/unk_20.gfx:
+unk_20.gfx:
   { type: GFX, offset: 0xD84328, symbol: pra_31_unk_20_gfx }
-area_pra/pra_31/unk_21.gfx:
+unk_21.gfx:
   { type: GFX, offset: 0xD84360, symbol: pra_31_unk_21_gfx }
-area_pra/pra_31/unk_22.gfx:
+unk_22.gfx:
   { type: GFX, offset: 0xD843C8, symbol: pra_31_unk_22_gfx }
-area_pra/pra_31/unk_23.gfx:
+unk_23.gfx:
   { type: GFX, offset: 0xD84400, symbol: pra_31_unk_23_gfx }
-area_pra/pra_31/unk_24.gfx:
+unk_24.gfx:
   { type: GFX, offset: 0xD84478, symbol: pra_31_unk_24_gfx }
-area_pra/pra_31/unk_25.gfx:
+unk_25.gfx:
   { type: GFX, offset: 0xD84528, symbol: pra_31_unk_25_gfx }
-area_pra/pra_31/unk_26.gfx:
+unk_26.gfx:
   { type: GFX, offset: 0xD84560, symbol: pra_31_unk_26_gfx }
-area_pra/pra_31/unk_27.gfx:
+unk_27.gfx:
   { type: GFX, offset: 0xD845C8, symbol: pra_31_unk_27_gfx }
-area_pra/pra_31/unk_28.gfx:
+unk_28.gfx:
   { type: GFX, offset: 0xD84628, symbol: pra_31_unk_28_gfx }
-area_pra/pra_31/unk_29.gfx:
+unk_29.gfx:
   { type: GFX, offset: 0xD84690, symbol: pra_31_unk_29_gfx }
-area_pra/pra_31/unk_30.gfx:
+unk_30.gfx:
   { type: GFX, offset: 0xD846D8, symbol: pra_31_unk_30_gfx }
-area_pra/pra_31/unk_31.gfx:
+unk_31.gfx:
   { type: GFX, offset: 0xD84768, symbol: pra_31_unk_31_gfx }
-area_pra/pra_31/unk_32.gfx:
+unk_32.gfx:
   { type: GFX, offset: 0xD84790, symbol: pra_31_unk_32_gfx }
-area_pra/pra_31/unk_33.gfx:
+unk_33.gfx:
   { type: GFX, offset: 0xD847B8, symbol: pra_31_unk_33_gfx }
 # --- Stairs vertices (28 verts) ---
-area_pra/pra_31/stairs.vtx:
+stairs.vtx:
   { type: VTX, offset: 0xD86820, count: 28, symbol: pra_31_stairs_vtx }

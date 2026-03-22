@@ -5,9 +5,9 @@
   virtual: [0x80240000, 0xB1D760]
 
 # Shockwave vertices (91 verts)
-area_tst/tst_13/shockwave.vtx:
+shockwave.vtx:
   { type: VTX, offset: 0xB1FA10, count: 91, symbol: tst_13_shockwave_vtx }
 
 # Shockwave display list
-area_tst/tst_13/shockwave.gfx:
+shockwave.gfx:
   { type: GFX, offset: 0xB1FFC0, size: 0x390, symbol: tst_13_shockwave_gfx }

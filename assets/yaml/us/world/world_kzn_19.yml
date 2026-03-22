@@ -5,11 +5,11 @@
   virtual: [0x80240000, 0xC8DBB0]
 
 # Vine texture (CI4 64x32)
-lava_piranha/vine:
+vine:
   { type: TEXTURE, format: CI4, offset: 0xC91088, width: 64, height: 32, symbol: kzn_19_lava_piranha_vine_img }
-lava_piranha/vine.pal:
+vine.pal:
   { type: TEXTURE, format: TLUT, offset: 0xC91488, colors: 16, symbol: kzn_19_lava_piranha_vine_pal }
 
 # Vine display list
-lava_piranha/vine.gfx:
+vine.gfx:
   { type: GFX, offset: 0xC91688, size: 0xE0, symbol: kzn_19_lava_piranha_vine_gfx }

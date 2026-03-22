@@ -180,21 +180,21 @@ fp_cost:
   { type: TEXTURE, format: CI4, offset: 0x95750, width: 16, height: 8, symbol: ui_fp_cost_png }
 fp_cost.pal:
   { type: TEXTURE, format: TLUT, offset: 0x95790, colors: 16, symbol: ui_fp_cost_pal }
-fp_cost.reduced:
+fp_cost.reduced.pal:
   { type: TEXTURE, format: TLUT, offset: 0x957B0, colors: 16, symbol: ui_fp_cost_reduced_pal }
-fp_cost.reduced_twice:
+fp_cost.reduced_twice.pal:
   { type: TEXTURE, format: TLUT, offset: 0x957D0, colors: 16, symbol: ui_fp_cost_reduced_twice_pal }
-fp_cost.notenough:
+fp_cost.notenough.pal:
   { type: TEXTURE, format: TLUT, offset: 0x957F0, colors: 16, symbol: ui_fp_cost_notenough_pal }
 pow_cost:
   { type: TEXTURE, format: CI4, offset: 0x95810, width: 16, height: 8, symbol: ui_pow_cost_png }
 pow_cost.pal:
   { type: TEXTURE, format: TLUT, offset: 0x95850, colors: 16, symbol: ui_pow_cost_pal }
-pow_cost.reduced:
+pow_cost.reduced.pal:
   { type: TEXTURE, format: TLUT, offset: 0x95870, colors: 16, symbol: ui_pow_cost_reduced_pal }
-pow_cost.reduced_twice:
+pow_cost.reduced_twice.pal:
   { type: TEXTURE, format: TLUT, offset: 0x95890, colors: 16, symbol: ui_pow_cost_reduced_twice_pal }
-pow_cost.notenough:
+pow_cost.notenough.pal:
   { type: TEXTURE, format: TLUT, offset: 0x958B0, colors: 16, symbol: ui_pow_cost_notenough_pal }
 green_arrow_down:
   { type: TEXTURE, format: CI4, offset: 0x958D0, width: 16, height: 8, symbol: ui_green_arrow_down_png }

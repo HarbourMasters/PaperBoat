@@ -49,6 +49,16 @@ extern "C" void gbi_resolve_vtx_in_static_dl(Gfx *dl) {
   }
 }
 
+extern "C" void gSPDisplayListOTR(Gfx *pkt, const void *dl) {
+  if (dl != NULL && GameEngine_OTRSigCheck((const char *)dl)) {
+    void *data = ResourceGetDataByName((const char *)dl);
+    if (data != NULL) {
+      dl = data;
+    }
+  }
+  __gSPDisplayList(pkt, dl);
+}
+
 extern "C" void gDPSetTextureImageOTR(Gfx *pkt, int fmt, int siz, int width,
                                       uintptr_t img) {
   if (GameEngine_OTRSigCheck((const char *)img)) {

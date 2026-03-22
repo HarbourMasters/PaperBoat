@@ -3,17 +3,15 @@
 
 #include "ultra64.h"
 
-// =============================================================================
-// Missing GBI macros - libultraship only defines __gSP* versions
-// =============================================================================
-#ifndef gSPDisplayList
-#define gSPDisplayList(pkt, dl) __gSPDisplayList(pkt, dl)
-#endif
-
 // Declare middleware functions for OTR path resolution
 void gSPVertexOTR(Gfx* pkt, uintptr_t v, int n, int v0);
+void gSPDisplayListOTR(Gfx* pkt, const void* dl);
 void gDPSetTextureImageOTR(Gfx* pkt, int fmt, int siz, int width, uintptr_t img);
 void gbi_resolve_vtx_in_static_dl(Gfx* dl);
+
+#ifndef gSPDisplayList
+#define gSPDisplayList(pkt, dl) gSPDisplayListOTR(pkt, (const void*)(dl))
+#endif
 
 #ifndef gSPVertex
 #define gSPVertex(pkt, v, n, v0) gSPVertexOTR(pkt, (uintptr_t)(v), n, v0)
