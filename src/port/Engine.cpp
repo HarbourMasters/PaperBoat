@@ -25,6 +25,9 @@
 #include <ship/window/gui/resource/Font.h>
 #include <unordered_map>
 #include "port/interpolation/FrameInterpolation.h"
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
 
 const float imguiScaleOptionToValue[4] = {0.75f, 1.0f, 1.5f, 2.0f};
 std::shared_ptr<Fast::Fast3dWindow> gsFast3dWindow;

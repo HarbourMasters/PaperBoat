@@ -228,6 +228,7 @@ void update_messages(void) {
 
     for (i = 0; i < ARRAY_COUNT(gMessagePrinters); i++) {
         if (gMessagePrinters[i].stateFlags & MSG_STATE_FLAG_2) {
+            CALL_CANCELLABLE_CONTINUE_EVENT(MessageUpdate, &gMessagePrinters[i]);
             _update_message(&gMessagePrinters[i]);
         }
     }
@@ -545,6 +546,7 @@ void render_messages(void) {
 
     for (i = 0; i < ARRAY_COUNT(gMessagePrinters); i++) {
         if (gMessagePrinters[i].stateFlags & MSG_STATE_FLAG_2) {
+            CALL_CANCELLABLE_CONTINUE_EVENT(MessageDrawSetup, &gMessagePrinters[i]);
             gSPViewport(gMainGfxPos++, &D_8014C280);
             guOrtho(matrix, 0.0f, 319.0f, -240.0f, 0.0f, -500.0f, 500.0f, 1.0f);
             gSPMatrix(gMainGfxPos++, OS_K0_TO_PHYSICAL(matrix), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
@@ -559,6 +561,8 @@ void render_messages(void) {
 
     for (i = 0; i < ARRAY_COUNT(gMessagePrinters); i++) {
         if (gMessagePrinters[i].stateFlags & MSG_STATE_FLAG_2) {
+            CALL_CANCELLABLE_CONTINUE_EVENT(MessagePreDraw, &gMessagePrinters[i]);
+
             draw_message_window(&gMessagePrinters[i]);
 
             if (gMessagePrinters[i].windowState == MSG_WINDOW_STATE_WAITING) {
@@ -576,6 +580,8 @@ void render_messages(void) {
             {
                 msg_draw_choice_pointer(&gMessagePrinters[i]);
             }
+
+            CALL_EVENT(MessagePostDraw, &gMessagePrinters[i]);
         }
     }
 }

@@ -623,28 +623,32 @@ void update_scripts(void) {
             script->stateFlags != 0 &&
             !(script->stateFlags & (EVT_FLAG_SUSPENDED | EVT_FLAG_BLOCKED_BY_CHILD | EVT_FLAG_PAUSED)))
         {
-            s32 stop = false;
-            s32 status;
+            CALL_CANCELLABLE_EVENT(ScriptRequestUpdate, script) {
+                s32 stop = false;
+                s32 status;
 
-            script->frameCounter += script->timeScale;
+                script->frameCounter += script->timeScale;
 
-            do {
-                if (script->frameCounter < 1.0) {
-                    // Continue to next script
-                    do {} while (0); // TODO required to match
-                    break;
-                };
+                do {
+                    CALL_CANCELLABLE_EVENT(ScriptFrameUpdate, script, &status) {
+                        if (script->frameCounter < 1.0) {
+                            // Continue to next script
+                            do {} while (0); // TODO required to match
+                            break;
+                        };
 
-                script->frameCounter -= 1.0;
-                status = evt_execute_next_command(script);
-                if (status == EVT_CMD_RESULT_ERROR) {
-                    stop = true;
+                        script->frameCounter -= 1.0;
+                        status = evt_execute_next_command(script);
+                        if (status == EVT_CMD_RESULT_ERROR) {
+                            stop = true;
+                            break;
+                        }
+                    }
+                } while (status != EVT_CMD_RESULT_YIELD);
+
+                if (stop) {
                     break;
                 }
-            } while (status != EVT_CMD_RESULT_YIELD);
-
-            if (stop) {
-                break;
             }
         }
     }

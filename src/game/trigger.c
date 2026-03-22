@@ -99,6 +99,8 @@ void update_triggers(void) {
             continue;
         }
 
+        CALL_CANCELLABLE_CONTINUE_EVENT(TriggerUpdate, listTrigger);
+
         if (!(listTrigger->flags & TRIGGER_ACTIVE)) {
             continue;
         }
@@ -110,10 +112,14 @@ void update_triggers(void) {
 
         if (listTrigger->flags & TRIGGER_WALL_PUSH) {
             if (listTrigger->location.colliderID == collisionStatus->curWall) {
-                func_800E06C0(1);
+                CALL_CANCELLABLE_EVENT(TriggerActivate, listTrigger) {
+                    func_800E06C0(1);
+                }
             }
             if (listTrigger->location.colliderID == collisionStatus->pushingAgainstWall) {
-                func_800E06C0(0);
+                CALL_CANCELLABLE_EVENT(TriggerActivate, listTrigger) {
+                    func_800E06C0(0);
+                }
             } else {
                 continue;
             }
@@ -133,7 +139,9 @@ void update_triggers(void) {
 
         if (listTrigger->flags & TRIGGER_WALL_PRESS_A) {
             if (listTrigger->location.colliderID == collisionStatus->curWall) {
-                collisionStatus->touchingWallTrigger = 1;
+                CALL_CANCELLABLE_EVENT(TriggerActivate, listTrigger) {
+                    collisionStatus->touchingWallTrigger = 1;
+                }
             }
             if ((listTrigger->location.colliderID != collisionStatus->curInspect) || !phys_can_player_interact()) {
                 continue;
@@ -227,8 +235,10 @@ void update_triggers(void) {
 
         if (listTrigger->flags & TRIGGER_ACTIVE) {
             if (listTrigger->flags & TRIGGER_ACTIVATED) {
-                if (listTrigger->onActivateFunc(listTrigger) == 0) {
-                    listTrigger->flags &= ~TRIGGER_ACTIVATED;
+                CALL_CANCELLABLE_EVENT(TriggerActivate, listTrigger) {
+                    if (listTrigger->onActivateFunc(listTrigger) == 0) {
+                        listTrigger->flags &= ~TRIGGER_ACTIVATED;
+                    }
                 }
             }
         }

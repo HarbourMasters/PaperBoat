@@ -8,13 +8,6 @@
 #ifndef SHIFT
 
 // from audio/ambience.c
-typedef struct {
-    /* 0x0 */ s16 flags;
-    /* 0x2 */ s16 fadeState;
-    /* 0x4 */ s32 fadeTime;
-    /* 0x8 */ s32 soundID;
-    /* 0xC */ s32 unkC;
-} AmbientSoundSettings;
 
 BSS MusicControlData gMusicControlData[2];
 BSS IMG_BIN D_80159B50[0x200];

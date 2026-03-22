@@ -93,6 +93,8 @@ void update_curtains(void) {
 
 // Build theater display list dynamically to allow OTR vertex resolution
 static void render_theater(void) {
+    CALL_CANCELLABLE_RETURN_EVENT(CurtainsPreDraw);
+
     // Floor
     gDPPipeSync(gMainGfxPos++);
     gDPSetRenderMode(gMainGfxPos++, CVG_DST_FULL | ZMODE_OPA | FORCE_BL | G_RM_PASS, CVG_DST_FULL | ZMODE_OPA | FORCE_BL |
@@ -188,11 +190,15 @@ static void render_theater(void) {
     gSP2Triangles(gMainGfxPos++, 23, 25, 26, 0, 23, 26, 24, 0);
     gSP2Triangles(gMainGfxPos++, 25, 27, 28, 0, 25, 28, 26, 0);
     gSP2Triangles(gMainGfxPos++, 27, 29, 30, 0, 27, 30, 28, 0);
+
+    CALL_EVENT(TheaterPostDraw);
 }
 
 #define UI_NO_CONTROLLER_SIZE (ui_no_controller_width * ui_no_controller_height)
 
 void render_curtains(void) {
+    CALL_CANCELLABLE_RETURN_EVENT(CurtainsPreDraw);
+
     if (gCurtainScaleGoal != gCurtainScale) {
         gCurtainScale += (gCurtainScaleGoal - gCurtainScale) * 0.1;
     }
@@ -284,6 +290,7 @@ void render_curtains(void) {
         }
     }
 
+    CALL_EVENT(CurtainsPostDraw);
 }
 
 void set_curtain_scale_goal(f32 scale) {
