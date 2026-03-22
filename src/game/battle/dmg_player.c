@@ -1060,10 +1060,7 @@ bool dispatch_damage_event_player(s32 damageAmount, s32 event, bool noHitSound) 
     s32 oldPlayerHP;
     s32 temp;
 
-    if (CVarGetInteger(CVAR_PREFIX_CHEAT ".InfiniteHealth", 0)) {
-        damageAmount = 0;
-    }
-
+    CALL_EVENT(PlayerDamage, &damageAmount);
     battleStatus->curAttackDamage = damageAmount;
 
     temp = (s16)damageAmount; //TODO usage of temp here required to match

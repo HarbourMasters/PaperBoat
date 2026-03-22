@@ -1042,7 +1042,7 @@ void deduct_current_move_fp(void) {
         }
     }
 
-    if (!CVarGetInteger(CVAR_PREFIX_CHEAT ".InfiniteFlowerPoints", 0)) {
+    CALL_CANCELLABLE_EVENT(PlayerFPDeduct, fpCost) {
         playerData->curFP -= fpCost;
     }
 }

@@ -68,14 +68,6 @@ void step_game_loop(void) {
         playerData->frameCounter = MAX_GAME_TIME;
     }
 
-    if (CVarGetInteger(CVAR_PREFIX_CHEAT ".MaxBadgePoints", 0)) {
-        playerData->maxBP = 30;
-    }
-
-    if (CVarGetInteger(CVAR_PREFIX_CHEAT ".MaxStarPower", 0)) {
-        playerData->starPower = playerData->maxStarPower * SP_PER_BAR;
-    }
-
 #if VERSION_JP
     update_input();
 #endif

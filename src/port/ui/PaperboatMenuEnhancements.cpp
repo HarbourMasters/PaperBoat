@@ -148,9 +148,9 @@ void PaperboatMenu::AddMenuEnhancements() {
       .CVar(CVAR_CHEAT("InfiniteFlowerPoints"))
       .Options(CheckboxOptions().Tooltip("Mario's FP won't decrease during battle."));
 
-  AddWidget(path, "Max Badge Points", WIDGET_CVAR_CHECKBOX)
-      .CVar(CVAR_CHEAT("MaxBadgePoints"))
-      .Options(CheckboxOptions().Tooltip("Sets Mario's max BP to 30."));
+  AddWidget(path, "No Badge Cost", WIDGET_CVAR_CHECKBOX)
+      .CVar(CVAR_CHEAT("NoBPCost"))
+      .Options(CheckboxOptions().Tooltip("Equip any badge regardless of BP cost."));
 
   AddWidget(path, "Max Star Power", WIDGET_CVAR_CHECKBOX)
       .CVar(CVAR_CHEAT("MaxStarPower"))
