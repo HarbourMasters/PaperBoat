@@ -492,6 +492,9 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
         }
         battleStatus->lastAttackDamage = 0;
     } else {
+        if (actorClass == ACTOR_CLASS_PLAYER && CVarGetInteger(CVAR_PREFIX_CHEAT ".InfiniteHealth", 0)) {
+            damage = 0;
+        }
         target->damageCounter += damage;
         target->hpChangeCounter -= damage;
         battleStatus->lastAttackDamage = 0;

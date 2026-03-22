@@ -1042,7 +1042,9 @@ void deduct_current_move_fp(void) {
         }
     }
 
-    playerData->curFP -= fpCost;
+    if (!CVarGetInteger(CVAR_PREFIX_CHEAT ".InfiniteFlowerPoints", 0)) {
+        playerData->curFP -= fpCost;
+    }
 }
 
 void reset_actor_turn_info(void) {

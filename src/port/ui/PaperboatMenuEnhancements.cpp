@@ -140,7 +140,21 @@ void PaperboatMenu::AddMenuEnhancements() {
   AddSidebarEntry("Enhancements", path.sidebarName, 1);
   path.column = SECTION_COLUMN_1;
 
-  // @port: TODO
+  AddWidget(path, "Infinite Health", WIDGET_CVAR_CHECKBOX)
+      .CVar(CVAR_CHEAT("InfiniteHealth"))
+      .Options(CheckboxOptions().Tooltip("Mario's HP won't decrease during battle."));
+
+  AddWidget(path, "Infinite Flower Points", WIDGET_CVAR_CHECKBOX)
+      .CVar(CVAR_CHEAT("InfiniteFlowerPoints"))
+      .Options(CheckboxOptions().Tooltip("Mario's FP won't decrease during battle."));
+
+  AddWidget(path, "Max Badge Points", WIDGET_CVAR_CHECKBOX)
+      .CVar(CVAR_CHEAT("MaxBadgePoints"))
+      .Options(CheckboxOptions().Tooltip("Sets Mario's max BP to 30."));
+
+  AddWidget(path, "Max Star Power", WIDGET_CVAR_CHECKBOX)
+      .CVar(CVAR_CHEAT("MaxStarPower"))
+      .Options(CheckboxOptions().Tooltip("Star Power stays full and won't decrease."));
 }
 
 } // namespace PaperboatGui
