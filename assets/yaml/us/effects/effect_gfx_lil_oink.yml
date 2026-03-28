@@ -6,19 +6,19 @@ vtx_0:
   { type: VTX, offset: 0x09000000, count: 8, symbol: D_09000000_3FF250 }
 
 vtx_80:
-  { type: VTX, offset: 0x09000080, count: 2, symbol: D_09000080_3FF2D0 }
+  { type: VTX, offset: 0x09000080, count: 31, symbol: D_09000080_3FF2D0 }
 
 vtx_A0:
   { type: VTX, offset: 0x090000A0, count: 4, symbol: D_090000A0_3FF2F0 }
 
 vtx_E0:
-  { type: VTX, offset: 0x090000E0, count: 1, symbol: D_090000E0_3FF330 }
+  { type: VTX, offset: 0x090000E0, count: 24, symbol: D_090000E0_3FF330 }
 
 vtx_F0:
   { type: VTX, offset: 0x090000F0, count: 5, symbol: D_090000F0_3FF340 }
 
 vtx_140:
-  { type: VTX, offset: 0x09000140, count: 1, symbol: D_09000140_3FF390 }
+  { type: VTX, offset: 0x09000140, count: 3, symbol: D_09000140_3FF390 }
 
 vtx_150:
   { type: VTX, offset: 0x09000150, count: 4, symbol: D_09000150_3FF3A0 }
@@ -36,7 +36,7 @@ vtx_250:
   { type: VTX, offset: 0x09000250, count: 2, symbol: D_09000250_3FF4A0 }
 
 vtx_270:
-  { type: VTX, offset: 0x09000270, count: 1, symbol: D_09000270_3FF4C0 }
+  { type: VTX, offset: 0x09000270, count: 10, symbol: D_09000270_3FF4C0 }
 
 vtx_280:
   { type: VTX, offset: 0x09000280, count: 8, symbol: D_09000280_3FF4D0 }
@@ -87,19 +87,19 @@ vtx_B98:
   { type: VTX, offset: 0x09000B98, count: 8, symbol: D_09000B98_3FFDE8 }
 
 vtx_C18:
-  { type: VTX, offset: 0x09000C18, count: 2, symbol: D_09000C18_3FFE68 }
+  { type: VTX, offset: 0x09000C18, count: 31, symbol: D_09000C18_3FFE68 }
 
 vtx_C38:
   { type: VTX, offset: 0x09000C38, count: 4, symbol: D_09000C38_3FFE88 }
 
 vtx_C78:
-  { type: VTX, offset: 0x09000C78, count: 1, symbol: D_09000C78_3FFEC8 }
+  { type: VTX, offset: 0x09000C78, count: 24, symbol: D_09000C78_3FFEC8 }
 
 vtx_C88:
-  { type: VTX, offset: 0x09000C88, count: 5, symbol: D_09000C88_3FFED8 }
+  { type: VTX, offset: 0x09000C88, count: 6, symbol: D_09000C88_3FFED8 }
 
 vtx_CD8:
-  { type: VTX, offset: 0x09000CD8, count: 1, symbol: D_09000CD8_3FFF28 }
+  { type: VTX, offset: 0x09000CD8, count: 3, symbol: D_09000CD8_3FFF28 }
 
 vtx_CE8:
   { type: VTX, offset: 0x09000CE8, count: 4, symbol: D_09000CE8_3FFF38 }
@@ -108,7 +108,7 @@ vtx_D28:
   { type: VTX, offset: 0x09000D28, count: 5, symbol: D_09000D28_3FFF78 }
 
 vtx_D78:
-  { type: VTX, offset: 0x09000D78, count: 5, symbol: D_09000D78_3FFFC8 }
+  { type: VTX, offset: 0x09000D78, count: 8, symbol: D_09000D78_3FFFC8 }
 
 vtx_DC8:
   { type: VTX, offset: 0x09000DC8, count: 2, symbol: D_09000DC8_400018 }
@@ -117,7 +117,7 @@ vtx_DE8:
   { type: VTX, offset: 0x09000DE8, count: 2, symbol: D_09000DE8_400038 }
 
 vtx_E08:
-  { type: VTX, offset: 0x09000E08, count: 1, symbol: D_09000E08_400058 }
+  { type: VTX, offset: 0x09000E08, count: 11, symbol: D_09000E08_400058 }
 
 vtx_E18:
   { type: VTX, offset: 0x09000E18, count: 3, symbol: D_09000E18_400068 }
@@ -126,13 +126,13 @@ vtx_E48:
   { type: VTX, offset: 0x09000E48, count: 5, symbol: D_09000E48_400098 }
 
 vtx_E98:
-  { type: VTX, offset: 0x09000E98, count: 5, symbol: D_09000E98_4000E8 }
+  { type: VTX, offset: 0x09000E98, count: 10, symbol: D_09000E98_4000E8 }
 
 vtx_EE8:
   { type: VTX, offset: 0x09000EE8, count: 5, symbol: D_09000EE8_400138 }
 
 vtx_F38:
-  { type: VTX, offset: 0x09000F38, count: 4, symbol: D_09000F38_400188 }
+  { type: VTX, offset: 0x09000F38, count: 7, symbol: D_09000F38_400188 }
 
 vtx_F78:
   { type: VTX, offset: 0x09000F78, count: 1, symbol: D_09000F78_4001C8 }
@@ -147,7 +147,7 @@ vtx_1038:
   { type: VTX, offset: 0x09001038, count: 2, symbol: D_09001038_400288 }
 
 vtx_1058:
-  { type: VTX, offset: 0x09001058, count: 1, symbol: D_09001058_4002A8 }
+  { type: VTX, offset: 0x09001058, count: 6, symbol: D_09001058_4002A8 }
 
 vtx_1068:
   { type: VTX, offset: 0x09001068, count: 5, symbol: D_09001068_4002B8 }

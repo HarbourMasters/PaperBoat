@@ -107,15 +107,50 @@ void guRotateRPYF(float mf[4][4], float r, float p, float h) {
   guMtxCatF(tmp, rz, mf);
 }
 
+
 void guMtxF2L(float mf[4][4], Mtx *m) {
-  // With GBI_FLOATS, Mtx is MtxF (float[4][4]) — direct copy
-  memcpy(m, mf, sizeof(float) * 16);
+#ifdef GBI_FLOATS
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j++) {
+      m->m[i][j] = mf[i][j];
+    }
+  }
+#else
+  // N64 int32 packed format: pairs of columns interleaved.
+  // The interpreter (GfxSpMatrix) reads this exact layout.
+  int32_t* addr = (int32_t*)m;
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 2; j++) {
+      int32_t val0 = (int32_t)(mf[i][j * 2] * 65536.0f);
+      int32_t val1 = (int32_t)(mf[i][j * 2 + 1] * 65536.0f);
+      addr[i * 2 + j] = (val0 & 0xFFFF0000) | ((val1 >> 16) & 0xFFFF);
+      addr[8 + i * 2 + j] = ((val0 & 0xFFFF) << 16) | (val1 & 0xFFFF);
+    }
+  }
+#endif
   FrameInterpolation_RecordMatrixMtxFToMtx(mf, m);
 }
 
 void guMtxL2F(float mf[4][4], Mtx *m) {
-  // With GBI_FLOATS, Mtx is MtxF (float[4][4]) — direct copy
-  memcpy(mf, m, sizeof(float) * 16);
+#ifdef GBI_FLOATS
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j++) {
+      mf[i][j] = m->m[i][j];
+    }
+  }
+#else
+  // N64 int32 packed format: pairs of columns interleaved.
+  // Must match guMtxF2L and the interpreter (GfxSpMatrix).
+  int32_t* addr = (int32_t*)m;
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 2; j++) {
+      int32_t int_part = addr[i * 2 + j];
+      uint32_t frac_part = (uint32_t)addr[8 + i * 2 + j];
+      mf[i][j * 2] = (int32_t)((int_part & 0xFFFF0000) | (frac_part >> 16)) / 65536.0f;
+      mf[i][j * 2 + 1] = (int32_t)(((int_part & 0xFFFF) << 16) | (frac_part & 0xFFFF)) / 65536.0f;
+    }
+  }
+#endif
   FrameInterpolation_RecordMatrixMtxFToMtx(mf, m);
 }
 
