@@ -967,8 +967,8 @@ void appendGfx_animator_node(ModelAnimator* animator, AnimatorNode* node, Matrix
                         newBuffer = &vtxBase[node->vertexStartOffset + vtxIdx];
                         gSPVertex(gfxPos++, newBuffer, vtxCount, startIdx);
                     } else {
-                        // The DL hash points to vtx_18F0 (VTX stub for GFX factory).
-                        // For animated meshes we need the anim_pos (VEC3S) resource instead.
+                        // The DL hash points to VTX stubs for GFX factory.
+                        // For animated meshes we switch to the anim_pos (VEC3S) resource instead.
                         Vec3s* posData = NULL;
                         const char* resName = ResourceGetNameByCrc(hash);
                         if (resName != NULL) {
