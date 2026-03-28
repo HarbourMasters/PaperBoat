@@ -168,10 +168,10 @@ typedef enum AuEffectType {
     AU_FX_OTHER_BIGROOM         = 10,
 } AuEffectType;
 
-typedef enum MusicPlayer {
+typedef enum MusicPlayerID {
     MUSIC_PLAYER_MAIN           = 0,
     MUSIC_PLAYER_AUX            = 1,
-} MusicPlayer;
+} MusicPlayerID;
 
 typedef enum MusicState {
     MUSIC_STATE_IDLE            = 0,

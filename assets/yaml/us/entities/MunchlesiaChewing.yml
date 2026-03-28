@@ -1,0 +1,37 @@
+:config:
+  segments:
+    - [0x0A, 0xE884A0]
+  virtual: [0x0A000000, 0xE884A0]
+
+vtx_0:
+  { type: VTX, offset: 0x0A000000, count: 33, symbol: vtx_0 }
+vtx_1F0:
+  { type: VTX, offset: 0x0A0001F0, count: 33, symbol: vtx_1F0 }
+vtx_3F0:
+  { type: VTX, offset: 0x0A0003F0, count: 33, symbol: vtx_3F0 }
+vtx_5F0:
+  { type: VTX, offset: 0x0A0005F0, count: 33, symbol: vtx_5F0 }
+vtx_7F0:
+  { type: VTX, offset: 0x0A0007F0, count: 33, symbol: vtx_7F0 }
+vtx_9D0:
+  { type: VTX, offset: 0x0A0009D0, count: 33, symbol: vtx_9D0 }
+vtx_BB0:
+  { type: VTX, offset: 0x0A000BB0, count: 33, symbol: vtx_BB0 }
+vtx_DB0:
+  { type: VTX, offset: 0x0A000DB0, count: 33, symbol: vtx_DB0 }
+vtx_F90:
+  { type: VTX, offset: 0x0A000F90, count: 33, symbol: vtx_F90 }
+vtx_1190:
+  { type: VTX, offset: 0x0A001190, count: 33, symbol: vtx_1190 }
+vtx_1370:
+  { type: VTX, offset: 0x0A001370, count: 33, symbol: vtx_1370 }
+vtx_1570:
+  { type: VTX, offset: 0x0A001570, count: 33, symbol: vtx_1570 }
+vtx_1770:
+  { type: VTX, offset: 0x0A001770, count: 25, symbol: vtx_1770 }
+
+dlist_18F0:
+  { type: GFX, offset: 0x0A0018F0, symbol: dlist_18F0 }
+
+tex_1D70:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A001D70, width: 16, height: 16, symbol: tex_1D70 }

@@ -1,0 +1,45 @@
+:config:
+  segments:
+    - [0x0A, 0xE4B2E0]
+  virtual: [0x0A000000, 0xE4B2E0]
+
+vtx_0:
+  { type: VTX, offset: 0x0A000000, count: 20, symbol: vtx_0 }
+vtx_370:
+  { type: VTX, offset: 0x0A000370, count: 30, symbol: vtx_370 }
+vtx_520:
+  { type: VTX, offset: 0x0A000520, count: 26, symbol: vtx_520 }
+vtx_6C0:
+  { type: VTX, offset: 0x0A0006C0, count: 31, symbol: vtx_6C0 }
+vtx_880:
+  { type: VTX, offset: 0x0A000880, count: 8, symbol: vtx_880 }
+
+tex_900:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A000900, width: 32, height: 32, symbol: tex_900 }
+tex_1170:
+  { type: TEXTURE, format: RGBA32, offset: 0x0A001170, width: 32, height: 32, symbol: tex_1170 }
+tex_21E8:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A0021E8, width: 64, height: 32, symbol: tex_21E8 }
+
+dlist_1100:
+  { type: GFX, offset: 0x0A001100, symbol: dlist_1100 }
+dlist_2170:
+  { type: GFX, offset: 0x0A002170, symbol: dlist_2170 }
+dlist_31E8:
+  { type: GFX, offset: 0x0A0031E8, symbol: dlist_31E8 }
+
+mtx_3260:
+  { type: MTX, offset: 0x0A003260, symbol: Entity_SaveBlock_Mtx }
+
+dlist_32A0:
+  { type: GFX, offset: 0x0A0032A0, symbol: Entity_SaveBlock_RenderLetterS }
+dlist_3360:
+  { type: GFX, offset: 0x0A003360, symbol: Entity_SaveBlock_RenderBlock }
+dlist_3468:
+  { type: GFX, offset: 0x0A003468, symbol: Entity_SaveBlock_RenderStar }
+dlist_34E0:
+  { type: GFX, offset: 0x0A0034E0, symbol: dlist_34E0 }
+dlist_34F0:
+  { type: GFX, offset: 0x0A0034F0, symbol: dlist_34F0 }
+dlist_3508:
+  { type: GFX, offset: 0x0A003508, symbol: dlist_3508 }

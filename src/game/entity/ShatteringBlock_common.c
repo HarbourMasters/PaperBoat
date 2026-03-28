@@ -8,7 +8,7 @@ void entity_BrickBlock_idle(Entity* entity) {
     entity_base_block_idle(entity);
 }
 
-void entity_shattering_init_pieces(Entity* entity, void** dlists, Mtx* matrices) {
+void entity_shattering_init_pieces(Entity* entity, void** dlists, Mtx** matrices) {
     ShatteringBlockData* data = entity->dataBuf.shatteringBlock;
     s32 s7;
     s32 i;
@@ -32,7 +32,10 @@ void entity_shattering_init_pieces(Entity* entity, void** dlists, Mtx* matrices)
     data->alpha = 255;
 
     for (i = 0; i < 24; i++) {
-        guMtxL2F(mtxFragment, matrices++);
+        void* mtxPath = *matrices;
+        matrices++;
+        Mtx* mtx = LOAD_ASSET(mtxPath);
+        guMtxL2F(mtxFragment, mtx);
         guMtxCatF(mtxTrans, mtxFragment, mtxFragment);
         data->fragmentPosX[i] = mtxFragment[3][0];
         data->fragmentPosY[i] = mtxFragment[3][1];

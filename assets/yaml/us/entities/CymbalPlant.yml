@@ -1,0 +1,67 @@
+:config:
+  segments:
+    - [0x0A, 0xE992F0]
+  virtual: [0x0A000000, 0xE992F0]
+
+tex_0:
+  { type: TEXTURE, format: CI4, offset: 0x0A000000, width: 64, height: 64, symbol: tex_0 }
+tlut_800:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A000800, width: 16, height: 1, symbol: tlut_800 }
+
+dlist_820:
+  { type: GFX, offset: 0x0A000820, symbol: dlist_820 }
+
+vtx_8C8:
+  { type: VTX, offset: 0x0A0008C8, count: 6, symbol: vtx_8C8 }
+vtx_8F8:
+  { type: VTX, offset: 0x0A0008F8, count: 7, symbol: vtx_8F8 }
+vtx_968:
+  { type: VTX, offset: 0x0A000968, count: 6, symbol: vtx_968 }
+vtx_9C8:
+  { type: VTX, offset: 0x0A0009C8, count: 10, symbol: vtx_9C8 }
+vtx_A48:
+  { type: VTX, offset: 0x0A000A48, count: 1, symbol: vtx_A48 }
+vtx_A68:
+  { type: VTX, offset: 0x0A000A68, count: 21, symbol: vtx_A68 }
+vtx_BB8:
+  { type: VTX, offset: 0x0A000BB8, count: 23, symbol: vtx_BB8 }
+vtx_D28:
+  { type: VTX, offset: 0x0A000D28, count: 9, symbol: vtx_D28 }
+vtx_DB8:
+  { type: VTX, offset: 0x0A000DB8, count: 23, symbol: vtx_DB8 }
+vtx_F28:
+  { type: VTX, offset: 0x0A000F28, count: 21, symbol: vtx_F28 }
+
+mtx_1078:
+  { type: MTX, offset: 0x0A001078, symbol: mtx_1078 }
+mtx_10B8:
+  { type: MTX, offset: 0x0A0010B8, symbol: mtx_10B8 }
+
+dlist_10F8:
+  { type: GFX, offset: 0x0A0010F8, symbol: Entity_CymbalPlant_RenderNode3 }
+dlist_11C0:
+  { type: GFX, offset: 0x0A0011C0, symbol: Entity_CymbalPlant_RenderNode4 }
+dlist_1288:
+  { type: GFX, offset: 0x0A001288, symbol: Entity_CymbalPlant_RenderNode5 }
+dlist_1308:
+  { type: GFX, offset: 0x0A001308, symbol: dlist_1308 }
+dlist_1338:
+  { type: GFX, offset: 0x0A001338, symbol: Entity_CymbalPlant_RenderNode7 }
+dlist_1400:
+  { type: GFX, offset: 0x0A001400, symbol: Entity_CymbalPlant_RenderNode9 }
+dlist_14C8:
+  { type: GFX, offset: 0x0A0014C8, symbol: Entity_CymbalPlant_RenderNode8 }
+dlist_1540:
+  { type: GFX, offset: 0x0A001540, symbol: dlist_1540 }
+dlist_1570:
+  { type: GFX, offset: 0x0A001570, symbol: dlist_1570 }
+dlist_1588:
+  { type: GFX, offset: 0x0A001588, symbol: Entity_CymbalPlant_RenderNode10 }
+dlist_15E0:
+  { type: GFX, offset: 0x0A0015E0, symbol: Entity_CymbalPlant_RenderNode1 }
+dlist_1658:
+  { type: GFX, offset: 0x0A001658, symbol: dlist_1658 }
+dlist_1670:
+  { type: GFX, offset: 0x0A001670, symbol: dlist_1670 }
+dlist_1688:
+  { type: GFX, offset: 0x0A001688, symbol: dlist_1688 }

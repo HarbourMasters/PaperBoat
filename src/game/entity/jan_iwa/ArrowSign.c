@@ -10,7 +10,6 @@ void entity_ArrowSign_setupGfx(s32 entityIndex) {
     ArrowSignData* data = entity->dataBuf.arrowSign;
     Matrix4f sp18;
     Matrix4f sp58;
-    Gfx* gfx;
 
     guMtxL2F(sp18, (Mtx*) LOAD_ASSET(Entity_ArrowSign_mtxSign));
     guRotateF(sp58, clamp_angle(data->angle - 90.0f), 0.0f, 0.0f, 1.0f);
@@ -18,8 +17,7 @@ void entity_ArrowSign_setupGfx(s32 entityIndex) {
     guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
 
     gSPMatrix(gfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gfx = (Gfx*) LOAD_ASSET(Entity_ArrowSign_RenderRotatedSign);
-    gSPDisplayList(gfxPos++, gfx);
+    gSPDisplayList(gfxPos++, Entity_ArrowSign_RenderRotatedSign);
     gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
     gMainGfxPos = gfxPos;
 }

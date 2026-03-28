@@ -1,0 +1,51 @@
+:config:
+  segments:
+    - [0x0A, 0xE55A40]
+  virtual: [0x0A000000, 0xE55A40]
+
+vtx_0:
+  { type: VTX, offset: 0x0A000000, count: 15, symbol: vtx_0 }
+vtx_F0:
+  { type: VTX, offset: 0x0A0000F0, count: 18, symbol: vtx_F0 }
+vtx_210:
+  { type: VTX, offset: 0x0A000210, count: 4, symbol: vtx_210 }
+vtx_250:
+  { type: VTX, offset: 0x0A000250, count: 4, symbol: vtx_250 }
+
+tex_290:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A000290, width: 16, height: 16, symbol: tex_290 }
+
+dlist_490:
+  { type: GFX, offset: 0x0A000490, symbol: dlist_490 }
+
+tex_508:
+  { type: TEXTURE, format: CI4, offset: 0x0A000508, width: 128, height: 32, symbol: tex_508 }
+tlut_D08:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A000D08, width: 16, height: 1, symbol: tlut_D08 }
+
+dlist_D28:
+  { type: GFX, offset: 0x0A000D28, symbol: dlist_D28 }
+
+tex_DD0:
+  { type: TEXTURE, format: CI4, offset: 0x0A000DD0, width: 16, height: 32, symbol: tex_DD0 }
+tlut_ED0:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A000ED0, width: 16, height: 1, symbol: tlut_ED0 }
+
+dlist_EF0:
+  { type: GFX, offset: 0x0A000EF0, symbol: dlist_EF0 }
+
+mtx_F98:
+  { type: MTX, offset: 0x0A000F98, symbol: mtx_F98 }
+
+dlist_FD8:
+  { type: GFX, offset: 0x0A000FD8, symbol: dlist_FD8 }
+dlist_1020:
+  { type: GFX, offset: 0x0A001020, symbol: dlist_1020 }
+dlist_1060:
+  { type: GFX, offset: 0x0A001060, symbol: dlist_1060 }
+dlist_10C8:
+  { type: GFX, offset: 0x0A0010C8, symbol: dlist_10C8 }
+dlist_10E8:
+  { type: GFX, offset: 0x0A0010E8, symbol: dlist_10E8 }
+dlist_1148:
+  { type: GFX, offset: 0x0A001148, symbol: dlist_1148 }

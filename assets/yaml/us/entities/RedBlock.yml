@@ -1,0 +1,19 @@
+:config:
+  segments:
+    - [0x0A, 0xE3C320]
+  virtual: [0x0A000000, 0xE3C320]
+
+vtx_0:
+  { type: VTX, offset: 0x0A000000, count: 24, symbol: vtx_0 }
+
+tex_180:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A000180, width: 32, height: 32, symbol: tex_180 }
+
+dlist_900:
+  { type: GFX, offset: 0x0A000900, symbol: dlist_900 }
+dlist_9F0:
+  { type: GFX, offset: 0x0A0009F0, symbol: dlist_9F0 }
+dlist_A38:
+  { type: GFX, offset: 0x0A000A38, symbol: dlist_A38 }
+dlist_A90:
+  { type: GFX, offset: 0x0A000A90, symbol: dlist_A90 }

@@ -1,0 +1,27 @@
+:config:
+  segments:
+    - [0x0A, 0xE4A6A0]
+
+tex_0:
+  { type: TEXTURE, format: CI4, offset: 0x0A000000, width: 32, height: 32, symbol: tex_0 }
+
+tlut_200:
+  { type: TEXTURE, format: TLUT, offset: 0x0A000200, colors: 16, symbol: D_0A000200_E4A8A0 }
+tlut_220:
+  { type: TEXTURE, format: TLUT, offset: 0x0A000220, colors: 16, symbol: D_0A000220_E4A8C0 }
+tlut_240:
+  { type: TEXTURE, format: TLUT, offset: 0x0A000240, colors: 16, symbol: D_0A000240_E4A8E0 }
+tlut_260:
+  { type: TEXTURE, format: TLUT, offset: 0x0A000260, colors: 16, symbol: D_0A000260_E4A900 }
+
+vtx_280:
+  { type: VTX, offset: 0x0A000280, count: 4, symbol: vtx_280 }
+
+dlist_2C0:
+  { type: GFX, offset: 0x0A0002C0, symbol: dlist_2C0 }
+dlist_2F8:
+  { type: GFX, offset: 0x0A0002F8, symbol: dlist_2F8 }
+dlist_328:
+  { type: GFX, offset: 0x0A000328, symbol: dlist_328 }
+dlist_380:
+  { type: GFX, offset: 0x0A000380, symbol: Entity_SuperBlockContent_Render }

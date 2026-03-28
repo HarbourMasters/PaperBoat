@@ -255,4 +255,7 @@ void play_model_animation_starting_from(s32 index, s16* animPos, s32 framesToSki
 
 void mdl_set_shroud_tint_params(u8 r, u8 g, u8 b, u8 a);
 
+s32 mdl_is_otr_expanded_opcode(u32 opcode);
+Vtx* mdl_resolve_otr_vtx(Gfx* gfx);
+
 #endif

@@ -6,7 +6,6 @@
 
 extern Gfx Entity_RenderNone[];
 extern void* Entity_BoardedFloor_FragmentsRender[];
-extern Mtx Entity_BoardedFloor_FragmentMatrices[];
 
 void Entity_BoardedFloor_setupGfx(s32);
 
@@ -47,8 +46,23 @@ void Entity_BoardedFloor_init_fragments(Entity* entity, void** dlists, Mtx* matr
 }
 
 void Entity_BoardedFloor_init(Entity* entity) {
+    Mtx matrices[12];
+
+    matrices[0]  = *(Mtx*) LOAD_ASSET(Entity_BoardedFloor_FragmentMtx0);
+    matrices[1]  = *(Mtx*) LOAD_ASSET(Entity_BoardedFloor_FragmentMtx1);
+    matrices[2]  = *(Mtx*) LOAD_ASSET(Entity_BoardedFloor_FragmentMtx2);
+    matrices[3]  = *(Mtx*) LOAD_ASSET(Entity_BoardedFloor_FragmentMtx3);
+    matrices[4]  = *(Mtx*) LOAD_ASSET(Entity_BoardedFloor_FragmentMtx4);
+    matrices[5]  = *(Mtx*) LOAD_ASSET(Entity_BoardedFloor_FragmentMtx5);
+    matrices[6]  = *(Mtx*) LOAD_ASSET(Entity_BoardedFloor_FragmentMtx6);
+    matrices[7]  = *(Mtx*) LOAD_ASSET(Entity_BoardedFloor_FragmentMtx7);
+    matrices[8]  = *(Mtx*) LOAD_ASSET(Entity_BoardedFloor_FragmentMtx8);
+    matrices[9]  = *(Mtx*) LOAD_ASSET(Entity_BoardedFloor_FragmentMtx9);
+    matrices[10] = *(Mtx*) LOAD_ASSET(Entity_BoardedFloor_FragmentMtx10);
+    matrices[11] = *(Mtx*) LOAD_ASSET(Entity_BoardedFloor_FragmentMtx11);
+
     entity->dataBuf.boardedFloor->inititalY = entity->pos.y;
-    Entity_BoardedFloor_init_fragments(entity, Entity_BoardedFloor_FragmentsRender, Entity_BoardedFloor_FragmentMatrices);
+    Entity_BoardedFloor_init_fragments(entity, Entity_BoardedFloor_FragmentsRender, matrices);
 }
 
 void Entity_BoardedFloor_update_fragments(Entity* entity) {

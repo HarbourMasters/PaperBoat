@@ -127,12 +127,16 @@ void func_802BC17C_E2EAAC(Entity* entity) {
 }
 
 s32 entity_Munchlesia_create_child(Entity* entity, EntityBlueprint* EntityBlueprint) {
-    return create_entity(EntityBlueprint, (s32)entity->pos.x, (s32)entity->pos.y, (s32)entity->pos.z, (s32)entity->rot.y);
+    // MAKE_ENTITY_END sentinel required, without it variadic calling
+    // reads garbage past the last real argument, corrupting entity creation.
+    return create_entity(EntityBlueprint, (s32)entity->pos.x, (s32)entity->pos.y, (s32)entity->pos.z, (s32)entity->rot.y, MAKE_ENTITY_END);
 }
 
+// entity_Munchlesia_create_reset_child
 void func_802BC220_E2EB50(Entity* entity) {
     MunchlesiaData* data = entity->dataBuf.munchlesia;
-    data->unk_00 = entity_Munchlesia_create_child(entity, &Entity_MunchlesiaReset);
+    s32 childIdx = entity_Munchlesia_create_child(entity, &Entity_MunchlesiaReset);
+    data->unk_00 = childIdx;
 }
 
 void func_802BC250_E2EB80(Entity* entity) {

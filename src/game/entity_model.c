@@ -51,8 +51,6 @@ extern Gfx Gfx_RM3_INTERSECTING_XLU[];
 s32 step_entity_model_commandlist(EntityModel* entityModel);
 void free_entity_model_by_ref(EntityModel* entityModel);
 
-extern void entity_shadow_init_dls(void);
-
 void clear_entity_models(void) {
     s32 i;
 
@@ -75,7 +73,8 @@ void clear_entity_models(void) {
     entity_fog_dist_min = 800;
     entity_fog_dist_max = 1000;
 
-    entity_shadow_init_dls();
+    extern void entity_Shadow_init_dls(void);
+    entity_Shadow_init_dls();
 }
 
 void init_entity_models(void) {
@@ -95,8 +94,6 @@ void init_entity_models(void) {
     entity_fog_alpha = 10;
     entity_fog_dist_min = 800;
     entity_fog_dist_max = 1000;
-
-    entity_shadow_init_dls();
 }
 
 s32 load_entity_model(EntityModelScript* cmdList) {

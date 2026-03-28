@@ -1,0 +1,31 @@
+:config:
+  segments:
+    - [0x0A, 0xE49E40]
+  virtual: [0x0A000000, 0xE49E40]
+
+# 3x CI4 32x32 textures (sleeping, awake eyes, happy)
+tex_0:
+  { type: TEXTURE, format: CI4, offset: 0x0A000000, width: 32, height: 32, symbol: tex_0 }
+tex_200:
+  { type: TEXTURE, format: CI4, offset: 0x0A000200, width: 32, height: 32, symbol: tex_200 }
+tex_400:
+  { type: TEXTURE, format: CI4, offset: 0x0A000400, width: 32, height: 32, symbol: tex_400 }
+
+tlut_600:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A000600, width: 16, height: 1, symbol: tlut_600 }
+
+vtx_620:
+  { type: VTX, offset: 0x0A000620, count: 4, symbol: vtx_620 }
+
+dlist_660:
+  { type: GFX, offset: 0x0A000660, symbol: dlist_660 }
+dlist_6D0:
+  { type: GFX, offset: 0x0A0006D0, symbol: dlist_6D0 }
+dlist_700:
+  { type: GFX, offset: 0x0A000700, symbol: dlist_700 }
+dlist_758:
+  { type: GFX, offset: 0x0A000758, symbol: dlist_758 }
+dlist_7B0:
+  { type: GFX, offset: 0x0A0007B0, symbol: dlist_7B0 }
+dlist_808:
+  { type: GFX, offset: 0x0A000808, symbol: dlist_808 }

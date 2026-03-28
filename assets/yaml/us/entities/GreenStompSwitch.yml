@@ -1,0 +1,43 @@
+:config:
+  segments:
+    - [0x0A, 0xE62370]
+  virtual: [0x0A000000, 0xE62370]
+
+vtx_0:
+  { type: VTX, offset: 0x0A000000, count: 8, symbol: vtx_0 }
+
+vtx_80:
+  { type: VTX, offset: 0x0A000080, count: 30, symbol: vtx_80 }
+vtx_1E0:
+  { type: VTX, offset: 0x0A0001E0, count: 2, symbol: vtx_1E0 }
+vtx_240:
+  { type: VTX, offset: 0x0A000240, count: 4, symbol: vtx_240 }
+
+tex_280:
+  { type: TEXTURE, format: CI4, offset: 0x0A000280, width: 16, height: 16, symbol: tex_280 }
+tlut_300:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A000300, width: 16, height: 1, symbol: tlut_300 }
+
+dlist_320:
+  { type: GFX, offset: 0x0A000320, symbol: dlist_320 }
+
+# CI4 exclamation mark (16x32) + palette
+tex_3D8:
+  { type: TEXTURE, format: CI4, offset: 0x0A0003D8, width: 16, height: 32, symbol: tex_3D8 }
+tlut_4D8:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A0004D8, width: 16, height: 1, symbol: tlut_4D8 }
+
+dlist_4F8:
+  { type: GFX, offset: 0x0A0004F8, symbol: dlist_4F8 }
+
+mtx_5B0:
+  { type: MTX, offset: 0x0A0005B0, symbol: mtx_5B0 }
+
+dlist_5F0:
+  { type: GFX, offset: 0x0A0005F0, symbol: dlist_5F0 }
+dlist_6C0:
+  { type: GFX, offset: 0x0A0006C0, symbol: dlist_6C0 }
+dlist_718:
+  { type: GFX, offset: 0x0A000718, symbol: dlist_718 }
+dlist_740:
+  { type: GFX, offset: 0x0A000740, symbol: Entity_GreenStompSwitch_Render }

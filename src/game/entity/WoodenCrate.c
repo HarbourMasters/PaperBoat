@@ -7,12 +7,12 @@
 
 extern Gfx Entity_RenderNone[];
 extern void* Entity_WoodenCrate_FragmentsRender[];
-extern Mtx Entity_WoodenCrate_FragmentsMatrices[];
+extern Mtx* Entity_WoodenCrate_FragmentsMatrices[];
 extern EntityModelScript Entity_WoodenCrate_RenderShatteredScript;
 
 void entity_WoodenCrate_setupGfx(s32);
 
-void entity_WoodenCrate_init_fragments(Entity* entity, void** dlists, Mtx* matrices) {
+void entity_WoodenCrate_init_fragments(Entity* entity, void** dlists, Mtx** matrices) {
     WoodenCrateData* data = entity->dataBuf.crate;
     Matrix4f mtxFragment;
     Matrix4f mtxTrans;
@@ -26,7 +26,10 @@ void entity_WoodenCrate_init_fragments(Entity* entity, void** dlists, Mtx* matri
     guTranslateF(mtxTrans, entity->pos.x, entity->pos.y, entity->pos.z);
 
     for (i = 0; i < 35; i++) {
-        guMtxL2F(mtxFragment, matrices++);
+        void* mtxPath = *matrices;
+        matrices++;
+        Mtx* mtx = LOAD_ASSET(mtxPath);
+        guMtxL2F(mtxFragment, mtx);
         guMtxCatF(mtxTrans, mtxFragment, mtxFragment);
         data->fragmentPosX[i] = mtxFragment[3][0];
         data->fragmentPosY[i] = mtxFragment[3][1];

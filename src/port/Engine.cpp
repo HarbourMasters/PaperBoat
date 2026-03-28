@@ -2,6 +2,7 @@
 
 #include "ShipInit.hpp"
 #include "importer/PM64TextureFactory.h"
+#include "importer/Vec3sFactory.h"
 #include "port/enhancements/PortEnhancements.h"
 #include "port/ui/cvar_prefixes.h"
 #include "src/Companion.h"
@@ -194,6 +195,10 @@ GameEngine::GameEngine() {
       std::make_shared<Fast::ResourceFactoryBinaryMatrixV0>(),
       RESOURCE_FORMAT_BINARY, "Matrix",
       static_cast<uint32_t>(Fast::ResourceType::Matrix), 0);
+  loader->RegisterResourceFactory(
+      std::make_shared<PM64::ResourceFactoryBinaryVec3sV0>(),
+      RESOURCE_FORMAT_BINARY, "Vec3s",
+      static_cast<uint32_t>(0x56433353), 0);  // VC3S
 
   PaperboatGui::SetupMenu();
 

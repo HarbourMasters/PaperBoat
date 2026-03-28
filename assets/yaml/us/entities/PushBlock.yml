@@ -1,0 +1,24 @@
+:config:
+  segments:
+    - [0x0A, 0xE3DA60]
+  virtual: [0x0A000000, 0xE3DA60]
+
+vtx_0:
+  { type: VTX, offset: 0x0A000000, count: 18, symbol: vtx_0 }
+
+tex_120:
+  { type: TEXTURE, format: CI4, offset: 0x0A000120, width: 16, height: 16, symbol: tex_120 }
+tlut_1A0:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A0001A0, width: 16, height: 1, symbol: tlut_1A0 }
+
+dlist_1C0:
+  { type: GFX, offset: 0x0A0001C0, symbol: Entity_PushBlock_LoadTexture }
+dlist_2A8:
+  { type: GFX, offset: 0x0A0002A8, symbol: Entity_PushBlock_RenderFaces }
+dlist_318:
+  { type: GFX, offset: 0x0A000318, symbol: Entity_PushBlock_RenderBlock }
+dlist_338:
+  { type: GFX, offset: 0x0A000338, symbol: Entity_PushBlock_Render }
+
+mtx_268:
+  { type: MTX, offset: 0x0A000268, symbol: Entity_PushBlock_mtx }

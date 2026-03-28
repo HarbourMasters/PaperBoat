@@ -30,7 +30,6 @@ void entity_SpinningFlower_setupGfx(s32 entityIndex) {
     Matrix4f sp18;
     Matrix4f sp58;
     Matrix4f sp98;
-    Gfx* gfx;
 
     guMtxL2F(sp18, (Mtx*) LOAD_ASSET(D_0A000B70_E9D470));
     guRotateF(sp58, data->rot.x, 1.0f, 0.0f, 0.0f);
@@ -42,8 +41,7 @@ void entity_SpinningFlower_setupGfx(s32 entityIndex) {
     guMtxF2L(sp18, &data->unk_30);
     gDisplayContext->matrixStack[gMatrixListPos] = data->unk_30;
     gSPMatrix(gfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gfx = (Gfx*) LOAD_ASSET(D_0A000D18_E9D618);
-    gSPDisplayList(gfxPos++, gfx);
+    gSPDisplayList(gfxPos++, D_0A000D18_E9D618);
     gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
     gMainGfxPos = gfxPos;
 }
@@ -170,7 +168,7 @@ void entity_PinkFlowerLight_setupGfx(s32 entityIndex) {
     gDPSetPrimColor(gfxPos++, 0, 0, 0, 0, 0, entity->alpha);
     guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
     gSPMatrix(gfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(D_0A0013B8_E9C8B8));
+    gSPDisplayList(gfxPos++, D_0A0013B8_E9C8B8);
     gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
     gMainGfxPos = gfxPos;
 }

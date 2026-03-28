@@ -1,0 +1,26 @@
+:config:
+  segments:
+    - [0x0A, 0xE56BA0]
+  virtual: [0x0A000000, 0xE56BA0]
+
+vtx_0:
+  { type: VTX, offset: 0x0A000000, count: 4, symbol: vtx_0 }
+vtx_40:
+  { type: VTX, offset: 0x0A000040, count: 4, symbol: vtx_40 }
+vtx_80:
+  { type: VTX, offset: 0x0A000080, count: 4, symbol: vtx_80 }
+vtx_C0:
+  { type: VTX, offset: 0x0A0000C0, count: 4, symbol: vtx_C0 }
+
+dlist_180:
+  { type: GFX, offset: 0x0A000180, symbol: dlist_180 }
+dlist_1B0:
+  { type: GFX, offset: 0x0A0001B0, symbol: dlist_1B0 }
+dlist_1E0:
+  { type: GFX, offset: 0x0A0001E0, symbol: dlist_1E0 }
+dlist_230:
+  { type: GFX, offset: 0x0A000230, symbol: dlist_230 }
+dlist_280:
+  { type: GFX, offset: 0x0A000280, symbol: dlist_280 }
+dlist_2A0:
+  { type: GFX, offset: 0x0A0002A0, symbol: dlist_2A0 }

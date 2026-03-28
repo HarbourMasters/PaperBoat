@@ -38,7 +38,7 @@ void entity_SaveBlock_setupGfx(s32 index) {
     // Port fix: only draw the star in the rotating block.
     // On N64, RenderContent drew everything rotating and the static block overwrote via z-buffer,
     // but the port's z-buffer doesn't support same-depth overdraw with XLU modes.
-    gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderStar));
+    gSPDisplayList(gfxPos++, Entity_SaveBlock_RenderStar);
     gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
 
     guMtxL2F(sp58, (Mtx*) LOAD_ASSET(Entity_SaveBlock_Mtx));
@@ -52,18 +52,18 @@ void entity_SaveBlock_setupGfx(s32 index) {
     gDPSetPrimColor(gfxPos++, 0, 0, 0, 0, 0, alpha);
     // Static block: block edges + S letter
 #if VERSION_PAL
-    gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderBlock));
+    gSPDisplayList(gfxPos++, Entity_SaveBlock_RenderBlock);
     switch (gCurrentLanguage) {
         default:
-            gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderLetterS));
+            gSPDisplayList(gfxPos++, Entity_SaveBlock_RenderLetterS);
             break;
         case LANGUAGE_ES:
-            gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderStar));
+            gSPDisplayList(gfxPos++, Entity_SaveBlock_RenderStar);
             break;
     }
 #else
-    gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderBlock));
-    gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_SaveBlock_RenderLetterS));
+    gSPDisplayList(gfxPos++, Entity_SaveBlock_RenderBlock);
+    gSPDisplayList(gfxPos++, Entity_SaveBlock_RenderLetterS);
 #endif
     gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
 
