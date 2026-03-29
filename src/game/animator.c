@@ -2,6 +2,8 @@
 #include "animation_script.h"
 #include "model.h"
 #include "Engine.h"
+#include <stdio.h>
+#include <string.h>
 
 typedef struct DisplayListBufferHandle {
     /* 0x0 */ s32 ttl;
@@ -860,7 +862,7 @@ void appendGfx_animator(ModelAnimator* animator) {
 
 void appendGfx_animator_node(ModelAnimator* animator, AnimatorNode* node, Matrix4f mtx) {
     DisplayListBufferHandle* bufferHandle;
-    u32 w0,w1;
+    uintptr_t w0,w1;
     s32 cmd;
     s32 i;
 
@@ -913,10 +915,15 @@ void appendGfx_animator_node(ModelAnimator* animator, AnimatorNode* node, Matrix
 
                 for(;; j++) {
                     w0 = gfxPtr->words.w0;
-                    gfxPtr++;
                     cmd = w0 >> 0x18;
                     if (cmd == endDL) {
                         break;
+                    }
+                    if (mdl_is_otr_expanded_opcode(cmd)) {
+                        gfxPtr += 2;
+                        j++;
+                    } else {
+                        gfxPtr++;
                     }
                 }
             }
@@ -937,13 +944,58 @@ void appendGfx_animator_node(ModelAnimator* animator, AnimatorNode* node, Matrix
             dlIdx = 0;
 
             do {
-                w0 = ((s32*)resolvedDL)[dlIdx++];
-                w1 = ((s32*)resolvedDL)[dlIdx++];
+                w0 = resolvedDL[dlIdx].words.w0;
+                w1 = resolvedDL[dlIdx].words.w1;
+                dlIdx++;
                 cmd = w0 >> 0x18;
                 if (cmd == G_ENDDL) {
                     break;
                 }
-                if (cmd == G_VTX) {
+                if (cmd == G_VTX_OTR_HASH) {
+                    s32 startIdx = _SHIFTR(w0, 1, 7);
+                    s32 vtxCount = _SHIFTR(w0, 12, 8);
+                    Vtx* newBuffer;
+
+                    startIdx -= vtxCount;
+
+                    uint64_t hash = ((uint64_t)(u32)resolvedDL[dlIdx].words.w0 << 32)
+                                  | (u32)resolvedDL[dlIdx].words.w1;
+                    Vtx* vtxBase = (Vtx*)ResourceGetDataByCrc(hash);
+                    dlIdx++; // skip the hash entry
+
+                    if (node->fcData.vtxList == nullptr) {
+                        newBuffer = &vtxBase[node->vertexStartOffset + vtxIdx];
+                        gSPVertex(gfxPos++, newBuffer, vtxCount, startIdx);
+                    } else {
+                        // The DL hash points to VTX stubs for GFX factory.
+                        // For animated meshes we switch to the anim_pos (VEC3S) resource instead.
+                        Vec3s* posData = NULL;
+                        const char* resName = ResourceGetNameByCrc(hash);
+                        if (resName != NULL) {
+                            const char* lastSlash = strrchr(resName, '/');
+                            if (lastSlash != NULL) {
+                                char animPosPath[256];
+                                s32 prefixLen = (s32)(lastSlash - resName);
+                                snprintf(animPosPath, sizeof(animPosPath),
+                                         "__OTR__%.*s/anim_pos", prefixLen, resName);
+                                posData = (Vec3s*)ResourceGetDataByName(animPosPath);
+                            }
+                        }
+                        if (posData == NULL) {
+                            posData = (Vec3s*)vtxBase; // fallback
+                        }
+                        newBuffer = animator_copy_vertices_to_buffer(
+                            animator,
+                            node,
+                            (Vec3s*)((uintptr_t)posData + (node->vertexStartOffset + vtxIdx) * 0x6),
+                            vtxCount,
+                            startIdx,
+                            vtxIdx
+                        );
+                        gSPVertex(gfxPos++, newBuffer, vtxCount, startIdx);
+                    }
+                    vtxIdx += vtxCount;
+                } else if (cmd == G_VTX) {
                     s32 startIdx = _SHIFTR(w0,1,7);
                     s32 vtxCount = _SHIFTR(w0,12,8);
                     Vtx* newBuffer;
@@ -965,6 +1017,11 @@ void appendGfx_animator_node(ModelAnimator* animator, AnimatorNode* node, Matrix
                         gSPVertex(gfxPos++, newBuffer, vtxCount, startIdx);
                     }
                     vtxIdx += vtxCount;
+                } else if (mdl_is_otr_expanded_opcode(cmd)) {
+                    // Copy both entries of double-width OTR command as-is
+                    *gfxPos++ = resolvedDL[dlIdx - 1];
+                    *gfxPos++ = resolvedDL[dlIdx];
+                    dlIdx++;
                 } else {
                     Gfx* temp[1] = {gfxPos++}; // required to match
                     temp[0]->words.w0 = w0;

@@ -1,215 +1,34 @@
 #include "common.h"
 #include "assets/entities.h"
+#include "Engine.h"
 
-Mtx Entity_ShatteringHammer1Block_FragmentsMatrices[] = {
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 16.666672f, 41.666672f, 16.666672f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 0.0f, 41.666672f, 16.666672f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -15.666672f, 41.666672f, 16.666672f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 16.666672f, 41.666672f, 0.0f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 0.0f, 41.666672f, 0.0f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -15.666672f, 41.666672f, 0.0f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 16.666672f, 41.666672f, -15.666672f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 0.0f, 41.666672f, -15.666672f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -15.666672f, 41.666672f, -15.666672f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 16.666672f, 25.0f, 16.666672f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 0.0f, 25.0f, 16.666672f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -15.666672f, 25.0f, 16.666672f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 16.666672f, 25.0f, 0.0f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -15.666672f, 25.0f, 0.0f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 16.666672f, 25.0f, -15.666672f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 0.0f, 25.0f, -15.666672f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -15.666672f, 25.0f, -15.666672f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 16.666672f, 8.333344f, 16.666672f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 0.0f, 8.333344f, 16.666672f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -15.666672f, 8.333344f, 16.666672f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 16.666672f, 8.333344f, 0.0f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 0.0f, 8.333344f, 0.0f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -15.666672f, 8.333344f, 0.0f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 16.666672f, 8.333344f, -15.666672f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 0.0f, 8.333344f, -15.666672f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -15.666672f, 8.333344f, -15.666672f, 1.0f }
-        }
-    },
+Mtx* Entity_ShatteringHammer1Block_FragmentsMatrices[] = {
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_00,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_01,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_02,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_03,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_04,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_05,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_06,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_07,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_08,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_09,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_10,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_11,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_12,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_13,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_14,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_15,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_16,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_17,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_18,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_19,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_20,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_21,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_22,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_23,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_24,
+    (Mtx*)Entity_ShatteringHammer1Block_Mtx_25,
 };
 
 void* Entity_ShatteringHammer1Block_FragmentsRender[] = {

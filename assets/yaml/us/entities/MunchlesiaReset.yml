@@ -1,0 +1,19 @@
+:config:
+  segments:
+    - [0x0A, 0xE6E660]
+  virtual: [0x0A000000, 0xE6E660]
+
+vtx_0:
+  { type: VTX, offset: 0x0A000000, count: 399, symbol: vtx_0 }
+# anim_pos MUST come before vtx_18F0: both share offset 0x18F0,
+# and Torch addr map is last-write-wins. GFX factory needs VTX to win.
+anim_pos:
+  { type: VEC3S, offset: 0x0A0018F0, count: 2793, symbol: anim_pos }
+vtx_18F0:
+  { type: VTX, offset: 0x0A0018F0, count: 33, symbol: vtx_18F0 }
+
+dlist_5A68:
+  { type: GFX, offset: 0x0A005A68, symbol: dlist_5A68 }
+
+tex_5EE8:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A005EE8, width: 16, height: 16, symbol: tex_5EE8 }

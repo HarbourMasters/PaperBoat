@@ -1,0 +1,63 @@
+:config:
+  segments:
+    - [0x0A, 0xE9D650]
+  virtual: [0x0A000000, 0xE9D650]
+
+vtx_0:
+  { type: VTX, offset: 0x0A000000, count: 30, symbol: vtx_0 }
+vtx_1A0:
+  { type: VTX, offset: 0x0A0001A0, count: 2, symbol: vtx_1A0 }
+vtx_1E0:
+  { type: VTX, offset: 0x0A0001E0, count: 26, symbol: vtx_1E0 }
+vtx_380:
+  { type: VTX, offset: 0x0A000380, count: 18, symbol: vtx_380 }
+vtx_4A0:
+  { type: VTX, offset: 0x0A0004A0, count: 22, symbol: vtx_4A0 }
+vtx_600:
+  { type: VTX, offset: 0x0A000600, count: 18, symbol: vtx_600 }
+vtx_720:
+  { type: VTX, offset: 0x0A000720, count: 18, symbol: vtx_720 }
+
+tex_840:
+  { type: TEXTURE, format: CI4, offset: 0x0A000840, width: 64, height: 64, symbol: tex_840 }
+tlut_1040:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A001040, width: 16, height: 1, symbol: tlut_1040 }
+
+dlist_1060:
+  { type: GFX, offset: 0x0A001060, symbol: dlist_1060 }
+
+mtx_1118:
+  { type: MTX, offset: 0x0A001118, symbol: mtx_1118 }
+mtx_1158:
+  { type: MTX, offset: 0x0A001158, symbol: mtx_1158 }
+mtx_1198:
+  { type: MTX, offset: 0x0A001198, symbol: mtx_1198 }
+mtx_11D8:
+  { type: MTX, offset: 0x0A0011D8, symbol: mtx_11D8 }
+mtx_1218:
+  { type: MTX, offset: 0x0A001218, symbol: mtx_1218 }
+
+dlist_1258:
+  { type: GFX, offset: 0x0A001258, symbol: dlist_1258 }
+dlist_12F8:
+  { type: GFX, offset: 0x0A0012F8, symbol: dlist_12F8 }
+dlist_1308:
+  { type: GFX, offset: 0x0A001308, symbol: dlist_1308 }
+dlist_13A8:
+  { type: GFX, offset: 0x0A0013A8, symbol: dlist_13A8 }
+dlist_13B8:
+  { type: GFX, offset: 0x0A0013B8, symbol: dlist_13B8 }
+dlist_1458:
+  { type: GFX, offset: 0x0A001458, symbol: dlist_1458 }
+dlist_1468:
+  { type: GFX, offset: 0x0A001468, symbol: dlist_1468 }
+dlist_1508:
+  { type: GFX, offset: 0x0A001508, symbol: dlist_1508 }
+dlist_1518:
+  { type: GFX, offset: 0x0A001518, symbol: dlist_1518 }
+dlist_1610:
+  { type: GFX, offset: 0x0A001610, symbol: dlist_1610 }
+dlist_1620:
+  { type: GFX, offset: 0x0A001620, symbol: dlist_1620 }
+dlist_1650:
+  { type: GFX, offset: 0x0A001650, symbol: dlist_1650 }

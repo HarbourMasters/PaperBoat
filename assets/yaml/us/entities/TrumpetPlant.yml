@@ -1,0 +1,26 @@
+:config:
+  segments:
+    - [0x0A, 0xE6D390]
+  virtual: [0x0A000000, 0xE6D390]
+
+vtx_0:
+  { type: VTX, offset: 0x0A000000, count: 32, symbol: vtx_0 }
+vtx_200:
+  { type: VTX, offset: 0x0A000200, count: 4, symbol: vtx_200 }
+
+vtx_240:
+  { type: VTX, offset: 0x0A000240, count: 32, symbol: vtx_240 }
+vtx_440:
+  { type: VTX, offset: 0x0A000440, count: 32, symbol: vtx_440 }
+vtx_640:
+  { type: VTX, offset: 0x0A000640, count: 32, symbol: vtx_640 }
+vtx_830:
+  { type: VTX, offset: 0x0A000830, count: 24, symbol: vtx_830 }
+
+dlist_9B0:
+  { type: GFX, offset: 0x0A0009B0, symbol: Entity_TrumpetPlant_RenderNode2 }
+dlist_C60:
+  { type: GFX, offset: 0x0A000C60, symbol: Entity_TrumpetPlant_RenderNode1 }
+
+tex_D40:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A000D40, width: 16, height: 16, symbol: tex_D40 }

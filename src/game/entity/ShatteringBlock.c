@@ -4,19 +4,19 @@
 #include "assets/entities.h"
 #include "Engine.h"
 
-extern Mtx Entity_ShatteringHammer1Block_FragmentsMatrices[];
+extern Mtx* Entity_ShatteringHammer1Block_FragmentsMatrices[];
 extern void* Entity_ShatteringHammer1Block_FragmentsRender[];
-extern Mtx Entity_ShatteringHammer2Block_FragmentsMatrices[];
+extern Mtx* Entity_ShatteringHammer2Block_FragmentsMatrices[];
 extern void* Entity_ShatteringHammer2Block_FragmentsRender[];
-extern Mtx Entity_ShatteringHammer3Block_FragmentsMatrices[];
+extern Mtx* Entity_ShatteringHammer3Block_FragmentsMatrices[];
 extern void* Entity_ShatteringHammer3Block_FragmentsRender[];
-extern Mtx Entity_ShatteringBrickBlock_FragmentsMatrices[];
 extern void* Entity_ShatteringBrickBlock_FragmentsRender[];
+extern Mtx* Entity_ShatteringBrickBlock_FragmentsMatrices[];
 
 extern Gfx Entity_RenderNone[];
 extern EntityScript Entity_ShatteringBlock_Script;
 
-void entity_shattering_init_pieces(Entity* entity, void** dlists, Mtx* matrices);
+void entity_shattering_init_pieces(Entity* entity, void** dlists, Mtx** matrices);
 void entity_shattering_block_init(Entity* entity);
 
 EntityModelScript Entity_ShatteringBlock_RenderScript = STANDARD_ENTITY_MODEL_SCRIPT(Entity_RenderNone, RENDER_MODE_SURFACE_XLU_LAYER1);
@@ -114,7 +114,7 @@ EntityBlueprint Entity_ShatteringBrickBlock = {
 
 void entity_shattering_block_init(Entity* entity) {
     u32 type;
-    Mtx* fragmentMatrices = nullptr;
+    Mtx** fragmentMatrices = nullptr;
     void** fragmentDisplayLists = nullptr;
 
     entity->dataBuf.shatteringBlock->originalPosY = entity->pos.y;

@@ -1,0 +1,45 @@
+:config:
+  segments:
+    - [0x0A, 0xE9C900]
+  virtual: [0x0A000000, 0xE9C900]
+
+vtx_0:
+  { type: VTX, offset: 0x0A000000, count: 5, symbol: vtx_0 }
+vtx_50:
+  { type: VTX, offset: 0x0A000050, count: 5, symbol: vtx_50 }
+vtx_A0:
+  { type: VTX, offset: 0x0A0000A0, count: 8, symbol: vtx_A0 }
+vtx_120:
+  { type: VTX, offset: 0x0A000120, count: 6, symbol: vtx_120 }
+
+tex_180:
+  { type: TEXTURE, format: IA4, offset: 0x0A000180, width: 16, height: 32, symbol: tex_180 }
+
+dlist_280:
+  { type: GFX, offset: 0x0A000280, symbol: dlist_280 }
+
+tex_2F8:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A0002F8, width: 32, height: 32, symbol: tex_2F8 }
+
+dlist_AF8:
+  { type: GFX, offset: 0x0A000AF8, symbol: dlist_AF8 }
+
+mtx_B70:
+  { type: MTX, offset: 0x0A000B70, symbol: mtx_B70 }
+
+dlist_BB0:
+  { type: GFX, offset: 0x0A000BB0, symbol: dlist_BB0 }
+dlist_C00:
+  { type: GFX, offset: 0x0A000C00, symbol: dlist_C00 }
+dlist_C60:
+  { type: GFX, offset: 0x0A000C60, symbol: dlist_C60 }
+dlist_C78:
+  { type: GFX, offset: 0x0A000C78, symbol: dlist_C78 }
+dlist_CC8:
+  { type: GFX, offset: 0x0A000CC8, symbol: dlist_CC8 }
+dlist_D18:
+  { type: GFX, offset: 0x0A000D18, symbol: dlist_D18 }
+dlist_D30:
+  { type: GFX, offset: 0x0A000D30, symbol: dlist_D30 }
+dlist_D40:
+  { type: GFX, offset: 0x0A000D40, symbol: Entity_SpinningFlower_Render }

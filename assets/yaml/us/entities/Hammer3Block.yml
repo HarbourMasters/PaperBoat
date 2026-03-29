@@ -1,0 +1,21 @@
+:config:
+  segments:
+    - [0x0A, 0xE31F30]
+  virtual: [0x0A000000, 0xE31F30]
+
+vtx_0:
+  { type: VTX, offset: 0x0A000000, count: 30, symbol: vtx_0 }
+vtx_1C0:
+  { type: VTX, offset: 0x0A0001C0, count: 12, symbol: vtx_1C0 }
+
+tex_280:
+  { type: TEXTURE, format: CI4, offset: 0x0A000280, width: 16, height: 32, symbol: tex_280 }
+tlut_380:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A000380, width: 16, height: 1, symbol: tlut_380 }
+
+dlist_3A0:
+  { type: GFX, offset: 0x0A0003A0, symbol: dlist_3A0 }
+dlist_440:
+  { type: GFX, offset: 0x0A000440, symbol: dlist_440 }
+dlist_4E0:
+  { type: GFX, offset: 0x0A0004E0, symbol: dlist_4E0 }

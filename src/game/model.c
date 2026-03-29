@@ -9,7 +9,7 @@
 #include "port/Engine.h"
 
 // Check if a GBI opcode is a double-width OTR command (2 Gfx entries instead of 1)
-static s32 mdl_is_otr_expanded_opcode(u32 opcode) {
+s32 mdl_is_otr_expanded_opcode(u32 opcode) {
     return opcode == G_SETTIMG_OTR_HASH
         || opcode == G_DL_OTR_HASH
         || opcode == G_VTX_OTR_HASH
@@ -23,7 +23,7 @@ static s32 mdl_is_otr_expanded_opcode(u32 opcode) {
 // gfx points to the G_VTX_OTR_HASH entry; gfx[1] contains the hash.
 // The interpreter may patch w1 with a resolved pointer after first render;
 // if w1 > 0xFFFFF it's already a direct pointer (same threshold as the interpreter).
-static Vtx* mdl_resolve_otr_vtx(Gfx* gfx) {
+Vtx* mdl_resolve_otr_vtx(Gfx* gfx) {
     uintptr_t w1 = gfx[0].words.w1;
     if (w1 > 0xFFFFF) {
         return (Vtx*)w1;
@@ -4012,18 +4012,20 @@ void build_custom_gfx(void) {
 
 /// @returns true if mtx is nullptr or identity.
 s32 is_identity_fixed_mtx(Mtx* mtx) {
+    s32* mtxIt = (s32*)mtx;
+    s32* identityIt;
+    s32 i;
+
     if (mtx == nullptr) {
         return true;
     }
 
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-            if (mtx->mf[i][j] != ((i == j) ? 1.0f : 0.0f)) {
-                return false;
-            }
+    identityIt = (s32*)&ReferenceIdentityMtx;
+    for (i = 0; i < 16; i++, mtxIt++, identityIt++) {
+        if (*mtxIt != *identityIt) {
+            return false;
         }
     }
-
     return true;
 }
 

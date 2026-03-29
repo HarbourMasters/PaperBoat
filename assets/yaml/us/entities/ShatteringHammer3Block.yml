@@ -1,0 +1,224 @@
+:config:
+  segments:
+    - [0x0A, 0xE38890]
+  virtual: [0x0A000000, 0xE38890]
+
+vtx_0:
+  { type: VTX, offset: 0x0A000000, count: 261, symbol: vtx_0 }
+
+tex_1050:
+  { type: TEXTURE, format: CI4, offset: 0x0A001050, width: 16, height: 32, symbol: tex_1050 }
+tlut_1150:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A001150, width: 4, height: 4, symbol: tlut_1150 }
+
+mtx_1218:
+  { type: MTX, offset: 0x0A001218, symbol: mtx_1218 }
+mtx_1258:
+  { type: MTX, offset: 0x0A001258, symbol: mtx_1258 }
+mtx_1298:
+  { type: MTX, offset: 0x0A001298, symbol: mtx_1298 }
+mtx_12D8:
+  { type: MTX, offset: 0x0A0012D8, symbol: mtx_12D8 }
+mtx_1318:
+  { type: MTX, offset: 0x0A001318, symbol: mtx_1318 }
+mtx_1358:
+  { type: MTX, offset: 0x0A001358, symbol: mtx_1358 }
+mtx_1398:
+  { type: MTX, offset: 0x0A001398, symbol: mtx_1398 }
+mtx_13D8:
+  { type: MTX, offset: 0x0A0013D8, symbol: mtx_13D8 }
+mtx_1418:
+  { type: MTX, offset: 0x0A001418, symbol: mtx_1418 }
+mtx_1458:
+  { type: MTX, offset: 0x0A001458, symbol: mtx_1458 }
+mtx_1498:
+  { type: MTX, offset: 0x0A001498, symbol: mtx_1498 }
+mtx_14D8:
+  { type: MTX, offset: 0x0A0014D8, symbol: mtx_14D8 }
+mtx_1518:
+  { type: MTX, offset: 0x0A001518, symbol: mtx_1518 }
+mtx_1558:
+  { type: MTX, offset: 0x0A001558, symbol: mtx_1558 }
+mtx_1598:
+  { type: MTX, offset: 0x0A001598, symbol: mtx_1598 }
+mtx_15D8:
+  { type: MTX, offset: 0x0A0015D8, symbol: mtx_15D8 }
+mtx_1618:
+  { type: MTX, offset: 0x0A001618, symbol: mtx_1618 }
+mtx_1658:
+  { type: MTX, offset: 0x0A001658, symbol: mtx_1658 }
+mtx_1698:
+  { type: MTX, offset: 0x0A001698, symbol: mtx_1698 }
+mtx_16D8:
+  { type: MTX, offset: 0x0A0016D8, symbol: mtx_16D8 }
+mtx_1718:
+  { type: MTX, offset: 0x0A001718, symbol: mtx_1718 }
+mtx_1758:
+  { type: MTX, offset: 0x0A001758, symbol: mtx_1758 }
+mtx_1798:
+  { type: MTX, offset: 0x0A001798, symbol: mtx_1798 }
+mtx_17D8:
+  { type: MTX, offset: 0x0A0017D8, symbol: mtx_17D8 }
+mtx_1818:
+  { type: MTX, offset: 0x0A001818, symbol: mtx_1818 }
+mtx_1858:
+  { type: MTX, offset: 0x0A001858, symbol: mtx_1858 }
+
+dlist_1170:
+  { type: GFX, offset: 0x0A001170, symbol: dlist_1170 }
+dlist_1898:
+  { type: GFX, offset: 0x0A001898, symbol: dlist_1898 }
+dlist_1918:
+  { type: GFX, offset: 0x0A001918, symbol: dlist_1918 }
+dlist_1978:
+  { type: GFX, offset: 0x0A001978, symbol: dlist_1978 }
+dlist_1990:
+  { type: GFX, offset: 0x0A001990, symbol: dlist_1990 }
+dlist_1A30:
+  { type: GFX, offset: 0x0A001A30, symbol: dlist_1A30 }
+dlist_1A88:
+  { type: GFX, offset: 0x0A001A88, symbol: dlist_1A88 }
+dlist_1AA0:
+  { type: GFX, offset: 0x0A001AA0, symbol: dlist_1AA0 }
+dlist_1B28:
+  { type: GFX, offset: 0x0A001B28, symbol: dlist_1B28 }
+dlist_1B88:
+  { type: GFX, offset: 0x0A001B88, symbol: dlist_1B88 }
+dlist_1BA0:
+  { type: GFX, offset: 0x0A001BA0, symbol: dlist_1BA0 }
+dlist_1C20:
+  { type: GFX, offset: 0x0A001C20, symbol: dlist_1C20 }
+dlist_1C70:
+  { type: GFX, offset: 0x0A001C70, symbol: dlist_1C70 }
+dlist_1C88:
+  { type: GFX, offset: 0x0A001C88, symbol: dlist_1C88 }
+dlist_1D10:
+  { type: GFX, offset: 0x0A001D10, symbol: dlist_1D10 }
+dlist_1D50:
+  { type: GFX, offset: 0x0A001D50, symbol: dlist_1D50 }
+dlist_1D68:
+  { type: GFX, offset: 0x0A001D68, symbol: dlist_1D68 }
+dlist_1DE8:
+  { type: GFX, offset: 0x0A001DE8, symbol: dlist_1DE8 }
+dlist_1E38:
+  { type: GFX, offset: 0x0A001E38, symbol: dlist_1E38 }
+dlist_1E50:
+  { type: GFX, offset: 0x0A001E50, symbol: dlist_1E50 }
+dlist_1EC0:
+  { type: GFX, offset: 0x0A001EC0, symbol: dlist_1EC0 }
+dlist_1F10:
+  { type: GFX, offset: 0x0A001F10, symbol: dlist_1F10 }
+dlist_1F28:
+  { type: GFX, offset: 0x0A001F28, symbol: dlist_1F28 }
+dlist_1FA0:
+  { type: GFX, offset: 0x0A001FA0, symbol: dlist_1FA0 }
+dlist_1FE8:
+  { type: GFX, offset: 0x0A001FE8, symbol: dlist_1FE8 }
+dlist_2000:
+  { type: GFX, offset: 0x0A002000, symbol: dlist_2000 }
+dlist_2060:
+  { type: GFX, offset: 0x0A002060, symbol: dlist_2060 }
+dlist_20B0:
+  { type: GFX, offset: 0x0A0020B0, symbol: dlist_20B0 }
+dlist_20C8:
+  { type: GFX, offset: 0x0A0020C8, symbol: dlist_20C8 }
+dlist_2160:
+  { type: GFX, offset: 0x0A002160, symbol: dlist_2160 }
+dlist_21A8:
+  { type: GFX, offset: 0x0A0021A8, symbol: dlist_21A8 }
+dlist_21C0:
+  { type: GFX, offset: 0x0A0021C0, symbol: dlist_21C0 }
+dlist_2270:
+  { type: GFX, offset: 0x0A002270, symbol: dlist_2270 }
+dlist_22B0:
+  { type: GFX, offset: 0x0A0022B0, symbol: dlist_22B0 }
+dlist_22C8:
+  { type: GFX, offset: 0x0A0022C8, symbol: dlist_22C8 }
+dlist_2360:
+  { type: GFX, offset: 0x0A002360, symbol: dlist_2360 }
+dlist_23A8:
+  { type: GFX, offset: 0x0A0023A8, symbol: dlist_23A8 }
+dlist_23C0:
+  { type: GFX, offset: 0x0A0023C0, symbol: dlist_23C0 }
+dlist_2440:
+  { type: GFX, offset: 0x0A002440, symbol: dlist_2440 }
+dlist_2480:
+  { type: GFX, offset: 0x0A002480, symbol: dlist_2480 }
+dlist_2498:
+  { type: GFX, offset: 0x0A002498, symbol: dlist_2498 }
+dlist_2518:
+  { type: GFX, offset: 0x0A002518, symbol: dlist_2518 }
+dlist_2558:
+  { type: GFX, offset: 0x0A002558, symbol: dlist_2558 }
+dlist_2570:
+  { type: GFX, offset: 0x0A002570, symbol: dlist_2570 }
+dlist_25E0:
+  { type: GFX, offset: 0x0A0025E0, symbol: dlist_25E0 }
+dlist_2628:
+  { type: GFX, offset: 0x0A002628, symbol: dlist_2628 }
+dlist_2640:
+  { type: GFX, offset: 0x0A002640, symbol: dlist_2640 }
+dlist_26B8:
+  { type: GFX, offset: 0x0A0026B8, symbol: dlist_26B8 }
+dlist_26F8:
+  { type: GFX, offset: 0x0A0026F8, symbol: dlist_26F8 }
+dlist_2710:
+  { type: GFX, offset: 0x0A002710, symbol: dlist_2710 }
+dlist_2770:
+  { type: GFX, offset: 0x0A002770, symbol: dlist_2770 }
+dlist_27B8:
+  { type: GFX, offset: 0x0A0027B8, symbol: dlist_27B8 }
+dlist_27D0:
+  { type: GFX, offset: 0x0A0027D0, symbol: dlist_27D0 }
+dlist_2850:
+  { type: GFX, offset: 0x0A002850, symbol: dlist_2850 }
+dlist_28A8:
+  { type: GFX, offset: 0x0A0028A8, symbol: dlist_28A8 }
+dlist_28C0:
+  { type: GFX, offset: 0x0A0028C0, symbol: dlist_28C0 }
+dlist_2958:
+  { type: GFX, offset: 0x0A002958, symbol: dlist_2958 }
+dlist_29A8:
+  { type: GFX, offset: 0x0A0029A8, symbol: dlist_29A8 }
+dlist_29C0:
+  { type: GFX, offset: 0x0A0029C0, symbol: dlist_29C0 }
+dlist_2A40:
+  { type: GFX, offset: 0x0A002A40, symbol: dlist_2A40 }
+dlist_2A98:
+  { type: GFX, offset: 0x0A002A98, symbol: dlist_2A98 }
+dlist_2AB0:
+  { type: GFX, offset: 0x0A002AB0, symbol: dlist_2AB0 }
+dlist_2B20:
+  { type: GFX, offset: 0x0A002B20, symbol: dlist_2B20 }
+dlist_2B70:
+  { type: GFX, offset: 0x0A002B70, symbol: dlist_2B70 }
+dlist_2B88:
+  { type: GFX, offset: 0x0A002B88, symbol: dlist_2B88 }
+dlist_2C00:
+  { type: GFX, offset: 0x0A002C00, symbol: dlist_2C00 }
+dlist_2C40:
+  { type: GFX, offset: 0x0A002C40, symbol: dlist_2C40 }
+dlist_2C58:
+  { type: GFX, offset: 0x0A002C58, symbol: dlist_2C58 }
+dlist_2CC0:
+  { type: GFX, offset: 0x0A002CC0, symbol: dlist_2CC0 }
+dlist_2D10:
+  { type: GFX, offset: 0x0A002D10, symbol: dlist_2D10 }
+dlist_2D28:
+  { type: GFX, offset: 0x0A002D28, symbol: dlist_2D28 }
+dlist_2D88:
+  { type: GFX, offset: 0x0A002D88, symbol: dlist_2D88 }
+dlist_2DD8:
+  { type: GFX, offset: 0x0A002DD8, symbol: dlist_2DD8 }
+dlist_2DF0:
+  { type: GFX, offset: 0x0A002DF0, symbol: dlist_2DF0 }
+dlist_2E58:
+  { type: GFX, offset: 0x0A002E58, symbol: dlist_2E58 }
+dlist_2EA0:
+  { type: GFX, offset: 0x0A002EA0, symbol: dlist_2EA0 }
+dlist_2EB8:
+  { type: GFX, offset: 0x0A002EB8, symbol: dlist_2EB8 }
+dlist_2F10:
+  { type: GFX, offset: 0x0A002F10, symbol: dlist_2F10 }
+dlist_2F60:
+  { type: GFX, offset: 0x0A002F60, symbol: dlist_2F60 }

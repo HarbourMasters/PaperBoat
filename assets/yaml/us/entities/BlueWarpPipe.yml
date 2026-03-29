@@ -1,0 +1,43 @@
+:config:
+  segments:
+    - [0x0A, 0xE58CD0]
+  virtual: [0x0A000000, 0xE58CD0]
+
+vtx_0:
+  { type: VTX, offset: 0x0A000000, count: 6, symbol: vtx_0 }
+
+vtx_60:
+  { type: VTX, offset: 0x0A000060, count: 30, symbol: vtx_60 }
+vtx_100:
+  { type: VTX, offset: 0x0A000100, count: 2, symbol: vtx_100 }
+vtx_1C0:
+  { type: VTX, offset: 0x0A0001C0, count: 2, symbol: vtx_1C0 }
+vtx_240:
+  { type: VTX, offset: 0x0A000240, count: 10, symbol: vtx_240 }
+
+vtx_2E0:
+  { type: VTX, offset: 0x0A0002E0, count: 4, symbol: vtx_2E0 }
+
+tex_320:
+  { type: TEXTURE, format: CI4, offset: 0x0A000320, width: 16, height: 16, symbol: tex_320 }
+tlut_3A0:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A0003A0, width: 16, height: 1, symbol: tlut_3A0 }
+
+dlist_3C0:
+  { type: GFX, offset: 0x0A0003C0, symbol: dlist_3C0 }
+
+tex_470:
+  { type: TEXTURE, format: CI4, offset: 0x0A000470, width: 32, height: 16, symbol: tex_470 }
+tlut_570:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A000570, width: 16, height: 1, symbol: tlut_570 }
+
+dlist_590:
+  { type: GFX, offset: 0x0A000590, symbol: dlist_590 }
+
+mtx_640:
+  { type: MTX, offset: 0x0A000640, symbol: mtx_640 }
+
+dlist_680:
+  { type: GFX, offset: 0x0A000680, symbol: Entity_BlueWarpPipe_RenderBase }
+dlist_6B8:
+  { type: GFX, offset: 0x0A0006B8, symbol: Entity_BlueWarpPipe_RenderPipe }

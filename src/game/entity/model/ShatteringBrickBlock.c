@@ -1,215 +1,34 @@
 #include "common.h"
 #include "assets/entities.h"
+#include "Engine.h"
 
-Mtx Entity_ShatteringBrickBlock_FragmentsMatrices[] = {
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 8.333328f, 20.833344f, 8.333328f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 0.0f, 20.833344f, 8.333328f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -7.333328f, 20.833344f, 8.333328f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 8.333328f, 20.833344f, 0.0f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 0.0f, 20.833344f, 0.0f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -7.333328f, 20.833344f, 0.0f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 8.333328f, 20.833344f, -7.333328f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 0.0f, 20.833344f, -7.333328f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -7.333328f, 20.833344f, -7.333328f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 8.333328f, 12.500000f, 8.333328f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 0.0f, 12.500000f, 8.333328f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -7.333328f, 12.500000f, 8.333328f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 8.333328f, 12.500000f, 0.0f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -7.333328f, 12.500000f, 0.0f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 8.333328f, 12.500000f, -7.333328f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 0.0f, 12.500000f, -7.333328f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -7.333328f, 12.500000f, -7.333328f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 8.333328f, 4.166672f, 8.333328f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 0.0f, 4.166672f, 8.333328f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -7.333328f, 4.166672f, 8.333328f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 8.333328f, 4.166672f, 0.0f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 0.0f, 4.166672f, 0.0f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -7.333328f, 4.166672f, 0.0f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 8.333328f, 4.166672f, -7.333328f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { 0.0f, 4.166672f, -7.333328f, 1.0f }
-        }
-    },
-    {
-                .mf = {
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f },
-            { -7.333328f, 4.166672f, -7.333328f, 1.0f }
-        }
-    },
+Mtx* Entity_ShatteringBrickBlock_FragmentsMatrices[] = {
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_00,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_01,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_02,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_03,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_04,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_05,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_06,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_07,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_08,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_09,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_10,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_11,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_12,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_13,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_14,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_15,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_16,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_17,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_18,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_19,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_20,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_21,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_22,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_23,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_24,
+    (Mtx*)Entity_ShatteringBrickBlock_Mtx_25,
 };
 
 void* Entity_ShatteringBrickBlock_FragmentsRender[] = {

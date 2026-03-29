@@ -1,0 +1,30 @@
+:config:
+  segments:
+    - [0x0A, 0xE43B20]
+  virtual: [0x0A000000, 0xE43B20]
+
+vtx_0:
+  { type: VTX, offset: 0x0A000000, count: 16, symbol: vtx_0 }
+vtx_80:
+  { type: VTX, offset: 0x0A000080, count: 4, symbol: vtx_80 }
+
+tex_100:
+  { type: TEXTURE, format: CI8, offset: 0x0A000100, width: 64, height: 32, symbol: tex_100 }
+tlut_900:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A000900, width: 16, height: 16, symbol: tlut_900 }
+
+dlist_B00:
+  { type: GFX, offset: 0x0A000B00, symbol: Entity_PowBlock_LoadTexture }
+dlist_BE8:
+  { type: GFX, offset: 0x0A000BE8, symbol: Entity_PowBlock_RenderTopBottom }
+dlist_C40:
+  { type: GFX, offset: 0x0A000C40, symbol: Entity_PowBlock_RenderSides }
+dlist_CA0:
+  { type: GFX, offset: 0x0A000CA0, symbol: Entity_PowBlock_RenderFaces }
+dlist_CB8:
+  { type: GFX, offset: 0x0A000CB8, symbol: Entity_PowBlock_RenderBlock }
+dlist_CC8:
+  { type: GFX, offset: 0x0A000CC8, symbol: Entity_PowBlock_Render }
+
+mtx_BA8:
+  { type: MTX, offset: 0x0A000BA8, symbol: Entity_PowBlock_mtx }

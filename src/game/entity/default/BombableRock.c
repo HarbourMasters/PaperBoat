@@ -7,7 +7,6 @@
 
 extern Gfx Entity_RenderNone[];
 extern void* Entity_BombableRock_FragmentsRender[];
-extern Mtx Entity_BombableRock_FragmentMatrices[];
 
 void entity_BombableRock_setupGfx(s32);
 
@@ -72,8 +71,16 @@ void entity_BombableRock_init_fragments(Entity* entity, void** dlists, Mtx* matr
 }
 
 void entity_BombableRock_init(Entity* entity) {
+    Mtx matrices[5];
+
+    matrices[0] = *(Mtx*) LOAD_ASSET(Entity_BombableRock_FragmentMtx0);
+    matrices[1] = *(Mtx*) LOAD_ASSET(Entity_BombableRock_FragmentMtx1);
+    matrices[2] = *(Mtx*) LOAD_ASSET(Entity_BombableRock_FragmentMtx2);
+    matrices[3] = *(Mtx*) LOAD_ASSET(Entity_BombableRock_FragmentMtx3);
+    matrices[4] = *(Mtx*) LOAD_ASSET(Entity_BombableRock_FragmentMtx4);
+
     entity->dataBuf.bombableRock->inititalY = entity->pos.y;
-    entity_BombableRock_init_fragments(entity, Entity_BombableRock_FragmentsRender, Entity_BombableRock_FragmentMatrices);
+    entity_BombableRock_init_fragments(entity, Entity_BombableRock_FragmentsRender, matrices);
 }
 
 void entity_BombableRock_update_fragments(Entity* entity) {
@@ -196,7 +203,6 @@ void entity_BombableRock_setupGfx(s32 entityIndex) {
     Gfx* gfxPos = gMainGfxPos;
     Entity* entity = get_entity_by_index(entityIndex);
     BombableRockData* data = entity->dataBuf.bombableRock;
-    Gfx* fragmentDlist;
     void** gfx = data->fragmentsGfx;
 
     x_inv = -entity->pos.x;
@@ -222,8 +228,7 @@ void entity_BombableRock_setupGfx(s32 entityIndex) {
         guMtxF2L(mtx, &gDisplayContext->matrixStack[gMatrixListPos]);
 
         gSPMatrix(gfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        { void* _dl = *gfx++; fragmentDlist = LOAD_ASSET(_dl); }
-        gSPDisplayList(gfxPos++, fragmentDlist);
+        gSPDisplayList(gfxPos++, *gfx++);
         gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
     }
 

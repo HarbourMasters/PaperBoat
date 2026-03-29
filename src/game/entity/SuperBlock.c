@@ -124,8 +124,8 @@ void entity_SuperBlockContent_setupGfx(s32 entityIndex) {
         data->paletteTimer--;
     }
 
-    palette = (u8*) LOAD_ASSET(Entity_SuperBlock_Palettes[Entity_SuperBlock_PalData[data->paletteArrOffset + 1]]);
-    dlist = (Gfx*) LOAD_ASSET(data->gfx2);
+    palette = (u8*) Entity_SuperBlock_Palettes[Entity_SuperBlock_PalData[data->paletteArrOffset + 1]];
+    dlist = (Gfx*) data->gfx2;
 
     gDPPipeSync(gfxPos++);
     guRotateF(sp18, entity_SuperBlockContent_get_previous_yaw(data, 1), 0.0f, 1.0f, 0.0f);

@@ -23,7 +23,7 @@ extern Addr WorldEntityHeapBase;
 
 s32 D_8014AFB0 = 255;
 
-s32 CreateEntityVarArgBuffer[4];
+uintptr_t CreateEntityVarArgBuffer[4];
 HiddenPanelsData gCurrentHiddenPanels;
 s32 gEntityHideMode;
 
@@ -915,7 +915,7 @@ s32 create_entity(EntityBlueprint* bp, ...) {
     f32 rotY;
     s32 listIndex;
     Entity* entity;
-    s32* args;
+    uintptr_t* args;
 
     va_start(ap, bp);
     // needed to match
@@ -936,9 +936,9 @@ s32 create_entity(EntityBlueprint* bp, ...) {
     *args = 0;
 
     for (listIndex = 3; listIndex > 0; listIndex--) {
-        s32 arg = va_arg(ap, s32);
+        uintptr_t arg = va_arg(ap, uintptr_t);
 
-        if (arg == MAKE_ENTITY_END) {
+        if (arg == (uintptr_t)(intptr_t)MAKE_ENTITY_END) {
             break;
         }
         *args++ = arg;
@@ -1075,10 +1075,10 @@ API_CALLABLE(MakeEntity) {
     EntityBlueprint* entityData;
     s32 x, y, z;
     s32 flags;
-    s32 nextArg;
+    uintptr_t nextArg;
     s32 entityIndex;
-    s32 endOfArgs;
-    s32* varArgBufPos;
+    uintptr_t endOfArgs;
+    uintptr_t* varArgBufPos;
 
     if (isInitialCall != true) {
         return ApiStatus_DONE2;
@@ -1104,7 +1104,7 @@ API_CALLABLE(MakeEntity) {
         }
     } while (nextArg != endOfArgs);
 
-    entityIndex = create_entity(entityData, x, y, z, flags, CreateEntityVarArgBuffer[0], CreateEntityVarArgBuffer[1], CreateEntityVarArgBuffer[2], endOfArgs);
+    entityIndex = create_entity(entityData, x, y, z, flags, CreateEntityVarArgBuffer[0], CreateEntityVarArgBuffer[1], CreateEntityVarArgBuffer[2], (uintptr_t)endOfArgs);
     gLastCreatedEntityIndex = entityIndex;
     script->varTable[0] = entityIndex;
     return ApiStatus_DONE2;

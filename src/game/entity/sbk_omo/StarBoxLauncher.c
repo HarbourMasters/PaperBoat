@@ -42,10 +42,10 @@ void entity_StarBoxLauncher_setupGfx(s32 entityIndex) {
     gDPPipeSync(gfxPos++);
     gDPSetCycleType(gfxPos++, G_CYC_1CYCLE);
     gDPSetRenderMode(gfxPos++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
-    gSPDisplayList(gfxPos++, (Gfx*) LOAD_ASSET(Entity_StarBoxLauncher_LoadTextureBox));
+    gSPDisplayList(gfxPos++, Entity_StarBoxLauncher_LoadTextureBox);
     gSPClearGeometryMode(gfxPos++, G_CULL_BACK | G_LIGHTING);
     gSPSetGeometryMode(gfxPos++, G_SHADING_SMOOTH);
-    gSPVertex(gfxPos++, (Vtx*) LOAD_ASSET(D_0A000000_E55A40), 15, 0);
+    gSPVertex(gfxPos++, D_0A000000_E55A40, 15, 0);
     gSP2Triangles(gfxPos++, 0, 1, 2, 0, 0, 2, 3, 0);
     gSP2Triangles(gfxPos++, 4, 5, 6, 0, 4, 6, 7, 0);
     gSP2Triangles(gfxPos++, 7, 8, 9, 0, 7, 9, 10, 0);

@@ -1,0 +1,35 @@
+:config:
+  segments:
+    - [0x0A, 0xE6B1B0]
+  virtual: [0x0A000000, 0xE6B1B0]
+
+vtx_0:
+  { type: VTX, offset: 0x0A000000, count: 32, symbol: vtx_0 }
+vtx_200:
+  { type: VTX, offset: 0x0A000200, count: 25, symbol: vtx_200 }
+vtx_390:
+  { type: VTX, offset: 0x0A000390, count: 32, symbol: vtx_390 }
+vtx_580:
+  { type: VTX, offset: 0x0A000580, count: 12, symbol: vtx_580 }
+vtx_640:
+  { type: VTX, offset: 0x0A000640, count: 14, symbol: vtx_640 }
+vtx_720:
+  { type: VTX, offset: 0x0A000720, count: 32, symbol: vtx_720 }
+vtx_920:
+  { type: VTX, offset: 0x0A000920, count: 15, symbol: vtx_920 }
+vtx_A10:
+  { type: VTX, offset: 0x0A000A10, count: 14, symbol: vtx_A10 }
+
+tex_1090:
+  { type: TEXTURE, format: RGBA16, offset: 0x0A001090, width: 16, height: 16, symbol: tex_1090 }
+
+dlist_AF0:
+  { type: GFX, offset: 0x0A000AF0, symbol: Entity_BellbellPlant_RenderNode5 }
+dlist_B88:
+  { type: GFX, offset: 0x0A000B88, symbol: Entity_BellbellPlant_RenderNode4 }
+dlist_CE8:
+  { type: GFX, offset: 0x0A000CE8, symbol: Entity_BellbellPlant_RenderNode3 }
+dlist_D80:
+  { type: GFX, offset: 0x0A000D80, symbol: Entity_BellbellPlant_RenderNode2 }
+dlist_EE0:
+  { type: GFX, offset: 0x0A000EE0, symbol: Entity_BellbellPlant_RenderNode1 }

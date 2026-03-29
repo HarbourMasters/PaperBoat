@@ -2,12 +2,6 @@
 #include "entity.h"
 #include "assets/entities.h"
 #include "Engine.h"
-#include <stdio.h>
-
-// Entity vertices are now exported as Vertex resources — VertexFactory handles format conversion
-static Vtx* load_and_swap_vtx(const char* path, s32 count) {
-    return (Vtx*) LOAD_ASSET(path);
-}
 
 void entity_Shadow_init(Shadow* shadow) {
     shadow->scale.x = 0.1f;
@@ -24,62 +18,56 @@ s32 entity_can_collide_with_jumping_player(Entity* entity) {
     return false;
 }
 
-// Shadow DLs are built at runtime because they reference OTR-loaded textures/vertices.
-// Static Gfx arrays can't embed LOAD_ASSET calls, so we build into persistent buffers.
-#define SHADOW_DL_MAX 16
-static Gfx shadow_dl_common[SHADOW_DL_MAX];
-static Gfx shadow_dl_load_tex_square[SHADOW_DL_MAX];
-static Gfx shadow_dl_load_tex_circle[SHADOW_DL_MAX];
-static Gfx shadow_dl_render_square[SHADOW_DL_MAX];
-static Gfx shadow_dl_render_circular[SHADOW_DL_MAX];
-static s32 shadow_dls_initialized = false;
+Gfx Entity_Shadow_GfxCommon[] = {
+    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
+    gsDPPipeSync(),
+    gsDPSetTexturePersp(G_TP_PERSP),
+    gsDPSetTextureDetail(G_TD_CLAMP),
+    gsDPSetTextureLOD(G_TL_TILE),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsDPSetTextureFilter(G_TF_BILERP),
+    gsDPSetTextureConvert(G_TC_FILT),
+    gsSPEndDisplayList(),
+};
 
-static void shadow_build_dls(void) {
-    Gfx* g;
+Gfx Entity_Shadow_LoadTexSquare[] = {
+    gsSPDisplayList(Entity_Shadow_GfxCommon),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsDPLoadTextureTile_4b(Entity_Shadow_TexSquare, G_IM_FMT_I, 16, 16, 0, 0, 15, 15, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 4, 4, G_TX_NOLOD, G_TX_NOLOD),
+    gsSPEndDisplayList(),
+};
 
-    // Entity_Shadow_GfxCommon
-    g = shadow_dl_common;
-    gSPTexture(g++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
-    gDPPipeSync(g++);
-    gDPSetTexturePersp(g++, G_TP_PERSP);
-    gDPSetTextureDetail(g++, G_TD_CLAMP);
-    gDPSetTextureLOD(g++, G_TL_TILE);
-    gDPSetTextureLUT(g++, G_TT_NONE);
-    gDPSetTextureFilter(g++, G_TF_BILERP);
-    gDPSetTextureConvert(g++, G_TC_FILT);
-    gSPEndDisplayList(g++);
+Gfx Entity_Shadow_LoadTexCircle[] = {
+    gsSPDisplayList(Entity_Shadow_GfxCommon),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsDPLoadTextureTile_4b(Entity_Shadow_TexCircle, G_IM_FMT_I, 16, 16, 0, 0, 15, 15, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 4, 4, G_TX_NOLOD, G_TX_NOLOD),
+    gsSPEndDisplayList(),
+};
 
-    // Entity_Shadow_LoadTexSquare
-    g = shadow_dl_load_tex_square;
-    gSPDisplayList(g++, shadow_dl_common);
-    gDPSetTextureLUT(g++, G_TT_NONE);
-    gDPLoadTextureTile_4b(g++, (u8*) LOAD_ASSET(Entity_Shadow_TexSquare), G_IM_FMT_I, 16, 16, 0, 0, 15, 15, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 4, 4, G_TX_NOLOD, G_TX_NOLOD);
-    gSPEndDisplayList(g++);
+// Built dynamically once so gSPVertex middleware resolves OTR vertex paths.
+// Initialized with EndDisplayList so they're safe even before entity_Shadow_init_dls runs.
+static Gfx Entity_RenderSquareShadow[5] = { gsSPEndDisplayList() };
+static Gfx Entity_RenderCircularShadow[5] = { gsSPEndDisplayList() };
+static s32 sShadowDLsBuilt = false;
 
-    // Entity_Shadow_LoadTexCircle
-    g = shadow_dl_load_tex_circle;
-    gSPDisplayList(g++, shadow_dl_common);
-    gDPSetTextureLUT(g++, G_TT_NONE);
-    gDPLoadTextureTile_4b(g++, (u8*) LOAD_ASSET(Entity_Shadow_TexCircle), G_IM_FMT_I, 16, 16, 0, 0, 15, 15, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 4, 4, G_TX_NOLOD, G_TX_NOLOD);
-    gSPEndDisplayList(g++);
+static void entity_Shadow_buildRenderDLs(void) {
+    Gfx* gfx;
 
-    // Entity_RenderSquareShadow
-    g = shadow_dl_render_square;
-    gSPDisplayList(g++, shadow_dl_load_tex_square);
-    gSPClearGeometryMode(g++, G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH);
-    gSPVertex(g++, load_and_swap_vtx(Entity_Shadow_VtxSquare, 4), 4, 0);
-    gSP2Triangles(g++, 0, 1, 2, 0, 0, 2, 3, 0);
-    gSPEndDisplayList(g++);
+    gfx = Entity_RenderSquareShadow;
+    gSPDisplayList(gfx++, Entity_Shadow_LoadTexSquare);
+    gSPClearGeometryMode(gfx++, G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH);
+    gSPVertex(gfx++, Entity_Shadow_VtxSquare, 4, 0);
+    gSP2Triangles(gfx++, 0, 1, 2, 0, 0, 2, 3, 0);
+    gSPEndDisplayList(gfx++);
 
-    // Entity_RenderCircularShadow
-    g = shadow_dl_render_circular;
-    gSPDisplayList(g++, shadow_dl_load_tex_circle);
-    gSPClearGeometryMode(g++, G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH);
-    gSPVertex(g++, load_and_swap_vtx(Entity_Shadow_VtxCircular, 4), 4, 0);
-    gSP2Triangles(g++, 0, 1, 2, 0, 0, 2, 3, 0);
-    gSPEndDisplayList(g++);
+    gfx = Entity_RenderCircularShadow;
+    gSPDisplayList(gfx++, Entity_Shadow_LoadTexCircle);
+    gSPClearGeometryMode(gfx++, G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH);
+    gSPVertex(gfx++, Entity_Shadow_VtxCircular, 4, 0);
+    gSP2Triangles(gfx++, 0, 1, 2, 0, 0, 2, 3, 0);
+    gSPEndDisplayList(gfx++);
 
-    shadow_dls_initialized = true;
+    sShadowDLsBuilt = true;
 }
 
 Gfx Entity_RenderNone[] = {
@@ -98,7 +86,7 @@ s32 D_802E9844_padding[] = { 0, 0, 0};
 EntityModelScript Entity_CircularShadowA_Render = {
     ems_SetFlags(ENTITY_MODEL_FLAG_FOG_DISABLED)
     ems_SetRenderMode(RENDER_MODE_SHADOW)
-    ems_Draw(shadow_dl_render_circular, 60)
+    ems_Draw(Entity_RenderCircularShadow, 60)
     ems_Restart
     ems_End
 };
@@ -106,7 +94,7 @@ EntityModelScript Entity_CircularShadowA_Render = {
 EntityModelScript Entity_CircularShadowB_Render = {
     ems_SetFlags(ENTITY_MODEL_FLAG_FOG_DISABLED)
     ems_SetRenderMode(RENDER_MODE_SHADOW)
-    ems_Draw(shadow_dl_render_circular, 60)
+    ems_Draw(Entity_RenderCircularShadow, 60)
     ems_Restart
     ems_End
 };
@@ -114,7 +102,7 @@ EntityModelScript Entity_CircularShadowB_Render = {
 EntityModelScript Entity_SquareShadow_Render = {
     ems_SetFlags(ENTITY_MODEL_FLAG_FOG_DISABLED)
     ems_SetRenderMode(RENDER_MODE_SHADOW)
-    ems_Draw(shadow_dl_render_square, 60)
+    ems_Draw(Entity_RenderSquareShadow, 60)
     ems_Restart
     ems_End
 };
@@ -146,8 +134,8 @@ ShadowBlueprint SquareShadow = {
     .aabbSize = { 25, 10, 25 }
 };
 
-void entity_shadow_init_dls(void) {
-    if (!shadow_dls_initialized) {
-        shadow_build_dls();
+void entity_Shadow_init_dls(void) {
+    if (!sShadowDLsBuilt) {
+        entity_Shadow_buildRenderDLs();
     }
 }

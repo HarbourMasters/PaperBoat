@@ -24,7 +24,7 @@ void entity_HiddenPanel_setupGfx(s32 entityIndex) {
         guMtxCatF(tempMtx, rotMtx, tempMtx);
         guMtxF2L(tempMtx, &gDisplayContext->matrixStack[gMatrixListPos]);
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(Gfx_HiddenPanel_RenderHole));
+        gSPDisplayList(gMainGfxPos++, Gfx_HiddenPanel_RenderHole);
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
     mdl_project_tex_coords(data->modelID, data->renderDList, data->entityMatrix, entity->gfxBaseAddr);

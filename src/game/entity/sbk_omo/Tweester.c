@@ -18,7 +18,6 @@ void entity_Tweester_render_inner_whirl(s32 entityIndex) {
     TweesterData* data = entity->dataBuf.tweester;
     Matrix4f sp18;
     Matrix4f sp58;
-    Gfx* gfx;
 
     guMtxL2F(sp18, (Mtx*) LOAD_ASSET(Entity_Tweester_mtxInnerWhirl));
     guRotateF(sp58, data->innerWhirlRotY, 0.0f, 1.0f, 0.0f);
@@ -26,8 +25,7 @@ void entity_Tweester_render_inner_whirl(s32 entityIndex) {
     guMtxF2L(sp18, &data->mtxInnerWhirl);
     gDisplayContext->matrixStack[gMatrixListPos] = data->mtxInnerWhirl;
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gfx = (Gfx*) LOAD_ASSET(Entity_Tweester_RenderInnerWhirl);
-    gSPDisplayList(gMainGfxPos++, gfx);
+    gSPDisplayList(gMainGfxPos++, Entity_Tweester_RenderInnerWhirl);
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }
 
@@ -36,7 +34,6 @@ void entity_Tweester_render_outer_whirl(s32 entityIndex) {
     TweesterData* data = entity->dataBuf.tweester;
     Matrix4f sp18;
     Matrix4f sp58;
-    Gfx* gfx;
 
     guMtxL2F(sp18, (Mtx*) LOAD_ASSET(Entity_Tweester_mtxOuterWhirl));
     guRotateF(sp58, data->outerWhirlRotY, 0.0f, 1.0f, 0.0f);
@@ -44,8 +41,7 @@ void entity_Tweester_render_outer_whirl(s32 entityIndex) {
     guMtxF2L(sp18, &data->mtxOuterWhirl);
     gDisplayContext->matrixStack[gMatrixListPos] = data->mtxOuterWhirl;
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gfx = (Gfx*) LOAD_ASSET(Entity_Tweester_RenderOuterWhirl);
-    gSPDisplayList(gMainGfxPos++, gfx);
+    gSPDisplayList(gMainGfxPos++, Entity_Tweester_RenderOuterWhirl);
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }
 

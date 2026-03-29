@@ -1,0 +1,35 @@
+:config:
+  segments:
+    - [0x0A, 0xE59F00]
+  virtual: [0x0A000000, 0xE59F00]
+
+vtx_0:
+  { type: VTX, offset: 0x0A000000, count: 4, symbol: vtx_0 }
+
+vtx_40:
+  { type: VTX, offset: 0x0A000040, count: 4, symbol: vtx_40 }
+
+tex_80:
+  { type: TEXTURE, format: CI8, offset: 0x0A000080, width: 64, height: 32, symbol: tex_80 }
+
+tlut_880:
+  { type: TEXTURE, format: TLUT, offset: 0x0A000880, colors: 256, symbol: tlut_880 }
+
+dlist_A80:
+  { type: GFX, offset: 0x0A000A80, symbol: dlist_A80 }
+
+mtx_B28:
+  { type: MTX, offset: 0x0A000B28, symbol: Entity_ArrowSign_mtxSign }
+
+dlist_B68:
+  { type: GFX, offset: 0x0A000B68, symbol: dlist_B68 }
+dlist_BB8:
+  { type: GFX, offset: 0x0A000BB8, symbol: dlist_BB8 }
+dlist_BC8:
+  { type: GFX, offset: 0x0A000BC8, symbol: Entity_ArrowSign_RenderRotatedSign }
+dlist_C10:
+  { type: GFX, offset: 0x0A000C10, symbol: dlist_C10 }
+dlist_C30:
+  { type: GFX, offset: 0x0A000C30, symbol: dlist_C30 }
+dlist_C40:
+  { type: GFX, offset: 0x0A000C40, symbol: Entity_ArrowSign_Render }

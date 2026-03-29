@@ -6,7 +6,7 @@
 typedef const intptr_t EntityScript[];
 typedef const intptr_t EntityModelScript[];
 
-extern s32 CreateEntityVarArgBuffer[];
+extern uintptr_t CreateEntityVarArgBuffer[];
 
 enum {
     ENTITY_SCRIPT_OP_End,
@@ -418,6 +418,7 @@ extern EntityBlueprint Entity_HiddenRedBlock;
 extern EntityBlueprint Entity_TriggerBlock;
 extern EntityBlueprint Entity_HeartBlock;
 extern EntityBlueprint Entity_SuperBlock;
+extern EntityBlueprint Entity_UltraBlock;
 extern EntityBlueprint Entity_ScriptSpring;
 extern EntityBlueprint Entity_SimpleSpring;
 extern EntityBlueprint Entity_HiddenPanel;
