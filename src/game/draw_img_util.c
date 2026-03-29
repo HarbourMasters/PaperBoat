@@ -150,8 +150,15 @@ s32 draw_image_with_clipping(IMG_PTR raster, u32 width, u32 height, s32 fmt, s32
                                 G_TX_WRAP, G_TX_WRAP, 6, 5, G_TX_NOLOD, G_TX_NOLOD);
             }
 
+            // Affects all CI/I/IA images taller than 32px rendered through this function:
+            // message box sprites (MSG_PRINT_FUNC_ANIM_SPRITE), party images, item icons,
+            // and var images (MSG_PRINT_FUNC_INLINE_IMAGE).
+            // The interpreter is subtracting tile.ult then normalizing by dividing by
+            // the loaded texture height, producing wrong UVs.
+            // By starting at the tile origin, the subtraction yields 0 as the original game.
+            // This is done via including the tile origin (texRect.ulx/uly) in the UVs.
             gSPTextureRectangle(gMainGfxPos++, drawRect.ulx * 4, drawRect.uly * 4, drawRect.lrx * 4, drawRect.lry * 4,
-                                0, texOffsetX * 32, texOffsetY * 32, 1024, 1024);
+                                0, (texRect.ulx + texOffsetX) * 32, (texRect.uly + texOffsetY) * 32, 1024, 1024);
 
             if (stopDrawingLine) {
                 break;

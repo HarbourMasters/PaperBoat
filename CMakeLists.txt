@@ -187,7 +187,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     VERSION=us
     VERSION_US
     F3DEX_GBI_2
-    GBI_FLOATS
     __CTX__
     SPDLOG_ACTIVE_LEVEL=0
 )
