@@ -1,8 +1,8 @@
 #include <libultraship/libultra/gu.h>
 #define _USE_MATH_DEFINES
+#include "port/interpolation/FrameInterpolation.h"
 #include <math.h>
 #include <string.h>
-#include "port/interpolation/FrameInterpolation.h"
 
 static void guIdentityF(float mf[4][4]) {
   int i, j;
@@ -48,7 +48,7 @@ void guMtxCatF(float m[4][4], float n[4][4], float r[4][4]) {
   }
 
   // @port: Review this
-  FrameInterpolation_RecordMatrixMtxFToMtx(m, (Mtx*)m);
+  FrameInterpolation_RecordMatrixMtxFToMtx(m, (Mtx *)m);
 }
 
 void guScaleF(float mf[4][4], float x, float y, float z) {
@@ -107,7 +107,6 @@ void guRotateRPYF(float mf[4][4], float r, float p, float h) {
   guMtxCatF(tmp, rz, mf);
 }
 
-
 void guMtxF2L(float mf[4][4], Mtx *m) {
 #ifdef GBI_FLOATS
   for (int i = 0; i < 4; i++) {
@@ -118,7 +117,7 @@ void guMtxF2L(float mf[4][4], Mtx *m) {
 #else
   // N64 int32 packed format: pairs of columns interleaved.
   // The interpreter (GfxSpMatrix) reads this exact layout.
-  int32_t* addr = (int32_t*)m;
+  int32_t *addr = (int32_t *)m;
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 2; j++) {
       int32_t val0 = (int32_t)(mf[i][j * 2] * 65536.0f);
@@ -141,13 +140,16 @@ void guMtxL2F(float mf[4][4], Mtx *m) {
 #else
   // N64 int32 packed format: pairs of columns interleaved.
   // Must match guMtxF2L and the interpreter (GfxSpMatrix).
-  int32_t* addr = (int32_t*)m;
+  int32_t *addr = (int32_t *)m;
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 2; j++) {
       int32_t int_part = addr[i * 2 + j];
       uint32_t frac_part = (uint32_t)addr[8 + i * 2 + j];
-      mf[i][j * 2] = (int32_t)((int_part & 0xFFFF0000) | (frac_part >> 16)) / 65536.0f;
-      mf[i][j * 2 + 1] = (int32_t)(((int_part & 0xFFFF) << 16) | (frac_part & 0xFFFF)) / 65536.0f;
+      mf[i][j * 2] =
+          (int32_t)((int_part & 0xFFFF0000) | (frac_part >> 16)) / 65536.0f;
+      mf[i][j * 2 + 1] =
+          (int32_t)(((int_part & 0xFFFF) << 16) | (frac_part & 0xFFFF)) /
+          65536.0f;
     }
   }
 #endif

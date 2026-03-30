@@ -142,19 +142,23 @@ void PaperboatMenu::AddMenuEnhancements() {
 
   AddWidget(path, "Infinite Health", WIDGET_CVAR_CHECKBOX)
       .CVar(CVAR_CHEAT("InfiniteHealth"))
-      .Options(CheckboxOptions().Tooltip("Mario's HP won't decrease during battle."));
+      .Options(CheckboxOptions().Tooltip(
+          "Mario's HP won't decrease during battle."));
 
   AddWidget(path, "Infinite Flower Points", WIDGET_CVAR_CHECKBOX)
       .CVar(CVAR_CHEAT("InfiniteFlowerPoints"))
-      .Options(CheckboxOptions().Tooltip("Mario's FP won't decrease during battle."));
+      .Options(CheckboxOptions().Tooltip(
+          "Mario's FP won't decrease during battle."));
 
   AddWidget(path, "No Badge Cost", WIDGET_CVAR_CHECKBOX)
       .CVar(CVAR_CHEAT("NoBPCost"))
-      .Options(CheckboxOptions().Tooltip("Equip any badge regardless of BP cost."));
+      .Options(
+          CheckboxOptions().Tooltip("Equip any badge regardless of BP cost."));
 
   AddWidget(path, "Max Star Power", WIDGET_CVAR_CHECKBOX)
       .CVar(CVAR_CHEAT("MaxStarPower"))
-      .Options(CheckboxOptions().Tooltip("Star Power stays full and won't decrease."));
+      .Options(CheckboxOptions().Tooltip(
+          "Star Power stays full and won't decrease."));
 }
 
 } // namespace PaperboatGui

@@ -66,3 +66,4 @@ CLAUDE.md
 out/
 CMakeSettings.json
 CMakeUserPresets.json
+*.exe

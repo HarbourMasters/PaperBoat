@@ -227,7 +227,7 @@ void aADPCMdecImpl(uint8_t flags, ADPCM_STATE state, int nbytes, uint16_t inofs,
   __m128i prev_interleaved =
       _mm_set1_epi32((uint16_t)out[-2] | ((uint16_t)out[-1] << 16));
   //__m128i prev_interleaved = _mm_shuffle_epi32(_mm_loadu_si32(out - 2), 0); //
-  //GCC misses this?
+  // GCC misses this?
 #elif HAS_NEON
   int16x8_t result = vld1q_s16(out - 8);
 #endif
