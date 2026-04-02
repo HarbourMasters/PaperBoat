@@ -53,7 +53,7 @@ void PaperboatMenu::AddMenuSettings() {
   AddSidebarEntry("Settings", "General", 2);
   WidgetPath path = {"Settings", "General", SECTION_COLUMN_1};
 
-  // General - Settings
+  // Settings > General
   AddWidget(path, "Menu Settings", WIDGET_SEPARATOR_TEXT);
   AddWidget(path, "Menu Theme", WIDGET_CVAR_COMBOBOX)
       .CVar(CVAR_SETTING("Menu.Theme"))
@@ -147,7 +147,7 @@ void PaperboatMenu::AddMenuSettings() {
   //     AddWidget(path, GetGameVersionString(i), WIDGET_TEXT);
   // }
 
-  // Audio Settings
+  // Settings > Audio
   path.sidebarName = "Audio";
   path.column = SECTION_COLUMN_1;
   AddSidebarEntry("Settings", "Audio", 3);
@@ -200,7 +200,7 @@ void PaperboatMenu::AddMenuSettings() {
   AddWidget(path, "Audio API (Needs reload)", WIDGET_AUDIO_BACKEND)
       .RaceDisable(false);
 
-  // Graphics Settings
+  // Settings > Graphics
   static int32_t maxFps = 360;
   const char *tooltip = "Uses Matrix Interpolation to create extra frames, "
                         "resulting in smoother graphics. This is "
@@ -209,7 +209,7 @@ void PaperboatMenu::AddMenuSettings() {
                         "FPS than your monitor's refresh rate will waste "
                         "resources, and might give a worse result.";
   path.sidebarName = "Graphics";
-  AddSidebarEntry("Settings", "Graphics", 3);
+  AddSidebarEntry("Settings", "Graphics", 2);
   AddWidget(path, "Graphics Options", WIDGET_SEPARATOR_TEXT);
   AddWidget(path, "Toggle Fullscreen", WIDGET_BUTTON)
       .RaceDisable(false)
@@ -336,7 +336,7 @@ void PaperboatMenu::AddMenuSettings() {
   path.column = SECTION_COLUMN_2;
   AddWidget(path, "Advanced Graphics Options", WIDGET_SEPARATOR_TEXT);
 
-  // Controls
+  // Settings > Controls
   path.sidebarName = "Controls";
   path.column = SECTION_COLUMN_1;
   AddSidebarEntry("Settings", "Controls", 1);
@@ -365,9 +365,9 @@ void PaperboatMenu::AddMenuSettings() {
       .Options(WindowButtonOptions().Tooltip(
           "Enables the separate Bindings Window."));
 
-  // Input Viewer
+  // Settings > Input Viewer
   path.sidebarName = "Input Viewer";
-  AddSidebarEntry("Settings", path.sidebarName, 3);
+  AddSidebarEntry("Settings", path.sidebarName, 2);
   AddWidget(path, "Input Viewer", WIDGET_SEPARATOR_TEXT);
   AddWidget(path, "Toggle Input Viewer", WIDGET_WINDOW_BUTTON)
       .CVar(CVAR_WINDOW("InputViewer"))
@@ -390,7 +390,7 @@ void PaperboatMenu::AddMenuSettings() {
   // Notifications
   path.sidebarName = "Notifications";
   path.column = SECTION_COLUMN_1;
-  AddSidebarEntry("Settings", path.sidebarName, 3);
+  AddSidebarEntry("Settings", path.sidebarName, 2);
   AddWidget(path, "Position", WIDGET_CVAR_COMBOBOX)
       .CVar(CVAR_SETTING("Notifications.Position"))
       .RaceDisable(false)

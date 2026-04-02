@@ -26,9 +26,9 @@ void PaperboatMenu::AddMenuEnhancements() {
   // Add Enhancements Menu
   AddMenuEntry("Enhancements", CVAR_SETTING("Menu.EnhancementsSidebarSection"));
 
-  // Quality of Life
+  // Enhancements > Graphics
   WidgetPath path = {"Enhancements", "Graphics", SECTION_COLUMN_1};
-  AddSidebarEntry("Enhancements", "Graphics", 3);
+  AddSidebarEntry("Enhancements", "Graphics", 2);
 
   AddWidget(path, "Mods", WIDGET_SEPARATOR_TEXT);
   AddWidget(path, "Use Alternate Assets", WIDGET_CVAR_CHECKBOX)

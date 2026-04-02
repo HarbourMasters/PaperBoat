@@ -113,25 +113,29 @@ void EventDebuggerWindow::DrawElement() {
   }
 
   ImGui::PushFont(GameEngine::Instance->fontMonoLarger);
+  ImGui::Separator();
+  if (ImGui::BeginChild("EventDebugChild")) {
+      for (auto& [id, registry] : events) {
+          auto name = StringHelper::Sprintf("%s (ID: %d) [%d]", registry.name, id,
+              registry.listeners.size());
 
-  for (auto &[id, registry] : events) {
-    auto name = StringHelper::Sprintf("%s (ID: %d) [%d]", registry.name, id,
-                                      registry.listeners.size());
+          if (doingCollapseOrExpand) {
+              if (hookOptExpandAll) {
+                  collapseLogic = true;
+              }
+              else if (hookOptCollapseAll) {
+                  collapseLogic = false;
+              }
+              ImGui::SetNextItemOpen(collapseLogic, ImGuiCond_Always);
+          }
 
-    if (doingCollapseOrExpand) {
-      if (hookOptExpandAll) {
-        collapseLogic = true;
-      } else if (hookOptCollapseAll) {
-        collapseLogic = false;
+          if (ImGui::TreeNode(name.c_str())) {
+              DrawEventCallerInfo(name, registry);
+              DrawEventListenerInfo(name, registry);
+              ImGui::TreePop();
+          }
       }
-      ImGui::SetNextItemOpen(collapseLogic, ImGuiCond_Always);
-    }
-
-    if (ImGui::TreeNode(name.c_str())) {
-      DrawEventCallerInfo(name, registry);
-      DrawEventListenerInfo(name, registry);
-      ImGui::TreePop();
-    }
+      ImGui::EndChild();
   }
 
   ImGui::PopFont();
