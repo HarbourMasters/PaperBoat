@@ -1,35 +1,48 @@
 Using Namespace System
+
 $url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/LLVM-14.0.6-win64.exe"
 $llvmInstallerPath = ".\LLVM-14.0.6-win64.exe"
 $clangFormatFilePath = ".\clang-format.exe"
 $requiredVersion = "clang-format version 14.0.6"
 $currentVersion = ""
 
-function Test-7ZipInstalled {
-    $sevenZipPath = "C:\Program Files\7-Zip\7z.exe"
-    return Test-Path $sevenZipPath -PathType Leaf
+# --- Dynamically find 7-Zip anywhere in PATH ---
+function Get-7ZipPath {
+    $paths = $env:Path -split ';'
+    foreach ($p in $paths) {
+        $exe = Join-Path $p "7z.exe"
+        if (Test-Path $exe -PathType Leaf) {
+            return $exe
+        }
+    }
+	$defPath = "C:\\Program Files\\7-Zip\\7z.exe"
+	if (Test-Path $defPath -PathType Leaf) {
+		return $defPath;
+	}
+    return $null
 }
 
+# --- Check existing clang-format ---
 if (Test-Path $clangFormatFilePath) {
     $currentVersion = & $clangFormatFilePath --version
-    if (-not ($currentVersion -eq $requiredVersion)) {
-        # Delete the existing file if the version is incorrect
+    if ($currentVersion -ne $requiredVersion) {
         Remove-Item $clangFormatFilePath -Force
     }
 }
 
-if (-not (Test-Path $clangFormatFilePath) -or ($currentVersion -ne $requiredVersion)) {
-    if (-not (Test-7ZipInstalled)) {
-        Write-Host "7-Zip is not installed. Please install 7-Zip and run the script again."
-        exit
-    }
+$sevenZipPath = Get-7ZipPath
+if (-not $clangFormatFilePath -and -not $sevenZipPath) {
+    Write-Host "7-Zip is not installed or not on PATH. Please install 7-Zip and try again."
+    exit
+}
 
-    $wc = New-Object net.webclient
-    $wc.Downloadfile($url, $PSScriptRoot + $llvmInstallerPath)
+# --- Download and extract clang-format if needed ---
+if (-not (Test-Path $clangFormatFilePath)) {
+    $wc = New-Object Net.WebClient
+    $wc.DownloadFile($url, $PSScriptRoot + $llvmInstallerPath)
 
-    $sevenZipPath = "C:\Program Files\7-Zip\7z.exe"
     $specificFileInArchive = "bin\clang-format.exe"
-    & "$sevenZipPath" e $llvmInstallerPath $specificFileInArchive
+    & "$sevenZipPath" e $llvmInstallerPath $specificFileInArchive -aoa
 
     Remove-Item $llvmInstallerPath -Force
 }

@@ -58,12 +58,14 @@ class GameEngine {
     GameEngine();
     void StartFrame() const;
     static bool GenAssetFile(bool exitOnFail = true);
-    static void Create();
+    static void Create(int argc, char* argv[]);
     static void HandleAudioThread();
     static void StartAudioFrame();
     static void EndAudioFrame();
     static void AudioInit();
     static void AudioExit();
+    void FinishInit();
+    void RunExtract(int argc, char* argv[]);
     static void RunCommands(Gfx* Commands, const std::vector<std::unordered_map<Mtx*, MtxF>>& mtx_replacements);
     static void Destroy();
     static uint32_t GetInterpolationFPS();
@@ -99,12 +101,23 @@ extern "C" {
 #endif
 
 void* GameEngine_Malloc(size_t size);
+#ifdef __cplusplus
 void GameEngine_ProcessGfxCommands(Gfx* commands);
+#else
+// In C translation units the N64 typedefs may not be visible yet, so declare
+// with void* and let callers cast.  The actual definition in Engine.cpp uses
+// the real types.
+void GameEngine_ProcessGfxCommands(void* commands);
+#endif
 void GameEngine_LogInfo(const char* fmt, ...);
 void GameEngine_LogStackTrace(const char* label);
 
 // Controller input - reads all 4 pads from libultraship ControlDeck
+#ifdef __cplusplus
 void GameEngine_ReadController(OSContPad* pads);
+#else
+void GameEngine_ReadController(void* pads);
+#endif
 
 // Invalidate GPU texture cache entry for a specific RAM address.
 // Call when player raster cache overwrites a buffer with new image data,

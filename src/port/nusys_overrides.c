@@ -6,12 +6,12 @@
  * instead of actual N64 hardware.
  */
 
+#include "Engine.h"
 #include "common.h"
 #include "nu/nusys.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Engine.h"
 
 // Undefine macros so we can provide function implementations
 #undef nuGfxInit

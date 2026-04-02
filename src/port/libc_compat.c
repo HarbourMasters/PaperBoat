@@ -42,7 +42,5 @@ int _Printf(outfun prout, char *arg, const char *fmt, va_list args) {
 
 #ifdef _WIN32
 // bcopy for Windows
-void bcopy(const void* src, void* dest, size_t n) {
-    memmove(dest, src, n);
-}
+void bcopy(const void *src, void *dest, size_t n) { memmove(dest, src, n); }
 #endif

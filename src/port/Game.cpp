@@ -6,7 +6,7 @@
 #include "port/interpolation/FrameInterpolation.h"
 
 MtxF sInterpolationMatrixStack[0x1000];
-MtxF* gInterpolationMatrix = &sInterpolationMatrixStack[0];
+MtxF *gInterpolationMatrix = &sInterpolationMatrixStack[0];
 
 // Forward declarations for game C functions
 extern "C" {
@@ -30,7 +30,7 @@ extern "C"
     int
     main(int argc, char *argv[]) {
 #endif
-  GameEngine::Create();
+  GameEngine::Create(argc, argv);
 
   auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(
       Ship::Context::GetInstance()->GetWindow());
@@ -46,7 +46,7 @@ extern "C"
   while (wnd->IsRunning()) {
     GameEngine::Instance->StartFrame(); // Handle input/hotkeys
     FrameInterpolation_StartRecord();
-    Graphics_ThreadUpdate();            // Game logic + build DL + submit
+    Graphics_ThreadUpdate(); // Game logic + build DL + submit
     FrameInterpolation_StopRecord();
   }
 

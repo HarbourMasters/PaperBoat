@@ -7,12 +7,8 @@
     },
     "configurePresets": [
         {
-            "name": "windows-base",
+            "name": "base-windows",
             "hidden": true,
-            "architecture": {
-                "value": "x64",
-                "strategy": "set"
-            },
             "cacheVariables": {
                 "VCPKG_TARGET_TRIPLET": "x64-windows-static"
             },
@@ -23,68 +19,104 @@
             }
         },
         {
-            "name": "windows-vs-debug",
-            "displayName": "ClangCL Debug (Visual Studio)",
-            "description": "Visual Studio 2022 with ClangCL toolset, Debug, x64",
-            "inherits": "windows-base",
-            "generator": "Visual Studio 17 2022",
-            "toolset": "ClangCL",
-            "binaryDir": "${sourceDir}/build/x64"
+            "name": "base-posix",
+            "hidden": true,
+            "condition": {
+                "type": "notEquals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
         },
         {
-            "name": "windows-vs-release",
-            "displayName": "ClangCL Release (Visual Studio)",
-            "description": "Visual Studio 2022 with ClangCL toolset, Release, x64",
-            "inherits": "windows-base",
-            "generator": "Visual Studio 17 2022",
-            "toolset": "ClangCL",
-            "binaryDir": "${sourceDir}/build/x64"
-        },
-        {
-            "name": "windows-ninja-debug",
-            "displayName": "Ninja Debug (CLI)",
-            "description": "Ninja generator, Debug, x64",
-            "inherits": "windows-base",
+            "name": "clang-base",
+            "hidden": true,
+            "inherits": "base-windows",
             "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build",
+            "toolchainFile": "${sourceDir}/cmake/toolchains/windows-clang-cl.cmake"
+        },
+        {
+            "name": "windows-debug",
+            "displayName": "Debug (Windows Clang)",
+            "description": "Supported Windows build: Ninja + clang-cl, Debug, x64",
+            "inherits": "clang-base",
+            "binaryDir": "${sourceDir}/build/windows-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
             }
         },
         {
-            "name": "windows-ninja-release",
-            "displayName": "Ninja Release (CLI)",
-            "description": "Ninja generator, Release, x64",
-            "inherits": "windows-base",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build",
+            "name": "windows-release",
+            "displayName": "Release (Windows Clang)",
+            "description": "Supported Windows build: Ninja + clang-cl, Release, x64",
+            "inherits": "clang-base",
+            "binaryDir": "${sourceDir}/build/windows-release",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
+        },
+        {
+            "name": "ninja-debug",
+            "displayName": "Debug (Ninja)",
+            "description": "Generic Ninja generator, Debug",
+            "inherits": "base-posix",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/ninja-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "ninja-release",
+            "displayName": "Release (Ninja)",
+            "description": "Generic Ninja generator, Release",
+            "inherits": "base-posix",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/ninja-release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "clang-debug",
+            "hidden": true,
+            "inherits": "windows-debug"
+        },
+        {
+            "name": "clang-release",
+            "hidden": true,
+            "inherits": "windows-release"
         }
     ],
     "buildPresets": [
         {
-            "name": "windows-vs-debug",
-            "displayName": "Build Debug (Visual Studio)",
-            "configurePreset": "windows-vs-debug",
-            "configuration": "Debug"
+            "name": "windows-debug",
+            "displayName": "Build Debug (Windows Clang)",
+            "configurePreset": "windows-debug"
         },
         {
-            "name": "windows-vs-release",
-            "displayName": "Build Release (Visual Studio)",
-            "configurePreset": "windows-vs-release",
-            "configuration": "Release"
+            "name": "windows-release",
+            "displayName": "Build Release (Windows Clang)",
+            "configurePreset": "windows-release"
         },
         {
-            "name": "windows-ninja-debug",
+            "name": "ninja-debug",
             "displayName": "Build Debug (Ninja)",
-            "configurePreset": "windows-ninja-debug"
+            "configurePreset": "ninja-debug"
         },
         {
-            "name": "windows-ninja-release",
+            "name": "ninja-release",
             "displayName": "Build Release (Ninja)",
-            "configurePreset": "windows-ninja-release"
+            "configurePreset": "ninja-release"
+        },
+        {
+            "name": "clang-debug",
+            "hidden": true,
+            "configurePreset": "clang-debug"
+        },
+        {
+            "name": "clang-release",
+            "hidden": true,
+            "configurePreset": "clang-release"
         }
     ]
 }

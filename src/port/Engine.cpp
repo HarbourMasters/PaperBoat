@@ -1,12 +1,18 @@
 #include "Engine.h"
 
 #include "ShipInit.hpp"
+#include "extractor/GameExtractor.h"
 #include "importer/PM64TextureFactory.h"
 #include "importer/Vec3sFactory.h"
+#include "nlohmann/json.hpp"
 #include "port/enhancements/PortEnhancements.h"
+#include "port/interpolation/FrameInterpolation.h"
 #include "port/ui/cvar_prefixes.h"
 #include "src/Companion.h"
 #include "ui/PaperboatGui.hpp"
+#include <BS_thread_pool.hpp>
+#include <algorithm>
+#include <atomic>
 #include <cstdarg>
 #include <fast/Fast3dWindow.h>
 #include <fast/interpreter.h>
@@ -18,15 +24,16 @@
 #include <fast/resource/factory/VertexFactory.h>
 #include <filesystem>
 #include <fstream>
+#include <imgui.h>
 #include <libultraship.h>
 #include <libultraship/controller/controldeck/ControlDeck.h>
 #include <mutex>
+#include <optional>
 #include <ship/resource/factory/BlobFactory.h>
 #include <ship/window/gui/Fonts.h>
 #include <ship/window/gui/resource/Font.h>
+#include <thread>
 #include <unordered_map>
-#include "port/interpolation/FrameInterpolation.h"
-#include "nlohmann/json.hpp"
 
 using json = nlohmann::json;
 
@@ -63,61 +70,138 @@ extern "C" {
 extern Gfx *gMainGfxPos;
 }
 
-static void ExtractAssets(const std::string &romPath,
-                          const std::string &outputPath) {
-  std::ifstream file(romPath, std::ios::binary);
-  std::vector<uint8_t> romData(std::istreambuf_iterator<char>(file), {});
-  file.close();
+static bool portArchiveExists = false;
+static const std::vector<std::string> sRomArchives = {"pm64.o2r"};
 
-  std::string assetsDir = Ship::Context::GetAppBundlePath();
-  std::string destDir = Ship::Context::GetAppDirectoryPath();
+typedef enum ExtractSteps {
+  ES_PORT_ARCHIVE,
+  ES_WINDOWS,
+  ES_EXTRACT_ARGS,
+  ES_EXTRACT,
+  ES_VERIFY,
+} ExtractSteps;
 
-  Companion::Instance =
-      new Companion(romData, ArchiveType::O2R, false, assetsDir, destDir);
-  Companion::Instance->Init(ExportType::Binary);
+typedef enum PromptSteps {
+  PS_FILE_CHECK,
+  PS_LOCAL,
+  PS_FIRST,
+  PS_DUPE,
+  PS_WAIT,
+  PS_NONE,
+} PromptSteps;
+
+typedef enum WindowsSteps {
+  WS_TEMP,
+  WS_PERMS,
+  WS_ONEDRIVE,
+  WS_DONE,
+} WindowsSteps;
+
+static bool IsSubpath(const std::filesystem::path &path,
+                      const std::filesystem::path &base) {
+  auto rel = std::filesystem::relative(path, base);
+  return !rel.empty() && rel.native()[0] != '.';
+}
+
+static bool PathTestCleanup(FILE *tfile) {
+  try {
+    if (std::filesystem::exists("./text.txt")) {
+      std::filesystem::remove("./text.txt");
+    }
+    if (std::filesystem::exists("./test/")) {
+      std::filesystem::remove("./test/");
+    }
+  } catch (std::filesystem::filesystem_error const &ex) {
+    return false;
+  }
+  return true;
+}
+
+static void CheckAndCreateModFolder() {
+  try {
+    std::string modsPath =
+        Ship::Context::LocateFileAcrossAppDirs("mods", "boat");
+    if (!std::filesystem::exists(modsPath)) {
+      modsPath = Ship::Context::GetPathRelativeToAppDirectory("mods", "boat");
+      std::string filePath = modsPath + "/custom_mod_files_go_here.txt";
+      if (std::filesystem::create_directories(modsPath)) {
+        std::ofstream(filePath).close();
+      }
+    }
+  } catch (std::filesystem::filesystem_error const &ex) {
+    return;
+  }
+}
+
+static bool AnyRomArchiveExists() {
+  for (const auto &archive : sRomArchives) {
+    if (std::filesystem::exists(
+            Ship::Context::LocateFileAcrossAppDirs(archive))) {
+      return true;
+    }
+  }
+  return false;
 }
 
 GameEngine::GameEngine() {
   this->context = Ship::Context::CreateUninitializedInstance(
       "Paperboat", "boat", "paperboat.cfg.json");
 
-  std::vector<std::string> archiveFiles;
-  const std::string main_path =
-      Ship::Context::GetPathRelativeToAppDirectory("pm64.o2r");
   const std::string assets_path =
       Ship::Context::LocateFileAcrossAppDirs("paperboat.o2r");
+  portArchiveExists = std::filesystem::exists(assets_path);
 
 #ifdef _WIN32
   AllocConsole();
 #endif
 
-  if (std::filesystem::exists(main_path)) {
-    archiveFiles.push_back(main_path);
-  } else {
-    const std::string rom_path =
-        Ship::Context::GetPathRelativeToAppDirectory("baserom.z64");
-    if (std::filesystem::exists(rom_path)) {
-      SPDLOG_INFO("Extracting assets from baserom.z64...");
-      ExtractAssets(rom_path, main_path);
-      archiveFiles.push_back(main_path);
-    } else {
-      SPDLOG_ERROR(
-          "pm64.o2r not found and baserom.z64 not present. Cannot continue.");
-      exit(1);
-    }
+  this->context->InitConfiguration();
+  this->context->InitConsoleVariables();
+  auto controlDeck = std::make_shared<LUS::ControlDeck>();
+  this->context->InitControlDeck(controlDeck);
+  this->context->InitResourceManager(portArchiveExists
+                                         ? std::vector<std::string>{assets_path}
+                                         : std::vector<std::string>{},
+                                     {}, 3, true);
+  this->context->InitConsole();
+  gsFast3dWindow = std::make_shared<Fast::Fast3dWindow>(
+      std::vector<std::shared_ptr<Ship::GuiWindow>>({}));
+  this->context->InitWindow(gsFast3dWindow);
+  PaperboatGui::SetupMenu();
+
+  if (portArchiveExists) {
+    fontMono = CreateFontWithSize(16.0f, "fonts/Inconsolata-Regular.ttf");
+    fontMonoLarger = CreateFontWithSize(20.0f, "fonts/Inconsolata-Regular.ttf");
+    fontMonoLargest =
+        CreateFontWithSize(24.0f, "fonts/Inconsolata-Regular.ttf");
+    fontStandard = CreateFontWithSize(16.0f, "fonts/Montserrat-Regular.ttf");
+    fontStandardLarger =
+        CreateFontWithSize(20.0f, "fonts/Montserrat-Regular.ttf");
+    fontStandardLargest =
+        CreateFontWithSize(24.0f, "fonts/Montserrat-Regular.ttf");
+    ImGui::GetIO().FontDefault = fontStandardLarger;
   }
 
-  if (std::filesystem::exists(assets_path)) {
-    archiveFiles.push_back(assets_path);
-  } else {
-    // Log
+  previousImGuiScaleIndex = -1;
+  previousImGuiScale = defaultImGuiScale;
+  ScaleImGui();
+}
+
+void GameEngine::FinishInit() {
+  auto archiveManager = context->GetResourceManager()->GetArchiveManager();
+
+  for (const auto &archive : sRomArchives) {
+    const auto romPath = Ship::Context::LocateFileAcrossAppDirs(archive);
+    if (std::filesystem::exists(romPath)) {
+      archiveManager->AddArchive(romPath);
+    }
   }
 
   const std::string hd_path =
       Ship::Context::GetPathRelativeToAppDirectory("paperboat-hd.o2r");
   if (std::filesystem::exists(hd_path)) {
     SPDLOG_INFO("Loading HD asset archive: paperboat-hd.o2r");
-    archiveFiles.push_back(hd_path);
+    archiveManager->AddArchive(hd_path);
   }
 
   const std::string mods_path =
@@ -136,41 +220,24 @@ GameEngine::GameEngine() {
     std::sort(mod_archives.begin(), mod_archives.end());
     for (const auto &mod : mod_archives) {
       SPDLOG_INFO("Loading mod archive: {}", mod);
-      archiveFiles.push_back(mod);
+      archiveManager->AddArchive(mod);
     }
   }
 
-  this->context->InitConfiguration();
-  this->context->InitConsoleVariables();
-
-  this->context->InitResourceManager(archiveFiles, {}, 3);
-  this->context->InitConsole();
-  this->context->InitCrashHandler();
-
-  this->context->InitGfxDebugger();
-
   this->context->InitLogging(spdlog::level::trace, spdlog::level::trace);
-  this->context->InitConsoleVariables();
-
-  // ControlDeck is needed by window keyboard callbacks
-  auto controlDeck = std::make_shared<LUS::ControlDeck>();
-  auto window = std::make_shared<Fast::Fast3dWindow>(
-      std::vector<std::shared_ptr<Ship::GuiWindow>>({}));
+  this->context->InitGfxDebugger();
+  this->context->InitCrashHandler();
 
   auto audioChannelsSetting = Ship::Context::GetInstance()
                                   ->GetConfig()
                                   ->GetCurrentAudioChannelsSetting();
-  this->context->Init(archiveFiles, {}, 3,
-                      {32000, 1024, 1680, audioChannelsSetting}, window,
-                      controlDeck);
+  this->context->InitAudio({32000, 1024, 1680, audioChannelsSetting});
 
   auto loader = context->GetResourceManager()->GetResourceLoader();
   loader->RegisterResourceFactory(
       std::make_shared<Ship::ResourceFactoryBinaryBlobV0>(),
       RESOURCE_FORMAT_BINARY, "Blob",
       static_cast<uint32_t>(Ship::ResourceType::Blob), 0);
-
-  // TODO: Use v0 or v1 factory
   loader->RegisterResourceFactory(
       std::make_shared<PM64::ResourceFactoryBinaryTextureV0>(),
       RESOURCE_FORMAT_BINARY, "Texture",
@@ -197,31 +264,7 @@ GameEngine::GameEngine() {
       static_cast<uint32_t>(Fast::ResourceType::Matrix), 0);
   loader->RegisterResourceFactory(
       std::make_shared<PM64::ResourceFactoryBinaryVec3sV0>(),
-      RESOURCE_FORMAT_BINARY, "Vec3s",
-      static_cast<uint32_t>(0x56433353), 0);  // VC3S
-
-  PaperboatGui::SetupMenu();
-
-  if (std::filesystem::exists(assets_path)) {
-    fontMono = CreateFontWithSize(16.0f, "fonts/Inconsolata-Regular.ttf");
-    fontMonoLarger = CreateFontWithSize(20.0f, "fonts/Inconsolata-Regular.ttf");
-    fontMonoLargest =
-        CreateFontWithSize(24.0f, "fonts/Inconsolata-Regular.ttf");
-    fontStandard = CreateFontWithSize(16.0f, "fonts/Montserrat-Regular.ttf");
-    fontStandardLarger =
-        CreateFontWithSize(20.0f, "fonts/Montserrat-Regular.ttf");
-    fontStandardLargest =
-        CreateFontWithSize(24.0f, "fonts/Montserrat-Regular.ttf");
-    ImGui::GetIO().FontDefault = fontStandardLarger;
-  }
-
-  previousImGuiScaleIndex = -1;
-  previousImGuiScale = defaultImGuiScale;
-  ScaleImGui();
-
-  PaperboatGui::SetupGuiElements();
-  PortEnhancements_Init();
-  ShipInit::InitAll();
+      RESOURCE_FORMAT_BINARY, "Vec3s", static_cast<uint32_t>(0x56433353), 0);
 }
 
 bool GameEngine::GenAssetFile(bool exitOnFail) { return false; }
@@ -280,8 +323,444 @@ void GameEngine::ScaleImGui() {
   previousImGuiScaleIndex = imGuiScaleIndex;
 }
 
-void GameEngine::Create() {
+void GameEngine::RunExtract(int argc, char *argv[]) {
+  bool extractDone = false;
+  ExtractSteps extractStep = ES_PORT_ARCHIVE;
+  WindowsSteps windowsStep = WS_TEMP;
+  auto wnd =
+      std::dynamic_pointer_cast<Fast::Fast3dWindow>(context->GetWindow());
+  auto gui = wnd->GetGui();
+  bool menuWasVisible = false;
+  if (gui->GetMenu()->IsVisible()) {
+    menuWasVisible = true;
+    gui->GetMenu()->Hide();
+  }
+
+  std::vector<std::string> args;
+  if (argc > 1) {
+    for (int i = 1; i < argc; i++) {
+      args.push_back(argv[i]);
+    }
+  }
+
+  GameExtractor extract;
+  PromptSteps promptStep = PS_FILE_CHECK;
+  std::atomic<bool> extracting = false;
+  bool extractStarted = false;
+  std::atomic<size_t> extractCount{0}, totalExtract{0};
+  std::string installPath = Ship::Context::GetAppBundlePath();
+  std::string file;
+  std::filesystem::path ownPath;
+
+  if (!std::filesystem::exists(
+          Ship::Context::LocateFileAcrossAppDirs("assets"))) {
+    PaperboatGui::RegisterPopup(
+        "Extractor assets not found",
+        "No O2R files found. Missing 'assets/' folder needed to generate O2R "
+        "file.\nPlease re-extract them from the download.\n\nExiting...",
+        "OK", "", [&]() {
+          gsFast3dWindow = nullptr;
+          context = nullptr;
+          exit(1);
+        });
+  }
+
+  std::shared_ptr<BS::thread_pool> threadPool =
+      std::make_shared<BS::thread_pool>(1);
+
+  while (!extractDone) {
+    if (PaperboatGui::PopupsQueued() > 0 || extracting) {
+      goto render;
+    }
+
+    if (extractStep == ES_EXTRACT && promptStep == PS_FIRST && extractStarted &&
+        !extracting) {
+      extractStep = ES_VERIFY;
+      extractCount = 0;
+      totalExtract = 0;
+    }
+
+    switch (extractStep) {
+    case ES_PORT_ARCHIVE: {
+      if (portArchiveExists) {
+#ifdef _WIN32
+        extractStep = ES_WINDOWS;
+#else
+        extractStep = ES_EXTRACT;
+#endif
+      } else {
+        PaperboatGui::RegisterPopup(
+            !std::filesystem::exists(
+                Ship::Context::LocateFileAcrossAppDirs("paperboat.o2r"))
+                ? "Missing paperboat.o2r"
+                : "paperboat.o2r is outdated",
+            "Please extract the paperboat.o2r from the PaperBoat download to "
+            "your folder.\n\nExiting...",
+            "OK", "", [&]() { exit(1); });
+      }
+      continue;
+    }
+    case ES_WINDOWS: {
+      switch (windowsStep) {
+      case WS_TEMP: {
+#ifdef _WIN32
+        char *tempVar = getenv("TEMP");
+        std::filesystem::path tempPath;
+        try {
+          tempPath = std::filesystem::canonical(tempVar);
+        } catch (std::filesystem::filesystem_error const &ex) {
+          std::string userPath = getenv("USERPROFILE");
+          userPath.append("\\AppData\\Local\\Temp");
+          tempPath = std::filesystem::canonical(userPath);
+        }
+        wchar_t buffer[MAX_PATH];
+        GetModuleFileName(NULL, buffer, _countof(buffer));
+        ownPath = std::filesystem::canonical(buffer).parent_path();
+        if (IsSubpath(ownPath, tempPath)) {
+          PaperboatGui::RegisterPopup(
+              "PaperBoat Path Error",
+              "PaperBoat is running in a temp folder.\nExtract the .zip and "
+              "run again.",
+              "OK", "", [&]() {
+                threadPool = nullptr;
+                gsFast3dWindow = nullptr;
+                context = nullptr;
+                exit(0);
+              });
+        } else {
+          windowsStep = WS_PERMS;
+        }
+#endif
+        continue;
+      }
+      case WS_PERMS: {
+        FILE *tfile = fopen("./text.txt", "w");
+        std::filesystem::path tfolder = std::filesystem::path("./test/");
+        bool error = false;
+        try {
+          std::filesystem::create_directories(tfolder);
+        } catch (std::filesystem::filesystem_error const &ex) {
+          error = true;
+        }
+        if (tfile == NULL || error) {
+          PaperboatGui::RegisterPopup(
+              "PaperBoat Permissions Error",
+              "PaperBoat does not have proper file permissions.\nPlease move "
+              "it to a folder that does and run again.",
+              "OK", "", [&]() {
+                if (tfile != NULL) {
+                  fclose(tfile);
+                }
+                PathTestCleanup(tfile);
+                threadPool = nullptr;
+                gsFast3dWindow = nullptr;
+                context = nullptr;
+                exit(0);
+              });
+        } else {
+          fclose(tfile);
+          if (!PathTestCleanup(tfile)) {
+            PaperboatGui::RegisterPopup(
+                "PaperBoat Permissions Error",
+                "PaperBoat does not have proper file permissions.\nPlease move "
+                "it to a folder that does and run again.",
+                "OK", "", [&]() {
+                  threadPool = nullptr;
+                  gsFast3dWindow = nullptr;
+                  context = nullptr;
+                  exit(0);
+                });
+          }
+          windowsStep = WS_ONEDRIVE;
+        }
+        continue;
+      }
+      case WS_ONEDRIVE: {
+        if (ownPath.string().find("OneDrive") != std::string::npos) {
+          PaperboatGui::RegisterPopup(
+              "PaperBoat Path Error",
+              "PaperBoat appears to be in a OneDrive folder, which will cause "
+              "issues.\nPlease move it to a folder outside of OneDrive, like "
+              "the root of a\ndrive (e.g. \"C:\\Games\\PaperBoat\").",
+              "OK", "", [&]() {
+                threadPool = nullptr;
+                gsFast3dWindow = nullptr;
+                context = nullptr;
+                exit(0);
+              });
+        } else {
+          windowsStep = WS_DONE;
+          if (!args.empty()) {
+            extractStep = ES_EXTRACT_ARGS;
+          } else {
+            extractStep = ES_EXTRACT;
+          }
+        }
+        continue;
+      }
+      default:
+        continue;
+      }
+      break;
+    }
+    case ES_EXTRACT: {
+      switch (promptStep) {
+      case PS_FILE_CHECK: {
+        if (!AnyRomArchiveExists()) {
+          PaperboatGui::RegisterPopup(
+              "No O2R Files", "No O2R files found. Generate one now?", "Yes",
+              "No", [&]() { promptStep = PS_LOCAL; },
+              [&]() {
+                threadPool = nullptr;
+                gsFast3dWindow = nullptr;
+                context = nullptr;
+                exit(0);
+              });
+        } else {
+          extractStep = ES_VERIFY;
+        }
+        continue;
+      }
+      case PS_LOCAL: {
+        extract = GameExtractor();
+        extract.SetSearchPath(installPath);
+        extract.GetRoms(args);
+        extract.SetSearchPath(Ship::Context::GetAppDirectoryPath("boat"));
+        extract.GetRoms(args);
+        if (!args.empty()) {
+          promptStep = PS_WAIT;
+          PaperboatGui::RegisterPopup(
+              "ROMs found",
+              "ROMs found in application directory. Would you like to process "
+              "them?",
+              "Yes", "No", [&]() { extractStep = ES_EXTRACT_ARGS; },
+              [&]() {
+                args.clear();
+                promptStep = PS_FIRST;
+              });
+        } else {
+          promptStep = PS_FIRST;
+        }
+        continue;
+      }
+      case PS_FIRST: {
+        if (args.empty() && !extract.SelectGameFromUI()) {
+          promptStep = PS_FILE_CHECK;
+          continue;
+        }
+        extracting = true;
+        extractStarted = true;
+        file = extract.GetRomPath();
+        threadPool->submit_task([&]() -> void {
+          extract.GenerateOTR(extractCount, totalExtract, "boat");
+          extracting = false;
+        });
+        continue;
+      }
+      default:
+        break;
+      }
+      break;
+    }
+    case ES_EXTRACT_ARGS: {
+#if !defined(__SWITCH__) && !defined(__WIIU__)
+      if (args.size() == 0) {
+        PaperboatGui::RegisterPopup(
+            "Run PaperBoat", "All files have been processed. Run PaperBoat?",
+            "Yes", "No",
+            [&]() {
+              if (!AnyRomArchiveExists()) {
+                extractStep = ES_EXTRACT;
+                promptStep = PS_FILE_CHECK;
+              } else {
+                extractStep = ES_VERIFY;
+              }
+            },
+            [&]() {
+              threadPool = nullptr;
+              gsFast3dWindow = nullptr;
+              context = nullptr;
+              exit(0);
+            });
+        break;
+      }
+      file = args.at(0);
+      args.erase(args.begin());
+      extract = GameExtractor();
+      if (extract.RunStandalone(file)) {
+        std::string archive = "pm64.o2r";
+        if (std::filesystem::exists(Ship::Context::GetAppDirectoryPath("boat") +
+                                    "/" + archive)) {
+          std::string msg = "Archive for current ROM, " + archive +
+                            ", already exists.\nExtract again?";
+          PaperboatGui::RegisterPopup(
+              "Confirm Re-extract", msg.c_str(), "Yes", "No", [&]() {
+                extracting = true;
+                threadPool->submit_task([&]() -> void {
+                  extract.GenerateOTR(extractCount, totalExtract, "boat");
+                  extracting = false;
+                });
+              });
+        } else {
+          extracting = true;
+          threadPool->submit_task([&]() -> void {
+            extract.GenerateOTR(extractCount, totalExtract, "boat");
+            extracting = false;
+          });
+        }
+      } else {
+        const std::string msg =
+            "File\n" + file +
+            "\nis not a ROM or does not match supported ROMs.";
+        PaperboatGui::RegisterPopup("PaperBoat ROM Error", msg.c_str());
+      }
+#else
+      extractStep = ES_VERIFY;
+#endif
+      break;
+    }
+    case ES_VERIFY: {
+      if (!AnyRomArchiveExists()) {
+        if (PaperboatGui::PopupsQueued() == 0) {
+          std::string errorMsg;
+          if (!GameExtractor::sLastError.empty()) {
+            std::string wrapped = GameExtractor::sLastError;
+            const size_t wrapCol = 80;
+            size_t pos = 0;
+            while (pos + wrapCol < wrapped.size()) {
+              size_t breakAt = wrapped.rfind(' ', pos + wrapCol);
+              if (breakAt == std::string::npos || breakAt <= pos) {
+                breakAt = pos + wrapCol;
+              }
+              wrapped.insert(breakAt, "\n");
+              pos = breakAt + 1;
+            }
+            errorMsg = "ROM extraction failed:\n\n" + wrapped +
+                       "\n\nCheck logs/Paperboat.log for full details.";
+          } else {
+            errorMsg = "No ROM O2R file detected.\nPlease generate a ROM O2R "
+                       "and relaunch.";
+          }
+          PaperboatGui::RegisterPopup("Extraction Error", errorMsg.c_str(),
+                                      "OK", "", [&]() {
+                                        threadPool = nullptr;
+                                        gsFast3dWindow = nullptr;
+                                        context = nullptr;
+                                        exit(0);
+                                      });
+        }
+        continue;
+      }
+      extractDone = true;
+      continue;
+    }
+    default:
+      break;
+    }
+
+  render:
+    if (!WindowIsRunning()) {
+      threadPool = nullptr;
+      gsFast3dWindow = nullptr;
+      context = nullptr;
+      exit(0);
+    }
+
+    wnd->HandleEvents();
+    UIWidgets::Colors themeColor =
+        static_cast<UIWidgets::Colors>(CVarGetInteger(
+            CVAR_SETTING("Menu.Theme"), UIWidgets::Colors::LightBlue));
+    ImGui::PushStyleColor(ImGuiCol_TitleBgActive,
+                          UIWidgets::ColorValues.at(themeColor));
+    ImGui::PushStyleColor(
+        ImGuiCol_ModalWindowDimBg,
+        UIWidgets::ColorValues.at(UIWidgets::Colors::DarkGray));
+    if (!wnd->IsFrameReady()) {
+      ImGui::PopStyleColor(2);
+      continue;
+    }
+
+    gui->StartDraw();
+    wnd->StartFrame();
+    wnd->RunGuiOnly();
+    if (extracting && !ImGui::IsPopupOpen("ROM Extraction")) {
+      ImGui::OpenPopup("ROM Extraction");
+    }
+    if (extracting) {
+      ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.0f);
+      ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.0f, 8.0f));
+      auto color = UIWidgets::ColorValues.at(THEME_COLOR);
+      ImGui::PushStyleColor(ImGuiCol_FrameBg,
+                            ImVec4(color.x, color.y, color.z, 0.6f));
+      ImGui::PushStyleColor(ImGuiCol_PlotHistogram,
+                            ImVec4(color.x, color.y, color.z, 1.0f));
+      ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.0f, 0.0f, 0.0f, 0.3f));
+      if (ImGui::BeginPopupModal(
+              "ROM Extraction", NULL,
+              ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize |
+                  ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
+                  ImGuiWindowFlags_NoSavedSettings)) {
+        int phase = GameExtractor::sPhase;
+        float progress = 0.0f;
+        if (phase == 3) {
+          progress = 100.0f;
+        } else {
+          progress =
+              (totalExtract > 0 ? (float)extractCount / (float)totalExtract
+                                : 0.0f) *
+              100.0f;
+          if (progress > 100.0f) {
+            progress = 100.0f;
+          }
+        }
+
+        auto filename = std::filesystem::path(file).filename().string();
+        if (phase == 3) {
+          ImGui::Text("Done!");
+        } else if (phase >= 1) {
+          ImGui::Text("Processing %s...", filename.c_str());
+        } else {
+          ImGui::Text("Starting up...");
+        }
+
+        std::string overlay;
+        if (totalExtract > 0 && extractCount > 0) {
+          overlay = fmt::format("{:.0f}%", progress);
+        } else if (phase >= 1) {
+          overlay = "Reading ROM, please wait...";
+        } else {
+          overlay = "Starting up...";
+        }
+        ImGui::ProgressBar(progress / 100.0f, ImVec2(600.0f, 50.0f),
+                           overlay.c_str());
+        ImGui::EndPopup();
+      }
+      ImGui::PopStyleColor(3);
+      ImGui::PopStyleVar(2);
+    }
+    gui->EndDraw();
+    wnd->EndFrame();
+    ImGui::PopStyleColor(2);
+  }
+
+  threadPool = nullptr;
+
+#if !defined(__SWITCH__) && !defined(__WIIU__)
+  CheckAndCreateModFolder();
+#endif
+
+  if (menuWasVisible) {
+    gui->GetMenu()->Show();
+  }
+}
+
+void GameEngine::Create(int argc, char *argv[]) {
   const auto instance = Instance = new GameEngine();
+  instance->RunExtract(argc, argv);
+  instance->FinishInit();
+  PaperboatGui::SetupGuiElements();
+  PortEnhancements_Init();
+  ShipInit::InitAll();
   instance->AudioInit();
 }
 
@@ -335,9 +814,7 @@ uint32_t GameEngine::GetInterpolationFPS() {
   }
 
   if (CVarGetInteger(CVAR_VSYNC_ENABLED, 1) ||
-             !Ship::Context::GetInstance()
-                  ->GetWindow()
-                  ->CanDisableVerticalSync()) {
+      !Ship::Context::GetInstance()->GetWindow()->CanDisableVerticalSync()) {
     return std::min<uint32_t>(
         Ship::Context::GetInstance()->GetWindow()->GetCurrentRefreshRate(),
         CVarGetInteger(CVAR_SETTING("InterpolationFPS"), 30));
@@ -477,7 +954,7 @@ void GameEngine::ProcessGfxCommands(Gfx *commands) {
   // Set microcode handler
   wnd->SetRendererUCode(UcodeHandlers::ucode_f3dex2);
 
-  std::vector<std::unordered_map<Mtx*, MtxF>> mtx_replacements;
+  std::vector<std::unordered_map<Mtx *, MtxF>> mtx_replacements;
 
   int target_fps = GetInterpolationFPS();
   static int last_fps;
@@ -486,28 +963,29 @@ void GameEngine::ProcessGfxCommands(Gfx *commands) {
   int original_fps = 60 / 2;
 
   if (target_fps == 30 || original_fps > target_fps) {
-      fps = original_fps;
+    fps = original_fps;
   }
 
   if (last_fps != fps) {
-      time = 0;
+    time = 0;
   }
 
   int next_original_frame = fps;
   while (time + original_fps <= next_original_frame) {
-      time += original_fps;
-      if (time != next_original_frame) {
-          mtx_replacements.push_back(FrameInterpolation_Interpolate((float)time / next_original_frame));
-      } else {
-          mtx_replacements.emplace_back(); // No interpolation for key frames
-      }
+    time += original_fps;
+    if (time != next_original_frame) {
+      mtx_replacements.push_back(
+          FrameInterpolation_Interpolate((float)time / next_original_frame));
+    } else {
+      mtx_replacements.emplace_back(); // No interpolation for key frames
+    }
   }
 
   time -= fps;
 
   if (wnd != nullptr) {
-      wnd->SetTargetFps(GetInterpolationFPS());
-      wnd->SetMaximumFrameLatency(1);
+    wnd->SetTargetFps(GetInterpolationFPS());
+    wnd->SetMaximumFrameLatency(1);
   }
   RunCommands(commands, mtx_replacements);
 
@@ -592,8 +1070,8 @@ extern "C" void GameEngine_LogStackTrace(const char *label) {
       char *symbol = symbols[i];
       char *demangled = nullptr;
 
-      // macOS format: "1   Paperboat  0x00000001000abcde _Z12someFunctionv + 42"
-      // Try to extract and demangle the symbol name
+      // macOS format: "1   Paperboat  0x00000001000abcde _Z12someFunctionv +
+      // 42" Try to extract and demangle the symbol name
       char *start = strchr(symbol, '_');
       if (start) {
         char *end = strchr(start, ' ');

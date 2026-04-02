@@ -2,32 +2,36 @@
 
 #define INIT_EVENT_IDS
 
-#include "port/hooks/Events.h"
 #include "port/ShipUtils.h"
+#include "port/hooks/Events.h"
 #include "port/ui/cvar_prefixes.h"
 
 void PortEnhancements_Init() {
   PortEnhancements_Register();
 
   // Cheats
-  REGISTER_LISTENER(PlayerDamage, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
-    if (!CVarGetInteger(CVAR_PREFIX_CHEAT ".InfiniteHealth", 0)) return;
-    PlayerDamage* ev = (PlayerDamage*)event;
+  REGISTER_LISTENER(PlayerDamage, EVENT_PRIORITY_NORMAL, [](IEvent *event) {
+    if (!CVarGetInteger(CVAR_PREFIX_CHEAT ".InfiniteHealth", 0))
+      return;
+    PlayerDamage *ev = (PlayerDamage *)event;
     *ev->damage = 0;
   });
 
-  REGISTER_LISTENER(PlayerFPDeduct, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
-    if (!CVarGetInteger(CVAR_PREFIX_CHEAT ".InfiniteFlowerPoints", 0)) return;
+  REGISTER_LISTENER(PlayerFPDeduct, EVENT_PRIORITY_NORMAL, [](IEvent *event) {
+    if (!CVarGetInteger(CVAR_PREFIX_CHEAT ".InfiniteFlowerPoints", 0))
+      return;
     event->cancelled = true;
   });
 
-  REGISTER_LISTENER(StarPowerDeduct, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
-    if (!CVarGetInteger(CVAR_PREFIX_CHEAT ".MaxStarPower", 0)) return;
+  REGISTER_LISTENER(StarPowerDeduct, EVENT_PRIORITY_NORMAL, [](IEvent *event) {
+    if (!CVarGetInteger(CVAR_PREFIX_CHEAT ".MaxStarPower", 0))
+      return;
     event->cancelled = true;
   });
 
-  REGISTER_LISTENER(BadgeBPCostCheck, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
-    if (!CVarGetInteger(CVAR_PREFIX_CHEAT ".NoBPCost", 0)) return;
+  REGISTER_LISTENER(BadgeBPCostCheck, EVENT_PRIORITY_NORMAL, [](IEvent *event) {
+    if (!CVarGetInteger(CVAR_PREFIX_CHEAT ".NoBPCost", 0))
+      return;
     event->cancelled = true;
   });
 }
