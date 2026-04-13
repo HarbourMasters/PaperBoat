@@ -7,6 +7,7 @@
 #include "dx/config.h"
 
 extern s32 gPauseBackgroundFade;
+void port_appendGfx_background_texture(void);
 
 Vp D_80074200 = {
     .vp = {
@@ -463,7 +464,7 @@ void gfx_draw_background(void) {
             if (!(gGameStatusPtr->backgroundFlags & BACKGROUND_FLAG_TEXTURE)) {
                 gDPFillRectangle(gMainGfxPos++, backgroundMinX, backgroundMinY, backgroundMaxX - 1, backgroundMaxY - 1);
             } else {
-                appendGfx_background_texture();
+                port_appendGfx_background_texture();
             }
 
             gDPPipeSync(gMainGfxPos++);

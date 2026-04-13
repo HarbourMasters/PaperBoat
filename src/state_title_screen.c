@@ -190,7 +190,7 @@ void state_init_title_screen(void) {
     clear_player_data();
     gOverrideFlags &= ~GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME;
     set_game_mode_render_frontUI(appendGfx_title_screen);
-    load_map_bg("title_bg");
+    port_load_map_bg("title_bg");
     set_background(&gBackgroundImage);
     bgm_set_song(0, SONG_MAIN_THEME, 0, 500, 8);
     TitleScreen_TimeLeft = 480;

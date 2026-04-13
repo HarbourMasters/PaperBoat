@@ -48,7 +48,7 @@ void load_stage_assets(Stage* stage) {
     load_battle_hit_asset(stage->hit);
 
     if (stage->bg != nullptr) {
-        load_map_bg(stage->bg);
+        port_load_map_bg(stage->bg);
         set_background(&gBackgroundImage);
     }
 }

@@ -13,6 +13,7 @@ BSS PAL_BIN gBackgroundPalette[256];
 static PAL_BIN* gBackgroundPaletteTlut = nullptr;
 BSS f32 gBackroundLastScrollValue;
 
+// DEPRECATED: unused; superseded by port_load_map_bg (src/port/background.c).
 void load_map_bg(char* optAssetName) {
     if (optAssetName != nullptr) {
         char* assetName = optAssetName;
@@ -77,6 +78,7 @@ u16 blend_background_channel(u16 arg0, s32 arg1, s32 alpha) {
     return arg0 + (arg1 - arg0) * alpha / 256;
 }
 
+// DEPRECATED: unused; superseded by port_appendGfx_background_texture (src/port/background.c).
 void appendGfx_background_texture(void) {
     Camera* cam = &gCameras[gCurrentCameraID];
     u16 flags = 0;

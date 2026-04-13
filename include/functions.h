@@ -943,6 +943,7 @@ void update_encounters_pre_battle(void);
 void update_encounters_conversation(void);
 void update_encounters_post_battle(void);
 void load_map_bg(char* optAssetName);
+void port_load_map_bg(char* optAssetName);
 void reset_background_settings(void);
 void reset_back_screen_overlay_progress(void);
 void cancel_action_rating_combo(Actor*);
