@@ -148,7 +148,9 @@ enum EventGroupFlags {
     EVT_GROUP_NOT_BATTLE    = 0xFF & ~EVT_GROUP_FLAG_BATTLE, // 0xEF -- Pauses from anything except battles; default for scripts started via start_script, common in many battle scripts.
 };
 
-enum EventPriority {
+// Renamed from EventPriority to avoid collision with LUS's EventPriority typedef
+// (ship/events/EventTypes.h). Call sites only reference the EVT_PRIORITY_* values.
+enum EvtPriority {
     EVT_PRIORITY_0          = 0x00, // map main script
     EVT_PRIORITY_1          = 0x01,
     EVT_PRIORITY_A          = 0x0A,
