@@ -20,19 +20,19 @@ void PortEnhancements_Init() {
   REGISTER_LISTENER(PlayerFPDeduct, EVENT_PRIORITY_NORMAL, [](IEvent *event) {
     if (!CVarGetInteger(CVAR_PREFIX_CHEAT ".InfiniteFlowerPoints", 0))
       return;
-    event->cancelled = true;
+    event->Cancelled = true;
   });
 
   REGISTER_LISTENER(StarPowerDeduct, EVENT_PRIORITY_NORMAL, [](IEvent *event) {
     if (!CVarGetInteger(CVAR_PREFIX_CHEAT ".MaxStarPower", 0))
       return;
-    event->cancelled = true;
+    event->Cancelled = true;
   });
 
   REGISTER_LISTENER(BadgeBPCostCheck, EVENT_PRIORITY_NORMAL, [](IEvent *event) {
     if (!CVarGetInteger(CVAR_PREFIX_CHEAT ".NoBPCost", 0))
       return;
-    event->cancelled = true;
+    event->Cancelled = true;
   });
 }
 

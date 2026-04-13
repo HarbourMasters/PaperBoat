@@ -157,6 +157,7 @@ GameEngine::GameEngine() {
 
   this->context->InitConfiguration();
   this->context->InitConsoleVariables();
+  this->context->InitEventSystem();
   auto controlDeck = std::make_shared<LUS::ControlDeck>();
   this->context->InitControlDeck(controlDeck);
   this->context->InitResourceManager(portArchiveExists

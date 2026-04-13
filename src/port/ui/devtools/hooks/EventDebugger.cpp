@@ -7,7 +7,11 @@
 #include "port/hooks/impl/EventSystem.h"
 #include "port/ui/UIWidgets.hpp"
 #include "port/ui/cvar_prefixes.h"
+#include <ship/Context.h>
+#include <ship/events/EventSystem.h>
 #include <ship/utils/StringHelper.h>
+
+using Ship::EventRegistration;
 
 #define THEME_COLOR UIWidgets::Colors::Orange
 
@@ -19,7 +23,7 @@ const ImVec4 yellow = ImVec4(1, 1, 0, 1);
 const ImVec4 red = ImVec4(1, 0, 0, 1);
 
 void DrawEventCallerInfo(std::string &name, EventRegistration &registry) {
-  ImGui::Text("Total Callers Registered: %d", registry.callers.size());
+  ImGui::Text("Total Callers Registered: %d", registry.Callers.size());
 
   if (ImGui::BeginTable(("Table##" + std::string(name)).c_str(), 4,
                         ImGuiTableFlags_Resizable |
@@ -33,24 +37,24 @@ void DrawEventCallerInfo(std::string &name, EventRegistration &registry) {
     ImGui::TableHeadersRow();
 
     int i = 0;
-    for (auto &[_, caller] : registry.callers) {
+    for (auto &[_, caller] : registry.Callers) {
       ImGui::TableNextRow();
 
       ImGui::TableNextColumn();
       ImGui::Text("%d", i++);
 
       ImGui::TableNextColumn();
-      ImGui::TextWrapped("%s:%d ", caller.path, caller.line);
+      ImGui::TextWrapped("%s:%d ", caller.Path, caller.Line);
 
       ImGui::TableNextColumn();
-      ImGui::Text("%llu", caller.count);
+      ImGui::Text("%llu", caller.Count);
     }
     ImGui::EndTable();
   }
 }
 
 void DrawEventListenerInfo(std::string &name, EventRegistration &registry) {
-  ImGui::Text("Total Listeners Registered: %d", registry.listeners.size());
+  ImGui::Text("Total Listeners Registered: %d", registry.Listeners.size());
 
   if (ImGui::BeginTable(("Table##" + std::string(name)).c_str(), 4,
                         ImGuiTableFlags_Resizable |
@@ -64,18 +68,18 @@ void DrawEventListenerInfo(std::string &name, EventRegistration &registry) {
     ImGui::TableHeadersRow();
 
     int i = 0;
-    for (auto &listener : registry.listeners) {
+    for (auto &listener : registry.Listeners) {
       ImGui::TableNextRow();
 
       ImGui::TableNextColumn();
       ImGui::Text("%d", i++);
 
       ImGui::TableNextColumn();
-      ImGui::TextWrapped("%s:%d ", listener.metadata.path,
-                         listener.metadata.line);
+      ImGui::TextWrapped("%s:%d ", listener.Metadata.Path,
+                         listener.Metadata.Line);
 
       ImGui::TableNextColumn();
-      switch (listener.priority) {
+      switch (listener.Priority) {
       case EVENT_PRIORITY_LOW:
         ImGui::TextColored(grey, "Low");
         break;
@@ -93,7 +97,7 @@ void DrawEventListenerInfo(std::string &name, EventRegistration &registry) {
 
 void EventDebuggerWindow::DrawElement() {
   bool collapseLogic = false;
-  auto events = EventSystem::Instance->GetEventRegistrations();
+  auto& events = Ship::Context::GetInstance()->GetEventSystem()->GetEventRegistrations();
   bool doingCollapseOrExpand = hookOptExpandAll || hookOptCollapseAll;
 
   ImGui::BeginDisabled(CVarGetInteger(CVAR_SETTING("DisableChanges"), 0));
@@ -116,8 +120,8 @@ void EventDebuggerWindow::DrawElement() {
   ImGui::Separator();
   if (ImGui::BeginChild("EventDebugChild")) {
       for (auto& [id, registry] : events) {
-          auto name = StringHelper::Sprintf("%s (ID: %d) [%d]", registry.name, id,
-              registry.listeners.size());
+          auto name = StringHelper::Sprintf("%s (ID: %d) [%d]", registry.Name, id,
+              registry.Listeners.size());
 
           if (doingCollapseOrExpand) {
               if (hookOptExpandAll) {
