@@ -1,6 +1,7 @@
 #include "common.h"
 #include "sprite.h"
 #include "nu/nusys.h"
+#include "port/patches/Patches.h"
 
 SpriteShadingProfile* gSpriteShadingProfile;
 SpriteShadingProfile* gAuxSpriteShadingProfile;
@@ -245,7 +246,7 @@ void create_shading_palette(Matrix4f mtx, s32 uls, s32 ult, s32 lrs, s32 lrt, s3
     }
 
     if (qx * shadowDirX + qy * shadowDirY + qz * shadowDirZ > 0.0f) {
-        appendGfx_shading_palette(
+        port_appendGfx_shading_palette(
             mtx,
             uls, ult, lrs, lrt,
             alpha,
@@ -258,7 +259,7 @@ void create_shading_palette(Matrix4f mtx, s32 uls, s32 ult, s32 lrs, s32 lrt, s3
             otherModeLBits
         );
     } else {
-        appendGfx_shading_palette(
+        port_appendGfx_shading_palette(
             mtx,
             uls, ult, lrs, lrt,
             alpha,
@@ -273,6 +274,7 @@ void create_shading_palette(Matrix4f mtx, s32 uls, s32 ult, s32 lrs, s32 lrt, s3
     }
 }
 
+// DEPRECATED. See port_appendGfx_shading_palette
 void appendGfx_shading_palette(
     Matrix4f mtx,
     s32 uls, s32 ult, s32 lrs, s32 lrt,

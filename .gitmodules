@@ -4,3 +4,4 @@
 [submodule "external/libultraship"]
 	path = external/libultraship
 	url = https://github.com/bass3l/libultraship.git
+	branch = set_timg_pal
