@@ -14,6 +14,14 @@ void port_appendGfx_shading_palette(
     s32 highlightR, s32 highlightG, s32 highlightB,
     s32 ambientPower, s32 renderMode);
 
+// Framebuffer (FramebufferPatches.c)
+u16* port_getPrevFrameSentinel(void);
+void port_requestPrevFrameCapture(void);
+void port_emitCaptureCurrentFrameIfRequested(Gfx** gfxP);
+
+// Static Gfx[] with VTXs
+void port_patch_dl(Gfx* dl);
+
 #ifdef __cplusplus
 }
 #endif

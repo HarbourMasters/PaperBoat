@@ -414,6 +414,8 @@ static const ALIGN_ASSET(2) char ui_stencil_star_png[] = "__OTR__ui/stencil/star
 static const ALIGN_ASSET(2) char ui_stencil_mario_png[] = "__OTR__ui/stencil/mario";
 static const ALIGN_ASSET(2) char ui_stencil_sharp_circle_png[] = "__OTR__ui/stencil/sharp_circle";
 static const ALIGN_ASSET(2) char ui_stencil_blurry_circle_png[] = "__OTR__ui/stencil/blurry_circle";
+static const ALIGN_ASSET(2) char vtx_stencil1[] = "__OTR__ui/stencil/vtx_stencil1";
+static const ALIGN_ASSET(2) char vtx_stencil2[] = "__OTR__ui/stencil/vtx_stencil2";
 
 // --- msg_img ---
 static const ALIGN_ASSET(2) char ui_msg_bubble_left_png[] = "__OTR__ui/msg/bubble_left";
