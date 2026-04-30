@@ -1,5 +1,6 @@
 #include "common.h"
 #include "nu/nusys.h"
+#include "port/patches/Patches.h"
 
 Gfx D_8014ED90[] = {
     gsSPEndDisplayList(),
@@ -29,7 +30,9 @@ Gfx Gfx_DarknessStencilQuad[] = {
 void appendGfx_draw_prev_frame_buffer(s32 x1, s32 y1, s32 x2, s32 y2, f32 alpha) {
     s32 stripY, extraY;
     s32 i;
-    u16* prevGfxCfb = nullptr;
+
+    u16* prevGfxCfb = port_getPrevFrameSentinel();
+    port_requestPrevFrameCapture();
 
     // round the x positions
     x1 = x1 - (x1 % 4);
@@ -37,13 +40,6 @@ void appendGfx_draw_prev_frame_buffer(s32 x1, s32 y1, s32 x2, s32 y2, f32 alpha)
     // can only load 6 rows of the color buffer at a time: 320*6*2 = 3840 bytes of the 4096 capacity
     stripY = (y2 - y1) / 6;
     extraY = (y2 - y1) % 6;
-
-    // get previous color buffer
-    for (i = 0; i < nuGfxCfbNum; i++) {
-        if (nuGfxCfb[i] == nuGfxCfb_ptr) {
-            prevGfxCfb = nuGfxCfb[(i + nuGfxCfbNum - 1) % nuGfxCfbNum];
-        }
-    }
 
     gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);
     gDPSetCombineMode(gMainGfxPos++, PM_CC_10, PM_CC_10);

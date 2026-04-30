@@ -790,6 +790,10 @@ stencil/sharp_circle:
   { type: TEXTURE, format: I4, offset: 0xE3A00, width: 32, height: 32, symbol: ui_stencil_sharp_circle_png }
 stencil/blurry_circle:
   { type: TEXTURE, format: I8, offset: 0xE3C00, width: 64, height: 64, symbol: ui_stencil_blurry_circle_png }
+stencil/vtx_stencil1:
+  { type: VTX, offset: 0xE4C00, count: 10, symbol: vtx_stencil1 }
+stencil/vtx_stencil2:
+  { type: VTX, offset: 0xE4E70, count: 24, symbol: vtx_stencil2 }
 msg/bubble_left:
   { type: TEXTURE, format: CI4, offset: 0x10CEB0, width: 32, height: 64, symbol: ui_msg_bubble_left_png }
 msg/bubble_mid:

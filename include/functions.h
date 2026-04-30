@@ -1006,9 +1006,6 @@ void restore_map_collision_data(void);
 void mdl_load_all_textures(struct ModelNode* model, u8* textureData, s32 size);
 void mdl_calculate_model_sizes(void);
 
-// Port-only: framebuffer readback
-u16* GetPrevFramePixels(void);
-
 #ifdef _LANGUAGE_C_PLUS_PLUS
 } // extern "C"
 #endif
