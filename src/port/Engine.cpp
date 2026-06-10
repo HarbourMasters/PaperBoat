@@ -226,13 +226,13 @@ void GameEngine::FinishInit() {
   }
 
   this->context->InitLogging(spdlog::level::trace, spdlog::level::trace);
-  this->context->InitGfxDebugger();
+  // this->context->InitGfxDebugger();
   this->context->InitCrashHandler();
 
-  auto audioChannelsSetting = Ship::Context::GetInstance()
-                                  ->GetConfig()
-                                  ->GetCurrentAudioChannelsSetting();
-  this->context->InitAudio({32000, 1024, 1680, audioChannelsSetting});
+  // auto audioChannelsSetting = Ship::Context::GetInstance()
+  //                                 ->GetConfig()
+  //                                 ->GetCurrentAudioChannelsSetting();
+  this->context->InitAudio({32000, 1024, 1680 });
 
   auto loader = context->GetResourceManager()->GetResourceLoader();
   loader->RegisterResourceFactory(
@@ -940,7 +940,7 @@ void GameEngine::RunCommands(
   interpreter->mInterpolationIndex = 0;
 
   for (const auto &m : mtx_replacements) {
-    wnd->DrawAndRunGraphicsCommands(Commands, m);
+    wnd->DrawAndRunGraphicsCommands(Commands, m, {});
     interpreter->mInterpolationIndex++;
   }
 }
