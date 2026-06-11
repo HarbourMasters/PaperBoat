@@ -995,6 +995,27 @@ void GameEngine::ProcessGfxCommands(Gfx *commands) {
 
 static const char *sOtrSignature = "__OTR__";
 
+// Writes one register of the shader custom-uniform file (uCustom[idx] in
+// shader templates). Registers 0-1 are engine built-ins; use 2..15.
+extern "C" void GameEngine_SetCustomUniform(uint8_t idx, const float values[4]) {
+    gfx_set_custom_uniform(idx, values);
+}
+
+// Registers a fullscreen post-processing pass (a prism shader template in the
+// o2r, e.g. "shaders/post/invert.shader"). Passes run in registration order
+// over the game image at the end of each frame. Returns a handle.
+extern "C" int GameEngine_RegisterPostPass(const char *o2rShaderPath) {
+    return gfx_register_post_pass(o2rShaderPath);
+}
+
+extern "C" void GameEngine_UnregisterPostPass(int id) {
+    gfx_unregister_post_pass(id);
+}
+
+extern "C" void GameEngine_ClearPostPasses(void) {
+    gfx_clear_post_passes();
+}
+
 extern "C" uint8_t GameEngine_OTRSigCheck(const char *data) {
   if (data == nullptr) {
     return 0;
