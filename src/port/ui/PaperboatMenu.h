@@ -21,6 +21,7 @@ class PaperboatMenu : public Ship::Menu {
     WidgetInfo& AddWidget(WidgetPath& pathInfo, std::string widgetName, WidgetType widgetType);
     void AddMenuSettings();
     void AddMenuEnhancements();
+    void AddMenuShaderSettings();
     void AddMenuDevTools();
 
   private:

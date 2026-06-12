@@ -137,6 +137,7 @@ void PaperboatMenu::InitElement() {
   Ship::Menu::InitElement();
   AddMenuSettings();
   AddMenuEnhancements();
+  AddMenuShaderSettings();
   AddMenuDevTools();
 
   if (CVarGetInteger(CVAR_SETTING("Menu.SidebarSearch"), 0)) {
