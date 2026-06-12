@@ -212,8 +212,8 @@ void GameEngine::FinishInit() {
     std::vector<std::string> mod_archives;
     for (const auto &entry : std::filesystem::directory_iterator(mods_path)) {
       const auto ext = entry.path().extension().string();
-      if (entry.is_regular_file() &&
-          (ext == ".o2r" || ext == ".otr" || ext == ".zip")) {
+      if ((entry.is_regular_file() &&
+          (ext == ".o2r" || ext == ".otr" || ext == ".zip")) || entry.is_directory()) {
         mod_archives.push_back(
             std::filesystem::absolute(entry.path()).string());
       }
