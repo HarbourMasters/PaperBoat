@@ -1,4 +1,5 @@
 #include "PaperboatGui.hpp"
+#include "ShaderSettingsWindow.h"
 
 #include <imgui.h>
 #include <imgui_internal.h>
@@ -20,6 +21,7 @@ std::shared_ptr<PaperboatMenu> mPaperboatMenu;
 std::shared_ptr<Notification::Window> mNotificationWindow;
 std::shared_ptr<InputViewer> mInputViewer;
 std::shared_ptr<InputViewerSettingsWindow> mInputViewerSettings;
+std::shared_ptr<ShaderSettingsWindow> mShaderSettingsWindow;
 std::shared_ptr<PaperboatModalWindow> mModalWindow;
 std::shared_ptr<Ship::GuiWindow> mConsoleWindow;
 std::shared_ptr<EventDebuggerWindow> mEventDebuggerWindow;
@@ -78,6 +80,10 @@ void SetupGuiElements() {
       ImVec2(500, 525));
   gui->AddGuiWindow(mInputViewerSettings);
 
+  mShaderSettingsWindow = std::make_shared<ShaderSettingsWindow>(
+      CVAR_WINDOW("ShaderSettings"), "Shader Settings", ImVec2(420, 520));
+  gui->AddGuiWindow(mShaderSettingsWindow);
+
   mModalWindow = std::make_shared<PaperboatModalWindow>(
       CVAR_WINDOW("ModalWindow"), "Modal Window");
   gui->AddGuiWindow(mModalWindow);
@@ -93,6 +99,7 @@ void Destroy() {
   mInputEditorWindow = nullptr;
   mNotificationWindow = nullptr;
   mInputViewer = nullptr;
+  mShaderSettingsWindow = nullptr;
   mInputViewerSettings = nullptr;
   mConsoleWindow = nullptr;
 }

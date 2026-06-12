@@ -378,6 +378,16 @@ void PaperboatMenu::AddMenuSettings() {
                    .Tooltip("Toggles the Input Viewer.")
                    .EmbedWindow(false));
 
+  AddWidget(path, "Shader Settings", WIDGET_SEPARATOR_TEXT);
+  AddWidget(path, "Popout Shader Settings", WIDGET_WINDOW_BUTTON)
+      .CVar(CVAR_WINDOW("ShaderSettings"))
+      .RaceDisable(false)
+      .WindowName("Shader Settings")
+      .HideInSearch(true)
+      .Options(WindowButtonOptions().Tooltip(
+          "Tweakables for shader packs: post-processing passes and @setting "
+          "values declared by custom shaders."));
+
   AddWidget(path, "Input Viewer Settings", WIDGET_SEPARATOR_TEXT);
   AddWidget(path, "Popout Input Viewer Settings", WIDGET_WINDOW_BUTTON)
       .CVar(CVAR_WINDOW("InputViewerSettings"))
