@@ -102,3 +102,4 @@ out/
 CMakeSettings.json
 CMakeUserPresets.json
 *.exe
+/.vs
