@@ -112,18 +112,6 @@ void ValueViewerSettings_DrawOptionsMenu() {
     }
 }
 
-void ValueViewerSettings_DrawTabBar(void) {
-    UIWidgets::PushStyleTabs(WIDGET_COLOR);
-    if (ImGui::BeginTabBar("ValueViewerTabBar")) {
-        if (ImGui::BeginTabItem("Options")) {
-            ValueViewerSettings_DrawOptionsMenu();
-            ImGui::EndTabItem();
-        }
-        ImGui::EndTabBar();
-    }
-    UIWidgets::PopStyleTabs();
-}
-
 void ValueViewer_DrawOption(ValueViewerTypes option) {
     switch (option) {
         case VALUE_TYPE_MAP:
@@ -159,13 +147,25 @@ void ValueViewer_DrawOption(ValueViewerTypes option) {
                 ImGui::TableNextColumn();
                 ImGui::Text("Pos:");
                 ImGui::TableNextColumn();
-                position = fmt::format("{}, {}, {}", gPlayerStatus.pos.x, gPlayerStatus.pos.y, gPlayerStatus.pos.z);
+                position = fmt::format("{:.5f}, {:.5f}, {:.5f}", gPlayerStatus.pos.x, gPlayerStatus.pos.y, gPlayerStatus.pos.z);
                 ImGui::Text(position.c_str());
             }
             break;
         default:
             break;
     }
+}
+
+void ValueViewerSettings_DrawTabBar(void) {
+    UIWidgets::PushStyleTabs(WIDGET_COLOR);
+    if (ImGui::BeginTabBar("ValueViewerTabBar")) {
+        if (ImGui::BeginTabItem("Options")) {
+            ValueViewerSettings_DrawOptionsMenu();
+            ImGui::EndTabItem();
+        }
+        ImGui::EndTabBar();
+    }
+    UIWidgets::PopStyleTabs();
 }
 
 void ValueViewerWindow::Draw() {
