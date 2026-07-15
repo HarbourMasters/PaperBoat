@@ -13,6 +13,7 @@
 #include "PaperboatInputEditorWindow.h"
 #include "port/ui/devtools/hooks/EventDebugger.h"
 #include <ship/window/gui/ConsoleWindow.h>
+#include "port/ui/devtools/valueviewer/ValueViewer.h"
 
 namespace PaperboatGui {
 // MARK: - Delegates
@@ -25,6 +26,8 @@ std::shared_ptr<Ship::ShaderSettingsWindow> mShaderSettingsWindow;
 std::shared_ptr<PaperboatModalWindow> mModalWindow;
 std::shared_ptr<Ship::GuiWindow> mConsoleWindow;
 std::shared_ptr<EventDebuggerWindow> mEventDebuggerWindow;
+std::shared_ptr<ValueViewerWindow> mValueViewerWindow;
+std::shared_ptr<ValueViewerSettingsWindow> mValueViewerSettingsWindow;
 
 UIWidgets::Colors GetMenuThemeColor() {
   return mPaperboatMenu->GetMenuThemeColor();
@@ -58,6 +61,14 @@ void SetupGuiElements() {
   mEventDebuggerWindow = std::make_shared<EventDebuggerWindow>(
       CVAR_WINDOW("EventDebugger"), "Event Debugger");
   gui->AddGuiWindow(mEventDebuggerWindow);
+
+  mValueViewerWindow = std::make_shared<ValueViewerWindow>(
+      CVAR_WINDOW("ValueViewer"), "Value Viewer");
+  gui->AddGuiWindow(mValueViewerWindow);
+
+  mValueViewerSettingsWindow = std::make_shared<ValueViewerSettingsWindow>(
+      CVAR_WINDOW("ValueViewerSettings"), "Value Viewer Settings");
+  gui->AddGuiWindow(mValueViewerSettingsWindow);
 
   mPaperboatMenu =
       std::make_shared<PaperboatMenu>(CVAR_WINDOW("Menu"), "Settings Menu");
@@ -102,6 +113,8 @@ void Destroy() {
   mShaderSettingsWindow = nullptr;
   mInputViewerSettings = nullptr;
   mConsoleWindow = nullptr;
+  mValueViewerWindow = nullptr;
+  mValueViewerSettingsWindow = nullptr;
 }
 
 void RegisterPopup(std::string title, std::string message, std::string button1,

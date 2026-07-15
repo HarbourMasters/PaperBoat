@@ -2685,44 +2685,45 @@ void dx_debug_evt_reset() {
 // banner info
 
 void dx_debug_update_banner() {
-    char fmtBuf[128];
-    s32 effect;
-
-    if (gGameStatus.context == CONTEXT_WORLD) {
-        sprintf(fmtBuf, "Map: %7s (%lX)", LastMapName, LastMapEntry);
-        dx_debug_draw_ascii(fmtBuf, DefaultColor, 220, BottomRowY);
-
-        dx_debug_draw_ascii("Pos:", DefaultColor, 20, BottomRowY);
-
-        effect = dx_debug_is_cheat_enabled(DEBUG_CHEAT_SPEED_MODE) ? DRAW_MSG_STYLE_RAINBOW : 0;
-
-        sprintf(fmtBuf, "%5ld", round(gPlayerStatus.pos.x));
-        dx_debug_draw_ascii_with_effect(fmtBuf, DefaultColor, 48, BottomRowY, effect);
-
-        sprintf(fmtBuf, "%5ld", round(gPlayerStatus.pos.y));
-        dx_debug_draw_ascii_with_effect(fmtBuf, DefaultColor, 80, BottomRowY, effect);
-
-        sprintf(fmtBuf, "%5ld", round(gPlayerStatus.pos.z));
-        dx_debug_draw_ascii_with_effect(fmtBuf, DefaultColor, 112, BottomRowY, effect);
-
-        if (dx_debug_is_cheat_enabled(DEBUG_CHEAT_GOD_MODE)) {
-            dx_debug_draw_ascii("(GOD MODE)", MSG_PAL_YELLOW, 151, BottomRowY);
-        }
-    } else if (gGameStatus.context == CONTEXT_BATTLE) {
-        s32 areaID = (LastBattleID >> 24) & 0xFF;
-        s32 battleID = (LastBattleID >> 16) & 0xFF;
-        s32 stageID = LastBattleID & 0xFFFF;
-
-        sprintf(fmtBuf, "Battle:  %02lX-%02lX (%lX)", areaID, battleID, stageID);
-        dx_debug_draw_ascii(fmtBuf, DefaultColor, 200, BottomRowY);
-
-        sprintf(fmtBuf, "Stage:  %-15s", LastStageName);
-        dx_debug_draw_ascii(fmtBuf, DefaultColor, 20, BottomRowY);
-
-        if (dx_debug_is_cheat_enabled(DEBUG_CHEAT_GOD_MODE)) {
-            dx_debug_draw_ascii("(GOD MODE)", MSG_PAL_YELLOW, 128, BottomRowY);
-        }
-    }
+    // Moved to ImGui ValueViewer.cpp
+    // char fmtBuf[128];
+    // s32 effect;
+    // 
+    // if (gGameStatus.context == CONTEXT_WORLD) {
+    //     sprintf(fmtBuf, "Map: %7s (%lX)", LastMapName, LastMapEntry);
+    //     dx_debug_draw_ascii(fmtBuf, DefaultColor, 220, BottomRowY);
+    // 
+    //     dx_debug_draw_ascii("Pos:", DefaultColor, 20, BottomRowY);
+    // 
+    //     effect = dx_debug_is_cheat_enabled(DEBUG_CHEAT_SPEED_MODE) ? DRAW_MSG_STYLE_RAINBOW : 0;
+    // 
+    //     sprintf(fmtBuf, "%5ld", round(gPlayerStatus.pos.x));
+    //     dx_debug_draw_ascii_with_effect(fmtBuf, DefaultColor, 48, BottomRowY, effect);
+    //     
+    //     sprintf(fmtBuf, "%5ld", round(gPlayerStatus.pos.y));
+    //     dx_debug_draw_ascii_with_effect(fmtBuf, DefaultColor, 80, BottomRowY, effect);
+    //     
+    //     sprintf(fmtBuf, "%5ld", round(gPlayerStatus.pos.z));
+    //     dx_debug_draw_ascii_with_effect(fmtBuf, DefaultColor, 112, BottomRowY, effect);
+    // 
+    //     if (dx_debug_is_cheat_enabled(DEBUG_CHEAT_GOD_MODE)) {
+    //         dx_debug_draw_ascii("(GOD MODE)", MSG_PAL_YELLOW, 151, BottomRowY);
+    //     }
+    // } else if (gGameStatus.context == CONTEXT_BATTLE) {
+    //     s32 areaID = (LastBattleID >> 24) & 0xFF;
+    //     s32 battleID = (LastBattleID >> 16) & 0xFF;
+    //     s32 stageID = LastBattleID & 0xFFFF;
+    // 
+    //     sprintf(fmtBuf, "Battle:  %02lX-%02lX (%lX)", areaID, battleID, stageID);
+    //     dx_debug_draw_ascii(fmtBuf, DefaultColor, 200, BottomRowY);
+    // 
+    //     sprintf(fmtBuf, "Stage:  %-15s", LastStageName);
+    //     dx_debug_draw_ascii(fmtBuf, DefaultColor, 20, BottomRowY);
+    // 
+    //     if (dx_debug_is_cheat_enabled(DEBUG_CHEAT_GOD_MODE)) {
+    //         dx_debug_draw_ascii("(GOD MODE)", MSG_PAL_YELLOW, 128, BottomRowY);
+    //     }
+    // }
 }
 
 // ----------------------------------------------------------------------------

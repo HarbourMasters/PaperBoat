@@ -73,6 +73,13 @@ void PaperboatMenu::AddMenuDevTools() {
       .HideInSearch(true)
       .Options(WindowButtonOptions().Tooltip(
           "Enables the separate Event Debugger Window."));
+
+  path.sidebarName = "Value Viewer";
+  AddSidebarEntry("Dev Tools", path.sidebarName, 1);
+  AddWidget(path, "Popout Value Viewer Settings", WIDGET_WINDOW_BUTTON)
+      .CVar(CVAR_WINDOW("ValueViewerSettings"))
+      .WindowName("Value Viewer Settings")
+      .HideInSearch(true);
 }
 
 } // namespace PaperboatGui
