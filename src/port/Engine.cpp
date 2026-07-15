@@ -767,8 +767,11 @@ void GameEngine::Create(int argc, char *argv[]) {
 }
 
 void GameEngine::Destroy() {
+  PaperboatGui::Destroy();
+  Instance->context = nullptr;
   PortEnhancements_Exit();
   AudioExit();
+  
   for (auto ptr : MemoryPool) {
     free(ptr);
   }
@@ -904,8 +907,6 @@ void GameEngine::AudioInit() {
 
 void GameEngine::AudioExit() {
   if (mAudio.running) {
-    SPDLOG_INFO("Shutting down audio system...");
-
     // Signal thread to stop
     {
       std::unique_lock<std::mutex> lock(mAudio.mutex);
@@ -918,8 +919,6 @@ void GameEngine::AudioExit() {
     if (mAudio.thread.joinable()) {
       mAudio.thread.join();
     }
-
-    SPDLOG_INFO("Audio system shut down");
   }
 }
 
