@@ -122,7 +122,7 @@ void ValueViewer_DrawOption(ValueViewerTypes option) {
                 ImGui::TableNextColumn();
                 mapData = &gAreas[gGameStatusPtr->areaID].maps[gGameStatusPtr->mapID];
                 ImGui::Text("%s (%i)", mapData->id, gGameStatus.entryID);
-            } else if (gGameStatus.context == CONTEXT_BATTLE) {
+            } else if (gGameStatus.context == CONTEXT_BATTLE && gCurrentStagePtr != NULL) {
                 ImGui::TableNextColumn();
                 ImGui::Text("Stage:");
 
