@@ -1,4 +1,5 @@
 #include "PortEnhancements.h"
+#include "port/save/SaveManager.h"
 
 #define INIT_EVENT_IDS
 
@@ -8,6 +9,7 @@
 
 void PortEnhancements_Init() {
   PortEnhancements_Register();
+  SaveManager_Init();
 
   // Cheats
   REGISTER_LISTENER(PlayerDamage, EVENT_PRIORITY_NORMAL, [](IEvent *event) {
@@ -78,6 +80,9 @@ void PortEnhancements_Register() {
   REGISTER_EVENT(VanillaBehavior);
 
   // Register game events
+  REGISTER_EVENT(OnSaveFileSave);
+  REGISTER_EVENT(OnSaveFileLoad);
+  REGISTER_EVENT(OnSaveFileErase);
   REGISTER_EVENT(PlayerDamage);
   REGISTER_EVENT(PlayerFPDeduct);
   REGISTER_EVENT(StarPowerDeduct);

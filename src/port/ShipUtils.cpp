@@ -47,6 +47,64 @@ extern "C" void Ship_CreateQuadVertexGroup(Vtx *vtxList, s32 xStart, s32 yStart,
   vtxList[3].v.tc[1] = height << 5;
 }
 
+void EncodeFilename(const std::string& input, char outFilename[8]) {
+    for (int i = 0; i < 8; ++i) {
+        if (i < input.length()) {
+            char c = input[i];
+
+            if (c >= 'A' && c <= 'Z') {
+                outFilename[i] = c - 32;  // Uppercase shift
+            }
+            else if (c >= 'a' && c <= 'z') {
+                outFilename[i] = c - 64;  // Lowercase shift
+            }
+            else {
+                outFilename[i] = c;
+            }
+        }
+        else {
+            outFilename[i] = static_cast<char>(247); // '÷' pad character
+        }
+    }
+}
+
+std::string DecodeFilename(const char filename[8]) {
+    std::string decoded = "";
+
+    for (int i = 0; i < 8; ++i) {
+        unsigned char c = static_cast<unsigned char>(filename[i]);
+
+        // Stop decoding at pad character or null terminator
+        if (c == 247 || c == '\0') {
+            break;
+        }
+
+        // 1. Decode Uppercase: Encoded range is 33 to 58 ('!' to 'Z' minus offset)
+        // 'A' (65) - 32 = 33 ('!')
+        // 'Z' (90) - 32 = 58 (':')
+        if (c >= 33 && c <= 58) {
+            decoded += static_cast<char>(c + 32);
+        }
+        // 2. Decode Lowercase: Encoded range is 33 to 58 for lowercase ('a' to 'z')
+        // 'a' (97) - 64 = 33 ('!')
+        // 'z' (122) - 64 = 58 (':')
+        // Note: Because the encoded ranges overlap, we need to know how your game 
+        // distinguishes them, or use your original hardcoded overrides:
+        else if (c == '!') {
+            decoded += 'a'; // Decodes to lowercase 'a'
+        }
+        else if (c == ',') {
+            decoded += 'l'; // Decodes to lowercase 'l'
+        }
+        else {
+            // Fallback for other characters
+            decoded += static_cast<char>(c);
+        }
+    }
+
+    return decoded;
+}
+
 void LoadGuiTextures() {
   // @port: Load gui textures here
 }

@@ -2,6 +2,19 @@
 
 #include "port/hooks/impl/EventSystem.h"
 
+DEFINE_EVENT(OnSaveFileSave,
+    void* saveData;
+);
+
+DEFINE_EVENT(OnSaveFileLoad,
+    int32_t saveSlot;
+    void* currentSaveFile;
+);
+
+DEFINE_EVENT(OnSaveFileErase,
+    int32_t saveSlot;
+);
+
 DEFINE_EVENT(PlayerDamage,
     int32_t* damage;
 );

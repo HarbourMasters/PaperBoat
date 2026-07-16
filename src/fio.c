@@ -167,9 +167,10 @@ b32 fio_fetch_saved_file_info(void) {
 b32 fio_load_game(s32 saveSlot) {
     gGameStatusPtr->saveSlot = saveSlot;
 
-    fio_fetch_saved_file_info();
-    fio_read_flash(LogicalSaveInfo[saveSlot].slot, &gCurrentSaveFile, MAX(sizeof(VanillaSaveData), sizeof(SaveData)));
-
+    CALL_CANCELLABLE_EVENT(OnSaveFileLoad, saveSlot, &gCurrentSaveFile) {
+        fio_fetch_saved_file_info();
+        fio_read_flash(LogicalSaveInfo[saveSlot].slot, &gCurrentSaveFile, MAX(sizeof(VanillaSaveData), sizeof(SaveData)));
+    }
     if (strcmp(gCurrentSaveFile.magicString, MagicSaveString) == 0) {
         if (gGameStatusPtr->saveCount < gCurrentSaveFile.saveCount) {
             gGameStatusPtr->saveCount = gCurrentSaveFile.saveCount;
@@ -179,6 +180,7 @@ b32 fio_load_game(s32 saveSlot) {
         return true;
     }
     return false;
+    
 }
 
 void fio_save_game(s32 saveSlot) {
@@ -213,18 +215,22 @@ void fio_save_game(s32 saveSlot) {
     gCurrentSaveFile.crc1 = fio_calc_file_checksum(&gCurrentSaveFile);
     gCurrentSaveFile.crc2 = ~gCurrentSaveFile.crc1;
 
-    fio_erase_flash(NextAvailablePhysicalSave);
-    fio_write_flash(NextAvailablePhysicalSave, (s8*)&gCurrentSaveFile, sizeof(SaveData));
+    CALL_CANCELLABLE_EVENT(OnSaveFileSave, &gCurrentSaveFile) {
+        fio_erase_flash(NextAvailablePhysicalSave);
+        fio_write_flash(NextAvailablePhysicalSave, (s8*)&gCurrentSaveFile, sizeof(SaveData));
+    }
 }
 
 void fio_erase_game(s32 saveSlot) {
-    s32 i;
+    CALL_CANCELLABLE_EVENT(OnSaveFileErase, saveSlot) {
+        s32 i;
 
-    fio_fetch_saved_file_info();
+        fio_fetch_saved_file_info();
 
-    for (i = 0; i < ARRAY_COUNT(PhysicalSaveInfo); i++) {
-        if (PhysicalSaveInfo[i].slot == saveSlot) {
-            fio_erase_flash(i);
+        for (i = 0; i < ARRAY_COUNT(PhysicalSaveInfo); i++) {
+            if (PhysicalSaveInfo[i].slot == saveSlot) {
+                fio_erase_flash(i);
+            }
         }
     }
 }

@@ -14,10 +14,10 @@ extern u32 finalSeed;
 uint32_t Ship_Hash(std::string str);
 
 void LoadGuiTextures();
-extern int16_t Ship_GetCourseByLevel(int16_t levelId);
 extern std::array<const char*, 10> digitList;
 extern std::map<int16_t, std::string> levelIdList;
-extern std::string convertEnumToReadableName(const std::string& input);
+extern std::string DecodeFilename(const char filename[8]);
+extern void EncodeFilename(const std::string& input, char outFilename[8]);
 
 extern "C" {
 #endif
