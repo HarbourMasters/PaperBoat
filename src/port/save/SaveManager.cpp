@@ -458,11 +458,6 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
     return jsonSave;
 }
 
-
-void Test() {
-    int hi = 0;
-}
-
 void SaveManager_Init() {
     REGISTER_LISTENER(OnSaveFileSave, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
         OnSaveFileSave* ev = (OnSaveFileSave*)event;
