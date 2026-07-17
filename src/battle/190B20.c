@@ -704,7 +704,7 @@ void deduct_current_move_fp(void) {
         }
     }
 
-    CALL_CANCELLABLE_EVENT(PlayerFPDeduct, fpCost) {
+    CALL_CANCELLABLE_EVENT(OnPlayerFPChange, fpCost) {
         playerData->curFP -= fpCost;
     }
 }

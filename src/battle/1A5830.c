@@ -490,7 +490,7 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
         battleStatus->lastAttackDamage = 0;
     } else {
         if (actorClass == ACTOR_CLASS_PLAYER) {
-            CALL_EVENT(PlayerDamage, &damage);
+            CALL_EVENT(OnPlayerDamageReceived, &damage);
         }
         target->damageCounter += damage;
         target->hpChangeCounter -= damage;

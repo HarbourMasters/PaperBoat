@@ -117,7 +117,7 @@ API_CALLABLE(LoadStarPowerScript) {
 
     {
         s32 spCost = gMoveTable[battleStatus->selectedMoveID].costFP * SP_PER_BAR;
-        CALL_CANCELLABLE_EVENT(StarPowerDeduct, spCost) {
+        CALL_CANCELLABLE_EVENT(OnPlayerSPChange, spCost) {
             playerData->starPower -= spCost;
         }
     }

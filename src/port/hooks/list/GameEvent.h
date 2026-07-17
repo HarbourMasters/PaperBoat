@@ -15,19 +15,19 @@ DEFINE_EVENT(OnSaveFileErase,
     int32_t saveSlot;
 );
 
-DEFINE_EVENT(PlayerDamage,
+DEFINE_EVENT(OnPlayerDamageReceived,
     int32_t* damage;
 );
 
-DEFINE_EVENT(PlayerFPDeduct,
+DEFINE_EVENT(OnPlayerFPChange,
     int32_t fpCost;
 );
 
-DEFINE_EVENT(StarPowerDeduct,
+DEFINE_EVENT(OnPlayerSPChange,
     int32_t spCost;
 );
 
-DEFINE_EVENT(BadgeBPCostCheck,
+DEFINE_EVENT(OnPlayerBPCostCheck,
     int32_t requiredBP;
     int32_t maxBP;
 );

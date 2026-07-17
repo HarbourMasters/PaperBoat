@@ -10,32 +10,6 @@
 void PortEnhancements_Init() {
   PortEnhancements_Register();
   SaveManager_Init();
-
-  // Cheats
-  REGISTER_LISTENER(PlayerDamage, EVENT_PRIORITY_NORMAL, [](IEvent *event) {
-    if (!CVarGetInteger(CVAR_PREFIX_CHEAT ".InfiniteHealth", 0))
-      return;
-    PlayerDamage *ev = (PlayerDamage *)event;
-    *ev->damage = 0;
-  });
-
-  REGISTER_LISTENER(PlayerFPDeduct, EVENT_PRIORITY_NORMAL, [](IEvent *event) {
-    if (!CVarGetInteger(CVAR_PREFIX_CHEAT ".InfiniteFlowerPoints", 0))
-      return;
-    event->Cancelled = true;
-  });
-
-  REGISTER_LISTENER(StarPowerDeduct, EVENT_PRIORITY_NORMAL, [](IEvent *event) {
-    if (!CVarGetInteger(CVAR_PREFIX_CHEAT ".MaxStarPower", 0))
-      return;
-    event->Cancelled = true;
-  });
-
-  REGISTER_LISTENER(BadgeBPCostCheck, EVENT_PRIORITY_NORMAL, [](IEvent *event) {
-    if (!CVarGetInteger(CVAR_PREFIX_CHEAT ".NoBPCost", 0))
-      return;
-    event->Cancelled = true;
-  });
 }
 
 void PortEnhancements_Register() {
@@ -83,10 +57,10 @@ void PortEnhancements_Register() {
   REGISTER_EVENT(OnSaveFileSave);
   REGISTER_EVENT(OnSaveFileLoad);
   REGISTER_EVENT(OnSaveFileErase);
-  REGISTER_EVENT(PlayerDamage);
-  REGISTER_EVENT(PlayerFPDeduct);
-  REGISTER_EVENT(StarPowerDeduct);
-  REGISTER_EVENT(BadgeBPCostCheck);
+  REGISTER_EVENT(OnPlayerDamageReceived);
+  REGISTER_EVENT(OnPlayerFPChange);
+  REGISTER_EVENT(OnPlayerSPChange);
+  REGISTER_EVENT(OnPlayerBPCostCheck);
 }
 
 void PortEnhancements_Exit() {

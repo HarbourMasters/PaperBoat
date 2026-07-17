@@ -1062,7 +1062,7 @@ b32 dispatch_damage_event_player(s32 damageAmount, s32 event, b32 noHitSound) {
     s32 oldPlayerHP;
     s32 temp;
 
-    CALL_EVENT(PlayerDamage, &damageAmount);
+    CALL_EVENT(OnPlayerDamageReceived, &damageAmount);
     battleStatus->curAttackDamage = damageAmount;
 
     temp = (s16)damageAmount; //TODO usage of temp here required to match
