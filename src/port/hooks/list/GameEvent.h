@@ -28,10 +28,7 @@ DEFINE_EVENT(OnPlayerSPChange,
     int32_t spCost;
 );
 
-DEFINE_EVENT(OnPlayerBPCostCheck,
-    int32_t requiredBP;
-    int32_t maxBP;
-);
+DEFINE_EVENT(OnPlayerBPCostCheck);
 
 // Gameplay > CutsceneSkips
 DEFINE_EVENT(OnPostSaveFileLoad);

@@ -82,6 +82,7 @@ SaveData* ConvertJSON_to_SaveData(nlohmann::json jsonSaveFile) {
     saveData->player.hammerLevel = jsonPlayer["hammerLevel"];
     saveData->player.curHP = jsonPlayer["curHP"];
     saveData->player.curMaxHP = jsonPlayer["curMaxHP"];
+    saveData->player.hardMaxHP = jsonPlayer["hardMaxHP"];
     saveData->player.curFP = jsonPlayer["curFP"];
     saveData->player.curMaxFP = jsonPlayer["curMaxFP"];
     saveData->player.hardMaxFP = jsonPlayer["hardMaxFP"];
