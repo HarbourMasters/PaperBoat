@@ -249,6 +249,9 @@ SaveData* ConvertJSON_to_SaveData(nlohmann::json jsonSaveFile) {
         saveData->unk_1304[un] = jsonUnk1304[un];
     }
 
+    ordered_json jsonShipSaveData = jsonSaveFile["ship"];
+    saveData->shipSaveData.hasDiedOnce = jsonShipSaveData["hasDiedOnce"];
+
     return saveData;
 }
 
@@ -455,6 +458,9 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
     jsonSave["summary"] = jsonSaveFileSummary;
 
     jsonSave["unk_1304"] = saveData->unk_1304;
+
+    ordered_json jsonShipSaveData = ordered_json::object();
+    jsonShipSaveData["hasDiedOnce"] = saveData->shipSaveData.hasDiedOnce;
 
     return jsonSave;
 }

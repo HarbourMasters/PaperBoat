@@ -140,6 +140,10 @@ typedef struct SaveFileSummary {
     /* 0x0F */ unsigned char unused_0F[9];
 } SaveFileSummary; // size = 0x18
 
+typedef struct ShipSaveData {
+    u8 hasDiedOnce;
+} ShipSaveData;
+
 typedef struct SaveData {
     /* 0x0000 */ char magicString[16]; /* "Mario Story 006" string */
     /* 0x0010 */ char modName[28]; /* always non-null for DX saves */
@@ -169,6 +173,7 @@ typedef struct SaveData {
     /* 0x12E6 */ Vec3s savePos;
     /* 0x12EC */ SaveFileSummary summary;
     /* 0x1304 */ unsigned char unk_1304[0x7C];
+    ShipSaveData shipSaveData;
 } SaveData; // size = 0x1380
 
 extern SaveData gCurrentSaveFile;
