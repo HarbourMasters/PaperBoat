@@ -167,7 +167,7 @@ b32 fio_fetch_saved_file_info(void) {
 b32 fio_load_game(s32 saveSlot) {
     gGameStatusPtr->saveSlot = saveSlot;
 
-    CALL_CANCELLABLE_EVENT(OnSaveFileLoad, saveSlot, &gCurrentSaveFile) {
+    CALL_CANCELLABLE_EVENT(OnSaveFileLoad, saveSlot) {
         fio_fetch_saved_file_info();
         fio_read_flash(LogicalSaveInfo[saveSlot].slot, &gCurrentSaveFile, MAX(sizeof(VanillaSaveData), sizeof(SaveData)));
     }

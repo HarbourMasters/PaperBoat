@@ -459,7 +459,7 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
 }
 
 void SaveManager_Init() {
-    REGISTER_LISTENER(OnSaveFileSave, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
+    REGISTER_LISTENER(OnSaveFileSave, EVENT_PRIORITY_HIGH, [](IEvent* event) {
         OnSaveFileSave* ev = (OnSaveFileSave*)event;
         event->Cancelled = true;
 
@@ -485,11 +485,10 @@ void SaveManager_Init() {
         }
     })
 
-    REGISTER_LISTENER(OnSaveFileLoad, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
+    REGISTER_LISTENER(OnSaveFileLoad, EVENT_PRIORITY_HIGH, [](IEvent* event) {
         OnSaveFileLoad* ev = (OnSaveFileLoad*)event;
-        SaveData* currentSave = (SaveData*)ev->currentSaveFile;
         event->Cancelled = true;
-        
+     
         std::string fileName = fmt::format("file{}.json", ev->saveSlot);
         std::string filePath = Ship::Context::GetPathRelativeToAppDirectory("saves/" + fileName, "pm64");
         
@@ -503,9 +502,10 @@ void SaveManager_Init() {
             SaveData* newSaveData = new SaveData();
             gCurrentSaveFile = *newSaveData;
         }
+        CALL_EVENT(OnPostSaveFileLoad);
     })
 
-    REGISTER_LISTENER(OnSaveFileErase, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
+    REGISTER_LISTENER(OnSaveFileErase, EVENT_PRIORITY_HIGH, [](IEvent* event) {
         OnSaveFileErase* ev = (OnSaveFileErase*)event;
         event->Cancelled = true;
 

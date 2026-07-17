@@ -126,7 +126,7 @@ void PaperboatMenu::AddMenuEnhancements() {
   path.column = SECTION_COLUMN_1;
 
   AddWidget(path, "Skip Intro", WIDGET_CVAR_CHECKBOX)
-      .CVar("gEnhancements.NoIntro")
+      .CVar(CVAR_ENHANCEMENT("NoIntro"))
       .RaceDisable(false)
       .Options(CheckboxOptions().Tooltip("Skip the intro sequence."));
 

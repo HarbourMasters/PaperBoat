@@ -2,19 +2,20 @@
 
 #include "port/hooks/impl/EventSystem.h"
 
+// SaveManager
 DEFINE_EVENT(OnSaveFileSave,
     void* saveData;
 );
 
 DEFINE_EVENT(OnSaveFileLoad,
     int32_t saveSlot;
-    void* currentSaveFile;
 );
 
 DEFINE_EVENT(OnSaveFileErase,
     int32_t saveSlot;
 );
 
+// Cheats
 DEFINE_EVENT(OnPlayerDamageReceived,
     int32_t* damage;
 );
@@ -31,3 +32,6 @@ DEFINE_EVENT(OnPlayerBPCostCheck,
     int32_t requiredBP;
     int32_t maxBP;
 );
+
+// Gameplay > CutsceneSkips
+DEFINE_EVENT(OnPostSaveFileLoad);

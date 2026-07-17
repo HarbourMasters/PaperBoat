@@ -61,6 +61,7 @@ void PortEnhancements_Register() {
   REGISTER_EVENT(OnPlayerFPChange);
   REGISTER_EVENT(OnPlayerSPChange);
   REGISTER_EVENT(OnPlayerBPCostCheck);
+  REGISTER_EVENT(OnPostSaveFileLoad);
 }
 
 void PortEnhancements_Exit() {
