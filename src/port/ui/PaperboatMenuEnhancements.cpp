@@ -134,8 +134,6 @@ void PaperboatMenu::AddMenuEnhancements() {
   AddSidebarEntry("Enhancements", path.sidebarName, 1);
   path.column = SECTION_COLUMN_1;
 
-  // @port: TODO
-
   path = {"Enhancements", "Cheats", SECTION_COLUMN_1};
   AddSidebarEntry("Enhancements", path.sidebarName, 1);
   path.column = SECTION_COLUMN_1;
