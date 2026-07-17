@@ -85,7 +85,10 @@ void btl_state_update_end_demo_battle(void) {
                 btl_delete_actor(battleStatus->partnerActor);
             }
 
-            btl_delete_player_actor(battleStatus->playerActor);
+            if (battleStatus->playerActor != nullptr) {
+                btl_delete_player_actor(battleStatus->playerActor);
+            }
+
             remove_all_effects();
             set_windows_visible(WINDOW_GROUP_ALL);
 
