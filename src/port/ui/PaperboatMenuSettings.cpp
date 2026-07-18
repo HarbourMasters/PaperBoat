@@ -200,6 +200,35 @@ void PaperboatMenu::AddMenuSettings() {
   AddWidget(path, "Audio API (Needs reload)", WIDGET_AUDIO_BACKEND)
       .RaceDisable(false);
 
+  // Settings > Controls
+  path.sidebarName = "Controls";
+  path.column = SECTION_COLUMN_1;
+  AddSidebarEntry("Settings", "Controls", 1);
+  AddWidget(path, "Clear Devices", WIDGET_BUTTON)
+      .Callback([](WidgetInfo& info) {
+      PaperboatGui::mModalWindow->RegisterPopup(
+          "Clear Config",
+          "This will completely erase the controls config, including "
+          "registered devices.\nContinue?",
+          "Clear", "Cancel",
+          []() {
+          Ship::Context::GetInstance()->GetConsoleVariables()->ClearBlock(
+              CVAR_PREFIX_SETTING ".Controllers");
+          uint8_t bits = 0;
+          Ship::Context::GetInstance()->GetControlDeck()->Init(&bits);
+      },
+          nullptr);
+  })
+      .Options(ButtonOptions().Size(Sizes::Inline));
+  AddWidget(path, "Controller Bindings", WIDGET_SEPARATOR_TEXT);
+  AddWidget(path, "Popout Bindings Window", WIDGET_WINDOW_BUTTON)
+      .CVar(CVAR_WINDOW("ControllerConfiguration"))
+      .RaceDisable(false)
+      .WindowName("Configure Controller")
+      .HideInSearch(true)
+      .Options(WindowButtonOptions().Tooltip(
+          "Enables the separate Bindings Window."));
+
   // Settings > Graphics
   static int32_t maxFps = 360;
   const char *tooltip = "Uses Matrix Interpolation to create extra frames, "
@@ -335,35 +364,6 @@ void PaperboatMenu::AddMenuSettings() {
 
   path.column = SECTION_COLUMN_2;
   AddWidget(path, "Advanced Graphics Options", WIDGET_SEPARATOR_TEXT);
-
-  // Settings > Controls
-  path.sidebarName = "Controls";
-  path.column = SECTION_COLUMN_1;
-  AddSidebarEntry("Settings", "Controls", 1);
-  AddWidget(path, "Clear Devices", WIDGET_BUTTON)
-      .Callback([](WidgetInfo &info) {
-        PaperboatGui::mModalWindow->RegisterPopup(
-            "Clear Config",
-            "This will completely erase the controls config, including "
-            "registered devices.\nContinue?",
-            "Clear", "Cancel",
-            []() {
-              Ship::Context::GetInstance()->GetConsoleVariables()->ClearBlock(
-                  CVAR_PREFIX_SETTING ".Controllers");
-              uint8_t bits = 0;
-              Ship::Context::GetInstance()->GetControlDeck()->Init(&bits);
-            },
-            nullptr);
-      })
-      .Options(ButtonOptions().Size(Sizes::Inline));
-  AddWidget(path, "Controller Bindings", WIDGET_SEPARATOR_TEXT);
-  AddWidget(path, "Popout Bindings Window", WIDGET_WINDOW_BUTTON)
-      .CVar(CVAR_WINDOW("ControllerConfiguration"))
-      .RaceDisable(false)
-      .WindowName("Configure Controller")
-      .HideInSearch(true)
-      .Options(WindowButtonOptions().Tooltip(
-          "Enables the separate Bindings Window."));
 
   // Settings > Input Viewer
   path.sidebarName = "Input Viewer";

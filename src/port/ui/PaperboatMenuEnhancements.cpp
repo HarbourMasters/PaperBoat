@@ -26,8 +26,43 @@ void PaperboatMenu::AddMenuEnhancements() {
   // Add Enhancements Menu
   AddMenuEntry("Enhancements", CVAR_SETTING("Menu.EnhancementsSidebarSection"));
 
+  // Enhancements > Cheats
+  WidgetPath path = { "Enhancements", "Cheats", SECTION_COLUMN_1 };
+  AddSidebarEntry("Enhancements", path.sidebarName, 1);
+  path.column = SECTION_COLUMN_1;
+
+  AddWidget(path, "Infinite Health", WIDGET_CVAR_CHECKBOX)
+      .CVar(CVAR_CHEAT("InfiniteHealth"))
+      .Options(CheckboxOptions().Tooltip(
+          "Mario's HP won't decrease during battle."));
+
+  AddWidget(path, "Infinite Flower Points", WIDGET_CVAR_CHECKBOX)
+      .CVar(CVAR_CHEAT("InfiniteFlowerPoints"))
+      .Options(CheckboxOptions().Tooltip(
+          "Mario's FP won't decrease during battle."));
+
+  AddWidget(path, "No Badge Cost", WIDGET_CVAR_CHECKBOX)
+      .CVar(CVAR_CHEAT("NoBPCost"))
+      .Options(
+          CheckboxOptions().Tooltip("Equip any badge regardless of BP cost."));
+
+  AddWidget(path, "Max Star Power", WIDGET_CVAR_CHECKBOX)
+      .CVar(CVAR_CHEAT("MaxStarPower"))
+      .Options(CheckboxOptions().Tooltip(
+          "Star Power stays full and won't decrease."));
+
+  // Enhancements > Gameplay
+  path = { "Enhancements", "Gameplay", SECTION_COLUMN_1 };
+  AddSidebarEntry("Enhancements", path.sidebarName, 1);
+  path.column = SECTION_COLUMN_1;
+
+  AddWidget(path, "Skip Intro", WIDGET_CVAR_CHECKBOX)
+      .CVar(CVAR_ENHANCEMENT("NoIntro"))
+      .RaceDisable(false)
+      .Options(CheckboxOptions().Tooltip("Skip the intro sequence."));
+
   // Enhancements > Graphics
-  WidgetPath path = {"Enhancements", "Graphics", SECTION_COLUMN_1};
+  path = {"Enhancements", "Graphics", SECTION_COLUMN_1};
   AddSidebarEntry("Enhancements", "Graphics", 2);
 
   AddWidget(path, "Mods", WIDGET_SEPARATOR_TEXT);
@@ -120,43 +155,6 @@ void PaperboatMenu::AddMenuEnhancements() {
                    .DefaultValue(9)
                    .ShowButtons(true)
                    .Format("%d"));
-
-  path = {"Enhancements", "Gameplay", SECTION_COLUMN_1};
-  AddSidebarEntry("Enhancements", path.sidebarName, 1);
-  path.column = SECTION_COLUMN_1;
-
-  AddWidget(path, "Skip Intro", WIDGET_CVAR_CHECKBOX)
-      .CVar(CVAR_ENHANCEMENT("NoIntro"))
-      .RaceDisable(false)
-      .Options(CheckboxOptions().Tooltip("Skip the intro sequence."));
-
-  path = {"Enhancements", "Fixes", SECTION_COLUMN_1};
-  AddSidebarEntry("Enhancements", path.sidebarName, 1);
-  path.column = SECTION_COLUMN_1;
-
-  path = {"Enhancements", "Cheats", SECTION_COLUMN_1};
-  AddSidebarEntry("Enhancements", path.sidebarName, 1);
-  path.column = SECTION_COLUMN_1;
-
-  AddWidget(path, "Infinite Health", WIDGET_CVAR_CHECKBOX)
-      .CVar(CVAR_CHEAT("InfiniteHealth"))
-      .Options(CheckboxOptions().Tooltip(
-          "Mario's HP won't decrease during battle."));
-
-  AddWidget(path, "Infinite Flower Points", WIDGET_CVAR_CHECKBOX)
-      .CVar(CVAR_CHEAT("InfiniteFlowerPoints"))
-      .Options(CheckboxOptions().Tooltip(
-          "Mario's FP won't decrease during battle."));
-
-  AddWidget(path, "No Badge Cost", WIDGET_CVAR_CHECKBOX)
-      .CVar(CVAR_CHEAT("NoBPCost"))
-      .Options(
-          CheckboxOptions().Tooltip("Equip any badge regardless of BP cost."));
-
-  AddWidget(path, "Max Star Power", WIDGET_CVAR_CHECKBOX)
-      .CVar(CVAR_CHEAT("MaxStarPower"))
-      .Options(CheckboxOptions().Tooltip(
-          "Star Power stays full and won't decrease."));
 }
 
 } // namespace PaperboatGui
