@@ -132,21 +132,6 @@ void PaperboatMenu::AddMenuSettings() {
                    .LabelPosition(LabelPositions::Far))
       .Callback([](WidgetInfo &info) { GameEngine::Instance->ScaleImGui(); });
 
-  // General - About
-  path.column = SECTION_COLUMN_2;
-
-  AddWidget(path, "About", WIDGET_SEPARATOR_TEXT);
-  AddWidget(path, "Paperboat", WIDGET_TEXT);
-  if (gGitCommitTag[0] != 0) {
-    AddWidget(path, gBuildVersion, WIDGET_TEXT);
-  } else {
-    AddWidget(path, ("Branch: " + std::string(gGitBranch)), WIDGET_TEXT);
-    AddWidget(path, ("Commit: " + std::string(gGitCommitHash)), WIDGET_TEXT);
-  }
-  // for (uint32_t i = 0; i < ResourceMgr_GetNumGameVersions(); i++) {
-  //     AddWidget(path, GetGameVersionString(i), WIDGET_TEXT);
-  // }
-
   // Settings > Audio
   path.sidebarName = "Audio";
   path.column = SECTION_COLUMN_1;
