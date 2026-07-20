@@ -596,20 +596,22 @@ bool SliderInt(const char *label, int32_t *value,
   }
   ImGui::AlignTextToFramePadding();
   if (options.alignment == ComponentAlignments::Right) {
-    ImGui::Text(label, *value);
-    if (options.labelPosition == LabelPositions::Above) {
-      ImGui::NewLine();
-      ImGui::SameLine(ImGui::GetContentRegionAvail().x - width);
-    } else if (options.labelPosition == LabelPositions::Near) {
-      ImGui::SameLine();
-    } else if (options.labelPosition == LabelPositions::Far ||
-               options.labelPosition == LabelPositions::None) {
-      ImGui::SameLine(ImGui::GetContentRegionAvail().x - width);
-    }
-  } else if (options.alignment == ComponentAlignments::Left) {
-    if (options.labelPosition == LabelPositions::Above) {
       ImGui::Text(label, *value);
-    }
+      if (options.labelPosition == LabelPositions::Above) {
+          ImGui::NewLine();
+          ImGui::SameLine(ImGui::GetContentRegionAvail().x - width);
+      }
+      else if (options.labelPosition == LabelPositions::Near) {
+          ImGui::SameLine();
+      }
+      else if (options.labelPosition == LabelPositions::Far) {
+          ImGui::SameLine(ImGui::GetContentRegionAvail().x - width);
+      }
+  }
+  else if (options.alignment == ComponentAlignments::Left) {
+      if (options.labelPosition == LabelPositions::Above) {
+          ImGui::Text(label, *value);
+      }
   }
   if (options.showButtons) {
     if (Button("-",
@@ -661,8 +663,7 @@ bool SliderInt(const char *label, int32_t *value,
     if (options.labelPosition == LabelPositions::Near) {
       ImGui::SameLine();
       ImGui::Text(label, *value);
-    } else if (options.labelPosition == LabelPositions::Far ||
-               options.labelPosition == LabelPositions::None) {
+    } else if (options.labelPosition == LabelPositions::Far) {
       ImGui::SameLine(ImGui::GetContentRegionAvail().x -
                       ImGui::CalcTextSize(label).x +
                       ImGui::GetStyle().ItemSpacing.x);

@@ -47,7 +47,7 @@ std::map<ValueViewerTypes, const char*> valueViewerOptions = {
 
 std::vector<ValueViewerTypes> enabledSettingsList;
 
-ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_AlwaysAutoResize;
+ImGuiWindowFlags valueViewerWindowFlags = ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_AlwaysAutoResize;
 ImVec4 valueViewerBG = ImVec4{ 0, 0, 0, 0.5f };
 float valueViewerScale = 1.0f;
 
@@ -179,7 +179,7 @@ void ValueViewerWindow::Draw() {
     ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 0));
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 8.0f);
 
-    if (ImGui::Begin("ValueViewer", nullptr, windowFlags)) {
+    if (ImGui::Begin("ValueViewer", nullptr, valueViewerWindowFlags)) {
         ImGui::SetWindowFontScale(valueViewerScale);
 
         if (enabledSettingsList.empty()) {
@@ -207,9 +207,9 @@ void ValueViewerWindow::InitElement() {
     valueViewerBG = { 0, 0, 0, CVAR_VALUE_VIEWER_OPACITY };
     valueViewerScale = CVAR_VALUE_VIEWER_SCALE;
 
-    windowFlags = ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_AlwaysAutoResize;
+    valueViewerWindowFlags = ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_AlwaysAutoResize;
     if (CVAR_ENABLE_FLOATING_WINDOW) {
-        windowFlags |= ImGuiWindowFlags_NoTitleBar;
+        valueViewerWindowFlags |= ImGuiWindowFlags_NoTitleBar;
     }
 }
 

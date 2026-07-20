@@ -80,6 +80,13 @@ void PaperboatMenu::AddMenuDevTools() {
       .CVar(CVAR_WINDOW("ValueViewerSettings"))
       .WindowName("Value Viewer Settings")
       .HideInSearch(true);
+
+  path.sidebarName = "Save Editor";
+  AddSidebarEntry("Dev Tools", path.sidebarName, 1);
+  AddWidget(path, "Popout Save Editor", WIDGET_WINDOW_BUTTON)
+      .CVar(CVAR_WINDOW("SaveEditor"))
+      .WindowName("Save Editor")
+      .HideInSearch(true);
 }
 
 } // namespace PaperboatGui

@@ -7,6 +7,8 @@
 
 #define WIDGET_COLOR UIWidgets::Colors(CVarGetInteger("gSettings.Menu.Theme", 5))
 
+void TableCellCenteredText(const char* text, ImVec2 size);
+
 #define MAX_SEED_STRING_SIZE 1024
 extern char seedString[MAX_SEED_STRING_SIZE];
 extern u32 finalSeed;

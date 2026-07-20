@@ -8,8 +8,9 @@
 #include "port/ui/cvar_prefixes.h"
 
 void PortEnhancements_Init() {
-  PortEnhancements_Register();
-  SaveManager_Init();
+    LoadGuiTextures();
+    PortEnhancements_Register();
+    SaveManager_Init();
 }
 
 void PortEnhancements_Register() {
