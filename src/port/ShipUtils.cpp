@@ -6,6 +6,11 @@
 
 #include "assets/ui.h"
 
+extern "C" {
+extern intptr_t gItemIconRasterOffsets[349];
+extern intptr_t gItemIconPaletteOffsets[349];
+}
+
 typedef struct {
     const char* assetTexturePath;
     ImVec4 assetTint;
@@ -99,12 +104,6 @@ std::vector<TextureAsset> guiTextures = {
 };
 
 std::vector<PaletteAsset> guiPaletteTextures = {
-    { ui_boots_png, ui_boots_pal, ImVec4{ 1.0f, 1.0f, 1.0f, 1.0f } },
-    { ui_super_boots_png, ui_super_boots_pal, ImVec4{ 1.0f, 1.0f, 1.0f, 1.0f } },
-    { ui_ultra_boots_png, ui_ultra_boots_pal, ImVec4{ 1.0f, 1.0f, 1.0f, 1.0f } },
-    { ui_hammer_png, ui_hammer_pal, ImVec4{ 1.0f, 1.0f, 1.0f, 1.0f } },
-    { ui_super_hammer_png, ui_super_hammer_pal, ImVec4{ 1.0f, 1.0f, 1.0f, 1.0f } },
-    { ui_ultra_hammer_png, ui_ultra_hammer_pal, ImVec4{ 1.0f, 1.0f, 1.0f, 1.0f } },
     { ui_pause_mario_large_png, ui_pause_mario_large_pal, ImVec4{ 1.0f, 1.0f, 1.0f, 1.0f } },
     { ui_pause_stat_bp_png, ui_pause_stat_bp_pal, ImVec4{ 1.0f, 1.0f, 1.0f, 1.0f } },
     { ui_files_eldstar_png, ui_files_eldstar_pal, ImVec4{ 1.0f, 1.0f, 1.0f, 1.0f } },
@@ -132,6 +131,12 @@ void LoadGuiTextures() {
     // for (auto& asset : digitTextures) {
     //     gui->LoadGuiTexture(asset.assetTexturePath, asset.assetTexturePath);
     // }
+
+    for (int i = 0; i < 349; i++) {
+        const char* rasterPath = reinterpret_cast<const char*>(gItemIconRasterOffsets[i]);
+        const char* palettePath = reinterpret_cast<const char*>(gItemIconPaletteOffsets[i]);
+        gui->LoadGuiTexture(rasterPath, rasterPath, palettePath, ImVec4{ 1.0f, 1.0f, 1.0f, 1.0f });
+    }
 
     for (auto& asset : guiTextures) {
         gui->LoadGuiTexture(asset.assetTexturePath, asset.assetTexturePath);
