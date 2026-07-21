@@ -756,7 +756,7 @@ f32 update_lerp(s32 easing, f32 start, f32 end, s32 elapsed, s32 duration) {
     return 0.0f;
 }
 
-void appendGfx_startup_prim_rect(u8 r, u8 g, u8 b, u8 a, u16 left, u16 top, u16 right, u16 bottom) {
+void appendGfx_startup_prim_rect(u8 r, u8 g, u8 b, u8 a, s16 left, s16 top, s16 right, s16 bottom) {
     gDPPipeSync(gMainGfxPos++);
     gSPDisplayList(gMainGfxPos++, D_80074580);
 
@@ -769,7 +769,7 @@ void appendGfx_startup_prim_rect(u8 r, u8 g, u8 b, u8 a, u16 left, u16 top, u16 
     }
 
     gDPSetPrimColor(gMainGfxPos++, 0, 0, r, g, b, a);
-    gDPFillRectangle(gMainGfxPos++, left, top, right, bottom);
+    gDPFillWideRectangle(gMainGfxPos++, left, top, right, bottom);
 
     gDPPipeSync(gMainGfxPos++);
     gDPSetRenderMode(gMainGfxPos++, G_RM_TEX_EDGE, G_RM_TEX_EDGE2);
@@ -777,7 +777,7 @@ void appendGfx_startup_prim_rect(u8 r, u8 g, u8 b, u8 a, u16 left, u16 top, u16 
 }
 
 void startup_draw_prim_rect_COPY(s16 left, s16 top, s16 right, s16 bottom, u16 r, u16 g, u16 b, u16 a) {
-    u16 temp;
+    s16 temp;
 
     if (right < left) {
         temp = right;
@@ -795,7 +795,7 @@ void startup_draw_prim_rect_COPY(s16 left, s16 top, s16 right, s16 bottom, u16 r
 }
 
 void startup_draw_prim_rect(s16 left, s16 top, s16 right, s16 bottom, u16 r, u16 g, u16 b, u16 a) {
-    u16 temp;
+    s16 temp;
 
     if (right < left) {
         temp = right;
