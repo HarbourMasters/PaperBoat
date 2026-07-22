@@ -1753,7 +1753,7 @@ void msg_draw_char(MessagePrintState* printer, MessageDrawState* drawState, s32 
         }
 #endif
     }
-    gSPTextureRectangle(gMainGfxPos++, ulx * 4, uly * 4, lrx * 4, lry * 4, G_TX_RENDERTILE, texOffsetX, texOffsetY,
+    gSPWideTextureRectangle(gMainGfxPos++, ulx * 4, uly * 4, lrx * 4, lry * 4, G_TX_RENDERTILE, texOffsetX, texOffsetY,
                         dsdx, dtdy);
 
 #if VERSION_IQUE
