@@ -55,7 +55,7 @@ API_CALLABLE(N(BuildItemChoiceList)) {
     } else {
         s32 pos = 0;
         for (i = 0; i < NUM_ITEMS; i++) {
-            if (item_is_key(i)) {
+            if (item_is_consumable(i)) {
                 N(ItemChoice_List)[pos++] = i;
             }
         }
