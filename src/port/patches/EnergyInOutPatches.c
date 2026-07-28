@@ -47,13 +47,13 @@ void port_energy_in_out_appendGfx(void* effect) {
     gDPSetTextureLUT(gMainGfxPos++, G_TT_NONE);
     gDPSetTextureFilter(gMainGfxPos++, G_TF_BILERP);
     gDPSetCombineLERP(gMainGfxPos++,
-                      PRIMITIVE, ENVIRONMENT, TEXEL0, 0, TEXEL0, 0, PRIMITIVE, 0,
-                      PRIMITIVE, ENVIRONMENT, TEXEL0, 0, TEXEL0, 0, PRIMITIVE, 0);
+                      PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
+                      PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
     gDPSetRenderMode(gMainGfxPos++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     gSPTexture(gMainGfxPos++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
     gDPLoadTextureBlock_4b(gMainGfxPos++, D_09000000_3D5F30, G_IM_FMT_I,
                            16, 64, 0,
-                           G_TX_WRAP, G_TX_CLAMP, 4, 6, G_TX_NOLOD, G_TX_NOLOD);
+                           G_TX_CLAMP, G_TX_CLAMP, 4, 6, 1, 1);
 
     part++;
     for (i = 1; i < ((EffectInstance*)effect)->numParts; i++, part++) {
