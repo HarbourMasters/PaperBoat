@@ -17,6 +17,10 @@ void port_patch_dl(Gfx* dl);
 struct StaticAnimatorNode;
 void port_patch_animator_tree(struct StaticAnimatorNode** tree);
 
+// Map and battle textures O2R loader, replaces mdl_load_all_textures
+struct ModelNode;
+void port_load_map_textures(struct ModelNode* rootModel, const char* archiveName);
+
 // Sprite shading (SpritePatches.c)
 void port_appendGfx_shading_palette(
     Matrix4f mtx, s32 uls, s32 ult, s32 lrs, s32 lrt, s32 alpha,

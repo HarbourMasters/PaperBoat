@@ -1,0 +1,316 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+kpa_akari02tif:
+  { type: TEXTURE, format: I4, offset: 0x2628BAE, width: 32, height: 32, symbol: kpa_akari02tif }
+kpa_akari02tif_aux:
+  { type: TEXTURE, format: I4, offset: 0x2628DAE, width: 16, height: 64, symbol: kpa_akari02tif_aux }
+kpa_ana_ctif:
+  { type: TEXTURE, format: CI4, offset: 0x2628FDE, width: 32, height: 32, tlut: 0x26291DE, symbol: kpa_ana_ctif }
+kpa_ana_ctif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26291DE, colors: 16, symbol: kpa_ana_ctif_tlut }
+kpa_backtif:
+  { type: TEXTURE, format: CI4, offset: 0x262922E, width: 32, height: 128, tlut: 0x2629A2E, symbol: kpa_backtif }
+kpa_backtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2629A2E, colors: 16, symbol: kpa_backtif_tlut }
+kpa_batu01tif:
+  { type: TEXTURE, format: CI4, offset: 0x2629A7E, width: 32, height: 32, tlut: 0x2629C7E, symbol: kpa_batu01tif }
+kpa_batu01tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2629C7E, colors: 16, symbol: kpa_batu01tif_tlut }
+kpa_berosaidetif:
+  { type: TEXTURE, format: CI4, offset: 0x2629CCE, width: 16, height: 16, tlut: 0x2629D4E, symbol: kpa_berosaidetif }
+kpa_berosaidetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2629D4E, colors: 16, symbol: kpa_berosaidetif_tlut }
+kpa_chandeliertif:
+  { type: TEXTURE, format: CI4, offset: 0x2629D9E, width: 16, height: 16, tlut: 0x2629E1E, symbol: kpa_chandeliertif }
+kpa_chandeliertif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2629E1E, colors: 16, symbol: kpa_chandeliertif_tlut }
+kpa_coin3tif:
+  { type: TEXTURE, format: CI4, offset: 0x2629E6E, width: 32, height: 32, tlut: 0x262A06E, symbol: kpa_coin3tif }
+kpa_coin3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x262A06E, colors: 16, symbol: kpa_coin3tif_tlut }
+kpa_doa2tif:
+  { type: TEXTURE, format: CI4, offset: 0x262A0BE, width: 32, height: 64, tlut: 0x262A4BE, symbol: kpa_doa2tif }
+kpa_doa2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x262A4BE, colors: 16, symbol: kpa_doa2tif_tlut }
+kpa_edge_atif:
+  { type: TEXTURE, format: CI4, offset: 0x262A50E, width: 64, height: 32, tlut: 0x262A90E, symbol: kpa_edge_atif }
+kpa_edge_atif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x262A90E, colors: 16, symbol: kpa_edge_atif_tlut }
+kpa_floor_btif:
+  { type: TEXTURE, format: I4, offset: 0x262A95E, width: 16, height: 16, symbol: kpa_floor_btif }
+kpa_floor_ctif:
+  { type: TEXTURE, format: I4, offset: 0x262AA0E, width: 32, height: 32, symbol: kpa_floor_ctif }
+kpa_floor_ctif_mm1:
+  { type: TEXTURE, format: I4, offset: 0x262AC0E, width: 16, height: 16, symbol: kpa_floor_ctif_mm1 }
+kpa_floortif:
+  { type: TEXTURE, format: I4, offset: 0x262ACBE, width: 32, height: 32, symbol: kpa_floortif }
+kpa_grayframetif:
+  { type: TEXTURE, format: I4, offset: 0x262AEEE, width: 64, height: 64, symbol: kpa_grayframetif }
+kpa_hi_01tif:
+  { type: TEXTURE, format: CI4, offset: 0x262B71E, width: 128, height: 32, tlut: 0x262BF1E, symbol: kpa_hi_01tif }
+kpa_hi_01tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x262BF1E, colors: 16, symbol: kpa_hi_01tif_tlut }
+kpa_hitif:
+  { type: TEXTURE, format: CI4, offset: 0x262BF6E, width: 16, height: 16, tlut: 0x262BFEE, symbol: kpa_hitif }
+kpa_hitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x262BFEE, colors: 16, symbol: kpa_hitif_tlut }
+kpa_iwa_bigtif:
+  { type: TEXTURE, format: RGBA16, offset: 0x262C03E, width: 64, height: 32, symbol: kpa_iwa_bigtif }
+kpa_iwagattaitif:
+  { type: TEXTURE, format: I8, offset: 0x262D06E, width: 64, height: 64, symbol: kpa_iwagattaitif }
+kpa_jimtif:
+  { type: TEXTURE, format: CI4, offset: 0x262E09E, width: 64, height: 64, tlut: 0x262E89E, symbol: kpa_jimtif }
+kpa_jimtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x262E89E, colors: 16, symbol: kpa_jimtif_tlut }
+kpa_jutantif:
+  { type: TEXTURE, format: CI4, offset: 0x262E8EE, width: 16, height: 16, tlut: 0x262E96E, symbol: kpa_jutantif }
+kpa_jutantif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x262E96E, colors: 16, symbol: kpa_jutantif_tlut }
+kpa_k_ana02tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x262E9BE, width: 32, height: 32, symbol: kpa_k_ana02tif }
+kpa_k_sakutif:
+  { type: TEXTURE, format: CI4, offset: 0x262F1EE, width: 128, height: 32, tlut: 0x262F9EE, symbol: kpa_k_sakutif }
+kpa_k_sakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x262F9EE, colors: 16, symbol: kpa_k_sakutif_tlut }
+kpa_k_taki1tif:
+  { type: TEXTURE, format: IA16, offset: 0x262FA3E, width: 32, height: 64, symbol: kpa_k_taki1tif }
+kpa_k_taki1tif_aux:
+  { type: TEXTURE, format: IA16, offset: 0x263023E, width: 32, height: 32, symbol: kpa_k_taki1tif_aux }
+kpa_kabe_blocktif:
+  { type: TEXTURE, format: I4, offset: 0x2630A6E, width: 32, height: 16, symbol: kpa_kabe_blocktif }
+kpa_kabe12btif:
+  { type: TEXTURE, format: CI4, offset: 0x2630B9E, width: 32, height: 32, tlut: 0x2630D9E, symbol: kpa_kabe12btif }
+kpa_kabe12btif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2630D9E, colors: 16, symbol: kpa_kabe12btif_tlut }
+kpa_kabe12tif:
+  { type: TEXTURE, format: CI4, offset: 0x2630DEE, width: 32, height: 32, tlut: 0x2630FEE, symbol: kpa_kabe12tif }
+kpa_kabe12tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2630FEE, colors: 16, symbol: kpa_kabe12tif_tlut }
+kpa_kabe17tif:
+  { type: TEXTURE, format: CI4, offset: 0x263103E, width: 32, height: 32, tlut: 0x263123E, symbol: kpa_kabe17tif }
+kpa_kabe17tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x263123E, colors: 16, symbol: kpa_kabe17tif_tlut }
+kpa_kabe18tif:
+  { type: TEXTURE, format: I4, offset: 0x263128E, width: 128, height: 64, symbol: kpa_kabe18tif }
+kpa_kabe19tif:
+  { type: TEXTURE, format: CI4, offset: 0x26322BE, width: 32, height: 32, tlut: 0x26324BE, symbol: kpa_kabe19tif }
+kpa_kabe19tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26324BE, colors: 16, symbol: kpa_kabe19tif_tlut }
+kpa_kabe4btif:
+  { type: TEXTURE, format: CI4, offset: 0x263250E, width: 32, height: 32, tlut: 0x263270E, symbol: kpa_kabe4btif }
+kpa_kabe4btif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x263270E, colors: 16, symbol: kpa_kabe4btif_tlut }
+kpa_kabe4tif:
+  { type: TEXTURE, format: CI4, offset: 0x263275E, width: 32, height: 32, tlut: 0x263295E, symbol: kpa_kabe4tif }
+kpa_kabe4tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x263295E, colors: 16, symbol: kpa_kabe4tif_tlut }
+kpa_kabe8btif:
+  { type: TEXTURE, format: CI4, offset: 0x26329AE, width: 32, height: 32, tlut: 0x2632BAE, symbol: kpa_kabe8btif }
+kpa_kabe8btif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2632BAE, colors: 16, symbol: kpa_kabe8btif_tlut }
+kpa_kabe8tif:
+  { type: TEXTURE, format: CI4, offset: 0x2632BFE, width: 32, height: 32, tlut: 0x2632DFE, symbol: kpa_kabe8tif }
+kpa_kabe8tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2632DFE, colors: 16, symbol: kpa_kabe8tif_tlut }
+kpa_kinoitatif:
+  { type: TEXTURE, format: CI4, offset: 0x2632E4E, width: 64, height: 64, tlut: 0x263364E, symbol: kpa_kinoitatif }
+kpa_kinoitatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x263364E, colors: 16, symbol: kpa_kinoitatif_tlut }
+kpa_kpa_greentif:
+  { type: TEXTURE, format: RGBA16, offset: 0x263369E, width: 32, height: 32, symbol: kpa_kpa_greentif }
+kpa_kpa_hako10tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x2633ECE, width: 32, height: 64, symbol: kpa_kpa_hako10tif }
+kpa_kpa_hako6tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x2634EFE, width: 64, height: 32, symbol: kpa_kpa_hako6tif }
+kpa_kpa_madotif:
+  { type: TEXTURE, format: CI4, offset: 0x2635F2E, width: 16, height: 32, tlut: 0x263602E, symbol: kpa_kpa_madotif }
+kpa_kpa_madotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x263602E, colors: 16, symbol: kpa_kpa_madotif_tlut }
+kpa_kpa_yaritif:
+  { type: TEXTURE, format: CI4, offset: 0x263607E, width: 32, height: 32, tlut: 0x263627E, symbol: kpa_kpa_yaritif }
+kpa_kpa_yaritif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x263627E, colors: 16, symbol: kpa_kpa_yaritif_tlut }
+kpa_kpa_yohane2tif:
+  { type: TEXTURE, format: CI4, offset: 0x26362CE, width: 64, height: 32, tlut: 0x26366CE, symbol: kpa_kpa_yohane2tif }
+kpa_kpa_yohane2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26366CE, colors: 16, symbol: kpa_kpa_yohane2tif_tlut }
+kpa_kpa_yohane3tif:
+  { type: TEXTURE, format: CI4, offset: 0x263671E, width: 16, height: 128, tlut: 0x2636B1E, symbol: kpa_kpa_yohane3tif }
+kpa_kpa_yohane3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2636B1E, colors: 16, symbol: kpa_kpa_yohane3tif_tlut }
+kpa_kpa5_eyetif:
+  { type: TEXTURE, format: IA8, offset: 0x2636B6E, width: 32, height: 32, symbol: kpa_kpa5_eyetif }
+kpa_kpasmoketif:
+  { type: TEXTURE, format: IA8, offset: 0x2636F9E, width: 32, height: 128, symbol: kpa_kpasmoketif }
+kpa_kpasmoketif_aux:
+  { type: TEXTURE, format: IA8, offset: 0x2637F9E, width: 32, height: 128, symbol: kpa_kpasmoketif_aux }
+kpa_kumo2tif:
+  { type: TEXTURE, format: IA16, offset: 0x2638FCE, width: 64, height: 32, symbol: kpa_kumo2tif }
+kpa_kumotif:
+  { type: TEXTURE, format: IA16, offset: 0x2639FFE, width: 64, height: 32, symbol: kpa_kumotif }
+kpa_kup_floor1tif:
+  { type: TEXTURE, format: CI4, offset: 0x263B02E, width: 32, height: 32, tlut: 0x263B22E, symbol: kpa_kup_floor1tif }
+kpa_kup_floor1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x263B22E, colors: 16, symbol: kpa_kup_floor1tif_tlut }
+kpa_kup_floor2tif:
+  { type: TEXTURE, format: CI4, offset: 0x263B27E, width: 16, height: 16, tlut: 0x263B2FE, symbol: kpa_kup_floor2tif }
+kpa_kup_floor2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x263B2FE, colors: 16, symbol: kpa_kup_floor2tif_tlut }
+kpa_kup_kumo1tif:
+  { type: TEXTURE, format: IA16, offset: 0x263B34E, width: 64, height: 32, symbol: kpa_kup_kumo1tif }
+kpa_kup_wall1tif:
+  { type: TEXTURE, format: CI4, offset: 0x263C37E, width: 64, height: 32, tlut: 0x263C77E, symbol: kpa_kup_wall1tif }
+kpa_kup_wall1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x263C77E, colors: 16, symbol: kpa_kup_wall1tif_tlut }
+kpa_kup_wall2tif:
+  { type: TEXTURE, format: CI4, offset: 0x263C7CE, width: 64, height: 64, tlut: 0x263CFCE, symbol: kpa_kup_wall2tif }
+kpa_kup_wall2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x263CFCE, colors: 16, symbol: kpa_kup_wall2tif_tlut }
+kpa_kup_wall3tif:
+  { type: TEXTURE, format: CI4, offset: 0x263D01E, width: 64, height: 64, tlut: 0x263D81E, symbol: kpa_kup_wall3tif }
+kpa_kup_wall3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x263D81E, colors: 16, symbol: kpa_kup_wall3tif_tlut }
+kpa_kup_wall4tif:
+  { type: TEXTURE, format: CI4, offset: 0x263D86E, width: 32, height: 64, tlut: 0x263DC6E, symbol: kpa_kup_wall4tif }
+kpa_kup_wall4tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x263DC6E, colors: 16, symbol: kpa_kup_wall4tif_tlut }
+kpa_kup_window1tif:
+  { type: TEXTURE, format: CI4, offset: 0x263DCBE, width: 32, height: 32, tlut: 0x263DEBE, symbol: kpa_kup_window1tif }
+kpa_kup_window1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x263DEBE, colors: 16, symbol: kpa_kup_window1tif_tlut }
+kpa_kuppatif:
+  { type: TEXTURE, format: RGBA16, offset: 0x263DF0E, width: 32, height: 64, symbol: kpa_kuppatif }
+kpa_kusari_uetif:
+  { type: TEXTURE, format: CI4, offset: 0x263EF3E, width: 16, height: 16, tlut: 0x263EFBE, symbol: kpa_kusari_uetif }
+kpa_kusari_uetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x263EFBE, colors: 16, symbol: kpa_kusari_uetif_tlut }
+kpa_kusaritif:
+  { type: TEXTURE, format: CI4, offset: 0x263F00E, width: 16, height: 16, tlut: 0x263F08E, symbol: kpa_kusaritif }
+kpa_kusaritif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x263F08E, colors: 16, symbol: kpa_kusaritif_tlut }
+kpa_maru01tif:
+  { type: TEXTURE, format: CI4, offset: 0x263F0DE, width: 32, height: 32, tlut: 0x263F2DE, symbol: kpa_maru01tif }
+kpa_maru01tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x263F2DE, colors: 16, symbol: kpa_maru01tif_tlut }
+kpa_me_atif:
+  { type: TEXTURE, format: IA8, offset: 0x263F32E, width: 64, height: 64, symbol: kpa_me_atif }
+kpa_mtif:
+  { type: TEXTURE, format: CI4, offset: 0x264035E, width: 16, height: 16, tlut: 0x26403DE, symbol: kpa_mtif }
+kpa_mtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26403DE, colors: 16, symbol: kpa_mtif_tlut }
+kpa_patarntif:
+  { type: TEXTURE, format: CI4, offset: 0x264042E, width: 32, height: 64, tlut: 0x264082E, symbol: kpa_patarntif }
+kpa_patarntif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264082E, colors: 16, symbol: kpa_patarntif_tlut }
+kpa_plane_blocktif:
+  { type: TEXTURE, format: CI4, offset: 0x264087E, width: 64, height: 64, tlut: 0x264107E, symbol: kpa_plane_blocktif }
+kpa_plane_blocktif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264107E, colors: 16, symbol: kpa_plane_blocktif_tlut }
+kpa_renga_btif:
+  { type: TEXTURE, format: I4, offset: 0x26410CE, width: 128, height: 64, symbol: kpa_renga_btif }
+kpa_ryusei_gou_btif:
+  { type: TEXTURE, format: CI4, offset: 0x26420FE, width: 32, height: 32, tlut: 0x26422FE, symbol: kpa_ryusei_gou_btif }
+kpa_ryusei_gou_btif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26422FE, colors: 16, symbol: kpa_ryusei_gou_btif_tlut }
+kpa_ryusei_goutif:
+  { type: TEXTURE, format: CI4, offset: 0x264234E, width: 32, height: 32, tlut: 0x264254E, symbol: kpa_ryusei_goutif }
+kpa_ryusei_goutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264254E, colors: 16, symbol: kpa_ryusei_goutif_tlut }
+kpa_shirokabetif:
+  { type: TEXTURE, format: I4, offset: 0x264259E, width: 32, height: 32, symbol: kpa_shirokabetif }
+kpa_shiroyanetif:
+  { type: TEXTURE, format: CI4, offset: 0x26427CE, width: 16, height: 32, tlut: 0x26428CE, symbol: kpa_shiroyanetif }
+kpa_shiroyanetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26428CE, colors: 16, symbol: kpa_shiroyanetif_tlut }
+kpa_star_doortif:
+  { type: TEXTURE, format: CI4, offset: 0x264291E, width: 32, height: 64, tlut: 0x2642D1E, symbol: kpa_star_doortif }
+kpa_star_doortif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2642D1E, colors: 16, symbol: kpa_star_doortif_tlut }
+kpa_sui1tif:
+  { type: TEXTURE, format: IA16, offset: 0x2642D6E, width: 32, height: 64, symbol: kpa_sui1tif }
+kpa_sui1tif_aux:
+  { type: TEXTURE, format: IA16, offset: 0x264356E, width: 32, height: 32, symbol: kpa_sui1tif_aux }
+kpa_syounyuudou2tif:
+  { type: TEXTURE, format: CI4, offset: 0x2643D9E, width: 32, height: 128, tlut: 0x264459E, symbol: kpa_syounyuudou2tif }
+kpa_syounyuudou2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264459E, colors: 16, symbol: kpa_syounyuudou2tif_tlut }
+kpa_syounyuudou4tif:
+  { type: TEXTURE, format: CI4, offset: 0x26445EE, width: 32, height: 128, tlut: 0x2644DEE, symbol: kpa_syounyuudou4tif }
+kpa_syounyuudou4tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2644DEE, colors: 16, symbol: kpa_syounyuudou4tif_tlut }
+kpa_t_marutif:
+  { type: TEXTURE, format: CI4, offset: 0x2644E3E, width: 32, height: 32, tlut: 0x264503E, symbol: kpa_t_marutif }
+kpa_t_marutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264503E, colors: 16, symbol: kpa_t_marutif_tlut }
+kpa_tesuri2tif:
+  { type: TEXTURE, format: CI4, offset: 0x264508E, width: 32, height: 64, tlut: 0x264548E, symbol: kpa_tesuri2tif }
+kpa_tesuri2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264548E, colors: 16, symbol: kpa_tesuri2tif_tlut }
+kpa_to_wall_aatif:
+  { type: TEXTURE, format: I4, offset: 0x26454DE, width: 32, height: 32, symbol: kpa_to_wall_aatif }
+kpa_togetif:
+  { type: TEXTURE, format: RGBA16, offset: 0x264570E, width: 32, height: 32, symbol: kpa_togetif }
+kpa_trd_kusaritif:
+  { type: TEXTURE, format: CI4, offset: 0x2645F3E, width: 16, height: 16, tlut: 0x2645FBE, symbol: kpa_trd_kusaritif }
+kpa_trd_kusaritif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2645FBE, colors: 16, symbol: kpa_trd_kusaritif_tlut }
+kpa_tsubotif:
+  { type: TEXTURE, format: CI4, offset: 0x264600E, width: 16, height: 64, tlut: 0x264620E, symbol: kpa_tsubotif }
+kpa_tsubotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264620E, colors: 16, symbol: kpa_tsubotif_tlut }
+kpa_wall_atif:
+  { type: TEXTURE, format: I4, offset: 0x264625E, width: 64, height: 64, symbol: kpa_wall_atif }
+kpa_wall_btif:
+  { type: TEXTURE, format: I4, offset: 0x2646A8E, width: 64, height: 64, symbol: kpa_wall_btif }
+kpa_wall_ctif:
+  { type: TEXTURE, format: I4, offset: 0x26472BE, width: 64, height: 32, symbol: kpa_wall_ctif }
+kpa_wall_dtif:
+  { type: TEXTURE, format: I4, offset: 0x26476EE, width: 32, height: 32, symbol: kpa_wall_dtif }
+kpa_wall_ftif:
+  { type: TEXTURE, format: I4, offset: 0x264791E, width: 32, height: 64, symbol: kpa_wall_ftif }
+kpa_water3tif:
+  { type: TEXTURE, format: IA16, offset: 0x2647D4E, width: 32, height: 64, symbol: kpa_water3tif }
+kpa_water3tif_aux:
+  { type: TEXTURE, format: IA16, offset: 0x264854E, width: 32, height: 32, symbol: kpa_water3tif_aux }
+kpa_windowtif:
+  { type: TEXTURE, format: I4, offset: 0x2648D7E, width: 32, height: 32, symbol: kpa_windowtif }
+kpa_yellow_blocktif:
+  { type: TEXTURE, format: CI4, offset: 0x2648FAE, width: 32, height: 16, tlut: 0x26490AE, symbol: kpa_yellow_blocktif }
+kpa_yellow_blocktif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26490AE, colors: 16, symbol: kpa_yellow_blocktif_tlut }
+kpa_yogan04tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x26490FE, width: 32, height: 64, symbol: kpa_yogan04tif }
+kpa_yogan04tif_aux:
+  { type: TEXTURE, format: RGBA16, offset: 0x26498FE, width: 32, height: 32, symbol: kpa_yogan04tif_aux }
+kpa_yougan05tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x264A12E, width: 32, height: 64, symbol: kpa_yougan05tif }
+kpa_yougan05tif_aux:
+  { type: TEXTURE, format: RGBA16, offset: 0x264A92E, width: 32, height: 32, symbol: kpa_yougan05tif_aux }
+kpa_yuka2tif:
+  { type: TEXTURE, format: CI4, offset: 0x264B15E, width: 32, height: 64, tlut: 0x264B55E, symbol: kpa_yuka2tif }
+kpa_yuka2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264B55E, colors: 16, symbol: kpa_yuka2tif_tlut }
+kpa_yuka3tif:
+  { type: TEXTURE, format: I4, offset: 0x264B5AE, width: 16, height: 16, symbol: kpa_yuka3tif }
+kpa_yuka5tif:
+  { type: TEXTURE, format: CI4, offset: 0x264B65E, width: 32, height: 64, tlut: 0x264BA5E, symbol: kpa_yuka5tif }
+kpa_yuka5tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264BA5E, colors: 16, symbol: kpa_yuka5tif_tlut }
+kpa_yukatif:
+  { type: TEXTURE, format: CI4, offset: 0x264BAAE, width: 16, height: 16, tlut: 0x264BB2E, symbol: kpa_yukatif }
+kpa_yukatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264BB2E, colors: 16, symbol: kpa_yukatif_tlut }
+kpa_zyou1tif:
+  { type: TEXTURE, format: CI8, offset: 0x264BB7E, width: 32, height: 32, tlut: 0x264BF7E, symbol: kpa_zyou1tif }
+kpa_zyou1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264BF7E, colors: 256, symbol: kpa_zyou1tif_tlut }
+kpa_zyou2tif:
+  { type: TEXTURE, format: CI8, offset: 0x264C1AE, width: 32, height: 64, tlut: 0x264C9AE, symbol: kpa_zyou2tif }
+kpa_zyou2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264C9AE, colors: 256, symbol: kpa_zyou2tif_tlut }
+kpa_zyou3tif:
+  { type: TEXTURE, format: CI8, offset: 0x264CBDE, width: 32, height: 32, tlut: 0x264CFDE, symbol: kpa_zyou3tif }
+kpa_zyou3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264CFDE, colors: 256, symbol: kpa_zyou3tif_tlut }

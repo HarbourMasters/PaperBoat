@@ -8,6 +8,7 @@
 #include "game_modes.h"
 #include "port/Engine.h"
 #include "port/shape_loader.h"
+#include "port/patches/Patches.h"
 
 extern u16 gFrameBuf0[];
 extern u16 gFrameBuf1[];
@@ -190,13 +191,7 @@ void state_step_end_battle(void) {
                         SCREEN_INSET_X, SCREEN_INSET_Y);
                 }
 
-                {
-                    char texAssetPath[64];
-                    snprintf(texAssetPath, sizeof(texAssetPath), "__OTR__textures/%s", wMapTexName);
-                    u8* textureData = (u8*)ResourceGetDataByName(texAssetPath);
-                    size_t textureSize = ResourceGetSizeByName(texAssetPath);
-                    mdl_load_all_textures(mapSettings->modelTreeRoot, textureData, textureSize);
-                }
+                port_load_map_textures(mapSettings->modelTreeRoot, wMapTexName);
                 mdl_calculate_model_sizes();
                 npc_reload_all();
 

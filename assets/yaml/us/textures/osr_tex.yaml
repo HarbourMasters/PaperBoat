@@ -1,0 +1,242 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+osr_berosaidetif:
+  { type: TEXTURE, format: CI4, offset: 0x264D20E, width: 16, height: 16, tlut: 0x264D28E, symbol: osr_berosaidetif }
+osr_berosaidetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264D28E, colors: 16, symbol: osr_berosaidetif_tlut }
+osr_bloktif:
+  { type: TEXTURE, format: RGBA16, offset: 0x264D2DE, width: 16, height: 16, symbol: osr_bloktif }
+osr_brcktif:
+  { type: TEXTURE, format: I4, offset: 0x264D50E, width: 16, height: 16, symbol: osr_brcktif }
+osr_checktif:
+  { type: TEXTURE, format: CI4, offset: 0x264D5BE, width: 32, height: 32, tlut: 0x264D83E, symbol: osr_checktif }
+osr_checktif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264D83E, colors: 16, symbol: osr_checktif_tlut }
+osr_checktif_mm1:
+  { type: TEXTURE, format: CI4, offset: 0x264D7BE, width: 16, height: 16, symbol: osr_checktif_mm1 }
+osr_dec_planttif:
+  { type: TEXTURE, format: CI4, offset: 0x264D88E, width: 64, height: 32, tlut: 0x264DC8E, symbol: osr_dec_planttif }
+osr_dec_planttif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264DC8E, colors: 16, symbol: osr_dec_planttif_tlut }
+osr_doa2tif:
+  { type: TEXTURE, format: CI4, offset: 0x264DCDE, width: 32, height: 64, tlut: 0x264E0DE, symbol: osr_doa2tif }
+osr_doa2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264E0DE, colors: 16, symbol: osr_doa2tif_tlut }
+osr_flagtif:
+  { type: TEXTURE, format: CI4, offset: 0x264E12E, width: 16, height: 16, tlut: 0x264E1AE, symbol: osr_flagtif }
+osr_flagtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264E1AE, colors: 16, symbol: osr_flagtif_tlut }
+osr_floortif:
+  { type: TEXTURE, format: I4, offset: 0x264E1FE, width: 32, height: 32, symbol: osr_floortif }
+osr_frametif:
+  { type: TEXTURE, format: CI4, offset: 0x264E42E, width: 64, height: 64, tlut: 0x264EC2E, symbol: osr_frametif }
+osr_frametif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264EC2E, colors: 16, symbol: osr_frametif_tlut }
+osr_funtif:
+  { type: TEXTURE, format: IA4, offset: 0x264EC7E, width: 32, height: 32, symbol: osr_funtif }
+osr_funtif_aux:
+  { type: TEXTURE, format: IA4, offset: 0x264EE7E, width: 16, height: 16, symbol: osr_funtif_aux }
+osr_gake_atif:
+  { type: TEXTURE, format: CI4, offset: 0x264EF2E, width: 64, height: 64, tlut: 0x264F72E, symbol: osr_gake_atif }
+osr_gake_atif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x264F72E, colors: 16, symbol: osr_gake_atif_tlut }
+osr_gake_btif:
+  { type: TEXTURE, format: RGBA16, offset: 0x264F77E, width: 64, height: 32, symbol: osr_gake_btif }
+osr_grayframetif:
+  { type: TEXTURE, format: I4, offset: 0x26507AE, width: 64, height: 64, symbol: osr_grayframetif }
+osr_green_etif:
+  { type: TEXTURE, format: CI4, offset: 0x2650FDE, width: 32, height: 32, tlut: 0x265125E, symbol: osr_green_etif }
+osr_green_etif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265125E, colors: 16, symbol: osr_green_etif_tlut }
+osr_green_etif_mm1:
+  { type: TEXTURE, format: CI4, offset: 0x26511DE, width: 16, height: 16, symbol: osr_green_etif_mm1 }
+osr_hanatif:
+  { type: TEXTURE, format: CI4, offset: 0x26512AE, width: 64, height: 32, tlut: 0x26516AE, symbol: osr_hanatif }
+osr_hanatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26516AE, colors: 16, symbol: osr_hanatif_tlut }
+osr_howahowatif:
+  { type: TEXTURE, format: IA16, offset: 0x26516FE, width: 16, height: 16, symbol: osr_howahowatif }
+osr_i_togetif:
+  { type: TEXTURE, format: I4, offset: 0x265192E, width: 32, height: 32, symbol: osr_i_togetif }
+osr_iwa_bigtif:
+  { type: TEXTURE, format: RGBA16, offset: 0x2651B5E, width: 64, height: 32, symbol: osr_iwa_bigtif }
+osr_iwagattaitif:
+  { type: TEXTURE, format: I8, offset: 0x2652B8E, width: 64, height: 64, symbol: osr_iwagattaitif }
+osr_jim2tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x2653BBE, width: 64, height: 32, symbol: osr_jim2tif }
+osr_jimentif:
+  { type: TEXTURE, format: CI4, offset: 0x2654BEE, width: 32, height: 64, tlut: 0x2654FEE, symbol: osr_jimentif }
+osr_jimentif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2654FEE, colors: 16, symbol: osr_jimentif_tlut }
+osr_jimentif_aux:
+  { type: TEXTURE, format: CI4, offset: 0x265500E, width: 32, height: 64, tlut: 0x265540E, symbol: osr_jimentif_aux }
+osr_jimentif_aux_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265540E, colors: 16, symbol: osr_jimentif_aux_tlut }
+osr_jimtif:
+  { type: TEXTURE, format: CI4, offset: 0x265545E, width: 64, height: 64, tlut: 0x2655C5E, symbol: osr_jimtif }
+osr_jimtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2655C5E, colors: 16, symbol: osr_jimtif_tlut }
+osr_k_star_doortif:
+  { type: TEXTURE, format: RGBA16, offset: 0x2655CAE, width: 32, height: 64, symbol: osr_k_star_doortif }
+osr_k_walltif:
+  { type: TEXTURE, format: CI4, offset: 0x2656CDE, width: 64, height: 32, tlut: 0x26570DE, symbol: osr_k_walltif }
+osr_k_walltif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26570DE, colors: 16, symbol: osr_k_walltif_tlut }
+osr_kabe_blocktif:
+  { type: TEXTURE, format: I4, offset: 0x265712E, width: 32, height: 16, symbol: osr_kabe_blocktif }
+osr_kabe_edgetif:
+  { type: TEXTURE, format: I4, offset: 0x265725E, width: 32, height: 16, symbol: osr_kabe_edgetif }
+osr_kemuri_anitif:
+  { type: TEXTURE, format: IA8, offset: 0x265738E, width: 64, height: 32, symbol: osr_kemuri_anitif }
+osr_kemuri_anitif_aux:
+  { type: TEXTURE, format: IA8, offset: 0x2657B8E, width: 64, height: 32, symbol: osr_kemuri_anitif_aux }
+osr_kinotif:
+  { type: TEXTURE, format: CI4, offset: 0x26583BE, width: 32, height: 64, tlut: 0x26587BE, symbol: osr_kinotif }
+osr_kinotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26587BE, colors: 16, symbol: osr_kinotif_tlut }
+osr_kumo3tif:
+  { type: TEXTURE, format: IA16, offset: 0x265880E, width: 64, height: 32, symbol: osr_kumo3tif }
+osr_kumotif:
+  { type: TEXTURE, format: IA8, offset: 0x265983E, width: 64, height: 32, symbol: osr_kumotif }
+osr_kusari_uetif:
+  { type: TEXTURE, format: CI4, offset: 0x265A06E, width: 16, height: 16, tlut: 0x265A0EE, symbol: osr_kusari_uetif }
+osr_kusari_uetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265A0EE, colors: 16, symbol: osr_kusari_uetif_tlut }
+osr_kusaritif:
+  { type: TEXTURE, format: CI4, offset: 0x265A13E, width: 16, height: 32, tlut: 0x265A23E, symbol: osr_kusaritif }
+osr_kusaritif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265A23E, colors: 16, symbol: osr_kusaritif_tlut }
+osr_mac_britshcuttif:
+  { type: TEXTURE, format: CI4, offset: 0x265A28E, width: 64, height: 64, tlut: 0x265AA8E, symbol: osr_mac_britshcuttif }
+osr_mac_britshcuttif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265AA8E, colors: 16, symbol: osr_mac_britshcuttif_tlut }
+osr_mac_britshtreetif:
+  { type: TEXTURE, format: CI4, offset: 0x265AADE, width: 32, height: 64, tlut: 0x265AEDE, symbol: osr_mac_britshtreetif }
+osr_mac_britshtreetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265AEDE, colors: 16, symbol: osr_mac_britshtreetif_tlut }
+osr_mac_edgetif:
+  { type: TEXTURE, format: CI4, offset: 0x265AF2E, width: 16, height: 16, tlut: 0x265AFAE, symbol: osr_mac_edgetif }
+osr_mac_edgetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265AFAE, colors: 16, symbol: osr_mac_edgetif_tlut }
+osr_mac_field_gakestif:
+  { type: TEXTURE, format: CI4, offset: 0x265AFFE, width: 64, height: 64, tlut: 0x265B7FE, symbol: osr_mac_field_gakestif }
+osr_mac_field_gakestif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265B7FE, colors: 16, symbol: osr_mac_field_gakestif_tlut }
+osr_mac_field_gaketif:
+  { type: TEXTURE, format: CI4, offset: 0x265B84E, width: 64, height: 64, tlut: 0x265C04E, symbol: osr_mac_field_gaketif }
+osr_mac_field_gaketif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265C04E, colors: 16, symbol: osr_mac_field_gaketif_tlut }
+osr_mac_fieldtif:
+  { type: TEXTURE, format: CI4, offset: 0x265C09E, width: 32, height: 32, tlut: 0x265C29E, symbol: osr_mac_fieldtif }
+osr_mac_fieldtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265C29E, colors: 16, symbol: osr_mac_fieldtif_tlut }
+osr_mac_house6tif:
+  { type: TEXTURE, format: CI4, offset: 0x265C2EE, width: 32, height: 32, tlut: 0x265C4EE, symbol: osr_mac_house6tif }
+osr_mac_house6tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265C4EE, colors: 16, symbol: osr_mac_house6tif_tlut }
+osr_mac_house7tif:
+  { type: TEXTURE, format: CI4, offset: 0x265C53E, width: 32, height: 32, tlut: 0x265C73E, symbol: osr_mac_house7tif }
+osr_mac_house7tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265C73E, colors: 16, symbol: osr_mac_house7tif_tlut }
+osr_mac_house8tif:
+  { type: TEXTURE, format: CI4, offset: 0x265C78E, width: 32, height: 32, tlut: 0x265C98E, symbol: osr_mac_house8tif }
+osr_mac_house8tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265C98E, colors: 16, symbol: osr_mac_house8tif_tlut }
+osr_mac_sakutif:
+  { type: TEXTURE, format: CI4, offset: 0x265C9DE, width: 32, height: 32, tlut: 0x265CBDE, symbol: osr_mac_sakutif }
+osr_mac_sakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265CBDE, colors: 16, symbol: osr_mac_sakutif_tlut }
+osr_madotif:
+  { type: TEXTURE, format: CI4, offset: 0x265CC2E, width: 16, height: 32, tlut: 0x265CD2E, symbol: osr_madotif }
+osr_madotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265CD2E, colors: 16, symbol: osr_madotif_tlut }
+osr_me_atif:
+  { type: TEXTURE, format: IA8, offset: 0x265CD7E, width: 64, height: 64, symbol: osr_me_atif }
+osr_mizutif:
+  { type: TEXTURE, format: CI4, offset: 0x265DDAE, width: 32, height: 32, tlut: 0x265DFAE, symbol: osr_mizutif }
+osr_mizutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265DFAE, colors: 16, symbol: osr_mizutif_tlut }
+osr_mtif:
+  { type: TEXTURE, format: CI4, offset: 0x265DFFE, width: 16, height: 16, tlut: 0x265E07E, symbol: osr_mtif }
+osr_mtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265E07E, colors: 16, symbol: osr_mtif_tlut }
+osr_osr_green_2tif:
+  { type: TEXTURE, format: CI4, offset: 0x265E0CE, width: 32, height: 32, tlut: 0x265E2CE, symbol: osr_osr_green_2tif }
+osr_osr_green_2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265E2CE, colors: 16, symbol: osr_osr_green_2tif_tlut }
+osr_osr_greentif:
+  { type: TEXTURE, format: CI4, offset: 0x265E31E, width: 32, height: 32, tlut: 0x265E51E, symbol: osr_osr_greentif }
+osr_osr_greentif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265E51E, colors: 16, symbol: osr_osr_greentif_tlut }
+osr_osr_sakutif:
+  { type: TEXTURE, format: I4, offset: 0x265E56E, width: 64, height: 64, symbol: osr_osr_sakutif }
+osr_plane_blocktif:
+  { type: TEXTURE, format: CI4, offset: 0x265ED9E, width: 64, height: 64, tlut: 0x265F59E, symbol: osr_plane_blocktif }
+osr_plane_blocktif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x265F59E, colors: 16, symbol: osr_plane_blocktif_tlut }
+osr_renga_btif:
+  { type: TEXTURE, format: I4, offset: 0x265F5EE, width: 128, height: 64, symbol: osr_renga_btif }
+osr_ryusei_gou_btif:
+  { type: TEXTURE, format: CI4, offset: 0x266061E, width: 32, height: 32, tlut: 0x266081E, symbol: osr_ryusei_gou_btif }
+osr_ryusei_gou_btif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x266081E, colors: 16, symbol: osr_ryusei_gou_btif_tlut }
+osr_ryusei_goutif:
+  { type: TEXTURE, format: CI4, offset: 0x266086E, width: 32, height: 32, tlut: 0x2660A6E, symbol: osr_ryusei_goutif }
+osr_ryusei_goutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2660A6E, colors: 16, symbol: osr_ryusei_goutif_tlut }
+osr_sakutif:
+  { type: TEXTURE, format: CI4, offset: 0x2660ABE, width: 16, height: 16, tlut: 0x2660B3E, symbol: osr_sakutif }
+osr_sakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2660B3E, colors: 16, symbol: osr_sakutif_tlut }
+osr_shirokabetif:
+  { type: TEXTURE, format: I4, offset: 0x2660B8E, width: 32, height: 32, symbol: osr_shirokabetif }
+osr_shiroyanetif:
+  { type: TEXTURE, format: CI4, offset: 0x2660DBE, width: 16, height: 32, tlut: 0x2660EBE, symbol: osr_shiroyanetif }
+osr_shiroyanetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2660EBE, colors: 16, symbol: osr_shiroyanetif_tlut }
+osr_t_hei2tif:
+  { type: TEXTURE, format: CI4, offset: 0x2660F0E, width: 64, height: 64, tlut: 0x266170E, symbol: osr_t_hei2tif }
+osr_t_hei2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x266170E, colors: 16, symbol: osr_t_hei2tif_tlut }
+osr_t_mac_britshcuttif:
+  { type: TEXTURE, format: CI4, offset: 0x266175E, width: 64, height: 64, tlut: 0x2661F5E, symbol: osr_t_mac_britshcuttif }
+osr_t_mac_britshcuttif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2661F5E, colors: 16, symbol: osr_t_mac_britshcuttif_tlut }
+osr_t_mac_fieldtif:
+  { type: TEXTURE, format: CI4, offset: 0x2661FAE, width: 32, height: 32, tlut: 0x26621AE, symbol: osr_t_mac_fieldtif }
+osr_t_mac_fieldtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26621AE, colors: 16, symbol: osr_t_mac_fieldtif_tlut }
+osr_t_mac_house7tif:
+  { type: TEXTURE, format: CI4, offset: 0x26621FE, width: 32, height: 32, tlut: 0x26623FE, symbol: osr_t_mac_house7tif }
+osr_t_mac_house7tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26623FE, colors: 16, symbol: osr_t_mac_house7tif_tlut }
+osr_t_mac_sakutif:
+  { type: TEXTURE, format: CI4, offset: 0x266244E, width: 64, height: 32, tlut: 0x266284E, symbol: osr_t_mac_sakutif }
+osr_t_mac_sakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x266284E, colors: 16, symbol: osr_t_mac_sakutif_tlut }
+osr_t_marutif:
+  { type: TEXTURE, format: CI4, offset: 0x266289E, width: 32, height: 32, tlut: 0x2662A9E, symbol: osr_t_marutif }
+osr_t_marutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2662A9E, colors: 16, symbol: osr_t_marutif_tlut }
+osr_to_toge_atif:
+  { type: TEXTURE, format: RGBA16, offset: 0x2662AEE, width: 8, height: 16, symbol: osr_to_toge_atif }
+osr_to_wall_aatif:
+  { type: TEXTURE, format: I4, offset: 0x2662C1E, width: 32, height: 32, symbol: osr_to_wall_aatif }
+osr_togetif:
+  { type: TEXTURE, format: CI4, offset: 0x2662E4E, width: 32, height: 32, tlut: 0x266304E, symbol: osr_togetif }
+osr_togetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x266304E, colors: 16, symbol: osr_togetif_tlut }
+osr_wall_ctif:
+  { type: TEXTURE, format: I4, offset: 0x266309E, width: 64, height: 32, symbol: osr_wall_ctif }
+osr_wall_etif:
+  { type: TEXTURE, format: I4, offset: 0x26634CE, width: 32, height: 64, symbol: osr_wall_etif }
+osr_wall_mtif:
+  { type: TEXTURE, format: CI4, offset: 0x26638FE, width: 64, height: 32, tlut: 0x2663CFE, symbol: osr_wall_mtif }
+osr_wall_mtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2663CFE, colors: 16, symbol: osr_wall_mtif_tlut }
+osr_yellow_blocktif:
+  { type: TEXTURE, format: CI4, offset: 0x2663D4E, width: 32, height: 16, tlut: 0x2663E4E, symbol: osr_yellow_blocktif }
+osr_yellow_blocktif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2663E4E, colors: 16, symbol: osr_yellow_blocktif_tlut }
