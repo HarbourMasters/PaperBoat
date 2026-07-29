@@ -1,0 +1,358 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+omo_1tif:
+  { type: TEXTURE, format: CI4, offset: 0x273531E, width: 32, height: 32, tlut: 0x273551E, symbol: omo_1tif }
+omo_1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273551E, colors: 16, symbol: omo_1tif_tlut }
+omo_2tif:
+  { type: TEXTURE, format: CI4, offset: 0x273556E, width: 32, height: 32, tlut: 0x273576E, symbol: omo_2tif }
+omo_2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273576E, colors: 16, symbol: omo_2tif_tlut }
+omo_3tif:
+  { type: TEXTURE, format: CI4, offset: 0x27357BE, width: 32, height: 32, tlut: 0x27359BE, symbol: omo_3tif }
+omo_3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27359BE, colors: 16, symbol: omo_3tif_tlut }
+omo_4tif:
+  { type: TEXTURE, format: CI4, offset: 0x2735A0E, width: 32, height: 32, tlut: 0x2735C0E, symbol: omo_4tif }
+omo_4tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2735C0E, colors: 16, symbol: omo_4tif_tlut }
+omo_5tif:
+  { type: TEXTURE, format: CI4, offset: 0x2735C5E, width: 32, height: 32, tlut: 0x2735E5E, symbol: omo_5tif }
+omo_5tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2735E5E, colors: 16, symbol: omo_5tif_tlut }
+omo_a_2tif:
+  { type: TEXTURE, format: IA4, offset: 0x2735EAE, width: 32, height: 32, symbol: omo_a_2tif }
+omo_amiami2tif:
+  { type: TEXTURE, format: I4, offset: 0x27360DE, width: 32, height: 32, symbol: omo_amiami2tif }
+omo_ana_2tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x273630E, width: 32, height: 32, symbol: omo_ana_2tif }
+omo_berosaidetif:
+  { type: TEXTURE, format: CI4, offset: 0x2736B3E, width: 16, height: 16, tlut: 0x2736BBE, symbol: omo_berosaidetif }
+omo_berosaidetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2736BBE, colors: 16, symbol: omo_berosaidetif_tlut }
+omo_c_s2_2_utif:
+  { type: TEXTURE, format: CI4, offset: 0x2736C0E, width: 16, height: 32, tlut: 0x2736D0E, symbol: omo_c_s2_2_utif }
+omo_c_s2_2_utif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2736D0E, colors: 16, symbol: omo_c_s2_2_utif_tlut }
+omo_c_s2_2tif:
+  { type: TEXTURE, format: CI4, offset: 0x2736D5E, width: 16, height: 32, tlut: 0x2736E5E, symbol: omo_c_s2_2tif }
+omo_c_s2_2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2736E5E, colors: 16, symbol: omo_c_s2_2tif_tlut }
+omo_c_s2_3_utif:
+  { type: TEXTURE, format: CI4, offset: 0x2736EAE, width: 16, height: 32, tlut: 0x2736FAE, symbol: omo_c_s2_3_utif }
+omo_c_s2_3_utif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2736FAE, colors: 16, symbol: omo_c_s2_3_utif_tlut }
+omo_c_s2_3tif:
+  { type: TEXTURE, format: CI4, offset: 0x2736FFE, width: 16, height: 32, tlut: 0x27370FE, symbol: omo_c_s2_3tif }
+omo_c_s2_3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27370FE, colors: 16, symbol: omo_c_s2_3tif_tlut }
+omo_c_s2_4_utif:
+  { type: TEXTURE, format: CI4, offset: 0x273714E, width: 16, height: 32, tlut: 0x273724E, symbol: omo_c_s2_4_utif }
+omo_c_s2_4_utif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273724E, colors: 16, symbol: omo_c_s2_4_utif_tlut }
+omo_c_s2_4tif:
+  { type: TEXTURE, format: CI4, offset: 0x273729E, width: 16, height: 32, tlut: 0x273739E, symbol: omo_c_s2_4tif }
+omo_c_s2_4tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273739E, colors: 16, symbol: omo_c_s2_4tif_tlut }
+omo_c_s2_6_utif:
+  { type: TEXTURE, format: CI4, offset: 0x27373EE, width: 16, height: 32, tlut: 0x27374EE, symbol: omo_c_s2_6_utif }
+omo_c_s2_6_utif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27374EE, colors: 16, symbol: omo_c_s2_6_utif_tlut }
+omo_c_s2_6tif:
+  { type: TEXTURE, format: CI4, offset: 0x273753E, width: 16, height: 32, tlut: 0x273763E, symbol: omo_c_s2_6tif }
+omo_c_s2_6tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273763E, colors: 16, symbol: omo_c_s2_6tif_tlut }
+omo_c_s23tif:
+  { type: TEXTURE, format: CI8, offset: 0x273768E, width: 8, height: 8, tlut: 0x27376CE, symbol: omo_c_s23tif }
+omo_c_s23tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27376CE, colors: 256, symbol: omo_c_s23tif_tlut }
+omo_denkitif:
+  { type: TEXTURE, format: CI8, offset: 0x27378FE, width: 8, height: 16, tlut: 0x273797E, symbol: omo_denkitif }
+omo_denkitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273797E, colors: 256, symbol: omo_denkitif_tlut }
+omo_e_1_1tif:
+  { type: TEXTURE, format: CI4, offset: 0x2737BAE, width: 32, height: 32, tlut: 0x2737DAE, symbol: omo_e_1_1tif }
+omo_e_1_1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2737DAE, colors: 16, symbol: omo_e_1_1tif_tlut }
+omo_e_2tif:
+  { type: TEXTURE, format: CI4, offset: 0x2737DFE, width: 32, height: 32, tlut: 0x2737FFE, symbol: omo_e_2tif }
+omo_e_2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2737FFE, colors: 16, symbol: omo_e_2tif_tlut }
+omo_e_r2tif:
+  { type: TEXTURE, format: I4, offset: 0x273804E, width: 32, height: 32, symbol: omo_e_r2tif }
+omo_e_rgtif:
+  { type: TEXTURE, format: I4, offset: 0x273827E, width: 32, height: 32, symbol: omo_e_rgtif }
+omo_e_rhtif:
+  { type: TEXTURE, format: I4, offset: 0x27384AE, width: 32, height: 32, symbol: omo_e_rhtif }
+omo_e_ritif:
+  { type: TEXTURE, format: I4, offset: 0x27386DE, width: 32, height: 32, symbol: omo_e_ritif }
+omo_e1tif:
+  { type: TEXTURE, format: CI4, offset: 0x273890E, width: 16, height: 16, tlut: 0x273898E, symbol: omo_e1tif }
+omo_e1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273898E, colors: 16, symbol: omo_e1tif_tlut }
+omo_e2tif:
+  { type: TEXTURE, format: CI4, offset: 0x27389DE, width: 16, height: 16, tlut: 0x2738A5E, symbol: omo_e2tif }
+omo_e2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2738A5E, colors: 16, symbol: omo_e2tif_tlut }
+omo_etif:
+  { type: TEXTURE, format: CI4, offset: 0x2738AAE, width: 32, height: 32, tlut: 0x2738CAE, symbol: omo_etif }
+omo_etif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2738CAE, colors: 16, symbol: omo_etif_tlut }
+omo_frametif:
+  { type: TEXTURE, format: CI4, offset: 0x2738CFE, width: 64, height: 64, tlut: 0x27394FE, symbol: omo_frametif }
+omo_frametif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27394FE, colors: 16, symbol: omo_frametif_tlut }
+omo_humitif:
+  { type: TEXTURE, format: CI4, offset: 0x273954E, width: 16, height: 16, tlut: 0x27395CE, symbol: omo_humitif }
+omo_humitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27395CE, colors: 16, symbol: omo_humitif_tlut }
+omo_i_2tif:
+  { type: TEXTURE, format: IA4, offset: 0x273961E, width: 32, height: 32, symbol: omo_i_2tif }
+omo_jamp2tif:
+  { type: TEXTURE, format: CI8, offset: 0x273984E, width: 16, height: 16, tlut: 0x273994E, symbol: omo_jamp2tif }
+omo_jamp2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273994E, colors: 256, symbol: omo_jamp2tif_tlut }
+omo_kabe_2tif:
+  { type: TEXTURE, format: CI4, offset: 0x2739B7E, width: 32, height: 16, tlut: 0x2739C7E, symbol: omo_kabe_2tif }
+omo_kabe_2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2739C7E, colors: 16, symbol: omo_kabe_2tif_tlut }
+omo_kabe2tif:
+  { type: TEXTURE, format: CI4, offset: 0x2739CCE, width: 16, height: 16, tlut: 0x2739D4E, symbol: omo_kabe2tif }
+omo_kabe2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2739D4E, colors: 16, symbol: omo_kabe2tif_tlut }
+omo_kabetif:
+  { type: TEXTURE, format: CI4, offset: 0x2739D9E, width: 32, height: 32, tlut: 0x2739F9E, symbol: omo_kabetif }
+omo_kabetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2739F9E, colors: 16, symbol: omo_kabetif_tlut }
+omo_kazaritif:
+  { type: TEXTURE, format: CI8, offset: 0x2739FEE, width: 8, height: 32, tlut: 0x273A0EE, symbol: omo_kazaritif }
+omo_kazaritif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273A0EE, colors: 256, symbol: omo_kazaritif_tlut }
+omo_kmr_saku2tif:
+  { type: TEXTURE, format: CI4, offset: 0x273A31E, width: 16, height: 16, tlut: 0x273A39E, symbol: omo_kmr_saku2tif }
+omo_kmr_saku2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273A39E, colors: 16, symbol: omo_kmr_saku2tif_tlut }
+omo_kmr_saku333tif:
+  { type: TEXTURE, format: CI4, offset: 0x273A3EE, width: 32, height: 16, tlut: 0x273A4EE, symbol: omo_kmr_saku333tif }
+omo_kmr_saku333tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273A4EE, colors: 16, symbol: omo_kmr_saku333tif_tlut }
+omo_kmr_sakutif:
+  { type: TEXTURE, format: CI4, offset: 0x273A53E, width: 32, height: 16, tlut: 0x273A63E, symbol: omo_kmr_sakutif }
+omo_kmr_sakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273A63E, colors: 16, symbol: omo_kmr_sakutif_tlut }
+omo_linetif:
+  { type: TEXTURE, format: CI4, offset: 0x273A68E, width: 16, height: 16, tlut: 0x273A70E, symbol: omo_linetif }
+omo_linetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273A70E, colors: 16, symbol: omo_linetif_tlut }
+omo_m1_atif:
+  { type: TEXTURE, format: IA4, offset: 0x273A75E, width: 32, height: 64, symbol: omo_m1_atif }
+omo_m2_atif:
+  { type: TEXTURE, format: IA4, offset: 0x273AB8E, width: 32, height: 64, symbol: omo_m2_atif }
+omo_m3_atif:
+  { type: TEXTURE, format: IA4, offset: 0x273AFBE, width: 64, height: 64, symbol: omo_m3_atif }
+omo_m4_atif:
+  { type: TEXTURE, format: IA4, offset: 0x273B7EE, width: 64, height: 32, symbol: omo_m4_atif }
+omo_m5_atif:
+  { type: TEXTURE, format: IA4, offset: 0x273BC1E, width: 32, height: 64, symbol: omo_m5_atif }
+omo_m6_atif:
+  { type: TEXTURE, format: IA4, offset: 0x273C04E, width: 64, height: 64, symbol: omo_m6_atif }
+omo_mado_2tif:
+  { type: TEXTURE, format: CI4, offset: 0x273C87E, width: 32, height: 64, tlut: 0x273CC7E, symbol: omo_mado_2tif }
+omo_mado_2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273CC7E, colors: 16, symbol: omo_mado_2tif_tlut }
+omo_mado_3_1tif:
+  { type: TEXTURE, format: CI4, offset: 0x273CCCE, width: 16, height: 64, tlut: 0x273CECE, symbol: omo_mado_3_1tif }
+omo_mado_3_1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273CECE, colors: 16, symbol: omo_mado_3_1tif_tlut }
+omo_madotif:
+  { type: TEXTURE, format: CI4, offset: 0x273CF1E, width: 32, height: 64, tlut: 0x273D31E, symbol: omo_madotif }
+omo_madotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273D31E, colors: 16, symbol: omo_madotif_tlut }
+omo_n_2tif:
+  { type: TEXTURE, format: IA4, offset: 0x273D36E, width: 32, height: 32, symbol: omo_n_2tif }
+omo_nezi2tif:
+  { type: TEXTURE, format: CI4, offset: 0x273D59E, width: 16, height: 16, tlut: 0x273D61E, symbol: omo_nezi2tif }
+omo_nezi2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273D61E, colors: 16, symbol: omo_nezi2tif_tlut }
+omo_nor_1btif:
+  { type: TEXTURE, format: I4, offset: 0x273D66E, width: 64, height: 64, symbol: omo_nor_1btif }
+omo_nor_3ctif:
+  { type: TEXTURE, format: CI4, offset: 0x273DE9E, width: 64, height: 32, tlut: 0x273E29E, symbol: omo_nor_3ctif }
+omo_nor_3ctif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273E29E, colors: 16, symbol: omo_nor_3ctif_tlut }
+omo_nor_nejitif:
+  { type: TEXTURE, format: CI4, offset: 0x273E2EE, width: 16, height: 32, tlut: 0x273E3EE, symbol: omo_nor_nejitif }
+omo_nor_nejitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273E3EE, colors: 16, symbol: omo_nor_nejitif_tlut }
+omo_nor_syarintif:
+  { type: TEXTURE, format: CI4, offset: 0x273E43E, width: 32, height: 32, tlut: 0x273E63E, symbol: omo_nor_syarintif }
+omo_nor_syarintif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273E63E, colors: 16, symbol: omo_nor_syarintif_tlut }
+omo_o_2tif:
+  { type: TEXTURE, format: IA4, offset: 0x273E68E, width: 32, height: 32, symbol: omo_o_2tif }
+omo_omo_2_3tif:
+  { type: TEXTURE, format: CI4, offset: 0x273E8BE, width: 64, height: 64, tlut: 0x273F0BE, symbol: omo_omo_2_3tif }
+omo_omo_2_3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273F0BE, colors: 16, symbol: omo_omo_2_3tif_tlut }
+omo_omo_3tif:
+  { type: TEXTURE, format: CI4, offset: 0x273F10E, width: 16, height: 32, tlut: 0x273F20E, symbol: omo_omo_3tif }
+omo_omo_3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273F20E, colors: 16, symbol: omo_omo_3tif_tlut }
+omo_omo_hibitif:
+  { type: TEXTURE, format: CI4, offset: 0x273F25E, width: 32, height: 32, tlut: 0x273F45E, symbol: omo_omo_hibitif }
+omo_omo_hibitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273F45E, colors: 16, symbol: omo_omo_hibitif_tlut }
+omo_po_2tif:
+  { type: TEXTURE, format: CI8, offset: 0x273F4AE, width: 8, height: 16, tlut: 0x273F52E, symbol: omo_po_2tif }
+omo_po_2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273F52E, colors: 256, symbol: omo_po_2tif_tlut }
+omo_potif:
+  { type: TEXTURE, format: CI8, offset: 0x273F75E, width: 8, height: 16, tlut: 0x273F7DE, symbol: omo_potif }
+omo_potif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273F7DE, colors: 256, symbol: omo_potif_tlut }
+omo_s_2tif:
+  { type: TEXTURE, format: I4, offset: 0x273FA0E, width: 32, height: 32, symbol: omo_s_2tif }
+omo_senro_2tif:
+  { type: TEXTURE, format: CI4, offset: 0x273FC3E, width: 16, height: 16, tlut: 0x273FCBE, symbol: omo_senro_2tif }
+omo_senro_2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273FCBE, colors: 16, symbol: omo_senro_2tif_tlut }
+omo_senrotif:
+  { type: TEXTURE, format: CI4, offset: 0x273FD0E, width: 32, height: 16, tlut: 0x273FE4E, symbol: omo_senrotif }
+omo_senrotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273FE4E, colors: 16, symbol: omo_senrotif_tlut }
+omo_senrotif_mm1:
+  { type: TEXTURE, format: CI4, offset: 0x273FE0E, width: 16, height: 8, symbol: omo_senrotif_mm1 }
+omo_shirotif:
+  { type: TEXTURE, format: CI4, offset: 0x273FE9E, width: 16, height: 16, tlut: 0x273FF1E, symbol: omo_shirotif }
+omo_shirotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273FF1E, colors: 16, symbol: omo_shirotif_tlut }
+omo_shirushi_1tif:
+  { type: TEXTURE, format: CI4, offset: 0x273FF6E, width: 32, height: 32, tlut: 0x274016E, symbol: omo_shirushi_1tif }
+omo_shirushi_1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x274016E, colors: 16, symbol: omo_shirushi_1tif_tlut }
+omo_shirushi_2tif:
+  { type: TEXTURE, format: CI4, offset: 0x27401BE, width: 32, height: 32, tlut: 0x27403BE, symbol: omo_shirushi_2tif }
+omo_shirushi_2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27403BE, colors: 16, symbol: omo_shirushi_2tif_tlut }
+omo_shirushi_3tif:
+  { type: TEXTURE, format: CI4, offset: 0x274040E, width: 32, height: 32, tlut: 0x274060E, symbol: omo_shirushi_3tif }
+omo_shirushi_3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x274060E, colors: 16, symbol: omo_shirushi_3tif_tlut }
+omo_shirushi_4tif:
+  { type: TEXTURE, format: CI4, offset: 0x274065E, width: 32, height: 32, tlut: 0x274085E, symbol: omo_shirushi_4tif }
+omo_shirushi_4tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x274085E, colors: 16, symbol: omo_shirushi_4tif_tlut }
+omo_shy_atafuta0tif:
+  { type: TEXTURE, format: CI4, offset: 0x27408AE, width: 48, height: 52, tlut: 0x2740D8E, symbol: omo_shy_atafuta0tif }
+omo_shy_atafuta0tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2740D8E, colors: 16, symbol: omo_shy_atafuta0tif_tlut }
+omo_slot_3_1_2tif:
+  { type: TEXTURE, format: CI4, offset: 0x2740DDE, width: 32, height: 32, tlut: 0x2740FDE, symbol: omo_slot_3_1_2tif }
+omo_slot_3_1_2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2740FDE, colors: 16, symbol: omo_slot_3_1_2tif_tlut }
+omo_slot_3tif:
+  { type: TEXTURE, format: CI4, offset: 0x274102E, width: 32, height: 32, tlut: 0x274122E, symbol: omo_slot_3tif }
+omo_slot_3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x274122E, colors: 16, symbol: omo_slot_3tif_tlut }
+omo_slot_cointif:
+  { type: TEXTURE, format: CI4, offset: 0x274127E, width: 16, height: 16, tlut: 0x27412FE, symbol: omo_slot_cointif }
+omo_slot_cointif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27412FE, colors: 16, symbol: omo_slot_cointif_tlut }
+omo_slot_miniheitif:
+  { type: TEXTURE, format: CI4, offset: 0x274134E, width: 16, height: 16, tlut: 0x27413CE, symbol: omo_slot_miniheitif }
+omo_slot_miniheitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27413CE, colors: 16, symbol: omo_slot_miniheitif_tlut }
+omo_slot_startif:
+  { type: TEXTURE, format: CI4, offset: 0x274141E, width: 16, height: 16, tlut: 0x274149E, symbol: omo_slot_startif }
+omo_slot_startif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x274149E, colors: 16, symbol: omo_slot_startif_tlut }
+omo_slottif:
+  { type: TEXTURE, format: CI4, offset: 0x27414EE, width: 64, height: 32, tlut: 0x27418EE, symbol: omo_slottif }
+omo_slottif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27418EE, colors: 16, symbol: omo_slottif_tlut }
+omo_start1tif:
+  { type: TEXTURE, format: CI4, offset: 0x274193E, width: 64, height: 32, tlut: 0x2741D3E, symbol: omo_start1tif }
+omo_start1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2741D3E, colors: 16, symbol: omo_start1tif_tlut }
+omo_t_2tif:
+  { type: TEXTURE, format: IA4, offset: 0x2741D8E, width: 32, height: 32, symbol: omo_t_2tif }
+omo_tokeitif:
+  { type: TEXTURE, format: CI4, offset: 0x2741FBE, width: 64, height: 64, tlut: 0x27427BE, symbol: omo_tokeitif }
+omo_tokeitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27427BE, colors: 16, symbol: omo_tokeitif_tlut }
+omo_tumiki_1tif:
+  { type: TEXTURE, format: CI4, offset: 0x274280E, width: 32, height: 32, tlut: 0x2742A0E, symbol: omo_tumiki_1tif }
+omo_tumiki_1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2742A0E, colors: 16, symbol: omo_tumiki_1tif_tlut }
+omo_tumiki_2_1tif:
+  { type: TEXTURE, format: CI4, offset: 0x2742A5E, width: 32, height: 32, tlut: 0x2742C5E, symbol: omo_tumiki_2_1tif }
+omo_tumiki_2_1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2742C5E, colors: 16, symbol: omo_tumiki_2_1tif_tlut }
+omo_tumiki_3_1_2tif:
+  { type: TEXTURE, format: CI4, offset: 0x2742CAE, width: 32, height: 32, tlut: 0x2742EAE, symbol: omo_tumiki_3_1_2tif }
+omo_tumiki_3_1_2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2742EAE, colors: 16, symbol: omo_tumiki_3_1_2tif_tlut }
+omo_tumiki_4_1tif:
+  { type: TEXTURE, format: CI4, offset: 0x2742EFE, width: 32, height: 32, tlut: 0x27430FE, symbol: omo_tumiki_4_1tif }
+omo_tumiki_4_1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27430FE, colors: 16, symbol: omo_tumiki_4_1tif_tlut }
+omo_tumiki_4_atif:
+  { type: TEXTURE, format: CI4, offset: 0x274314E, width: 32, height: 32, tlut: 0x274334E, symbol: omo_tumiki_4_atif }
+omo_tumiki_4_atif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x274334E, colors: 16, symbol: omo_tumiki_4_atif_tlut }
+omo_tumiki_5_1tif:
+  { type: TEXTURE, format: CI4, offset: 0x274339E, width: 32, height: 32, tlut: 0x274359E, symbol: omo_tumiki_5_1tif }
+omo_tumiki_5_1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x274359E, colors: 16, symbol: omo_tumiki_5_1tif_tlut }
+omo_tumiki_7_1tif:
+  { type: TEXTURE, format: CI4, offset: 0x27435EE, width: 32, height: 32, tlut: 0x27437EE, symbol: omo_tumiki_7_1tif }
+omo_tumiki_7_1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27437EE, colors: 16, symbol: omo_tumiki_7_1tif_tlut }
+omo_tumiki_8_1tif:
+  { type: TEXTURE, format: CI4, offset: 0x274383E, width: 32, height: 32, tlut: 0x2743A3E, symbol: omo_tumiki_8_1tif }
+omo_tumiki_8_1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2743A3E, colors: 16, symbol: omo_tumiki_8_1tif_tlut }
+omo_wood_floor_ctif:
+  { type: TEXTURE, format: CI4, offset: 0x2743A8E, width: 32, height: 32, tlut: 0x2743C8E, symbol: omo_wood_floor_ctif }
+omo_wood_floor_ctif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2743C8E, colors: 16, symbol: omo_wood_floor_ctif_tlut }
+omo_yaji_1tif:
+  { type: TEXTURE, format: CI4, offset: 0x2743CDE, width: 32, height: 16, tlut: 0x2743DDE, symbol: omo_yaji_1tif }
+omo_yaji_1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2743DDE, colors: 16, symbol: omo_yaji_1tif_tlut }
+omo_yaji1_1tif:
+  { type: TEXTURE, format: CI4, offset: 0x2743E2E, width: 32, height: 16, tlut: 0x2743F2E, symbol: omo_yaji1_1tif }
+omo_yaji1_1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2743F2E, colors: 16, symbol: omo_yaji1_1tif_tlut }
+omo_yaji1tif:
+  { type: TEXTURE, format: CI4, offset: 0x2743F7E, width: 32, height: 16, tlut: 0x274407E, symbol: omo_yaji1tif }
+omo_yaji1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x274407E, colors: 16, symbol: omo_yaji1tif_tlut }
+omo_yajiruc_1itif:
+  { type: TEXTURE, format: CI4, offset: 0x27440CE, width: 32, height: 64, tlut: 0x27444CE, symbol: omo_yajiruc_1itif }
+omo_yajiruc_1itif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27444CE, colors: 16, symbol: omo_yajiruc_1itif_tlut }
+omo_yajitif:
+  { type: TEXTURE, format: CI4, offset: 0x274451E, width: 32, height: 16, tlut: 0x274461E, symbol: omo_yajitif }
+omo_yajitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x274461E, colors: 16, symbol: omo_yajitif_tlut }
+omo_yane_atif:
+  { type: TEXTURE, format: CI4, offset: 0x274466E, width: 32, height: 32, tlut: 0x274486E, symbol: omo_yane_atif }
+omo_yane_atif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x274486E, colors: 16, symbol: omo_yane_atif_tlut }
+omo_yuka_block3tif:
+  { type: TEXTURE, format: CI4, offset: 0x27448BE, width: 32, height: 64, tlut: 0x2744CBE, symbol: omo_yuka_block3tif }
+omo_yuka_block3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2744CBE, colors: 16, symbol: omo_yuka_block3tif_tlut }
+omo_yuka_block4_1tif:
+  { type: TEXTURE, format: CI4, offset: 0x2744D0E, width: 32, height: 32, tlut: 0x2744F0E, symbol: omo_yuka_block4_1tif }
+omo_yuka_block4_1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2744F0E, colors: 16, symbol: omo_yuka_block4_1tif_tlut }
+omo_yuka_block4tif:
+  { type: TEXTURE, format: CI4, offset: 0x2744F5E, width: 32, height: 64, tlut: 0x274545E, symbol: omo_yuka_block4tif }
+omo_yuka_block4tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x274545E, colors: 16, symbol: omo_yuka_block4tif_tlut }
+omo_yuka_block4tif_mm1:
+  { type: TEXTURE, format: CI4, offset: 0x274535E, width: 16, height: 32, symbol: omo_yuka_block4tif_mm1 }

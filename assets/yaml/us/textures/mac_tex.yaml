@@ -1,0 +1,410 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+mac_ahotif:
+  { type: TEXTURE, format: CI4, offset: 0x257778E, width: 32, height: 32, tlut: 0x257798E, symbol: mac_ahotif }
+mac_ahotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257798E, colors: 16, symbol: mac_ahotif_tlut }
+mac_berosaidetif:
+  { type: TEXTURE, format: CI4, offset: 0x25779DE, width: 16, height: 16, tlut: 0x2577A5E, symbol: mac_berosaidetif }
+mac_berosaidetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2577A5E, colors: 16, symbol: mac_berosaidetif_tlut }
+mac_boo_bushtif:
+  { type: TEXTURE, format: CI4, offset: 0x2577AAE, width: 32, height: 16, tlut: 0x2577BAE, symbol: mac_boo_bushtif }
+mac_boo_bushtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2577BAE, colors: 16, symbol: mac_boo_bushtif_tlut }
+mac_bottlestif:
+  { type: TEXTURE, format: I8, offset: 0x2577BFE, width: 64, height: 64, symbol: mac_bottlestif }
+mac_club64tif:
+  { type: TEXTURE, format: I4, offset: 0x2578C2E, width: 64, height: 32, symbol: mac_club64tif }
+mac_club64tif_mm1:
+  { type: TEXTURE, format: I4, offset: 0x257902E, width: 32, height: 16, symbol: mac_club64tif_mm1 }
+mac_club64tif_mm2:
+  { type: TEXTURE, format: I4, offset: 0x257912E, width: 16, height: 8, symbol: mac_club64tif_mm2 }
+mac_curtaintif:
+  { type: TEXTURE, format: CI4, offset: 0x257919E, width: 16, height: 32, tlut: 0x257929E, symbol: mac_curtaintif }
+mac_curtaintif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257929E, colors: 16, symbol: mac_curtaintif_tlut }
+mac_dec_planttif:
+  { type: TEXTURE, format: CI4, offset: 0x25792EE, width: 64, height: 32, tlut: 0x25796EE, symbol: mac_dec_planttif }
+mac_dec_planttif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25796EE, colors: 16, symbol: mac_dec_planttif_tlut }
+mac_decorationtif:
+  { type: TEXTURE, format: I4, offset: 0x257973E, width: 32, height: 32, symbol: mac_decorationtif }
+mac_dr_curtaintif:
+  { type: TEXTURE, format: I4, offset: 0x257996E, width: 32, height: 32, symbol: mac_dr_curtaintif }
+mac_dr_yukatif:
+  { type: TEXTURE, format: CI4, offset: 0x2579B9E, width: 16, height: 16, tlut: 0x2579C1E, symbol: mac_dr_yukatif }
+mac_dr_yukatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2579C1E, colors: 16, symbol: mac_dr_yukatif_tlut }
+mac_flokukitif:
+  { type: TEXTURE, format: CI4, offset: 0x2579C6E, width: 16, height: 16, tlut: 0x2579CEE, symbol: mac_flokukitif }
+mac_flokukitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2579CEE, colors: 16, symbol: mac_flokukitif_tlut }
+mac_flotif:
+  { type: TEXTURE, format: CI4, offset: 0x2579D3E, width: 16, height: 16, tlut: 0x2579DBE, symbol: mac_flotif }
+mac_flotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2579DBE, colors: 16, symbol: mac_flotif_tlut }
+mac_flotif_aux:
+  { type: TEXTURE, format: CI4, offset: 0x2579DDE, width: 16, height: 64, tlut: 0x2579FDE, symbol: mac_flotif_aux }
+mac_flotif_aux_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2579FDE, colors: 16, symbol: mac_flotif_aux_tlut }
+mac_flower_02tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x257A02E, width: 16, height: 32, symbol: mac_flower_02tif }
+mac_flowertif:
+  { type: TEXTURE, format: CI4, offset: 0x257A45E, width: 16, height: 32, tlut: 0x257A55E, symbol: mac_flowertif }
+mac_flowertif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257A55E, colors: 16, symbol: mac_flowertif_tlut }
+mac_frametif:
+  { type: TEXTURE, format: CI4, offset: 0x257A5AE, width: 64, height: 64, tlut: 0x257ADAE, symbol: mac_frametif }
+mac_frametif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257ADAE, colors: 16, symbol: mac_frametif_tlut }
+mac_fx_cartaintif:
+  { type: TEXTURE, format: IA8, offset: 0x257ADFE, width: 32, height: 16, symbol: mac_fx_cartaintif }
+mac_fx_cartaintif_aux:
+  { type: TEXTURE, format: IA8, offset: 0x257AFFE, width: 32, height: 32, symbol: mac_fx_cartaintif_aux }
+mac_green_etif:
+  { type: TEXTURE, format: CI4, offset: 0x257B42E, width: 32, height: 32, tlut: 0x257B6AE, symbol: mac_green_etif }
+mac_green_etif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257B6AE, colors: 16, symbol: mac_green_etif_tlut }
+mac_green_etif_mm1:
+  { type: TEXTURE, format: CI4, offset: 0x257B62E, width: 16, height: 16, symbol: mac_green_etif_mm1 }
+mac_hanatif:
+  { type: TEXTURE, format: CI4, offset: 0x257B6FE, width: 64, height: 32, tlut: 0x257BAFE, symbol: mac_hanatif }
+mac_hanatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257BAFE, colors: 16, symbol: mac_hanatif_tlut }
+mac_hontif:
+  { type: TEXTURE, format: CI4, offset: 0x257BB4E, width: 64, height: 32, tlut: 0x257BF4E, symbol: mac_hontif }
+mac_hontif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257BF4E, colors: 16, symbol: mac_hontif_tlut }
+mac_hoppetif:
+  { type: TEXTURE, format: IA8, offset: 0x257BF9E, width: 32, height: 16, symbol: mac_hoppetif }
+mac_kanban_ekitif:
+  { type: TEXTURE, format: CI4, offset: 0x257C1CE, width: 64, height: 32, tlut: 0x257C5CE, symbol: mac_kanban_ekitif }
+mac_kanban_ekitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257C5CE, colors: 16, symbol: mac_kanban_ekitif_tlut }
+mac_kinoitatif:
+  { type: TEXTURE, format: CI4, offset: 0x257C61E, width: 64, height: 64, tlut: 0x257CE1E, symbol: mac_kinoitatif }
+mac_kinoitatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257CE1E, colors: 16, symbol: mac_kinoitatif_tlut }
+mac_kinoko_town_ustif:
+  { type: TEXTURE, format: CI8, offset: 0x257CE6E, width: 64, height: 32, tlut: 0x257D66E, symbol: mac_kinoko_town_ustif }
+mac_kinoko_town_ustif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257D66E, colors: 256, symbol: mac_kinoko_town_ustif_tlut }
+mac_kinokodoutif:
+  { type: TEXTURE, format: CI4, offset: 0x257D89E, width: 64, height: 32, tlut: 0x257DC9E, symbol: mac_kinokodoutif }
+mac_kinokodoutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257DC9E, colors: 16, symbol: mac_kinokodoutif_tlut }
+mac_kinopiotif:
+  { type: TEXTURE, format: CI4, offset: 0x257DCEE, width: 16, height: 32, tlut: 0x257DDEE, symbol: mac_kinopiotif }
+mac_kinopiotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257DDEE, colors: 16, symbol: mac_kinopiotif_tlut }
+mac_kitchentif:
+  { type: TEXTURE, format: CI4, offset: 0x257DE3E, width: 32, height: 32, tlut: 0x257E03E, symbol: mac_kitchentif }
+mac_kitchentif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257E03E, colors: 16, symbol: mac_kitchentif_tlut }
+mac_kkj_gatetif:
+  { type: TEXTURE, format: CI4, offset: 0x257E08E, width: 32, height: 64, tlut: 0x257E48E, symbol: mac_kkj_gatetif }
+mac_kkj_gatetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257E48E, colors: 16, symbol: mac_kkj_gatetif_tlut }
+mac_komonotif:
+  { type: TEXTURE, format: CI4, offset: 0x257E4DE, width: 64, height: 32, tlut: 0x257E8DE, symbol: mac_komonotif }
+mac_komonotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257E8DE, colors: 16, symbol: mac_komonotif_tlut }
+mac_kujira_haratif:
+  { type: TEXTURE, format: CI4, offset: 0x257E92E, width: 16, height: 32, tlut: 0x257EA2E, symbol: mac_kujira_haratif }
+mac_kujira_haratif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257EA2E, colors: 16, symbol: mac_kujira_haratif_tlut }
+mac_kusa1tif:
+  { type: TEXTURE, format: CI4, offset: 0x257EA7E, width: 32, height: 32, tlut: 0x257EC7E, symbol: mac_kusa1tif }
+mac_kusa1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257EC7E, colors: 16, symbol: mac_kusa1tif_tlut }
+mac_l_0tif:
+  { type: TEXTURE, format: CI4, offset: 0x257ECCE, width: 16, height: 16, tlut: 0x257ED4E, symbol: mac_l_0tif }
+mac_l_0tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x257ED4E, colors: 16, symbol: mac_l_0tif_tlut }
+mac_l_1tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x257ED9E, width: 16, height: 16, symbol: mac_l_1tif }
+mac_l_2tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x257EFCE, width: 16, height: 16, symbol: mac_l_2tif }
+mac_l_3tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x257F1FE, width: 16, height: 16, symbol: mac_l_3tif }
+mac_l_4tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x257F42E, width: 16, height: 16, symbol: mac_l_4tif }
+mac_l_5tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x257F65E, width: 16, height: 16, symbol: mac_l_5tif }
+mac_l_6tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x257F88E, width: 16, height: 16, symbol: mac_l_6tif }
+mac_l_7tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x257FABE, width: 16, height: 16, symbol: mac_l_7tif }
+mac_mac_britshcuttif:
+  { type: TEXTURE, format: CI4, offset: 0x257FCEE, width: 64, height: 64, tlut: 0x25804EE, symbol: mac_mac_britshcuttif }
+mac_mac_britshcuttif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25804EE, colors: 16, symbol: mac_mac_britshcuttif_tlut }
+mac_mac_britshtreetif:
+  { type: TEXTURE, format: CI4, offset: 0x258053E, width: 32, height: 64, tlut: 0x258093E, symbol: mac_mac_britshtreetif }
+mac_mac_britshtreetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258093E, colors: 16, symbol: mac_mac_britshtreetif_tlut }
+mac_mac_clocktif:
+  { type: TEXTURE, format: CI4, offset: 0x258098E, width: 16, height: 16, tlut: 0x2580A0E, symbol: mac_mac_clocktif }
+mac_mac_clocktif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2580A0E, colors: 16, symbol: mac_mac_clocktif_tlut }
+mac_mac_doortif:
+  { type: TEXTURE, format: CI4, offset: 0x2580A5E, width: 32, height: 64, tlut: 0x2580E5E, symbol: mac_mac_doortif }
+mac_mac_doortif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2580E5E, colors: 16, symbol: mac_mac_doortif_tlut }
+mac_mac_edgetif:
+  { type: TEXTURE, format: CI4, offset: 0x2580EAE, width: 16, height: 16, tlut: 0x2580F2E, symbol: mac_mac_edgetif }
+mac_mac_edgetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2580F2E, colors: 16, symbol: mac_mac_edgetif_tlut }
+mac_mac_fieldtif:
+  { type: TEXTURE, format: CI4, offset: 0x2580F7E, width: 32, height: 32, tlut: 0x258117E, symbol: mac_mac_fieldtif }
+mac_mac_fieldtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258117E, colors: 16, symbol: mac_mac_fieldtif_tlut }
+mac_mac_fumikiritif:
+  { type: TEXTURE, format: I4, offset: 0x25811CE, width: 16, height: 16, symbol: mac_mac_fumikiritif }
+mac_mac_futontif:
+  { type: TEXTURE, format: CI4, offset: 0x258127E, width: 16, height: 32, tlut: 0x258137E, symbol: mac_mac_futontif }
+mac_mac_futontif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258137E, colors: 16, symbol: mac_mac_futontif_tlut }
+mac_mac_hashigotif:
+  { type: TEXTURE, format: CI4, offset: 0x25813CE, width: 16, height: 32, tlut: 0x25814CE, symbol: mac_mac_hashigotif }
+mac_mac_hashigotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25814CE, colors: 16, symbol: mac_mac_hashigotif_tlut }
+mac_mac_house2tif:
+  { type: TEXTURE, format: CI4, offset: 0x258151E, width: 64, height: 32, tlut: 0x2581A5E, symbol: mac_mac_house2tif }
+mac_mac_house2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2581A5E, colors: 16, symbol: mac_mac_house2tif_tlut }
+mac_mac_house2tif_mm1:
+  { type: TEXTURE, format: CI4, offset: 0x258191E, width: 32, height: 16, symbol: mac_mac_house2tif_mm1 }
+mac_mac_house2tif_mm2:
+  { type: TEXTURE, format: CI4, offset: 0x2581A1E, width: 16, height: 8, symbol: mac_mac_house2tif_mm2 }
+mac_mac_house3tif:
+  { type: TEXTURE, format: I8, offset: 0x2581AAE, width: 32, height: 32, symbol: mac_mac_house3tif }
+mac_mac_house4tif:
+  { type: TEXTURE, format: CI4, offset: 0x2581EDE, width: 64, height: 32, tlut: 0x25822DE, symbol: mac_mac_house4tif }
+mac_mac_house4tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25822DE, colors: 16, symbol: mac_mac_house4tif_tlut }
+mac_mac_house5tif:
+  { type: TEXTURE, format: CI4, offset: 0x258232E, width: 16, height: 32, tlut: 0x258242E, symbol: mac_mac_house5tif }
+mac_mac_house5tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258242E, colors: 16, symbol: mac_mac_house5tif_tlut }
+mac_mac_house6tif:
+  { type: TEXTURE, format: CI4, offset: 0x258247E, width: 32, height: 32, tlut: 0x258267E, symbol: mac_mac_house6tif }
+mac_mac_house6tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258267E, colors: 16, symbol: mac_mac_house6tif_tlut }
+mac_mac_house7tif:
+  { type: TEXTURE, format: CI4, offset: 0x25826CE, width: 32, height: 32, tlut: 0x25828CE, symbol: mac_mac_house7tif }
+mac_mac_house7tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25828CE, colors: 16, symbol: mac_mac_house7tif_tlut }
+mac_mac_house8tif:
+  { type: TEXTURE, format: CI4, offset: 0x258291E, width: 32, height: 32, tlut: 0x2582B1E, symbol: mac_mac_house8tif }
+mac_mac_house8tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2582B1E, colors: 16, symbol: mac_mac_house8tif_tlut }
+mac_mac_housedertif:
+  { type: TEXTURE, format: CI4, offset: 0x2582B6E, width: 32, height: 32, tlut: 0x2582D6E, symbol: mac_mac_housedertif }
+mac_mac_housedertif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2582D6E, colors: 16, symbol: mac_mac_housedertif_tlut }
+mac_mac_jutan_uratif:
+  { type: TEXTURE, format: CI4, offset: 0x2582DBE, width: 64, height: 16, tlut: 0x2582FBE, symbol: mac_mac_jutan_uratif }
+mac_mac_jutan_uratif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2582FBE, colors: 16, symbol: mac_mac_jutan_uratif_tlut }
+mac_mac_jutantif:
+  { type: TEXTURE, format: CI4, offset: 0x258300E, width: 64, height: 16, tlut: 0x258320E, symbol: mac_mac_jutantif }
+mac_mac_jutantif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258320E, colors: 16, symbol: mac_mac_jutantif_tlut }
+mac_mac_kadantif:
+  { type: TEXTURE, format: CI4, offset: 0x258325E, width: 32, height: 16, tlut: 0x258335E, symbol: mac_mac_kadantif }
+mac_mac_kadantif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258335E, colors: 16, symbol: mac_mac_kadantif_tlut }
+mac_mac_kemuritif:
+  { type: TEXTURE, format: IA8, offset: 0x25833AE, width: 32, height: 16, symbol: mac_mac_kemuritif }
+mac_mac_koushitif:
+  { type: TEXTURE, format: CI4, offset: 0x25835DE, width: 16, height: 16, tlut: 0x258365E, symbol: mac_mac_koushitif }
+mac_mac_koushitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258365E, colors: 16, symbol: mac_mac_koushitif_tlut }
+mac_mac_pistontif:
+  { type: TEXTURE, format: CI4, offset: 0x25836AE, width: 32, height: 16, tlut: 0x25837AE, symbol: mac_mac_pistontif }
+mac_mac_pistontif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25837AE, colors: 16, symbol: mac_mac_pistontif_tlut }
+mac_mac_railwaytif:
+  { type: TEXTURE, format: CI4, offset: 0x25837FE, width: 16, height: 16, tlut: 0x258387E, symbol: mac_mac_railwaytif }
+mac_mac_railwaytif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258387E, colors: 16, symbol: mac_mac_railwaytif_tlut }
+mac_mac_ranma2tif:
+  { type: TEXTURE, format: CI4, offset: 0x25838CE, width: 32, height: 32, tlut: 0x2583ACE, symbol: mac_mac_ranma2tif }
+mac_mac_ranma2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2583ACE, colors: 16, symbol: mac_mac_ranma2tif_tlut }
+mac_mac_roof1tif:
+  { type: TEXTURE, format: CI4, offset: 0x2583B1E, width: 32, height: 32, tlut: 0x2583D1E, symbol: mac_mac_roof1tif }
+mac_mac_roof1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2583D1E, colors: 16, symbol: mac_mac_roof1tif_tlut }
+mac_mac_roofdertif:
+  { type: TEXTURE, format: CI4, offset: 0x2583D6E, width: 16, height: 16, tlut: 0x2583DEE, symbol: mac_mac_roofdertif }
+mac_mac_roofdertif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2583DEE, colors: 16, symbol: mac_mac_roofdertif_tlut }
+mac_mac_sakutif:
+  { type: TEXTURE, format: CI4, offset: 0x2583E3E, width: 32, height: 32, tlut: 0x258403E, symbol: mac_mac_sakutif }
+mac_mac_sakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258403E, colors: 16, symbol: mac_mac_sakutif_tlut }
+mac_mac_senrosakutif:
+  { type: TEXTURE, format: CI4, offset: 0x258408E, width: 32, height: 16, tlut: 0x258418E, symbol: mac_mac_senrosakutif }
+mac_mac_senrosakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258418E, colors: 16, symbol: mac_mac_senrosakutif_tlut }
+mac_mac_taremakutif:
+  { type: TEXTURE, format: CI4, offset: 0x25841DE, width: 16, height: 16, tlut: 0x258425E, symbol: mac_mac_taremakutif }
+mac_mac_taremakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258425E, colors: 16, symbol: mac_mac_taremakutif_tlut }
+mac_mac_ukiwatif:
+  { type: TEXTURE, format: CI4, offset: 0x25842AE, width: 16, height: 16, tlut: 0x258432E, symbol: mac_mac_ukiwatif }
+mac_mac_ukiwatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258432E, colors: 16, symbol: mac_mac_ukiwatif_tlut }
+mac_mac_waku1tif:
+  { type: TEXTURE, format: CI4, offset: 0x258437E, width: 32, height: 64, tlut: 0x258477E, symbol: mac_mac_waku1tif }
+mac_mac_waku1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258477E, colors: 16, symbol: mac_mac_waku1tif_tlut }
+mac_mac_waku2tif:
+  { type: TEXTURE, format: CI4, offset: 0x25847CE, width: 32, height: 32, tlut: 0x25849CE, symbol: mac_mac_waku2tif }
+mac_mac_waku2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25849CE, colors: 16, symbol: mac_mac_waku2tif_tlut }
+mac_mac_waku3tif:
+  { type: TEXTURE, format: CI4, offset: 0x2584A1E, width: 32, height: 32, tlut: 0x2584C1E, symbol: mac_mac_waku3tif }
+mac_mac_waku3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2584C1E, colors: 16, symbol: mac_mac_waku3tif_tlut }
+mac_mac_waku4tif:
+  { type: TEXTURE, format: CI4, offset: 0x2584C6E, width: 32, height: 128, tlut: 0x258546E, symbol: mac_mac_waku4tif }
+mac_mac_waku4tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258546E, colors: 16, symbol: mac_mac_waku4tif_tlut }
+mac_mac_window2tif:
+  { type: TEXTURE, format: CI4, offset: 0x25854BE, width: 32, height: 64, tlut: 0x25858BE, symbol: mac_mac_window2tif }
+mac_mac_window2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25858BE, colors: 16, symbol: mac_mac_window2tif_tlut }
+mac_mac_window3tif:
+  { type: TEXTURE, format: CI4, offset: 0x258590E, width: 32, height: 64, tlut: 0x2585D0E, symbol: mac_mac_window3tif }
+mac_mac_window3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2585D0E, colors: 16, symbol: mac_mac_window3tif_tlut }
+mac_mac_windowtif:
+  { type: TEXTURE, format: CI4, offset: 0x2585D5E, width: 32, height: 64, tlut: 0x258615E, symbol: mac_mac_windowtif }
+mac_mac_windowtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258615E, colors: 16, symbol: mac_mac_windowtif_tlut }
+mac_mac_woodgstif:
+  { type: TEXTURE, format: CI4, offset: 0x25861AE, width: 64, height: 32, tlut: 0x25865AE, symbol: mac_mac_woodgstif }
+mac_mac_woodgstif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25865AE, colors: 16, symbol: mac_mac_woodgstif_tlut }
+mac_mac_woodtif:
+  { type: TEXTURE, format: CI4, offset: 0x25865FE, width: 64, height: 32, tlut: 0x2586B3E, symbol: mac_mac_woodtif }
+mac_mac_woodtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2586B3E, colors: 16, symbol: mac_mac_woodtif_tlut }
+mac_mac_woodtif_mm1:
+  { type: TEXTURE, format: CI4, offset: 0x25869FE, width: 32, height: 16, symbol: mac_mac_woodtif_mm1 }
+mac_mac_woodtif_mm2:
+  { type: TEXTURE, format: CI4, offset: 0x2586AFE, width: 16, height: 8, symbol: mac_mac_woodtif_mm2 }
+mac_mac_ytana2tif:
+  { type: TEXTURE, format: CI4, offset: 0x2586B8E, width: 16, height: 16, tlut: 0x2586C0E, symbol: mac_mac_ytana2tif }
+mac_mac_ytana2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2586C0E, colors: 16, symbol: mac_mac_ytana2tif_tlut }
+mac_mac_ytanatif:
+  { type: TEXTURE, format: CI4, offset: 0x2586C5E, width: 16, height: 16, tlut: 0x2586CDE, symbol: mac_mac_ytanatif }
+mac_mac_ytanatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2586CDE, colors: 16, symbol: mac_mac_ytanatif_tlut }
+mac_macdoortif:
+  { type: TEXTURE, format: CI4, offset: 0x2586D2E, width: 32, height: 64, tlut: 0x258712E, symbol: mac_macdoortif }
+mac_macdoortif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258712E, colors: 16, symbol: mac_macdoortif_tlut }
+mac_mirror2tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x258717E, width: 32, height: 64, symbol: mac_mirror2tif }
+mac_mirror2tif_aux:
+  { type: TEXTURE, format: RGBA16, offset: 0x258797E, width: 32, height: 32, symbol: mac_mirror2tif_aux }
+mac_mizutif:
+  { type: TEXTURE, format: CI4, offset: 0x25881AE, width: 32, height: 32, tlut: 0x25883AE, symbol: mac_mizutif }
+mac_mizutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25883AE, colors: 16, symbol: mac_mizutif_tlut }
+mac_mizutif_aux:
+  { type: TEXTURE, format: CI4, offset: 0x25883CE, width: 32, height: 32, tlut: 0x25885CE, symbol: mac_mizutif_aux }
+mac_mizutif_aux_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25885CE, colors: 16, symbol: mac_mizutif_aux_tlut }
+mac_newspapertif:
+  { type: TEXTURE, format: I4, offset: 0x258861E, width: 32, height: 32, symbol: mac_newspapertif }
+mac_papertif:
+  { type: TEXTURE, format: CI4, offset: 0x258884E, width: 32, height: 32, tlut: 0x2588A4E, symbol: mac_papertif }
+mac_papertif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2588A4E, colors: 16, symbol: mac_papertif_tlut }
+mac_popo_4stif:
+  { type: TEXTURE, format: CI4, offset: 0x2588A9E, width: 16, height: 16, tlut: 0x2588B1E, symbol: mac_popo_4stif }
+mac_popo_4stif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2588B1E, colors: 16, symbol: mac_popo_4stif_tlut }
+mac_popo_5tif:
+  { type: TEXTURE, format: CI4, offset: 0x2588B6E, width: 16, height: 16, tlut: 0x2588BEE, symbol: mac_popo_5tif }
+mac_popo_5tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2588BEE, colors: 16, symbol: mac_popo_5tif_tlut }
+mac_post_kanbantif:
+  { type: TEXTURE, format: CI4, offset: 0x2588C3E, width: 64, height: 32, tlut: 0x258903E, symbol: mac_post_kanbantif }
+mac_post_kanbantif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258903E, colors: 16, symbol: mac_post_kanbantif_tlut }
+mac_rakugakitif:
+  { type: TEXTURE, format: I4, offset: 0x258908E, width: 32, height: 32, symbol: mac_rakugakitif }
+mac_relieftif:
+  { type: TEXTURE, format: CI4, offset: 0x25892BE, width: 32, height: 64, tlut: 0x25896BE, symbol: mac_relieftif }
+mac_relieftif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25896BE, colors: 16, symbol: mac_relieftif_tlut }
+mac_road_signtif:
+  { type: TEXTURE, format: CI4, offset: 0x258970E, width: 32, height: 16, tlut: 0x258980E, symbol: mac_road_signtif }
+mac_road_signtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258980E, colors: 16, symbol: mac_road_signtif_tlut }
+mac_rock_3btif:
+  { type: TEXTURE, format: CI4, offset: 0x258985E, width: 32, height: 32, tlut: 0x2589A5E, symbol: mac_rock_3btif }
+mac_rock_3btif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2589A5E, colors: 16, symbol: mac_rock_3btif_tlut }
+mac_s_roadberotif:
+  { type: TEXTURE, format: CI4, offset: 0x2589AAE, width: 32, height: 32, tlut: 0x2589CAE, symbol: mac_s_roadberotif }
+mac_s_roadberotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2589CAE, colors: 16, symbol: mac_s_roadberotif_tlut }
+mac_standtif:
+  { type: TEXTURE, format: CI4, offset: 0x2589CFE, width: 16, height: 16, tlut: 0x2589D7E, symbol: mac_standtif }
+mac_standtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2589D7E, colors: 16, symbol: mac_standtif_tlut }
+mac_syarintif:
+  { type: TEXTURE, format: CI4, offset: 0x2589DCE, width: 32, height: 32, tlut: 0x2589FCE, symbol: mac_syarintif }
+mac_syarintif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2589FCE, colors: 16, symbol: mac_syarintif_tlut }
+mac_t_dokankun3tif:
+  { type: TEXTURE, format: CI4, offset: 0x258A01E, width: 32, height: 16, tlut: 0x258A11E, symbol: mac_t_dokankun3tif }
+mac_t_dokankun3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258A11E, colors: 16, symbol: mac_t_dokankun3tif_tlut }
+mac_tablecrosstif:
+  { type: TEXTURE, format: CI4, offset: 0x258A16E, width: 16, height: 16, tlut: 0x258A1EE, symbol: mac_tablecrosstif }
+mac_tablecrosstif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258A1EE, colors: 16, symbol: mac_tablecrosstif_tlut }
+mac_tanatif:
+  { type: TEXTURE, format: CI4, offset: 0x258A23E, width: 32, height: 32, tlut: 0x258A43E, symbol: mac_tanatif }
+mac_tanatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258A43E, colors: 16, symbol: mac_tanatif_tlut }
+mac_tobiratif:
+  { type: TEXTURE, format: CI4, offset: 0x258A48E, width: 32, height: 32, tlut: 0x258A68E, symbol: mac_tobiratif }
+mac_tobiratif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258A68E, colors: 16, symbol: mac_tobiratif_tlut }
+mac_toyboxtif:
+  { type: TEXTURE, format: CI4, offset: 0x258A6DE, width: 32, height: 32, tlut: 0x258A8DE, symbol: mac_toyboxtif }
+mac_toyboxtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258A8DE, colors: 16, symbol: mac_toyboxtif_tlut }
+mac_umisokotif:
+  { type: TEXTURE, format: CI4, offset: 0x258A92E, width: 32, height: 32, tlut: 0x258AB2E, symbol: mac_umisokotif }
+mac_umisokotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258AB2E, colors: 16, symbol: mac_umisokotif_tlut }
+mac_umitif:
+  { type: TEXTURE, format: CI4, offset: 0x258AB7E, width: 32, height: 32, tlut: 0x258AD7E, symbol: mac_umitif }
+mac_umitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258AD7E, colors: 16, symbol: mac_umitif_tlut }
+mac_umitif_aux:
+  { type: TEXTURE, format: CI4, offset: 0x258AD9E, width: 32, height: 32, tlut: 0x258AF9E, symbol: mac_umitif_aux }
+mac_umitif_aux_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258AF9E, colors: 16, symbol: mac_umitif_aux_tlut }
+mac_wall_mtif:
+  { type: TEXTURE, format: CI4, offset: 0x258AFEE, width: 64, height: 32, tlut: 0x258B3EE, symbol: mac_wall_mtif }
+mac_wall_mtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258B3EE, colors: 16, symbol: mac_wall_mtif_tlut }
+mac_wood_pole_btif:
+  { type: TEXTURE, format: CI4, offset: 0x258B43E, width: 128, height: 32, tlut: 0x258BC3E, symbol: mac_wood_pole_btif }
+mac_wood_pole_btif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x258BC3E, colors: 16, symbol: mac_wood_pole_btif_tlut }

@@ -1,0 +1,34 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+gv__atif:
+  { type: TEXTURE, format: CI8, offset: 0x275690E, width: 32, height: 64, tlut: 0x275710E, symbol: gv__atif }
+gv__atif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x275710E, colors: 256, symbol: gv__atif_tlut }
+gv__entif:
+  { type: TEXTURE, format: RGBA16, offset: 0x275733E, width: 64, height: 32, symbol: gv__entif }
+gv__etif:
+  { type: TEXTURE, format: CI8, offset: 0x275836E, width: 32, height: 64, tlut: 0x2758B6E, symbol: gv__etif }
+gv__etif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2758B6E, colors: 256, symbol: gv__etif_tlut }
+gv__gtif:
+  { type: TEXTURE, format: CI8, offset: 0x2758D9E, width: 32, height: 64, tlut: 0x275959E, symbol: gv__gtif }
+gv__gtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x275959E, colors: 256, symbol: gv__gtif_tlut }
+gv__mtif:
+  { type: TEXTURE, format: CI8, offset: 0x27597CE, width: 32, height: 64, tlut: 0x2759FCE, symbol: gv__mtif }
+gv__mtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2759FCE, colors: 256, symbol: gv__mtif_tlut }
+gv__otif:
+  { type: TEXTURE, format: CI8, offset: 0x275A1FE, width: 32, height: 64, tlut: 0x275A9FE, symbol: gv__otif }
+gv__otif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x275A9FE, colors: 256, symbol: gv__otif_tlut }
+gv__rtif:
+  { type: TEXTURE, format: CI8, offset: 0x275AC2E, width: 32, height: 64, tlut: 0x275B42E, symbol: gv__rtif }
+gv__rtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x275B42E, colors: 256, symbol: gv__rtif_tlut }
+gv__vtif:
+  { type: TEXTURE, format: CI8, offset: 0x275B65E, width: 32, height: 64, tlut: 0x275BE5E, symbol: gv__vtif }
+gv__vtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x275BE5E, colors: 256, symbol: gv__vtif_tlut }

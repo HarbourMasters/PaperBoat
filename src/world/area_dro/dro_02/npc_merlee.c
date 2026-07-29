@@ -208,6 +208,15 @@ u32 N(appendGfx_ritual_card)(RitualCard* card, Matrix4f mtxParent) {
         return 1;
     }
 
+    ifxImg.raster = nullptr;
+    ifxImg.palette = nullptr;
+    ifxImg.width = 32;
+    ifxImg.height = 32;
+    ifxImg.xOffset = 0;
+    ifxImg.yOffset = 0;
+    ifxImg.alpha = 255;
+    ifxImg.dlist = nullptr;
+
     gSPDisplayList(gMainGfxPos++, dro_02_card_setup_gfx);
 
     if (card->unk_00 == 1 || card->unk_00 == 4 || card->unk_00 == 5) {

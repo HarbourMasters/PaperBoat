@@ -202,13 +202,8 @@ void load_map_by_IDs(s16 areaID, s16 mapID, s16 loadType) {
     sfx_reset_door_sounds();
 
     if (!skipLoadingAssets) {
-        char texAssetPath[64];
-        snprintf(texAssetPath, sizeof(texAssetPath), "__OTR__textures/%s", wMapTexName);
-        u8* textureData = ResourceGetDataByName(texAssetPath);
-        size_t textureSize = ResourceGetSizeByName(texAssetPath);
-
-        if (mapSettings->modelTreeRoot != nullptr && textureData != NULL) {
-            load_data_for_models(mapSettings->modelTreeRoot, textureData, textureSize);
+        if (mapSettings->modelTreeRoot != nullptr) {
+            load_data_for_models(mapSettings->modelTreeRoot, wMapTexName);
         }
     }
 

@@ -36,14 +36,8 @@ void load_stage_assets(Stage* stage) {
     }
 
     rootModel = gMapShapeData.header.root;
-    {
-        char texAssetPath[64];
-        snprintf(texAssetPath, sizeof(texAssetPath), "__OTR__textures/%s", stage->texture);
-        u8* textureData = (u8*)ResourceGetDataByName(texAssetPath);
-        size_t textureSize = ResourceGetSizeByName(texAssetPath);
-        if (rootModel != nullptr) {
-            load_data_for_models(rootModel, textureData, textureSize);
-        }
+    if (rootModel != nullptr) {
+        load_data_for_models(rootModel, stage->texture);
     }
     load_battle_hit_asset(stage->hit);
 

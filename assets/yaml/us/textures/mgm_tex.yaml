@@ -1,0 +1,58 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+mgm_1cointif:
+  { type: TEXTURE, format: CI4, offset: 0x275467E, width: 32, height: 32, tlut: 0x275487E, symbol: mgm_1cointif }
+mgm_1cointif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x275487E, colors: 16, symbol: mgm_1cointif_tlut }
+mgm_3coinstif:
+  { type: TEXTURE, format: CI4, offset: 0x27548CE, width: 32, height: 32, tlut: 0x2754ACE, symbol: mgm_3coinstif }
+mgm_3coinstif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2754ACE, colors: 16, symbol: mgm_3coinstif_tlut }
+mgm_3timestif:
+  { type: TEXTURE, format: CI4, offset: 0x2754B1E, width: 32, height: 32, tlut: 0x2754D1E, symbol: mgm_3timestif }
+mgm_3timestif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2754D1E, colors: 16, symbol: mgm_3timestif_tlut }
+mgm_boardtif:
+  { type: TEXTURE, format: CI4, offset: 0x2754D6E, width: 16, height: 16, tlut: 0x2754DEE, symbol: mgm_boardtif }
+mgm_boardtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2754DEE, colors: 16, symbol: mgm_boardtif_tlut }
+mgm_c1tif:
+  { type: TEXTURE, format: CI4, offset: 0x2754E3E, width: 32, height: 32, tlut: 0x275503E, symbol: mgm_c1tif }
+mgm_c1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x275503E, colors: 16, symbol: mgm_c1tif_tlut }
+mgm_floortif:
+  { type: TEXTURE, format: CI4, offset: 0x275508E, width: 16, height: 16, tlut: 0x275510E, symbol: mgm_floortif }
+mgm_floortif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x275510E, colors: 16, symbol: mgm_floortif_tlut }
+mgm_hishitif:
+  { type: TEXTURE, format: CI4, offset: 0x275515E, width: 32, height: 32, tlut: 0x275535E, symbol: mgm_hishitif }
+mgm_hishitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x275535E, colors: 16, symbol: mgm_hishitif_tlut }
+mgm_kino_box_btif:
+  { type: TEXTURE, format: CI4, offset: 0x27553AE, width: 32, height: 32, tlut: 0x27555AE, symbol: mgm_kino_box_btif }
+mgm_kino_box_btif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27555AE, colors: 16, symbol: mgm_kino_box_btif_tlut }
+mgm_kino_box_gtif:
+  { type: TEXTURE, format: RGBA16, offset: 0x27555FE, width: 32, height: 32, symbol: mgm_kino_box_gtif }
+mgm_koopa_cardtif:
+  { type: TEXTURE, format: CI4, offset: 0x2755E2E, width: 32, height: 32, tlut: 0x275602E, symbol: mgm_koopa_cardtif }
+mgm_koopa_cardtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x275602E, colors: 16, symbol: mgm_koopa_cardtif_tlut }
+mgm_peach_cointif:
+  { type: TEXTURE, format: CI4, offset: 0x275607E, width: 32, height: 32, tlut: 0x275627E, symbol: mgm_peach_cointif }
+mgm_peach_cointif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x275627E, colors: 16, symbol: mgm_peach_cointif_tlut }
+mgm_platetif:
+  { type: TEXTURE, format: I4, offset: 0x27562CE, width: 16, height: 8, symbol: mgm_platetif }
+mgm_spottif:
+  { type: TEXTURE, format: I4, offset: 0x275633E, width: 32, height: 32, symbol: mgm_spottif }
+mgm_star_floortif:
+  { type: TEXTURE, format: CI4, offset: 0x275656E, width: 32, height: 32, tlut: 0x275676E, symbol: mgm_star_floortif }
+mgm_star_floortif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x275676E, colors: 16, symbol: mgm_star_floortif_tlut }
+mgm_t_dokankun3tif:
+  { type: TEXTURE, format: CI4, offset: 0x27567BE, width: 32, height: 16, tlut: 0x27568BE, symbol: mgm_t_dokankun3tif }
+mgm_t_dokankun3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27568BE, colors: 16, symbol: mgm_t_dokankun3tif_tlut }

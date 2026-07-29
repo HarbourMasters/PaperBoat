@@ -1,0 +1,298 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+sam_berosaidetif:
+  { type: TEXTURE, format: CI4, offset: 0x27147FE, width: 16, height: 16, tlut: 0x271487E, symbol: sam_berosaidetif }
+sam_berosaidetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271487E, colors: 16, symbol: sam_berosaidetif_tlut }
+sam_binn2tif:
+  { type: TEXTURE, format: CI4, offset: 0x27148CE, width: 16, height: 32, tlut: 0x27149CE, symbol: sam_binn2tif }
+sam_binn2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27149CE, colors: 16, symbol: sam_binn2tif_tlut }
+sam_bintif:
+  { type: TEXTURE, format: IA4, offset: 0x2714A1E, width: 16, height: 32, symbol: sam_bintif }
+sam_dannro02tif:
+  { type: TEXTURE, format: I4, offset: 0x2714B4E, width: 32, height: 32, symbol: sam_dannro02tif }
+sam_dannro02tif_aux:
+  { type: TEXTURE, format: I4, offset: 0x2714D4E, width: 16, height: 64, symbol: sam_dannro02tif_aux }
+sam_doa1tif:
+  { type: TEXTURE, format: CI4, offset: 0x2714F7E, width: 64, height: 64, tlut: 0x271577E, symbol: sam_doa1tif }
+sam_doa1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271577E, colors: 16, symbol: sam_doa1tif_tlut }
+sam_dokankuntif:
+  { type: TEXTURE, format: CI4, offset: 0x27157CE, width: 32, height: 16, tlut: 0x27158CE, symbol: sam_dokankuntif }
+sam_dokankuntif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27158CE, colors: 16, symbol: sam_dokankuntif_tlut }
+sam_flower_02tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x271591E, width: 16, height: 32, symbol: sam_flower_02tif }
+sam_frametif:
+  { type: TEXTURE, format: CI4, offset: 0x2715D4E, width: 64, height: 64, tlut: 0x271654E, symbol: sam_frametif }
+sam_frametif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271654E, colors: 16, symbol: sam_frametif_tlut }
+sam_grayframetif:
+  { type: TEXTURE, format: I4, offset: 0x271659E, width: 64, height: 64, symbol: sam_grayframetif }
+sam_hasira1tif:
+  { type: TEXTURE, format: CI4, offset: 0x2716DCE, width: 32, height: 64, tlut: 0x27171CE, symbol: sam_hasira1tif }
+sam_hasira1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27171CE, colors: 16, symbol: sam_hasira1tif_tlut }
+sam_himo01tif:
+  { type: TEXTURE, format: CI4, offset: 0x271721E, width: 16, height: 32, tlut: 0x271731E, symbol: sam_himo01tif }
+sam_himo01tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271731E, colors: 16, symbol: sam_himo01tif_tlut }
+sam_hon01tif:
+  { type: TEXTURE, format: CI4, offset: 0x271736E, width: 64, height: 32, tlut: 0x271776E, symbol: sam_hon01tif }
+sam_hon01tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271776E, colors: 16, symbol: sam_hon01tif_tlut }
+sam_hon02tif:
+  { type: TEXTURE, format: CI4, offset: 0x27177BE, width: 16, height: 32, tlut: 0x27178BE, symbol: sam_hon02tif }
+sam_hon02tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27178BE, colors: 16, symbol: sam_hon02tif_tlut }
+sam_hon03tif:
+  { type: TEXTURE, format: CI4, offset: 0x271790E, width: 16, height: 32, tlut: 0x2717A0E, symbol: sam_hon03tif }
+sam_hon03tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2717A0E, colors: 16, symbol: sam_hon03tif_tlut }
+sam_hon04tif:
+  { type: TEXTURE, format: CI4, offset: 0x2717A5E, width: 32, height: 32, tlut: 0x2717C5E, symbol: sam_hon04tif }
+sam_hon04tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2717C5E, colors: 16, symbol: sam_hon04tif_tlut }
+sam_hon2tif:
+  { type: TEXTURE, format: CI4, offset: 0x2717CAE, width: 16, height: 32, tlut: 0x2717DAE, symbol: sam_hon2tif }
+sam_hon2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2717DAE, colors: 16, symbol: sam_hon2tif_tlut }
+sam_hon3tif:
+  { type: TEXTURE, format: CI4, offset: 0x2717DFE, width: 16, height: 32, tlut: 0x2717EFE, symbol: sam_hon3tif }
+sam_hon3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2717EFE, colors: 16, symbol: sam_hon3tif_tlut }
+sam_hontif:
+  { type: TEXTURE, format: CI4, offset: 0x2717F4E, width: 16, height: 32, tlut: 0x271804E, symbol: sam_hontif }
+sam_hontif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271804E, colors: 16, symbol: sam_hontif_tlut }
+sam_ice3tif:
+  { type: TEXTURE, format: CI8, offset: 0x271809E, width: 32, height: 32, tlut: 0x271849E, symbol: sam_ice3tif }
+sam_ice3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271849E, colors: 256, symbol: sam_ice3tif_tlut }
+sam_kago2tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x27186CE, width: 32, height: 32, symbol: sam_kago2tif }
+sam_kagotif:
+  { type: TEXTURE, format: RGBA16, offset: 0x2718EFE, width: 16, height: 32, symbol: sam_kagotif }
+sam_kakigouri1tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x271932E, width: 16, height: 32, symbol: sam_kakigouri1tif }
+sam_kakigouri2tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x271975E, width: 16, height: 32, symbol: sam_kakigouri2tif }
+sam_kami02tif:
+  { type: TEXTURE, format: CI4, offset: 0x2719B8E, width: 32, height: 32, tlut: 0x2719D8E, symbol: sam_kami02tif }
+sam_kami02tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2719D8E, colors: 16, symbol: sam_kami02tif_tlut }
+sam_kami03tif:
+  { type: TEXTURE, format: CI4, offset: 0x2719DDE, width: 32, height: 32, tlut: 0x2719FDE, symbol: sam_kami03tif }
+sam_kami03tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2719FDE, colors: 16, symbol: sam_kami03tif_tlut }
+sam_kazari2tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x271A02E, width: 32, height: 32, symbol: sam_kazari2tif }
+sam_keito1tif:
+  { type: TEXTURE, format: CI4, offset: 0x271A85E, width: 16, height: 32, tlut: 0x271A95E, symbol: sam_keito1tif }
+sam_keito1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271A95E, colors: 16, symbol: sam_keito1tif_tlut }
+sam_ki3tif:
+  { type: TEXTURE, format: CI4, offset: 0x271A9AE, width: 32, height: 32, tlut: 0x271ABAE, symbol: sam_ki3tif }
+sam_ki3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271ABAE, colors: 16, symbol: sam_ki3tif_tlut }
+sam_kinoitatif:
+  { type: TEXTURE, format: CI4, offset: 0x271ABFE, width: 64, height: 64, tlut: 0x271B3FE, symbol: sam_kinoitatif }
+sam_kinoitatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271B3FE, colors: 16, symbol: sam_kinoitatif_tlut }
+sam_kinopiotif:
+  { type: TEXTURE, format: CI4, offset: 0x271B44E, width: 16, height: 32, tlut: 0x271B54E, symbol: sam_kinopiotif }
+sam_kinopiotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271B54E, colors: 16, symbol: sam_kinopiotif_tlut }
+sam_nabe_atif:
+  { type: TEXTURE, format: CI4, offset: 0x271B59E, width: 32, height: 32, tlut: 0x271B79E, symbol: sam_nabe_atif }
+sam_nabe_atif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271B79E, colors: 16, symbol: sam_nabe_atif_tlut }
+sam_nabe_btif:
+  { type: TEXTURE, format: IA4, offset: 0x271B7EE, width: 32, height: 24, symbol: sam_nabe_btif }
+sam_nabe_ctif:
+  { type: TEXTURE, format: CI4, offset: 0x271B99E, width: 32, height: 32, tlut: 0x271BB9E, symbol: sam_nabe_ctif }
+sam_nabe_ctif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271BB9E, colors: 16, symbol: sam_nabe_ctif_tlut }
+sam_nabe_dtif:
+  { type: TEXTURE, format: CI4, offset: 0x271BBEE, width: 16, height: 24, tlut: 0x271BCAE, symbol: sam_nabe_dtif }
+sam_nabe_dtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271BCAE, colors: 16, symbol: sam_nabe_dtif_tlut }
+sam_odo_iwahashi3tif:
+  { type: TEXTURE, format: CI4, offset: 0x271BCFE, width: 64, height: 64, tlut: 0x271C4FE, symbol: sam_odo_iwahashi3tif }
+sam_odo_iwahashi3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271C4FE, colors: 16, symbol: sam_odo_iwahashi3tif_tlut }
+sam_odo_iwatif:
+  { type: TEXTURE, format: CI4, offset: 0x271C54E, width: 64, height: 64, tlut: 0x271CD4E, symbol: sam_odo_iwatif }
+sam_odo_iwatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271CD4E, colors: 16, symbol: sam_odo_iwatif_tlut }
+sam_pen_snow2tif:
+  { type: TEXTURE, format: CI4, offset: 0x271CD9E, width: 64, height: 32, tlut: 0x271D19E, symbol: sam_pen_snow2tif }
+sam_pen_snow2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271D19E, colors: 16, symbol: sam_pen_snow2tif_tlut }
+sam_pen_snow3tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x271D1EE, width: 32, height: 32, symbol: sam_pen_snow3tif }
+sam_pen_snow3tif_mm1:
+  { type: TEXTURE, format: RGBA16, offset: 0x271D9EE, width: 16, height: 16, symbol: sam_pen_snow3tif_mm1 }
+sam_pen_snow3tif_mm2:
+  { type: TEXTURE, format: RGBA16, offset: 0x271DBEE, width: 8, height: 8, symbol: sam_pen_snow3tif_mm2 }
+sam_pen_snow3tif_mm3:
+  { type: TEXTURE, format: RGBA16, offset: 0x271DC6E, width: 4, height: 4, symbol: sam_pen_snow3tif_mm3 }
+sam_pen_snowtif:
+  { type: TEXTURE, format: CI4, offset: 0x271DCBE, width: 64, height: 64, tlut: 0x271E4BE, symbol: sam_pen_snowtif }
+sam_pen_snowtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271E4BE, colors: 16, symbol: sam_pen_snowtif_tlut }
+sam_ranpu01tif:
+  { type: TEXTURE, format: CI4, offset: 0x271E50E, width: 16, height: 32, tlut: 0x271E60E, symbol: sam_ranpu01tif }
+sam_ranpu01tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271E60E, colors: 16, symbol: sam_ranpu01tif_tlut }
+sam_s_anatif:
+  { type: TEXTURE, format: CI4, offset: 0x271E65E, width: 32, height: 32, tlut: 0x271E85E, symbol: sam_s_anatif }
+sam_s_anatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271E85E, colors: 16, symbol: sam_s_anatif_tlut }
+sam_s_dannro1tif:
+  { type: TEXTURE, format: CI4, offset: 0x271E8AE, width: 32, height: 32, tlut: 0x271EAAE, symbol: sam_s_dannro1tif }
+sam_s_dannro1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271EAAE, colors: 16, symbol: sam_s_dannro1tif_tlut }
+sam_s_dannro2tif:
+  { type: TEXTURE, format: CI4, offset: 0x271EAFE, width: 32, height: 32, tlut: 0x271ECFE, symbol: sam_s_dannro2tif }
+sam_s_dannro2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271ECFE, colors: 16, symbol: sam_s_dannro2tif_tlut }
+sam_s_danro3tif:
+  { type: TEXTURE, format: CI4, offset: 0x271ED4E, width: 16, height: 16, tlut: 0x271EDCE, symbol: sam_s_danro3tif }
+sam_s_danro3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271EDCE, colors: 16, symbol: sam_s_danro3tif_tlut }
+sam_s_danro4tif:
+  { type: TEXTURE, format: CI4, offset: 0x271EE1E, width: 32, height: 16, tlut: 0x271EF1E, symbol: sam_s_danro4tif }
+sam_s_danro4tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271EF1E, colors: 16, symbol: sam_s_danro4tif_tlut }
+sam_s_doa1tif:
+  { type: TEXTURE, format: CI4, offset: 0x271EF6E, width: 32, height: 64, tlut: 0x271F36E, symbol: sam_s_doa1tif }
+sam_s_doa1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271F36E, colors: 16, symbol: sam_s_doa1tif_tlut }
+sam_s_doa2tif:
+  { type: TEXTURE, format: CI4, offset: 0x271F3BE, width: 32, height: 64, tlut: 0x271F7BE, symbol: sam_s_doa2tif }
+sam_s_doa2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271F7BE, colors: 16, symbol: sam_s_doa2tif_tlut }
+sam_s_doatif:
+  { type: TEXTURE, format: CI4, offset: 0x271F80E, width: 32, height: 64, tlut: 0x271FC0E, symbol: sam_s_doatif }
+sam_s_doatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271FC0E, colors: 16, symbol: sam_s_doatif_tlut }
+sam_s_futon2tif:
+  { type: TEXTURE, format: CI4, offset: 0x271FC5E, width: 16, height: 16, tlut: 0x271FCDE, symbol: sam_s_futon2tif }
+sam_s_futon2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271FCDE, colors: 16, symbol: sam_s_futon2tif_tlut }
+sam_s_futon3tif:
+  { type: TEXTURE, format: CI4, offset: 0x271FD2E, width: 16, height: 16, tlut: 0x271FDAE, symbol: sam_s_futon3tif }
+sam_s_futon3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271FDAE, colors: 16, symbol: sam_s_futon3tif_tlut }
+sam_s_kabe1tif:
+  { type: TEXTURE, format: CI4, offset: 0x271FDFE, width: 16, height: 16, tlut: 0x271FE7E, symbol: sam_s_kabe1tif }
+sam_s_kabe1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x271FE7E, colors: 16, symbol: sam_s_kabe1tif_tlut }
+sam_s_kabe2tif:
+  { type: TEXTURE, format: CI4, offset: 0x271FECE, width: 32, height: 128, tlut: 0x27206CE, symbol: sam_s_kabe2tif }
+sam_s_kabe2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27206CE, colors: 16, symbol: sam_s_kabe2tif_tlut }
+sam_s_kabe3tif:
+  { type: TEXTURE, format: CI4, offset: 0x272071E, width: 32, height: 128, tlut: 0x2720F1E, symbol: sam_s_kabe3tif }
+sam_s_kabe3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2720F1E, colors: 16, symbol: sam_s_kabe3tif_tlut }
+sam_s_kabetif:
+  { type: TEXTURE, format: IA16, offset: 0x2720F6E, width: 64, height: 32, symbol: sam_s_kabetif }
+sam_s_kazari1tif:
+  { type: TEXTURE, format: CI4, offset: 0x2721F9E, width: 16, height: 32, tlut: 0x272209E, symbol: sam_s_kazari1tif }
+sam_s_kazari1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x272209E, colors: 16, symbol: sam_s_kazari1tif_tlut }
+sam_s_kemutif:
+  { type: TEXTURE, format: IA8, offset: 0x27220EE, width: 16, height: 64, symbol: sam_s_kemutif }
+sam_s_kesyou2tif:
+  { type: TEXTURE, format: IA16, offset: 0x272251E, width: 64, height: 32, symbol: sam_s_kesyou2tif }
+sam_s_mado1tif:
+  { type: TEXTURE, format: CI4, offset: 0x272354E, width: 32, height: 64, tlut: 0x272394E, symbol: sam_s_mado1tif }
+sam_s_mado1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x272394E, colors: 16, symbol: sam_s_mado1tif_tlut }
+sam_s_mado2tif:
+  { type: TEXTURE, format: CI4, offset: 0x272399E, width: 32, height: 64, tlut: 0x2723D9E, symbol: sam_s_mado2tif }
+sam_s_mado2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2723D9E, colors: 16, symbol: sam_s_mado2tif_tlut }
+sam_s_mafuretif:
+  { type: TEXTURE, format: CI4, offset: 0x2723DEE, width: 32, height: 16, tlut: 0x2723EEE, symbol: sam_s_mafuretif }
+sam_s_mafuretif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2723EEE, colors: 16, symbol: sam_s_mafuretif_tlut }
+sam_s_metif:
+  { type: TEXTURE, format: CI4, offset: 0x2723F3E, width: 32, height: 16, tlut: 0x272403E, symbol: sam_s_metif }
+sam_s_metif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x272403E, colors: 16, symbol: sam_s_metif_tlut }
+sam_s_road1tif:
+  { type: TEXTURE, format: CI8, offset: 0x272408E, width: 32, height: 32, tlut: 0x272448E, symbol: sam_s_road1tif }
+sam_s_road1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x272448E, colors: 256, symbol: sam_s_road1tif_tlut }
+sam_s_saku3tif:
+  { type: TEXTURE, format: CI4, offset: 0x27246BE, width: 16, height: 16, tlut: 0x272473E, symbol: sam_s_saku3tif }
+sam_s_saku3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x272473E, colors: 16, symbol: sam_s_saku3tif_tlut }
+sam_s_sakutif:
+  { type: TEXTURE, format: CI4, offset: 0x272478E, width: 64, height: 32, tlut: 0x2724B8E, symbol: sam_s_sakutif }
+sam_s_sakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2724B8E, colors: 16, symbol: sam_s_sakutif_tlut }
+sam_s_treetif:
+  { type: TEXTURE, format: CI4, offset: 0x2724BDE, width: 32, height: 32, tlut: 0x2724DDE, symbol: sam_s_treetif }
+sam_s_treetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2724DDE, colors: 16, symbol: sam_s_treetif_tlut }
+sam_s_turara2tif:
+  { type: TEXTURE, format: CI4, offset: 0x2724E2E, width: 32, height: 64, tlut: 0x272522E, symbol: sam_s_turara2tif }
+sam_s_turara2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x272522E, colors: 16, symbol: sam_s_turara2tif_tlut }
+sam_s_zyuutantif:
+  { type: TEXTURE, format: CI4, offset: 0x272527E, width: 32, height: 16, tlut: 0x272537E, symbol: sam_s_zyuutantif }
+sam_s_zyuutantif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x272537E, colors: 16, symbol: sam_s_zyuutantif_tlut }
+sam_sam_block01tif:
+  { type: TEXTURE, format: CI8, offset: 0x27253CE, width: 16, height: 32, tlut: 0x27255CE, symbol: sam_sam_block01tif }
+sam_sam_block01tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27255CE, colors: 256, symbol: sam_sam_block01tif_tlut }
+sam_star1tif:
+  { type: TEXTURE, format: CI8, offset: 0x27257FE, width: 32, height: 32, tlut: 0x2725BFE, symbol: sam_star1tif }
+sam_star1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2725BFE, colors: 256, symbol: sam_star1tif_tlut }
+sam_sui01tif:
+  { type: TEXTURE, format: IA16, offset: 0x2725E2E, width: 32, height: 64, symbol: sam_sui01tif }
+sam_sui01tif_aux:
+  { type: TEXTURE, format: IA16, offset: 0x272662E, width: 32, height: 32, symbol: sam_sui01tif_aux }
+sam_t_chear2tif:
+  { type: TEXTURE, format: CI4, offset: 0x2726E5E, width: 16, height: 16, tlut: 0x2726EDE, symbol: sam_t_chear2tif }
+sam_t_chear2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2726EDE, colors: 16, symbol: sam_t_chear2tif_tlut }
+sam_t_cheartif:
+  { type: TEXTURE, format: CI4, offset: 0x2726F2E, width: 16, height: 16, tlut: 0x2726FAE, symbol: sam_t_cheartif }
+sam_t_cheartif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2726FAE, colors: 16, symbol: sam_t_cheartif_tlut }
+sam_t_dokankun3tif:
+  { type: TEXTURE, format: CI4, offset: 0x2726FFE, width: 32, height: 16, tlut: 0x27270FE, symbol: sam_t_dokankun3tif }
+sam_t_dokankun3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27270FE, colors: 16, symbol: sam_t_dokankun3tif_tlut }
+sam_t_katen1tif:
+  { type: TEXTURE, format: CI4, offset: 0x272714E, width: 32, height: 64, tlut: 0x272754E, symbol: sam_t_katen1tif }
+sam_t_katen1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x272754E, colors: 16, symbol: sam_t_katen1tif_tlut }
+sam_taru1tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x272759E, width: 32, height: 64, symbol: sam_taru1tif }
+sam_woody_plate_jtif:
+  { type: TEXTURE, format: CI4, offset: 0x27285CE, width: 64, height: 64, tlut: 0x2728DCE, symbol: sam_woody_plate_jtif }
+sam_woody_plate_jtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2728DCE, colors: 16, symbol: sam_woody_plate_jtif_tlut }
+sam_yamatif:
+  { type: TEXTURE, format: CI4, offset: 0x2728E1E, width: 32, height: 64, tlut: 0x272921E, symbol: sam_yamatif }
+sam_yamatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x272921E, colors: 16, symbol: sam_yamatif_tlut }
+sam_yamatif_aux:
+  { type: TEXTURE, format: CI4, offset: 0x272923E, width: 32, height: 32, tlut: 0x272943E, symbol: sam_yamatif_aux }
+sam_yamatif_aux_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x272943E, colors: 16, symbol: sam_yamatif_aux_tlut }
+sam_yane_yukitif:
+  { type: TEXTURE, format: CI4, offset: 0x272948E, width: 128, height: 32, tlut: 0x2729C8E, symbol: sam_yane_yukitif }
+sam_yane_yukitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2729C8E, colors: 16, symbol: sam_yane_yukitif_tlut }

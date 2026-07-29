@@ -1,0 +1,46 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+kgr_binn2tif:
+  { type: TEXTURE, format: CI4, offset: 0x259828E, width: 16, height: 32, tlut: 0x259838E, symbol: kgr_binn2tif }
+kgr_binn2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x259838E, colors: 16, symbol: kgr_binn2tif_tlut }
+kgr_grayframetif:
+  { type: TEXTURE, format: I4, offset: 0x25983DE, width: 64, height: 64, symbol: kgr_grayframetif }
+kgr_kinoitatif:
+  { type: TEXTURE, format: CI4, offset: 0x2598C0E, width: 64, height: 64, tlut: 0x259940E, symbol: kgr_kinoitatif }
+kgr_kinoitatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x259940E, colors: 16, symbol: kgr_kinoitatif_tlut }
+kgr_m_honetif:
+  { type: TEXTURE, format: CI4, offset: 0x259945E, width: 32, height: 16, tlut: 0x259955E, symbol: kgr_m_honetif }
+kgr_m_honetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x259955E, colors: 16, symbol: kgr_m_honetif_tlut }
+kgr_m_kabe2tif:
+  { type: TEXTURE, format: CI4, offset: 0x25995AE, width: 64, height: 32, tlut: 0x25999AE, symbol: kgr_m_kabe2tif }
+kgr_m_kabe2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25999AE, colors: 16, symbol: kgr_m_kabe2tif_tlut }
+kgr_m_kabetif:
+  { type: TEXTURE, format: CI4, offset: 0x25999FE, width: 32, height: 128, tlut: 0x259A1FE, symbol: kgr_m_kabetif }
+kgr_m_kabetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x259A1FE, colors: 16, symbol: kgr_m_kabetif_tlut }
+kgr_mac_berotif:
+  { type: TEXTURE, format: CI4, offset: 0x259A24E, width: 16, height: 16, tlut: 0x259A2CE, symbol: kgr_mac_berotif }
+kgr_mac_berotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x259A2CE, colors: 16, symbol: kgr_mac_berotif_tlut }
+kgr_mac_doortif:
+  { type: TEXTURE, format: CI4, offset: 0x259A31E, width: 32, height: 64, tlut: 0x259A71E, symbol: kgr_mac_doortif }
+kgr_mac_doortif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x259A71E, colors: 16, symbol: kgr_mac_doortif_tlut }
+kgr_mac_house2tif:
+  { type: TEXTURE, format: CI4, offset: 0x259A76E, width: 64, height: 32, tlut: 0x259ACAE, symbol: kgr_mac_house2tif }
+kgr_mac_house2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x259ACAE, colors: 16, symbol: kgr_mac_house2tif_tlut }
+kgr_mac_house2tif_mm1:
+  { type: TEXTURE, format: CI4, offset: 0x259AB6E, width: 32, height: 16, symbol: kgr_mac_house2tif_mm1 }
+kgr_mac_house2tif_mm2:
+  { type: TEXTURE, format: CI4, offset: 0x259AC6E, width: 16, height: 8, symbol: kgr_mac_house2tif_mm2 }
+kgr_water3tif:
+  { type: TEXTURE, format: IA16, offset: 0x259ACFE, width: 32, height: 64, symbol: kgr_water3tif }
+kgr_water3tif_aux:
+  { type: TEXTURE, format: IA16, offset: 0x259B4FE, width: 32, height: 32, symbol: kgr_water3tif_aux }

@@ -1,0 +1,322 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+nok_amitif:
+  { type: TEXTURE, format: IA4, offset: 0x25F7F5E, width: 16, height: 16, symbol: nok_amitif }
+nok_ana_ctif:
+  { type: TEXTURE, format: CI4, offset: 0x25F800E, width: 32, height: 32, tlut: 0x25F820E, symbol: nok_ana_ctif }
+nok_ana_ctif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25F820E, colors: 16, symbol: nok_ana_ctif_tlut }
+nok_back_2tif:
+  { type: TEXTURE, format: CI4, offset: 0x25F825E, width: 128, height: 32, tlut: 0x25F8A5E, symbol: nok_back_2tif }
+nok_back_2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25F8A5E, colors: 16, symbol: nok_back_2tif_tlut }
+nok_berosaidetif:
+  { type: TEXTURE, format: CI4, offset: 0x25F8AAE, width: 16, height: 16, tlut: 0x25F8B2E, symbol: nok_berosaidetif }
+nok_berosaidetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25F8B2E, colors: 16, symbol: nok_berosaidetif_tlut }
+nok_block_ctif:
+  { type: TEXTURE, format: CI4, offset: 0x25F8B7E, width: 16, height: 16, tlut: 0x25F8BFE, symbol: nok_block_ctif }
+nok_block_ctif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25F8BFE, colors: 16, symbol: nok_block_ctif_tlut }
+nok_blook2tif:
+  { type: TEXTURE, format: CI4, offset: 0x25F8C4E, width: 32, height: 16, tlut: 0x25F8D4E, symbol: nok_blook2tif }
+nok_blook2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25F8D4E, colors: 16, symbol: nok_blook2tif_tlut }
+nok_blooktif:
+  { type: TEXTURE, format: CI4, offset: 0x25F8D9E, width: 32, height: 16, tlut: 0x25F8E9E, symbol: nok_blooktif }
+nok_blooktif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25F8E9E, colors: 16, symbol: nok_blooktif_tlut }
+nok_dec_planttif:
+  { type: TEXTURE, format: CI4, offset: 0x25F8EEE, width: 64, height: 32, tlut: 0x25F92EE, symbol: nok_dec_planttif }
+nok_dec_planttif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25F92EE, colors: 16, symbol: nok_dec_planttif_tlut }
+nok_flower_02tif:
+  { type: TEXTURE, format: RGBA16, offset: 0x25F933E, width: 16, height: 32, symbol: nok_flower_02tif }
+nok_frametif:
+  { type: TEXTURE, format: CI4, offset: 0x25F976E, width: 64, height: 64, tlut: 0x25F9F6E, symbol: nok_frametif }
+nok_frametif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25F9F6E, colors: 16, symbol: nok_frametif_tlut }
+nok_g_and_btif:
+  { type: TEXTURE, format: CI4, offset: 0x25F9FBE, width: 16, height: 32, tlut: 0x25FA0BE, symbol: nok_g_and_btif }
+nok_g_and_btif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FA0BE, colors: 16, symbol: nok_g_and_btif_tlut }
+nok_green_etif:
+  { type: TEXTURE, format: CI4, offset: 0x25FA10E, width: 32, height: 32, tlut: 0x25FA38E, symbol: nok_green_etif }
+nok_green_etif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FA38E, colors: 16, symbol: nok_green_etif_tlut }
+nok_green_etif_mm1:
+  { type: TEXTURE, format: CI4, offset: 0x25FA30E, width: 16, height: 16, symbol: nok_green_etif_mm1 }
+nok_hana_btif:
+  { type: TEXTURE, format: CI4, offset: 0x25FA3DE, width: 64, height: 32, tlut: 0x25FA7DE, symbol: nok_hana_btif }
+nok_hana_btif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FA7DE, colors: 16, symbol: nok_hana_btif_tlut }
+nok_hana_ftif:
+  { type: TEXTURE, format: CI4, offset: 0x25FA82E, width: 16, height: 16, tlut: 0x25FA8AE, symbol: nok_hana_ftif }
+nok_hana_ftif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FA8AE, colors: 16, symbol: nok_hana_ftif_tlut }
+nok_hanastif:
+  { type: TEXTURE, format: CI4, offset: 0x25FA8FE, width: 32, height: 16, tlut: 0x25FA9FE, symbol: nok_hanastif }
+nok_hanastif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FA9FE, colors: 16, symbol: nok_hanastif_tlut }
+nok_hapa34tif:
+  { type: TEXTURE, format: CI4, offset: 0x25FAA4E, width: 64, height: 16, tlut: 0x25FAC4E, symbol: nok_hapa34tif }
+nok_hapa34tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FAC4E, colors: 16, symbol: nok_hapa34tif_tlut }
+nok_hapatif:
+  { type: TEXTURE, format: CI4, offset: 0x25FAC9E, width: 32, height: 32, tlut: 0x25FAE9E, symbol: nok_hapatif }
+nok_hapatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FAE9E, colors: 16, symbol: nok_hapatif_tlut }
+nok_hashi33tif:
+  { type: TEXTURE, format: CI4, offset: 0x25FAEEE, width: 64, height: 32, tlut: 0x25FB2EE, symbol: nok_hashi33tif }
+nok_hashi33tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FB2EE, colors: 16, symbol: nok_hashi33tif_tlut }
+nok_hon2tif:
+  { type: TEXTURE, format: CI4, offset: 0x25FB33E, width: 16, height: 32, tlut: 0x25FB43E, symbol: nok_hon2tif }
+nok_hon2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FB43E, colors: 16, symbol: nok_hon2tif_tlut }
+nok_hontif:
+  { type: TEXTURE, format: CI4, offset: 0x25FB48E, width: 16, height: 32, tlut: 0x25FB58E, symbol: nok_hontif }
+nok_hontif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FB58E, colors: 16, symbol: nok_hontif_tlut }
+nok_huton_02tif:
+  { type: TEXTURE, format: CI4, offset: 0x25FB5DE, width: 16, height: 32, tlut: 0x25FB6DE, symbol: nok_huton_02tif }
+nok_huton_02tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FB6DE, colors: 16, symbol: nok_huton_02tif_tlut }
+nok_itatif:
+  { type: TEXTURE, format: CI4, offset: 0x25FB72E, width: 16, height: 32, tlut: 0x25FB82E, symbol: nok_itatif }
+nok_itatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FB82E, colors: 16, symbol: nok_itatif_tlut }
+nok_iwa_atif:
+  { type: TEXTURE, format: CI4, offset: 0x25FB87E, width: 32, height: 32, tlut: 0x25FBA7E, symbol: nok_iwa_atif }
+nok_iwa_atif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FBA7E, colors: 16, symbol: nok_iwa_atif_tlut }
+nok_jimentif:
+  { type: TEXTURE, format: CI4, offset: 0x25FBACE, width: 32, height: 32, tlut: 0x25FBCCE, symbol: nok_jimentif }
+nok_jimentif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FBCCE, colors: 16, symbol: nok_jimentif_tlut }
+nok_kabe10tif:
+  { type: TEXTURE, format: CI4, offset: 0x25FBD1E, width: 64, height: 32, tlut: 0x25FC11E, symbol: nok_kabe10tif }
+nok_kabe10tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FC11E, colors: 16, symbol: nok_kabe10tif_tlut }
+nok_kabe10tif_aux:
+  { type: TEXTURE, format: CI4, offset: 0x25FC13E, width: 64, height: 32, tlut: 0x25FC53E, symbol: nok_kabe10tif_aux }
+nok_kabe10tif_aux_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FC53E, colors: 16, symbol: nok_kabe10tif_aux_tlut }
+nok_kabe12_btif:
+  { type: TEXTURE, format: CI4, offset: 0x25FC58E, width: 64, height: 32, tlut: 0x25FC98E, symbol: nok_kabe12_btif }
+nok_kabe12_btif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FC98E, colors: 16, symbol: nok_kabe12_btif_tlut }
+nok_kabe12_wtif:
+  { type: TEXTURE, format: CI4, offset: 0x25FC9DE, width: 64, height: 32, tlut: 0x25FCDDE, symbol: nok_kabe12_wtif }
+nok_kabe12_wtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FCDDE, colors: 16, symbol: nok_kabe12_wtif_tlut }
+nok_kabe12_wtif_aux:
+  { type: TEXTURE, format: CI4, offset: 0x25FCDFE, width: 64, height: 32, tlut: 0x25FD1FE, symbol: nok_kabe12_wtif_aux }
+nok_kabe12_wtif_aux_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FD1FE, colors: 16, symbol: nok_kabe12_wtif_aux_tlut }
+nok_kabe12tif:
+  { type: TEXTURE, format: CI4, offset: 0x25FD24E, width: 64, height: 32, tlut: 0x25FD64E, symbol: nok_kabe12tif }
+nok_kabe12tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FD64E, colors: 16, symbol: nok_kabe12tif_tlut }
+nok_kabe6tif:
+  { type: TEXTURE, format: CI4, offset: 0x25FD69E, width: 32, height: 16, tlut: 0x25FD79E, symbol: nok_kabe6tif }
+nok_kabe6tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FD79E, colors: 16, symbol: nok_kabe6tif_tlut }
+nok_kabe8tif:
+  { type: TEXTURE, format: CI4, offset: 0x25FD7EE, width: 64, height: 32, tlut: 0x25FDBEE, symbol: nok_kabe8tif }
+nok_kabe8tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FDBEE, colors: 16, symbol: nok_kabe8tif_tlut }
+nok_kabegami_3tif:
+  { type: TEXTURE, format: CI4, offset: 0x25FDC3E, width: 32, height: 16, tlut: 0x25FDD3E, symbol: nok_kabegami_3tif }
+nok_kabegami_3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FDD3E, colors: 16, symbol: nok_kabegami_3tif_tlut }
+nok_kabegami_ftif:
+  { type: TEXTURE, format: CI4, offset: 0x25FDD8E, width: 64, height: 64, tlut: 0x25FE58E, symbol: nok_kabegami_ftif }
+nok_kabegami_ftif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FE58E, colors: 16, symbol: nok_kabegami_ftif_tlut }
+nok_kabekusatif:
+  { type: TEXTURE, format: CI4, offset: 0x25FE5DE, width: 32, height: 16, tlut: 0x25FE6DE, symbol: nok_kabekusatif }
+nok_kabekusatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FE6DE, colors: 16, symbol: nok_kabekusatif_tlut }
+nok_kabetif:
+  { type: TEXTURE, format: CI4, offset: 0x25FE72E, width: 64, height: 32, tlut: 0x25FEB2E, symbol: nok_kabetif }
+nok_kabetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FEB2E, colors: 16, symbol: nok_kabetif_tlut }
+nok_kanban4tif:
+  { type: TEXTURE, format: CI4, offset: 0x25FEB7E, width: 64, height: 64, tlut: 0x25FF37E, symbol: nok_kanban4tif }
+nok_kanban4tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FF37E, colors: 16, symbol: nok_kanban4tif_tlut }
+nok_kanban6tif:
+  { type: TEXTURE, format: CI4, offset: 0x25FF3CE, width: 64, height: 32, tlut: 0x25FF7CE, symbol: nok_kanban6tif }
+nok_kanban6tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FF7CE, colors: 16, symbol: nok_kanban6tif_tlut }
+nok_kinopiotif:
+  { type: TEXTURE, format: CI4, offset: 0x25FF81E, width: 16, height: 32, tlut: 0x25FF91E, symbol: nok_kinopiotif }
+nok_kinopiotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25FF91E, colors: 16, symbol: nok_kinopiotif_tlut }
+nok_kirakiratif:
+  { type: TEXTURE, format: IA8, offset: 0x25FF96E, width: 32, height: 64, symbol: nok_kirakiratif }
+nok_kirakiratif_aux:
+  { type: TEXTURE, format: IA8, offset: 0x25FFD6E, width: 32, height: 32, symbol: nok_kirakiratif_aux }
+nok_kishikakutif:
+  { type: TEXTURE, format: CI4, offset: 0x260019E, width: 128, height: 32, tlut: 0x260099E, symbol: nok_kishikakutif }
+nok_kishikakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260099E, colors: 16, symbol: nok_kishikakutif_tlut }
+nok_kusakusa1tif:
+  { type: TEXTURE, format: CI4, offset: 0x26009EE, width: 64, height: 32, tlut: 0x2600DEE, symbol: nok_kusakusa1tif }
+nok_kusakusa1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2600DEE, colors: 16, symbol: nok_kusakusa1tif_tlut }
+nok_kusatif:
+  { type: TEXTURE, format: RGBA16, offset: 0x2600E3E, width: 32, height: 16, symbol: nok_kusatif }
+nok_log_sidetif:
+  { type: TEXTURE, format: CI4, offset: 0x260126E, width: 16, height: 32, tlut: 0x260136E, symbol: nok_log_sidetif }
+nok_log_sidetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260136E, colors: 16, symbol: nok_log_sidetif_tlut }
+nok_mac_fieldtif:
+  { type: TEXTURE, format: CI4, offset: 0x26013BE, width: 32, height: 32, tlut: 0x26015BE, symbol: nok_mac_fieldtif }
+nok_mac_fieldtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26015BE, colors: 16, symbol: nok_mac_fieldtif_tlut }
+nok_mac_house7tif:
+  { type: TEXTURE, format: CI4, offset: 0x260160E, width: 32, height: 32, tlut: 0x260180E, symbol: nok_mac_house7tif }
+nok_mac_house7tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260180E, colors: 16, symbol: nok_mac_house7tif_tlut }
+nok_mac_house8tif:
+  { type: TEXTURE, format: CI4, offset: 0x260185E, width: 32, height: 32, tlut: 0x2601A5E, symbol: nok_mac_house8tif }
+nok_mac_house8tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2601A5E, colors: 16, symbol: nok_mac_house8tif_tlut }
+nok_mac_sakutif:
+  { type: TEXTURE, format: CI4, offset: 0x2601AAE, width: 32, height: 32, tlut: 0x2601CAE, symbol: nok_mac_sakutif }
+nok_mac_sakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2601CAE, colors: 16, symbol: nok_mac_sakutif_tlut }
+nok_mado_9tif:
+  { type: TEXTURE, format: CI4, offset: 0x2601CFE, width: 32, height: 64, tlut: 0x26020FE, symbol: nok_mado_9tif }
+nok_mado_9tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26020FE, colors: 16, symbol: nok_mado_9tif_tlut }
+nok_midori03tif:
+  { type: TEXTURE, format: CI4, offset: 0x260214E, width: 64, height: 32, tlut: 0x260254E, symbol: nok_midori03tif }
+nok_midori03tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260254E, colors: 16, symbol: nok_midori03tif_tlut }
+nok_miki4tif:
+  { type: TEXTURE, format: CI4, offset: 0x260259E, width: 32, height: 32, tlut: 0x260279E, symbol: nok_miki4tif }
+nok_miki4tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260279E, colors: 16, symbol: nok_miki4tif_tlut }
+nok_n_yasihatif:
+  { type: TEXTURE, format: CI8, offset: 0x26027EE, width: 64, height: 32, tlut: 0x2602FEE, symbol: nok_n_yasihatif }
+nok_n_yasihatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2602FEE, colors: 256, symbol: nok_n_yasihatif_tlut }
+nok_n_yasikitif:
+  { type: TEXTURE, format: CI4, offset: 0x260321E, width: 16, height: 16, tlut: 0x260329E, symbol: nok_n_yasikitif }
+nok_n_yasikitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260329E, colors: 16, symbol: nok_n_yasikitif_tlut }
+nok_nagaretif:
+  { type: TEXTURE, format: CI4, offset: 0x26032EE, width: 32, height: 64, tlut: 0x26036EE, symbol: nok_nagaretif }
+nok_nagaretif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26036EE, colors: 16, symbol: nok_nagaretif_tlut }
+nok_nok_suimentif:
+  { type: TEXTURE, format: IA16, offset: 0x260373E, width: 32, height: 64, symbol: nok_nok_suimentif }
+nok_nok_suimentif_aux:
+  { type: TEXTURE, format: IA16, offset: 0x2603F3E, width: 32, height: 32, symbol: nok_nok_suimentif_aux }
+nok_radio2tif:
+  { type: TEXTURE, format: I4, offset: 0x260476E, width: 32, height: 32, symbol: nok_radio2tif }
+nok_reef_htif:
+  { type: TEXTURE, format: CI4, offset: 0x260499E, width: 128, height: 32, tlut: 0x260519E, symbol: nok_reef_htif }
+nok_reef_htif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260519E, colors: 16, symbol: nok_reef_htif_tlut }
+nok_reef_i_kukitif:
+  { type: TEXTURE, format: CI4, offset: 0x26051EE, width: 32, height: 32, tlut: 0x26053EE, symbol: nok_reef_i_kukitif }
+nok_reef_i_kukitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26053EE, colors: 16, symbol: nok_reef_i_kukitif_tlut }
+nok_ren_atif:
+  { type: TEXTURE, format: CI4, offset: 0x260543E, width: 32, height: 32, tlut: 0x260563E, symbol: nok_ren_atif }
+nok_ren_atif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260563E, colors: 16, symbol: nok_ren_atif_tlut }
+nok_renga_edgetif:
+  { type: TEXTURE, format: CI4, offset: 0x260568E, width: 32, height: 32, tlut: 0x260588E, symbol: nok_renga_edgetif }
+nok_renga_edgetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260588E, colors: 16, symbol: nok_renga_edgetif_tlut }
+nok_renga10tif:
+  { type: TEXTURE, format: CI4, offset: 0x26058DE, width: 32, height: 32, tlut: 0x2605ADE, symbol: nok_renga10tif }
+nok_renga10tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2605ADE, colors: 16, symbol: nok_renga10tif_tlut }
+nok_renga12tif:
+  { type: TEXTURE, format: CI4, offset: 0x2605B2E, width: 32, height: 32, tlut: 0x2605D2E, symbol: nok_renga12tif }
+nok_renga12tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2605D2E, colors: 16, symbol: nok_renga12tif_tlut }
+nok_sabaku_btif:
+  { type: TEXTURE, format: CI4, offset: 0x2605D7E, width: 64, height: 32, tlut: 0x260617E, symbol: nok_sabaku_btif }
+nok_sabaku_btif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260617E, colors: 16, symbol: nok_sabaku_btif_tlut }
+nok_sakusakutif:
+  { type: TEXTURE, format: CI4, offset: 0x26061CE, width: 16, height: 32, tlut: 0x26062CE, symbol: nok_sakusakutif }
+nok_sakusakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26062CE, colors: 16, symbol: nok_sakusakutif_tlut }
+nok_sakusatif:
+  { type: TEXTURE, format: CI4, offset: 0x260631E, width: 16, height: 32, tlut: 0x260641E, symbol: nok_sakusatif }
+nok_sakusatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260641E, colors: 16, symbol: nok_sakusatif_tlut }
+nok_sakutif:
+  { type: TEXTURE, format: CI4, offset: 0x260646E, width: 64, height: 32, tlut: 0x260686E, symbol: nok_sakutif }
+nok_sakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260686E, colors: 16, symbol: nok_sakutif_tlut }
+nok_simatif:
+  { type: TEXTURE, format: CI4, offset: 0x26068BE, width: 16, height: 16, tlut: 0x260693E, symbol: nok_simatif }
+nok_simatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260693E, colors: 16, symbol: nok_simatif_tlut }
+nok_t_dokankun3tif:
+  { type: TEXTURE, format: CI4, offset: 0x260698E, width: 32, height: 16, tlut: 0x2606A8E, symbol: nok_t_dokankun3tif }
+nok_t_dokankun3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2606A8E, colors: 16, symbol: nok_t_dokankun3tif_tlut }
+nok_tana_1tif:
+  { type: TEXTURE, format: CI4, offset: 0x2606ADE, width: 16, height: 16, tlut: 0x2606B5E, symbol: nok_tana_1tif }
+nok_tana_1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2606B5E, colors: 16, symbol: nok_tana_1tif_tlut }
+nok_tana_3tif:
+  { type: TEXTURE, format: CI4, offset: 0x2606BAE, width: 16, height: 32, tlut: 0x2606CAE, symbol: nok_tana_3tif }
+nok_tana_3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2606CAE, colors: 16, symbol: nok_tana_3tif_tlut }
+nok_tana_ctif:
+  { type: TEXTURE, format: RGBA32, offset: 0x2606CFE, width: 32, height: 32, symbol: nok_tana_ctif }
+nok_temae1tif:
+  { type: TEXTURE, format: CI4, offset: 0x2607D2E, width: 64, height: 64, tlut: 0x260852E, symbol: nok_temae1tif }
+nok_temae1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260852E, colors: 16, symbol: nok_temae1tif_tlut }
+nok_tesuritif:
+  { type: TEXTURE, format: CI4, offset: 0x260857E, width: 16, height: 16, tlut: 0x26085FE, symbol: nok_tesuritif }
+nok_tesuritif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26085FE, colors: 16, symbol: nok_tesuritif_tlut }
+nok_tizutif:
+  { type: TEXTURE, format: CI4, offset: 0x260864E, width: 32, height: 32, tlut: 0x260884E, symbol: nok_tizutif }
+nok_tizutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260884E, colors: 16, symbol: nok_tizutif_tlut }
+nok_turu_1tif:
+  { type: TEXTURE, format: CI4, offset: 0x260889E, width: 16, height: 64, tlut: 0x2608A9E, symbol: nok_turu_1tif }
+nok_turu_1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2608A9E, colors: 16, symbol: nok_turu_1tif_tlut }
+nok_wall_mtif:
+  { type: TEXTURE, format: CI4, offset: 0x2608AEE, width: 64, height: 32, tlut: 0x2608EEE, symbol: nok_wall_mtif }
+nok_wall_mtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2608EEE, colors: 16, symbol: nok_wall_mtif_tlut }
+nok_water_sokotif:
+  { type: TEXTURE, format: CI4, offset: 0x2608F3E, width: 32, height: 32, tlut: 0x260913E, symbol: nok_water_sokotif }
+nok_water_sokotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260913E, colors: 16, symbol: nok_water_sokotif_tlut }
+nok_wood_floor_ctif:
+  { type: TEXTURE, format: CI4, offset: 0x260918E, width: 32, height: 32, tlut: 0x260938E, symbol: nok_wood_floor_ctif }
+nok_wood_floor_ctif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260938E, colors: 16, symbol: nok_wood_floor_ctif_tlut }
+nok_yuka3tif:
+  { type: TEXTURE, format: CI4, offset: 0x26093DE, width: 16, height: 16, tlut: 0x260945E, symbol: nok_yuka3tif }
+nok_yuka3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x260945E, colors: 16, symbol: nok_yuka3tif_tlut }
+nok_yuka6tif:
+  { type: TEXTURE, format: CI4, offset: 0x26094AE, width: 16, height: 32, tlut: 0x26095AE, symbol: nok_yuka6tif }
+nok_yuka6tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26095AE, colors: 16, symbol: nok_yuka6tif_tlut }
+nok_yuka7tif:
+  { type: TEXTURE, format: CI8, offset: 0x26095FE, width: 32, height: 32, tlut: 0x26099FE, symbol: nok_yuka7tif }
+nok_yuka7tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26099FE, colors: 256, symbol: nok_yuka7tif_tlut }
+nok_yukatif:
+  { type: TEXTURE, format: I4, offset: 0x2609C2E, width: 32, height: 32, symbol: nok_yukatif }

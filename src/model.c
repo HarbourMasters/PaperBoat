@@ -8,6 +8,7 @@
 #include "qsort.h"
 #include <stdio.h>
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 
 // Check if a GBI opcode is a double-width OTR command (2 Gfx entries instead of 1)
 s32 mdl_is_otr_expanded_opcode(u32 opcode) {
@@ -2036,6 +2037,8 @@ void appendGfx_model(void* data) {
     gDPPipeSync((*gfxPos)++);
 }
 
+// DEPRECATED.
+// port_load_map_textures / port_load_one_texture
 void load_texture_impl(u8* srcData, TextureHandle* handle, TextureHeader* header, s32 mainSize, s32 mainPalSize, s32 auxSize, s32 auxPalSize) {
     Gfx* gfxCursor;
 
@@ -2086,6 +2089,8 @@ void load_texture_impl(u8* srcData, TextureHandle* handle, TextureHeader* header
     gSPEndDisplayList(gfxCursor++);
 }
 
+// DEPRECATED.
+// replaced by port_load_texture_for_node.
 void load_texture_by_name(ModelNodeProperty* propertyName, u8* textureData, s32 size) {
     char* textureName = (char*)propertyName->data.p;
     u32 currentOffset = 0;
@@ -2209,6 +2214,7 @@ void load_texture_by_name(ModelNodeProperty* propertyName, u8* textureData, s32 
     }
 }
 
+// DEPRECATED.
 // loads variations for current texture by looping through the following textures until a non-variant is found
 void load_texture_variants(u8* srcData, s32 textureID, u8* baseData, s32 size) {
     u8* currentPtr;
@@ -2354,6 +2360,8 @@ void load_next_model_textures(ModelNode* model, u8* textureData, s32 texSize) {
     TreeIterPos++;
 }
 
+// DEPRECATED.
+// replaced by port_load_map_textures.
 // load all textures used by models, starting from the root
 void mdl_load_all_textures(ModelNode* rootModel, u8* textureData, s32 size) {
     if (rootModel != nullptr && textureData != nullptr && size != 0) {
@@ -3441,14 +3449,12 @@ Model* get_model_from_list_index(s32 listIndex) {
     return (*gCurrentModels)[listIndex];
 }
 
-void load_data_for_models(ModelNode* rootModel, u8* textureData, s32 size) {
+void load_data_for_models(ModelNode* rootModel, const char* archiveName) {
     Matrix4f mtx;
 
     guMtxIdentF(mtx);
 
-    if (textureData != nullptr) {
-        mdl_load_all_textures(rootModel, textureData, size);
-    }
+    port_load_map_textures(rootModel, archiveName);
 
     *gCurrentModelTreeRoot = rootModel;
     TreeIterPos = 0;

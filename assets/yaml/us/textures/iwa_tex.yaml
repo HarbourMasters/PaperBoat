@@ -1,0 +1,214 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+iwa_back_2tif:
+  { type: TEXTURE, format: CI4, offset: 0x25BC1FE, width: 128, height: 32, tlut: 0x25BC9FE, symbol: iwa_back_2tif }
+iwa_back_2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25BC9FE, colors: 16, symbol: iwa_back_2tif_tlut }
+iwa_berosaidetif:
+  { type: TEXTURE, format: CI4, offset: 0x25BCA4E, width: 16, height: 16, tlut: 0x25BCACE, symbol: iwa_berosaidetif }
+iwa_berosaidetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25BCACE, colors: 16, symbol: iwa_berosaidetif_tlut }
+iwa_dropwater_btif:
+  { type: TEXTURE, format: I8, offset: 0x25BCB1E, width: 32, height: 64, symbol: iwa_dropwater_btif }
+iwa_dropwater_btif_aux:
+  { type: TEXTURE, format: I8, offset: 0x25BD31E, width: 32, height: 64, symbol: iwa_dropwater_btif_aux }
+iwa_dropwatertif:
+  { type: TEXTURE, format: CI4, offset: 0x25BDB4E, width: 32, height: 32, tlut: 0x25BDD4E, symbol: iwa_dropwatertif }
+iwa_dropwatertif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25BDD4E, colors: 16, symbol: iwa_dropwatertif_tlut }
+iwa_frametif:
+  { type: TEXTURE, format: CI4, offset: 0x25BDD9E, width: 64, height: 64, tlut: 0x25BE59E, symbol: iwa_frametif }
+iwa_frametif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25BE59E, colors: 16, symbol: iwa_frametif_tlut }
+iwa_g_and_btif:
+  { type: TEXTURE, format: CI4, offset: 0x25BE5EE, width: 16, height: 32, tlut: 0x25BE6EE, symbol: iwa_g_and_btif }
+iwa_g_and_btif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25BE6EE, colors: 16, symbol: iwa_g_and_btif_tlut }
+iwa_green_etif:
+  { type: TEXTURE, format: CI4, offset: 0x25BE73E, width: 32, height: 32, tlut: 0x25BE9BE, symbol: iwa_green_etif }
+iwa_green_etif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25BE9BE, colors: 16, symbol: iwa_green_etif_tlut }
+iwa_green_etif_mm1:
+  { type: TEXTURE, format: CI4, offset: 0x25BE93E, width: 16, height: 16, symbol: iwa_green_etif_mm1 }
+iwa_hanastif:
+  { type: TEXTURE, format: CI4, offset: 0x25BEA0E, width: 32, height: 16, tlut: 0x25BEB0E, symbol: iwa_hanastif }
+iwa_hanastif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25BEB0E, colors: 16, symbol: iwa_hanastif_tlut }
+iwa_hapa34tif:
+  { type: TEXTURE, format: CI4, offset: 0x25BEB5E, width: 64, height: 16, tlut: 0x25BED5E, symbol: iwa_hapa34tif }
+iwa_hapa34tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25BED5E, colors: 16, symbol: iwa_hapa34tif_tlut }
+iwa_iwa_sakutif:
+  { type: TEXTURE, format: CI4, offset: 0x25BEDAE, width: 64, height: 32, tlut: 0x25BF1AE, symbol: iwa_iwa_sakutif }
+iwa_iwa_sakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25BF1AE, colors: 16, symbol: iwa_iwa_sakutif_tlut }
+iwa_iwa_togo_atif:
+  { type: TEXTURE, format: CI4, offset: 0x25BF1FE, width: 32, height: 32, tlut: 0x25BF3FE, symbol: iwa_iwa_togo_atif }
+iwa_iwa_togo_atif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25BF3FE, colors: 16, symbol: iwa_iwa_togo_atif_tlut }
+iwa_iwa_walltif:
+  { type: TEXTURE, format: CI4, offset: 0x25BF44E, width: 64, height: 32, tlut: 0x25BF84E, symbol: iwa_iwa_walltif }
+iwa_iwa_walltif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25BF84E, colors: 16, symbol: iwa_iwa_walltif_tlut }
+iwa_iwa_walltif_aux:
+  { type: TEXTURE, format: CI4, offset: 0x25BF86E, width: 32, height: 64, tlut: 0x25BFC6E, symbol: iwa_iwa_walltif_aux }
+iwa_iwa_walltif_aux_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25BFC6E, colors: 16, symbol: iwa_iwa_walltif_aux_tlut }
+iwa_iwa_woodtif:
+  { type: TEXTURE, format: CI4, offset: 0x25BFCBE, width: 64, height: 32, tlut: 0x25C00BE, symbol: iwa_iwa_woodtif }
+iwa_iwa_woodtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C00BE, colors: 16, symbol: iwa_iwa_woodtif_tlut }
+iwa_iwasakutif:
+  { type: TEXTURE, format: IA4, offset: 0x25C010E, width: 32, height: 16, symbol: iwa_iwasakutif }
+iwa_kabe12tif:
+  { type: TEXTURE, format: CI4, offset: 0x25C023E, width: 64, height: 32, tlut: 0x25C063E, symbol: iwa_kabe12tif }
+iwa_kabe12tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C063E, colors: 16, symbol: iwa_kabe12tif_tlut }
+iwa_kabekusatif:
+  { type: TEXTURE, format: CI4, offset: 0x25C068E, width: 32, height: 16, tlut: 0x25C078E, symbol: iwa_kabekusatif }
+iwa_kabekusatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C078E, colors: 16, symbol: iwa_kabekusatif_tlut }
+iwa_komonotif:
+  { type: TEXTURE, format: CI4, offset: 0x25C07DE, width: 32, height: 32, tlut: 0x25C09DE, symbol: iwa_komonotif }
+iwa_komonotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C09DE, colors: 16, symbol: iwa_komonotif_tlut }
+iwa_mac_britshcuttif:
+  { type: TEXTURE, format: CI4, offset: 0x25C0A2E, width: 64, height: 64, tlut: 0x25C122E, symbol: iwa_mac_britshcuttif }
+iwa_mac_britshcuttif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C122E, colors: 16, symbol: iwa_mac_britshcuttif_tlut }
+iwa_mac_britshtreetif:
+  { type: TEXTURE, format: CI4, offset: 0x25C127E, width: 32, height: 64, tlut: 0x25C167E, symbol: iwa_mac_britshtreetif }
+iwa_mac_britshtreetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C167E, colors: 16, symbol: iwa_mac_britshtreetif_tlut }
+iwa_mac_clocktif:
+  { type: TEXTURE, format: CI4, offset: 0x25C16CE, width: 16, height: 16, tlut: 0x25C174E, symbol: iwa_mac_clocktif }
+iwa_mac_clocktif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C174E, colors: 16, symbol: iwa_mac_clocktif_tlut }
+iwa_mac_edgetif:
+  { type: TEXTURE, format: CI4, offset: 0x25C179E, width: 16, height: 16, tlut: 0x25C181E, symbol: iwa_mac_edgetif }
+iwa_mac_edgetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C181E, colors: 16, symbol: iwa_mac_edgetif_tlut }
+iwa_mac_fieldtif:
+  { type: TEXTURE, format: CI4, offset: 0x25C186E, width: 32, height: 32, tlut: 0x25C1A6E, symbol: iwa_mac_fieldtif }
+iwa_mac_fieldtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C1A6E, colors: 16, symbol: iwa_mac_fieldtif_tlut }
+iwa_mac_fumikiritif:
+  { type: TEXTURE, format: I4, offset: 0x25C1ABE, width: 16, height: 16, symbol: iwa_mac_fumikiritif }
+iwa_mac_house2tif:
+  { type: TEXTURE, format: CI4, offset: 0x25C1B6E, width: 64, height: 32, tlut: 0x25C20AE, symbol: iwa_mac_house2tif }
+iwa_mac_house2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C20AE, colors: 16, symbol: iwa_mac_house2tif_tlut }
+iwa_mac_house2tif_mm1:
+  { type: TEXTURE, format: CI4, offset: 0x25C1F6E, width: 32, height: 16, symbol: iwa_mac_house2tif_mm1 }
+iwa_mac_house2tif_mm2:
+  { type: TEXTURE, format: CI4, offset: 0x25C206E, width: 16, height: 8, symbol: iwa_mac_house2tif_mm2 }
+iwa_mac_kemuritif:
+  { type: TEXTURE, format: IA8, offset: 0x25C20FE, width: 32, height: 16, symbol: iwa_mac_kemuritif }
+iwa_mac_koushitif:
+  { type: TEXTURE, format: CI4, offset: 0x25C232E, width: 16, height: 16, tlut: 0x25C23AE, symbol: iwa_mac_koushitif }
+iwa_mac_koushitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C23AE, colors: 16, symbol: iwa_mac_koushitif_tlut }
+iwa_mac_pistontif:
+  { type: TEXTURE, format: CI4, offset: 0x25C23FE, width: 32, height: 16, tlut: 0x25C24FE, symbol: iwa_mac_pistontif }
+iwa_mac_pistontif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C24FE, colors: 16, symbol: iwa_mac_pistontif_tlut }
+iwa_mac_railwaytif:
+  { type: TEXTURE, format: CI4, offset: 0x25C254E, width: 16, height: 16, tlut: 0x25C25CE, symbol: iwa_mac_railwaytif }
+iwa_mac_railwaytif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C25CE, colors: 16, symbol: iwa_mac_railwaytif_tlut }
+iwa_mac_roof1tif:
+  { type: TEXTURE, format: CI4, offset: 0x25C261E, width: 32, height: 32, tlut: 0x25C281E, symbol: iwa_mac_roof1tif }
+iwa_mac_roof1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C281E, colors: 16, symbol: iwa_mac_roof1tif_tlut }
+iwa_mac_sakutif:
+  { type: TEXTURE, format: CI4, offset: 0x25C286E, width: 32, height: 32, tlut: 0x25C2A6E, symbol: iwa_mac_sakutif }
+iwa_mac_sakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C2A6E, colors: 16, symbol: iwa_mac_sakutif_tlut }
+iwa_mac_senrosakutif:
+  { type: TEXTURE, format: CI4, offset: 0x25C2ABE, width: 32, height: 16, tlut: 0x25C2BBE, symbol: iwa_mac_senrosakutif }
+iwa_mac_senrosakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C2BBE, colors: 16, symbol: iwa_mac_senrosakutif_tlut }
+iwa_midori03tif:
+  { type: TEXTURE, format: CI4, offset: 0x25C2C0E, width: 64, height: 32, tlut: 0x25C300E, symbol: iwa_midori03tif }
+iwa_midori03tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C300E, colors: 16, symbol: iwa_midori03tif_tlut }
+iwa_nejiwoodtif:
+  { type: TEXTURE, format: CI4, offset: 0x25C305E, width: 64, height: 16, tlut: 0x25C325E, symbol: iwa_nejiwoodtif }
+iwa_nejiwoodtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C325E, colors: 16, symbol: iwa_nejiwoodtif_tlut }
+iwa_noisetif:
+  { type: TEXTURE, format: CI4, offset: 0x25C32AE, width: 16, height: 16, tlut: 0x25C332E, symbol: iwa_noisetif }
+iwa_noisetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C332E, colors: 16, symbol: iwa_noisetif_tlut }
+iwa_popo_4rtif:
+  { type: TEXTURE, format: CI4, offset: 0x25C337E, width: 16, height: 16, tlut: 0x25C33FE, symbol: iwa_popo_4rtif }
+iwa_popo_4rtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C33FE, colors: 16, symbol: iwa_popo_4rtif_tlut }
+iwa_popo_5tif:
+  { type: TEXTURE, format: CI4, offset: 0x25C344E, width: 16, height: 16, tlut: 0x25C34CE, symbol: iwa_popo_5tif }
+iwa_popo_5tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C34CE, colors: 16, symbol: iwa_popo_5tif_tlut }
+iwa_reef_ltif:
+  { type: TEXTURE, format: CI4, offset: 0x25C351E, width: 64, height: 32, tlut: 0x25C391E, symbol: iwa_reef_ltif }
+iwa_reef_ltif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C391E, colors: 16, symbol: iwa_reef_ltif_tlut }
+iwa_roadtif:
+  { type: TEXTURE, format: CI4, offset: 0x25C396E, width: 16, height: 16, tlut: 0x25C39EE, symbol: iwa_roadtif }
+iwa_roadtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C39EE, colors: 16, symbol: iwa_roadtif_tlut }
+iwa_rock_edge_atif:
+  { type: TEXTURE, format: CI4, offset: 0x25C3A3E, width: 64, height: 32, tlut: 0x25C3E3E, symbol: iwa_rock_edge_atif }
+iwa_rock_edge_atif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C3E3E, colors: 16, symbol: iwa_rock_edge_atif_tlut }
+iwa_rock_edge_stif:
+  { type: TEXTURE, format: CI4, offset: 0x25C3E8E, width: 32, height: 32, tlut: 0x25C408E, symbol: iwa_rock_edge_stif }
+iwa_rock_edge_stif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C408E, colors: 16, symbol: iwa_rock_edge_stif_tlut }
+iwa_rock_edgetif:
+  { type: TEXTURE, format: CI4, offset: 0x25C40DE, width: 128, height: 32, tlut: 0x25C48DE, symbol: iwa_rock_edgetif }
+iwa_rock_edgetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C48DE, colors: 16, symbol: iwa_rock_edgetif_tlut }
+iwa_ropetif:
+  { type: TEXTURE, format: CI4, offset: 0x25C492E, width: 16, height: 16, tlut: 0x25C49AE, symbol: iwa_ropetif }
+iwa_ropetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C49AE, colors: 16, symbol: iwa_ropetif_tlut }
+iwa_s_road_2tif:
+  { type: TEXTURE, format: CI4, offset: 0x25C49FE, width: 32, height: 32, tlut: 0x25C4BFE, symbol: iwa_s_road_2tif }
+iwa_s_road_2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C4BFE, colors: 16, symbol: iwa_s_road_2tif_tlut }
+iwa_s_road_3tif:
+  { type: TEXTURE, format: CI4, offset: 0x25C4C4E, width: 32, height: 32, tlut: 0x25C4E4E, symbol: iwa_s_road_3tif }
+iwa_s_road_3tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C4E4E, colors: 16, symbol: iwa_s_road_3tif_tlut }
+iwa_sakutif:
+  { type: TEXTURE, format: CI4, offset: 0x25C4E9E, width: 64, height: 32, tlut: 0x25C529E, symbol: iwa_sakutif }
+iwa_sakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C529E, colors: 16, symbol: iwa_sakutif_tlut }
+iwa_steamtif:
+  { type: TEXTURE, format: IA8, offset: 0x25C52EE, width: 128, height: 32, symbol: iwa_steamtif }
+iwa_su_1tif:
+  { type: TEXTURE, format: IA4, offset: 0x25C631E, width: 128, height: 64, symbol: iwa_su_1tif }
+iwa_suberidaitif:
+  { type: TEXTURE, format: CI4, offset: 0x25C734E, width: 16, height: 16, tlut: 0x25C73CE, symbol: iwa_suberidaitif }
+iwa_suberidaitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C73CE, colors: 16, symbol: iwa_suberidaitif_tlut }
+iwa_sutif:
+  { type: TEXTURE, format: CI4, offset: 0x25C741E, width: 64, height: 32, tlut: 0x25C781E, symbol: iwa_sutif }
+iwa_sutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C781E, colors: 16, symbol: iwa_sutif_tlut }
+iwa_syarintif:
+  { type: TEXTURE, format: CI4, offset: 0x25C786E, width: 32, height: 32, tlut: 0x25C7A6E, symbol: iwa_syarintif }
+iwa_syarintif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C7A6E, colors: 16, symbol: iwa_syarintif_tlut }
+iwa_t_taki1tif:
+  { type: TEXTURE, format: IA16, offset: 0x25C7ABE, width: 32, height: 64, symbol: iwa_t_taki1tif }
+iwa_t_taki1tif_aux:
+  { type: TEXTURE, format: IA16, offset: 0x25C82BE, width: 32, height: 32, symbol: iwa_t_taki1tif_aux }
+iwa_temae1tif:
+  { type: TEXTURE, format: CI4, offset: 0x25C8AEE, width: 64, height: 64, tlut: 0x25C92EE, symbol: iwa_temae1tif }
+iwa_temae1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x25C92EE, colors: 16, symbol: iwa_temae1tif_tlut }
+iwa_wood_pole_b_btif:
+  { type: TEXTURE, format: I4, offset: 0x25C933E, width: 128, height: 64, symbol: iwa_wood_pole_b_btif }
