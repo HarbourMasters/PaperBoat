@@ -118,7 +118,7 @@ void draw_prev_frame_buffer_at_screen_pos(s32 x1, s32 y1, s32 x2, s32 y2, f32 al
             maxY = SCREEN_HEIGHT - 1;
         }
         if (minX != maxX && minY != maxY) {
-            appendGfx_draw_prev_frame_buffer(minX, minY, maxX, maxY, alpha);
+            port_appendGfx_draw_prev_frame_buffer(minX, minY, maxX, maxY, alpha);
         }
     }
 }

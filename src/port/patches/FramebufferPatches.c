@@ -1,4 +1,5 @@
 #include "common.h"
+#include "port/Engine.h"
 #include "port/patches/Patches.h"
 
 extern int gfx_create_framebuffer(unsigned int width, unsigned int height,
@@ -39,4 +40,51 @@ void port_emitCaptureCurrentFrameIfRequested(Gfx** gfxP) {
     }
     gDPCopyFB((*gfxP)++, s_prevFrameFbId, 0, false, NULL);
     s_prevFrameCaptureReq--;
+}
+
+void port_appendGfx_draw_prev_frame_buffer(s32 x1, s32 y1, s32 x2, s32 y2, f32 alpha) {
+    u16* prevGfxCfb = port_getPrevFrameSentinel();
+    s32 visLeft = OTRGetRectDimensionFromLeftEdge(0);
+    s32 visRight = OTRGetRectDimensionFromRightEdge(0);
+    s32 visWidth = visRight - visLeft;
+    s32 dstLeft;
+    s32 dstRight;
+
+    port_requestPrevFrameCapture();
+
+    // round the x positions, as the original did
+    x1 = x1 - (x1 % 4);
+    x2 = x2 - (x2 % 4) + 4;
+
+    if (visWidth < 1) {
+        visWidth = SCREEN_WIDTH;
+    }
+
+    dstLeft = visLeft + x1;
+    dstRight = visRight - (SCREEN_WIDTH - x2);
+
+    gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);
+    gDPSetCombineMode(gMainGfxPos++, PM_CC_10, PM_CC_10);
+    gDPSetRenderMode(gMainGfxPos++, G_RM_CLD_SURF, G_RM_CLD_SURF2);
+    gDPSetColorDither(gMainGfxPos++, G_CD_DISABLE);
+    gDPSetAlphaDither(gMainGfxPos++, G_AD_NOISE);
+    gDPSetTextureFilter(gMainGfxPos++, G_TF_POINT);
+    gDPSetTexturePersp(gMainGfxPos++, G_TP_NONE);
+    gSPTexture(gMainGfxPos++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
+    gDPSetTextureLUT(gMainGfxPos++, G_TT_NONE);
+    gDPSetTextureDetail(gMainGfxPos++, G_TD_CLAMP);
+    gDPSetTextureLOD(gMainGfxPos++, G_TL_TILE);
+    gDPSetPrimColor(gMainGfxPos++, 0, 0, 255, 255, 255, alpha);
+
+    // Tile dimensions are what the UV normalization divides by, so declare the full frame
+    gDPLoadTextureTile(gMainGfxPos++, osVirtualToPhysical(prevGfxCfb), G_IM_FMT_RGBA, G_IM_SIZ_16b,
+                       SCREEN_WIDTH, SCREEN_HEIGHT,
+                       0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, 0,
+                       G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+
+    // dstLeft can be negative at wide aspect, hence the wide texrect
+    gSPWideTextureRectangle(gMainGfxPos++, dstLeft * 4, y1 * 4, dstRight * 4, y2 * 4,
+                        G_TX_RENDERTILE,
+                        (s32) (32.0f * SCREEN_WIDTH * (dstLeft - visLeft) / visWidth), y1 * 32,
+                        (s32) (1024.0f * SCREEN_WIDTH / visWidth), 1024);
 }
