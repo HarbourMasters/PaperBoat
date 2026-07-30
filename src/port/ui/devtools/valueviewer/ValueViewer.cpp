@@ -31,9 +31,9 @@ extern "C" {
 #define CVAR_SHOW_POSITION CVarGetInteger(CVAR_NAME_SHOW_POSITION, 0)
 
 extern "C" {
-PlayerStatus gPlayerStatus;
-PlayerData gPlayerData;
-GameStatus* gGameStatusPtr;
+extern PlayerStatus gPlayerStatus;
+extern PlayerData gPlayerData;
+extern GameStatus* gGameStatusPtr;
 extern AreaConfig gAreas[29];
 extern StageListRow* gCurrentStagePtr;
 extern s32 gCurrentBattleID;
