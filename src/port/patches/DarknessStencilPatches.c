@@ -37,6 +37,8 @@ void port_appendGfx_darkness_stencil(b32 isWorld, s32 posX, s32 posY, f32 alpha,
     f32 primA, envA;
     s32 sStart, tStart;
     s32 dsdx;
+    s32 scissorLeft, scissorRight;
+    s32 rectLeft, rectRight;
 
     if (alpha == 0.0f || progress == 0.0f) {
         return;
@@ -71,9 +73,11 @@ void port_appendGfx_darkness_stencil(b32 isWorld, s32 posX, s32 posY, f32 alpha,
     }
 
     gDPPipeSync(gMainGfxPos++);
+
+    get_cam_scissor_x(gCurrentCameraID, &scissorLeft, &scissorRight);
     gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE,
-                  camera->viewportStartX, camera->viewportStartY,
-                  camera->viewportStartX + camera->viewportW,
+                  scissorLeft, camera->viewportStartY,
+                  scissorRight,
                   camera->viewportStartY + camera->viewportH);
     gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);
     gDPSetTexturePersp(gMainGfxPos++, G_TP_NONE);
@@ -102,10 +106,20 @@ void port_appendGfx_darkness_stencil(b32 isWorld, s32 posX, s32 posY, f32 alpha,
     gDPSetPrimColor(gMainGfxPos++, 0, 0, 0, 0, 0, (u8)primA);
     gDPSetEnvColor (gMainGfxPos++,                0, 0, 0, (u8)envA);
 
-    gSPTextureRectangle(gMainGfxPos++,
-                        camera->viewportStartX * 4,
+    rectLeft = camera->viewportStartX;
+    rectRight = camera->viewportStartX + camera->viewportW;
+    if (gCurrentCameraID == CAM_DEFAULT || gCurrentCameraID == CAM_BATTLE) {
+        rectLeft = OTRGetRectDimensionFromLeftEdge(0);
+        rectRight = OTRGetRectDimensionFromRightEdge(0);
+        // s advances 32/texScale per pixel, so re-anchor it for the new left edge and the
+        // pattern stays put over Mario instead of sliding as the rect grows sideways
+        sStart += (s32)((rectLeft - camera->viewportStartX) * 32.0f / texScale);
+    }
+
+    gSPWideTextureRectangle(gMainGfxPos++,
+                        rectLeft * 4,
                         camera->viewportStartY * 4,
-                        (camera->viewportStartX + camera->viewportW) * 4,
+                        rectRight * 4,
                         (camera->viewportStartY + camera->viewportH) * 4,
                         G_TX_RENDERTILE,
                         sStart, tStart, dsdx, dsdx);
