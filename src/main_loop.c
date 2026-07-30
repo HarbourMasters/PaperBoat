@@ -197,11 +197,8 @@ void gfx_draw_frame(void) {
         return;
     }
 
-    // libultraship requires explicit color/depth image targets
-    // Use different sentinel values - if both are the same, libultraship skips fill rectangles
-    // thinking it's a Z buffer clear (see interpreter.cpp GfxDpFillRectangle)
-    gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, (void*)1);
-    gDPSetDepthImage(gMainGfxPos++, (void*)2);
+    gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, GFX_COLOR_IMAGE_SENTINEL);
+    gDPSetDepthImage(gMainGfxPos++, GFX_DEPTH_IMAGE_SENTINEL);
 
     gSPMatrix(gMainGfxPos++, &MasterIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 

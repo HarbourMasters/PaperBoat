@@ -679,6 +679,12 @@ void tattle_cam_pre_render(Camera* camera) {
     s32 texOffsetX;
     s32 extraHeight;
     s16 texOffsetY;
+    
+
+    s32 scissorLeft;
+    s32 scissorRight;
+
+    get_cam_scissor_x(gCurrentCamID, &scissorLeft, &scissorRight);
 
     hide_foreground_models_unchecked();
 
@@ -710,7 +716,7 @@ void tattle_cam_pre_render(Camera* camera) {
         gDPSetCombineMode(gMainGfxPos++, G_CC_DECALRGB, G_CC_DECALRGB);
         gDPSetRenderMode(gMainGfxPos++, G_RM_NOOP, G_RM_NOOP2);
         gDPSetTextureFilter(gMainGfxPos++, G_TF_POINT);
-        gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, cam->viewportStartX, cam->viewportStartY, cam->viewportStartX + cam->viewportW - 1, cam->viewportStartY + cam->viewportH - 1);
+        gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, scissorLeft, cam->viewportStartY, scissorRight - 1, cam->viewportStartY + cam->viewportH - 1);
         gDPPipeSync(gMainGfxPos++);
         if (!fogEnabled) {
             gDPLoadTLUT_pal256(gMainGfxPos++, gGameStatusPtr->backgroundPalette);
@@ -765,7 +771,7 @@ void tattle_cam_pre_render(Camera* camera) {
     gSPTexture(gMainGfxPos++, 0, 0, 0, G_TX_RENDERTILE, G_OFF);
     gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);
     gDPPipelineMode(gMainGfxPos++, G_PM_NPRIMITIVE);
-    gDPSetScissorFrac(gMainGfxPos++, G_SC_NON_INTERLACE, cam->viewportStartX * 4.0f, cam->viewportStartY * 4.0f, (cam->viewportStartX + cam->viewportW) * 4.0f, (cam->viewportStartY + cam->viewportH) * 4.0f);
+    gDPSetScissorFrac(gMainGfxPos++, G_SC_NON_INTERLACE, scissorLeft * 4.0f, cam->viewportStartY * 4.0f, scissorRight * 4.0f, (cam->viewportStartY + cam->viewportH) * 4.0f);
     gDPSetTextureLOD(gMainGfxPos++, G_TL_TILE);
     gDPSetTextureLUT(gMainGfxPos++, G_TT_NONE);
     gDPSetTextureDetail(gMainGfxPos++, G_TD_CLAMP);
@@ -780,13 +786,21 @@ void tattle_cam_pre_render(Camera* camera) {
     gSPClipRatio(gMainGfxPos++, FRUSTRATIO_2);
     gDPPipeSync(gMainGfxPos++);
     gDPSetCycleType(gMainGfxPos++, G_CYC_FILL);
-    gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(nuGfxZBuffer));
+
+    // Clear the depth of the window's region. The depth image has to be pointed at the real Z
+    // buffer for the fill, otherwise we draw it into the framebuffer as a white rect
+    // over the background image above (see GFX_DEPTH_IMAGE_SENTINEL).
+    gDPSetDepthImage(gMainGfxPos++, OS_K0_TO_PHYSICAL(nuGfxZBuffer));
+
+    gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, OS_K0_TO_PHYSICAL(nuGfxZBuffer));
     gDPSetFillColor(gMainGfxPos++, PACK_FILL_DEPTH(G_MAXFBZ, 0));
-    gDPFillRectangle(gMainGfxPos++, cam->viewportStartX, cam->viewportStartY, cam->viewportStartX + cam->viewportW - 1, cam->viewportStartY + cam->viewportH - 1);
+    gDPFillRectangle(gMainGfxPos++, scissorLeft, cam->viewportStartY, scissorRight - 1, cam->viewportStartY + cam->viewportH - 1);
     gDPPipeSync(gMainGfxPos++);
     gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(nuGfxCfb_ptr));
+    gDPSetDepthImage(gMainGfxPos++, GFX_DEPTH_IMAGE_SENTINEL);
 
     if (!(gGameStatusPtr->backgroundFlags & BACKGROUND_FLAG_TEXTURE)) {
+        // a color fill, so it stays in native coords like the window frame around it
         gDPSetCycleType(gMainGfxPos++, G_CYC_FILL);
         gDPSetFillColor(gMainGfxPos++, PACK_FILL_COLOR(cam->bgColor[0], cam->bgColor[1], cam->bgColor[2], 1));
         gDPFillRectangle(gMainGfxPos++, cam->viewportStartX, cam->viewportStartY, cam->viewportStartX + cam->viewportW - 1, cam->viewportStartY + cam->viewportH - 1);
