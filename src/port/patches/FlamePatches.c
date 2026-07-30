@@ -147,6 +147,7 @@ void port_flame_appendGfx(void* effect) {
     Matrix4f sp18, sp58, sp98;
     u8* readback = (u8*)sFlameReadbackB;
     u8* blendCpu = (u8*)sFlameBlendCpu;
+    s32 scissorLeft, scissorRight;
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
@@ -172,10 +173,12 @@ void port_flame_appendGfx(void* effect) {
         gDPReadFBToI8(gMainGfxPos++, sFbBlend, sFlameBlendCpu, 0, 0, FLAME_TEX_W, FLAME_TEX_H, 0);
 
         gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, VIRTUAL_TO_PHYSICAL(nuGfxCfb_ptr));
+        
+        get_cam_scissor_x(gCurrentCameraID, &scissorLeft, &scissorRight);
         gDPSetScissorFrac(gMainGfxPos++, G_SC_NON_INTERLACE,
-            camera->viewportStartX * 4.0f,
+            scissorLeft * 4.0f,
             camera->viewportStartY * 4.0f,
-            (camera->viewportStartX + camera->viewportW) * 4.0f,
+            scissorRight * 4.0f,
             (camera->viewportStartY + camera->viewportH) * 4.0f);
 
         // CPU passes 3-5 on LAST FRAME's blend bytes. T0 is the blend

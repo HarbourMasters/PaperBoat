@@ -4453,6 +4453,8 @@ s32 is_model_center_visible(u16 modelID, s32 depthQueryID, f32* screenX, f32* sc
     u32 shiftedMantissa, mantissaBias;
     u32 decodedDepth;
     s32 scaledDepth;
+    s32 scissorLeft;
+    s32 scissorRight;
 
     // If an invalid depth query id was provided, return false.
     if (depthQueryID >= ARRAY_COUNT(DepthCopyBuffer)) {
@@ -4523,10 +4525,11 @@ s32 is_model_center_visible(u16 modelID, s32 depthQueryID, f32* screenX, f32* sc
         gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(nuGfxCfb_ptr));
         gDPPipeSync(gMainGfxPos++);
         // Reconfigure the frame's normal scissor.
+        get_cam_scissor_x(gCurrentCameraID, &scissorLeft, &scissorRight);
         gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE,
-                      (gCurrentCameraID == CAM_DEFAULT || gCurrentCameraID == CAM_BATTLE) ? 0 : camera->viewportStartX,
+                      scissorLeft,
                       camera->viewportStartY,
-                      (gCurrentCameraID == CAM_DEFAULT || gCurrentCameraID == CAM_BATTLE) ? SCREEN_WIDTH : (camera->viewportStartX + camera->viewportW),
+                      scissorRight,
                       camera->viewportStartY + camera->viewportH);
 
         // The following code will use last frame's depth value, since the copy that was just written won't be executed until the current frame is drawn.
@@ -4567,6 +4570,8 @@ OPTIMIZE_OFAST b32 is_point_visible(f32 x, f32 y, f32 z, s32 depthQueryID, f32* 
     u32 shiftedMantissa, mantissaBias;
     u32 decodedDepth;
     s32 scaledDepth;
+    s32 scissorLeft;
+    s32 scissorRight;
 
     // If an invalid depth query id was provided, return false.
     if (depthQueryID >= ARRAY_COUNT(DepthCopyBuffer)) {
@@ -4633,10 +4638,11 @@ OPTIMIZE_OFAST b32 is_point_visible(f32 x, f32 y, f32 z, s32 depthQueryID, f32* 
         gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(nuGfxCfb_ptr));
         gDPPipeSync(gMainGfxPos++);
         // Reconfigure the frame's normal scissor.
+        get_cam_scissor_x(gCurrentCameraID, &scissorLeft, &scissorRight);
         gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE,
-                      (gCurrentCameraID == CAM_DEFAULT || gCurrentCameraID == CAM_BATTLE) ? 0 : camera->viewportStartX,
+                      scissorLeft,
                       camera->viewportStartY,
-                      (gCurrentCameraID == CAM_DEFAULT || gCurrentCameraID == CAM_BATTLE) ? SCREEN_WIDTH : (camera->viewportStartX + camera->viewportW),
+                      scissorRight,
                       camera->viewportStartY + camera->viewportH);
 
         // The following code will use last frame's depth value, since the copy that was just written won't be executed until the current frame is drawn.

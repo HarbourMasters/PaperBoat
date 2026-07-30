@@ -451,6 +451,7 @@ Worker* get_worker(s32 idx);
 Trigger* bind_trigger_1(EvtScript* script, s32 flags, s32 triggerFlagIndex, intptr_t triggerVar0, intptr_t triggerVar1, s32 priority);
 
 void set_cam_viewport(s16 id, s16 x, s16 y, s16 width, s16 height);
+void get_cam_scissor_x(s32 camID, s32* left, s32* right);
 
 void disable_player_shadow(void);
 void move_player(s32 duration, f32 heading, f32 speed);

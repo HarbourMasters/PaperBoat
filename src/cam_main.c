@@ -3,6 +3,7 @@
 #include "nu/nusys.h"
 #include "hud_element.h"
 #include "dx/profiling.h"
+#include "port/Engine.h"
 
 void render_models(void);
 void execute_render_tasks(void);
@@ -87,6 +88,39 @@ void update_cameras(void) {
     gCurrentCamID = CAM_DEFAULT;
 }
 
+// Widescreen: true if this camera draws content that reaches the true screen edges, so it
+// spans the widened width rather than the centered 4:3 box.
+static b32 cam_has_fullscreen_viewport(s32 camID) {
+    return camID == CAM_DEFAULT || camID == CAM_BATTLE
+           || gCameras[camID].viewportW >= SCREEN_WIDTH - 2 * SCREEN_INSET_X;
+}
+
+void get_cam_scissor_x(s32 camID, s32* left, s32* right) {
+    Camera* camera = &gCameras[camID];
+
+    if (cam_has_fullscreen_viewport(camID)) {
+        *left = 0;
+        *right = SCREEN_WIDTH;
+    } else {
+        *left = OTRGetScissorCoordX(camera->viewportStartX);
+        *right = OTRGetScissorCoordX(camera->viewportStartX + camera->viewportW);
+    }
+}
+
+// Widescreen: keep a sub-viewport camera's 3D render inside the 4:3 box, so it stays
+// aligned with the 2D window frame drawn around it.
+static void cam_widescreen_recenter_viewport(s32 camID, Camera* camera) {
+    s32 centerX;
+
+    if (cam_has_fullscreen_viewport(camID)) {
+        return;
+    }
+
+    centerX = OTRGetScissorCoordX(camera->viewportStartX + (camera->viewportW / 2));
+    camera->vp.vp.vtrans[0] = 4 * centerX;
+    camera->vpAlt.vp.vtrans[0] = gGameStatusPtr->altViewportOffset.x + 4 * centerX;
+}
+
 void render_frame(s32 isSecondPass) {
     s32 firstCamID;
     s32 lastCamID;
@@ -117,6 +151,8 @@ void render_frame(s32 isSecondPass) {
         gCurrentCamID = camID;
         FrameInterpolation_RecordOpenChild("camera_render", TAG_CAMERA(camID, camera));
 
+        cam_widescreen_recenter_viewport(camID, camera);
+
         if (camera->fpDoPreRender != nullptr) {
             camera->fpDoPreRender(camera);
         } else {
@@ -132,16 +168,11 @@ void render_frame(s32 isSecondPass) {
             gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);
             gDPPipelineMode(gMainGfxPos++, G_PM_NPRIMITIVE);
 
-            ulx = camera->viewportStartX;
+            // Widescreen: the overworld camera's scissor spans the full native width,
+            // sub-viewport cameras get mapped onto the centered 4:3 box
+            get_cam_scissor_x(camID, &ulx, &lrx);
             uly = camera->viewportStartY;
-            lrx = ulx + camera->viewportW;
             lry = uly + camera->viewportH;
-
-            // Widescreen: let the overworld camera's scissor span the full native width
-            if (camID == CAM_DEFAULT || camID == CAM_BATTLE) {
-                ulx = 0;
-                lrx = SCREEN_WIDTH;
-            }
 
             if (ulx < 0) {
                 ulx = 0;

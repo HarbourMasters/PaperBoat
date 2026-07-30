@@ -54,6 +54,7 @@ void port_appendGfx_shading_palette(
     f32 facingDir;
     f32 ex, ey, ez;
     f32 pm02, pm12, pm22;
+    s32 scissorLeft, scissorRight;
 
     shadowMag = SQ(shadowX) + SQ(shadowY) + SQ(shadowZ);
 
@@ -142,11 +143,12 @@ void port_appendGfx_shading_palette(
 
     gsSPResetFB(gMainGfxPos++);
 
+    get_cam_scissor_x(gCurrentCameraID, &scissorLeft, &scissorRight);
     gDPSetScissor(
         gMainGfxPos++, 0,
-        (gCurrentCameraID == CAM_DEFAULT || gCurrentCameraID == CAM_BATTLE) ? 0 : camera->viewportStartX,
+        scissorLeft,
         camera->viewportStartY,
-        (gCurrentCameraID == CAM_DEFAULT || gCurrentCameraID == CAM_BATTLE) ? SCREEN_WIDTH : (camera->viewportStartX + camera->viewportW),
+        scissorRight,
         camera->viewportStartY + camera->viewportH
     );
 
