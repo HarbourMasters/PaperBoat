@@ -24,12 +24,16 @@ extern intptr_t gItemIconPaletteOffsets[349];
 #pragma push_macro("End")
 #undef End
 
+#define MAX_ICON_RASTER_SIZE 349
+#define MAX_INVENTORY_SIZE 10
+
 #define CVAR_NAME_POPOUT_SAVE_EDITOR "gOpenWindows.SaveEditor"
 
 #define CVAR_SHOW_POPOUT_SAVE_EDITOR CVarGetInteger(CVAR_NAME_POPOUT_SAVE_EDITOR, 0)
 
 ImGuiWindowFlags saveEditorWindowFlags = ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoTitleBar;
 ImVec4 saveEditorBG = ImVec4{ 0, 0, 0, 0.5f };
+ImVec2 itemImageSize = ImVec2(42.0f, 42.0f);
 
 std::vector<std::pair<const char*, const char*>> partyMemberList = {
     { "Goombario", ui_goombario_png },
@@ -55,7 +59,7 @@ void SaveEditor_PopImageButtonStyle() {
     ImGui::PopStyleVar(1);
 }
 
-const char* GetBadgeNameFromPath(const char* path) {
+const char* GetNameFromPath(const char* path) {
     if (path == NULL) {
         return NULL;
     }
@@ -117,6 +121,15 @@ TextureData GetRankTexture(int32_t currentRank) {
     return rankData;
 }
 
+bool PlayerHasItem(int16_t itemId) {
+    for (int i = 0; i < 10; i++) {
+        if (gPlayerData.invItems[i] == itemId) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool PlayerHasBadge(int16_t badgeId) {
     for (int b = 0; b < 128; b++) {
         if (gPlayerData.badges[b] == badgeId) {
@@ -141,6 +154,88 @@ void AddRemove_Badge(int badgeId, bool currentState) {
                 break;
             }
         }
+    }
+}
+
+void AddRemove_Item(int itemId, bool currentState) {
+    if (currentState) {
+        for (int i = 0; i < 10; i++) {
+            if (gPlayerData.invItems[i] == itemId) {
+                gPlayerData.invItems[i] = 0;
+                break;
+            }
+        }
+    } else {
+        for (int i = 0; i < 10; i++) {
+            if (gPlayerData.invItems[i] == 0) {
+                gPlayerData.invItems[i] = itemId;
+                break;
+            }
+        }
+    }
+}
+
+void SaveEditor_DrawImageButton(int32_t iconIndex, const char* itemType) {
+    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetInstance()->GetWindow()->GetGui());
+    const char* rasterPath = reinterpret_cast<const char*>(gItemIconRasterOffsets[iconIndex]);
+    const char* palettePath = reinterpret_cast<const char*>(gItemIconPaletteOffsets[iconIndex]);
+    ImTextureID itemTexture = gui->GetTextureByName(rasterPath);
+    bool hasItem = false;
+
+    if (itemType == "food" || itemType == "battle") {
+        hasItem = PlayerHasItem(iconIndex);
+    } else if (itemType == "badge") {
+        hasItem = PlayerHasBadge(iconIndex);
+    } else {
+        hasItem = true;
+    }
+
+    SaveEditor_PushImageButtonStyle();
+    if (ImGui::ImageButton(rasterPath, itemTexture, itemImageSize, ImVec2(0, 0), ImVec2(1, 1),
+        ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, hasItem ? 1.0f : 0.5f))) {
+        if (itemType == "food" || itemType == "battle") {
+            AddRemove_Item(iconIndex, false);
+        }
+        if (itemType == "badge") {
+            AddRemove_Badge(iconIndex, hasItem);
+        }
+        if (itemType == "inventory") {
+            AddRemove_Item(iconIndex, true);
+        }
+    }
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip(GetNameFromPath(rasterPath));
+    }
+    SaveEditor_PopImageButtonStyle();
+}
+
+void SaveEditor_DrawItemList(const char* itemType) {
+    int32_t columns = 13;
+    ImVec2 padding = ImGui::GetStyle().CellPadding;
+    padding.y += 2.0f;
+
+    if (ImGui::BeginChild("ItemChild")) {
+        if (ImGui::BeginTable("ItemListTable", columns, ImGuiTableFlags_SizingStretchSame)) {
+            ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, padding);
+            for (int c = 0; c < columns; c++) {
+                ImGui::TableSetupColumn(std::to_string(c).c_str(), ImGuiTableColumnFlags_WidthFixed, itemImageSize.x);
+            }
+
+            for (int i = 0; i < MAX_ICON_RASTER_SIZE; i++) {
+                if (reinterpret_cast<const char*>(gItemIconRasterOffsets[i]) != nullptr && std::string_view(reinterpret_cast<const char*>(gItemIconRasterOffsets[i])).find(itemType) == std::string_view::npos) {
+                    continue;
+                }
+
+                ImGui::PushID(i);
+                ImGui::TableNextColumn();
+                SaveEditor_DrawImageButton(i, itemType);
+                ImGui::PopID();
+            }
+
+            ImGui::PopStyleVar(1);
+            ImGui::EndTable();
+        }
+        ImGui::EndChild();
     }
 }
 
@@ -377,54 +472,41 @@ void SaveEditor_DrawPlayerMenu() {
         }
         ImGui::EndChild();
     }
-
 }
 
-void SaveEditor_DrawBadgesMenu() {
+void SaveEditor_DrawItemsMenu() {
     auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetInstance()->GetWindow()->GetGui());
-    ImVec2 padding = ImGui::GetStyle().CellPadding;
-    ImVec2 badgeImageSize = ImVec2(42.0f, 42.0f);
-    padding.y += 2.0f;
-
-    if (ImGui::BeginChild("BadgeChild")) {
-        if (ImGui::BeginTable("BadgeTable", 13, ImGuiTableFlags_SizingStretchSame)) {
-            ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, padding);
-            for (int c = 0; c < 13; c++) {
-                ImGui::TableSetupColumn(std::to_string(c).c_str(), ImGuiTableColumnFlags_WidthFixed, badgeImageSize.x);
+    if (ImGui::BeginChild("ItemChild")) {
+        for (int i = 0; i < MAX_INVENTORY_SIZE; i++) {
+            
+            ImGui::PushID(i);
+            if (gPlayerData.invItems[i] == 0) {
+                SaveEditor_PushImageButtonStyle();
+                ImGui::ImageButton("Empty", gui->GetTextureByName(ui_battle_menu_nothing_png), itemImageSize);
+                SaveEditor_PopImageButtonStyle();
+            } else {
+                SaveEditor_DrawImageButton(gPlayerData.invItems[i], "inventory");
             }
-
-            SaveEditor_PushImageButtonStyle();
-
-            for (int i = 224; i < 337; i++) {
-                const char* rasterPath = reinterpret_cast<const char*>(gItemIconRasterOffsets[i]);
-                const char* palettePath = reinterpret_cast<const char*>(gItemIconPaletteOffsets[i]);
-                ImTextureID badgeTexture = gui->GetTextureByName(rasterPath);
-
-                if (rasterPath != nullptr && std::string_view(rasterPath).find("Gift") != std::string_view::npos) {
-                    continue;
-                }
-
-                bool hasBadge = PlayerHasBadge(i);
-                ImGui::PushID(i);
-                ImGui::TableNextColumn();
-                if (ImGui::ImageButton(rasterPath, badgeTexture, badgeImageSize, ImVec2(0, 0), ImVec2(1, 1),
-                    ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, hasBadge ? 1.0f : 0.5f))) {
-                    AddRemove_Badge(i, hasBadge);
-                }
-                if (ImGui::IsItemHovered()) {
-                    ImGui::SetTooltip(GetBadgeNameFromPath(rasterPath));
-                }
-                ImGui::PopID();
+            ImGui::PopID();
+            if (i != MAX_INVENTORY_SIZE - 1) {
+                ImGui::SameLine();
             }
+        }
 
-            SaveEditor_PopImageButtonStyle();
-
-            ImGui::PopStyleVar(1);
-            ImGui::EndTable();
+        ImGui::SeparatorText("Available Items");
+        if (ImGui::BeginTabBar("ItemTabBar")) {
+            if (ImGui::BeginTabItem("Food")) {
+                SaveEditor_DrawItemList("food");
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("Battle")) {
+                SaveEditor_DrawItemList("battle");
+                ImGui::EndTabItem();
+            }
+            ImGui::EndTabBar();
         }
         ImGui::EndChild();
     }
-
 }
 
 void SaveEditor_DrawPartyMenu() {
@@ -493,7 +575,11 @@ void SaveEditor_DrawTabBar() {
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Badges")) {
-            SaveEditor_DrawBadgesMenu();
+            SaveEditor_DrawItemList("badge");
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Items")) {
+            SaveEditor_DrawItemsMenu();
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Party")) {

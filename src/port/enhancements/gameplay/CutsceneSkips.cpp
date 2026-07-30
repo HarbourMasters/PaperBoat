@@ -16,12 +16,9 @@ void RegisterCutsceneSkips_Init() {
             return;
         }
 
-        SPDLOG_INFO("Battle Check");
         if (gCurrentSaveFile.player.battlesCount > 0) {
             return;
         }
-
-        SPDLOG_INFO("We're Here");
 
         gCurrentSaveFile.player.battlesCount = 1;
         gCurrentSaveFile.mapID = 1;

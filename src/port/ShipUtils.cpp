@@ -122,6 +122,7 @@ std::vector<PaletteAsset> guiPaletteTextures = {
     { ui_pause_jp_super_png, ui_pause_jp_super_pal, ImVec4{ 1.0f, 1.0f, 1.0f, 1.0f } },
     { ui_pause_jp_ultra_png, ui_pause_jp_ultra_pal, ImVec4{ 1.0f, 1.0f, 1.0f, 1.0f } },
     { ui_pause_partner_rank_png, ui_pause_partner_rank_pal, ImVec4{ 1.0f, 1.0f, 1.0f, 1.0f } },
+    { ui_battle_menu_nothing_png, ui_battle_menu_nothing_pal, ImVec4{ 1.0f, 1.0f, 1.0f, 1.0f } },
 };
 
 
