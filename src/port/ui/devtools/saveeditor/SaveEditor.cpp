@@ -13,7 +13,11 @@
 #include "assets/ui.h"
 
 extern "C" {
+extern s32 get_global_byte(s32 index);
+extern s8 set_global_byte(s32 index, s32 value);
+
 #include "dx/versioning.h"
+
 
 extern SaveData gCurrentSaveFile;
 extern s32 gPausePartnersPartnerIDs[8];
@@ -175,6 +179,14 @@ void AddRemove_Item(int itemId, bool currentState) {
     }
 }
 
+void SetAllTattleFlags() {
+    s32 numBytes = sizeof(gBattleStatus.tattleFlags);
+    for (s32 i = 0; i < numBytes; i++) {
+        set_global_byte(EVT_INDEX_OF_GAME_BYTE(GB_Tattles_00) + i, 0xFF);
+        gBattleStatus.tattleFlags[i] = 0xFF;
+    }
+}
+
 void SaveEditor_DrawImageButton(int32_t iconIndex, const char* itemType) {
     auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetInstance()->GetWindow()->GetGui());
     const char* rasterPath = reinterpret_cast<const char*>(gItemIconRasterOffsets[iconIndex]);
@@ -236,6 +248,12 @@ void SaveEditor_DrawItemList(const char* itemType) {
             ImGui::EndTable();
         }
         ImGui::EndChild();
+    }
+}
+
+void SaveEditor_DrawGeneralMenu() {
+    if (UIWidgets::Button("Enable All Tattle Flags", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
+        SetAllTattleFlags();
     }
 }
 
@@ -570,6 +588,10 @@ void SaveEditor_DrawPartyMenu() {
 void SaveEditor_DrawTabBar() {
     UIWidgets::PushStyleTabs(WIDGET_COLOR);
     if (ImGui::BeginTabBar("SaveEditorTabBar")) {
+        if (ImGui::BeginTabItem("General")) {
+            SaveEditor_DrawGeneralMenu();
+            ImGui::EndTabItem();
+        }
         if (ImGui::BeginTabItem("Player")) {
             SaveEditor_DrawPlayerMenu();
             ImGui::EndTabItem();
