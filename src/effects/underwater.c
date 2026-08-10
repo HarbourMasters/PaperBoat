@@ -2,6 +2,7 @@
 #include "effects_internal.h"
 #include "assets/effects.h"
 #include "nu/nusys.h"
+#include "port/patches/Patches.h"
 
 
 void underwater_init(EffectInstance* effect);
@@ -138,7 +139,7 @@ void underwater_render(EffectInstance* effect) {
     RenderTask renderTask;
     RenderTask* retTask;
 
-    renderTask.appendGfx = underwater_appendGfx;
+    renderTask.appendGfx = port_underwater_appendGfx;
     renderTask.appendGfxArg = effect;
     renderTask.dist = 100;
     renderTask.renderMode = RENDER_MODE_CLOUD_NO_ZCMP;
@@ -149,6 +150,7 @@ void underwater_render(EffectInstance* effect) {
 void func_E00BA618(void) {
 }
 
+// DEPRECATED: port_underwater_appendGfx
 void underwater_appendGfx(void* effect) {
     UnderwaterFXData* data = ((EffectInstance*)effect)->data.underwater;
     s32 alpha = data->waterColor.a;
