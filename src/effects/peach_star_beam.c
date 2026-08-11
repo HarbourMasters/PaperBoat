@@ -177,6 +177,7 @@ void peach_star_beam_appendGfx(void* effect) {
             }
 
             if (!(data->pos.z < partZ)) {
+                FrameInterpolation_RecordOpenChild("star_beam_spirit", (uintptr_t) part);
                 guPositionF(sp20, 0.0f, 0.0f, 0.0f, SPRITE_WORLD_SCALE_F, partX, partY, partZ);
                 guMtxF2L(sp20, &gDisplayContext->matrixStack[gMatrixListPos]);
 
@@ -187,10 +188,12 @@ void peach_star_beam_appendGfx(void* effect) {
                 gSPDisplayList(gMainGfxPos++, D_E010CA38[i]);
                 gSPDisplayList(gMainGfxPos++, D_E010CA18[i]);
                 gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
+                FrameInterpolation_RecordCloseChild();
             }
         }
     }
 
+    FrameInterpolation_RecordOpenChild("star_beam_beam", 0);
     guTranslateF(sp20, data->pos.x, data->pos.y - (((f32) (255 - data->unk_3C) * 400.0) / 255.0), data->pos.z);
     guScaleF(sp60, data->beamScale * 0.4, data->beamScale * 0.4, data->beamScale * 0.4);
     guMtxCatF(sp60, sp20, sp20);
@@ -204,6 +207,7 @@ void peach_star_beam_appendGfx(void* effect) {
     gSPDisplayList(gMainGfxPos++, D_E010CA14[0]);
     gSPDisplayList(gMainGfxPos++, D_E010CA10[0]);
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
+    FrameInterpolation_RecordCloseChild();
     gSPDisplayList(gMainGfxPos++, D_09005090_3EAFC0);
 
     for (i = 0; i < ARRAY_COUNT(data->spirits); i++) {
@@ -221,6 +225,7 @@ void peach_star_beam_appendGfx(void* effect) {
             }
 
             if (!(partZ <= data->pos.z)) {
+                FrameInterpolation_RecordOpenChild("star_beam_spirit", (uintptr_t) part);
                 guPositionF(sp20, 0.0f, 0.0f, 0.0f, 0.67f, partX, partY, partZ);
                 guMtxF2L(sp20, &gDisplayContext->matrixStack[gMatrixListPos]);
 
@@ -231,6 +236,7 @@ void peach_star_beam_appendGfx(void* effect) {
                 gSPDisplayList(gMainGfxPos++, D_E010CA38[i]);
                 gSPDisplayList(gMainGfxPos++, D_E010CA18[i]);
                 gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
+                FrameInterpolation_RecordCloseChild();
             }
         }
     }

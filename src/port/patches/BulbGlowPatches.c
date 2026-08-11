@@ -161,6 +161,10 @@ void port_bulb_glow_appendGfx(void* effect) {
             break;
         }
 
+        if (y < 0) {
+            continue;
+        }
+
         gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE,
             (s32)(xMin * preset->unk_08) * 4,
             (s32)((preset->unk_04 * 20 - i * preset->unk_14 * preset->unk_0C) + y) * 4,

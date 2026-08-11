@@ -15,7 +15,7 @@ tex_600:
   { type: TEXTURE, format: I4, offset: 0x09000600, width: 32, height: 32, symbol: D_09000600_344570 }
 
 vtx_800:
-  { type: VTX, offset: 0x09000800, count: 4, symbol: D_09000800_344770 }
+  { type: VTX, offset: 0x09000800, count: 8, symbol: D_09000800_344770 }
 
 dlist_840:
   { type: GFX, offset: 0x09000840, symbol: D_09000840_3447B0 }

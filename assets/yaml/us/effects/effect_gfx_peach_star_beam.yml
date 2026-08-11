@@ -3,7 +3,7 @@
     - [0x09, 0x3E5F30]
 
 vtx_0:
-  { type: VTX, offset: 0x09000000, count: 26, symbol: D_09000000_3E5F30 }
+  { type: VTX, offset: 0x09000000, count: 32, symbol: D_09000000_3E5F30 }
 
 vtx_1A0:
   { type: VTX, offset: 0x090001A0, count: 2, symbol: D_090001A0_3E60D0 }
@@ -15,7 +15,7 @@ vtx_1E0:
   { type: VTX, offset: 0x090001E0, count: 4, symbol: D_090001E0_3E6110 }
 
 vtx_220:
-  { type: VTX, offset: 0x09000220, count: 1, symbol: D_09000220_3E6150 }
+  { type: VTX, offset: 0x09000220, count: 4, symbol: D_09000220_3E6150 }
 
 vtx_230:
   { type: VTX, offset: 0x09000230, count: 1, symbol: D_09000230_3E6160 }
