@@ -98,12 +98,15 @@ endif()
 
 # Add torch as a library for asset extraction
 set(USE_STANDALONE OFF CACHE BOOL "" FORCE)
+set(ROM_CRC_BSWAP ON CACHE BOOL "" FORCE)
 set(BUILD_PM64 ON CACHE BOOL "" FORCE)
 set(BUILD_SM64 OFF CACHE BOOL "" FORCE)
 set(BUILD_MK64 OFF CACHE BOOL "" FORCE)
 set(BUILD_SF64 OFF CACHE BOOL "" FORCE)
 set(BUILD_FZERO OFF CACHE BOOL "" FORCE)
 set(BUILD_MARIO_ARTIST OFF CACHE BOOL "" FORCE)
+set(BUILD_BK64 OFF CACHE BOOL "" FORCE)
+set(BUILD_OOT OFF CACHE BOOL "" FORCE)
 add_subdirectory(external/torch)
 
 # Collect all game C sources (excluding .inc.c which are included by other files)
@@ -209,6 +212,18 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     F3DEX_GBI_2
     __CTX__
     SPDLOG_ACTIVE_LEVEL=0
+)
+
+# Compute YAML asset files count for proper progress tracking
+file(GLOB_RECURSE PAPERBOAT_ASSET_YAMLS CONFIGURE_DEPENDS
+    ${CMAKE_SOURCE_DIR}/assets/yaml/us/*.yaml
+    ${CMAKE_SOURCE_DIR}/assets/yaml/us/*.yml
+)
+list(FILTER PAPERBOAT_ASSET_YAMLS EXCLUDE REGEX "/(config\\.yml|hashes\\.yaml)$")
+list(LENGTH PAPERBOAT_ASSET_YAMLS PAPERBOAT_ASSET_YAML_COUNT)
+message(STATUS "${PAPERBOAT_ASSET_YAML_COUNT} asset YAMLs")
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    PAPERBOAT_ASSET_YAML_COUNT=${PAPERBOAT_ASSET_YAML_COUNT}
 )
 
 # Target-specific include directories (only applies to Paperboat, not dependencies)

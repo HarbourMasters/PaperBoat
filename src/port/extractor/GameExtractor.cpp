@@ -22,6 +22,11 @@
 #include <unistd.h>
 #endif
 
+// Set by CMake
+#ifndef PAPERBOAT_ASSET_YAML_COUNT
+#define PAPERBOAT_ASSET_YAML_COUNT 0
+#endif
+
 std::string GameExtractor::sStatusText;
 std::string GameExtractor::sLastError;
 std::atomic<int> GameExtractor::sPhase{0};
@@ -238,51 +243,22 @@ bool GameExtractor::GenerateOTR(std::atomic<size_t> &assetCount,
   const std::string game_path =
       Ship::Context::GetAppDirectoryPath(appShortName);
 
-  totalAssets = 0;
-  try {
-    auto configPath = fs::path(assets_path) / "config.yml";
-    if (fs::exists(configPath)) {
-      YAML::Node config = YAML::LoadFile(configPath.generic_string());
-      std::string hash = Companion::CalculateHash(this->mGameData);
-      auto rom = config[hash];
-      if (rom && rom["path"]) {
-        auto assetDir = (fs::path(assets_path) / rom["path"].as<std::string>())
-                            .generic_string();
-        for (const auto &entry :
-             std::filesystem::recursive_directory_iterator(assetDir)) {
-          if (entry.is_directory()) {
-            continue;
-          }
-          const auto path = entry.path().generic_string();
-          if (path.find(".yaml") == std::string::npos &&
-              path.find(".yml") == std::string::npos) {
-            continue;
-          }
-          if (path.find("config.yml") != std::string::npos) {
-            continue;
-          }
-          YAML::Node root = YAML::LoadFile(path);
-          for (auto asset = root.begin(); asset != root.end(); ++asset) {
-            auto key = asset->first.as<std::string>();
-            if (key.find(":config") != std::string::npos) {
-              continue;
-            }
-            totalAssets++;
-          }
-        }
-      }
-    }
-  } catch (const std::exception &e) {
-    SPDLOG_WARN("Failed to count assets: {}", e.what());
-  }
+  totalAssets = PAPERBOAT_ASSET_YAML_COUNT;
+  assetCount = 0;
 
   sPhase = 1;
   delete Companion::Instance;
   Companion::Instance = new Companion(this->mGameData, ArchiveType::O2R, false,
                                       assets_path, game_path);
+  Companion::Instance->SetPhaseCallback([&assetCount](int phase) {
+    if (phase == 2) {
+      assetCount++;
+    }
+  });
   this->WritePortVersion();
+  std::atomic<size_t> unusedCounter{0};
   try {
-    Companion::Instance->Init(ExportType::Binary, assetCount);
+    Companion::Instance->Init(ExportType::Binary, unusedCounter, true);
   } catch (const std::exception &e) {
     SPDLOG_ERROR("Failed to process O2R: {}", e.what());
     sLastError = e.what();
