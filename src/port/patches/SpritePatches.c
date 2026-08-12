@@ -31,7 +31,7 @@
 
 extern int gfx_create_framebuffer(unsigned int width, unsigned int height,
                                   unsigned int native_width, unsigned int native_height,
-                                  unsigned char resize);
+                                  unsigned char resize, unsigned char forceFixedAspect);
 
 extern u16 SpriteShadingPalette[16];
 
@@ -113,7 +113,7 @@ void port_appendGfx_shading_palette(
 
     // Create the GPU FB on first use.
     if (sShadingFbId < 0) {
-        sShadingFbId = gfx_create_framebuffer(16, 2, 16, 2, 0);
+        sShadingFbId = gfx_create_framebuffer(16, 2, 16, 2, 0, 0);
     }
 
     gDPSetPrimColor(gMainGfxPos++, 0, 0, shadowR, shadowG, shadowB, alpha);

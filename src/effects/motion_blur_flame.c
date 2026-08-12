@@ -2,6 +2,7 @@
 #include "effects_internal.h"
 #include "assets/effects.h"
 #include "nu/nusys.h"
+#include "port/patches/Patches.h"
 
 
 const char* D_E00A29D0[] = { D_09000200_3A35D0, D_090002A8_3A3678, D_09000358_3A3728 };
@@ -108,7 +109,7 @@ void motion_blur_flame_render(EffectInstance* effect) {
     RenderTask renderTask;
     RenderTask* retTask;
 
-    renderTask.appendGfx = motion_blur_flame_appendGfx;
+    renderTask.appendGfx = port_motion_blur_flame_appendGfx;
     renderTask.appendGfxArg = effect;
     renderTask.dist = 100;
     renderTask.renderMode = RENDER_MODE_CLOUD_NO_ZCMP;
@@ -120,6 +121,7 @@ void motion_blur_flame_render(EffectInstance* effect) {
 void func_E00A2234(void) {
 }
 
+// DEPRECATED: port_motion_blur_flame_appendGfx
 void motion_blur_flame_appendGfx(void* effect) {
     MotionBlurFlameFXData* data = ((EffectInstance*)effect)->data.motionBlurFlame;
     s32 temp_a2 = data->unk_00;

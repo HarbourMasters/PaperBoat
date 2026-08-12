@@ -28,7 +28,7 @@
 
 extern int gfx_create_framebuffer(unsigned int width, unsigned int height,
                                   unsigned int native_width, unsigned int native_height,
-                                  unsigned char resize);
+                                  unsigned char resize, unsigned char forceFixedAspect);
 
 // Mirrors the layout of flame.c's local FlamePreset struct.
 typedef struct FlamePreset {
@@ -156,7 +156,7 @@ void port_flame_appendGfx(void* effect) {
         LastFlameRenderFrame = gGameStatusPtr->frameCounter;
 
         if (sFbBlend < 0) {
-            sFbBlend = gfx_create_framebuffer(FLAME_TEX_W, FLAME_TEX_H, FLAME_TEX_W, FLAME_TEX_H, 0);
+            sFbBlend = gfx_create_framebuffer(FLAME_TEX_W, FLAME_TEX_H, FLAME_TEX_W, FLAME_TEX_H, 0, 0);
         }
 
         // Tile 0/1: two noise textures from the original effect DL.

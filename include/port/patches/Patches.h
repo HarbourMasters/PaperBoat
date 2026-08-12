@@ -39,6 +39,9 @@ void port_flame_appendGfx(void* effect);
 // Underwater effect (UnderwaterPatches.c)
 void port_underwater_appendGfx(void* effect);
 
+// Motion blur flame effect (MotionBlurFlamePatches.c)
+void port_motion_blur_flame_appendGfx(void* effect);
+
 // Bulb glow effect (BulbGlowPatches.c)
 void port_bulb_glow_appendGfx(void* effect);
 
