@@ -118,7 +118,6 @@ void port_bulb_glow_appendGfx(void* effect) {
     }
 
     prevGfxCfb = port_getPrevFrameSentinel();
-    port_requestPrevFrameCapture();
 
     gDPPipeSync(gMainGfxPos++);
     gSPSegment(gMainGfxPos++, 0x09,

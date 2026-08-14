@@ -33,7 +33,6 @@ void appendGfx_draw_prev_frame_buffer(s32 x1, s32 y1, s32 x2, s32 y2, f32 alpha)
     s32 i;
 
     u16* prevGfxCfb = port_getPrevFrameSentinel();
-    port_requestPrevFrameCapture();
 
     // round the x positions
     x1 = x1 - (x1 % 4);

@@ -64,10 +64,8 @@ void Graphics_ThreadUpdate(void) {
   // Link main display list
   gSPDisplayList(gMasterDisp++, ctx->mainGfx);
 
-  // GPU-side prev-frame mirror: emit gDPCopyFB(main -> prevFb) when an
-  // overlay/effect has requested capture. Implementation in
-  // src/port/patches/FramebufferPatches.c.
-  port_emitCaptureCurrentFrameIfRequested(&gMasterDisp);
+  // GPU-side prev-frame mirror: gDPCopyFB(main -> prevFb) every frame
+  port_emitPrevFrameCapture(&gMasterDisp);
 
   // Finalize master display list
   gDPFullSync(gMasterDisp++);
