@@ -3117,6 +3117,7 @@ void render_transform_group(void* data) {
 void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_PTR palette, IMG_PTR auxRaster, PAL_PTR auxPalette, u8 auxShiftS, u8 auxShiftT, u16 auxOffsetS, u16 auxOffsetT, PAL_PTR combinedPalette) {
     s32 mainWidth, mainHeight;
     s32 auxWidth, auxHeight;
+    s32 loadRows;
     s32 mainFmt;
     s32 auxFmt;
     s32 mainWrapW, mainWrapH;
@@ -3307,9 +3308,10 @@ void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_P
             gSPTexture((*gfxPos)++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
             gDPPipeSync((*gfxPos)++);
             lodMode = G_TL_TILE;
+            loadRows = mainHeight >> 1;
             switch (mainBitDepth) {
                 case G_IM_SIZ_4b:
-                    gDPScrollTextureBlockHalfHeight_4b((*gfxPos)++, raster, mainFmt, mainWidth, mainHeight, 0,
+                    gDPScrollTextureBlockHalfHeight_4b((*gfxPos)++, raster, mainFmt, mainWidth, mainHeight, loadRows, 0,
                                                        mainWrapW, mainWrapH, mainMasks, mainMaskt, G_TX_NOLOD, G_TX_NOLOD,
                                                        auxOffsetS, auxOffsetT, auxShiftS, auxShiftT);
                     // Emit a second LoadBlock for the bottom half so the Fast3D interpreter
@@ -3330,7 +3332,7 @@ void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_P
                     }
                     break;
                 case G_IM_SIZ_8b:
-                    gDPScrollTextureBlockHalfHeight((*gfxPos)++, raster, mainFmt, G_IM_SIZ_8b, mainWidth, mainHeight, 0,
+                    gDPScrollTextureBlockHalfHeight((*gfxPos)++, raster, mainFmt, G_IM_SIZ_8b, mainWidth, mainHeight, loadRows, 0,
                                                     mainWrapW, mainWrapH, mainMasks, mainMaskt, G_TX_NOLOD, G_TX_NOLOD,
                                                     auxOffsetS, auxOffsetT, auxShiftS, auxShiftT);
                     {
@@ -3348,7 +3350,7 @@ void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_P
                     }
                     break;
                 case G_IM_SIZ_16b:
-                    gDPScrollTextureBlockHalfHeight((*gfxPos)++, raster, mainFmt, G_IM_SIZ_16b, mainWidth, mainHeight, 0,
+                    gDPScrollTextureBlockHalfHeight((*gfxPos)++, raster, mainFmt, G_IM_SIZ_16b, mainWidth, mainHeight, loadRows, 0,
                                                     mainWrapW, mainWrapH, mainMasks, mainMaskt, G_TX_NOLOD, G_TX_NOLOD,
                                                     auxOffsetS, auxOffsetT, auxShiftS, auxShiftT);
                     {
@@ -3366,7 +3368,7 @@ void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_P
                     }
                     break;
                 case G_IM_SIZ_32b:
-                    gDPScrollTextureBlockHalfHeight((*gfxPos)++, raster, mainFmt, G_IM_SIZ_32b, mainWidth, mainHeight, 0,
+                    gDPScrollTextureBlockHalfHeight((*gfxPos)++, raster, mainFmt, G_IM_SIZ_32b, mainWidth, mainHeight, loadRows, 0,
                                                     mainWrapW, mainWrapH, mainMasks, mainMaskt, G_TX_NOLOD, G_TX_NOLOD,
                                                     auxOffsetS, auxOffsetT, auxShiftS, auxShiftT);
                     {

@@ -162,7 +162,9 @@ void gbi_resolve_vtx_in_static_dl(Gfx* dl);
 			((lrt)<<G_TEXTURE_IMAGE_FRAC) + scrollt);      \
 }
 
-#define	gDPScrollTextureBlockHalfHeight(pkt, timg, fmt, siz, width, height,		\
+// `loadRows` is the number of rows the LoadBlock fetches into TMEM slot 0. It is
+// a separate argument from `height`, which still drives both tiles' sizes.
+#define	gDPScrollTextureBlockHalfHeight(pkt, timg, fmt, siz, width, height, loadRows,	\
 		pal, cms, cmt, masks, maskt, shifts, shiftt, scrolls, scrollt, shifts2, shiftt2)		\
 {									\
 	gDPSetTextureImage(pkt, fmt, siz##_LOAD_BLOCK, 1, timg);	\
@@ -170,7 +172,7 @@ void gbi_resolve_vtx_in_static_dl(Gfx* dl);
 		0 , cmt, maskt, shiftt, cms, masks, shifts);		\
 	gDPLoadSync(pkt);						\
 	gDPLoadBlock(pkt, G_TX_LOADTILE, 0, 0, 				\
-		(((width)*(height) + siz##_INCR) >> siz##_SHIFT) -1,	\
+		(((width)*(loadRows) + siz##_INCR) >> siz##_SHIFT) -1,	\
 		CALC_DXT(width, siz##_BYTES)); 				\
 	gDPPipeSync(pkt);						\
 	gDPSetTile(pkt, fmt, siz,					\
@@ -192,7 +194,7 @@ void gbi_resolve_vtx_in_static_dl(Gfx* dl);
 		((((height) >> 1)-1) << G_TEXTURE_IMAGE_FRAC)  + (scrollt)	);		\
 }
 
-#define	gDPScrollTextureBlockHalfHeight_4b(pkt, timg, fmt, width, height,		\
+#define	gDPScrollTextureBlockHalfHeight_4b(pkt, timg, fmt, width, height, loadRows,	\
 		pal, cms, cmt, masks, maskt, shifts, shiftt, scrolls, scrollt, shifts2, shiftt2)		\
 {									\
 	gDPSetTextureImage(pkt, fmt, G_IM_SIZ_16b, 1, timg);		\
@@ -200,7 +202,7 @@ void gbi_resolve_vtx_in_static_dl(Gfx* dl);
 		cmt, maskt, shiftt, cms, masks, shifts);		\
 	gDPLoadSync(pkt);						\
 	gDPLoadBlock(pkt, G_TX_LOADTILE, 0, 0,				\
-		(((width)*(height)+3)>>2)-1,				\
+		(((width)*(loadRows)+3)>>2)-1,				\
 		CALC_DXT_4b(width)); 					\
 	gDPPipeSync(pkt);						\
 	gDPSetTile(pkt, fmt, G_IM_SIZ_4b, ((((width)>>1)+7)>>3), 0,	\
