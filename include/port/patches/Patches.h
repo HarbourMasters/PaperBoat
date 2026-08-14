@@ -10,8 +10,7 @@ extern "C" {
 // Framebuffer (FramebufferPatches.c)
 s32 port_fbMirrorS(s32 screenX);
 u16* port_getPrevFrameSentinel(void);
-void port_requestPrevFrameCapture(void);
-void port_emitCaptureCurrentFrameIfRequested(Gfx** gfxP);
+void port_emitPrevFrameCapture(Gfx** gfxP);
 void port_appendGfx_draw_prev_frame_buffer(s32 x1, s32 y1, s32 x2, s32 y2, f32 alpha);
 u16* port_getSceneMirrorSentinel(void);
 void port_emitSceneMirrorCapture(Gfx** gfxP);

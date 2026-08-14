@@ -32,38 +32,19 @@ s32 port_fbMirrorS(s32 screenX) {
     return (s32) (32.0f * SCREEN_WIDTH * (screenX - visLeft) / visWidth);
 }
 
-// Prev-frame mirror: captured at end of frame (gfx_frame.c), so consumers sample
-// the frame before the one they are drawing into.
 
 static u16 s_prevFrameSentinel[SCREEN_WIDTH * SCREEN_HEIGHT];
 
 static s32 s_prevFrameFbId = -1;
-static s32 s_prevFrameCaptureReq = 0;
-
-static void ensurePrevFrameMirror(void) {
-    ensureMirror(&s_prevFrameFbId, s_prevFrameSentinel);
-}
 
 u16* port_getPrevFrameSentinel(void) {
-    ensurePrevFrameMirror();
+    ensureMirror(&s_prevFrameFbId, s_prevFrameSentinel);
     return s_prevFrameSentinel;
 }
 
-void port_requestPrevFrameCapture(void) {
-    ensurePrevFrameMirror();
-    // Two-frame window so capture persists for one frame after the last
-    // request, smoothing the moment an overlay deactivates. Down from the
-    // old CPU-readback path's 3 frames: GPU gDPCopyFB is same-frame reliable,
-    // so one fewer frame of tolerance is needed.
-    s_prevFrameCaptureReq = 2;
-}
-
-void port_emitCaptureCurrentFrameIfRequested(Gfx** gfxP) {
-    if (s_prevFrameCaptureReq <= 0 || s_prevFrameFbId < 0) {
-        return;
-    }
+void port_emitPrevFrameCapture(Gfx** gfxP) {
+    ensureMirror(&s_prevFrameFbId, s_prevFrameSentinel);
     gDPCopyFB((*gfxP)++, s_prevFrameFbId, 0, false, NULL);
-    s_prevFrameCaptureReq--;
 }
 
 // Scene mirror: captured inline mid-display-list, replacing the hardware trick of
@@ -94,8 +75,6 @@ void port_appendGfx_draw_prev_frame_buffer(s32 x1, s32 y1, s32 x2, s32 y2, f32 a
     s32 visWidth = visRight - visLeft;
     s32 dstLeft;
     s32 dstRight;
-
-    port_requestPrevFrameCapture();
 
     // round the x positions, as the original did
     x1 = x1 - (x1 % 4);
