@@ -151,6 +151,9 @@ int GameEngine_GetSaveFilePath(char* buf, int bufSize);
 // Clear the GPU depth buffer (replaces N64 gDPSetColorImage-to-ZBuffer hack)
 void GameEngine_ClearDepthBuffer(void);
 
+// Pace one game frame without presenting.
+void GameEngine_HoldFrame(void);
+
 #ifdef __cplusplus
 }
 #endif

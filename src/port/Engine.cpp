@@ -26,6 +26,7 @@
 #include <filesystem>
 #include <fstream>
 #include <imgui.h>
+#include <chrono>
 #include <libultraship.h>
 #include <libultraship/controller/controldeck/ControlDeck.h>
 #include <mutex>
@@ -1037,6 +1038,23 @@ extern "C" void GameEngine_StartAudioFrame(void) {
 }
 
 extern "C" void GameEngine_EndAudioFrame(void) { GameEngine::EndAudioFrame(); }
+
+// Pace an iteration that presents nothing (see GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME
+// in Graphics_ThreadUpdate).
+extern "C" void GameEngine_HoldFrame(void) {
+  using namespace std::chrono;
+  static steady_clock::time_point sNextHold;
+
+  constexpr auto kGameFrame =
+      duration_cast<steady_clock::duration>(duration<double>(1.0 / 30.0));
+
+  const auto now = steady_clock::now();
+  if (sNextHold < now) {
+    sNextHold = now;
+  }
+  sNextHold += kGameFrame;
+  std::this_thread::sleep_until(sNextHold);
+}
 
 // C-callable wrapper for processing graphics commands
 extern "C" void GameEngine_ProcessGfxCommands(Gfx *commands) {

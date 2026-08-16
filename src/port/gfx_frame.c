@@ -7,6 +7,7 @@
 
 #include "common.h"
 #include "gfx_pool.h"
+#include "port/Engine.h"
 #include "port/patches/Patches.h"
 
 // Double-buffered graphics pools
@@ -76,6 +77,14 @@ void Graphics_ThreadUpdate(void) {
 
   // Wait for audio frame to complete
   GameEngine_EndAudioFrame();
+
+  // Handle GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME, which means "hold the last image on screen"
+  // while the game tears down and rebuilds state (state transitions, demo
+  // scene changes, map loads).
+  if (gOverrideFlags & GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME) {
+    GameEngine_HoldFrame();
+    return;
+  }
 
   // Submit ONCE to libultraship
   Graphics_PushFrame(gGfxPool->masterDL);
