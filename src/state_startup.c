@@ -6,6 +6,9 @@
 #include "dx/config.h"
 #include "dx/versioning.h"
 
+// Set by the port's "reset" command.
+b32 gPortResetToTitleScreen = false;
+
 void state_init_startup(void) {
     gOverrideFlags |= GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME;
     gGameStatus.startupState = 3;
@@ -82,6 +85,14 @@ void state_step_startup(void) {
     }
 
     gOverrideFlags &= ~GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME;
+
+    if (gPortResetToTitleScreen) {
+        gPortResetToTitleScreen = false;
+        set_curtain_scale(1.0f);
+        set_curtain_fade(0.0f);
+        set_game_mode(GAME_MODE_TITLE_SCREEN);
+        return;
+    }
 
     #if DX_QUICK_LAUNCH
         // immediately jump into the world using last-used save file
