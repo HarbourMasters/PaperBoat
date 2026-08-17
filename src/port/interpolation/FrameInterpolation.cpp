@@ -282,6 +282,13 @@ struct InterpolateCtx {
   }
 
   void interpolate_branch(Path *old_path, Path *new_path) {
+    // Preliminary solution: ops are paired by index, so a path whose recorded
+    // sequence changed would pair every matrix with an unrelated one. Interpolate
+    // it against itself instead preventing weird flashes with curtains and STORY_INTRO.
+    if (old_path != new_path && old_path->items != new_path->items) {
+      old_path = new_path;
+    }
+
     for (auto &item : new_path->items) {
       Data &new_op = new_path->ops[item.first][item.second];
 
