@@ -184,8 +184,6 @@ b32 fio_load_game(s32 saveSlot) {
 }
 
 void fio_save_game(s32 saveSlot) {
-    fio_fetch_saved_file_info();
-
     gGameStatusPtr->saveSlot = saveSlot;
 
     fio_serialize_state();
@@ -216,6 +214,8 @@ void fio_save_game(s32 saveSlot) {
     gCurrentSaveFile.crc2 = ~gCurrentSaveFile.crc1;
 
     CALL_CANCELLABLE_EVENT(OnSaveFileSave, &gCurrentSaveFile) {
+        // only the flash path needs NextAvailablePhysicalSave
+        fio_fetch_saved_file_info();
         fio_erase_flash(NextAvailablePhysicalSave);
         fio_write_flash(NextAvailablePhysicalSave, (s8*)&gCurrentSaveFile, sizeof(SaveData));
     }
