@@ -8,6 +8,7 @@
 #include "model.h"
 #include <string.h>
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 #include "port/shape_loader.h"
 #include "world/surfaces.h"
 
@@ -155,7 +156,7 @@ void load_map_by_IDs(s16 areaID, s16 mapID, s16 loadType) {
     }
 
     if (mapConfig->bgName != nullptr) {
-        load_map_bg(wMapBgName);
+        port_load_map_bg(wMapBgName);
     }
 
 #if !VERSION_IQUE

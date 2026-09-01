@@ -7,6 +7,7 @@
 #include "dx/config.h"
 #include "dx/versioning.h"
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 
 #if VERSION_JP
 #define TITLE_WIDTH 272
@@ -190,7 +191,7 @@ void state_init_title_screen(void) {
     clear_player_data();
     gOverrideFlags &= ~GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME;
     set_game_mode_render_frontUI(appendGfx_title_screen);
-    load_map_bg("title_bg");
+    port_load_map_bg("title_bg");
     set_background(&gBackgroundImage);
     // Widescreen: don't tile the title backdrop across the revealed sides, draw
     // it once and fill the side bands solid black instead.

@@ -2,6 +2,7 @@
 #include "model.h"
 #include "script_api/battle.h"
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 #include "port/shape_loader.h"
 
 extern ShapeFile gMapShapeData;
@@ -42,7 +43,7 @@ void load_stage_assets(Stage* stage) {
     load_battle_hit_asset(stage->hit);
 
     if (stage->bg != nullptr) {
-        load_map_bg(stage->bg);
+        port_load_map_bg(stage->bg);
         set_background(&gBackgroundImage);
     }
 }

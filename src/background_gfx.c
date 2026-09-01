@@ -6,6 +6,7 @@
 #include "overlay.h"
 #include "dx/config.h"
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 
 extern s32 gPauseBackgroundFade;
 
@@ -468,7 +469,7 @@ void gfx_draw_background(void) {
                 if (!(gGameStatusPtr->backgroundFlags & BACKGROUND_FLAG_TEXTURE)) {
                     gDPFillWideRectangle(gMainGfxPos++, wsLeft, backgroundMinY, wsRight - 1, backgroundMaxY - 1);
                 } else {
-                    appendGfx_background_texture();
+                    port_appendGfx_background_texture();
                 }
 
                 gDPPipeSync(gMainGfxPos++);

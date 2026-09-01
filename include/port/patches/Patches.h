@@ -32,6 +32,10 @@ void port_appendGfx_shading_palette(
     s32 highlightR, s32 highlightG, s32 highlightB,
     s32 ambientPower, s32 renderMode);
 
+// Background (BackgroundPatches.c)
+void port_load_map_bg(char* optAssetName);
+void port_appendGfx_background_texture(void);
+
 // Flame effect (FlamePatches.c)
 void port_flame_appendGfx(void* effect);
 
