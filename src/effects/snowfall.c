@@ -20,6 +20,7 @@ void func_E008A000(SnowfallFXData* data) {
     data->unk_18 = -1.2 - (effect_rand_int(80) * 0.01);
     data->unk_1C = (effect_rand_int(20) - 10.0f) * 0.05;
     data->unk_28 = 255;
+    data->wrapEpoch = 0;
 }
 
 EffectInstance* snowfall_main(s32 arg0, s32 arg1) {
@@ -77,16 +78,19 @@ void func_E008A290(SnowfallFXData* data, s32 arg1, s32 arg2, s32 arg3) {
     if (arg1 < temp_f12) {
         temp_f12 = temp_f12 % arg1;
         data->unk_08 = (lookX - arg1) + temp_f12;
+        data->wrapEpoch++;
     } else if (-arg1 > temp_f12) {
         temp_f12 = -temp_f12;
         temp_f12 = temp_f12 % arg1;
         data->unk_08 = (lookX + arg1) - temp_f12;
+        data->wrapEpoch++;
     }
 
     temp_f12_2 = unk_0C - lookY;
     if (arg2 < temp_f12_2) {
         temp_f12_2 = temp_f12_2 % arg2;
         data->unk_0C = (lookY - arg2) + temp_f12_2;
+        data->wrapEpoch++;
     } else if (temp_f12_2 < -arg2) {
         if (arg3 < 100) {
             data->unk_18 = 0;
@@ -95,6 +99,7 @@ void func_E008A290(SnowfallFXData* data, s32 arg1, s32 arg2, s32 arg3) {
             temp_f12_2 = -temp_f12_2;
             temp_f12_2 = temp_f12_2 % arg2;
             data->unk_0C = (lookY + arg2) - temp_f12_2;
+            data->wrapEpoch++;
         }
     }
 
@@ -102,10 +107,12 @@ void func_E008A290(SnowfallFXData* data, s32 arg1, s32 arg2, s32 arg3) {
     if (arg1 < temp_f12_3) {
         temp_f12_3 = temp_f12_3 % arg1;
         data->unk_10 = (lookZ - arg1) + temp_f12_3;
+        data->wrapEpoch++;
     } else if (temp_f12_3 < -arg1) {
         temp_f12_3 = -temp_f12_3;
         temp_f12_3 = temp_f12_3 % arg1;
         data->unk_10 = (lookZ + arg1) - temp_f12_3;
+        data->wrapEpoch++;
     }
 }
 
@@ -198,6 +205,8 @@ void snowfall_appendGfx(void* effect) {
 
             data++;
             for (i = 0; i < unk_2C; i++, data++) {
+                // Give every flake its own interpolation subtree, keyed on (flake, wrapEpoch).
+                FrameInterpolation_RecordOpenChild(data, (uintptr_t) data->wrapEpoch);
                 if (data->unk_30 <= 0 && data->unk_28 != 0) {
                     guTranslateF(sp18, data->unk_08, data->unk_0C, data->unk_10);
                     guMtxF2L(sp18, &gDisplayContext->matrixStack[gMatrixListPos]);
@@ -209,6 +218,7 @@ void snowfall_appendGfx(void* effect) {
                     gSPDisplayList(gMainGfxPos++, dlist);
                     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
                 }
+                FrameInterpolation_RecordCloseChild();
             }
             gDPPipeSync(gMainGfxPos++);
         }

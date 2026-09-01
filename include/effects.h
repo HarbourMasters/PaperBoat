@@ -1194,7 +1194,11 @@ typedef struct SnowfallFXData {
     /* 0x28 */ s32 unk_28;
     /* 0x2C */ s32 unk_2C;
     /* 0x30 */ s32 unk_30;
-} SnowfallFXData; // size = 0x34
+    // Bumped every time this flake is teleported to the opposite side of the snow
+    // volume. Used as part of its frame-interpolation child key so the frame that
+    // contains the jump is left un-interpolated instead of lerped across the screen.
+    s32 wrapEpoch;
+} SnowfallFXData; // size = 0x34 (+ wrapEpoch)
 
 typedef struct SpinFXData {
     /* 0x00 */ s32 type;
