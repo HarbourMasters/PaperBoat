@@ -50,6 +50,9 @@ void port_energy_in_out_appendGfx(void* effect);
 // Flashing box shockwave effect (FlashingBoxShockwavePatches.c)
 void port_flashing_box_shockwave_appendGfx(void* effect);
 
+// Sun effect (SunPatches.c)
+void port_sun_appendGfx(void* effect);
+
 // Darkness stencil (DarknessStencilPatches.c)
 void port_appendGfx_darkness_stencil(b32 isWorld, s32 posX, s32 posY, f32 alpha, f32 progress);
 

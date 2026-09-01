@@ -1,6 +1,7 @@
 #include "common.h"
 #include "effects_internal.h"
 #include "assets/effects.h"
+#include "port/patches/Patches.h"
 
 
 const char* D_E0120780[] = {
@@ -131,7 +132,7 @@ void sun_render(EffectInstance* effect) {
     RenderTask renderTask;
     RenderTask* retTask;
 
-    renderTask.appendGfx = sun_appendGfx;
+    renderTask.appendGfx = port_sun_appendGfx;
     renderTask.appendGfxArg = effect;
     renderTask.dist = 10;
     renderTask.renderMode = RENDER_MODE_CLOUD_NO_ZCMP;
@@ -140,6 +141,7 @@ void sun_render(EffectInstance* effect) {
     retTask->renderMode |= RENDER_TASK_FLAG_REFLECT_FLOOR;
 }
 
+// DEPRECATED: see port_sun_appendGfx
 void sun_appendGfx(void* argEffect) {
     EffectInstance* effect = (EffectInstance*) argEffect;
     SunFXData* data;
