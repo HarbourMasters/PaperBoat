@@ -416,7 +416,7 @@ void pause_partners_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 wid
 
     portraitScrollPos = (gPausePartnersRotAngle + 360.0f) * 15000.0f * gPausePartnersNumPartners / 360.0f;
     portraitScrollIndex = portraitScrollPos / 15000;
-    gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, x1, y1, x2, y2);
+    gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, OTRGetScissorCoordX(x1), y1, OTRGetScissorCoordX(x2), y2);
     portraitOffsetX = (portraitScrollIndex * 15000 - portraitScrollPos);
     portraitOffsetX *= 0.01;
     portraitIndex = portraitScrollIndex;
@@ -468,7 +468,7 @@ void pause_partners_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 wid
             y2 = SCREEN_HEIGHT - 1;
         }
 
-        gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, x1, y1, x2, y2);
+        gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, OTRGetScissorCoordX(x1), y1, OTRGetScissorCoordX(x2), y2);
     }
     draw_box(0, &gPauseWS_21, baseX + 122, baseY + 16, 0, 166, 121, opacity, darkening, 1.0f, 1.0f, 0, 0, 0, 0, 0, 0, width, height, 0);
 }

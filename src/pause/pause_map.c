@@ -1,5 +1,6 @@
 #include "pause/pause_common.h"
 #include "message_ids.h"
+#include "port/Engine.h"
 
 #if VERSION_PAL
 #define MAP_TITLE_X 36
@@ -195,7 +196,7 @@ void pause_map_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width, s
         y2 = SCREEN_HEIGHT - 1;
     }
 
-    gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, x1, y1, x2, y2);
+    gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, OTRGetScissorCoordX(x1), y1, OTRGetScissorCoordX(x2), y2);
 
     mapSpace = PauseMapSpaces;
     camX = cameraX + baseX;
@@ -300,7 +301,7 @@ void pause_map_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width, s
             y2 = SCREEN_HEIGHT - 1;
         }
 
-        gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, x1, y1, x2, y2);
+        gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, OTRGetScissorCoordX(x1), y1, OTRGetScissorCoordX(x2), y2);
     }
     draw_box(0, &gPauseWS_27, baseX + 18, baseY + 14, 0, 250, 126, opacity, darkening, 1.0f, 1.0f, 0, 0, 0, 0, 0, 0, width, height, 0);
 }
