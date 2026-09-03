@@ -9,8 +9,7 @@ extern void gfx_register_fb_texture(const void* cpuAddr, int fbId);
 
 // GPU framebuffer plus a registered CPU sentinel, so binding the sentinel as a
 // texture binds the FB directly. Consumers must declare the full frame as the
-// tile and use absolute screen-space UVs: a registered FB texture ignores the
-// tile's uls/ult sub-rect.
+// tile and use absolute screen-space UVs.
 static void ensureMirror(s32* fbId, const u16* sentinel) {
     if (*fbId < 0) {
         *fbId = gfx_create_framebuffer(SCREEN_WIDTH, SCREEN_HEIGHT,
