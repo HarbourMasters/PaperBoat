@@ -599,10 +599,9 @@ void update_encounters_neutral(void) {
                 }
             } else if (!(enemy->flags & ENEMY_FLAG_ACTIVE_WHILE_OFFSCREEN)) {
                 get_screen_coords(gCurrentCameraID, npc->pos.x, npc->pos.y, npc->pos.z, &screenX, &screenY, &screenZ);
-                f32 wsLeft = OTRGetDimensionFromLeftEdge(0);
-                f32 wsRight = OTRGetDimensionFromRightEdge(0);
-                f32 wsMarginX = (wsRight - wsLeft) * 0.5f;
-                if ((screenX < wsLeft - wsMarginX || screenX > wsRight + wsMarginX || screenY < -120 || screenY > 360 || screenZ < 0) && !(enemy->flags & ENEMY_FLAG_PASSIVE)) {
+                f32 wsLeft = MIN(-160.0f, OTRGetDimensionFromLeftEdge(0));
+                f32 wsRight = MAX(480.0f, OTRGetDimensionFromRightEdge(0));
+                if ((screenX < wsLeft || screenX > wsRight || screenY < -120 || screenY > 360 || screenZ < 0) && !(enemy->flags & ENEMY_FLAG_PASSIVE)) {
                     npc->flags |= NPC_FLAG_SUSPENDED;
                     enemy->flags |= ENEMY_FLAG_SUSPENDED;
                     script = get_script_by_id(enemy->auxScriptID);
