@@ -1330,6 +1330,12 @@ s32 N(StarSpiritLeapBackScalars)[] = {
 
 StoryGraphicData* N(StoryGraphicsPtr) = &N(StoryGraphics);
 
+// bounds of the on-screen window the story pages scroll through
+#define STORY_WINDOW_X1 29
+#define STORY_WINDOW_Y1 28
+#define STORY_WINDOW_X2 291
+#define STORY_WINDOW_Y2 190
+
 Gfx N(gfx_setup_story_viewport)[] = {
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
     gsDPPipeSync(),
@@ -1341,7 +1347,7 @@ Gfx N(gfx_setup_story_viewport)[] = {
     gsDPSetTexturePersp(G_TP_NONE),
     gsDPSetTextureLUT(G_TT_RGBA16),
     gsDPSetCombineMode(PM_CC_10, PM_CC_10),
-    gsDPSetScissor(G_SC_NON_INTERLACE, 29, 28, 291, 190),
+    gsDPSetScissor(G_SC_NON_INTERLACE, STORY_WINDOW_X1, STORY_WINDOW_Y1, STORY_WINDOW_X2, STORY_WINDOW_Y2),
     gsDPSetColorDither(G_CD_DISABLE),
     gsDPSetAlphaDither(G_AD_PATTERN),
     gsDPSetRenderMode(CVG_DST_FULL | ZMODE_OPA | FORCE_BL | G_RM_PASS, CVG_DST_FULL | ZMODE_OPA | FORCE_BL | GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1)),
@@ -1447,6 +1453,9 @@ void N(worker_draw_story_graphics)(void) {
     N(draw_background_tape)();
 
     gSPDisplayList(gMainGfxPos++, N(gfx_setup_story_viewport));
+    gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE,
+                  OTRGetScissorCoordX(STORY_WINDOW_X1), STORY_WINDOW_Y1,
+                  OTRGetScissorCoordX(STORY_WINDOW_X2), STORY_WINDOW_Y2);
     // PORT: Use 1 as sentinel for valid framebuffer (nuGfxCfb_ptr may be NULL)
     gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, (u16*)1);
 
