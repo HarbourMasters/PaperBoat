@@ -1,6 +1,5 @@
 #include "common.h"
 #include "camera.h"
-#include <stdlib.h>
 
 s32 gCurrentCameraID = CAM_DEFAULT;
 
@@ -468,7 +467,7 @@ void apply_constraints_to_lead_amount(Camera* camera) {
         if (minDistSq == SQ(1000.0f) || minDistSq == 0.0f) {
             camera->leadAmount = 0.0f;
         } else {
-            camera->leadAmount = abs(camera->leadAmount > 0.0f) ? sqrtf(minDistSq) : -sqrtf(minDistSq);
+            camera->leadAmount = (camera->leadAmount > 0.0f) ? sqrtf(minDistSq) : -sqrtf(minDistSq);
         }
         camera->leadInterpAlpha = 0.0f;
     }
