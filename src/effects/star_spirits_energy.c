@@ -1,6 +1,7 @@
 #include "common.h"
 #include "effects_internal.h"
 #include "assets/effects.h"
+#include "port/Engine.h"
 
 
 const char* D_E0122B90[] = {
@@ -330,6 +331,23 @@ void star_spirits_energy_render(EffectInstance* effect) {
     retTask->renderMode |= RENDER_TASK_FLAG_REFLECT_FLOOR;
 }
 
+// Widescreen-aware equivalent of D_E0122BA0[0] (D_09005440_4126D0)
+static void appendGfx_star_spirits_flash(void) {
+    gDPPipeSync(gMainGfxPos++);
+    gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);
+    gDPSetRenderMode(gMainGfxPos++, G_RM_CLD_SURF, G_RM_CLD_SURF2);
+    gDPSetTexturePersp(gMainGfxPos++, G_TP_NONE);
+    // Solid white, modulated only by PRIM alpha; the rect samples no texture.
+    gDPSetCombineLERP(gMainGfxPos++, 0, 0, 0, 1, 0, 0, 0, PRIMITIVE,
+                                     0, 0, 0, 1, 0, 0, 0, PRIMITIVE);
+    gDPSetTextureFilter(gMainGfxPos++, G_TF_POINT);
+    gSPWideTextureRectangle(gMainGfxPos++,
+        OTRGetRectDimensionFromLeftEdge(0) * 4, 0,
+        OTRGetRectDimensionFromRightEdge(0) * 4, SCREEN_HEIGHT * 4,
+        G_TX_RENDERTILE, 0, 0, 0, 0);
+    gDPPipeSync(gMainGfxPos++);
+}
+
 void star_spirits_energy_appendGfx(void* effect) {
     StarSpiritsEnergyFXData* data = ((EffectInstance*)effect)->data.starSpiritsEnergy;
     s32 unk_04 = data->unk_04;
@@ -379,7 +397,7 @@ void star_spirits_energy_appendGfx(void* effect) {
 
         if (alpha > 0) {
             gDPSetPrimColor(gMainGfxPos++, 0, 0, 208, 208, 208, alpha);
-            gSPDisplayList(gMainGfxPos++, D_E0122BA0[0]);
+            appendGfx_star_spirits_flash();
         }
     }
 
