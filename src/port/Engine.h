@@ -19,19 +19,14 @@ uint8_t GameEngine_OTRSigCheck(const char* data);
 
 // --- Widescreen helpers ---
 float GameEngine_GetAspectRatio(void);
-float OTRGetHUDAspectRatio(void);
 float OTRGetDimensionFromLeftEdge(float v);
 float OTRGetDimensionFromRightEdge(float v);
 float OTRGetDimensionFromLeftEdgeForcedAspect(float v, float aspectRatio);
 float OTRGetDimensionFromRightEdgeForcedAspect(float v, float aspectRatio);
-float OTRGetDimensionFromLeftEdgeOverride(float v);
-float OTRGetDimensionFromRightEdgeOverride(float v);
 int16_t OTRGetRectDimensionFromLeftEdge(float v);
 int16_t OTRGetRectDimensionFromRightEdge(float v);
 int16_t OTRGetRectDimensionFromLeftEdgeForcedAspect(float v, float aspectRatio);
 int16_t OTRGetRectDimensionFromRightEdgeForcedAspect(float v, float aspectRatio);
-int16_t OTRGetRectDimensionFromLeftEdgeOverride(float v);
-int16_t OTRGetRectDimensionFromRightEdgeOverride(float v);
 int16_t OTRGetScissorCoordX(float v);
 uint32_t OTRGetGameRenderWidth(void);
 uint32_t OTRGetGameRenderHeight(void);

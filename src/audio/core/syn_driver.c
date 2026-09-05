@@ -1,6 +1,7 @@
 #include "common.h"
 #include "audio/audio.h"
 #include "audio/core.h"
+#include "port/audio/AudioVolume.h"
 
 static s16 _getVol(s16 arg0, s32 arg1, s16 arg2, u16 arg3);
 
@@ -16,6 +17,10 @@ AuSynDriver* gSynDriverPtr = nullptr;
 u8 AuUseGlobalVolume = false;
 u16 AuGlobalVolume = AU_MAX_VOLUME_16;
 u8 AuSynStereoDirty = false;
+
+// Bus gains as the game requested them, before the Settings > Audio volumes
+// are applied. Needed so the sliders can be re-applied on top at any time.
+static u16 AuBusBaseGain[AU_FX_BUS_COUNT] = { 0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF };
 
 extern s16 AuEqPower[128];
 
@@ -87,7 +92,8 @@ void au_driver_init(AuSynDriver* driver, ALConfig* config) {
         AuFxBus* fxBus = &gSynDriverPtr->fxBus[i];
         fxBus->head = nullptr;
         fxBus->tail = nullptr;
-        fxBus->gain = 0x7FFF;
+        AuBusBaseGain[i] = 0x7FFF;
+        fxBus->gain = AudioVolume_ScaleBusGain(i, 0x7FFF);
         fxBus->curEffectType = AU_FX_NONE;
         fxBus->fxL = alHeapAlloc(heap, 1, sizeof(*fxBus->fxL));
         fxBus->fxR = alHeapAlloc(heap, 1, sizeof(*fxBus->fxR));
@@ -289,7 +295,21 @@ void au_set_stereo_enabled(b8 enabled) {
 void au_bus_set_volume(u8 busID, u16 value) {
     AuFxBus* fxBus = &gSynDriverPtr->fxBus[busID];
 
-    fxBus->gain = value & 0x7FFF;
+    AuBusBaseGain[busID] = value & 0x7FFF;
+    fxBus->gain = AudioVolume_ScaleBusGain(busID, AuBusBaseGain[busID]);
+}
+
+/// Re-applies the Settings > Audio music/SFX volumes to every bus. The game
+/// only touches bus gains while fading, so the sliders need their own refresh.
+void au_refresh_bus_volumes(void) {
+    s32 busID;
+
+    if (gSynDriverPtr == nullptr) {
+        return;
+    }
+    for (busID = 0; busID < gSynDriverPtr->num_bus; busID++) {
+        gSynDriverPtr->fxBus[busID].gain = AudioVolume_ScaleBusGain(busID, AuBusBaseGain[busID]);
+    }
 }
 
 u16 au_bus_get_volume(u8 busID) {

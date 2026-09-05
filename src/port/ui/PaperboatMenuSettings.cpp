@@ -143,9 +143,10 @@ void PaperboatMenu::AddMenuSettings() {
       .Options(IntSliderOptions()
                    .Min(0)
                    .Max(100)
-                   .DefaultValue(50)
+                   .DefaultValue(100)
                    .ShowButtons(true)
-                   .Format(""));
+                   .Format("")
+                   .Tooltip("Scales the final audio output."));
   AddWidget(path, "Main Music Volume: %d %%", WIDGET_CVAR_SLIDER_INT)
       .CVar(CVAR_SETTING("Volume.MainMusic"))
       .RaceDisable(false)
@@ -154,10 +155,8 @@ void PaperboatMenu::AddMenuSettings() {
                    .Max(100)
                    .DefaultValue(100)
                    .ShowButtons(true)
-                   .Format(""))
-      .Callback([](WidgetInfo &info) {
-        // @port: Update it later
-      });
+                   .Format("")
+                   .Tooltip("Volume of background music."));
   AddWidget(path, "Environment Volume: %d %%", WIDGET_CVAR_SLIDER_INT)
       .CVar(CVAR_SETTING("Volume.Environment"))
       .RaceDisable(false)
@@ -166,10 +165,8 @@ void PaperboatMenu::AddMenuSettings() {
                    .Max(100)
                    .DefaultValue(100)
                    .ShowButtons(true)
-                   .Format(""))
-      .Callback([](WidgetInfo &info) {
-        // @port: Update it later
-      });
+                   .Format("")
+                   .Tooltip("Volume of ambient environment tracks."));
   AddWidget(path, "Sound Effects Volume: %d %%", WIDGET_CVAR_SLIDER_INT)
       .CVar(CVAR_SETTING("Volume.SFX"))
       .RaceDisable(false)
@@ -178,10 +175,8 @@ void PaperboatMenu::AddMenuSettings() {
                    .Max(100)
                    .DefaultValue(100)
                    .ShowButtons(true)
-                   .Format(""))
-      .Callback([](WidgetInfo &info) {
-        // @port: Update it later
-      });
+                   .Format("")
+                   .Tooltip("Volume of sound effects."));
   AddWidget(path, "Audio API (Needs reload)", WIDGET_AUDIO_BACKEND)
       .RaceDisable(false);
 
@@ -352,7 +347,8 @@ void PaperboatMenu::AddMenuSettings() {
 
   // Settings > Input Viewer
   path.sidebarName = "Input Viewer";
-  AddSidebarEntry("Settings", path.sidebarName, 2);
+  path.column = SECTION_COLUMN_1;
+  AddSidebarEntry("Settings", path.sidebarName, 1);
   AddWidget(path, "Input Viewer", WIDGET_SEPARATOR_TEXT);
   AddWidget(path, "Toggle Input Viewer", WIDGET_WINDOW_BUTTON)
       .CVar(CVAR_WINDOW("InputViewer"))
@@ -362,16 +358,6 @@ void PaperboatMenu::AddMenuSettings() {
       .Options(WindowButtonOptions()
                    .Tooltip("Toggles the Input Viewer.")
                    .EmbedWindow(false));
-
-  AddWidget(path, "Shader Settings", WIDGET_SEPARATOR_TEXT);
-  AddWidget(path, "Popout Shader Settings", WIDGET_WINDOW_BUTTON)
-      .CVar(CVAR_WINDOW("ShaderSettings"))
-      .RaceDisable(false)
-      .WindowName("Shader Settings")
-      .HideInSearch(true)
-      .Options(WindowButtonOptions().Tooltip(
-          "Tweakables for shader packs: post-processing passes and @setting "
-          "values declared by custom shaders."));
 
   AddWidget(path, "Input Viewer Settings", WIDGET_SEPARATOR_TEXT);
   AddWidget(path, "Popout Input Viewer Settings", WIDGET_WINDOW_BUTTON)

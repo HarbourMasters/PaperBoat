@@ -17,7 +17,8 @@ void PaperboatMenu::AddMenuShaderSettings() {
       .WindowName("Shader Settings")
       .HideInSearch(true)
       .Options(WindowButtonOptions().Tooltip(
-          "Enables the separate Shader Settings Window."));
+          "Tweakables for shader packs: post-processing passes and @setting "
+          "values declared by custom shaders."));
 }
 
 } // namespace PaperboatGui

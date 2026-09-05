@@ -76,10 +76,6 @@ void SetupGuiElements() {
       CVAR_WINDOW("SaveEditor"), "Save Editor");
   gui->AddGuiWindow(mSaveEditorWindow);
 
-  mPaperboatMenu =
-      std::make_shared<PaperboatMenu>(CVAR_WINDOW("Menu"), "Settings Menu");
-  gui->SetMenu(mPaperboatMenu);
-
   mInputEditorWindow = std::make_shared<PaperboatInputEditorWindow>(
       CVAR_WINDOW("ControllerConfiguration"), "Configure Controller");
   gui->AddGuiWindow(mInputEditorWindow);
@@ -100,11 +96,6 @@ void SetupGuiElements() {
   mShaderSettingsWindow = std::make_shared<Ship::ShaderSettingsWindow>(
       CVAR_WINDOW("ShaderSettings"), "Shader Settings", ImVec2(420, 520));
   gui->AddGuiWindow(mShaderSettingsWindow);
-
-  mModalWindow = std::make_shared<PaperboatModalWindow>(
-      CVAR_WINDOW("ModalWindow"), "Modal Window");
-  gui->AddGuiWindow(mModalWindow);
-  mModalWindow->Show();
 }
 
 void Destroy() {

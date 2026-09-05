@@ -42,10 +42,6 @@ void PaperboatMenu::AddMenuDevTools() {
         Ship::Context::GetInstance()->GetLogger()->set_level(
             (spdlog::level::level_enum)CVarGetInteger(
                 CVAR_DEVELOPER_TOOLS("LogLevel"), defaultLogLevel));
-      })
-      .PreFunc([](WidgetInfo &info) {
-        info.isHidden =
-            mPaperboatMenu->disabledMap.at(DISABLE_FOR_DEBUG_MODE_OFF).active;
       });
 #ifdef USE_GBI_TRACE
   AddWidget(path, "GFX Trace Mode", WIDGET_CVAR_CHECKBOX)

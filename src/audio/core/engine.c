@@ -306,6 +306,8 @@ void au_update_clients_for_video_frame(void) {
 void au_syn_begin_audio_frame(AuGlobals* globals) {
     u32 i;
 
+    au_refresh_bus_volumes();
+
     if (globals->channelDelayState == AU_DELAY_STATE_REQUEST_OFF) {
         globals->channelDelayState = AU_DELAY_STATE_OFF;
         au_disable_channel_delay();

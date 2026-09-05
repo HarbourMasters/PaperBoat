@@ -40,6 +40,8 @@ class Menu : public GuiWindow {
     UIWidgets::Colors defaultThemeIndex;
     std::shared_ptr<std::vector<int32_t>> availableWindowBackends;
     std::unordered_map<Fast::WindowBackend, const char*> availableWindowBackendsMap;
+    std::shared_ptr<std::vector<Ship::AudioBackend>> availableAudioBackends;
+    std::unordered_map<Ship::AudioBackend, const char*> availableAudioBackendsMap;
     Fast::WindowBackend configWindowBackend;
 
     std::unordered_map<uint32_t, disabledInfo> disabledMap;

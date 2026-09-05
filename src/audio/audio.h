@@ -237,6 +237,8 @@ typedef enum FxBus {
     FX_BUS_BGMA_AUX     = 3,
 } FxBus;
 
+#define AU_FX_BUS_COUNT 4
+
 typedef enum DelayChannel {
     AU_DELAY_CHANNEL_NONE   = 0,
     AU_DELAY_CHANNEL_LEFT   = 1,

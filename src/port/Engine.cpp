@@ -8,6 +8,7 @@
 #include "port/enhancements/PortEnhancements.h"
 #include "port/interpolation/FrameInterpolation.h"
 #include "port/ui/cvar_prefixes.h"
+#include "port/audio/AudioVolume.h"
 #include "src/Companion.h"
 #include "ui/PaperboatGui.hpp"
 #include <BS_thread_pool.hpp>
@@ -842,10 +843,6 @@ void GameEngine::HandleAudioThread() {
     }
 
     // Generate audio twice per game frame, matching N64's 60Hz audio thread.
-    // On N64, nuAuMgr wakes every VI retrace (60Hz) and generates AlFrameSize
-    // (~552) samples. The game loop runs at 30fps → 2 audio frames per game
-    // frame. This ensures au_update_clients_for_video_frame() runs at the
-    // correct 60Hz
     for (int pass = 0; pass < 2; pass++) {
       int32_t cmdLen = 0;
       int samplesToGen = AlFrameSize * 2 * sizeof(int16_t);
@@ -853,6 +850,14 @@ void GameEngine::HandleAudioThread() {
       memset(audioBuffer, 0, samplesToGen);
 
       alAudioFrame(cmdList, &cmdLen, audioBuffer, AlFrameSize);
+
+      float master = AudioVolume_GetMaster();
+      if (master != 1.0f) {
+        int sampleCount = samplesToGen / (int)sizeof(int16_t);
+        for (int i = 0; i < sampleCount; i++) {
+          audioBuffer[i] = (int16_t)(audioBuffer[i] * master);
+        }
+      }
       AudioPlayerPlayFrame((uint8_t *)audioBuffer, samplesToGen);
     }
 
@@ -867,6 +872,8 @@ void GameEngine::HandleAudioThread() {
 void GameEngine::StartAudioFrame() {
   if (!mAudio.running)
     return;
+
+  AudioVolume_Update();
 
   {
     std::unique_lock<std::mutex> lock(mAudio.mutex);
@@ -1214,16 +1221,6 @@ extern "C" int16_t OTRGetScissorCoordX(float v) {
   return (int16_t)std::lround(nw / 2 + k * (v - nw / 2));
 }
 
-extern "C" float OTRGetHUDAspectRatio(void) {
-  if (CVarGetInteger("gHUDAspectRatio.Enabled", 0) == 0 ||
-      CVarGetInteger("gHUDAspectRatio.X", 0) == 0 ||
-      CVarGetInteger("gHUDAspectRatio.Y", 0) == 0) {
-    return GameEngine_GetAspectRatio();
-  }
-  return (float)CVarGetInteger("gHUDAspectRatio.X", 1) /
-         (float)CVarGetInteger("gHUDAspectRatio.Y", 1);
-}
-
 extern "C" float OTRGetDimensionFromLeftEdgeForcedAspect(float v,
                                                          float aspectRatio) {
   auto interp = GameEngine_GetInterpreter();
@@ -1254,14 +1251,6 @@ extern "C" float OTRGetDimensionFromRightEdge(float v) {
   return OTRGetDimensionFromRightEdgeForcedAspect(v, 0.0f);
 }
 
-extern "C" float OTRGetDimensionFromLeftEdgeOverride(float v) {
-  return OTRGetDimensionFromLeftEdgeForcedAspect(v, OTRGetHUDAspectRatio());
-}
-
-extern "C" float OTRGetDimensionFromRightEdgeOverride(float v) {
-  return OTRGetDimensionFromRightEdgeForcedAspect(v, OTRGetHUDAspectRatio());
-}
-
 extern "C" int16_t OTRGetRectDimensionFromLeftEdge(float v) {
   return (int16_t)std::floor(OTRGetDimensionFromLeftEdge(v));
 }
@@ -1280,14 +1269,6 @@ extern "C" int16_t OTRGetRectDimensionFromRightEdgeForcedAspect(
     float v, float aspectRatio) {
   return (int16_t)std::ceil(
       OTRGetDimensionFromRightEdgeForcedAspect(v, aspectRatio));
-}
-
-extern "C" int16_t OTRGetRectDimensionFromLeftEdgeOverride(float v) {
-  return OTRGetRectDimensionFromLeftEdgeForcedAspect(v, OTRGetHUDAspectRatio());
-}
-
-extern "C" int16_t OTRGetRectDimensionFromRightEdgeOverride(float v) {
-  return OTRGetRectDimensionFromRightEdgeForcedAspect(v, OTRGetHUDAspectRatio());
 }
 
 extern "C" uint32_t OTRGetGameRenderWidth(void) {

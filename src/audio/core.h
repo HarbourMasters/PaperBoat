@@ -88,6 +88,7 @@ void au_set_global_volume(s16 arg0);
 s16 au_get_global_volume(void);
 void au_set_stereo_enabled(b8 enabled);
 void au_bus_set_volume(u8 busID, u16 value);
+void au_refresh_bus_volumes(void);
 u16 au_bus_get_volume(u8 busID);
 void au_bus_set_effect(u8 busID, u8 effectID);
 void au_bus_set_fx_params(u8 busID, s16 arg1, s16 arg2, s32 arg3);
