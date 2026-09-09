@@ -190,6 +190,10 @@ void state_step_exit_file_select(void) {
             if (D_800A0930 > 0) {
                 D_800A0930--;
             } else {
+                // This is the last frame drawn before the map load freezes it on screen, and
+                // render_curtains() draws after the fade, so snap the theater fully open,
+                // the zoom-out only reaches ~1.65 here, leaving its floor over the bottom rows.
+                set_curtain_scale(2.0f);
                 D_800A0931 = 6;
             }
             break;
