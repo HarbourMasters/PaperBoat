@@ -181,6 +181,10 @@ add_executable(${PROJECT_NAME}
 source_group(TREE ${CMAKE_SOURCE_DIR}/src PREFIX "Game" FILES ${GAME_SOURCES})
 source_group(TREE ${CMAKE_SOURCE_DIR}/src/port PREFIX "Port" FILES ${PORT_SOURCES})
 
+# Embed the application icon (paperboat.ico) into the Windows executable
+target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/Resource.rc)
+source_group("Resources" FILES ${CMAKE_SOURCE_DIR}/Resource.rc)
+
 if (NOT MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE
         $<$<COMPILE_LANGUAGE:C>:-Wno-implicit-function-declaration>
