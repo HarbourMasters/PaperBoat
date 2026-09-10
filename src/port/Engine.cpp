@@ -204,7 +204,7 @@ GameEngine::GameEngine() {
       std::make_shared<LUS::ControlDeck>(gsFast3dWindow, consoleVariables);
 
   const int32_t reservedThreadCount = 3;
-  const size_t threadCount = std::max(
+  const size_t threadCount = std::max<int32_t>(
       1, (int32_t)(std::thread::hardware_concurrency() - reservedThreadCount - 1));
   auto threadPool = std::make_shared<Ship::ThreadPool>(threadCount);
   auto resourceManager = std::make_shared<Ship::ResourceManager>(threadPool);
