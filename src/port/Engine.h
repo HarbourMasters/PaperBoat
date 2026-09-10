@@ -101,6 +101,8 @@ class GameEngine {
         std::condition_variable cv_from_thread;
         bool running = false;
         bool processing = false;
+        // Audio pacing shortfall, in thirds of a sample.
+        int32_t sampleDebtThirds = 0;
     } mAudio;
 };
 

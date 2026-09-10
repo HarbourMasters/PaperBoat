@@ -61,6 +61,7 @@ void create_audio_system(void);
 Acmd *alAudioFrame(Acmd *cmdList, int32_t *cmdLen, int16_t *outBuf,
                    int32_t outLen);
 extern int32_t AlFrameSize;
+extern int32_t AlMinFrameSize;
 }
 
 // Audio constants from game
@@ -842,23 +843,54 @@ void GameEngine::HandleAudioThread() {
         break;
     }
 
-    // Generate audio twice per game frame, matching N64's 60Hz audio thread.
-    for (int pass = 0; pass < 2; pass++) {
+    // A 60Hz tick owes 1600/3 samples at 32kHz, and alAudioFrame only renders
+    // whole AUDIO_SAMPLES blocks
+    auto produceFrame = [&]() {
       int32_t cmdLen = 0;
-      int samplesToGen = AlFrameSize * 2 * sizeof(int16_t);
+      int32_t frameSamples =
+          (mAudio.sampleDebtThirds > 0) ? AlFrameSize : AlMinFrameSize;
+      mAudio.sampleDebtThirds += 1600 - 3 * frameSamples;
 
-      memset(audioBuffer, 0, samplesToGen);
+      int byteLen = frameSamples * 2 * sizeof(int16_t);
 
-      alAudioFrame(cmdList, &cmdLen, audioBuffer, AlFrameSize);
+      memset(audioBuffer, 0, byteLen);
+
+      alAudioFrame(cmdList, &cmdLen, audioBuffer, frameSamples);
 
       float master = AudioVolume_GetMaster();
       if (master != 1.0f) {
-        int sampleCount = samplesToGen / (int)sizeof(int16_t);
+        int sampleCount = byteLen / (int)sizeof(int16_t);
         for (int i = 0; i < sampleCount; i++) {
           audioBuffer[i] = (int16_t)(audioBuffer[i] * master);
         }
       }
-      AudioPlayerPlayFrame((uint8_t *)audioBuffer, samplesToGen);
+
+      int32_t before = AudioPlayerBuffered();
+      AudioPlayerPlayFrame((uint8_t *)audioBuffer, byteLen);
+
+      // A refused frame and an empty queue are both silent
+      if (AudioPlayerBuffered() < before + (frameSamples / 2)) {
+        SPDLOG_WARN("audio frame refused (queue full at {} samples)", before);
+      } else if (before == 0) {
+        SPDLOG_WARN("audio queue underran");
+      }
+    };
+
+    // Two ticks per game frame, matching N64's 60Hz audio thread.
+    for (int pass = 0; pass < 2; pass++) {
+      if (AudioPlayerBuffered() > 2 * AudioPlayerGetDesiredBuffered()) {
+        break;
+      }
+      produceFrame();
+    }
+
+    // Refill after a map load drained the queue; exact pacing has no surplus to
+    // recover with. Bounded so a stalled device cannot wedge EndAudioFrame.
+    for (int guard = 0; guard < 32 && mAudio.running; guard++) {
+      if (AudioPlayerBuffered() + AlFrameSize >= AudioPlayerGetDesiredBuffered()) {
+        break;
+      }
+      produceFrame();
     }
 
     {
@@ -901,6 +933,14 @@ void GameEngine::AudioInit() {
 
   // Initialize the game's audio system
   create_audio_system();
+
+  // Start at the target queue depth; an empty queue underruns on the first
+  // hitch before it has had a chance to build.
+  {
+    std::vector<uint8_t> silence(
+        (size_t)AudioPlayerGetDesiredBuffered() * 2 * sizeof(int16_t), 0);
+    AudioPlayerPlayFrame(silence.data(), silence.size());
+  }
 
   // Start the audio thread
   mAudio.running = true;
