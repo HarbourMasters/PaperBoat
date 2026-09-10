@@ -92,8 +92,8 @@ PaperboatMenu::PaperboatMenu(const std::string &consoleVariable,
                              const std::string &name)
     : Menu(consoleVariable, name, 0, UIWidgets::Colors::LightBlue) {}
 
-void PaperboatMenu::InitElement() {
-  Ship::Menu::InitElement();
+void PaperboatMenu::OnInit(const nlohmann::json& initArgs) {
+  Ship::Menu::OnInit(initArgs);
   AddMenuSettings();
   AddMenuEnhancements();
   AddMenuShaderSettings();
@@ -110,38 +110,33 @@ void PaperboatMenu::InitElement() {
   disabledMap = {
       {DISABLE_FOR_NO_VSYNC,
        {[](disabledInfo &info) -> bool {
-          return !Ship::Context::GetInstance()
-                      ->GetWindow()
+          return !WindowGetWindowComponent()
                       ->CanDisableVerticalSync();
         },
         "Disabling VSync not supported"}},
       {DISABLE_FOR_NO_WINDOWED_FULLSCREEN,
        {[](disabledInfo &info) -> bool {
-          return !Ship::Context::GetInstance()
-                      ->GetWindow()
+          return !WindowGetWindowComponent()
                       ->SupportsWindowedFullscreen();
         },
         "Windowed Fullscreen not supported"}},
       {DISABLE_FOR_NO_MULTI_VIEWPORT,
        {[](disabledInfo &info) -> bool {
-          return !Ship::Context::GetInstance()
-                      ->GetWindow()
+          return !WindowGetWindowComponent()
                       ->GetGui()
                       ->SupportsViewports();
         },
         "Multi-viewports not supported"}},
       {DISABLE_FOR_NOT_DIRECTX,
        {[](disabledInfo &info) -> bool {
-          return Ship::Context::GetInstance()
-                     ->GetWindow()
+          return WindowGetWindowComponent()
                      ->GetWindowBackend() !=
                   Fast::WindowBackend::FAST3D_DXGI_DX11;
         },
         "Available Only on DirectX"}},
       {DISABLE_FOR_DIRECTX,
        {[](disabledInfo &info) -> bool {
-          return Ship::Context::GetInstance()
-                     ->GetWindow()
+          return WindowGetWindowComponent()
                      ->GetWindowBackend() ==
                  Fast::WindowBackend::FAST3D_DXGI_DX11;
         },

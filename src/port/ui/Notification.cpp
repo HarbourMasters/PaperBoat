@@ -132,7 +132,7 @@ void Window::DrawRegularNotification(const Options &notification,
   if (notification.itemIcon != nullptr) {
     float iconSize = 22 * CVarGetFloat("gNotifications.Size", 1.8f);
     ImGui::Image(
-    std::static_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetInstance()->GetWindow()->GetGui())
+    std::static_pointer_cast<Fast::Fast3dGui>(WindowGetWindowComponent()->GetGui())
                     ->GetTextureByName(
             notification.itemIcon),
         ImVec2(iconSize, iconSize));
@@ -223,7 +223,7 @@ void Window::DrawEnhancedNotification(const Options &notification,
     ImGui::SetCursorPos(
         ImVec2(ImGui::GetCursorPosX(), contentStartY + iconOffsetY));
     ImGui::Image(
-      std::static_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetInstance()->GetWindow()->GetGui())
+      std::static_pointer_cast<Fast::Fast3dGui>(WindowGetWindowComponent()->GetGui())
                     ->GetTextureByName(
             notification.itemIcon),
         ImVec2(iconSize, iconSize));

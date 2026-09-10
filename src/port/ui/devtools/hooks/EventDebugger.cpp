@@ -97,7 +97,7 @@ void DrawEventListenerInfo(std::string &name, EventRegistration &registry) {
 
 void EventDebuggerWindow::DrawElement() {
   bool collapseLogic = false;
-  auto& events = Ship::Context::GetInstance()->GetEventSystem()->GetEventRegistrations();
+  auto& events = EventSystemGetEvents()->GetEventRegistrations();
   bool doingCollapseOrExpand = hookOptExpandAll || hookOptCollapseAll;
 
   ImGui::BeginDisabled(CVarGetInteger(CVAR_SETTING("DisableChanges"), 0));
@@ -151,7 +151,8 @@ void EventDebuggerWindow::DrawElement() {
   }
 }
 
-void EventDebuggerWindow::InitElement() {
+void EventDebuggerWindow::OnInit(const nlohmann::json& initArgs) {
+  Ship::GuiWindow::OnInit(initArgs);
   hookOptExpandAll = false;
   hookOptCollapseAll = false;
 }

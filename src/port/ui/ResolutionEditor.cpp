@@ -153,8 +153,7 @@ void ResolutionCustomWidget(WidgetInfo &info) {
                    verticalPixelCount);
     CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".UIComboItem.PixelCount",
                    item_pixelCount);
-    Ship::Context::GetInstance()
-        ->GetWindow()
+    WindowGetWindowComponent()
         ->GetGui()
         ->SaveConsoleVariablesNextFrame();
   }
@@ -238,8 +237,7 @@ void ResolutionCustomWidget(WidgetInfo &info) {
         CVarGetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".PixelPerfectMode",
                        0)) {
       CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".PixelPerfectMode", 0);
-      Ship::Context::GetInstance()
-          ->GetWindow()
+      WindowGetWindowComponent()
           ->GetGui()
           ->SaveConsoleVariablesNextFrame();
     }
@@ -289,8 +287,7 @@ void ResolutionCustomWidget(WidgetInfo &info) {
       // IntegerScaleFactor while active.
       CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".IntegerScale.Factor",
                      integerScale_maximumBounds);
-      Ship::Context::GetInstance()
-          ->GetWindow()
+      WindowGetWindowComponent()
           ->GetGui()
           ->SaveConsoleVariablesNextFrame();
     }
@@ -328,8 +325,7 @@ void ResolutionCustomWidget(WidgetInfo &info) {
       if (ImGui::Button("Click to reenable aspect correction.")) {
         CVarSetInteger(
             CVAR_PREFIX_ADVANCED_RESOLUTION ".IgnoreAspectCorrection", 0);
-        Ship::Context::GetInstance()
-            ->GetWindow()
+        WindowGetWindowComponent()
             ->GetGui()
             ->SaveConsoleVariablesNextFrame();
       }
@@ -404,8 +400,7 @@ void ResolutionCustomWidget(WidgetInfo &info) {
           CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION
                          ".IntegerScale.ExceedBoundsBy",
                          0);
-          Ship::Context::GetInstance()
-              ->GetWindow()
+          WindowGetWindowComponent()
               ->GetGui()
               ->SaveConsoleVariablesNextFrame();
         }
@@ -451,8 +446,7 @@ void ResolutionCustomWidget(WidgetInfo &info) {
             CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION
                            ".IntegerScale.ExceedBoundsBy",
                            0);
-            Ship::Context::GetInstance()
-                ->GetWindow()
+            WindowGetWindowComponent()
                 ->GetGui()
                 ->SaveConsoleVariablesNextFrame();
           }
@@ -499,8 +493,7 @@ void ResolutionCustomWidget(WidgetInfo &info) {
                    item_aspectRatio);
     CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".UIComboItem.PixelCount",
                    item_pixelCount);
-    Ship::Context::GetInstance()
-        ->GetWindow()
+    WindowGetWindowComponent()
         ->GetGui()
         ->SaveConsoleVariablesNextFrame();
   }
@@ -508,7 +501,7 @@ void ResolutionCustomWidget(WidgetInfo &info) {
 
 void RegisterResolutionWidgets() {
   auto fastWnd = dynamic_pointer_cast<Fast::Fast3dWindow>(
-      Ship::Context::GetInstance()->GetWindow());
+      WindowGetWindowComponent());
   mInterpreter = fastWnd->GetInterpreterWeak();
 
   WidgetPath path = {"Settings", "Graphics", SECTION_COLUMN_2};
@@ -566,8 +559,7 @@ void RegisterResolutionWidgets() {
       })
       .Callback([](WidgetInfo &info) {
         CVarSetInteger(CVAR_LOW_RES_MODE, 0);
-        Ship::Context::GetInstance()
-            ->GetWindow()
+        WindowGetWindowComponent()
             ->GetGui()
             ->SaveConsoleVariablesNextFrame();
       });
@@ -633,8 +625,7 @@ void RegisterResolutionWidgets() {
         CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION
                        ".UIComboItem.AspectRatio",
                        item_aspectRatio);
-        Ship::Context::GetInstance()
-            ->GetWindow()
+        WindowGetWindowComponent()
             ->GetGui()
             ->SaveConsoleVariablesNextFrame();
       })
@@ -724,8 +715,7 @@ void UpdateResolutionVars() {
                    item_aspectRatio);
     CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".UIComboItem.PixelCount",
                    item_pixelCount);
-    Ship::Context::GetInstance()
-        ->GetWindow()
+    WindowGetWindowComponent()
         ->GetGui()
         ->SaveConsoleVariablesNextFrame();
   }

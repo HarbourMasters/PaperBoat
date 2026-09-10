@@ -12,7 +12,7 @@ class PaperboatMenu : public Ship::Menu {
   public:
     PaperboatMenu(const std::string& consoleVariable, const std::string& name);
 
-    void InitElement() override;
+    void OnInit(const nlohmann::json& initArgs = nlohmann::json::object()) override;
     void DrawElement() override;
     void UpdateElement() override;
     void Draw() override;

@@ -8,7 +8,9 @@ class PaperboatModalWindow final : public Ship::GuiWindow {
     using GuiWindow::GuiWindow;
     void Draw() override;
 
-    void InitElement() override{};
+    void OnInit(const nlohmann::json& initArgs = nlohmann::json::object()) override {
+        Ship::GuiWindow::OnInit(initArgs);
+    };
     void DrawElement() override;
     void UpdateElement() override{};
     void RegisterPopup(std::string title, std::string message, std::string button1 = "OK", std::string button2 = "",

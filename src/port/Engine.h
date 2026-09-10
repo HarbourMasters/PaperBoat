@@ -56,6 +56,8 @@ uint32_t OTRGetGameRenderHeight(void);
 #define IDNO 7
 #endif
 
+extern std::shared_ptr<Ship::Context> gShipContext;
+
 class GameEngine {
   public:
     static GameEngine* Instance;

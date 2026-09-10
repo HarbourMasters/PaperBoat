@@ -1,20 +1,23 @@
 #include "port/ShipInit.hpp"
+#include <libultraship/bridge/windowbridge.h>
+#include <libultraship/bridge/controllerbridge.h>
+#include "port/Engine.h"
 
 #include <ship/Context.h>
 #include <ship/window/Window.h>
 
 #include "game_modes.h"
 
-#define CMD_REGISTER Ship::Context::GetInstance()->GetConsole()->AddCommand
+#define CMD_REGISTER gShipContext->GetChildren().GetFirst<Ship::Console>()->AddCommand
 // TODO: Commands should be using the output passed in.
 #define ERROR_MESSAGE                                                          \
   std::reinterpret_pointer_cast<Ship::ConsoleWindow>(                          \
-      Ship::Context::GetInstance()->GetWindow()->GetGui()->GetGuiWindow(       \
+      WindowGetWindowComponent()->GetGui()->GetGuiWindow(       \
           "Console"))                                                          \
       ->SendErrorMessage
 #define INFO_MESSAGE                                                           \
   std::reinterpret_pointer_cast<Ship::ConsoleWindow>(                          \
-      Ship::Context::GetInstance()->GetWindow()->GetGui()->GetGuiWindow(       \
+      WindowGetWindowComponent()->GetGui()->GetGuiWindow(       \
           "Console"))                                                          \
       ->SendInfoMessage
 

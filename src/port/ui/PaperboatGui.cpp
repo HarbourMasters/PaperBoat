@@ -36,7 +36,7 @@ UIWidgets::Colors GetMenuThemeColor() {
 }
 
 void SetupMenu() {
-  auto gui = Ship::Context::GetInstance()->GetWindow()->GetGui();
+  auto gui = WindowGetWindowComponent()->GetGui();
   mPaperboatMenu = std::make_shared<PaperboatGui::PaperboatMenu>(
       CVAR_WINDOW("Menu"), "Port Menu");
   gui->SetMenu(mPaperboatMenu);
@@ -48,7 +48,7 @@ void SetupMenu() {
 }
 
 void SetupGuiElements() {
-  auto gui = Ship::Context::GetInstance()->GetWindow()->GetGui();
+  auto gui = WindowGetWindowComponent()->GetGui();
 
   auto &style = ImGui::GetStyle();
   style.FramePadding = ImVec2(4.0f, 6.0f);
@@ -99,7 +99,7 @@ void SetupGuiElements() {
 }
 
 void Destroy() {
-  auto gui = Ship::Context::GetInstance()->GetWindow()->GetGui();
+  auto gui = WindowGetWindowComponent()->GetGui();
 
   gui->RemoveAllGuiWindows();
   mPaperboatMenu = nullptr;

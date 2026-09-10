@@ -83,7 +83,7 @@ void PaperboatMenu::AddMenuSettings() {
       .CVar(CVAR_SETTING("CursorVisibility"))
       .RaceDisable(false)
       .Callback([](WidgetInfo &info) {
-        Ship::Context::GetInstance()->GetWindow()->SetForceCursorVisibility(
+        WindowGetWindowComponent()->SetForceCursorVisibility(
             CVarGetInteger(CVAR_SETTING("CursorVisibility"), 0));
       })
       .Options(CheckboxOptions().Tooltip(
@@ -112,7 +112,7 @@ void PaperboatMenu::AddMenuSettings() {
       .RaceDisable(false)
       .Callback([](WidgetInfo &info) {
         std::string filesPath =
-            Ship::Context::GetInstance()->GetAppDirectoryPath();
+            Ship::Context::GetAppDirectoryPath();
         SDL_OpenURL(std::string("file:///" +
                                 std::filesystem::absolute(filesPath).string())
                         .c_str());
@@ -192,10 +192,10 @@ void PaperboatMenu::AddMenuSettings() {
           "registered devices.\nContinue?",
           "Clear", "Cancel",
           []() {
-          Ship::Context::GetInstance()->GetConsoleVariables()->ClearBlock(
+          CVarGetConsoleVariable()->ClearBlock(
               CVAR_PREFIX_SETTING ".Controllers");
           uint8_t bits = 0;
-          Ship::Context::GetInstance()->GetControlDeck()->Init(&bits);
+          ControllerGetControlDeck()->Init(&bits);
       },
           nullptr);
   })
@@ -223,14 +223,14 @@ void PaperboatMenu::AddMenuSettings() {
   AddWidget(path, "Toggle Fullscreen", WIDGET_BUTTON)
       .RaceDisable(false)
       .Callback([](WidgetInfo &info) {
-        Ship::Context::GetInstance()->GetWindow()->ToggleFullscreen();
+        WindowGetWindowComponent()->ToggleFullscreen();
       })
       .Options(ButtonOptions().Tooltip("Toggles Fullscreen On/Off."));
   AddWidget(path, "Internal Resolution", WIDGET_CVAR_SLIDER_FLOAT)
       .CVar(CVAR_INTERNAL_RESOLUTION)
       .RaceDisable(false)
       .Callback([](WidgetInfo &info) {
-        Ship::Context::GetInstance()->GetWindow()->SetResolutionMultiplier(
+        WindowGetWindowComponent()->SetResolutionMultiplier(
             CVarGetFloat(CVAR_INTERNAL_RESOLUTION, 1));
       })
       .PreFunc([](WidgetInfo &info) {
@@ -258,7 +258,7 @@ void PaperboatMenu::AddMenuSettings() {
       .CVar(CVAR_MSAA_VALUE)
       .RaceDisable(false)
       .Callback([](WidgetInfo &info) {
-        Ship::Context::GetInstance()->GetWindow()->SetMsaaLevel(
+        WindowGetWindowComponent()->SetMsaaLevel(
             CVarGetInteger(CVAR_MSAA_VALUE, 1));
       })
       .Options(IntSliderOptions()

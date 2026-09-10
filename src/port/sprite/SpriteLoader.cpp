@@ -64,12 +64,7 @@ static size_t GetNPCBlobSize(SpriteS32 spriteIdx) {
   snprintf(assetPath, sizeof(assetPath), "%s%03d", SPRITE_ASSET_PREFIX,
            spriteIdx);
 
-  auto ctx = Ship::Context::GetInstance();
-  if (ctx == nullptr) {
-    return 0;
-  }
-
-  auto resourceMgr = ctx->GetResourceManager();
+  auto resourceMgr = ResourceGetResourceManager();
   if (resourceMgr == nullptr) {
     return 0;
   }
@@ -230,12 +225,7 @@ SpriteS32 Sprite_GetPlayerRasterSets(int32_t *outSets, SpriteS32 maxCount) {
   }
 
   // Get the blob to determine actual size
-  auto ctx = Ship::Context::GetInstance();
-  if (ctx == nullptr) {
-    return 0;
-  }
-
-  auto resourceMgr = ctx->GetResourceManager();
+  auto resourceMgr = ResourceGetResourceManager();
   if (resourceMgr == nullptr) {
     return 0;
   }
@@ -581,12 +571,7 @@ static size_t GetPlayerBlobSize(SpriteS32 spriteIdx) {
   snprintf(assetPath, sizeof(assetPath), "%s%d", PLAYER_SPRITE_ASSET_PREFIX,
            spriteIdx);
 
-  auto ctx = Ship::Context::GetInstance();
-  if (ctx == nullptr) {
-    return 0;
-  }
-
-  auto resourceMgr = ctx->GetResourceManager();
+  auto resourceMgr = ResourceGetResourceManager();
   if (resourceMgr == nullptr) {
     return 0;
   }

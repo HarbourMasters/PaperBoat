@@ -1,7 +1,10 @@
+// INIT_EVENT_IDS must be defined before ANY header that can transitively pull in
+// ship/events/EventTypes.h, otherwise DECLARE_EVENT resolves to the extern form
+// and the event ID variables are never defined.
+#define INIT_EVENT_IDS
+
 #include "PortEnhancements.h"
 #include "port/save/SaveManager.h"
-
-#define INIT_EVENT_IDS
 
 #include "port/ShipUtils.h"
 #include "port/hooks/Events.h"

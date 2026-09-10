@@ -191,8 +191,8 @@ void ValueViewerWindow::Draw() {
                 }
                 ImGui::EndTable();
             }
-            
-            
+
+
         }
     }
 
@@ -202,7 +202,8 @@ void ValueViewerWindow::Draw() {
     ImGui::PopStyleVar(1);
 }
 
-void ValueViewerWindow::InitElement() {
+void ValueViewerWindow::OnInit(const nlohmann::json& initArgs) {
+  Ship::GuiWindow::OnInit(initArgs);
     ValueViewerSettings_Update();
     valueViewerBG = { 0, 0, 0, CVAR_VALUE_VIEWER_OPACITY };
     valueViewerScale = CVAR_VALUE_VIEWER_SCALE;

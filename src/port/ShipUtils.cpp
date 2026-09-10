@@ -127,7 +127,7 @@ std::vector<PaletteAsset> guiPaletteTextures = {
 
 
 void LoadGuiTextures() {
-    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetInstance()->GetWindow()->GetGui());
+    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(WindowGetWindowComponent()->GetGui());
 
     // for (auto& asset : digitTextures) {
     //     gui->LoadGuiTexture(asset.assetTexturePath, asset.assetTexturePath);

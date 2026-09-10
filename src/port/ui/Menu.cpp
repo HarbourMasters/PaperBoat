@@ -1,4 +1,6 @@
 #include "Menu.h"
+#include <libultraship/bridge/windowbridge.h>
+#include <libultraship/bridge/controllerbridge.h>
 #include "port/build.h"
 #include "PaperboatInputEditorWindow.h"
 #include "PaperboatModals.h"
@@ -112,11 +114,11 @@ void Menu::RemoveSidebarSearch() {
 
 void Menu::UpdateWindowBackendObjects() {
   Fast::WindowBackend runningWindowBackend =
-      static_cast<Fast::WindowBackend>(Ship::Context::GetInstance()->GetWindow()->GetWindowBackend());
+      static_cast<Fast::WindowBackend>(WindowGetWindowComponent()->GetWindowBackend());
   int32_t configWindowBackendId =
-      Ship::Context::GetInstance()->GetConfig()->GetInt("Window.Backend.Id",
+      gShipContext->GetChildren().GetFirst<Ship::Config>()->GetInt("Window.Backend.Id",
                                                         -1);
-  if (Ship::Context::GetInstance()->GetWindow()->IsAvailableWindowBackend(
+  if (WindowGetWindowComponent()->IsAvailableWindowBackend(
           configWindowBackendId)) {
     configWindowBackend =
         static_cast<Fast::WindowBackend>(configWindowBackendId);
@@ -124,7 +126,7 @@ void Menu::UpdateWindowBackendObjects() {
     configWindowBackend = runningWindowBackend;
   }
 
-  availableWindowBackends = Ship::Context::GetInstance()->GetWindow()->GetAvailableWindowBackends();
+  availableWindowBackends = WindowGetWindowComponent()->GetAvailableWindowBackends();
   for (auto& backend : *availableWindowBackends) {
     auto fb = static_cast<Fast::WindowBackend>(backend);
     availableWindowBackendsMap[fb] = windowBackendsMap.at(fb);
@@ -140,7 +142,8 @@ Menu::Menu(const std::string &cVar, const std::string &name,
     : GuiWindow(cVar, name), searchSidebarIndex(searchSidebarIndex_),
       defaultThemeIndex(defaultThemeIndex_) {}
 
-void Menu::InitElement() {
+void Menu::OnInit(const nlohmann::json& initArgs) {
+  GuiWindow::OnInit(initArgs);
   popped = CVarGetInteger(CVAR_SETTING("Menu.Popout"), 0);
   poppedSize.x = CVarGetInteger(CVAR_SETTING("Menu.PoppedWidth"), 1280);
   poppedSize.y = CVarGetInteger(CVAR_SETTING("Menu.PoppedHeight"), 800);
@@ -396,7 +399,7 @@ void Menu::MenuDrawItem(WidgetInfo &widget, uint32_t width,
       };
     } break;
     case WIDGET_AUDIO_BACKEND: {
-      auto audio = Ship::Context::GetInstance()->GetAudio();
+      auto audio = AudioGetAudioComponent();
       if (audio == nullptr) {
         // The menu is created before the audio system exists.
         break;
@@ -430,11 +433,11 @@ void Menu::MenuDrawItem(WidgetInfo &widget, uint32_t width,
       if (UIWidgets::Combobox("Renderer API (Needs reload)",
                               &configWindowBackend, availableWindowBackendsMap,
                               options)) {
-        Ship::Context::GetInstance()->GetConfig()->SetInt(
+        gShipContext->GetChildren().GetFirst<Ship::Config>()->SetInt(
             "Window.Backend.Id", (int32_t)(configWindowBackend));
-        Ship::Context::GetInstance()->GetConfig()->SetString(
+        gShipContext->GetChildren().GetFirst<Ship::Config>()->SetString(
             "Window.Backend.Name", windowBackendsMap.at(configWindowBackend));
-        Ship::Context::GetInstance()->GetConfig()->Save();
+        gShipContext->GetChildren().GetFirst<Ship::Config>()->Save();
         UpdateWindowBackendObjects();
       }
     } break;
@@ -576,7 +579,7 @@ void Menu::MenuDrawItem(WidgetInfo &widget, uint32_t width,
         break;
       }
       auto window =
-          Ship::Context::GetInstance()->GetWindow()->GetGui()->GetGuiWindow(
+          WindowGetWindowComponent()->GetGui()->GetGuiWindow(
               widget.windowName);
       if (!window) {
         std::string msg = fmt::format(
@@ -889,11 +892,11 @@ void Menu::DrawElement() {
         "Cancel",
         []() {
           std::shared_ptr<Menu> menu = static_pointer_cast<Menu>(
-              Ship::Context::GetInstance()->GetWindow()->GetGui()->GetMenu());
+              WindowGetWindowComponent()->GetGui()->GetMenu());
           if (!menu->IsMenuPopped()) {
             menu->ToggleVisibility();
           }
-          Ship::Context::GetInstance()->GetWindow()->Close();
+          WindowGetWindowComponent()->Close();
         },
         nullptr);
   }
@@ -913,7 +916,7 @@ void Menu::DrawElement() {
       ;
   if (UIWidgets::Button(ICON_FA_UNDO, options2)) {
     std::reinterpret_pointer_cast<Ship::ConsoleWindow>(
-        Ship::Context::GetInstance()->GetWindow()->GetGui()->GetGuiWindow(
+        WindowGetWindowComponent()->GetGui()->GetGuiWindow(
             "Console"))
         ->Dispatch("reset");
   }
@@ -928,8 +931,7 @@ void Menu::DrawElement() {
     // visible
     auto mImGuiIo = &ImGui::GetIO();
     if (CVarGetInteger(CVAR_IMGUI_CONTROLLER_NAV, 0) &&
-        Ship::Context::GetInstance()
-            ->GetWindow()
+        WindowGetWindowComponent()
             ->GetGui()
             ->GetMenuOrMenubarVisible()) {
       mImGuiIo->ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;

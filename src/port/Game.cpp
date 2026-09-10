@@ -8,7 +8,6 @@
 MtxF sInterpolationMatrixStack[0x1000];
 MtxF *gInterpolationMatrix = &sInterpolationMatrixStack[0];
 
-// Forward declarations for game C functions
 extern "C" {
 void load_engine_data(void);
 void create_audio_system(void);
@@ -16,7 +15,6 @@ void init_game_globals(void);
 void Graphics_ThreadUpdate(void); // New unified frame function from gfx_frame.c
 }
 
-// Bridge function: C code calls this, forwards to C++ engine
 extern "C" void Graphics_PushFrame(Gfx *displayList) {
   GameEngine::ProcessGfxCommands(displayList);
 }
@@ -33,20 +31,17 @@ extern "C"
   GameEngine::Create(argc, argv);
 
   auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(
-      Ship::Context::GetInstance()->GetWindow());
+      WindowGetWindowComponent());
 
   // Initialize game systems
-  init_game_globals(); // Zero-initialize BSS globals FIRST (not automatic on
-                       // PC)
-  // Note: create_audio_system() is called by GameEngine::Create() ->
-  // AudioInit()
-  load_engine_data(); // Then configure them (calls clear_script_list(), etc.)
+  init_game_globals();
+  load_engine_data();
 
-  // Main loop - single frame function handles everything
+  // Main loop
   while (wnd->IsRunning()) {
-    GameEngine::Instance->StartFrame(); // Handle input/hotkeys
+    GameEngine::Instance->StartFrame();
     FrameInterpolation_StartRecord();
-    Graphics_ThreadUpdate(); // Game logic + build DL + submit
+    Graphics_ThreadUpdate();
     FrameInterpolation_StopRecord();
   }
 
