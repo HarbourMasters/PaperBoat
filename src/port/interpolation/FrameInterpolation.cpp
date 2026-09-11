@@ -3,6 +3,7 @@
 #include "port/Engine.h"
 #include <map>
 #include <math.h>
+#include <stdlib.h>
 #include <unordered_map>
 #include <vector>
 
@@ -162,6 +163,12 @@ struct Path {
   map<label, vector<Path>> children;
   map<Op, vector<Data>> ops;
   vector<pair<Op, size_t>> items;
+  // `items` drives replay and so includes OpenChild. `op_signature` is the same
+  // sequence with the OpenChild entries removed: only this path's *own* ops, the
+  // ones paired by ordinal index. Child subtrees are matched by label key
+  // instead, so how many of them there are has no responsibility on whether this path's
+  // matrices can be paired.
+  vector<pair<Op, size_t>> op_signature;
 };
 
 struct Recording {
@@ -183,10 +190,14 @@ size_t inv_actor_mtx_path_index;
 Data &append(Op op) {
   auto &m = current_path.back()->ops[op];
   current_path.back()->items.emplace_back(op, m.size());
+  if (op != Op::OpenChild) {
+    current_path.back()->op_signature.emplace_back(op, m.size());
+  }
   return m.emplace_back();
 }
 
 MtxF *MtxF_GetCurrent() { return gInterpolationMatrix; }
+
 
 struct InterpolateCtx {
   float step;
@@ -285,7 +296,8 @@ struct InterpolateCtx {
     // Preliminary solution: ops are paired by index, so a path whose recorded
     // sequence changed would pair every matrix with an unrelated one. Interpolate
     // it against itself instead preventing weird flashes with curtains and STORY_INTRO.
-    if (old_path != new_path && old_path->items != new_path->items) {
+    if (old_path != new_path &&
+        old_path->op_signature != new_path->op_signature) {
       old_path = new_path;
     }
 

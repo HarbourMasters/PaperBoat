@@ -964,10 +964,8 @@ void GameEngine::HandleAudioThread() {
       int32_t before = AudioPlayerBuffered();
       AudioPlayerPlayFrame((uint8_t *)audioBuffer, byteLen);
 
-      // A refused frame and an empty queue are both silent
-      if (AudioPlayerBuffered() < before + (frameSamples / 2)) {
-        SPDLOG_WARN("audio frame refused (queue full at {} samples)", before);
-      } else if (before == 0) {
+      bool accepted = AudioPlayerBuffered() >= before + (frameSamples / 2);
+      if (accepted && before == 0) {
         SPDLOG_WARN("audio queue underran");
       }
     };

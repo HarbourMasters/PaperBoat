@@ -2396,8 +2396,13 @@ s32 mdl_get_child_count(ModelNode* model) {
     return ret;
 }
 
+void mdl_reset_interp_teleport_state(void);
+
 void clear_model_data(void) {
     s32 i;
+
+    // stale positions from the previous map would read as a teleport
+    mdl_reset_interp_teleport_state();
 
     if (gGameStatusPtr->context == CONTEXT_WORLD) {
         gCurrentModels = &wModelList;
@@ -2638,6 +2643,53 @@ void iterate_models(void) {
     mdl = last;
 }
 
+// @port Interpolation: a model that is moved a long way in a single game frame
+// (the looping platforms in the Toad Town Tunnels snap from the top of the shaft
+// back to the bottom, elevators return to their start) must not be interpolated
+// across that jump.
+#define MDL_INTERP_TELEPORT_DIST 100.0f
+
+static Vec3f ModelInterpPrevPos[MAX_MODELS];
+static u8 ModelInterpEpoch[MAX_MODELS];
+static u8 ModelInterpHasPrev[MAX_MODELS];
+static Vec3f GroupInterpPrevPos[MAX_MODEL_TRANSFORM_GROUPS];
+static u8 GroupInterpEpoch[MAX_MODEL_TRANSFORM_GROUPS];
+static u8 GroupInterpHasPrev[MAX_MODEL_TRANSFORM_GROUPS];
+
+// The user transform carries the whole per-frame delta (the baked matrix never
+// changes), so its translation alone is enough to spot a teleport, and it is
+// already final by the time this runs.
+static u32 mdl_interp_epoch(Vec3f* prevPos, u8* epoch, u8* hasPrev, Matrix4f mtx,
+                            const char* kind, s32 idx) {
+    f32 dx = mtx[3][0] - prevPos->x;
+    f32 dy = mtx[3][1] - prevPos->y;
+    f32 dz = mtx[3][2] - prevPos->z;
+    f32 distSq = SQ(dx) + SQ(dy) + SQ(dz);
+
+    if (*hasPrev && distSq > SQ(MDL_INTERP_TELEPORT_DIST)) {
+        (*epoch)++;
+    }
+
+    prevPos->x = mtx[3][0];
+    prevPos->y = mtx[3][1];
+    prevPos->z = mtx[3][2];
+    *hasPrev = 1;
+
+    // TAG_ENTRY leaves the low byte of the key free for this
+    return *epoch;
+}
+
+void mdl_reset_interp_teleport_state(void) {
+    s32 i;
+
+    for (i = 0; i < MAX_MODELS; i++) {
+        ModelInterpHasPrev[i] = 0;
+    }
+    for (i = 0; i < MAX_MODEL_TRANSFORM_GROUPS; i++) {
+        GroupInterpHasPrev[i] = 0;
+    }
+}
+
 void mdl_update_transform_matrices(void) {
     Matrix4f tempModelMtx;
     Matrix4f tempGroupMtx;
@@ -2652,7 +2704,10 @@ void mdl_update_transform_matrices(void) {
     for (i = 0; i < ARRAY_COUNT(*gCurrentModels); i++) {
         model = (*gCurrentModels)[i];
         if (model != nullptr && (model->flags != 0) && !(model->flags & MODEL_FLAG_INACTIVE)) {
-            FrameInterpolation_RecordOpenChild("model_matrix", TAG_MODEL(i, model));
+            FrameInterpolation_RecordOpenChild("model_matrix",
+                TAG_MODEL(i, model) | mdl_interp_epoch(&ModelInterpPrevPos[i], &ModelInterpEpoch[i],
+                                                       &ModelInterpHasPrev[i], model->userTransformMtx,
+                                                       "model", model->modelID));
             if (!(model->flags & MODEL_FLAG_MATRIX_DIRTY)) {
                 if (model->matrixFreshness != 0) {
                     // matrix was recalculated recently and stored on the matrix stack
@@ -2709,7 +2764,10 @@ void mdl_update_transform_matrices(void) {
     for (i = 0; i < ARRAY_COUNT((*gCurrentTransformGroups)); i++) {
         mtg = (*gCurrentTransformGroups)[i];
         if (mtg != nullptr && mtg->flags != 0 && !(mtg->flags & TRANSFORM_GROUP_FLAG_INACTIVE)) {
-            FrameInterpolation_RecordOpenChild("group_matrix", TAG_GROUP(i, mtg));
+            FrameInterpolation_RecordOpenChild("group_matrix",
+                TAG_GROUP(i, mtg) | mdl_interp_epoch(&GroupInterpPrevPos[i], &GroupInterpEpoch[i],
+                                                     &GroupInterpHasPrev[i], mtg->userTransformMtx,
+                                                     "group", mtg->groupModelID));
             if (!(mtg->flags & TRANSFORM_GROUP_FLAG_MATRIX_DIRTY)) {
                 if (mtg->matrixFreshness != 0) {
                     // matrix was recalculated recently and stored on the matrix stack
@@ -4806,7 +4864,17 @@ OPTIMIZE_OFAST void execute_render_tasks(void) {
                     savedGfxPos = gMainGfxPos++;
                 }
 
-                FrameInterpolation_RecordOpenChild("render_task", (uintptr_t)task->appendGfxArg);
+                // @port Interpolation: key on (draw function, argument), not the
+                // argument alone. appendGfxArg is not always an object pointer -
+                // battle passes the enemy index for the main actor draw and a plain
+                // nullptr for the player, partner and their reflections, so several
+                // unrelated tasks collapse onto the same key. Sharing a key means
+                // they are paired by their position in the key's vector, and tasks
+                // are qsorted by distance every frame, so any depth-order change
+                // swaps which previous-frame matrix each one interpolates against -
+                // an actor gets drawn where a different object was. The draw
+                // function separates them and is stable per object.
+                FrameInterpolation_RecordOpenChild((const void*)task->appendGfx, (uintptr_t)task->appendGfxArg);
                 appendGfx(task->appendGfxArg);
                 FrameInterpolation_RecordCloseChild();
 
@@ -4825,7 +4893,7 @@ OPTIMIZE_OFAST void execute_render_tasks(void) {
             for (i = 0; i < RenderTaskCount[j]; i++) {
                 task = &RenderTaskLists[j][sorteds[j][i]];
                 appendGfx = task->appendGfx;
-                FrameInterpolation_RecordOpenChild("render_task", (uintptr_t)task->appendGfxArg);
+                FrameInterpolation_RecordOpenChild((const void*)task->appendGfx, (uintptr_t)task->appendGfxArg);
                 appendGfx(task->appendGfxArg);
                 FrameInterpolation_RecordCloseChild();
             }

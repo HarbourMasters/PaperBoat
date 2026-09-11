@@ -8,6 +8,7 @@
 #include "common.h"
 #include "gfx_pool.h"
 #include "port/Engine.h"
+#include "port/interpolation/FrameInterpolation.h"
 #include "port/patches/Patches.h"
 
 // Double-buffered graphics pools
@@ -48,7 +49,9 @@ void Graphics_ThreadUpdate(void) {
   GameEngine_StartAudioFrame();
 
   // Run game logic
+  FrameInterpolation_RecordOpenChild("game_logic", 0);
   step_game_loop();
+  FrameInterpolation_RecordCloseChild();
 
   // Build background display list (no submission)
   gfx_task_background();

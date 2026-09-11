@@ -202,61 +202,85 @@ void gfx_draw_frame(void) {
 
     gSPMatrix(gMainGfxPos++, &MasterIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
+    FrameInterpolation_RecordOpenChild("gfx_sprite_init", 0);
     spr_render_init();
+    FrameInterpolation_RecordCloseChild();
 
     GFX_PROFILER_COMPLETE(PROFILER_TIME_SUB_GFX_UPDATE); // dummy
 
+    FrameInterpolation_RecordOpenChild("gfx_world", 0);
     if (!(gOverrideFlags & GLOBAL_OVERRIDES_DISABLE_RENDER_WORLD)) {
         render_frame(false);
     }
+    FrameInterpolation_RecordCloseChild();
 
     player_render_interact_prompts();
     //func_802C3EE4();
 
     GFX_PROFILER_SWITCH(PROFILER_TIME_SUB_GFX_HUD_ELEMENTS, PROFILER_TIME_SUB_GFX_BACK_UI);
+    FrameInterpolation_RecordOpenChild("gfx_back_ui", 0);
     render_screen_overlay_backUI();
     render_workers_backUI();
     render_hud_elements_backUI();
     render_effects_UI();
     render_game_mode_backUI();
+    FrameInterpolation_RecordCloseChild();
 
+    FrameInterpolation_RecordOpenChild("gfx_window_root", 0);
     if (!(gOverrideFlags & GLOBAL_OVERRIDES_WINDOWS_OVER_CURTAINS)) {
         render_window_root();
     }
+    FrameInterpolation_RecordCloseChild();
 
     GFX_PROFILER_SWITCH(PROFILER_TIME_SUB_GFX_BACK_UI, PROFILER_TIME_SUB_GFX_FRONT_UI);
 
+    FrameInterpolation_RecordOpenChild("gfx_world_hud", 0);
     if (!(gOverrideFlags & GLOBAL_OVERRIDES_DISABLE_RENDER_WORLD) && gGameStatusPtr->debugScripts == DEBUG_SCRIPTS_NONE) {
         render_frame(true);
     }
+    FrameInterpolation_RecordCloseChild();
 
+    FrameInterpolation_RecordOpenChild("gfx_messages_mid", 0);
     if (!(gOverrideFlags & GLOBAL_OVERRIDES_MESSAGES_OVER_CURTAINS)
         && !(gOverrideFlags & GLOBAL_OVERRIDES_MESSAGES_OVER_FRONTUI)
     ) {
         render_messages();
     }
+    FrameInterpolation_RecordCloseChild();
 
+    FrameInterpolation_RecordOpenChild("gfx_front_ui", 0);
     render_workers_frontUI();
     render_hud_elements_frontUI();
     render_screen_overlay_frontUI();
+    FrameInterpolation_RecordCloseChild();
 
+    FrameInterpolation_RecordOpenChild("gfx_messages_front", 0);
     if (!(gOverrideFlags & GLOBAL_OVERRIDES_MESSAGES_OVER_CURTAINS)
         && (gOverrideFlags & GLOBAL_OVERRIDES_MESSAGES_OVER_FRONTUI)
     ) {
         render_messages();
     }
+    FrameInterpolation_RecordCloseChild();
 
+    FrameInterpolation_RecordOpenChild("gfx_curtains", 0);
     render_curtains();
+    FrameInterpolation_RecordCloseChild();
 
+    FrameInterpolation_RecordOpenChild("gfx_messages_over_curtains", 0);
     if (gOverrideFlags & GLOBAL_OVERRIDES_MESSAGES_OVER_CURTAINS) {
         render_messages();
     }
+    FrameInterpolation_RecordCloseChild();
 
+    FrameInterpolation_RecordOpenChild("gfx_window_over_curtains", 0);
     if (gOverrideFlags & GLOBAL_OVERRIDES_WINDOWS_OVER_CURTAINS) {
         render_window_root();
     }
+    FrameInterpolation_RecordCloseChild();
 
+    FrameInterpolation_RecordOpenChild("gfx_game_mode_front_ui", 0);
     render_game_mode_frontUI();
+    FrameInterpolation_RecordCloseChild();
 
     if (gOverrideFlags & GLOBAL_OVERRIDES_SOFT_RESET) {
         switch (SoftResetState) {

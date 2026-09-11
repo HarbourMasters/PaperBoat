@@ -221,13 +221,17 @@ void render_frame(s32 isSecondPass) {
                 gSPPerspNormalize(gMainGfxPos++, camera->perspNorm);
             }
 
+            FrameInterpolation_RecordOpenChild("camera_persp", 0);
             guMtxF2L(camera->mtxPerspective, &gDisplayContext->camPerspMatrix[gCurrentCamID]);
+            FrameInterpolation_RecordCloseChild();
             gSPMatrix(gMainGfxPos++, &gDisplayContext->camPerspMatrix[gCurrentCamID], G_MTX_NOPUSH | G_MTX_LOAD |
                         G_MTX_PROJECTION);
         }
 
         camera->mtxBillboard = &gDisplayContext->matrixStack[gMatrixListPos++];
+        FrameInterpolation_RecordOpenChild("camera_billboard", 0);
         guRotate(camera->mtxBillboard, -camera->curBoomYaw, 0.0f, 1.0f, 0.0f);
+        FrameInterpolation_RecordCloseChild();
 
         camera->vpAlt.vp.vtrans[0] = camera->vp.vp.vtrans[0] + gGameStatusPtr->altViewportOffset.x;
         camera->vpAlt.vp.vtrans[1] = camera->vp.vp.vtrans[1] + gGameStatusPtr->altViewportOffset.y;
@@ -264,14 +268,22 @@ void render_frame(s32 isSecondPass) {
                 dx_debug_draw_collision();
                 #endif
                 GFX_PROFILER_SWITCH(PROFILER_TIME_SUB_GFX_RENDER_TASKS, PROFILER_TIME_SUB_GFX_HUD_ELEMENTS);
+                FrameInterpolation_RecordOpenChild("cam_hud_elements", 0);
                 render_transformed_hud_elements();
+                FrameInterpolation_RecordCloseChild();
             } else {
                 guOrthoF(camera->mtxPerspective, 0.0f, SCREEN_WIDTH, -SCREEN_HEIGHT, 0.0f, -1000.0f, 1000.0f, 1.0f);
+                FrameInterpolation_RecordOpenChild("camera_persp_hud", 0);
                 guMtxF2L(camera->mtxPerspective, &gDisplayContext->camPerspMatrix[gCurrentCamID]);
+                FrameInterpolation_RecordCloseChild();
                 gSPMatrix(gMainGfxPos++, &gDisplayContext->camPerspMatrix[gCurrentCamID], G_MTX_NOPUSH |
                             G_MTX_LOAD | G_MTX_PROJECTION);
+                FrameInterpolation_RecordOpenChild("cam_hud_elements", 0);
                 render_transformed_hud_elements();
+                FrameInterpolation_RecordCloseChild();
+                FrameInterpolation_RecordOpenChild("cam_item_entities", 0);
                 render_item_entities();
+                FrameInterpolation_RecordCloseChild();
             }
         } else {
             render_workers_scene();
