@@ -67,13 +67,17 @@ compile_commands.json
 # DX ephemeral data (clangd index, configure cache, etc.)
 /.dx/
 
-build*
+# Anchored to the repo root. Unanchored, `build*` matches at any depth and
+# quietly hides real sources: android/build.gradle.kts, .github/workflows/
+# build.yml, docs/building-*.md. Nested build directories are covered by their
+# own .gitignore (android/, and each submodule).
+/build*
+/cmake-build-*
 !src/port/build.c.in
 !src/port/build.h
-# `build*` above matches at any depth, which would otherwise hide the
-# Android project's own build scripts.
-!android/build.gradle.kts
-!android/app/build.gradle.kts
+# Generated from build.c.in by configure_file(); it was only ever ignored as a
+# side effect of the unanchored `build*` above.
+/src/port/build.c
 logs/
 /mods/
 default.sav
