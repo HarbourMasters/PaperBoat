@@ -418,6 +418,8 @@ EvtScript N(EVS_Scene_SpiritsFlyingAway) = {
                 BreakLoop
             EndIf
         EndLoop
+        Call(SetNpcFlagBits, NPC_Eldstar, NPC_FLAG_INVISIBLE, true)
+        Call(EnableNpcShadow, NPC_Eldstar, false)
     EndThread
     Thread
         Wait(50)
@@ -432,6 +434,8 @@ EvtScript N(EVS_Scene_SpiritsFlyingAway) = {
                 BreakLoop
             EndIf
         EndLoop
+        Call(SetNpcFlagBits, NPC_Misstar, NPC_FLAG_INVISIBLE, true)
+        Call(EnableNpcShadow, NPC_Misstar, false)
     EndThread
     Thread
         Wait(100)
@@ -446,6 +450,8 @@ EvtScript N(EVS_Scene_SpiritsFlyingAway) = {
                 BreakLoop
             EndIf
         EndLoop
+        Call(SetNpcFlagBits, NPC_Skolar, NPC_FLAG_INVISIBLE, true)
+        Call(EnableNpcShadow, NPC_Skolar, false)
     EndThread
     Thread
         Wait(150)
@@ -460,6 +466,8 @@ EvtScript N(EVS_Scene_SpiritsFlyingAway) = {
                 BreakLoop
             EndIf
         EndLoop
+        Call(SetNpcFlagBits, NPC_Mamar, NPC_FLAG_INVISIBLE, true)
+        Call(EnableNpcShadow, NPC_Mamar, false)
     EndThread
     Thread
         Wait(200)
@@ -474,6 +482,8 @@ EvtScript N(EVS_Scene_SpiritsFlyingAway) = {
                 BreakLoop
             EndIf
         EndLoop
+        Call(SetNpcFlagBits, NPC_Kalmar, NPC_FLAG_INVISIBLE, true)
+        Call(EnableNpcShadow, NPC_Kalmar, false)
     EndThread
     Thread
         Wait(250)
@@ -488,6 +498,8 @@ EvtScript N(EVS_Scene_SpiritsFlyingAway) = {
                 BreakLoop
             EndIf
         EndLoop
+        Call(SetNpcFlagBits, NPC_Muskular, NPC_FLAG_INVISIBLE, true)
+        Call(EnableNpcShadow, NPC_Muskular, false)
     EndThread
     Thread
         Wait(300)
@@ -502,6 +514,8 @@ EvtScript N(EVS_Scene_SpiritsFlyingAway) = {
                 BreakLoop
             EndIf
         EndLoop
+        Call(SetNpcFlagBits, NPC_Klevar, NPC_FLAG_INVISIBLE, true)
+        Call(EnableNpcShadow, NPC_Klevar, false)
     EndThread
     Thread
         Wait(450)
@@ -524,6 +538,8 @@ EvtScript N(EVS_Scene_SpiritsFlyingAway) = {
         Call(SetNpcAnimation, NPC_Twink, ANIM_Twink_Idle)
         Wait(10)
         Call(NpcFlyTo, NPC_Twink, 100, 60, 1800, 20, -10, EASING_LINEAR)
+        Call(SetNpcFlagBits, NPC_Twink, NPC_FLAG_INVISIBLE, true)
+        Call(EnableNpcShadow, NPC_Twink, false)
     EndThread
     Thread
         SetF(LVar0, -2250)
