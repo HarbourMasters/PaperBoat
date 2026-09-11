@@ -184,7 +184,7 @@ GameEngine::GameEngine() {
       Ship::Context::LocateFileAcrossAppDirs("paperboat.o2r");
   portArchiveExists = std::filesystem::exists(assets_path);
 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(_DEBUG)
   AllocConsole();
 #endif
 
