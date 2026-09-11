@@ -224,6 +224,15 @@ GameEngine::GameEngine() {
   children.Add(gfxDebugger);
   children.Add(events);
 
+  ResourceSetResourceManager(resourceManager);
+  CVarSetConsoleVariable(consoleVariables);
+  WindowSetWindowComponent(gsFast3dWindow);
+  ControllerSetControlDeck(controlDeck);
+  EventSystemSetEvents(events);
+  CrashHandlerSetComponent(crashHandler);
+  GfxDebuggerSetComponent(gfxDebugger);
+  GfxSetFast3dWindow(gsFast3dWindow);
+
   nlohmann::json rmArgs;
   rmArgs["archivePaths"] = portArchiveExists
                                ? std::vector<std::string>{assets_path}
@@ -238,15 +247,6 @@ GameEngine::GameEngine() {
 
   console->Init();
   gsFast3dWindow->Init();
-
-  ResourceSetResourceManager(resourceManager);
-  CVarSetConsoleVariable(consoleVariables);
-  WindowSetWindowComponent(gsFast3dWindow);
-  ControllerSetControlDeck(controlDeck);
-  EventSystemSetEvents(events);
-  CrashHandlerSetComponent(crashHandler);
-  GfxDebuggerSetComponent(gfxDebugger);
-  GfxSetFast3dWindow(gsFast3dWindow);
 
   PaperboatGui::SetupMenu();
 
