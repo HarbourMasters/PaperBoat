@@ -131,7 +131,7 @@ void ValueViewer_DrawOption(ValueViewerTypes option) {
                 if (stageName.size() > 6) {
                     stageName.erase(stageName.size() - 6);
                 }
-                ImGui::Text(stageName.c_str());
+                ImGui::Text("%s", stageName.c_str());
 
                 ImGui::TableNextColumn();
                 ImGui::Text("Battle:");
@@ -139,7 +139,7 @@ void ValueViewer_DrawOption(ValueViewerTypes option) {
                 ImGui::TableNextColumn();
                 battleId = (gCurrentBattleID << 16 | (gCurrentStageID & 0xFFFF));
                 battleName = fmt::format("{:02}-{:02} ({})", ((battleId >> 24) & 0xFF), ((battleId >> 16) & 0xFF), (battleId & 0xFFF));
-                ImGui::Text(battleName.c_str());
+                ImGui::Text("%s", battleName.c_str());
             }
             break;
         case VALUE_TYPE_POSITION:
@@ -148,7 +148,7 @@ void ValueViewer_DrawOption(ValueViewerTypes option) {
                 ImGui::Text("Pos:");
                 ImGui::TableNextColumn();
                 position = fmt::format("{:.5f}, {:.5f}, {:.5f}", gPlayerStatus.pos.x, gPlayerStatus.pos.y, gPlayerStatus.pos.z);
-                ImGui::Text(position.c_str());
+                ImGui::Text("%s", position.c_str());
             }
             break;
         default:

@@ -8,6 +8,12 @@ This is a fork of the [Paper Mario decompilation][papermario-repo] which provide
 
 To get started, [read the docs](https://docs.starhaven.dev).
 
+Paperboat is the native port built on top of it. Alongside Windows, macOS and
+Linux it builds for **Android, iOS and the browser** — see
+[docs/android-ios-web.md](docs/android-ios-web.md). No game
+data ships with any of them: each one extracts `pm64.o2r` from your own ROM,
+on your own device.
+
 [discord]: https://discord.gg/star-haven
 [discord-badge]: https://img.shields.io/discord/279322074412089344?color=%237289DA&logo=discord&logoColor=ffffff
 [papermario-repo]: https://github.com/pmret/papermario

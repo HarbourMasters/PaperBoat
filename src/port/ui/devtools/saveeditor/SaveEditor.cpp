@@ -662,7 +662,7 @@ void SaveEditor_DrawImageButton(int32_t iconIndex, const char* itemType) {
         }
     }
     if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip(GetNameFromPath(rasterPath));
+        ImGui::SetTooltip("%s", GetNameFromPath(rasterPath));
     }
     SaveEditor_PopImageButtonStyle();
 }
@@ -1146,7 +1146,7 @@ void SaveEditor_DrawRecipesMenu() {
                     }
                 }
                 if (ImGui::IsItemHovered()) {
-                    ImGui::SetTooltip(GetNameFromPath(rasterPath));
+                    ImGui::SetTooltip("%s", GetNameFromPath(rasterPath));
                 }
                 ImGui::PopID();
             }

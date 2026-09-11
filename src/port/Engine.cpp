@@ -11,6 +11,10 @@
 #include "port/audio/AudioVolume.h"
 #include "src/Companion.h"
 #include "ui/PaperboatGui.hpp"
+#include "ui/TouchControls.h"
+#ifdef __EMSCRIPTEN__
+#include "port/web/WebUtils.h"
+#endif
 #include <BS_thread_pool.hpp>
 #include <algorithm>
 #include <atomic>
@@ -116,6 +120,10 @@ typedef enum PromptSteps {
   PS_FIRST,
   PS_DUPE,
   PS_WAIT,
+  // Web only: the browser has no folder to scan, so the choice between
+  // extracting a ROM and loading an already-generated archive is made outright.
+  PS_WEB_CHOICE,
+  PS_WEB_UPLOAD,
   PS_NONE,
 } PromptSteps;
 
@@ -594,34 +602,69 @@ void GameEngine::RunExtract(int argc, char *argv[]) {
     case ES_EXTRACT: {
       switch (promptStep) {
       case PS_FILE_CHECK: {
-        if (!AnyRomArchiveExists()) {
-          PaperboatGui::RegisterPopup(
-              "No O2R Files", "No O2R files found. Generate one now?", "Yes",
-              "No", [&]() { promptStep = PS_LOCAL; },
-              [&]() {
-                threadPool = nullptr;
-                gsFast3dWindow = nullptr;
-                context = nullptr;
-                exit(0);
-              });
-        } else {
+        if (AnyRomArchiveExists()) {
           extractStep = ES_VERIFY;
+          continue;
+        }
+#ifdef __EMSCRIPTEN__
+        promptStep = PS_WEB_CHOICE;
+#else
+        PaperboatGui::RegisterPopup(
+            "No O2R Files", "No O2R files found. Generate one now?", "Yes",
+            "No", [&]() { promptStep = PS_LOCAL; },
+            [&]() {
+              threadPool = nullptr;
+              gsFast3dWindow = nullptr;
+              context = nullptr;
+              exit(0);
+            });
+#endif
+        continue;
+      }
+#ifdef __EMSCRIPTEN__
+      case PS_WEB_CHOICE: {
+        promptStep = PS_WAIT;
+        PaperboatGui::RegisterPopup(
+            "Set Up Game Files",
+            "No game archive found.\n\nGenerate one from a Paper Mario ROM, "
+            "or load a pm64.o2r you generated earlier?",
+            "Generate from ROM", "Use existing O2R",
+            [&]() { promptStep = PS_FIRST; },
+            [&]() { promptStep = PS_WEB_UPLOAD; });
+        continue;
+      }
+      case PS_WEB_UPLOAD: {
+        // Blocks (ASYNCIFY) until the user picks a file or cancels.
+        const std::string dest =
+            Ship::Context::GetPathRelativeToAppDirectory("pm64.o2r");
+        if (WebFilePicker_PickInto(".o2r", dest.c_str())) {
+          extractStep = ES_VERIFY;
+        } else {
+          promptStep = PS_WEB_CHOICE;
         }
         continue;
       }
+#endif
       case PS_LOCAL: {
         extract = GameExtractor();
-        extract.SetSearchPath(installPath);
-        extract.GetRoms(args);
-        extract.SetSearchPath(Ship::Context::GetAppDirectoryPath("boat"));
-        extract.GetRoms(args);
-        if (!args.empty()) {
+        // Only ROMs config.yml has a recipe for, named by the version it gives
+        // them, so the prompt says what was found instead of "some .z64 files"
+        // and an unsupported ROM never reaches the extractor.
+        const auto romChoices = GameExtractor::FindSupportedRoms(
+            {installPath, Ship::Context::GetAppDirectoryPath("boat")});
+        if (!romChoices.empty()) {
+          std::string found;
+          for (const auto &choice : romChoices) {
+            args.push_back(choice.first);
+            found += "\n  " + choice.second;
+          }
           promptStep = PS_WAIT;
+          const std::string msg =
+              "Found in the application directory:" + found +
+              "\n\nGenerate the game files from them?";
           PaperboatGui::RegisterPopup(
-              "ROMs found",
-              "ROMs found in application directory. Would you like to process "
-              "them?",
-              "Yes", "No", [&]() { extractStep = ES_EXTRACT_ARGS; },
+              "ROMs found", msg.c_str(), "Yes", "No",
+              [&]() { extractStep = ES_EXTRACT_ARGS; },
               [&]() {
                 args.clear();
                 promptStep = PS_FIRST;
@@ -1213,6 +1256,9 @@ extern "C" void GameEngine_ReadController(OSContPad *pads) {
   if (controlDeck != nullptr) {
     controlDeck->WriteToPad(pads);
   }
+  // Merges the on-screen controls into port 0. A no-op unless they are enabled,
+  // so this stays on the desktop path too.
+  TouchControls_ApplyPad(pads);
 }
 
 // C-callable memory allocator
@@ -1234,14 +1280,18 @@ extern "C" void GameEngine_LogInfo(const char *fmt, ...) {
   SPDLOG_INFO("{}", buffer);
 }
 
-// C-callable stack trace logging using spdlog
-#if defined(__APPLE__) || defined(__linux__)
+// C-callable stack trace logging using spdlog.
+//
+// Android defines __linux__ but its libc is Bionic, which has no backtrace();
+// the same goes for any other platform without <execinfo.h>.
+#if (defined(__APPLE__) || defined(__linux__)) && !defined(__ANDROID__)
+#define PAPERBOAT_HAVE_EXECINFO 1
 #include <cxxabi.h>
 #include <execinfo.h>
 #endif
 
 extern "C" void GameEngine_LogStackTrace(const char *label) {
-#if defined(__APPLE__) || defined(__linux__)
+#ifdef PAPERBOAT_HAVE_EXECINFO
   SPDLOG_INFO("Stack trace [{}]:", label ? label : "unnamed");
 
   void *callstack[32];

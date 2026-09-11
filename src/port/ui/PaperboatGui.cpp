@@ -11,6 +11,7 @@
 
 #include "Notification.h"
 #include "PaperboatInputEditorWindow.h"
+#include "TouchControls.h"
 #include "port/ui/devtools/hooks/EventDebugger.h"
 #include <ship/window/gui/ConsoleWindow.h>
 #include "port/ui/devtools/valueviewer/ValueViewer.h"
@@ -30,6 +31,7 @@ std::shared_ptr<EventDebuggerWindow> mEventDebuggerWindow;
 std::shared_ptr<ValueViewerWindow> mValueViewerWindow;
 std::shared_ptr<ValueViewerSettingsWindow> mValueViewerSettingsWindow;
 std::shared_ptr< SaveEditorWindow> mSaveEditorWindow;
+std::shared_ptr<TouchControlsOverlay> mTouchControlsOverlay;
 
 UIWidgets::Colors GetMenuThemeColor() {
   return mPaperboatMenu->GetMenuThemeColor();
@@ -96,6 +98,14 @@ void SetupGuiElements() {
   mShaderSettingsWindow = std::make_shared<Ship::ShaderSettingsWindow>(
       CVAR_WINDOW("ShaderSettings"), "Shader Settings", ImVec2(420, 520));
   gui->AddGuiWindow(mShaderSettingsWindow);
+
+  // Always registered, on every platform: it draws nothing unless the touch
+  // controls are switched on, which lets a desktop build be used to lay the
+  // on-screen pad out without a device in hand.
+  mTouchControlsOverlay = std::make_shared<TouchControlsOverlay>(
+      CVAR_WINDOW("TouchControls"), "##TouchControls");
+  gui->AddGuiWindow(mTouchControlsOverlay);
+  mTouchControlsOverlay->Show();
 }
 
 void Destroy() {
@@ -113,6 +123,7 @@ void Destroy() {
   mValueViewerWindow = nullptr;
   mValueViewerSettingsWindow = nullptr;
   mSaveEditorWindow = nullptr;
+  mTouchControlsOverlay = nullptr;
 }
 
 void RegisterPopup(std::string title, std::string message, std::string button1,

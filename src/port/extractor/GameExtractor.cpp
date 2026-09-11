@@ -8,12 +8,18 @@
 #include "GameExtractor.h"
 #include "build.h"
 
+#include <algorithm>
 #include <cstdio>
 #include <fstream>
 
-#include "portable-file-dialogs.h"
 #include "ship/Context.h"
 #include "spdlog/spdlog.h"
+
+#ifdef __EMSCRIPTEN__
+#include "port/web/WebUtils.h"
+#elif !defined(__IOS__) && !defined(__ANDROID__) && !defined(__SWITCH__)
+#include "portable-file-dialogs.h"
+#endif
 
 #ifdef unix
 #include <dirent.h>
@@ -32,10 +38,20 @@ std::string GameExtractor::sLastError;
 std::atomic<int> GameExtractor::sPhase{0};
 
 namespace {
+// Where config.yml lives. An empty override means "wherever the engine keeps
+// its bundled files"; callers that run before Ship::Context exists — the
+// Android launcher — name the directory themselves.
+std::filesystem::path ConfigPath(const std::string &configDir) {
+  const auto base = configDir.empty()
+                        ? std::filesystem::path(Ship::Context::GetAppBundlePath())
+                        : std::filesystem::path(configDir);
+  return base / "config.yml";
+}
+
 std::optional<YAML::Node>
-GetSupportedRomNode(const std::vector<uint8_t> &romData) {
-  const auto configPath =
-      std::filesystem::path(Ship::Context::GetAppBundlePath()) / "config.yml";
+GetSupportedRomNode(const std::vector<uint8_t> &romData,
+                    const std::string &configDir = "") {
+  const auto configPath = ConfigPath(configDir);
   if (!std::filesystem::exists(configPath)) {
     return std::nullopt;
   }
@@ -48,45 +64,34 @@ GetSupportedRomNode(const std::vector<uint8_t> &romData) {
 
   return config[hash];
 }
+
+std::vector<uint8_t> ReadWholeFile(const std::filesystem::path &path) {
+  std::ifstream inFile(path, std::ios::binary);
+  if (!inFile.is_open()) {
+    return {};
+  }
+  return std::vector<uint8_t>(std::istreambuf_iterator<char>(inFile), {});
+}
 } // namespace
 
-bool GameExtractor::RunStandalone(std::string rom) {
-  std::string romPath;
-  std::vector<uint8_t> romData;
-
+bool GameExtractor::RunStandalone(std::string rom, const std::string &configDir) {
   if (!std::filesystem::exists(rom)) {
+    SPDLOG_INFO("No ROM at path: {}, continuing", rom);
     return false;
   }
 
-  std::ifstream inFile(rom, std::ios::binary);
-  if (!inFile.is_open()) {
-    SPDLOG_INFO("Failed to open ROM at path: {}, continuing", rom);
-    return false;
-  }
-
-  inFile.seekg(0, std::ios::end);
-  size_t fileSize = inFile.tellg();
-  inFile.seekg(0, std::ios::beg);
-
-  std::vector<uint8_t> data(fileSize);
-  if (!inFile.read(reinterpret_cast<char *>(data.data()), fileSize)) {
+  std::vector<uint8_t> data = ReadWholeFile(rom);
+  if (data.empty()) {
     SPDLOG_INFO("Failed to read ROM at path: {}, continuing", rom);
     return false;
   }
 
-  inFile.close();
-
-  if (GetSupportedRomNode(data).has_value()) {
-    romPath = rom;
-    romData = std::move(data);
-  }
-
-  if (romData.empty()) {
+  if (!GetSupportedRomNode(data, configDir).has_value()) {
     return false;
   }
 
-  this->mGamePath = romPath;
-  this->mGameData = std::move(romData);
+  this->mGamePath = rom;
+  this->mGameData = std::move(data);
 
   return true;
 }
@@ -95,7 +100,13 @@ bool GameExtractor::SelectGameFromUI() {
   std::string romPath;
   std::vector<uint8_t> romData;
 
-#if !defined(__IOS__) && !defined(__ANDROID__) && !defined(__SWITCH__)
+#if defined(__EMSCRIPTEN__)
+  // Blocks (ASYNCIFY) until the user picks a file or cancels.
+  romPath = WebFilePicker_PickROM();
+  if (romPath.empty()) {
+    return false;
+  }
+#elif !defined(__IOS__) && !defined(__ANDROID__) && !defined(__SWITCH__)
   if (!pfd::settings::available()) {
     SPDLOG_ERROR("portable-file-dialogs is not available on this system.");
     return false;
@@ -109,6 +120,8 @@ bool GameExtractor::SelectGameFromUI() {
 
   romPath = selection[0];
 #else
+  // Mobile has no file dialog of its own: the ROM is put in place beforehand,
+  // by the Android launcher or over Files on iOS.
   if (!std::filesystem::exists(
           Ship::Context::GetPathRelativeToAppDirectory("baserom.us.z64"))) {
     SPDLOG_ERROR("baserom not found");
@@ -124,13 +137,10 @@ bool GameExtractor::SelectGameFromUI() {
       return false;
     }
 
-    std::ifstream inFile(romPath, std::ios::binary);
-    if (!inFile.is_open()) {
+    romData = ReadWholeFile(romPath);
+    if (romData.empty()) {
       return false;
     }
-
-    romData = std::vector<uint8_t>(std::istreambuf_iterator<char>(inFile), {});
-    inFile.close();
   }
 
   this->mGamePath = romPath;
@@ -209,6 +219,66 @@ std::optional<std::string> GameExtractor::ValidateChecksum() const {
   return cart->GetGameTitle();
 }
 
+std::optional<std::string>
+GameExtractor::DetectVersion(const std::string &romPath,
+                             const std::string &configDir) {
+  std::error_code ec;
+  if (!std::filesystem::exists(romPath, ec)) {
+    return std::nullopt;
+  }
+
+  const std::vector<uint8_t> data = ReadWholeFile(romPath);
+  if (data.empty()) {
+    return std::nullopt;
+  }
+
+  auto rom = GetSupportedRomNode(data, configDir);
+  if (!rom.has_value()) {
+    return std::nullopt;
+  }
+
+  if ((*rom)["name"]) {
+    return (*rom)["name"].as<std::string>();
+  }
+
+  auto cart = std::make_unique<N64::Cartridge>(data);
+  cart->Initialize();
+  return cart->GetGameTitle();
+}
+
+std::vector<std::pair<std::string, std::string>>
+GameExtractor::FindSupportedRoms(const std::vector<std::string> &searchPaths) {
+  std::vector<std::pair<std::string, std::string>> found;
+  std::vector<std::string> seenVersions;
+
+  for (const auto &dir : searchPaths) {
+    std::error_code ec;
+    if (dir.empty() || !std::filesystem::is_directory(dir, ec)) {
+      continue;
+    }
+    for (const auto &entry : std::filesystem::directory_iterator(dir, ec)) {
+      if (entry.is_directory() || entry.path().extension() != ".z64") {
+        continue;
+      }
+      const std::string full = entry.path().generic_string();
+      const auto version = DetectVersion(full);
+      if (!version.has_value()) {
+        continue; // Only offer ROMs the recipes actually cover.
+      }
+      // One entry per version, so duplicate copies of the same ROM lying
+      // around don't turn into duplicate choices.
+      if (std::find(seenVersions.begin(), seenVersions.end(), *version) !=
+          seenVersions.end()) {
+        continue;
+      }
+      seenVersions.push_back(*version);
+      found.emplace_back(full, *version);
+    }
+  }
+
+  return found;
+}
+
 void GameExtractor::WritePortVersion() {
   auto writer = LUS::BinaryWriter();
   writer.SetEndianness(Torch::Endianness::Big);
@@ -243,13 +313,21 @@ bool GameExtractor::GenerateOTR(std::atomic<size_t> &assetCount,
   const std::string game_path =
       Ship::Context::GetAppDirectoryPath(appShortName);
 
+  return GenerateOTRTo(assetCount, totalAssets, assets_path, game_path);
+}
+
+bool GameExtractor::GenerateOTRTo(std::atomic<size_t> &assetCount,
+                                  std::atomic<size_t> &totalAssets,
+                                  const std::string &assetsPath,
+                                  const std::string &gamePath) {
   totalAssets = PAPERBOAT_ASSET_YAML_COUNT;
   assetCount = 0;
 
+  sLastError.clear();
   sPhase = 1;
   delete Companion::Instance;
   Companion::Instance = new Companion(this->mGameData, ArchiveType::O2R, false,
-                                      assets_path, game_path);
+                                      assetsPath, gamePath);
   Companion::Instance->SetPhaseCallback([&assetCount](int phase) {
     if (phase == 2) {
       assetCount++;
@@ -259,6 +337,10 @@ bool GameExtractor::GenerateOTR(std::atomic<size_t> &assetCount,
   std::atomic<size_t> unusedCounter{0};
   try {
     Companion::Instance->Init(ExportType::Binary, unusedCounter, true);
+#ifdef __EMSCRIPTEN__
+    // Torch's Init() skips the export pass on the web build, so run it here.
+    Companion::Instance->Process(unusedCounter);
+#endif
   } catch (const std::exception &e) {
     SPDLOG_ERROR("Failed to process O2R: {}", e.what());
     sLastError = e.what();

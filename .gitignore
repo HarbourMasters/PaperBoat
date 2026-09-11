@@ -70,6 +70,10 @@ compile_commands.json
 build*
 !src/port/build.c.in
 !src/port/build.h
+# `build*` above matches at any depth, which would otherwise hide the
+# Android project's own build scripts.
+!android/build.gradle.kts
+!android/app/build.gradle.kts
 logs/
 /mods/
 default.sav
