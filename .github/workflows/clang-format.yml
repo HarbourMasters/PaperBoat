@@ -1,0 +1,29 @@
+name: clang-format
+
+on: [pull_request]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  clang-format:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      # .clang-format needs 21+: 14 cannot parse the nested `AlignConsecutiveMacros`
+      # form, and 18 rejects the `Language: C` section. Noble's apt ships 18, so
+      # take the pinned wheel instead and name it explicitly for the script.
+      - name: Install clang-format
+        run: |
+          pipx install clang-format==21.1.8
+          clang-format --version
+      # run-clang-format.sh only touches src/port, so decomp sources are left alone.
+      - name: Run clang-format
+        env:
+          CLANG_FORMAT: clang-format
+        run: |
+          ./run-clang-format.sh
+          git diff --exit-code

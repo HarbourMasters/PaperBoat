@@ -26,8 +26,10 @@
 # and pass it as an argument to clang-format
 # verbose to print files being formatted and X out of Y status
 
-# Autodetect the command
-if command -v clang-format-14 &> /dev/null; then
+# Autodetect the command, unless CLANG_FORMAT already names one
+if [ -n "$CLANG_FORMAT" ]; then
+    :
+elif command -v clang-format-14 &> /dev/null; then
     CLANG_FORMAT="clang-format-14"
 else
     CLANG_FORMAT="clang-format"

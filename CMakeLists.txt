@@ -698,4 +698,62 @@ elseif(UNIX)
     )
 endif()
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    if(POLICY CMP0177)
+        cmake_policy(SET CMP0177 NEW)
+    endif()
+
+    install(FILES "${PAPERBOAT_PORT_O2R}" DESTINATION . COMPONENT ${PROJECT_NAME})
+    install(FILES "${CMAKE_SOURCE_DIR}/config.yml" DESTINATION . COMPONENT ${PROJECT_NAME})
+    install(DIRECTORY "${CMAKE_SOURCE_DIR}/assets/" DESTINATION ./assets COMPONENT ${PROJECT_NAME})
+
+    set_property(TARGET ${PROJECT_NAME} PROPERTY APPIMAGE_DESKTOP_FILE_TERMINAL NO)
+    set_property(TARGET ${PROJECT_NAME} PROPERTY APPIMAGE_DESKTOP_FILE "${CMAKE_SOURCE_DIR}/Paperboat.desktop")
+    set_property(TARGET ${PROJECT_NAME} PROPERTY APPIMAGE_ICON_FILE "${CMAKE_SOURCE_DIR}/logo.png")
+
+    set(CPACK_GENERATOR "External")
+    set(CPACK_PROJECT_CONFIG_FILE ${CMAKE_SOURCE_DIR}/cmake/configure-packaging.cmake)
+    include(cmake/packaging.cmake)
+endif()
+
+if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+    add_custom_target(CreateOSXIcons
+        COMMAND mkdir -p ${CMAKE_BINARY_DIR}/macosx/paperboat.iconset
+        COMMAND sips -z 16 16     logo.png --out ${CMAKE_BINARY_DIR}/macosx/paperboat.iconset/icon_16x16.png
+        COMMAND sips -z 32 32     logo.png --out ${CMAKE_BINARY_DIR}/macosx/paperboat.iconset/icon_16x16@2x.png
+        COMMAND sips -z 32 32     logo.png --out ${CMAKE_BINARY_DIR}/macosx/paperboat.iconset/icon_32x32.png
+        COMMAND sips -z 64 64     logo.png --out ${CMAKE_BINARY_DIR}/macosx/paperboat.iconset/icon_32x32@2x.png
+        COMMAND sips -z 128 128   logo.png --out ${CMAKE_BINARY_DIR}/macosx/paperboat.iconset/icon_128x128.png
+        COMMAND sips -z 256 256   logo.png --out ${CMAKE_BINARY_DIR}/macosx/paperboat.iconset/icon_128x128@2x.png
+        COMMAND sips -z 256 256   logo.png --out ${CMAKE_BINARY_DIR}/macosx/paperboat.iconset/icon_256x256.png
+        COMMAND sips -z 512 512   logo.png --out ${CMAKE_BINARY_DIR}/macosx/paperboat.iconset/icon_256x256@2x.png
+        COMMAND sips -z 512 512   logo.png --out ${CMAKE_BINARY_DIR}/macosx/paperboat.iconset/icon_512x512.png
+        COMMAND cp                logo.png ${CMAKE_BINARY_DIR}/macosx/paperboat.iconset/icon_512x512@2x.png
+        COMMAND iconutil -c icns -o ${CMAKE_BINARY_DIR}/macosx/paperboat.icns ${CMAKE_BINARY_DIR}/macosx/paperboat.iconset
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMENT "Creating OSX icons ..."
+    )
+    add_dependencies(${PROJECT_NAME} CreateOSXIcons)
+    configure_file("${CMAKE_SOURCE_DIR}/Info.plist" "${CMAKE_BINARY_DIR}/Info.plist" @ONLY)
+
+    file(DOWNLOAD
+        https://raw.githubusercontent.com/mdqinc/SDL_GameControllerDB/master/gamecontrollerdb.txt
+        ${CMAKE_BINARY_DIR}/gamecontrollerdb.txt)
+
+    install(TARGETS ${PROJECT_NAME} DESTINATION ../MacOS COMPONENT ${PROJECT_NAME})
+    install(FILES ${CMAKE_BINARY_DIR}/gamecontrollerdb.txt DESTINATION ../MacOS COMPONENT ${PROJECT_NAME})
+    install(FILES ${PAPERBOAT_PORT_O2R} DESTINATION ../Resources COMPONENT ${PROJECT_NAME})
+    install(FILES ${CMAKE_SOURCE_DIR}/config.yml DESTINATION ../Resources COMPONENT ${PROJECT_NAME})
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets/ DESTINATION ../Resources/assets COMPONENT ${PROJECT_NAME})
+
+    install(CODE "
+        include(BundleUtilities)
+        fixup_bundle(\"\${CMAKE_INSTALL_PREFIX}/../MacOS/Paperboat\" \"\" \"\")
+    ")
+
+    set(CPACK_GENERATOR "Bundle")
+    set(CPACK_PROJECT_CONFIG_FILE ${CMAKE_SOURCE_DIR}/cmake/configure-packaging.cmake)
+    include(cmake/packaging.cmake)
+endif()
+
 message(STATUS "Configuring ${PROJECT_NAME} v${PROJECT_VERSION}")

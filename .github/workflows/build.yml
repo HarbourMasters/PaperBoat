@@ -97,64 +97,15 @@ jobs:
 
       - name: Create AppImage
         run: |
-          BUILD=build/ninja-release
-
-          mkdir -p AppDir/usr/bin AppDir/usr/share/applications AppDir/usr/share/icons/hicolor/256x256/apps
-          # libultraship derives the read-only asset dir from /proc/self/exe, so
-          # the archives have to sit next to the binary.
-          cp "$BUILD/Paperboat" AppDir/usr/bin/
-          cp "$BUILD/paperboat.o2r" AppDir/usr/bin/
-          cp config.yml AppDir/usr/bin/
-          cp -r "$BUILD/assets" AppDir/usr/bin/
-
-          # TODO: swap in a real PaperBoat logo once the repo has one.
-          cp port/textures/icons/g2ShipIcon.png AppDir/paperboat.png
-          cp AppDir/paperboat.png AppDir/usr/share/icons/hicolor/256x256/apps/paperboat.png
-
-          cat > AppDir/paperboat.desktop <<'DESKTOP'
-          [Desktop Entry]
-          Type=Application
-          Name=PaperBoat
-          Comment=Paper Mario 64 PC port
-          Exec=Paperboat
-          Icon=paperboat
-          Categories=Game;
-          Terminal=false
-          DESKTOP
-          cp AppDir/paperboat.desktop AppDir/usr/share/applications/
-
-          # Without SHIP_HOME, config/saves/logs would be written into the
-          # read-only AppImage mount.
-          cat > AppRun <<'APPRUN'
-          #!/bin/sh
-          HERE="$(dirname "$(readlink -f "$0")")"
-          export SHIP_HOME="${SHIP_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/PaperBoat}"
-          mkdir -p "$SHIP_HOME"
-          export LD_LIBRARY_PATH="$HERE/usr/lib:$LD_LIBRARY_PATH"
-          cd "$HERE/usr/bin" || exit 1
-          exec "$HERE/usr/bin/Paperboat" "$@"
-          APPRUN
-          chmod +x AppRun
-
-          wget -q -O linuxdeploy https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
-          wget -q -O linuxdeploy-plugin-appimage https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/continuous/linuxdeploy-plugin-appimage-x86_64.AppImage
-          chmod +x linuxdeploy linuxdeploy-plugin-appimage
           # No FUSE on the runners, so every AppImage we invoke has to self-extract.
           export APPIMAGE_EXTRACT_AND_RUN=1
-          export PATH="$PWD:$PATH"
-          export OUTPUT=Paperboat.AppImage
-          ./linuxdeploy --appimage-extract-and-run \
-            --appdir AppDir \
-            --executable AppDir/usr/bin/Paperboat \
-            --desktop-file AppDir/paperboat.desktop \
-            --icon-file AppDir/paperboat.png \
-            --custom-apprun AppRun \
-            --output appimage
+          cd build/ninja-release
+          cpack -G External
 
       - name: Create package
         run: |
           mkdir Paperboat-linux
-          mv Paperboat.AppImage Paperboat-linux/
+          mv build/ninja-release/*.AppImage Paperboat-linux/Paperboat.AppImage
           cp README.md Paperboat-linux/readme.txt
           wget -q -O Paperboat-linux/gamecontrollerdb.txt https://raw.githubusercontent.com/mdqinc/SDL_GameControllerDB/master/gamecontrollerdb.txt
 
@@ -236,14 +187,10 @@ jobs:
 
       - name: Create package
         run: |
-          BUILD=build/ninja-release
+          (cd build/ninja-release && cpack)
           mkdir Paperboat-mac
-          mv "$BUILD/Paperboat" Paperboat-mac/
-          mv "$BUILD/paperboat.o2r" Paperboat-mac/
-          mv "$BUILD/config.yml" Paperboat-mac/
-          mv "$BUILD/assets" Paperboat-mac/
+          mv _packages/*.dmg Paperboat-mac/Paperboat.dmg
           cp README.md Paperboat-mac/readme.txt
-          curl -sL -o Paperboat-mac/gamecontrollerdb.txt https://raw.githubusercontent.com/mdqinc/SDL_GameControllerDB/master/gamecontrollerdb.txt
 
       - name: Upload build
         uses: actions/upload-artifact@v4
