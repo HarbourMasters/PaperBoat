@@ -5,6 +5,7 @@
 #include "importer/PM64TextureFactory.h"
 #include "importer/Vec3sFactory.h"
 #include "nlohmann/json.hpp"
+#include "port/build.h"
 #include "port/enhancements/PortEnhancements.h"
 #include "port/interpolation/FrameInterpolation.h"
 #include "port/ui/cvar_prefixes.h"
@@ -36,6 +37,7 @@
 #include <libultraship/controller/controldeck/ControlDeck.h>
 #include <mutex>
 #include <optional>
+#include <string_view>
 #include <ship/resource/factory/BlobFactory.h>
 #include <ship/audio/Audio.h>
 #include <ship/config/Config.h>
@@ -184,10 +186,6 @@ GameEngine::GameEngine() {
       Ship::Context::LocateFileAcrossAppDirs("paperboat.o2r");
   portArchiveExists = std::filesystem::exists(assets_path);
 
-#if defined(_WIN32) && defined(_DEBUG)
-  AllocConsole();
-#endif
-
   this->context = Ship::Context::CreateInstance("Paperboat", "boat");
   gShipContext = this->context;
   this->context->Init();
@@ -233,6 +231,17 @@ GameEngine::GameEngine() {
 
   ResourceSetResourceManager(resourceManager);
   CVarSetConsoleVariable(consoleVariables);
+
+#ifdef _DEBUG
+  auto defaultLogLevel = spdlog::level::debug;
+#else
+  auto defaultLogLevel = spdlog::level::info;
+#endif
+  auto logLevel = static_cast<spdlog::level::level_enum>(
+      CVarGetInteger(CVAR_DEVELOPER_TOOLS("LogLevel"), defaultLogLevel));
+  spdlog::set_level(logLevel);
+  spdlog::flush_on(logLevel);
+
   WindowSetWindowComponent(gsFast3dWindow);
   ControllerSetControlDeck(controlDeck);
   EventSystemSetEvents(events);
@@ -276,6 +285,11 @@ GameEngine::GameEngine() {
 }
 
 void GameEngine::FinishInit() {
+  spdlog::set_pattern("[%H:%M:%S.%e] [%s:%#] [%l] %v");
+  SPDLOG_INFO("Starting PaperBoat version {} (Branch: {} | Commit: {})",
+              std::string_view(gBuildVersion), std::string_view(gGitBranch),
+              std::string_view(gGitCommitHash));
+
   auto archiveManager = ResourceGetResourceManager()->GetArchiveManager();
 
   for (const auto &archive : sRomArchives) {
@@ -311,9 +325,6 @@ void GameEngine::FinishInit() {
       archiveManager->AddArchive(mod);
     }
   }
-
-  spdlog::set_level(spdlog::level::trace);
-  spdlog::flush_on(spdlog::level::trace);
 
   auto &children = gShipContext->GetChildren();
 

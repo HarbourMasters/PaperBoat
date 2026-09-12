@@ -39,9 +39,8 @@ void PaperboatMenu::AddMenuDevTools() {
                    .ComboMap(logLevels)
                    .DefaultIndex(defaultLogLevel))
       .Callback([](WidgetInfo &info) {
-        spdlog::default_logger()->set_level(
-            (spdlog::level::level_enum)CVarGetInteger(
-                CVAR_DEVELOPER_TOOLS("LogLevel"), defaultLogLevel));
+        spdlog::set_level((spdlog::level::level_enum)CVarGetInteger(
+            CVAR_DEVELOPER_TOOLS("LogLevel"), defaultLogLevel));
       });
 #ifdef USE_GBI_TRACE
   AddWidget(path, "GFX Trace Mode", WIDGET_CVAR_CHECKBOX)
