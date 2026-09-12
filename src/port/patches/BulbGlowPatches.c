@@ -23,7 +23,7 @@ extern Color_RGB8 D_E00789AC[];
 #define TMEM_ADDR(x) (x / sizeof(u64))
 
 void port_bulb_glow_appendGfx(void* effect) {
-    BulbGlowFXData* data = ((EffectInstance*)effect)->data.bulbGlow;
+    BulbGlowFXData* data = ((EffectInstance*) effect)->data.bulbGlow;
     f32 centerX;
     f32 centerY;
     s32 xMin, xMax, yMin, yMax;
@@ -62,8 +62,7 @@ void port_bulb_glow_appendGfx(void* effect) {
     // The ROM passes data->depthQueryID here. The port's depth-query readback
     // needs render-to-texture, so -1 reduces this to a frustum test and the glow
     // ignores occlusion.
-    isPointVisible = is_point_visible(data->pos.x, data->pos.y, data->pos.z,
-                                     -1, &centerX, &centerY);
+    isPointVisible = is_point_visible(data->pos.x, data->pos.y, data->pos.z, -1, &centerX, &centerY);
     if (type == 5) {
         isPointVisible = true;
     }
@@ -71,8 +70,7 @@ void port_bulb_glow_appendGfx(void* effect) {
     // Tested against the visible range, not 0..SCREEN_WIDTH: at wide aspect the
     // ROM's 320-space bounds sit inside the screen, so the glow would pop out
     // well before reaching the edge.
-    if (!isPointVisible || centerX < visLeft || centerY < 0.0f
-        || centerX >= visRight || centerY >= SCREEN_HEIGHT) {
+    if (!isPointVisible || centerX < visLeft || centerY < 0.0f || centerX >= visRight || centerY >= SCREEN_HEIGHT) {
         return;
     }
 
@@ -88,8 +86,7 @@ void port_bulb_glow_appendGfx(void* effect) {
     // top of rather than the finished frame.
     port_emitSceneMirrorCapture(&gMainGfxPos);
 
-    gSPSegment(gMainGfxPos++, 0x09,
-               VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
+    gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*) effect)->shared->graphics));
 
     // The per-type display list from ROM: 2-cycle, the additive combiner, the
     // blender, and tile 0 (the glow texture) with its own mask/shift/mirror.
@@ -123,13 +120,11 @@ void port_bulb_glow_appendGfx(void* effect) {
     }
 
     // Tile 1 = the whole scene mirror, loaded once
-    gDPLoadMultiTile(gMainGfxPos++,
-        osVirtualToPhysical(mirror),
-        TMEM_ADDR(TMEM_SIZE / 2), G_TX_RENDERTILE + 1,
-        G_IM_FMT_RGBA, G_IM_SIZ_16b, visWidth, SCREEN_HEIGHT,
-        0, 0, visWidth - 1, SCREEN_HEIGHT - 1,
-        0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
-        G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadMultiTile(
+        gMainGfxPos++, osVirtualToPhysical(mirror), TMEM_ADDR(TMEM_SIZE / 2), G_TX_RENDERTILE + 1, G_IM_FMT_RGBA,
+        G_IM_SIZ_16b, visWidth, SCREEN_HEIGHT, 0, 0, visWidth - 1, SCREEN_HEIGHT - 1, 0, G_TX_CLAMP, G_TX_CLAMP,
+        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD
+    );
 
     numRects = (yMax - yMin) / rectHeight;
 
@@ -159,21 +154,20 @@ void port_bulb_glow_appendGfx(void* effect) {
         // Scaling happens inside the cast to keep the quarter-texel field: with
         // unk_0C = 0.5 (type 0) an odd `y` carries a half texel that truncating
         // first would throw away.
-        gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE,
-            (s32)((xMin - visLeft) * preset->unk_08 * 4),
-            (s32)(((preset->unk_04 * 20 - i * preset->unk_14 * preset->unk_0C) + y * preset->unk_0C) * 4),
-            (s32)(((xMin - visLeft) * preset->unk_08 + preset->unk_00) * 4),
-            (s32)(((preset->unk_04 * 21 - i * preset->unk_14 * preset->unk_0C) + y * preset->unk_0C) * 4));
+        gDPSetTileSize(
+            gMainGfxPos++, G_TX_RENDERTILE, (s32) ((xMin - visLeft) * preset->unk_08 * 4),
+            (s32) (((preset->unk_04 * 20 - i * preset->unk_14 * preset->unk_0C) + y * preset->unk_0C) * 4),
+            (s32) (((xMin - visLeft) * preset->unk_08 + preset->unk_00) * 4),
+            (s32) (((preset->unk_04 * 21 - i * preset->unk_14 * preset->unk_0C) + y * preset->unk_0C) * 4)
+        );
 
         // Visible-space S, absolute screen T, and dsdx/dtdy left at 1:1 so both
         // tiles advance one texel per screen pixel. Wide variant because xMin can
         // legitimately be negative once the glow reaches the widescreen gutter.
-        gSPWideTextureRectangle(gMainGfxPos++,
-            (xMin + xStart) * 4, y * 4,
-            xMax * 4, (y + rectHeight) * 4,
-            G_TX_RENDERTILE,
-            (xMin + xStart - visLeft) << 5, y << 5,
-            1 << 10, 1 << 10);
+        gSPWideTextureRectangle(
+            gMainGfxPos++, (xMin + xStart) * 4, y * 4, xMax * 4, (y + rectHeight) * 4, G_TX_RENDERTILE,
+            (xMin + xStart - visLeft) << 5, y << 5, 1 << 10, 1 << 10
+        );
         gDPPipeSync(gMainGfxPos++);
     }
 }

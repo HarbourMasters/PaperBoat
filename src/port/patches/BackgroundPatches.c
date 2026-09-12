@@ -36,11 +36,11 @@ void port_load_map_bg(char* optAssetName) {
     snprintf(sBgRasterPath, sizeof(sBgRasterPath), "__OTR__backgrounds/%s", assetName);
     snprintf(sBgPalettePath, sizeof(sBgPalettePath), "__OTR__backgrounds/%s_pal0", assetName);
 
-    gBackgroundImage.raster = (IMG_PTR)sBgRasterPath;
+    gBackgroundImage.raster = (IMG_PTR) sBgRasterPath;
 
     // CPU-side fog/tint blending
-    u8* palData = (u8*)ResourceGetDataByName(sBgPalettePath);
-    gBackgroundImage.palette = (PAL_PTR)palData;
+    u8* palData = (u8*) ResourceGetDataByName(sBgPalettePath);
+    gBackgroundImage.palette = (PAL_PTR) palData;
 
     gBackgroundImage.width = ResourceGetTexWidthByName(sBgRasterPath);
     gBackgroundImage.height = ResourceGetTexHeightByName(sBgRasterPath);
@@ -70,10 +70,10 @@ void port_appendGfx_background_texture(void) {
     s32 bgXOffset;
 
     enum {
-        BG_BLEND_NONE           = 0,
-        BG_BLEND_HAS_FOG        = 1,
-        BG_BLEND_SHOULD_LERP    = 2,
-        BG_BLEND_SHOULD_BLEND   = 4,
+        BG_BLEND_NONE = 0,
+        BG_BLEND_HAS_FOG = 1,
+        BG_BLEND_SHOULD_LERP = 2,
+        BG_BLEND_SHOULD_BLEND = 4,
     };
 
     if (is_world_fog_enabled()) {
@@ -195,7 +195,7 @@ void port_appendGfx_background_texture(void) {
         scrollValue += bgMaxX * 32;
     }
 
-    bgXOffset = gGameStatusPtr->backgroundXOffset = ((s32)scrollValue) % bgMaxX;
+    bgXOffset = gGameStatusPtr->backgroundXOffset = ((s32) scrollValue) % bgMaxX;
 
     // Title screen (widescreen): fill the full visible width solid first;
     // the bg image is then drawn once on top of the center.
@@ -227,10 +227,10 @@ void port_appendGfx_background_texture(void) {
         gDPLoadTLUT_pal256(gMainGfxPos++, sBgPaletteTlut);
     }
 
-    gDPLoadTextureTile(gMainGfxPos++, gGameStatusPtr->backgroundRaster,
-                       G_IM_FMT_CI, G_IM_SIZ_8b, bgMaxX, bgMaxY,
-                       0, 0, bgMaxX - 1, bgMaxY - 1, 0,
-                       G_TX_WRAP, G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureTile(
+        gMainGfxPos++, gGameStatusPtr->backgroundRaster, G_IM_FMT_CI, G_IM_SIZ_8b, bgMaxX, bgMaxY, 0, 0, bgMaxX - 1,
+        bgMaxY - 1, 0, G_TX_WRAP, G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD
+    );
 
     if (!gBackroundWaveEnabled) {
         // Widescreen: tile the scrolling background across the full visible
@@ -250,12 +250,14 @@ void port_appendGfx_background_texture(void) {
         }
 
         for (tx = bgTileBaseX; tx < wsRight; tx += bgMaxX) {
-            gSPWideTextureRectangle(gMainGfxPos++, tx * 4, bgMinY * 4,
-                                                 (bgXOffset + tx - 1) * 4, (bgMaxY - 1 + bgMinY) * 4,
-                                                 G_TX_RENDERTILE, (bgMaxX - bgXOffset) * 32, 0, 4096, 1024);
-            gSPWideTextureRectangle(gMainGfxPos++, (bgXOffset + tx) * 4, bgMinY * 4,
-                                                 (bgMaxX + tx - 1) * 4, (bgMaxY - 1 + bgMinY) * 4,
-                                                 G_TX_RENDERTILE, 0, 0, 4096, 1024);
+            gSPWideTextureRectangle(
+                gMainGfxPos++, tx * 4, bgMinY * 4, (bgXOffset + tx - 1) * 4, (bgMaxY - 1 + bgMinY) * 4, G_TX_RENDERTILE,
+                (bgMaxX - bgXOffset) * 32, 0, 4096, 1024
+            );
+            gSPWideTextureRectangle(
+                gMainGfxPos++, (bgXOffset + tx) * 4, bgMinY * 4, (bgMaxX + tx - 1) * 4, (bgMaxY - 1 + bgMinY) * 4,
+                G_TX_RENDERTILE, 0, 0, 4096, 1024
+            );
         }
     } else {
         // Wave: per-strip rectangles with sine-based horizontal offset
@@ -266,22 +268,28 @@ void port_appendGfx_background_texture(void) {
         for (i = 0; i < numLines; i++) {
             waveOffset = sin_rad(gBackroundWavePhase + i * (TAU / 15)) * 3.0f;
             bgXOffset = 2.0f * (gGameStatusPtr->backgroundXOffset + waveOffset);
-            gSPTextureRectangle(gMainGfxPos++, bgMinX * 4, (lineHeight * i + bgMinY) * 4,
-                                                 (2 * bgXOffset + (bgMinX - 1)) * 4, (lineHeight * i + lineHeight - 1 + bgMinY) * 4,
-                                                 G_TX_RENDERTILE, bgMaxX * 32 - bgXOffset * 16, (lineHeight * i) * 32, 4096, 1024);
-            gSPTextureRectangle(gMainGfxPos++, bgXOffset * 2 + bgMinX * 4, (lineHeight * i + bgMinY) * 4,
-                                                 (bgMaxX + bgMinX - 1) * 4, (lineHeight * i + lineHeight - 1 + bgMinY) * 4,
-                                                 G_TX_RENDERTILE, 0, (lineHeight * i) * 32, 4096, 1024);
+            gSPTextureRectangle(
+                gMainGfxPos++, bgMinX * 4, (lineHeight * i + bgMinY) * 4, (2 * bgXOffset + (bgMinX - 1)) * 4,
+                (lineHeight * i + lineHeight - 1 + bgMinY) * 4, G_TX_RENDERTILE, bgMaxX * 32 - bgXOffset * 16,
+                (lineHeight * i) * 32, 4096, 1024
+            );
+            gSPTextureRectangle(
+                gMainGfxPos++, bgXOffset * 2 + bgMinX * 4, (lineHeight * i + bgMinY) * 4, (bgMaxX + bgMinX - 1) * 4,
+                (lineHeight * i + lineHeight - 1 + bgMinY) * 4, G_TX_RENDERTILE, 0, (lineHeight * i) * 32, 4096, 1024
+            );
         }
         if (extraHeight != 0) {
             waveOffset = sin_rad(gBackroundWavePhase + i * (TAU / 15)) * 3.0f;
             bgXOffset = 2.0f * (gGameStatusPtr->backgroundXOffset + waveOffset);
-            gSPTextureRectangle(gMainGfxPos++, bgMinX * 4, (lineHeight * i + bgMinY) * 4,
-                                                 (2 * bgXOffset + (bgMinX - 1)) * 4, (bgMaxY - 1 + bgMinY) * 4,
-                                                 G_TX_RENDERTILE, bgMaxX * 32 - bgXOffset * 16, (lineHeight * i) * 32, 4096, 1024);
-            gSPTextureRectangle(gMainGfxPos++, bgXOffset * 2 + bgMinX * 4, (lineHeight * i + bgMinY) * 4,
-                                                 (bgMaxX + bgMinX - 1) * 4, (bgMaxY - 1 + bgMinY) * 4,
-                                                 G_TX_RENDERTILE, 0, (lineHeight * i) * 32, 4096, 1024);
+            gSPTextureRectangle(
+                gMainGfxPos++, bgMinX * 4, (lineHeight * i + bgMinY) * 4, (2 * bgXOffset + (bgMinX - 1)) * 4,
+                (bgMaxY - 1 + bgMinY) * 4, G_TX_RENDERTILE, bgMaxX * 32 - bgXOffset * 16, (lineHeight * i) * 32, 4096,
+                1024
+            );
+            gSPTextureRectangle(
+                gMainGfxPos++, bgXOffset * 2 + bgMinX * 4, (lineHeight * i + bgMinY) * 4, (bgMaxX + bgMinX - 1) * 4,
+                (bgMaxY - 1 + bgMinY) * 4, G_TX_RENDERTILE, 0, (lineHeight * i) * 32, 4096, 1024
+            );
         }
     }
 }

@@ -13,8 +13,8 @@
 
 // Double-buffered graphics pools
 GfxPool gGfxPools[2];
-GfxPool *gGfxPool;
-Gfx *gMasterDisp;
+GfxPool* gGfxPool;
+Gfx* gMasterDisp;
 u32 gSysFrameCount = 0;
 
 // External references to existing game functions/data
@@ -29,66 +29,66 @@ extern void GameEngine_StartAudioFrame(void);
 extern void GameEngine_EndAudioFrame(void);
 
 // C++ bridge function - defined in Game.cpp
-extern void Graphics_PushFrame(Gfx *displayList);
+extern void Graphics_PushFrame(Gfx* displayList);
 
 void Graphics_InitializeTask(void) {
-  // Select pool based on frame parity (double-buffering)
-  gGfxPool = &gGfxPools[gSysFrameCount % 2];
+    // Select pool based on frame parity (double-buffering)
+    gGfxPool = &gGfxPools[gSysFrameCount % 2];
 
-  // Initialize master display list write pointer
-  gMasterDisp = gGfxPool->masterDL;
+    // Initialize master display list write pointer
+    gMasterDisp = gGfxPool->masterDL;
 }
 
 void Graphics_ThreadUpdate(void) {
-  gSysFrameCount++;
+    gSysFrameCount++;
 
-  // Initialize frame pointers
-  Graphics_InitializeTask();
+    // Initialize frame pointers
+    Graphics_InitializeTask();
 
-  // Start audio generation in parallel
-  GameEngine_StartAudioFrame();
+    // Start audio generation in parallel
+    GameEngine_StartAudioFrame();
 
-  // Run game logic
-  FrameInterpolation_RecordOpenChild("game_logic", 0);
-  step_game_loop();
-  FrameInterpolation_RecordCloseChild();
+    // Run game logic
+    FrameInterpolation_RecordOpenChild("game_logic", 0);
+    step_game_loop();
+    FrameInterpolation_RecordCloseChild();
 
-  // Build background display list (no submission)
-  gfx_task_background();
+    // Build background display list (no submission)
+    gfx_task_background();
 
-  // Build main frame display list (no submission)
-  gfx_draw_frame();
+    // Build main frame display list (no submission)
+    gfx_draw_frame();
 
-  // Now create master display list that links both
-  DisplayContext *ctx = &DisplayContexts[gCurrentDisplayContextIndex];
+    // Now create master display list that links both
+    DisplayContext* ctx = &DisplayContexts[gCurrentDisplayContextIndex];
 
-  // Link background display list
-  gSPDisplayList(gMasterDisp++, ctx->backgroundGfx);
+    // Link background display list
+    gSPDisplayList(gMasterDisp++, ctx->backgroundGfx);
 
-  // Link main display list
-  gSPDisplayList(gMasterDisp++, ctx->mainGfx);
+    // Link main display list
+    gSPDisplayList(gMasterDisp++, ctx->mainGfx);
 
-  // GPU-side prev-frame mirror: gDPCopyFB(main -> prevFb) every frame
-  port_emitPrevFrameCapture(&gMasterDisp);
+    // GPU-side prev-frame mirror: gDPCopyFB(main -> prevFb) every frame
+    port_emitPrevFrameCapture(&gMasterDisp);
 
-  // Finalize master display list
-  gDPFullSync(gMasterDisp++);
-  gSPEndDisplayList(gMasterDisp++);
+    // Finalize master display list
+    gDPFullSync(gMasterDisp++);
+    gSPEndDisplayList(gMasterDisp++);
 
-  // Toggle display context for next frame (moved from gfx_draw_frame)
-  gCurrentDisplayContextIndex ^= 1;
+    // Toggle display context for next frame (moved from gfx_draw_frame)
+    gCurrentDisplayContextIndex ^= 1;
 
-  // Wait for audio frame to complete
-  GameEngine_EndAudioFrame();
+    // Wait for audio frame to complete
+    GameEngine_EndAudioFrame();
 
-  // Handle GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME, which means "hold the last image on screen"
-  // while the game tears down and rebuilds state (state transitions, demo
-  // scene changes, map loads).
-  if (gOverrideFlags & GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME) {
-    GameEngine_HoldFrame();
-    return;
-  }
+    // Handle GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME, which means "hold the last image on screen"
+    // while the game tears down and rebuilds state (state transitions, demo
+    // scene changes, map loads).
+    if (gOverrideFlags & GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME) {
+        GameEngine_HoldFrame();
+        return;
+    }
 
-  // Submit ONCE to libultraship
-  Graphics_PushFrame(gGfxPool->masterDL);
+    // Submit ONCE to libultraship
+    Graphics_PushFrame(gGfxPool->masterDL);
 }

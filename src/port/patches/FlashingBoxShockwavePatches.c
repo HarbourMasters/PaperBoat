@@ -20,7 +20,7 @@
 //     intended combiner.
 
 void port_flashing_box_shockwave_appendGfx(void* effect) {
-    ShockOverlayFXData* data = ((EffectInstance*)effect)->data.flashingBoxShockwave;
+    ShockOverlayFXData* data = ((EffectInstance*) effect)->data.flashingBoxShockwave;
     s32 type = data->type;
     s32 time = data->lifetime;
     Matrix4f mtxTransform;
@@ -30,13 +30,15 @@ void port_flashing_box_shockwave_appendGfx(void* effect) {
     guRotateF(mtxCamRot, -gCameras[gCurrentCameraID].curYaw, 0.0f, 1.0f, 0.0f);
 
     gDPPipeSync(gMainGfxPos++);
-    gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
+    gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*) effect)->shared->graphics));
 
     guTranslateF(mtxTransform, data->pos.x, data->pos.y, data->pos.z);
     guMtxCatF(mtxCamRot, mtxTransform, mtxTransform);
     guMtxF2L(mtxTransform, &gDisplayContext->matrixStack[gMatrixListPos]);
 
-    gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(
+        gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW
+    );
     gDPSetPrimColor(gMainGfxPos++, 0, 0, data->primCol.r, data->primCol.g, data->primCol.b, data->unk_18);
     gDPSetEnvColor(gMainGfxPos++, data->envCol.r, data->envCol.g, data->envCol.b, 0);
 
@@ -45,25 +47,31 @@ void port_flashing_box_shockwave_appendGfx(void* effect) {
         guScaleF(mtxTransform, data->scaleX, data->scaleY, 15.0f / 14);
         guMtxF2L(mtxTransform, &gDisplayContext->matrixStack[gMatrixListPos]);
 
-        gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+        gSPMatrix(
+            gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW
+        );
         gDPPipeSync(gMainGfxPos++);
         gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);
         gDPSetTexturePersp(gMainGfxPos++, G_TP_NONE);
         gDPSetTextureLUT(gMainGfxPos++, G_TT_NONE);
         gDPSetTextureFilter(gMainGfxPos++, G_TF_BILERP);
-        gDPSetCombineLERP(gMainGfxPos++,
-                          ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0,
-                          ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0);
+        gDPSetCombineLERP(
+            gMainGfxPos++, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, ENVIRONMENT, PRIMITIVE,
+            TEXEL0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0
+        );
         gDPSetRenderMode(gMainGfxPos++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
         gSPTexture(gMainGfxPos++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
-        gDPLoadTextureBlock(gMainGfxPos++, D_09000200_3932A0, G_IM_FMT_I, G_IM_SIZ_8b,
-                            32, 32, 0,
-                            G_TX_WRAP, G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(
+            gMainGfxPos++, D_09000200_3932A0, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_WRAP, G_TX_WRAP, 5, 5,
+            G_TX_NOLOD, G_TX_NOLOD
+        );
         gSPDisplayList(gMainGfxPos++, D_090008E8_393988);
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }
 
-    if (type == FX_SHOCK_OVERLAY_LIGHTNING_WORLD || type == FX_SHOCK_OVERLAY_LIGHTNING_BATTLE || type == FX_SHOCK_OVERLAY_MEGA_SHOCK) {
+    if (type == FX_SHOCK_OVERLAY_LIGHTNING_WORLD || type == FX_SHOCK_OVERLAY_LIGHTNING_BATTLE
+        || type == FX_SHOCK_OVERLAY_MEGA_SHOCK)
+    {
         if (type == FX_SHOCK_OVERLAY_LIGHTNING_WORLD) {
             gDPSetPrimColor(gMainGfxPos++, 0, 0, 255, 255, 0, data->unk_14);
         }
@@ -73,7 +81,9 @@ void port_flashing_box_shockwave_appendGfx(void* effect) {
         guMtxCatF(mtxUnkScale, mtxTransform, mtxTransform);
         guMtxF2L(mtxTransform, &gDisplayContext->matrixStack[gMatrixListPos]);
 
-        gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+        gSPMatrix(
+            gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW
+        );
         gSPDisplayList(gMainGfxPos++, D_09000950_3939F0);
         gSPDisplayList(gMainGfxPos++, D_09000FF8_394098);
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);

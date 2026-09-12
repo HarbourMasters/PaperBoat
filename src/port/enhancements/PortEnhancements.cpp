@@ -17,57 +17,57 @@ void PortEnhancements_Init() {
 }
 
 void PortEnhancements_Register() {
-  // Register engine events
-  REGISTER_EVENT(GameFrameUpdate);
-  REGISTER_EVENT(WorkerUpdate);
-  REGISTER_EVENT(WorkerDraw);
-  REGISTER_EVENT(TriggerUpdate);
-  REGISTER_EVENT(TriggerActivate);
-  REGISTER_EVENT(ScriptRequestUpdate);
-  REGISTER_EVENT(ScriptFrameUpdate);
-  REGISTER_EVENT(MessageUpdate);
-  REGISTER_EVENT(MessageDrawSetup);
-  REGISTER_EVENT(MessagePreDraw);
-  REGISTER_EVENT(MessagePostDraw);
-  REGISTER_EVENT(HudElementUpdate);
-  REGISTER_EVENT(HudElementPreDraw);
-  REGISTER_EVENT(HudElementPostDraw);
-  REGISTER_EVENT(EntityPreUpdate);
-  REGISTER_EVENT(EntityPostUpdate);
-  REGISTER_EVENT(EntityPreDraw);
-  REGISTER_EVENT(EntityPostDraw);
-  REGISTER_EVENT(ShadowPreUpdate);
-  REGISTER_EVENT(ShadowPostUpdate);
-  REGISTER_EVENT(ShadowPreDraw);
-  REGISTER_EVENT(ShadowPostDraw);
-  REGISTER_EVENT(MusicControlPreUpdate);
-  REGISTER_EVENT(MusicControlPostUpdate);
-  REGISTER_EVENT(MusicControlSetSong);
-  REGISTER_EVENT(AmbientSoundPreUpdate);
-  REGISTER_EVENT(AmbientSoundPostUpdate);
-  REGISTER_EVENT(AmbientSoundPlay);
-  REGISTER_EVENT(WindowUpdate);
-  REGISTER_EVENT(WindowRootPreDraw);
-  REGISTER_EVENT(WindowRootPostDraw);
-  REGISTER_EVENT(WindowPreDraw);
-  REGISTER_EVENT(WindowPostDraw);
-  REGISTER_EVENT(TheaterPreDraw);
-  REGISTER_EVENT(TheaterPostDraw);
-  REGISTER_EVENT(CurtainsPreDraw);
-  REGISTER_EVENT(CurtainsPostDraw);
-  REGISTER_EVENT(VanillaBehavior);
+    // Register engine events
+    REGISTER_EVENT(GameFrameUpdate);
+    REGISTER_EVENT(WorkerUpdate);
+    REGISTER_EVENT(WorkerDraw);
+    REGISTER_EVENT(TriggerUpdate);
+    REGISTER_EVENT(TriggerActivate);
+    REGISTER_EVENT(ScriptRequestUpdate);
+    REGISTER_EVENT(ScriptFrameUpdate);
+    REGISTER_EVENT(MessageUpdate);
+    REGISTER_EVENT(MessageDrawSetup);
+    REGISTER_EVENT(MessagePreDraw);
+    REGISTER_EVENT(MessagePostDraw);
+    REGISTER_EVENT(HudElementUpdate);
+    REGISTER_EVENT(HudElementPreDraw);
+    REGISTER_EVENT(HudElementPostDraw);
+    REGISTER_EVENT(EntityPreUpdate);
+    REGISTER_EVENT(EntityPostUpdate);
+    REGISTER_EVENT(EntityPreDraw);
+    REGISTER_EVENT(EntityPostDraw);
+    REGISTER_EVENT(ShadowPreUpdate);
+    REGISTER_EVENT(ShadowPostUpdate);
+    REGISTER_EVENT(ShadowPreDraw);
+    REGISTER_EVENT(ShadowPostDraw);
+    REGISTER_EVENT(MusicControlPreUpdate);
+    REGISTER_EVENT(MusicControlPostUpdate);
+    REGISTER_EVENT(MusicControlSetSong);
+    REGISTER_EVENT(AmbientSoundPreUpdate);
+    REGISTER_EVENT(AmbientSoundPostUpdate);
+    REGISTER_EVENT(AmbientSoundPlay);
+    REGISTER_EVENT(WindowUpdate);
+    REGISTER_EVENT(WindowRootPreDraw);
+    REGISTER_EVENT(WindowRootPostDraw);
+    REGISTER_EVENT(WindowPreDraw);
+    REGISTER_EVENT(WindowPostDraw);
+    REGISTER_EVENT(TheaterPreDraw);
+    REGISTER_EVENT(TheaterPostDraw);
+    REGISTER_EVENT(CurtainsPreDraw);
+    REGISTER_EVENT(CurtainsPostDraw);
+    REGISTER_EVENT(VanillaBehavior);
 
-  // Register game events
-  REGISTER_EVENT(OnSaveFileSave);
-  REGISTER_EVENT(OnSaveFileLoad);
-  REGISTER_EVENT(OnSaveFileErase);
-  REGISTER_EVENT(OnPlayerDamageReceived);
-  REGISTER_EVENT(OnPlayerFPChange);
-  REGISTER_EVENT(OnPlayerSPChange);
-  REGISTER_EVENT(OnPlayerBPCostCheck);
-  REGISTER_EVENT(OnPostSaveFileLoad);
+    // Register game events
+    REGISTER_EVENT(OnSaveFileSave);
+    REGISTER_EVENT(OnSaveFileLoad);
+    REGISTER_EVENT(OnSaveFileErase);
+    REGISTER_EVENT(OnPlayerDamageReceived);
+    REGISTER_EVENT(OnPlayerFPChange);
+    REGISTER_EVENT(OnPlayerSPChange);
+    REGISTER_EVENT(OnPlayerBPCostCheck);
+    REGISTER_EVENT(OnPostSaveFileLoad);
 }
 
 void PortEnhancements_Exit() {
-  // @port TODO
+    // @port TODO
 }

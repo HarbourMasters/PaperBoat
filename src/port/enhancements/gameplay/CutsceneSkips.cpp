@@ -5,12 +5,12 @@
 extern "C" {
 #include "dx/versioning.h"
 
-    extern SaveData gCurrentSaveFile;
+extern SaveData gCurrentSaveFile;
 }
 
 void RegisterCutsceneSkips_Init() {
-	REGISTER_LISTENER(OnPostSaveFileLoad, EVENT_PRIORITY_NORMAL, [](IEvent *event) {
-        OnPostSaveFileLoad* ev = (OnPostSaveFileLoad*)event;
+    REGISTER_LISTENER(OnPostSaveFileLoad, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
+        OnPostSaveFileLoad* ev = (OnPostSaveFileLoad*) event;
 
         if (!CVarGetInteger(CVAR_ENHANCEMENT("NoIntro"), 0)) {
             return;
@@ -34,7 +34,7 @@ void RegisterCutsceneSkips_Init() {
         gCurrentSaveFile.savePos.x = 250;
         gCurrentSaveFile.savePos.y = 0;
         gCurrentSaveFile.savePos.z = 85;
-	});
+    });
 }
 
 static RegisterShipInitFunc initFunc(RegisterCutsceneSkips_Init);

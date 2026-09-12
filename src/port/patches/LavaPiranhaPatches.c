@@ -65,7 +65,7 @@ u8 PortLavaPiranhaVineBase[4][16];
 static s16* PortLavaPiranhaCurrentScript[4];
 
 void port_lava_piranha_set_script(s32 vine, s32 index) {
-    if ((u32)vine >= 4 || (u32)index >= 37) {
+    if ((u32) vine >= 4 || (u32) index >= 37) {
         return;
     }
     PortLavaPiranhaCurrentScript[vine] = PortLavaPiranhaScripts[index];
@@ -73,7 +73,7 @@ void port_lava_piranha_set_script(s32 vine, s32 index) {
 
 s16* port_lava_piranha_translate(s16* addr) {
     for (s32 i = 0; i < 4; i++) {
-        if (addr == (s16*)PortLavaPiranhaVineBase[i]) {
+        if (addr == (s16*) PortLavaPiranhaVineBase[i]) {
             return PortLavaPiranhaCurrentScript[i];
         }
     }

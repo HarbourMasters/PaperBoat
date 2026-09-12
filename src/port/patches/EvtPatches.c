@@ -33,7 +33,7 @@ API_CALLABLE(LoadPtrFromArray) {
         i += count;
     }
 
-    evt_set_variable(script, outVar, (Bytecode)(intptr_t) array[i]);
+    evt_set_variable(script, outVar, (Bytecode) (intptr_t) array[i]);
 
     return ApiStatus_DONE2;
 }
@@ -70,8 +70,7 @@ API_CALLABLE(StepTaggedAIWaveBuf) {
         s32 npcID = (s32) entry;
         EvtScript* aiSrc = (EvtScript*) buf[i + 1];
         Enemy* enemy = get_enemy(npcID);
-        s32 groupFlags = (enemy->flags & ENEMY_FLAG_PASSIVE)
-            ? EVT_GROUP_PASSIVE_NPC : EVT_GROUP_HOSTILE_NPC;
+        s32 groupFlags = (enemy->flags & ENEMY_FLAG_PASSIVE) ? EVT_GROUP_PASSIVE_NPC : EVT_GROUP_HOSTILE_NPC;
 
         if (enemy->aiScript != NULL) {
             kill_script_by_ID(enemy->aiScriptID);

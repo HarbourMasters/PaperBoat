@@ -18,7 +18,7 @@
 extern const char* D_E00D6E40[];
 
 void port_energy_in_out_appendGfx(void* effect) {
-    EnergyInOutFXData* part = ((EffectInstance*)effect)->data.energyInOut;
+    EnergyInOutFXData* part = ((EffectInstance*) effect)->data.energyInOut;
     s32 unk_24 = part->unk_24;
     s32 unk_00 = part->unk_00;
     f32 scale = part->scale * part->unk_44;
@@ -31,12 +31,14 @@ void port_energy_in_out_appendGfx(void* effect) {
     s32 i;
 
     gDPPipeSync(gMainGfxPos++);
-    gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
+    gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*) effect)->shared->graphics));
 
     guPositionF(sp20, 0.0f, -gCameras[gCurrentCameraID].curYaw, 0.0f, scale, part->pos.x, part->pos.y, part->pos.z);
     guMtxF2L(sp20, &gDisplayContext->matrixStack[gMatrixListPos]);
 
-    gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(
+        gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW
+    );
     gDPSetPrimColor(gMainGfxPos++, 0, 0, part->unk_18, part->unk_1C, part->unk_20, unk_24);
     gDPSetEnvColor(gMainGfxPos++, part->unk_28, part->unk_2C, part->unk_30, 0);
 
@@ -46,17 +48,16 @@ void port_energy_in_out_appendGfx(void* effect) {
     gDPSetTexturePersp(gMainGfxPos++, G_TP_NONE);
     gDPSetTextureLUT(gMainGfxPos++, G_TT_NONE);
     gDPSetTextureFilter(gMainGfxPos++, G_TF_BILERP);
-    gDPSetCombineLERP(gMainGfxPos++,
-                      PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
-                      PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
+    gDPSetCombineLERP(
+        gMainGfxPos++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE, ENVIRONMENT,
+        TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0
+    );
     gDPSetRenderMode(gMainGfxPos++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     gSPTexture(gMainGfxPos++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
-    gDPLoadTextureBlock_4b(gMainGfxPos++, D_09000000_3D5F30, G_IM_FMT_I,
-                           16, 64, 0,
-                           G_TX_CLAMP, G_TX_CLAMP, 4, 6, 1, 1);
+    gDPLoadTextureBlock_4b(gMainGfxPos++, D_09000000_3D5F30, G_IM_FMT_I, 16, 64, 0, G_TX_CLAMP, G_TX_CLAMP, 4, 6, 1, 1);
 
     part++;
-    for (i = 1; i < ((EffectInstance*)effect)->numParts; i++, part++) {
+    for (i = 1; i < ((EffectInstance*) effect)->numParts; i++, part++) {
         f32 scale = part->scale;
 
         gDPSetPrimColor(gMainGfxPos++, 0, 0, unk_18, unk_1C, unk_20, (unk_24 * part->unk_24) / 255);
@@ -72,7 +73,9 @@ void port_energy_in_out_appendGfx(void* effect) {
         guMtxCatF(sp60, sp20, sp20);
         guMtxF2L(sp20, &gDisplayContext->matrixStack[gMatrixListPos]);
 
-        gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+        gSPMatrix(
+            gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW
+        );
         gSPDisplayList(gMainGfxPos++, D_E00D6E40[unk_00]);
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     }

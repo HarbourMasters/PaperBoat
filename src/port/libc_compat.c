@@ -15,32 +15,34 @@
 // fmt: format string
 // args: va_list of arguments
 
-typedef char *(*outfun)(char *, const char *, size_t);
+typedef char* (*outfun)(char*, const char*, size_t);
 
-int _Printf(outfun prout, char *arg, const char *fmt, va_list args) {
-  char buf[1024];
-  int len;
+int _Printf(outfun prout, char* arg, const char* fmt, va_list args) {
+    char buf[1024];
+    int len;
 
-  // Format the string using standard vsnprintf
-  len = vsnprintf(buf, sizeof(buf), fmt, args);
+    // Format the string using standard vsnprintf
+    len = vsnprintf(buf, sizeof(buf), fmt, args);
 
-  if (len < 0) {
-    return 0;
-  }
+    if (len < 0) {
+        return 0;
+    }
 
-  if (len >= (int)sizeof(buf)) {
-    len = sizeof(buf) - 1;
-  }
+    if (len >= (int) sizeof(buf)) {
+        len = sizeof(buf) - 1;
+    }
 
-  // Call the output function with the formatted result
-  if (prout != NULL && len > 0) {
-    prout(arg, buf, len);
-  }
+    // Call the output function with the formatted result
+    if (prout != NULL && len > 0) {
+        prout(arg, buf, len);
+    }
 
-  return len;
+    return len;
 }
 
 #ifdef _WIN32
 // bcopy for Windows
-void bcopy(const void *src, void *dest, size_t n) { memmove(dest, src, n); }
+void bcopy(const void* src, void* dest, size_t n) {
+    memmove(dest, src, n);
+}
 #endif

@@ -70,8 +70,8 @@ JNIEXPORT jboolean JNICALL Java_dev_net64_paperboat_MainActivity_isMenuOpen(JNIE
  * Reading the same config.yml the extraction does keeps the launcher from
  * carrying its own copy of the supported hashes.
  */
-JNIEXPORT jstring JNICALL Java_dev_net64_paperboat_GameAssets_nativeDetectRom(JNIEnv* env, jobject, jstring jRomPath,
-                                                                             jstring jSourceDir) {
+JNIEXPORT jstring JNICALL
+Java_dev_net64_paperboat_GameAssets_nativeDetectRom(JNIEnv* env, jobject, jstring jRomPath, jstring jSourceDir) {
     const std::string romPath = ToStdString(env, jRomPath);
     const std::string sourceDir = ToStdString(env, jSourceDir);
 
@@ -90,10 +90,9 @@ JNIEXPORT jstring JNICALL Java_dev_net64_paperboat_GameAssets_nativeDetectRom(JN
  * sourceDir holds config.yml and assets/, unpacked from the APK by the
  * launcher. Returns null on success, or a message describing the failure.
  */
-JNIEXPORT jstring JNICALL Java_dev_net64_paperboat_GameAssets_nativeGenerateGameArchive(JNIEnv* env, jobject,
-                                                                                       jstring jRomPath,
-                                                                                       jstring jSourceDir,
-                                                                                       jstring jDestDir) {
+JNIEXPORT jstring JNICALL Java_dev_net64_paperboat_GameAssets_nativeGenerateGameArchive(
+    JNIEnv* env, jobject, jstring jRomPath, jstring jSourceDir, jstring jDestDir
+) {
     const std::string romPath = ToStdString(env, jRomPath);
     const std::string sourceDir = ToStdString(env, jSourceDir);
     const std::string destDir = ToStdString(env, jDestDir);
@@ -111,17 +110,19 @@ JNIEXPORT jstring JNICALL Java_dev_net64_paperboat_GameAssets_nativeGenerateGame
     __android_log_print(ANDROID_LOG_INFO, kLogTag, "Extracting %s into %s", romPath.c_str(), destDir.c_str());
 
     std::string extractError;
-    std::atomic<size_t> assetCount{ 0 };
-    std::atomic<size_t> totalAssets{ 0 };
+    std::atomic<size_t> assetCount { 0 };
+    std::atomic<size_t> totalAssets { 0 };
     try {
         if (!extractor.GenerateOTRTo(assetCount, totalAssets, sourceDir, destDir)) {
-            extractError = GameExtractor::sLastError.empty() ? "Torch could not extract the ROM."
-                                                             : "Torch could not extract the ROM: " +
-                                                                   GameExtractor::sLastError;
+            extractError = GameExtractor::sLastError.empty()
+                ? "Torch could not extract the ROM."
+                : "Torch could not extract the ROM: " + GameExtractor::sLastError;
         }
     } catch (const std::exception& error) {
         extractError = std::string("Torch could not extract the ROM: ") + error.what();
-    } catch (...) { extractError = "Torch could not extract the ROM."; }
+    } catch (...) {
+        extractError = "Torch could not extract the ROM.";
+    }
 
     if (!extractError.empty()) {
         return fail(extractError);
@@ -132,8 +133,10 @@ JNIEXPORT jstring JNICALL Java_dev_net64_paperboat_GameAssets_nativeGenerateGame
     std::error_code error;
     const std::filesystem::path archive = std::filesystem::path(destDir) / kGameArchive;
     if (!std::filesystem::exists(archive, error) || std::filesystem::file_size(archive, error) == 0) {
-        return fail(std::string("Torch finished without producing ") + kGameArchive +
-                    ". Check that the ROM is Paper Mario (N64, US).");
+        return fail(
+            std::string("Torch finished without producing ") + kGameArchive
+            + ". Check that the ROM is Paper Mario (N64, US)."
+        );
     }
 
     __android_log_print(ANDROID_LOG_INFO, kLogTag, "Wrote %s", archive.c_str());

@@ -19,7 +19,6 @@ extern s8 set_global_byte(s32 index, s32 value);
 
 #include "dx/versioning.h"
 
-
 extern s32 set_global_flag(s32 index);
 extern s32 clear_global_flag(s32 index);
 extern s32 get_global_flag(s32 index);
@@ -37,17 +36,18 @@ extern intptr_t gItemIconPaletteOffsets[349];
 #undef End
 
 #define MAX_ICON_RASTER_SIZE 349
-#define MAX_INVENTORY_SIZE 10
-#define MAX_KEY_ITEM_SIZE 32
+#define MAX_INVENTORY_SIZE   10
+#define MAX_KEY_ITEM_SIZE    32
 #define NUM_COOKABLE_RECIPES 52
-#define TOTAL_STAR_PIECES 160
+#define TOTAL_STAR_PIECES    160
 
 #define CVAR_NAME_POPOUT_SAVE_EDITOR "gOpenWindows.SaveEditor"
 
 #define CVAR_SHOW_POPOUT_SAVE_EDITOR CVarGetInteger(CVAR_NAME_POPOUT_SAVE_EDITOR, 0)
 
-ImGuiWindowFlags saveEditorWindowFlags = ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoTitleBar;
-ImVec4 saveEditorBG = ImVec4{ 0, 0, 0, 0.5f };
+ImGuiWindowFlags saveEditorWindowFlags =
+    ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoTitleBar;
+ImVec4 saveEditorBG = ImVec4 { 0, 0, 0, 0.5f };
 ImVec2 itemImageSize = ImVec2(42.0f, 42.0f);
 
 std::vector<std::pair<const char*, const char*>> partyMemberList = {
@@ -429,8 +429,8 @@ TextureData GetEquipmentTextureId(const char* equipName) {
                 textureData.name = "Ultra Boots";
                 textureData.textureId = gui->GetTextureByName(ICON_gear_boots_3_raster);
                 break;
-        default:
-            break;
+            default:
+                break;
         }
     }
     if (equipName == ICON_gear_hammer_1_raster) {
@@ -448,8 +448,8 @@ TextureData GetEquipmentTextureId(const char* equipName) {
                 textureData.name = "Ultra Hammer";
                 textureData.textureId = gui->GetTextureByName(ICON_gear_hammer_3_raster);
                 break;
-        default:
-            break;
+            default:
+                break;
         }
     }
 
@@ -617,8 +617,8 @@ bool ContainsIgnoreCase(const char* haystack, const char* needle) {
         const char* b = needle;
 
         while (*a != '\0' && *b != '\0') {
-            char ca = (*a >= 'A' && *a <= 'Z') ? (char)(*a + 32) : *a;
-            char cb = (*b >= 'A' && *b <= 'Z') ? (char)(*b + 32) : *b;
+            char ca = (*a >= 'A' && *a <= 'Z') ? (char) (*a + 32) : *a;
+            char cb = (*b >= 'A' && *b <= 'Z') ? (char) (*b + 32) : *b;
 
             if (ca != cb) {
                 break;
@@ -649,8 +649,11 @@ void SaveEditor_DrawImageButton(int32_t iconIndex, const char* itemType) {
     }
 
     SaveEditor_PushImageButtonStyle();
-    if (ImGui::ImageButton(rasterPath, itemTexture, itemImageSize, ImVec2(0, 0), ImVec2(1, 1),
-        ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, hasItem ? 1.0f : 0.5f))) {
+    if (ImGui::ImageButton(
+            rasterPath, itemTexture, itemImageSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0),
+            ImVec4(1, 1, 1, hasItem ? 1.0f : 0.5f)
+        ))
+    {
         if (itemType == "food" || itemType == "battle") {
             AddRemove_Item(iconIndex, false);
         }
@@ -680,7 +683,10 @@ void SaveEditor_DrawItemList(const char* itemType) {
             }
 
             for (int i = 0; i < MAX_ICON_RASTER_SIZE; i++) {
-                if (reinterpret_cast<const char*>(gItemIconRasterOffsets[i]) != nullptr && std::string_view(reinterpret_cast<const char*>(gItemIconRasterOffsets[i])).find(itemType) == std::string_view::npos) {
+                if (reinterpret_cast<const char*>(gItemIconRasterOffsets[i]) != nullptr
+                    && std::string_view(reinterpret_cast<const char*>(gItemIconRasterOffsets[i])).find(itemType)
+                        == std::string_view::npos)
+                {
                     continue;
                 }
 
@@ -718,12 +724,16 @@ void SaveEditor_DrawPlayerMenu() {
                 ImGui::Image(gui->GetTextureByName(ui_pause_mario_large_png), statImageSize);
                 ImGui::TableNextColumn();
                 int32_t playerLevel = gPlayerData.level;
-                if (UIWidgets::SliderInt("##pLevel", &playerLevel, UIWidgets::IntSliderOptions()
-                    .Color(WIDGET_COLOR)
-                    .LabelPosition(UIWidgets::LabelPositions::None)
-                    .Format("Level: %i")
-                    .Min(1)
-                    .Max(30))) {
+                if (UIWidgets::SliderInt(
+                        "##pLevel", &playerLevel,
+                        UIWidgets::IntSliderOptions()
+                            .Color(WIDGET_COLOR)
+                            .LabelPosition(UIWidgets::LabelPositions::None)
+                            .Format("Level: %i")
+                            .Min(1)
+                            .Max(30)
+                    ))
+                {
                     gPlayerData.level = playerLevel;
                 };
 
@@ -733,21 +743,29 @@ void SaveEditor_DrawPlayerMenu() {
                 ImGui::TableNextColumn();
                 int32_t curHealth = gPlayerData.curHP;
                 int32_t maxHealth = gPlayerData.curMaxHP;
-                if (UIWidgets::SliderInt("##pCurHP", &curHealth, UIWidgets::IntSliderOptions()
-                    .Color(WIDGET_COLOR)
-                    .LabelPosition(UIWidgets::LabelPositions::None)
-                    .Format("Current HP: %i")
-                    .Min(1)
-                    .Max(gPlayerData.curMaxHP))) {
+                if (UIWidgets::SliderInt(
+                        "##pCurHP", &curHealth,
+                        UIWidgets::IntSliderOptions()
+                            .Color(WIDGET_COLOR)
+                            .LabelPosition(UIWidgets::LabelPositions::None)
+                            .Format("Current HP: %i")
+                            .Min(1)
+                            .Max(gPlayerData.curMaxHP)
+                    ))
+                {
                     gPlayerData.curHP = curHealth;
                 };
-                if (UIWidgets::SliderInt("##pMaxHP", &maxHealth, UIWidgets::IntSliderOptions()
-                    .Color(WIDGET_COLOR)
-                    .LabelPosition(UIWidgets::LabelPositions::None)
-                    .Format("Max HP: %i")
-                    .Step(5)
-                    .Min(5)
-                    .Max(50))) {
+                if (UIWidgets::SliderInt(
+                        "##pMaxHP", &maxHealth,
+                        UIWidgets::IntSliderOptions()
+                            .Color(WIDGET_COLOR)
+                            .LabelPosition(UIWidgets::LabelPositions::None)
+                            .Format("Max HP: %i")
+                            .Step(5)
+                            .Min(5)
+                            .Max(50)
+                    ))
+                {
                     gPlayerData.curMaxHP = maxHealth;
                 };
 
@@ -757,21 +775,29 @@ void SaveEditor_DrawPlayerMenu() {
                 ImGui::TableNextColumn();
                 int32_t curFlower = gPlayerData.curFP;
                 int32_t maxFlower = gPlayerData.curMaxFP;
-                if (UIWidgets::SliderInt("##pCurFP", &curFlower, UIWidgets::IntSliderOptions()
-                    .Color(WIDGET_COLOR)
-                    .LabelPosition(UIWidgets::LabelPositions::None)
-                    .Format("Current FP: %i")
-                    .Min(1)
-                    .Max(gPlayerData.curMaxFP))) {
+                if (UIWidgets::SliderInt(
+                        "##pCurFP", &curFlower,
+                        UIWidgets::IntSliderOptions()
+                            .Color(WIDGET_COLOR)
+                            .LabelPosition(UIWidgets::LabelPositions::None)
+                            .Format("Current FP: %i")
+                            .Min(1)
+                            .Max(gPlayerData.curMaxFP)
+                    ))
+                {
                     gPlayerData.curFP = curFlower;
                 };
-                if (UIWidgets::SliderInt("##pMaxFP", &maxFlower, UIWidgets::IntSliderOptions()
-                    .Color(WIDGET_COLOR)
-                    .LabelPosition(UIWidgets::LabelPositions::None)
-                    .Format("Max FP: %i")
-                    .Step(5)
-                    .Min(5)
-                    .Max(50))) {
+                if (UIWidgets::SliderInt(
+                        "##pMaxFP", &maxFlower,
+                        UIWidgets::IntSliderOptions()
+                            .Color(WIDGET_COLOR)
+                            .LabelPosition(UIWidgets::LabelPositions::None)
+                            .Format("Max FP: %i")
+                            .Step(5)
+                            .Min(5)
+                            .Max(50)
+                    ))
+                {
                     gPlayerData.curMaxFP = maxFlower;
                 };
 
@@ -780,12 +806,16 @@ void SaveEditor_DrawPlayerMenu() {
                 ImGui::Image(gui->GetTextureByName(ui_pause_stat_bp_png), statImageSize);
                 ImGui::TableNextColumn();
                 int32_t maxBadgePoints = gPlayerData.maxBP;
-                if (UIWidgets::SliderInt("##pCurBP", &maxBadgePoints, UIWidgets::IntSliderOptions()
-                    .Color(WIDGET_COLOR)
-                    .LabelPosition(UIWidgets::LabelPositions::None)
-                    .Format("Current BP: %i")
-                    .Min(3)
-                    .Max(30))) {
+                if (UIWidgets::SliderInt(
+                        "##pCurBP", &maxBadgePoints,
+                        UIWidgets::IntSliderOptions()
+                            .Color(WIDGET_COLOR)
+                            .LabelPosition(UIWidgets::LabelPositions::None)
+                            .Format("Current BP: %i")
+                            .Min(3)
+                            .Max(30)
+                    ))
+                {
                     gPlayerData.maxBP = maxBadgePoints;
                 };
                 ImGui::PopStyleVar(1);
@@ -810,8 +840,7 @@ void SaveEditor_DrawPlayerMenu() {
                 if (ImGui::ImageButton("##pBoots", equipmentData.textureId, statImageSize)) {
                     if (gPlayerData.bootsLevel >= 2) {
                         gPlayerData.bootsLevel = 0;
-                    }
-                    else {
+                    } else {
                         gPlayerData.bootsLevel++;
                     }
                 }
@@ -821,12 +850,14 @@ void SaveEditor_DrawPlayerMenu() {
                 // Hammer
                 ImGui::TableNextColumn();
                 equipmentData = GetEquipmentTextureId(ICON_gear_hammer_1_raster);
-                if (ImGui::ImageButton("##pHammer", equipmentData.textureId, statImageSize, ImVec2(0, 0), ImVec2(1, 1),
-                    ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, gPlayerData.hammerLevel == -1 ? 0.5f : 1.0f))) {
+                if (ImGui::ImageButton(
+                        "##pHammer", equipmentData.textureId, statImageSize, ImVec2(0, 0), ImVec2(1, 1),
+                        ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, gPlayerData.hammerLevel == -1 ? 0.5f : 1.0f)
+                    ))
+                {
                     if (gPlayerData.hammerLevel >= 2) {
                         gPlayerData.hammerLevel = -1;
-                    }
-                    else {
+                    } else {
                         gPlayerData.hammerLevel++;
                     }
                 }
@@ -839,20 +870,28 @@ void SaveEditor_DrawPlayerMenu() {
                 ImGui::TableNextColumn();
                 int32_t curEnergy = (gPlayerData.starPower / 256);
                 int32_t maxEnergy = gPlayerData.maxStarPower;
-                if (UIWidgets::SliderInt("##pCurEnergy", &curEnergy, UIWidgets::IntSliderOptions()
-                    .Color(WIDGET_COLOR)
-                    .LabelPosition(UIWidgets::LabelPositions::None)
-                    .Format("Current Energy: %i")
-                    .Min(0)
-                    .Max(maxEnergy))) {
+                if (UIWidgets::SliderInt(
+                        "##pCurEnergy", &curEnergy,
+                        UIWidgets::IntSliderOptions()
+                            .Color(WIDGET_COLOR)
+                            .LabelPosition(UIWidgets::LabelPositions::None)
+                            .Format("Current Energy: %i")
+                            .Min(0)
+                            .Max(maxEnergy)
+                    ))
+                {
                     gPlayerData.starPower = (curEnergy * 256);
                 };
-                if (UIWidgets::SliderInt("##pMaxEnergy", &maxEnergy, UIWidgets::IntSliderOptions()
-                    .Color(WIDGET_COLOR)
-                    .LabelPosition(UIWidgets::LabelPositions::None)
-                    .Format("Max Energy: %i")
-                    .Min(0)
-                    .Max(7))) {
+                if (UIWidgets::SliderInt(
+                        "##pMaxEnergy", &maxEnergy,
+                        UIWidgets::IntSliderOptions()
+                            .Color(WIDGET_COLOR)
+                            .LabelPosition(UIWidgets::LabelPositions::None)
+                            .Format("Max Energy: %i")
+                            .Min(0)
+                            .Max(7)
+                    ))
+                {
                     gPlayerData.maxStarPower = maxEnergy;
                 };
 
@@ -861,12 +900,16 @@ void SaveEditor_DrawPlayerMenu() {
                 ImGui::Image(gui->GetTextureByName(ui_status_star_point_0_png), statImageSize);
                 ImGui::TableNextColumn();
                 int32_t curPoints = gPlayerData.starPoints;
-                if (UIWidgets::SliderInt("##pCurSP", &curPoints, UIWidgets::IntSliderOptions()
-                    .Color(WIDGET_COLOR)
-                    .LabelPosition(UIWidgets::LabelPositions::None)
-                    .Format("Star Points: %i")
-                    .Min(0)
-                    .Max(99))) {
+                if (UIWidgets::SliderInt(
+                        "##pCurSP", &curPoints,
+                        UIWidgets::IntSliderOptions()
+                            .Color(WIDGET_COLOR)
+                            .LabelPosition(UIWidgets::LabelPositions::None)
+                            .Format("Star Points: %i")
+                            .Min(0)
+                            .Max(99)
+                    ))
+                {
                     gPlayerData.starPoints = curPoints;
                 };
 
@@ -875,12 +918,16 @@ void SaveEditor_DrawPlayerMenu() {
                 ImGui::Image(gui->GetTextureByName(ui_status_coin_0_png), statImageSize);
                 ImGui::TableNextColumn();
                 int32_t curCoins = gPlayerData.coins;
-                if (UIWidgets::SliderInt("##pCurCoins", &curCoins, UIWidgets::IntSliderOptions()
-                    .Color(WIDGET_COLOR)
-                    .LabelPosition(UIWidgets::LabelPositions::None)
-                    .Format("Coins: %i")
-                    .Min(0)
-                    .Max(999))) {
+                if (UIWidgets::SliderInt(
+                        "##pCurCoins", &curCoins,
+                        UIWidgets::IntSliderOptions()
+                            .Color(WIDGET_COLOR)
+                            .LabelPosition(UIWidgets::LabelPositions::None)
+                            .Format("Coins: %i")
+                            .Min(0)
+                            .Max(999)
+                    ))
+                {
                     gPlayerData.coins = curCoins;
                 };
 
@@ -890,20 +937,28 @@ void SaveEditor_DrawPlayerMenu() {
                 ImGui::TableNextColumn();
                 int32_t curPieces = gPlayerData.starPieces;
                 int32_t collectedPieces = gPlayerData.starPiecesCollected;
-                if (UIWidgets::SliderInt("##pCurPieces", &curPieces, UIWidgets::IntSliderOptions()
-                    .Color(WIDGET_COLOR)
-                    .LabelPosition(UIWidgets::LabelPositions::None)
-                    .Format("Current Pieces: %i")
-                    .Min(0)
-                    .Max(160))) {
+                if (UIWidgets::SliderInt(
+                        "##pCurPieces", &curPieces,
+                        UIWidgets::IntSliderOptions()
+                            .Color(WIDGET_COLOR)
+                            .LabelPosition(UIWidgets::LabelPositions::None)
+                            .Format("Current Pieces: %i")
+                            .Min(0)
+                            .Max(160)
+                    ))
+                {
                     gPlayerData.starPieces = curPieces;
                 };
-                if (UIWidgets::SliderInt("##pColPieces", &collectedPieces, UIWidgets::IntSliderOptions()
-                    .Color(WIDGET_COLOR)
-                    .LabelPosition(UIWidgets::LabelPositions::None)
-                    .Format("Collected Pieces: %i")
-                    .Min(0)
-                    .Max(160))) {
+                if (UIWidgets::SliderInt(
+                        "##pColPieces", &collectedPieces,
+                        UIWidgets::IntSliderOptions()
+                            .Color(WIDGET_COLOR)
+                            .LabelPosition(UIWidgets::LabelPositions::None)
+                            .Format("Collected Pieces: %i")
+                            .Min(0)
+                            .Max(160)
+                    ))
+                {
                     gPlayerData.starPiecesCollected = collectedPieces;
                 };
 
@@ -912,12 +967,16 @@ void SaveEditor_DrawPlayerMenu() {
                 ImGui::Image(gui->GetTextureByName(ui_pause_stat_time_png), statImageSize);
                 ImGui::TableNextColumn();
                 int32_t curTime = ((gPlayerData.frameCounter / 60) / 60);
-                if (UIWidgets::SliderInt("##pCurTime", &curTime, UIWidgets::IntSliderOptions()
-                    .Color(WIDGET_COLOR)
-                    .LabelPosition(UIWidgets::LabelPositions::None)
-                    .Format("Time: %i")
-                    .Min(0)
-                    .Max(5998))) {
+                if (UIWidgets::SliderInt(
+                        "##pCurTime", &curTime,
+                        UIWidgets::IntSliderOptions()
+                            .Color(WIDGET_COLOR)
+                            .LabelPosition(UIWidgets::LabelPositions::None)
+                            .Format("Time: %i")
+                            .Min(0)
+                            .Max(5998)
+                    ))
+                {
                     gPlayerData.frameCounter = ((curTime * 60) * 60);
                 };
 
@@ -989,24 +1048,28 @@ void SaveEditor_DrawPartyMenu() {
                 int32_t rank = gPlayerData.partners[gPausePartnersPartnerIDs[i]].level;
 
                 ImGui::TableNextColumn();
-                if (ImGui::ImageButton(label.c_str(), gui->GetTextureByName(partyMemberList[partyIndex].second), statImageSize, ImVec2(0, 0), ImVec2(1, 1),
-                    ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, isUnlocked == 0 ? 0.5f : 1.0f))) {
+                if (ImGui::ImageButton(
+                        label.c_str(), gui->GetTextureByName(partyMemberList[partyIndex].second), statImageSize,
+                        ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, isUnlocked == 0 ? 0.5f : 1.0f)
+                    ))
+                {
                     if (isUnlocked == 1) {
                         gPlayerData.partners[gPausePartnersPartnerIDs[i]].enabled = 0;
-                    }
-                    else {
+                    } else {
                         gPlayerData.partners[gPausePartnersPartnerIDs[i]].enabled = 1;
                     }
                 }
 
                 ImGui::TableNextColumn();
                 TextureData rankTexture = GetRankTexture(rank);
-                if (ImGui::ImageButton("Rank", rankTexture.textureId, statImageSize, ImVec2(0, 0), ImVec2(1, 1),
-                    ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, rank == 0 ? 0.5f : 1.0f))) {
+                if (ImGui::ImageButton(
+                        "Rank", rankTexture.textureId, statImageSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0),
+                        ImVec4(1, 1, 1, rank == 0 ? 0.5f : 1.0f)
+                    ))
+                {
                     if (rank == 2) {
                         gPlayerData.partners[gPausePartnersPartnerIDs[i]].level = 0;
-                    }
-                    else {
+                    } else {
                         gPlayerData.partners[gPausePartnersPartnerIDs[i]].level++;
                     }
                 }
@@ -1040,8 +1103,10 @@ void SaveEditor_DrawLettersMenu() {
         }
         int32_t usedSlots = CountUsedKeyItemSlots();
 
-        ImGui::Text("Held: %d / %d     Key item slots used: %d / %d", heldLetters, (int32_t)letterList.size(),
-                    usedSlots, MAX_KEY_ITEM_SIZE);
+        ImGui::Text(
+            "Held: %d / %d     Key item slots used: %d / %d", heldLetters, (int32_t) letterList.size(), usedSlots,
+            MAX_KEY_ITEM_SIZE
+        );
 
         if (UIWidgets::Button("Give All", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
             for (auto& letter : letterList) {
@@ -1071,15 +1136,18 @@ void SaveEditor_DrawLettersMenu() {
             ImGui::TableSetupColumn("name2", ImGuiTableColumnFlags_WidthStretch);
 
             SaveEditor_PushImageButtonStyle();
-            for (int i = 0; i < (int)letterList.size(); i++) {
+            for (int i = 0; i < (int) letterList.size(); i++) {
                 const LetterData& letter = letterList[i];
                 const char* rasterPath = reinterpret_cast<const char*>(gItemIconRasterOffsets[letter.itemID]);
                 bool hasLetter = PlayerHasKeyItem(letter.itemID);
 
                 ImGui::PushID(i);
                 ImGui::TableNextColumn();
-                if (ImGui::ImageButton(letter.name, gui->GetTextureByName(rasterPath), statImageSize, ImVec2(0, 0),
-                    ImVec2(1, 1), ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, hasLetter ? 1.0f : 0.5f))) {
+                if (ImGui::ImageButton(
+                        letter.name, gui->GetTextureByName(rasterPath), statImageSize, ImVec2(0, 0), ImVec2(1, 1),
+                        ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, hasLetter ? 1.0f : 0.5f)
+                    ))
+                {
                     AddRemove_KeyItem(letter.itemID, hasLetter);
                 }
                 ImGui::TableNextColumn();
@@ -1137,8 +1205,11 @@ void SaveEditor_DrawRecipesMenu() {
 
                 ImGui::PushID(i);
                 ImGui::TableNextColumn();
-                if (ImGui::ImageButton(rasterPath, gui->GetTextureByName(rasterPath), itemImageSize, ImVec2(0, 0),
-                    ImVec2(1, 1), ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, isDiscovered ? 1.0f : 0.5f))) {
+                if (ImGui::ImageButton(
+                        rasterPath, gui->GetTextureByName(rasterPath), itemImageSize, ImVec2(0, 0), ImVec2(1, 1),
+                        ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, isDiscovered ? 1.0f : 0.5f)
+                    ))
+                {
                     if (isDiscovered) {
                         clear_global_flag(CookableDiscoveredFlags[i]);
                     } else {
@@ -1175,20 +1246,28 @@ void SaveEditor_DrawStarPiecesMenu() {
             ImGui::TableNextColumn();
             int32_t curPieces = gPlayerData.starPieces;
             int32_t collectedPieces = gPlayerData.starPiecesCollected;
-            if (UIWidgets::SliderInt("##spCurPieces", &curPieces, UIWidgets::IntSliderOptions()
-                .Color(WIDGET_COLOR)
-                .LabelPosition(UIWidgets::LabelPositions::None)
-                .Format("Current Pieces: %i")
-                .Min(0)
-                .Max(TOTAL_STAR_PIECES))) {
+            if (UIWidgets::SliderInt(
+                    "##spCurPieces", &curPieces,
+                    UIWidgets::IntSliderOptions()
+                        .Color(WIDGET_COLOR)
+                        .LabelPosition(UIWidgets::LabelPositions::None)
+                        .Format("Current Pieces: %i")
+                        .Min(0)
+                        .Max(TOTAL_STAR_PIECES)
+                ))
+            {
                 gPlayerData.starPieces = curPieces;
             };
-            if (UIWidgets::SliderInt("##spColPieces", &collectedPieces, UIWidgets::IntSliderOptions()
-                .Color(WIDGET_COLOR)
-                .LabelPosition(UIWidgets::LabelPositions::None)
-                .Format("Collected Pieces: %i")
-                .Min(0)
-                .Max(TOTAL_STAR_PIECES))) {
+            if (UIWidgets::SliderInt(
+                    "##spColPieces", &collectedPieces,
+                    UIWidgets::IntSliderOptions()
+                        .Color(WIDGET_COLOR)
+                        .LabelPosition(UIWidgets::LabelPositions::None)
+                        .Format("Collected Pieces: %i")
+                        .Min(0)
+                        .Max(TOTAL_STAR_PIECES)
+                ))
+            {
                 gPlayerData.starPiecesCollected = collectedPieces;
             };
 
@@ -1203,7 +1282,7 @@ void SaveEditor_DrawStarPiecesMenu() {
         }
 
         ImGui::SeparatorText("Overworld Star Pieces");
-        ImGui::Text("Found: %d / %d", foundCount, (int32_t)starPieceList.size());
+        ImGui::Text("Found: %d / %d", foundCount, (int32_t) starPieceList.size());
         ImGui::TextWrapped("These are the star pieces lying around the world - the ones Merluvlee can predict. ");
 
         if (UIWidgets::Button("Collect All", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
@@ -1220,15 +1299,15 @@ void SaveEditor_DrawStarPiecesMenu() {
 
         if (ImGui::BeginTable("StarPieceTable", 2, ImGuiTableFlags_SizingStretchSame)) {
             ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, padding);
-            for (int i = 0; i < (int)starPieceList.size(); i++) {
+            for (int i = 0; i < (int) starPieceList.size(); i++) {
                 const StarPieceData& starPiece = starPieceList[i];
                 bool isCollected = get_global_flag(starPiece.flag) != 0;
                 std::string label = fmt::format("{} - {}", starPiece.location, starPiece.kind);
 
                 ImGui::PushID(i);
                 ImGui::TableNextColumn();
-                if (UIWidgets::Checkbox(label.c_str(), &isCollected,
-                    UIWidgets::CheckboxOptions().Color(WIDGET_COLOR))) {
+                if (UIWidgets::Checkbox(label.c_str(), &isCollected, UIWidgets::CheckboxOptions().Color(WIDGET_COLOR)))
+                {
                     SetStarPieceCollected(starPiece, isCollected);
                 }
                 ImGui::PopID();
@@ -1268,8 +1347,7 @@ void SaveEditor_DrawTattlesMenu() {
         ImGui::SetNextItemWidth(220.0f);
         ImGui::InputTextWithHint("##tattleFilter", "Filter by name...", tattleFilter, sizeof(tattleFilter));
         ImGui::SameLine();
-        UIWidgets::Checkbox("Hide unused", &hideUnusedTattles,
-                            UIWidgets::CheckboxOptions().Color(WIDGET_COLOR));
+        UIWidgets::Checkbox("Hide unused", &hideUnusedTattles, UIWidgets::CheckboxOptions().Color(WIDGET_COLOR));
 
         if (UIWidgets::Button("Enable All", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
             for (auto& tattle : tattleList) {
@@ -1298,7 +1376,7 @@ void SaveEditor_DrawTattlesMenu() {
         ImGui::SeparatorText("Tattle Log");
         if (ImGui::BeginTable("TattleTable", 2, ImGuiTableFlags_SizingStretchSame)) {
             ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, padding);
-            for (int i = 0; i < (int)tattleList.size(); i++) {
+            for (int i = 0; i < (int) tattleList.size(); i++) {
                 const TattleData& tattle = tattleList[i];
 
                 if (hideUnusedTattles && tattle.isUnused) {
@@ -1313,8 +1391,7 @@ void SaveEditor_DrawTattlesMenu() {
 
                 ImGui::PushID(i);
                 ImGui::TableNextColumn();
-                if (UIWidgets::Checkbox(label.c_str(), &isKnown,
-                    UIWidgets::CheckboxOptions().Color(WIDGET_COLOR))) {
+                if (UIWidgets::Checkbox(label.c_str(), &isKnown, UIWidgets::CheckboxOptions().Color(WIDGET_COLOR))) {
                     SetTattleFlag(tattle.actorType, isKnown);
                 }
                 ImGui::PopID();
@@ -1405,7 +1482,7 @@ void SaveEditorWindow::Draw() {
 }
 
 void SaveEditorWindow::OnInit(const nlohmann::json& initArgs) {
-  Ship::GuiWindow::OnInit(initArgs);
+    Ship::GuiWindow::OnInit(initArgs);
 }
 
 #pragma pop_macro("End")

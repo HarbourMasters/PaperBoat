@@ -24,7 +24,7 @@ extern s32 D_E00A2A24[];
 #define MBF_TEX_SIZE 16
 
 void port_motion_blur_flame_appendGfx(void* effect) {
-    MotionBlurFlameFXData* data = ((EffectInstance*)effect)->data.motionBlurFlame;
+    MotionBlurFlameFXData* data = ((EffectInstance*) effect)->data.motionBlurFlame;
     s32 type = data->unk_00;
     MotionBlurFlamePreset* preset = &D_E00A29DC[type];
     s32 intensity = data->unk_4C;
@@ -34,7 +34,7 @@ void port_motion_blur_flame_appendGfx(void* effect) {
     s32 i;
 
     gDPPipeSync(gMainGfxPos++);
-    gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
+    gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*) effect)->shared->graphics));
 
     // Loads the noise texture into TMEM 0 on tile 0 and sets 2-cycle, point
     // filtering and the G_RM_PASS / G_RM_CLD_SURF2 blender.
@@ -42,16 +42,21 @@ void port_motion_blur_flame_appendGfx(void* effect) {
 
     // Second descriptor over the same TMEM, so the cycle-1 texel fetch reads the
     // noise whichever slot the 2-cycle texel swap resolves to.
-    gDPSetTile(gMainGfxPos++, G_IM_FMT_I, G_IM_SIZ_8b, MBF_TEX_SIZE / 8, 0, G_TX_RENDERTILE + 1, 0,
-               G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD);
-    gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE + 1, 0, 0, (MBF_TEX_SIZE - 1) << G_TEXTURE_IMAGE_FRAC,
-                   (MBF_TEX_SIZE - 1) << G_TEXTURE_IMAGE_FRAC);
+    gDPSetTile(
+        gMainGfxPos++, G_IM_FMT_I, G_IM_SIZ_8b, MBF_TEX_SIZE / 8, 0, G_TX_RENDERTILE + 1, 0, G_TX_NOMIRROR | G_TX_WRAP,
+        4, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD
+    );
+    gDPSetTileSize(
+        gMainGfxPos++, G_TX_RENDERTILE + 1, 0, 0, (MBF_TEX_SIZE - 1) << G_TEXTURE_IMAGE_FRAC,
+        (MBF_TEX_SIZE - 1) << G_TEXTURE_IMAGE_FRAC
+    );
 
     // colour: cycle 0 is the hardware's k, cycle 1 turns it into noise * (k + 1)
     // alpha:  the texture itself, so the box has no edge
-    gDPSetCombineLERP(gMainGfxPos++,
-        ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE,  0, 0, 0, TEXEL0,
-        COMBINED,    0,         TEXEL0, TEXEL0,     0, 0, 0, COMBINED);
+    gDPSetCombineLERP(
+        gMainGfxPos++, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, 0, 0, 0, TEXEL0, COMBINED, 0, TEXEL0, TEXEL0, 0, 0, 0,
+        COMBINED
+    );
 
     for (i = 0; i < UNK_ARRAY_SIZE_1; i++) {
         f32 posX = data->unk_1C[i];
@@ -121,12 +126,10 @@ void port_motion_blur_flame_appendGfx(void* effect) {
 
             // Tile origin is 0,0, so the clipped corner indexes straight into
             // the texture and the box stays anchored to the unclipped origin
-            gSPTextureRectangle(gMainGfxPos++,
-                (boxLeft + clipLeft) * 4, (boxTop + clipTop) * 4,
-                boxRight * 4, boxBottom * 4,
-                G_TX_RENDERTILE,
-                clipLeft << 5, clipTop << 5,
-                1 << 10, 1 << 10);
+            gSPTextureRectangle(
+                gMainGfxPos++, (boxLeft + clipLeft) * 4, (boxTop + clipTop) * 4, boxRight * 4, boxBottom * 4,
+                G_TX_RENDERTILE, clipLeft << 5, clipTop << 5, 1 << 10, 1 << 10
+            );
             gDPPipeSync(gMainGfxPos++);
         }
     }

@@ -11,9 +11,19 @@
 #define MAX_TEXTURE_GFX_CMDS 64
 
 // Defined in model.c (kept there; the render path appendGfx_model also calls it).
-void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_PTR palette,
-                      IMG_PTR auxRaster, PAL_PTR auxPalette, u8 auxShiftS, u8 auxShiftT,
-                      u16 auxOffsetS, u16 auxOffsetT, PAL_PTR combinedPalette);
+void make_texture_gfx(
+    TextureHeader* header,
+    Gfx** gfxPos,
+    IMG_PTR raster,
+    PAL_PTR palette,
+    IMG_PTR auxRaster,
+    PAL_PTR auxPalette,
+    u8 auxShiftS,
+    u8 auxShiftT,
+    u16 auxOffsetS,
+    u16 auxOffsetT,
+    PAL_PTR combinedPalette
+);
 
 extern TextureHandle TextureHandles[128];
 extern s32 TreeIterPos;
@@ -25,7 +35,7 @@ static void port_build_texture_header(TextureHeader* h, const MapTexMeta* m) {
 
     memset(h, 0, sizeof(*h));
 
-    for (i = 0; i < (s32)sizeof(h->name) && m->name[i] != '\0'; i++) {
+    for (i = 0; i < (s32) sizeof(h->name) && m->name[i] != '\0'; i++) {
         h->name[i] = m->name[i];
     }
 
@@ -46,7 +56,7 @@ static void port_build_texture_header(TextureHeader* h, const MapTexMeta* m) {
     h->auxWrapH = m->auxWrapH;
     h->mainWrapH = m->mainWrapH;
     h->filtering = m->filter;
-    
+
     h->auxCombineType = m->auxCombineType;
     h->auxCombineSubType = m->auxCombineSubType;
 }
@@ -89,7 +99,7 @@ static IMG_PTR port_resolve_main_raster(const char* archive, const char* name, u
     base = port_get_tex_resource(archive, name, NULL);
 
     if (extraTiles != EXTRA_TILE_MIPMAPS || base == NULL) {
-        return (IMG_PTR)base;
+        return (IMG_PTR) base;
     }
 
     // Collect consecutive mip-level resources.
@@ -97,7 +107,7 @@ static IMG_PTR port_resolve_main_raster(const char* archive, const char* name, u
     total = 0;
     baseSize = port_get_tex_resource_size(archive, name, NULL);
     total += baseSize;
-    for (i = 1; i < (s32)ARRAY_COUNT(mm); i++) {
+    for (i = 1; i < (s32) ARRAY_COUNT(mm); i++) {
         void* p;
         snprintf(suffix, sizeof(suffix), "_mm%d", i);
         p = port_get_tex_resource(archive, name, suffix);
@@ -112,19 +122,19 @@ static IMG_PTR port_resolve_main_raster(const char* archive, const char* name, u
 
     if (mmCount == 0) {
         // No separate mip resources -> base is already the whole (single-LOD) raster.
-        return (IMG_PTR)base;
+        return (IMG_PTR) base;
     }
 
     // Concatenate base + mip levels into a contiguous buffer (matches the blob
     // layout make_texture_gfx expects).
-    buf = (u8*)malloc(total);
+    buf = (u8*) malloc(total);
     memcpy(buf, base, baseSize);
     off = baseSize;
     for (i = 0; i < mmCount; i++) {
         memcpy(buf + off, mm[i], mmSize[i]);
         off += mmSize[i];
     }
-    return (IMG_PTR)buf;
+    return (IMG_PTR) buf;
 }
 
 static b32 port_class_uses_otr_path(u8 extraTiles) {
@@ -151,14 +161,14 @@ static void port_load_one_texture(const char* archive, const MapTexMeta* meta, s
     auxIsCI = (m->auxFmt == G_IM_FMT_CI);
 
     if (port_class_uses_otr_path(m->extraTiles)) {
-        raster = (IMG_PTR)m->otrPath;
+        raster = (IMG_PTR) m->otrPath;
     } else {
         raster = port_resolve_main_raster(archive, m->name, m->extraTiles);
     }
 
     // Main palette (CI only).
     if (mainIsCI) {
-        palette = (PAL_PTR)port_get_tex_resource(archive, m->name, "_tlut");
+        palette = (PAL_PTR) port_get_tex_resource(archive, m->name, "_tlut");
     } else {
         palette = NULL;
     }
@@ -169,9 +179,9 @@ static void port_load_one_texture(const char* archive, const MapTexMeta* meta, s
         // The aux tile is its own resource loaded by its own gDPSetTextureImage
         // (gDPScrollMultiTile passes it through unmodified), so it is
         // path-addressed like the main raster.
-        auxRaster = (IMG_PTR)m->auxOtrPath;
+        auxRaster = (IMG_PTR) m->auxOtrPath;
         if (auxIsCI) {
-            auxPalette = (PAL_PTR)port_get_tex_resource(archive, m->name, "_aux_tlut");
+            auxPalette = (PAL_PTR) port_get_tex_resource(archive, m->name, "_aux_tlut");
         } else {
             auxPalette = NULL;
         }
@@ -188,29 +198,30 @@ static void port_load_one_texture(const char* archive, const MapTexMeta* meta, s
     // Combined 32-entry CI4 palette for AUX_INDEPENDENT CI4+CI4 (matches
     // load_texture_impl).
     handle->combinedPalette = NULL;
-    if (header.extraTiles == EXTRA_TILE_AUX_INDEPENDENT
-        && handle->palette != NULL && handle->auxPalette != NULL
+    if (header.extraTiles == EXTRA_TILE_AUX_INDEPENDENT && handle->palette != NULL && handle->auxPalette != NULL
         && header.mainBitDepth == G_IM_SIZ_4b && header.auxBitDepth == G_IM_SIZ_4b)
     {
-        handle->combinedPalette = (PAL_PTR)malloc(64); // 32 entries * 2 bytes
+        handle->combinedPalette = (PAL_PTR) malloc(64); // 32 entries * 2 bytes
         memcpy(handle->combinedPalette, handle->palette, 32);
-        memcpy((u8*)handle->combinedPalette + 32, handle->auxPalette, 32);
+        memcpy((u8*) handle->combinedPalette + 32, handle->auxPalette, 32);
     }
 
-    handle->gfx = (Gfx*)malloc(MAX_TEXTURE_GFX_CMDS * sizeof(Gfx));
+    handle->gfx = (Gfx*) malloc(MAX_TEXTURE_GFX_CMDS * sizeof(Gfx));
     gfxCursor = handle->gfx;
     memcpy(&handle->header, &header, sizeof(header));
 
-    make_texture_gfx(&header, &gfxCursor, handle->raster, handle->palette,
-                     handle->auxRaster, handle->auxPalette, 0, 0, 0, 0, handle->combinedPalette);
+    make_texture_gfx(
+        &header, &gfxCursor, handle->raster, handle->palette, handle->auxRaster, handle->auxPalette, 0, 0, 0, 0,
+        handle->combinedPalette
+    );
 
     gSPEndDisplayList(gfxCursor++);
 }
 
 // Reimplements load_texture_by_name + load_texture_variants for a single model node.
-static void port_load_texture_for_node(const char* archive, const MapTexMeta* meta, u32 count,
-                                       ModelNodeProperty* propTextureName) {
-    const char* textureName = (const char*)propTextureName->data.p;
+static void
+port_load_texture_for_node(const char* archive, const MapTexMeta* meta, u32 count, ModelNodeProperty* propTextureName) {
+    const char* textureName = (const char*) propTextureName->data.p;
     s32 idx;
     s32 textureID;
 
@@ -225,7 +236,7 @@ static void port_load_texture_for_node(const char* archive, const MapTexMeta* me
         u32 i;
         for (i = 0; i < count; i++) {
             if (strcmp(textureName, meta[i].name) == 0) {
-                idx = (s32)i;
+                idx = (s32) i;
                 break;
             }
         }
@@ -238,8 +249,7 @@ static void port_load_texture_for_node(const char* archive, const MapTexMeta* me
     }
 
     if (port_get_tex_resource(archive, meta[idx].name, NULL) == NULL) {
-        GameEngine_LogInfo("[maptex] MISSING resource arc=%s name=%s -> textureID=0",
-                           archive, meta[idx].name);
+        GameEngine_LogInfo("[maptex] MISSING resource arc=%s name=%s -> textureID=0", archive, meta[idx].name);
         (*gCurrentModelTreeNodeInfo)[TreeIterPos].textureID = 0;
         return;
     }
@@ -257,7 +267,7 @@ static void port_load_texture_for_node(const char* archive, const MapTexMeta* me
         // load_texture_variants: consecutive following textures while isVariant,
         // into consecutive TextureHandles[] slots. Bounded by the archive count
         // (no blob walk -> no over-read).
-        for (j = idx + 1; j < (s32)count; j++) {
+        for (j = idx + 1; j < (s32) count; j++) {
             if (!meta[j].isVariant) {
                 break;
             }
@@ -268,8 +278,7 @@ static void port_load_texture_for_node(const char* archive, const MapTexMeta* me
 
 // Reimplements load_next_model_textures: walks the tree, advancing TreeIterPos
 // once per node (group and model).
-static void port_load_next_model_textures(const char* archive, const MapTexMeta* meta, u32 count,
-                                          ModelNode* model) {
+static void port_load_next_model_textures(const char* archive, const MapTexMeta* meta, u32 count, ModelNode* model) {
     if (model->type != SHAPE_TYPE_MODEL) {
         if (model->groupData != NULL) {
             s32 numChildren = model->groupData->numChildren;

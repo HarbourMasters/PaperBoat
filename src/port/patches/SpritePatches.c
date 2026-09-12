@@ -29,22 +29,38 @@
 //   - gDPInvalTexByPalette: drop cached textures keyed on the given palette
 //     RAM address.
 
-extern int gfx_create_framebuffer(unsigned int width, unsigned int height,
-                                  unsigned int native_width, unsigned int native_height,
-                                  unsigned char resize, unsigned char forceFixedAspect);
+extern int gfx_create_framebuffer(
+    unsigned int width,
+    unsigned int height,
+    unsigned int native_width,
+    unsigned int native_height,
+    unsigned char resize,
+    unsigned char forceFixedAspect
+);
 
 extern u16 SpriteShadingPalette[16];
 
 static s32 sShadingFbId = -1;
 
-
 void port_appendGfx_shading_palette(
-    Matrix4f mtx, s32 uls, s32 ult, s32 lrs, s32 lrt, s32 alpha,
-    f32 shadowX, f32 shadowY, f32 shadowZ,
-    s32 shadowR, s32 shadowG, s32 shadowB,
-    s32 highlightR, s32 highlightG, s32 highlightB,
-    s32 ambientPower, s32 renderMode)
-{
+    Matrix4f mtx,
+    s32 uls,
+    s32 ult,
+    s32 lrs,
+    s32 lrt,
+    s32 alpha,
+    f32 shadowX,
+    f32 shadowY,
+    f32 shadowZ,
+    s32 shadowR,
+    s32 shadowG,
+    s32 shadowB,
+    s32 highlightR,
+    s32 highlightG,
+    s32 highlightB,
+    s32 ambientPower,
+    s32 renderMode
+) {
     Camera* camera = &gCameras[gCurrentCameraID];
     f32 mtx01, mtx11, mtx21;
     f32 offsetX, offsetY;
@@ -104,12 +120,24 @@ void port_appendGfx_shading_palette(
     offsetY = -((shadowXZ * var_f12_2) + (shadowY * mtx11)) * ambientPower;
 
     // Per-channel clamp to 8-bit.
-    if (shadowR > 255) { shadowR = 255; }
-    if (shadowG > 255) { shadowG = 255; }
-    if (shadowB > 255) { shadowB = 255; }
-    if (highlightR > 255) { highlightR = 255; }
-    if (highlightG > 255) { highlightG = 255; }
-    if (highlightB > 255) { highlightB = 255; }
+    if (shadowR > 255) {
+        shadowR = 255;
+    }
+    if (shadowG > 255) {
+        shadowG = 255;
+    }
+    if (shadowB > 255) {
+        shadowB = 255;
+    }
+    if (highlightR > 255) {
+        highlightR = 255;
+    }
+    if (highlightG > 255) {
+        highlightG = 255;
+    }
+    if (highlightB > 255) {
+        highlightB = 255;
+    }
 
     // Create the GPU FB on first use.
     if (sShadingFbId < 0) {
@@ -121,8 +149,7 @@ void port_appendGfx_shading_palette(
 
     // Bind tile 2 to TMEM palette region 0 as a texture image.
     gDPSetTextureImagePal(gMainGfxPos++, 2, 0);
-    gDPSetTile(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0x100, 2,
-               0, G_TX_CLAMP, 0, 0, G_TX_CLAMP, 0, 0);
+    gDPSetTile(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0x100, 2, 0, G_TX_CLAMP, 0, 0, G_TX_CLAMP, 0, 0);
     gDPSetTileSize(gMainGfxPos++, 2, 0, 0, (16 - 1) << 2, 0);
 
     // Bind the shading FB as render target.
@@ -130,9 +157,11 @@ void port_appendGfx_shading_palette(
     gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, 0, 0, 16, 2);
 
     gDPPipeSync(gMainGfxPos++);
-    gSPSetOtherMode(gMainGfxPos++, G_SETOTHERMODE_H, 4, 18,
-                    G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
-                    G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE);
+    gSPSetOtherMode(
+        gMainGfxPos++, G_SETOTHERMODE_H, 4, 18,
+        G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE | G_TD_CLAMP
+            | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE
+    );
     gDPSetRenderMode(gMainGfxPos++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
 
     gDPSetPrimColor(gMainGfxPos++, 0, 0, shadowR, shadowG, shadowB, alpha);
@@ -145,11 +174,7 @@ void port_appendGfx_shading_palette(
 
     get_cam_scissor_x(gCurrentCameraID, &scissorLeft, &scissorRight);
     gDPSetScissor(
-        gMainGfxPos++, 0,
-        scissorLeft,
-        camera->viewportStartY,
-        scissorRight,
-        camera->viewportStartY + camera->viewportH
+        gMainGfxPos++, 0, scissorLeft, camera->viewportStartY, scissorRight, camera->viewportStartY + camera->viewportH
     );
 
     // Read the FB back into SpriteShadingPalette and load it as TLUT.
@@ -159,9 +184,11 @@ void port_appendGfx_shading_palette(
     // sprite re-uploads with the freshly written palette contents.
     gDPInvalTexByPalette(gMainGfxPos++, SpriteShadingPalette);
 
-    gSPSetOtherMode(gMainGfxPos++, G_SETOTHERMODE_H, 4, 18,
-                    G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_RGBA16 | G_TL_TILE |
-                    G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE);
+    gSPSetOtherMode(
+        gMainGfxPos++, G_SETOTHERMODE_H, 4, 18,
+        G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_RGBA16 | G_TL_TILE | G_TD_CLAMP
+            | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE
+    );
 
     gDPSetRenderMode(gMainGfxPos++, G_RM_PASS, renderMode);
     gDPSetEnvColor(gMainGfxPos++, 100, 100, 100, 255);
@@ -175,10 +202,9 @@ void port_appendGfx_shading_palette(
     gDPSetTileSize(
         gMainGfxPos++,
         0,
-        ((uls + 0x100) << 2) + (s32)(offsetX * facingDir),
-        ((ult + 0x100) << 2) + (s32)offsetY,
-        ((lrs + 0x100 - 1) << 2) + (s32)(offsetX * facingDir),
-        ((lrt + 0x100 - 1) << 2) + (s32)offsetY
+        ((uls + 0x100) << 2) + (s32) (offsetX * facingDir),
+        ((ult + 0x100) << 2) + (s32) offsetY,
+        ((lrs + 0x100 - 1) << 2) + (s32) (offsetX * facingDir),
+        ((lrt + 0x100 - 1) << 2) + (s32) offsetY
     );
 }
-

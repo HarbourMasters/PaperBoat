@@ -26,9 +26,14 @@
 //   - gDPReadFBToI8: queued FB readback with RGBA5551 -> I8 conversion.
 //   - gDPSetKeyR / gDPSetKeyGB: chroma-key combiner inputs (CENTER/SCALE).
 
-extern int gfx_create_framebuffer(unsigned int width, unsigned int height,
-                                  unsigned int native_width, unsigned int native_height,
-                                  unsigned char resize, unsigned char forceFixedAspect);
+extern int gfx_create_framebuffer(
+    unsigned int width,
+    unsigned int height,
+    unsigned int native_width,
+    unsigned int native_height,
+    unsigned char resize,
+    unsigned char forceFixedAspect
+);
 
 // Mirrors the layout of flame.c's local FlamePreset struct.
 typedef struct FlamePreset {
@@ -89,8 +94,24 @@ static Gfx sFlameDrawDL[] = {
     gsDPSetAlphaDither(G_AD_PATTERN),
     gsDPSetTextureLUT(G_TT_NONE),
     gsDPSetRenderMode(G_RM_PASS, G_RM_ZB_CLD_SURF2),
-    gsDPLoadTextureTile(sFlameReadbackB, G_IM_FMT_I, G_IM_SIZ_8b, FLAME_TEX_W, 0, 0, 0, 31, 63, 0,
-        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 5, 6, G_TX_NOLOD, G_TX_NOLOD),
+    gsDPLoadTextureTile(
+        sFlameReadbackB,
+        G_IM_FMT_I,
+        G_IM_SIZ_8b,
+        FLAME_TEX_W,
+        0,
+        0,
+        0,
+        31,
+        63,
+        0,
+        G_TX_NOMIRROR | G_TX_CLAMP,
+        G_TX_NOMIRROR | G_TX_CLAMP,
+        5,
+        6,
+        G_TX_NOLOD,
+        G_TX_NOLOD
+    ),
     gsDPSetCombineMode(PM_CC_34, PM_CC_35),
     gsSPClearGeometryMode(G_CULL_BOTH | G_LIGHTING),
     gsSPSetGeometryMode(G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH),
@@ -98,9 +119,11 @@ static Gfx sFlameDrawDL[] = {
 };
 
 static inline u8 flame_sat8(s32 v) {
-    if (v < 0) return 0;
-    if (v > 255) return 255;
-    return (u8)v;
+    if (v < 0)
+        return 0;
+    if (v > 255)
+        return 255;
+    return (u8) v;
 }
 
 // CPU evaluation of one two-cycle combiner pass with constants K4=92,
@@ -138,19 +161,19 @@ static void flame_distort_cpu(u8* dst, const u8* t0_src, const u8* t1_src, s32 d
 }
 
 void port_flame_appendGfx(void* effect) {
-    FlameFXData* data = ((EffectInstance*)effect)->data.flame;
+    FlameFXData* data = ((EffectInstance*) effect)->data.flame;
     Camera* camera = &gCameras[gCurrentCameraID];
     s32 type = data->type;
     s32 uls = data->unk_1C * 4.0f;
     s32 ult = data->unk_24 * 4.0f;
     FlamePreset* preset;
     Matrix4f sp18, sp58, sp98;
-    u8* readback = (u8*)sFlameReadbackB;
-    u8* blendCpu = (u8*)sFlameBlendCpu;
+    u8* readback = (u8*) sFlameReadbackB;
+    u8* blendCpu = (u8*) sFlameBlendCpu;
     s32 scissorLeft, scissorRight;
 
     gDPPipeSync(gMainGfxPos++);
-    gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*)effect)->shared->graphics));
+    gSPSegment(gMainGfxPos++, 0x09, VIRTUAL_TO_PHYSICAL(((EffectInstance*) effect)->shared->graphics));
 
     if (LastFlameRenderFrame != gGameStatusPtr->frameCounter) {
         LastFlameRenderFrame = gGameStatusPtr->frameCounter;
@@ -173,20 +196,19 @@ void port_flame_appendGfx(void* effect) {
         gDPReadFBToI8(gMainGfxPos++, sFbBlend, sFlameBlendCpu, 0, 0, FLAME_TEX_W, FLAME_TEX_H, 0);
 
         gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, VIRTUAL_TO_PHYSICAL(nuGfxCfb_ptr));
-        
+
         get_cam_scissor_x(gCurrentCameraID, &scissorLeft, &scissorRight);
-        gDPSetScissorFrac(gMainGfxPos++, G_SC_NON_INTERLACE,
-            scissorLeft * 4.0f,
-            camera->viewportStartY * 4.0f,
-            scissorRight * 4.0f,
-            (camera->viewportStartY + camera->viewportH) * 4.0f);
+        gDPSetScissorFrac(
+            gMainGfxPos++, G_SC_NON_INTERLACE, scissorLeft * 4.0f, camera->viewportStartY * 4.0f, scissorRight * 4.0f,
+            (camera->viewportStartY + camera->viewportH) * 4.0f
+        );
 
         // CPU passes 3-5 on LAST FRAME's blend bytes. T0 is the blend
         // (constant across iterations); T1 is the previous iteration's
         // output. UV offsets and combiner constants match the original.
         flame_distort_cpu(sFlameWorkA, blendCpu, blendCpu, +1, 0);
         flame_distort_cpu(sFlameWorkB, blendCpu, sFlameWorkA, -1, 0);
-        flame_distort_cpu(readback,    blendCpu, sFlameWorkB, 0, +1);
+        flame_distort_cpu(readback, blendCpu, sFlameWorkB, 0, +1);
 
         GameEngine_InvalidateTextureCache(sFlameReadbackB);
     }
@@ -206,8 +228,7 @@ void port_flame_appendGfx(void* effect) {
     guMtxCatF(sp58, sp98, sp98);
     guMtxF2L(sp98, &gDisplayContext->matrixStack[gMatrixListPos]);
 
-    gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
-              G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+    gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
     gSPDisplayList(gMainGfxPos++, D_090008F8_3544A8);
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     gDPPipeSync(gMainGfxPos++);

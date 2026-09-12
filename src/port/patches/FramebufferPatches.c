@@ -2,9 +2,14 @@
 #include "port/Engine.h"
 #include "port/patches/Patches.h"
 
-extern int gfx_create_framebuffer(unsigned int width, unsigned int height,
-                                  unsigned int native_width, unsigned int native_height,
-                                  unsigned char resize, unsigned char forceFixedAspect);
+extern int gfx_create_framebuffer(
+    unsigned int width,
+    unsigned int height,
+    unsigned int native_width,
+    unsigned int native_height,
+    unsigned char resize,
+    unsigned char forceFixedAspect
+);
 extern void gfx_register_fb_texture(const void* cpuAddr, int fbId);
 
 // GPU framebuffer plus a registered CPU sentinel, so binding the sentinel as a
@@ -12,8 +17,7 @@ extern void gfx_register_fb_texture(const void* cpuAddr, int fbId);
 // tile and use absolute screen-space UVs.
 static void ensureMirror(s32* fbId, const u16* sentinel) {
     if (*fbId < 0) {
-        *fbId = gfx_create_framebuffer(SCREEN_WIDTH, SCREEN_HEIGHT,
-                                       SCREEN_WIDTH, SCREEN_HEIGHT, 1, 0);
+        *fbId = gfx_create_framebuffer(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT, 1, 0);
         gfx_register_fb_texture(sentinel, *fbId);
     }
 }
@@ -30,7 +34,6 @@ s32 port_fbMirrorS(s32 screenX) {
     }
     return (s32) (32.0f * SCREEN_WIDTH * (screenX - visLeft) / visWidth);
 }
-
 
 static u16 s_prevFrameSentinel[SCREEN_WIDTH * SCREEN_HEIGHT];
 
@@ -100,14 +103,14 @@ void port_appendGfx_draw_prev_frame_buffer(s32 x1, s32 y1, s32 x2, s32 y2, f32 a
     gDPSetPrimColor(gMainGfxPos++, 0, 0, 255, 255, 255, alpha);
 
     // Tile dimensions are what the UV normalization divides by, so declare the full frame
-    gDPLoadTextureTile(gMainGfxPos++, osVirtualToPhysical(prevGfxCfb), G_IM_FMT_RGBA, G_IM_SIZ_16b,
-                       SCREEN_WIDTH, SCREEN_HEIGHT,
-                       0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, 0,
-                       G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureTile(
+        gMainGfxPos++, osVirtualToPhysical(prevGfxCfb), G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0,
+        SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD
+    );
 
     // dstLeft can be negative at wide aspect, hence the wide texrect
-    gSPWideTextureRectangle(gMainGfxPos++, dstLeft * 4, y1 * 4, dstRight * 4, y2 * 4,
-                        G_TX_RENDERTILE,
-                        port_fbMirrorS(dstLeft), y1 * 32,
-                        (s32) (1024.0f * SCREEN_WIDTH / visWidth), 1024);
+    gSPWideTextureRectangle(
+        gMainGfxPos++, dstLeft * 4, y1 * 4, dstRight * 4, y2 * 4, G_TX_RENDERTILE, port_fbMirrorS(dstLeft), y1 * 32,
+        (s32) (1024.0f * SCREEN_WIDTH / visWidth), 1024
+    );
 }

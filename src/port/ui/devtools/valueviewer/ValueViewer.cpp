@@ -16,19 +16,19 @@ extern "C" {
 #pragma push_macro("End")
 #undef End
 
-#define CVAR_NAME_SHOW_VALUE_VIEWER "gWindows.ValueViewer"
+#define CVAR_NAME_SHOW_VALUE_VIEWER      "gWindows.ValueViewer"
 #define CVAR_NAME_ENABLE_FLOATING_WINDOW "gValueViewer.Floating"
-#define CVAR_NAME_VALUE_VIEWER_OPACITY "gValueViewer.Opacity"
-#define CVAR_NAME_VALUE_VIEWER_SCALE "gValueViewer.Scale"
-#define CVAR_NAME_SHOW_MAP "gValueViewer.ShowMap"
-#define CVAR_NAME_SHOW_POSITION "gValueViewer.ShowPosition"
+#define CVAR_NAME_VALUE_VIEWER_OPACITY   "gValueViewer.Opacity"
+#define CVAR_NAME_VALUE_VIEWER_SCALE     "gValueViewer.Scale"
+#define CVAR_NAME_SHOW_MAP               "gValueViewer.ShowMap"
+#define CVAR_NAME_SHOW_POSITION          "gValueViewer.ShowPosition"
 
-#define CVAR_SHOW_VALUE_VIEWER CVarGetInteger(CVAR_NAME_SHOW_VALUE_VIEWER, 0)
+#define CVAR_SHOW_VALUE_VIEWER      CVarGetInteger(CVAR_NAME_SHOW_VALUE_VIEWER, 0)
 #define CVAR_ENABLE_FLOATING_WINDOW CVarGetInteger(CVAR_NAME_ENABLE_FLOATING_WINDOW, 0)
-#define CVAR_VALUE_VIEWER_OPACITY CVarGetFloat(CVAR_NAME_VALUE_VIEWER_OPACITY, 0.5f)
-#define CVAR_VALUE_VIEWER_SCALE CVarGetFloat(CVAR_NAME_VALUE_VIEWER_SCALE, 0.5f)
-#define CVAR_SHOW_MAP CVarGetInteger(CVAR_NAME_SHOW_MAP, 0)
-#define CVAR_SHOW_POSITION CVarGetInteger(CVAR_NAME_SHOW_POSITION, 0)
+#define CVAR_VALUE_VIEWER_OPACITY   CVarGetFloat(CVAR_NAME_VALUE_VIEWER_OPACITY, 0.5f)
+#define CVAR_VALUE_VIEWER_SCALE     CVarGetFloat(CVAR_NAME_VALUE_VIEWER_SCALE, 0.5f)
+#define CVAR_SHOW_MAP               CVarGetInteger(CVAR_NAME_SHOW_MAP, 0)
+#define CVAR_SHOW_POSITION          CVarGetInteger(CVAR_NAME_SHOW_POSITION, 0)
 
 extern "C" {
 extern PlayerStatus gPlayerStatus;
@@ -41,14 +41,15 @@ extern s32 gCurrentStageID;
 }
 
 std::map<ValueViewerTypes, const char*> valueViewerOptions = {
-    { VALUE_TYPE_MAP,  CVAR_NAME_SHOW_MAP },
-    { VALUE_TYPE_POSITION,  CVAR_NAME_SHOW_POSITION },
+    { VALUE_TYPE_MAP, CVAR_NAME_SHOW_MAP },
+    { VALUE_TYPE_POSITION, CVAR_NAME_SHOW_POSITION },
 };
 
 std::vector<ValueViewerTypes> enabledSettingsList;
 
-ImGuiWindowFlags valueViewerWindowFlags = ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_AlwaysAutoResize;
-ImVec4 valueViewerBG = ImVec4{ 0, 0, 0, 0.5f };
+ImGuiWindowFlags valueViewerWindowFlags =
+    ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_AlwaysAutoResize;
+ImVec4 valueViewerBG = ImVec4 { 0, 0, 0, 0.5f };
 float valueViewerScale = 1.0f;
 
 std::string position = "";
@@ -74,28 +75,34 @@ void ValueViewerSettings_DrawOptionsMenu() {
 
         ImGui::SeparatorText("Window Options");
         UIWidgets::CVarCheckbox("Floating Window", CVAR_NAME_ENABLE_FLOATING_WINDOW);
-        if (UIWidgets::CVarSliderFloat("", CVAR_NAME_VALUE_VIEWER_OPACITY,
-            {
-                .format = "Opacity: %.1f",
-                .step = 0.01f,
-                .min = 0.0f,
-                .max = 1.0f,
-                .defaultValue = 0.5f,
-                .labelPosition = UIWidgets::LabelPositions::None,
-                .color = WIDGET_COLOR,
-            })) {
+        if (UIWidgets::CVarSliderFloat(
+                "", CVAR_NAME_VALUE_VIEWER_OPACITY,
+                {
+                    .format = "Opacity: %.1f",
+                    .step = 0.01f,
+                    .min = 0.0f,
+                    .max = 1.0f,
+                    .defaultValue = 0.5f,
+                    .labelPosition = UIWidgets::LabelPositions::None,
+                    .color = WIDGET_COLOR,
+                }
+            ))
+        {
             valueViewerBG.w = CVAR_VALUE_VIEWER_OPACITY;
         }
-        if (UIWidgets::CVarSliderFloat(" ", CVAR_NAME_VALUE_VIEWER_SCALE,
-            {
-                .format = "Scale: %.1f",
-                .step = 0.10f,
-                .min = 0.7f,
-                .max = 2.5f,
-                .defaultValue = 1.0f,
-                .labelPosition = UIWidgets::LabelPositions::None,
-                .color = WIDGET_COLOR,
-            })) {
+        if (UIWidgets::CVarSliderFloat(
+                " ", CVAR_NAME_VALUE_VIEWER_SCALE,
+                {
+                    .format = "Scale: %.1f",
+                    .step = 0.10f,
+                    .min = 0.7f,
+                    .max = 2.5f,
+                    .defaultValue = 1.0f,
+                    .labelPosition = UIWidgets::LabelPositions::None,
+                    .color = WIDGET_COLOR,
+                }
+            ))
+        {
             valueViewerScale = CVAR_VALUE_VIEWER_SCALE;
         }
 
@@ -138,7 +145,9 @@ void ValueViewer_DrawOption(ValueViewerTypes option) {
 
                 ImGui::TableNextColumn();
                 battleId = (gCurrentBattleID << 16 | (gCurrentStageID & 0xFFFF));
-                battleName = fmt::format("{:02}-{:02} ({})", ((battleId >> 24) & 0xFF), ((battleId >> 16) & 0xFF), (battleId & 0xFFF));
+                battleName = fmt::format(
+                    "{:02}-{:02} ({})", ((battleId >> 24) & 0xFF), ((battleId >> 16) & 0xFF), (battleId & 0xFFF)
+                );
                 ImGui::Text("%s", battleName.c_str());
             }
             break;
@@ -147,7 +156,9 @@ void ValueViewer_DrawOption(ValueViewerTypes option) {
                 ImGui::TableNextColumn();
                 ImGui::Text("Pos:");
                 ImGui::TableNextColumn();
-                position = fmt::format("{:.5f}, {:.5f}, {:.5f}", gPlayerStatus.pos.x, gPlayerStatus.pos.y, gPlayerStatus.pos.z);
+                position = fmt::format(
+                    "{:.5f}, {:.5f}, {:.5f}", gPlayerStatus.pos.x, gPlayerStatus.pos.y, gPlayerStatus.pos.z
+                );
                 ImGui::Text("%s", position.c_str());
             }
             break;
@@ -191,8 +202,6 @@ void ValueViewerWindow::Draw() {
                 }
                 ImGui::EndTable();
             }
-
-
         }
     }
 
@@ -203,19 +212,26 @@ void ValueViewerWindow::Draw() {
 }
 
 void ValueViewerWindow::OnInit(const nlohmann::json& initArgs) {
-  Ship::GuiWindow::OnInit(initArgs);
+    Ship::GuiWindow::OnInit(initArgs);
     ValueViewerSettings_Update();
     valueViewerBG = { 0, 0, 0, CVAR_VALUE_VIEWER_OPACITY };
     valueViewerScale = CVAR_VALUE_VIEWER_SCALE;
 
-    valueViewerWindowFlags = ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_AlwaysAutoResize;
+    valueViewerWindowFlags =
+        ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_AlwaysAutoResize;
     if (CVAR_ENABLE_FLOATING_WINDOW) {
         valueViewerWindowFlags |= ImGuiWindowFlags_NoTitleBar;
     }
 }
 
 void ValueViewerSettingsWindow::DrawElement() {
-    if (UIWidgets::Button("Toggle Value Viewer", UIWidgets::ButtonOptions().Color(CVarGetInteger("gWindows.ValueViewer", 0) ? UIWidgets::Colors::Red : UIWidgets::Colors::Green))) {
+    if (UIWidgets::Button(
+            "Toggle Value Viewer",
+            UIWidgets::ButtonOptions().Color(
+                CVarGetInteger("gWindows.ValueViewer", 0) ? UIWidgets::Colors::Red : UIWidgets::Colors::Green
+            )
+        ))
+    {
         int32_t value = CVarGetInteger("gWindows.ValueViewer", 0) ? 0 : 1;
         CVarSetInteger("gWindows.ValueViewer", value);
     }

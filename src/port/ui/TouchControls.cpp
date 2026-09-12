@@ -194,10 +194,11 @@ void ComputeLayout(OverlayState& state) {
     const ImU32 kGray = IM_COL32(150, 150, 160, 255);
 
     // The default center can be overridden by a saved custom position (edit mode).
-    const auto make = [w, h](uint16_t mask, const char* id, const char* label, const char* base, const char* basePath,
-                             const char* outline, const char* outlinePath, const Rect& r, ImU32 color, float dirX,
-                             float dirY, ImVec2 center, float halfH) {
-        TouchButton b{};
+    const auto make = [w,
+                       h](uint16_t mask, const char* id, const char* label, const char* base, const char* basePath,
+                          const char* outline, const char* outlinePath, const Rect& r, ImU32 color, float dirX,
+                          float dirY, ImVec2 center, float halfH) {
+        TouchButton b {};
         b.mask = mask;
         b.id = id;
         b.label = label;
@@ -234,58 +235,72 @@ void ComputeLayout(OverlayState& state) {
 
     state.gameButtons.clear();
     // Face buttons, bottom-right.
-    state.gameButtons.push_back(make(BTN_A, "A", "A", "A-Btn", "textures/buttons/ABtn.png", "A-Btn Outline",
-                                     "textures/buttons/ABtnOutline.png", rA, kBlue, 0, 0,
-                                     ImVec2(w - 2.6f * u, h - 3.0f * u), 1.5f * u));
-    state.gameButtons.push_back(make(BTN_B, "B", "B", "B-Btn", "textures/buttons/BBtn.png", "B-Btn Outline",
-                                     "textures/buttons/BBtnOutline.png", rB, kGreen, 0, 0,
-                                     ImVec2(w - 5.6f * u, h - 4.2f * u), 1.25f * u));
+    state.gameButtons.push_back(make(
+        BTN_A, "A", "A", "A-Btn", "textures/buttons/ABtn.png", "A-Btn Outline", "textures/buttons/ABtnOutline.png", rA,
+        kBlue, 0, 0, ImVec2(w - 2.6f * u, h - 3.0f * u), 1.5f * u
+    ));
+    state.gameButtons.push_back(make(
+        BTN_B, "B", "B", "B-Btn", "textures/buttons/BBtn.png", "B-Btn Outline", "textures/buttons/BBtnOutline.png", rB,
+        kGreen, 0, 0, ImVec2(w - 5.6f * u, h - 4.2f * u), 1.25f * u
+    ));
     // C buttons in a diamond, above the face buttons.
     const ImVec2 c(w - 3.3f * u, h - 8.8f * u);
     const float cOff = 1.5f * u;
     const float cR = 0.85f * u;
-    state.gameButtons.push_back(make(BTN_CUP, "CUp", "C", "C-Up", "textures/buttons/CUp.png", "C-Up Outline",
-                                     "textures/buttons/CUpOutline.png", rCUp, kYellow, 0, -1, ImVec2(c.x, c.y - cOff),
-                                     cR));
-    state.gameButtons.push_back(make(BTN_CDOWN, "CDown", "C", "C-Down", "textures/buttons/CDown.png", "C-Down Outline",
-                                     "textures/buttons/CDownOutline.png", rCDown, kYellow, 0, 1,
-                                     ImVec2(c.x, c.y + cOff), cR));
-    state.gameButtons.push_back(make(BTN_CLEFT, "CLeft", "C", "C-Left", "textures/buttons/CLeft.png", "C-Left Outline",
-                                     "textures/buttons/CLeftOutline.png", rCLeft, kYellow, -1, 0,
-                                     ImVec2(c.x - cOff, c.y), cR));
-    state.gameButtons.push_back(make(BTN_CRIGHT, "CRight", "C", "C-Right", "textures/buttons/CRight.png",
-                                     "C-Right Outline", "textures/buttons/CRightOutline.png", rCRight, kYellow, 1, 0,
-                                     ImVec2(c.x + cOff, c.y), cR));
+    state.gameButtons.push_back(make(
+        BTN_CUP, "CUp", "C", "C-Up", "textures/buttons/CUp.png", "C-Up Outline", "textures/buttons/CUpOutline.png",
+        rCUp, kYellow, 0, -1, ImVec2(c.x, c.y - cOff), cR
+    ));
+    state.gameButtons.push_back(make(
+        BTN_CDOWN, "CDown", "C", "C-Down", "textures/buttons/CDown.png", "C-Down Outline",
+        "textures/buttons/CDownOutline.png", rCDown, kYellow, 0, 1, ImVec2(c.x, c.y + cOff), cR
+    ));
+    state.gameButtons.push_back(make(
+        BTN_CLEFT, "CLeft", "C", "C-Left", "textures/buttons/CLeft.png", "C-Left Outline",
+        "textures/buttons/CLeftOutline.png", rCLeft, kYellow, -1, 0, ImVec2(c.x - cOff, c.y), cR
+    ));
+    state.gameButtons.push_back(make(
+        BTN_CRIGHT, "CRight", "C", "C-Right", "textures/buttons/CRight.png", "C-Right Outline",
+        "textures/buttons/CRightOutline.png", rCRight, kYellow, 1, 0, ImVec2(c.x + cOff, c.y), cR
+    ));
     // Shoulder / trigger bars: L top-left (clear of the menu button), R and Z top-right.
-    state.gameButtons.push_back(make(BTN_L, "L", "L", "L-Btn", "textures/buttons/LBtn.png", "L-Btn Outline",
-                                     "textures/buttons/LBtnOutline.png", rL, kGray, 0, 0, ImVec2(7.5f * u, 1.6f * u),
-                                     0.55f * u));
-    state.gameButtons.push_back(make(BTN_R, "R", "R", "R-Btn", "textures/buttons/RBtn.png", "R-Btn Outline",
-                                     "textures/buttons/RBtnOutline.png", rR, kGray, 0, 0,
-                                     ImVec2(w - 4.2f * u, 1.6f * u), 0.55f * u));
-    state.gameButtons.push_back(make(BTN_Z, "Z", "Z", "Z-Btn", "textures/buttons/ZBtn.png", "Z-Btn Outline",
-                                     "textures/buttons/ZBtnOutline.png", rZ, kGray, 0, 0,
-                                     ImVec2(w - 4.2f * u, 3.4f * u), 0.55f * u));
+    state.gameButtons.push_back(make(
+        BTN_L, "L", "L", "L-Btn", "textures/buttons/LBtn.png", "L-Btn Outline", "textures/buttons/LBtnOutline.png", rL,
+        kGray, 0, 0, ImVec2(7.5f * u, 1.6f * u), 0.55f * u
+    ));
+    state.gameButtons.push_back(make(
+        BTN_R, "R", "R", "R-Btn", "textures/buttons/RBtn.png", "R-Btn Outline", "textures/buttons/RBtnOutline.png", rR,
+        kGray, 0, 0, ImVec2(w - 4.2f * u, 1.6f * u), 0.55f * u
+    ));
+    state.gameButtons.push_back(make(
+        BTN_Z, "Z", "Z", "Z-Btn", "textures/buttons/ZBtn.png", "Z-Btn Outline", "textures/buttons/ZBtnOutline.png", rZ,
+        kGray, 0, 0, ImVec2(w - 4.2f * u, 3.4f * u), 0.55f * u
+    ));
     // D-pad cross on the left, above the stick area. Each texture is one arm
     // (with the shared hub), so adjacent placement reassembles the cross.
     const ImVec2 d(3.4f * u, h - 9.8f * u);
     const float dOff = 0.75f * u;
-    state.gameButtons.push_back(make(BTN_DUP, "DUp", "D", "Dpad-Up", "textures/buttons/DPadUp.png", "Dpad-Up Outline",
-                                     "textures/buttons/DPadUpOutline.png", rDUp, kGray, 0, -1, ImVec2(d.x, d.y - dOff),
-                                     1.0f * u));
-    state.gameButtons.push_back(make(BTN_DDOWN, "DDown", "D", "Dpad-Down", "textures/buttons/DPadDown.png",
-                                     "Dpad-Down Outline", "textures/buttons/DPadDownOutline.png", rDDown, kGray, 0, 1,
-                                     ImVec2(d.x, d.y + dOff), 1.0f * u));
-    state.gameButtons.push_back(make(BTN_DLEFT, "DLeft", "D", "Dpad-Left", "textures/buttons/DPadLeft.png",
-                                     "Dpad-Left Outline", "textures/buttons/DPadLeftOutline.png", rDLeft, kGray, -1, 0,
-                                     ImVec2(d.x - dOff, d.y), 0.45f * u));
-    state.gameButtons.push_back(make(BTN_DRIGHT, "DRight", "D", "Dpad-Right", "textures/buttons/DPadRight.png",
-                                     "Dpad-Right Outline", "textures/buttons/DPadRightOutline.png", rDRight, kGray, 1,
-                                     0, ImVec2(d.x + dOff, d.y), 0.45f * u));
+    state.gameButtons.push_back(make(
+        BTN_DUP, "DUp", "D", "Dpad-Up", "textures/buttons/DPadUp.png", "Dpad-Up Outline",
+        "textures/buttons/DPadUpOutline.png", rDUp, kGray, 0, -1, ImVec2(d.x, d.y - dOff), 1.0f * u
+    ));
+    state.gameButtons.push_back(make(
+        BTN_DDOWN, "DDown", "D", "Dpad-Down", "textures/buttons/DPadDown.png", "Dpad-Down Outline",
+        "textures/buttons/DPadDownOutline.png", rDDown, kGray, 0, 1, ImVec2(d.x, d.y + dOff), 1.0f * u
+    ));
+    state.gameButtons.push_back(make(
+        BTN_DLEFT, "DLeft", "D", "Dpad-Left", "textures/buttons/DPadLeft.png", "Dpad-Left Outline",
+        "textures/buttons/DPadLeftOutline.png", rDLeft, kGray, -1, 0, ImVec2(d.x - dOff, d.y), 0.45f * u
+    ));
+    state.gameButtons.push_back(make(
+        BTN_DRIGHT, "DRight", "D", "Dpad-Right", "textures/buttons/DPadRight.png", "Dpad-Right Outline",
+        "textures/buttons/DPadRightOutline.png", rDRight, kGray, 1, 0, ImVec2(d.x + dOff, d.y), 0.45f * u
+    ));
     // Start, bottom-center.
-    state.gameButtons.push_back(make(BTN_START, "Start", "S", "Start-Btn", "textures/buttons/StartBtn.png",
-                                     "Start-Btn Outline", "textures/buttons/StartBtnOutline.png", rStart, kRed, 0, 0,
-                                     ImVec2(w * 0.5f, h - 1.7f * u), 0.9f * u));
+    state.gameButtons.push_back(make(
+        BTN_START, "Start", "S", "Start-Btn", "textures/buttons/StartBtn.png", "Start-Btn Outline",
+        "textures/buttons/StartBtnOutline.png", rStart, kRed, 0, 0, ImVec2(w * 0.5f, h - 1.7f * u), 0.9f * u
+    ));
 }
 
 float Dist(const ImVec2& a, const ImVec2& b) {
@@ -361,7 +376,7 @@ void HandleEditMode(OverlayState& state, const std::vector<Finger>& fingers, flo
         if (held == nullptr) {
             // Released: persist the last dragged position (the state's centers
             // were already reset by ComputeLayout this tick).
-            if (sDragTarget >= 0 && sDragTarget < (int)state.gameButtons.size()) {
+            if (sDragTarget >= 0 && sDragTarget < (int) state.gameButtons.size()) {
                 SavePos(state.gameButtons[sDragTarget].id, sDragPos, w, h);
             } else if (sDragTarget == -2) {
                 SavePos("Stick", sDragPos, w, h);
@@ -375,7 +390,7 @@ void HandleEditMode(OverlayState& state, const std::vector<Finger>& fingers, flo
         }
         sDragPos =
             ImVec2(std::clamp(held->pos.x + sDragOffset.x, 0.0f, w), std::clamp(held->pos.y + sDragOffset.y, 0.0f, h));
-        if (sDragTarget >= 0 && sDragTarget < (int)state.gameButtons.size()) {
+        if (sDragTarget >= 0 && sDragTarget < (int) state.gameButtons.size()) {
             state.gameButtons[sDragTarget].center = sDragPos;
         } else if (sDragTarget == -2) {
             state.stickRest = sDragPos;
@@ -387,11 +402,12 @@ void HandleEditMode(OverlayState& state, const std::vector<Finger>& fingers, flo
 
     // Begin a drag on the first finger that lands on a widget.
     for (const auto& finger : fingers) {
-        if (InRect(finger.pos, state.doneCenter, state.doneHalf) ||
-            InRect(finger.pos, state.resetCenter, state.resetHalf)) {
+        if (InRect(finger.pos, state.doneCenter, state.doneHalf)
+            || InRect(finger.pos, state.resetCenter, state.resetHalf))
+        {
             continue;
         }
-        for (int i = 0; i < (int)state.gameButtons.size(); i++) {
+        for (int i = 0; i < (int) state.gameButtons.size(); i++) {
             if (HitsButton(state.gameButtons[i], finger.pos)) {
                 sDragFinger = finger.id;
                 sDragTarget = i;
@@ -510,7 +526,7 @@ extern "C" void TouchControls_ApplyPad(void* pads) {
         bool consumed = false;
         int best = -1;
         float bestScore = 2.0f;
-        for (int i = 0; i < (int)sState.gameButtons.size(); i++) {
+        for (int i = 0; i < (int) sState.gameButtons.size(); i++) {
             const float score = HitScore(sState.gameButtons[i], finger.pos);
             if (score >= 0.0f && score < bestScore) {
                 bestScore = score;
@@ -559,14 +575,17 @@ extern "C" void TouchControls_ApplyPad(void* pads) {
             dy /= len;
         }
         sState.stickHeld = true;
-        sState.stickX = (int8_t)std::clamp(dx * kStickMax, -kStickMax, kStickMax);
-        sState.stickY = (int8_t)std::clamp(-dy * kStickMax, -kStickMax, kStickMax); // screen y is down, stick y is up
-        sState.stickPos = ImVec2(sState.stickAnchor.x + dx * sState.stickTravel * std::min<float>(len, 1.0f),
-                                 sState.stickAnchor.y + dy * sState.stickTravel * std::min<float>(len, 1.0f));
+        sState.stickX = (int8_t) std::clamp(dx * kStickMax, -kStickMax, kStickMax);
+        sState.stickY = (int8_t) std::clamp(-dy * kStickMax, -kStickMax, kStickMax); // screen y is down, stick y is up
+        sState.stickPos = ImVec2(
+            sState.stickAnchor.x + dx * sState.stickTravel * std::min<float>(len, 1.0f),
+            sState.stickAnchor.y + dy * sState.stickTravel * std::min<float>(len, 1.0f)
+        );
     }
 
-    if (pads == nullptr || ControllerGetControlDeck() == nullptr ||
-        ControllerGetControlDeck()->GamepadGameInputBlocked()) {
+    if (pads == nullptr || ControllerGetControlDeck() == nullptr
+        || ControllerGetControlDeck()->GamepadGameInputBlocked())
+    {
         return;
     }
 
@@ -616,13 +635,13 @@ void TouchControlsOverlay::Draw() {
         }
     }
 
-    const float u = std::min<float>(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y) * 0.055f *
-                    std::clamp(CVarGetFloat(CVAR_TOUCH("Scale"), 1.0f), 0.5f, 2.0f);
+    const float u = std::min<float>(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y) * 0.055f
+        * std::clamp(CVarGetFloat(CVAR_TOUCH("Scale"), 1.0f), 0.5f, 2.0f);
     const float stroke = std::max<float>(2.0f, u * 0.09f);
     ImFont* font = ImGui::GetFont();
 
     const auto alpha = [opacity](float a) {
-        return (ImU32)(std::min<float>(a, 1.0f) * opacity * 255.0f) << IM_COL32_A_SHIFT;
+        return (ImU32) (std::min<float>(a, 1.0f) * opacity * 255.0f) << IM_COL32_A_SHIFT;
     };
     const auto rgb = [](ImU32 c) { return c & ~IM_COL32_A_MASK; };
     const auto text = [&](const ImVec2& center, float size, const char* s, ImU32 col) {
@@ -664,10 +683,14 @@ void TouchControlsOverlay::Draw() {
             if (button.dirX != 0 || button.dirY != 0) {
                 const float a = r * 0.5f;
                 const ImVec2 tip(button.center.x + button.dirX * a, button.center.y + button.dirY * a);
-                const ImVec2 b1(button.center.x - button.dirX * a * 0.6f + button.dirY * a,
-                                button.center.y - button.dirY * a * 0.6f + button.dirX * a);
-                const ImVec2 b2(button.center.x - button.dirX * a * 0.6f - button.dirY * a,
-                                button.center.y - button.dirY * a * 0.6f - button.dirX * a);
+                const ImVec2 b1(
+                    button.center.x - button.dirX * a * 0.6f + button.dirY * a,
+                    button.center.y - button.dirY * a * 0.6f + button.dirX * a
+                );
+                const ImVec2 b2(
+                    button.center.x - button.dirX * a * 0.6f - button.dirY * a,
+                    button.center.y - button.dirY * a * 0.6f - button.dirX * a
+                );
                 drawList->AddTriangleFilled(tip, b1, b2, IM_COL32(20, 20, 26, 0) | alpha(0.9f));
             } else {
                 text(button.center, r * 1.2f, button.label, IM_COL32(255, 255, 255, 0) | alpha(0.95f));
@@ -688,17 +711,20 @@ void TouchControlsOverlay::Draw() {
     // Sized so the cap touches the gate ring at full deflection.
     const float gateHalf = sState.stickTravel + sState.nubRadius;
     if (gateTex != nullptr) {
-        drawList->AddImage(gateTex, ImVec2(base.x - gateHalf, base.y - gateHalf),
-                           ImVec2(base.x + gateHalf, base.y + gateHalf), gateUv0, gateUv1,
-                           IM_COL32(255, 255, 255, 0) | alpha(baseAlpha));
+        drawList->AddImage(
+            gateTex, ImVec2(base.x - gateHalf, base.y - gateHalf), ImVec2(base.x + gateHalf, base.y + gateHalf),
+            gateUv0, gateUv1, IM_COL32(255, 255, 255, 0) | alpha(baseAlpha)
+        );
     } else {
         drawList->AddCircleFilled(base, sState.stickTravel, IM_COL32(20, 20, 26, 0) | alpha(0.22f * baseAlpha));
         drawList->AddCircle(base, sState.stickTravel, IM_COL32(255, 255, 255, 0) | alpha(baseAlpha), 0, stroke);
     }
     if (capTex != nullptr) {
-        drawList->AddImage(capTex, ImVec2(nub.x - sState.nubRadius, nub.y - sState.nubRadius),
-                           ImVec2(nub.x + sState.nubRadius, nub.y + sState.nubRadius), sState.stickUv0, sState.stickUv1,
-                           IM_COL32(255, 255, 255, 0) | alpha(baseAlpha + 0.15f));
+        drawList->AddImage(
+            capTex, ImVec2(nub.x - sState.nubRadius, nub.y - sState.nubRadius),
+            ImVec2(nub.x + sState.nubRadius, nub.y + sState.nubRadius), sState.stickUv0, sState.stickUv1,
+            IM_COL32(255, 255, 255, 0) | alpha(baseAlpha + 0.15f)
+        );
     } else {
         drawList->AddCircleFilled(nub, sState.nubRadius, IM_COL32(190, 190, 200, 0) | alpha(baseAlpha));
         drawList->AddCircle(nub, sState.nubRadius, IM_COL32(255, 255, 255, 0) | alpha(baseAlpha + 0.15f), 0, stroke);
@@ -706,24 +732,29 @@ void TouchControlsOverlay::Draw() {
 
     // Layout-edit chrome: highlight the dragged widget, Done/Reset pills, hint.
     if (sState.editMode) {
-        if (sDragTarget >= 0 && sDragTarget < (int)sState.gameButtons.size()) {
+        if (sDragTarget >= 0 && sDragTarget < (int) sState.gameButtons.size()) {
             const TouchButton& b = sState.gameButtons[sDragTarget];
-            drawList->AddRect(ImVec2(b.center.x - b.halfW - u * 0.3f, b.center.y - b.halfH - u * 0.3f),
-                              ImVec2(b.center.x + b.halfW + u * 0.3f, b.center.y + b.halfH + u * 0.3f),
-                              IM_COL32(255, 255, 255, 220), u * 0.2f, 0, stroke);
+            drawList->AddRect(
+                ImVec2(b.center.x - b.halfW - u * 0.3f, b.center.y - b.halfH - u * 0.3f),
+                ImVec2(b.center.x + b.halfW + u * 0.3f, b.center.y + b.halfH + u * 0.3f), IM_COL32(255, 255, 255, 220),
+                u * 0.2f, 0, stroke
+            );
         } else if (sDragTarget == -2) {
-            drawList->AddCircle(sState.stickRest, sState.stickTravel + u * 0.3f, IM_COL32(255, 255, 255, 220), 0,
-                                stroke);
+            drawList->AddCircle(
+                sState.stickRest, sState.stickTravel + u * 0.3f, IM_COL32(255, 255, 255, 220), 0, stroke
+            );
         } else if (sDragTarget == -3) {
-            drawList->AddCircle(sState.menuCenter, sState.menuRadius + u * 0.3f, IM_COL32(255, 255, 255, 220), 0,
-                                stroke);
+            drawList->AddCircle(
+                sState.menuCenter, sState.menuRadius + u * 0.3f, IM_COL32(255, 255, 255, 220), 0, stroke
+            );
         }
 
         const auto pill = [&](const ImVec2& c, const ImVec2& half, ImU32 fillColor, const char* s, bool down) {
             const ImVec2 pMin(c.x - half.x, c.y - half.y);
             const ImVec2 pMax(c.x + half.x, c.y + half.y);
-            drawList->AddRectFilled(pMin, pMax,
-                                    (fillColor & ~IM_COL32_A_MASK) | (down ? IM_COL32_A_MASK : alpha(0.85f)), half.y);
+            drawList->AddRectFilled(
+                pMin, pMax, (fillColor & ~IM_COL32_A_MASK) | (down ? IM_COL32_A_MASK : alpha(0.85f)), half.y
+            );
             drawList->AddRect(pMin, pMax, IM_COL32(255, 255, 255, 230), half.y, 0, stroke);
             text(c, half.y * 1.0f, s, IM_COL32(255, 255, 255, 255));
         };
@@ -731,8 +762,10 @@ void TouchControlsOverlay::Draw() {
         pill(sState.resetCenter, sState.resetHalf, IM_COL32(120, 120, 130, 255), "Reset", sResetDown);
 
         const ImVec2 display = ImGui::GetIO().DisplaySize;
-        text(ImVec2(display.x * 0.5f, 3.6f * u), u * 0.9f, "Drag controls to reposition them",
-             IM_COL32(255, 255, 255, 200));
+        text(
+            ImVec2(display.x * 0.5f, 3.6f * u), u * 0.9f, "Drag controls to reposition them",
+            IM_COL32(255, 255, 255, 200)
+        );
     }
 }
 

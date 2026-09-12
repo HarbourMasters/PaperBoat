@@ -112,12 +112,14 @@ void port_sun_appendGfx(void* argEffect) {
         }
 
         guMtxF2L(mtx, &gDisplayContext->matrixStack[gMatrixListPos]);
-        gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
-            G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+        gSPMatrix(
+            gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION
+        );
         guTranslateF(mtx, 0.0f, 0.0f, 0.0f);
         guMtxF2L(mtx, &gDisplayContext->matrixStack[gMatrixListPos]);
-        gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
-            G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(
+            gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW
+        );
 
         gDPSetPrimColor(gMainGfxPos++, 0, 0, data->primColor.r, data->primColor.g, data->primColor.b, alpha >> 1);
         gDPSetEnvColor(gMainGfxPos++, data->envColor.r, data->envColor.g, data->envColor.b, data->envColor.a);
@@ -141,8 +143,10 @@ void port_sun_appendGfx(void* argEffect) {
             }
         }
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
-        gSPMatrix(gMainGfxPos++, &gDisplayContext->camPerspMatrix[gCurrentCameraID],
-            G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+        gSPMatrix(
+            gMainGfxPos++, &gDisplayContext->camPerspMatrix[gCurrentCameraID],
+            G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION
+        );
         gDPPipeSync(gMainGfxPos++);
     }
 }

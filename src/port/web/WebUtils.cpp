@@ -10,7 +10,8 @@ EM_JS(void, js_idbfs_mount, (const char* cpath), {
     var path = UTF8ToString(cpath);
     try {
         FS.mkdir(path);
-    } catch (e) {}
+    } catch (e) {
+    }
     FS.mount(IDBFS, {}, path);
 });
 
@@ -23,7 +24,8 @@ EM_ASYNC_JS(void, js_idbfs_load, (), {
                     console.error('[WebCache] load error:', err);
                 }
                 resolve();
-            });
+            }
+        );
     });
 });
 
@@ -36,7 +38,8 @@ EM_ASYNC_JS(void, js_idbfs_save, (), {
                     console.error('[WebCache] save error:', err);
                 }
                 resolve();
-            });
+            }
+        );
     });
 });
 
@@ -64,7 +67,8 @@ EM_JS(void, js_idbfs_save_nowait, (), {
             if (err) {
                 console.error('[WebCache] save error:', err);
             }
-        });
+        }
+    );
 });
 // clang-format on
 

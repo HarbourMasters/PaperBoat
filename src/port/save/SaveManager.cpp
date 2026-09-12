@@ -45,15 +45,12 @@ std::string CollapsedJSONArray(const nlohmann::ordered_json& jsonFile) {
             if (c == ']') {
                 isCollapsed = false;
                 result += c;
-            }
-            else if (c == ',') {
+            } else if (c == ',') {
                 result += ", ";
-            }
-            else {
+            } else {
                 result += c;
             }
-        }
-        else {
+        } else {
             result += c;
         }
     }
@@ -64,8 +61,13 @@ std::string CollapsedJSONArray(const nlohmann::ordered_json& jsonFile) {
 SaveData* ConvertJSON_to_SaveData(nlohmann::json jsonSaveFile) {
     SaveData* saveData = new SaveData();
 
-    strncpy(saveData->magicString, jsonSaveFile["magicString"].get_ref<const std::string&>().c_str(), sizeof(saveData->magicString) - 1);
-    strncpy(saveData->modName, jsonSaveFile["modName"].get_ref<const std::string&>().c_str(), sizeof(saveData->modName) - 1);
+    strncpy(
+        saveData->magicString, jsonSaveFile["magicString"].get_ref<const std::string&>().c_str(),
+        sizeof(saveData->magicString) - 1
+    );
+    strncpy(
+        saveData->modName, jsonSaveFile["modName"].get_ref<const std::string&>().c_str(), sizeof(saveData->modName) - 1
+    );
     saveData->majorVersion = jsonSaveFile["majorVersion"];
     saveData->minorVersion = jsonSaveFile["minorVersion"];
     saveData->patchVersion = jsonSaveFile["patchVersion"];
@@ -468,10 +470,10 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
 
 void SaveManager_Init() {
     REGISTER_LISTENER(OnSaveFileSave, EVENT_PRIORITY_HIGH, [](IEvent* event) {
-        OnSaveFileSave* ev = (OnSaveFileSave*)event;
+        OnSaveFileSave* ev = (OnSaveFileSave*) event;
         event->Cancelled = true;
 
-        SaveData* saveData = (SaveData*)ev->saveData;
+        SaveData* saveData = (SaveData*) ev->saveData;
         ordered_json jsonSaveFile = ConvertSaveData_to_JSON(saveData);
 
         if (!jsonSaveFile.empty()) {
@@ -494,17 +496,17 @@ void SaveManager_Init() {
     })
 
     REGISTER_LISTENER(OnSaveFileLoad, EVENT_PRIORITY_HIGH, [](IEvent* event) {
-        OnSaveFileLoad* ev = (OnSaveFileLoad*)event;
+        OnSaveFileLoad* ev = (OnSaveFileLoad*) event;
         event->Cancelled = true;
-     
+
         std::string fileName = fmt::format("file{}.json", ev->saveSlot);
         std::string filePath = Ship::Context::GetPathRelativeToAppDirectory("saves/" + fileName, "pm64");
-        
+
         if (fs::exists(filePath)) {
             std::ifstream inputFile(filePath);
             json jsonSave;
             inputFile >> jsonSave;
-        
+
             gCurrentSaveFile = *ConvertJSON_to_SaveData(jsonSave);
         } else {
             SaveData* newSaveData = new SaveData();
@@ -514,7 +516,7 @@ void SaveManager_Init() {
     })
 
     REGISTER_LISTENER(OnSaveFileErase, EVENT_PRIORITY_HIGH, [](IEvent* event) {
-        OnSaveFileErase* ev = (OnSaveFileErase*)event;
+        OnSaveFileErase* ev = (OnSaveFileErase*) event;
         event->Cancelled = true;
 
         std::string fileName = fmt::format("file{}.json", ev->saveSlot);
