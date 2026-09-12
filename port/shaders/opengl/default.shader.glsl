@@ -49,12 +49,20 @@
     @if(o_blend[0]) uniform sampler2D uTexBlend0;
     @if(o_blend[1]) uniform sampler2D uTexBlend1;
 
+    @if(opengles)
+    uniform highp int frame_count;
+    @else
     uniform int frame_count;
+    @end
     uniform float noise_scale;
 
     // Game-bindable custom uniform registers; [0]-[1] are engine built-ins
     // (frame/time/delta, resolution). See CustomUniforms in gfx_rendering_api.h.
+    @if(opengles)
+    uniform highp vec4 uCustom[32];
+    @else
     uniform vec4 uCustom[32];
+    @end
 
     @if(o_prim_depth)
     uniform float prim_depth;

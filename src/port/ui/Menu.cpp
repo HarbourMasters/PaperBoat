@@ -12,7 +12,6 @@
 #include <spdlog/fmt/fmt.h>
 #include <tuple>
 #include <variant>
-#include <format>
 
 #undef End
 
@@ -872,7 +871,7 @@ void Menu::DrawElement() {
   ImGui::SameLine(menuSize.x - (buttonSize.x * 4.25f) - (style.ItemSpacing.x * 2));
   UIWidgets::ButtonOptions options4 = {};
   std::string option4Tooltip =
-      std::format("About PaperBoat \n"
+      fmt::format("About PaperBoat \n"
           "- Version: {}\n"
           "- Branch:  {}\n"
           "- Commit:  {}",
