@@ -1,159 +1,259 @@
 name: Build
 
-# The port, on every platform it targets. The decomp's own ROM-building
-# workflows are the disabled ones in .github/workflows.disabled/.
-#
-# No job produces paperboat.o2r for the others: every build makes its own from
-# port/. Nothing here needs a ROM.
-#
-# The Vulkan SDK is deliberately not installed; libultraship treats it as
-# optional and falls back to OpenGL, Metal or DX11. Add it per-job if you want
-# the Vulkan backend in the artifacts.
-
-# push, not pull_request: every branch already builds on push, and adding it
-# would run the six-platform matrix twice for the same commits. Review a fork's
-# PR with workflow_dispatch; its jobs could not reach the secrets anyway.
 on:
   push:
+    # All branches, no tags: tag pushes go through release.yml, which calls
+    # this workflow. A lone `tags-ignore` would leave branches undefined.
+    branches:
+      - "**"
+  pull_request:
   workflow_dispatch:
+  workflow_call:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-
 jobs:
-  linux:
+  build-linux:
     name: Linux
+    # Same-repo branches fire both push and pull_request; only build once.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-          # Full history, so the submodule gitlinks resolve.
+          # CMakeLists.txt runs `git describe --tags` for the build stamp.
           fetch-depth: 0
+
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            gcc g++ cmake ninja-build \
-            libsdl2-dev libopengl-dev libgl1-mesa-dev \
-            libzip-dev nlohmann-json3-dev libtinyxml2-dev libspdlog-dev
+          sudo apt-get install -y gcc-14 g++-14 git cmake ninja-build lsb-release file \
+            libsdl2-dev libsdl2-net-dev libpng-dev libzip-dev zipcmp zipmerge ziptool \
+            nlohmann-json3-dev libtinyxml2-dev libspdlog-dev libfmt-dev libboost-dev \
+            libopengl-dev libgl1-mesa-dev libogg-dev libvorbis-dev zlib1g-dev libbz2-dev
+
       - name: ccache
-        uses: hendrikmuhs/ccache-action@v1.2
+        uses: hendrikmuhs/ccache-action@v1.2.23
         with:
-          key: linux-${{ github.ref }}
+          key: linux-ccache-${{ github.ref }}
           restore-keys: |
-            linux-
+            linux-ccache-
+
+      - name: Cache third-party source builds
+        uses: actions/cache@v4
+        with:
+          key: linux-thirdparty-sdl2.30.3-tinyxml2.10.0.0-libzip1.10.1
+          path: |
+            SDL2-2.30.3
+            tinyxml2-10.0.0
+            libzip-1.10.1
+
+      # Ubuntu's SDL2/tinyxml2/libzip are older than libultraship expects, so
+      # build the versions the other HarbourMasters ports use.
+      - name: Install latest SDL
+        run: |
+          if [ ! -d "SDL2-2.30.3" ]; then
+            wget -q https://www.libsdl.org/release/SDL2-2.30.3.tar.gz
+            tar -xzf SDL2-2.30.3.tar.gz
+            (cd SDL2-2.30.3 && ./configure --enable-hidapi-libusb && make -j$(nproc))
+          fi
+          sudo make -C SDL2-2.30.3 install
+          sudo cp -av /usr/local/lib/libSDL* /lib/x86_64-linux-gnu/
+
+      - name: Install latest tinyxml2
+        run: |
+          if [ ! -d "tinyxml2-10.0.0" ]; then
+            wget -q -O tinyxml2-10.0.0.tar.gz https://github.com/leethomason/tinyxml2/archive/refs/tags/10.0.0.tar.gz
+            tar -xzf tinyxml2-10.0.0.tar.gz
+            cmake -S tinyxml2-10.0.0 -B tinyxml2-10.0.0/build
+            cmake --build tinyxml2-10.0.0/build -j$(nproc)
+          fi
+          sudo cmake --install tinyxml2-10.0.0/build
+
+      - name: Install libzip without crypto
+        run: |
+          if [ ! -d "libzip-1.10.1" ]; then
+            wget -q https://github.com/nih-at/libzip/releases/download/v1.10.1/libzip-1.10.1.tar.gz
+            tar -xzf libzip-1.10.1.tar.gz
+            cmake -S libzip-1.10.1 -B libzip-1.10.1/build \
+              -DENABLE_COMMONCRYPTO=OFF -DENABLE_GNUTLS=OFF -DENABLE_MBEDTLS=OFF -DENABLE_OPENSSL=OFF
+            cmake --build libzip-1.10.1/build -j$(nproc)
+          fi
+          sudo cmake --install libzip-1.10.1/build
+          sudo cp -av /usr/local/lib/libzip* /lib/x86_64-linux-gnu/
+          sudo ldconfig
+
+      - uses: root-project/gcc-problem-matcher-improved@v0.0.1-alpha.1
+
       - name: Build
         run: |
-          cmake -S . -B build-linux -G Ninja -DCMAKE_BUILD_TYPE=Release \
+          cmake --preset ninja-release \
+            -DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14 \
             -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
-          cmake --build build-linux --parallel
-      - name: Check the build produced what the game loads
-        run: .github/scripts/check-desktop-build.sh build-linux Paperboat
-      - uses: actions/upload-artifact@v4
+          cmake --build build/ninja-release --parallel $(nproc)
+
+      - name: Create AppImage
+        run: |
+          BUILD=build/ninja-release
+
+          mkdir -p AppDir/usr/bin AppDir/usr/share/applications AppDir/usr/share/icons/hicolor/256x256/apps
+          # libultraship derives the read-only asset dir from /proc/self/exe, so
+          # the archives have to sit next to the binary.
+          cp "$BUILD/Paperboat" AppDir/usr/bin/
+          cp "$BUILD/paperboat.o2r" AppDir/usr/bin/
+          cp config.yml AppDir/usr/bin/
+          cp -r "$BUILD/assets" AppDir/usr/bin/
+
+          # TODO: swap in a real PaperBoat logo once the repo has one.
+          cp port/textures/icons/g2ShipIcon.png AppDir/paperboat.png
+          cp AppDir/paperboat.png AppDir/usr/share/icons/hicolor/256x256/apps/paperboat.png
+
+          cat > AppDir/paperboat.desktop <<'DESKTOP'
+          [Desktop Entry]
+          Type=Application
+          Name=PaperBoat
+          Comment=Paper Mario 64 PC port
+          Exec=Paperboat
+          Icon=paperboat
+          Categories=Game;
+          Terminal=false
+          DESKTOP
+          cp AppDir/paperboat.desktop AppDir/usr/share/applications/
+
+          # Without SHIP_HOME, config/saves/logs would be written into the
+          # read-only AppImage mount.
+          cat > AppRun <<'APPRUN'
+          #!/bin/sh
+          HERE="$(dirname "$(readlink -f "$0")")"
+          export SHIP_HOME="${SHIP_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/PaperBoat}"
+          mkdir -p "$SHIP_HOME"
+          export LD_LIBRARY_PATH="$HERE/usr/lib:$LD_LIBRARY_PATH"
+          cd "$HERE/usr/bin" || exit 1
+          exec "$HERE/usr/bin/Paperboat" "$@"
+          APPRUN
+          chmod +x AppRun
+
+          wget -q -O linuxdeploy https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+          wget -q -O linuxdeploy-plugin-appimage https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/continuous/linuxdeploy-plugin-appimage-x86_64.AppImage
+          chmod +x linuxdeploy linuxdeploy-plugin-appimage
+          # No FUSE on the runners, so every AppImage we invoke has to self-extract.
+          export APPIMAGE_EXTRACT_AND_RUN=1
+          export PATH="$PWD:$PATH"
+          export OUTPUT=Paperboat.AppImage
+          ./linuxdeploy --appimage-extract-and-run \
+            --appdir AppDir \
+            --executable AppDir/usr/bin/Paperboat \
+            --desktop-file AppDir/paperboat.desktop \
+            --icon-file AppDir/paperboat.png \
+            --custom-apprun AppRun \
+            --output appimage
+
+      - name: Create package
+        run: |
+          mkdir Paperboat-linux
+          mv Paperboat.AppImage Paperboat-linux/
+          cp README.md Paperboat-linux/readme.txt
+          wget -q -O Paperboat-linux/gamecontrollerdb.txt https://raw.githubusercontent.com/mdqinc/SDL_GameControllerDB/master/gamecontrollerdb.txt
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
         with:
           name: Paperboat-linux
-          path: |
-            build-linux/Paperboat
-            build-linux/paperboat.o2r
-            build-linux/config.yml
-            build-linux/assets
+          path: Paperboat-linux
 
-  macos:
-    name: macOS
-    runs-on: macos-14
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          fetch-depth: 0
-      - name: Install dependencies
-        run: brew install ninja sdl2 glew libzip nlohmann-json tinyxml2
-      - name: ccache
-        uses: hendrikmuhs/ccache-action@v1.2
-        with:
-          key: macos-${{ github.ref }}
-          restore-keys: |
-            macos-
-      - name: Build
-        run: |
-          cmake -S . -B build-macos -G Ninja -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
-          cmake --build build-macos --parallel
-      - name: Check the build produced what the game loads
-        run: .github/scripts/check-desktop-build.sh build-macos Paperboat
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Paperboat-macos
-          path: |
-            build-macos/Paperboat
-            build-macos/paperboat.o2r
-            build-macos/config.yml
-            build-macos/assets
-
-  windows:
+  build-windows:
     name: Windows
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
-      # The toolchain finds clang-cl via vswhere, but Ninja still needs
-      # INCLUDE/LIB pointing at the MSVC and Windows SDK headers.
-      - name: Setup MSVC
-        uses: ilammy/msvc-dev-cmd@v1
+
       - name: Cache vcpkg binaries
         uses: actions/cache@v4
         with:
-          key: windows-vcpkg-${{ github.ref }}-${{ github.sha }}
+          key: windows-vcpkg-${{ hashFiles('CMakeLists.txt') }}
           restore-keys: |
-            windows-vcpkg-${{ github.ref }}
             windows-vcpkg-
-          path: ~\AppData\Local\vcpkg\archives
-      - name: sccache
-        uses: hendrikmuhs/ccache-action@v1.2
-        with:
-          variant: sccache
-          key: windows-${{ github.ref }}
-          restore-keys: |
-            windows-
+          path: |
+            ~/AppData/Local/vcpkg/archives
+
+      # Mirrors generate-vs-solution.bat: VS 2022 + ClangCL, x64, static triplet.
       - name: Build
-        shell: pwsh
         run: |
-          # Reuse the runner's vcpkg; blanking this makes automate-vcpkg clone
-          # into an empty path instead.
-          $env:VCPKG_ROOT = $env:VCPKG_INSTALLATION_ROOT
-          # The repo's supported Windows configuration: Ninja + clang-cl.
-          cmake --preset windows-release `
-            -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
-          cmake --build --preset windows-release --parallel
-      - name: Check the build produced what the game loads
-        shell: pwsh
+          cmake -S . -B build/x64 -G "Visual Studio 17 2022" -T ClangCL -A x64 -DVCPKG_TARGET_TRIPLET=x64-windows-static
+          cmake --build build/x64 --config Release --target Paperboat --parallel
+
+      - name: Create package
         run: |
-          $dir = "build/windows-release"
-          foreach ($f in "Paperboat.exe", "paperboat.o2r", "config.yml", "assets") {
-            if (-not (Test-Path "$dir/$f")) { throw "$f missing from $dir" }
-          }
-          Get-Item "$dir/paperboat.o2r" | ForEach-Object {
-            if ($_.Length -eq 0) { throw "paperboat.o2r is empty" }
-          }
-      - uses: actions/upload-artifact@v4
+          mkdir Paperboat-windows
+          mkdir Paperboat-windows/debug
+          Move-Item build/x64/Release/Paperboat.exe Paperboat-windows/
+          Move-Item build/x64/Release/paperboat.o2r Paperboat-windows/
+          Move-Item build/x64/Release/config.yml Paperboat-windows/
+          Move-Item build/x64/Release/assets Paperboat-windows/
+          Get-ChildItem build/x64/Release/*.pdb | Move-Item -Destination Paperboat-windows/debug/
+          Copy-Item README.md Paperboat-windows/readme.txt
+          Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mdqinc/SDL_GameControllerDB/master/gamecontrollerdb.txt" -OutFile "Paperboat-windows/gamecontrollerdb.txt"
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
         with:
           name: Paperboat-windows
-          path: |
-            build/windows-release/Paperboat.exe
-            build/windows-release/*.dll
-            build/windows-release/paperboat.o2r
-            build/windows-release/config.yml
-            build/windows-release/assets
+          path: Paperboat-windows
 
-  android:
+  build-macos:
+    name: macOS
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Install dependencies
+        run: |
+          brew install ninja sdl2 glew libzip nlohmann-json tinyxml2 spdlog libpng
+
+      - name: ccache
+        uses: hendrikmuhs/ccache-action@v1.2.23
+        with:
+          key: macos-ccache-${{ github.ref }}
+          restore-keys: |
+            macos-ccache-
+
+      - name: Build
+        run: |
+          cmake --preset ninja-release \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+          cmake --build build/ninja-release --parallel $(sysctl -n hw.logicalcpu)
+
+      - name: Create package
+        run: |
+          BUILD=build/ninja-release
+          mkdir Paperboat-mac
+          mv "$BUILD/Paperboat" Paperboat-mac/
+          mv "$BUILD/paperboat.o2r" Paperboat-mac/
+          mv "$BUILD/config.yml" Paperboat-mac/
+          mv "$BUILD/assets" Paperboat-mac/
+          cp README.md Paperboat-mac/readme.txt
+          curl -sL -o Paperboat-mac/gamecontrollerdb.txt https://raw.githubusercontent.com/mdqinc/SDL_GameControllerDB/master/gamecontrollerdb.txt
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: Paperboat-mac
+          path: Paperboat-mac
+
+  build-android:
     name: Android
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     env:
       # Job-level, because a step's own `env:` is not visible to that step's `if`.
@@ -163,19 +263,23 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
+
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+
       - name: Install Android SDK components
-        # Versions match build.gradle.kts; the NDK's CMake 3.22.1 is too old.
+        # Versions match build.gradle.kts; the NDK's own CMake 3.22.1 is too old.
         run: |
           yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
             "cmake;3.30.3" "ndk;30.0.15729638" \
             "platforms;android-36" "build-tools;36.0.0" > /dev/null
+
       # Release key when the secrets are set, debug key otherwise, so a fork
       # still gets an installable APK. android/app/, not android/: the env-var
       # branch of signingConfigs uses the :app project's file().
@@ -184,6 +288,7 @@ jobs:
         run: |
           echo "$KEYSTORE_BASE64" | base64 -d > android/app/release.keystore
           test -s android/app/release.keystore || { echo "::error::empty keystore"; exit 1; }
+
       # Two steps, not a conditional KEYSTORE_FILE: an empty env var is still
       # set, and build.gradle.kts only checks for null.
       - name: Build APK (release-signed)
@@ -194,10 +299,12 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
       - name: Build APK (debug-signed)
         if: env.KEYSTORE_BASE64 == ''
         run: android/gradlew -p android assembleRelease
-      - name: Check the APK carries everything the launcher opens
+
+      - name: Create package
         run: |
           APK=android/app/build/outputs/apk/release/app-release.apk
           test -f "$APK" || { echo "::error::APK not found"; exit 1; }
@@ -208,31 +315,39 @@ jobs:
                        lib/arm64-v8a/libmain.so lib/arm64-v8a/libSDL2.so; do
             unzip -Z1 "$APK" | grep -qx "$entry" || { echo "::error::$entry missing from the APK"; exit 1; }
           done
-          cp "$APK" Paperboat.apk
+          mkdir Paperboat-android
+          cp "$APK" Paperboat-android/Paperboat.apk
+          cp README.md Paperboat-android/readme.txt
+
       - name: Clean up keystore
         if: always()
         run: rm -f android/app/release.keystore
-      - uses: actions/upload-artifact@v4
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
         with:
           name: Paperboat-android
-          path: Paperboat.apk
+          path: Paperboat-android
 
-  ios:
+  build-ios:
     name: iOS
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
+
       - name: Cache build folder
         uses: actions/cache@v4
         with:
-          key: ios-${{ github.ref }}-${{ github.sha }}
+          key: ios-build-${{ github.ref }}-${{ github.sha }}
           restore-keys: |
-            ios-${{ github.ref }}
-            ios-
+            ios-build-${{ github.ref }}
+            ios-build-
           path: build-ios
+
       - name: Build (unsigned, device arm64)
         run: |
           # Not the upstream ios.toolchain.cmake: this one pins the 16.3
@@ -243,7 +358,8 @@ jobs:
           # --target Paperboat skips the dependencies' own side targets.
           cmake --build build-ios --config Release --target Paperboat -- \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO
-      - name: Package unsigned IPA
+
+      - name: Create package
         run: |
           APP="build-ios/Release-iphoneos/Paperboat.app"
           test -d "$APP" || { echo "::error::$APP not found"; exit 1; }
@@ -254,8 +370,10 @@ jobs:
           done
           rm -rf Payload && mkdir Payload
           cp -R "$APP" Payload/
-          zip -qry Paperboat-unsigned.ipa Payload
-          cat > SIDELOADING.txt <<'EOF'
+          mkdir Paperboat-ios
+          zip -qry Paperboat-ios/Paperboat-unsigned.ipa Payload
+          cp README.md Paperboat-ios/readme.txt
+          cat > Paperboat-ios/SIDELOADING.txt <<'EOF'
           This IPA is UNSIGNED. Install it with a sideloading tool that re-signs
           with your own Apple ID — AltStore, SideStore or Sideloadly.
 
@@ -264,83 +382,67 @@ jobs:
           pm64.o2r you generated earlier, into "On My iPhone > Paperboat".
           The app extracts the ROM on first launch.
           EOF
-      - uses: actions/upload-artifact@v4
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
         with:
           name: Paperboat-ios
-          path: |
-            Paperboat-unsigned.ipa
-            SIDELOADING.txt
+          path: Paperboat-ios
 
-  web:
+  build-web:
     name: Web
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
+
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends cmake ninja-build
+          sudo apt-get install -y cmake ninja-build
+
       - name: ccache
-        uses: hendrikmuhs/ccache-action@v1.2
+        uses: hendrikmuhs/ccache-action@v1.2.23
         with:
-          key: web-${{ github.ref }}
+          key: web-ccache-${{ github.ref }}
           restore-keys: |
-            web-
+            web-ccache-
+
       - name: Setup Emscripten
         uses: mymindstorm/setup-emsdk@v14
         with:
           version: 4.0.12
           actions-cache-folder: emsdk-cache
-      # emcc only builds a port on first use, which is too late for the
-      # find_package(ZLIB) at configure time.
+
       - name: Build zlib port
+        # emcc only builds a port on first use, which is too late for the
+        # find_package(ZLIB) at configure time.
         run: embuilder build zlib
+
       - name: Build
         run: |
-          emcmake cmake -S . -B build-web -G Ninja -DCMAKE_BUILD_TYPE=Release \
+          emcmake cmake --preset ninja-release \
             -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
-          cmake --build build-web --parallel
-      - name: Stage site
+          cmake --build build/ninja-release --parallel $(nproc)
+
+      - name: Create package
         run: |
-          mkdir site
+          BUILD=build/ninja-release
+          mkdir Paperboat-web
           for f in paperboat.js paperboat.wasm paperboat.data coi-serviceworker.js; do
-            test -s "build-web/$f" || { echo "::error::build-web/$f missing or empty"; exit 1; }
-            cp "build-web/$f" site/
+            test -s "$BUILD/$f" || { echo "::error::$BUILD/$f missing or empty"; exit 1; }
+            cp "$BUILD/$f" Paperboat-web/
           done
-          # index.html for Pages; paperboat.html is the name the .js expects.
-          cp build-web/paperboat.html site/paperboat.html
-          cp build-web/paperboat.html site/index.html
-      - uses: actions/upload-artifact@v4
+          # index.html for a static host; paperboat.html is the name the .js expects.
+          cp "$BUILD/paperboat.html" Paperboat-web/paperboat.html
+          cp "$BUILD/paperboat.html" Paperboat-web/index.html
+          cp README.md Paperboat-web/readme.txt
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
         with:
           name: Paperboat-web
-          path: site
-      - name: Upload Pages artifact
-        if: github.event_name == 'push' && github.ref == 'refs/heads/develop' && github.repository == 'HarbourMasters/PaperBoat'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-
-  deploy-pages:
-    name: Deploy Pages
-    needs: web
-    if: github.event_name == 'push' && github.ref == 'refs/heads/develop' && github.repository == 'HarbourMasters/PaperBoat'
-    runs-on: ubuntu-latest
-    # Job-level permissions replace the workflow's, so contents is restated.
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    # Its own group: cancelling a half-finished deploy leaves the site broken.
-    concurrency:
-      group: pages
-      cancel-in-progress: false
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          path: Paperboat-web

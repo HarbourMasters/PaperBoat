@@ -1,0 +1,55 @@
+name: Pages
+
+# Deploys the Web artifact Build already produced instead of compiling it again.
+# Kept out of build.yml because release.yml calls that as a reusable workflow,
+# and a called workflow cannot ask for permissions its caller did not grant.
+on:
+  workflow_run:
+    workflows: [Build]
+    types:
+      - completed
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to GitHub Pages
+    if: >-
+      github.repository == 'HarbourMasters/PaperBoat' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'develop'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+      # Reading an artifact from another workflow's run.
+      actions: read
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download the Web build
+        uses: actions/download-artifact@v4
+        with:
+          name: Paperboat-web
+          path: site
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      - name: Trim the package down to the site
+        run: rm -f site/readme.txt
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
