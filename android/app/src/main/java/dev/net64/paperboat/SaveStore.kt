@@ -11,15 +11,11 @@ import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
 /**
- * The game's save files.
+ * The game's save files: `saves/fileN.json`, one per slot (see
+ * src/port/save/SaveManager.cpp). The `default.sav` the game also writes is the
+ * N64 SRAM image, not a per-slot save, so it is deliberately not listed.
  *
- * Paperboat keeps one JSON file per save slot in a `saves/` folder next to the
- * archives (see src/port/save/SaveManager.cpp), so a save is `saves/fileN.json`.
- * The raw `default.sav` the game also writes is the N64 SRAM image rather than a
- * per-slot save, so it is deliberately not listed here.
- *
- * Files are matched by extension rather than by name, so a slot added upstream
- * is picked up without changes here.
+ * Matched by extension, not name, so a slot added upstream needs no change here.
  */
 object SaveStore {
 
@@ -104,9 +100,8 @@ object SaveStore {
                     val entry = zip.nextEntry ?: break
                     val name = File(entry.name).name
 
-                    // Only ever write a plain .json straight into the saves
-                    // directory; an archive from elsewhere could otherwise
-                    // carry entries like ../../ pointing out of it.
+                    // Plain .json only: an archive from elsewhere could carry
+                    // ../../ entries pointing out of the saves directory.
                     if (entry.isDirectory || !name.endsWith(".json", true)) {
                         zip.closeEntry()
                         continue

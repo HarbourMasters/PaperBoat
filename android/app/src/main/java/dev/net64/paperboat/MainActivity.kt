@@ -16,12 +16,9 @@ import androidx.core.view.WindowInsetsControllerCompat
 import org.libsdl.app.SDLActivity
 
 /**
- * The game.
- *
- * The on-screen controller is the engine's own (src/port/ui/TouchControls.cpp),
- * drawn inside the GL surface — nothing here draws controls. The only thing
- * layered over SDL is a Mods button, and it only appears while the engine's
- * menu is up, because that is where settings-shaped actions belong.
+ * The game. The on-screen controller is the engine's own, drawn inside the GL
+ * surface (src/port/ui/TouchControls.cpp); the only thing layered over SDL is a
+ * Mods button, shown while the engine's menu is up.
  *
  * [LauncherActivity] guarantees pm64.o2r exists before this activity starts.
  */
@@ -39,10 +36,9 @@ class MainActivity : SDLActivity() {
         }
     }
 
-    // org/libsdl/app is kept byte-identical to the SDL release libultraship
-    // pins, so the game library is named here rather than patched in there.
-    // SDLActivity refuses to start if the Java glue and libSDL2.so disagree on
-    // their version, so both have to move together.
+    // org/libsdl/app stays byte-identical to the SDL release libultraship
+    // pins — SDLActivity refuses to start if the two disagree on version — so
+    // the library is named here rather than patched in there.
     override fun getLibraries(): Array<String> = arrayOf("SDL2", "main")
 
     private external fun isMenuOpen(): Boolean
@@ -54,12 +50,9 @@ class MainActivity : SDLActivity() {
     }
 
     /**
-     * Edge to edge, with the status and navigation bars hidden.
-     *
-     * From API 35 the system no longer honours the old fullscreen window flags,
-     * so the bars have to be dismissed through the insets controller instead —
-     * without this the navigation bar sits on top of the game. Transient-by-swipe
-     * means a stray swipe shows them briefly rather than resizing the window and
+     * Edge to edge, bars hidden. From API 35 the old fullscreen window flags are
+     * ignored, so the bars go through the insets controller instead.
+     * Transient-by-swipe keeps a stray swipe from resizing the window and
      * forcing the engine to rebuild its framebuffers.
      */
     private fun goFullscreen() {
@@ -70,8 +63,7 @@ class MainActivity : SDLActivity() {
             systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
 
-        // Render into the camera cutout as well, so the game gets the whole
-        // panel instead of being letterboxed beside it.
+        // Render into the cutout too, rather than letterboxing beside it.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             window.attributes.layoutInDisplayCutoutMode =
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS
@@ -80,8 +72,7 @@ class MainActivity : SDLActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        // The bars come back whenever focus is lost — to the mods manager, a
-        // notification shade pull, anything. Put them away again on the way in.
+        // The bars return on any focus loss; put them away again coming back.
         if (hasFocus) {
             goFullscreen()
         }
@@ -89,8 +80,7 @@ class MainActivity : SDLActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Re-sync immediately as well as on the timer, so coming back from the
-        // mods manager never leaves the button showing a stale menu state.
+        // Also re-sync now, so returning here never shows a stale menu state.
         syncMenuState()
         handler.removeCallbacks(menuWatcher)
         handler.postDelayed(menuWatcher, MENU_POLL_MS)
@@ -107,9 +97,8 @@ class MainActivity : SDLActivity() {
     }
 
     /**
-     * The engine's menu can be opened by its own on-screen button, a keyboard,
-     * or a gamepad, and it can close itself. Asking the engine what it is doing
-     * is what keeps this button from drifting out of sync with it.
+     * The menu can be opened by its own button, a keyboard or a gamepad, and can
+     * close itself, so ask the engine rather than track it here.
      */
     private fun syncMenuState() {
         val open = runCatching { isMenuOpen() }.getOrDefault(false)
@@ -119,10 +108,7 @@ class MainActivity : SDLActivity() {
         modsButton.visibility = if (open) android.view.View.VISIBLE else android.view.View.GONE
     }
 
-    /**
-     * Bottom-left, which is clear of the engine's own menu toggle in the top-left
-     * corner and of the menu itself.
-     */
+    /** Bottom-left, clear of the engine's menu toggle and of the menu itself. */
     private fun addModsButton() {
         val margin = (16 * resources.displayMetrics.density).toInt()
 

@@ -38,9 +38,8 @@ std::string GameExtractor::sLastError;
 std::atomic<int> GameExtractor::sPhase{0};
 
 namespace {
-// Where config.yml lives. An empty override means "wherever the engine keeps
-// its bundled files"; callers that run before Ship::Context exists — the
-// Android launcher — name the directory themselves.
+// Where config.yml lives. Empty means "ask Ship::Context"; the Android
+// launcher runs before it exists and names the directory itself.
 std::filesystem::path ConfigPath(const std::string &configDir) {
   const auto base = configDir.empty()
                         ? std::filesystem::path(Ship::Context::GetAppBundlePath())
@@ -120,8 +119,7 @@ bool GameExtractor::SelectGameFromUI() {
 
   romPath = selection[0];
 #else
-  // Mobile has no file dialog of its own: the ROM is put in place beforehand,
-  // by the Android launcher or over Files on iOS.
+  // Mobile has no file dialog: the ROM is put in place beforehand.
   if (!std::filesystem::exists(
           Ship::Context::GetPathRelativeToAppDirectory("baserom.us.z64"))) {
     SPDLOG_ERROR("baserom not found");
@@ -265,8 +263,7 @@ GameExtractor::FindSupportedRoms(const std::vector<std::string> &searchPaths) {
       if (!version.has_value()) {
         continue; // Only offer ROMs the recipes actually cover.
       }
-      // One entry per version, so duplicate copies of the same ROM lying
-      // around don't turn into duplicate choices.
+      // One entry per version, so duplicate copies aren't offered twice.
       if (std::find(seenVersions.begin(), seenVersions.end(), *version) !=
           seenVersions.end()) {
         continue;

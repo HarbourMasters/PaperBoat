@@ -11,20 +11,11 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
 /**
- * The mods folder, as the engine sees it.
- *
- * The engine loads everything in `mods/` sorted by path, and a later archive
- * overrides an earlier one. So load order is filename order, and reordering
- * means renaming: every mod carries a `NNN_` prefix that this class owns and
- * hides from the user.
- *
- * A mod is one of three things, all of which the engine accepts:
- *   - an `.o2r` archive
- *   - a `.zip` archive
- *   - a plain folder
- *
- * Renaming anything to end in `.disabled` makes the engine skip it, which is
- * how the on/off state is stored.
+ * The mods folder, as the engine sees it. It loads everything in `mods/` sorted
+ * by path and a later archive wins, so load order is filename order and
+ * reordering means renaming — every mod carries a `NNN_` prefix this class owns
+ * and hides. A mod is an `.o2r`, a `.zip`, or a plain folder; a `.disabled`
+ * suffix makes the engine skip it, which is how on/off is stored.
  */
 object ModStore {
 
@@ -80,10 +71,8 @@ object ModStore {
         if (mod.file.deleteRecursively()) null else "Could not delete ${mod.name}."
 
     /**
-     * Rewrites the order prefixes so the mods load in the given order.
-     *
-     * Done in two passes through temporary names, because the new name of one
-     * mod is frequently the current name of another.
+     * Rewrites the order prefixes. Two passes through temporary names, because
+     * one mod's new name is frequently another's current one.
      */
     fun applyOrder(mods: List<Mod>): String? {
         val staged = mutableListOf<Pair<File, String>>()
@@ -135,9 +124,8 @@ object ModStore {
         val rootUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, documentId)
         val displayName = queryDisplayName(context, rootUri) ?: documentId.substringAfterLast('/')
 
-        // The engine reads everything after the last dot as an extension and
-        // ignores folders whose "extension" it does not know, so a folder named
-        // "Cool.Mod v2" would silently never load.
+        // The engine treats everything after the last dot as an extension, so
+        // a folder named "Cool.Mod v2" would silently never load.
         val safeName = displayName.replace('.', '_')
         val target = nextFreeFile(context, safeName)
 

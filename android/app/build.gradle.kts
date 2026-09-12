@@ -19,33 +19,25 @@ val projectVersion: String =
         ?: "0.0.0"
 
 // Release signing: android/key.properties locally, the environment on CI. The
-// file holds passwords, so it is gitignored and never read into the build
-// output.
+// file holds passwords, so it is gitignored.
 val keystoreProperties = Properties().apply {
     val file = rootProject.file("key.properties")
     if (file.isFile) file.inputStream().use { load(it) }
 }
 
-// With neither configured — a fork's CI, or a fresh clone — the release build
-// falls back to the debug key so it still produces an installable APK rather
-// than failing on a keystore nobody has.
+// With neither configured, the release build falls back to the debug key so a
+// fresh clone still gets an installable APK.
 val hasReleaseKeystore =
     keystoreProperties.getProperty("storeFile") != null || System.getenv("KEYSTORE_FILE") != null
 
 /**
- * Everything the device needs that is not the ROM, in one zip inside the APK.
+ * Everything the device needs that is not the ROM, in one zip inside the APK:
+ * Torch's recipes (config.yml + assets/) and the engine's own paperboat.o2r.
  *
- * Torch runs on the device to turn the user's ROM into pm64.o2r, and it reads
- * its extraction recipes (config.yml + assets/) off the filesystem. The engine's
- * own archive, paperboat.o2r, is built here from `port/` rather than taken from
- * a previous desktop build: on desktop that archive is a POST_BUILD step of the
- * Paperboat target, which on Android would land beside the .so inside the NDK
- * build tree and never reach the APK. Building it here keeps a clean checkout
- * buildable with nothing but Gradle.
- *
- * The launcher unpacks the zip into the app's external files directory on first
- * run (see GameAssets.kt); the digest beside it is what the launcher compares
- * against to decide whether to unpack again.
+ * The o2r is built here from `port/` rather than taken from a desktop build,
+ * whose POST_BUILD copy would land inside the NDK build tree and never reach
+ * the APK. The launcher unpacks the zip on first run (see GameAssets.kt) and
+ * compares the digest beside it to decide whether to unpack again.
  */
 abstract class PackGameData : DefaultTask() {
 
@@ -72,8 +64,8 @@ abstract class PackGameData : DefaultTask() {
         val target = outputDir.get().asFile
         target.mkdirs()
 
-        // Built first and then added as a single entry, so the engine archive
-        // inside the bundle is byte-for-byte the file the game opens at runtime.
+        // Built first, then added whole, so the bundled archive is byte-for-byte
+        // the file the game opens.
         val engine = File(target, ENGINE_ARCHIVE)
         zipTree(portRoot, engine)
 
@@ -85,9 +77,8 @@ abstract class PackGameData : DefaultTask() {
             }
         }.sortedBy { it.first }
 
-        // Sorted, at a fixed timestamp: a reproducible zip means a stable
-        // digest, which means an app update only re-unpacks on the device when
-        // the contents actually changed.
+        // Sorted, fixed timestamp: a stable digest means an update only
+        // re-unpacks when the contents actually changed.
         val bundle = File(target, "gamedata.zip")
         ZipOutputStream(bundle.outputStream().buffered()).use { zip ->
             entries.forEach { (name, file) ->
@@ -120,17 +111,15 @@ abstract class PackGameData : DefaultTask() {
     private companion object {
         const val ENGINE_ARCHIVE = "paperboat.o2r"
 
-        // 1980-02-01T00:00:00Z, the same instant Gradle's own archive tasks use
-        // for this. Anything earlier risks falling before the 1980 floor that a
-        // zip entry's DOS timestamp can represent.
+        // 1980-02-01T00:00:00Z, as Gradle's own archive tasks use. Earlier
+        // risks falling below the 1980 floor of a zip entry's DOS timestamp.
         const val FIXED_ENTRY_TIME = 318211200000L
     }
 }
 
-// Wired through the variant API rather than added as a source-set srcDir. The
-// srcDir form looks equivalent and is not: the asset merge takes the path but
-// not the dependency on the task that fills it, so a clean checkout silently
-// packages an APK whose assets are missing everything below.
+// Via the variant API, not a source-set srcDir: srcDir takes the path but not
+// the dependency on the task that fills it, so a clean checkout would silently
+// package an APK with none of this in it.
 androidComponents {
     onVariants { variant ->
         val packGameData =
@@ -157,10 +146,8 @@ android {
         versionName = projectVersion
 
         ndk {
-            // 64-bit only. The game's C is built with -fno-strict-aliasing at
-            // -O1 and a second ABI roughly doubles an already long native
-            // build; add "armeabi-v7a" here if a 32-bit device has to be
-            // supported.
+            // 64-bit only; a second ABI roughly doubles an already long
+            // native build. Add "armeabi-v7a" if you need 32-bit devices.
             abiFilters += listOf("arm64-v8a")
         }
 
@@ -172,12 +159,10 @@ android {
                     "-DSDL_SHARED=ON",
                     "-DSDL_STATIC=OFF",
                     "-DHAVE_LD_VERSION_SCRIPT=OFF",
-                    // Forced for every variant, debug included. The root
-                    // CMakeLists only tunes the Release flags, and the game's C
-                    // code relies on that: at -O2 and above, strict aliasing
-                    // miscompiles it into graphical glitches. Left alone, the
-                    // Android plugin builds the release variant as
-                    // RelWithDebInfo (-O2) and walks straight into them.
+                    // Every variant, debug included. Only the Release flags
+                    // carry -fno-strict-aliasing, and the game's C needs it:
+                    // at -O2 aliasing miscompiles it into graphical glitches.
+                    // The plugin otherwise builds release as RelWithDebInfo.
                     "-DCMAKE_BUILD_TYPE=Release"
                 )
                 targets += "Paperboat"
@@ -190,9 +175,7 @@ android {
             create("release") {
                 val configuredStore = keystoreProperties.getProperty("storeFile")
                 if (configuredStore != null) {
-                    // A relative path in key.properties reads against the file's
-                    // own directory, which is what someone editing it would
-                    // expect.
+                    // Relative to key.properties' own directory.
                     storeFile = rootProject.file(configuredStore)
                     storePassword = keystoreProperties.getProperty("storePassword")
                     keyAlias = keystoreProperties.getProperty("keyAlias")
@@ -209,15 +192,12 @@ android {
 
     buildTypes {
         debug {
-            // No isJniDebuggable: the native side is built Release regardless
-            // (see the CMAKE_BUILD_TYPE argument above), so there would be
-            // nothing useful to attach to.
+            // No isJniDebuggable: the native side is Release regardless.
             applicationIdSuffix = ".debug"
         }
         release {
-            // The APK is almost entirely native code and assets, so shrinking
-            // the tiny Kotlin layer buys nothing and only risks stripping the
-            // classes the JNI bridge looks up by name.
+            // Shrinking the tiny Kotlin layer buys nothing and risks stripping
+            // the classes the JNI bridge looks up by name.
             isMinifyEnabled = false
             signingConfig = signingConfigs.getByName(if (hasReleaseKeystore) "release" else "debug")
             ndk {

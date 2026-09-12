@@ -26,12 +26,8 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CSResourcesFileMapped</key>
 	<true/>
-	<!--
-	    The three keys below are what let the player reach the app's Documents
-	    folder from the Files app. That is the only way a ROM gets in and the
-	    only way a mod or a save comes back out, since nothing about the game
-	    ships inside the bundle.
-	-->
+	<!-- These three expose Documents in the Files app: the only way a ROM
+	     gets in, and a mod or save comes back out. -->
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>UIFileSharingEnabled</key>

@@ -120,8 +120,7 @@ typedef enum PromptSteps {
   PS_FIRST,
   PS_DUPE,
   PS_WAIT,
-  // Web only: the browser has no folder to scan, so the choice between
-  // extracting a ROM and loading an already-generated archive is made outright.
+  // Web only: no folder to scan, so the user is asked outright.
   PS_WEB_CHOICE,
   PS_WEB_UPLOAD,
   PS_NONE,
@@ -647,9 +646,7 @@ void GameEngine::RunExtract(int argc, char *argv[]) {
 #endif
       case PS_LOCAL: {
         extract = GameExtractor();
-        // Only ROMs config.yml has a recipe for, named by the version it gives
-        // them, so the prompt says what was found instead of "some .z64 files"
-        // and an unsupported ROM never reaches the extractor.
+        // Only ROMs config.yml has a recipe for, named by their version.
         const auto romChoices = GameExtractor::FindSupportedRoms(
             {installPath, Ship::Context::GetAppDirectoryPath("boat")});
         if (!romChoices.empty()) {
@@ -1256,8 +1253,7 @@ extern "C" void GameEngine_ReadController(OSContPad *pads) {
   if (controlDeck != nullptr) {
     controlDeck->WriteToPad(pads);
   }
-  // Merges the on-screen controls into port 0. A no-op unless they are enabled,
-  // so this stays on the desktop path too.
+  // Merges the on-screen controls into port 0; no-op unless enabled.
   TouchControls_ApplyPad(pads);
 }
 
@@ -1281,9 +1277,7 @@ extern "C" void GameEngine_LogInfo(const char *fmt, ...) {
 }
 
 // C-callable stack trace logging using spdlog.
-//
-// Android defines __linux__ but its libc is Bionic, which has no backtrace();
-// the same goes for any other platform without <execinfo.h>.
+// Android defines __linux__ but Bionic has no backtrace().
 #if (defined(__APPLE__) || defined(__linux__)) && !defined(__ANDROID__)
 #define PAPERBOAT_HAVE_EXECINFO 1
 #include <cxxabi.h>

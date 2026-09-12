@@ -72,12 +72,10 @@ void WebCache_SaveNoWait() {
     js_idbfs_save_nowait();
 }
 
-// Shows an in-page prompt with a real button and opens the file dialog from that
-// button's click handler. Safari only opens a file dialog from inside a user
-// gesture, and the game loop is not one, so a programmatic click issued from a
-// later frame is silently ignored and the Promise would never settle. The
-// <input> stays in the document until the dialog reports a file or the user
-// cancels, since some browsers drop the change event for a detached input.
+// Opens the file dialog from a real button's click handler: Safari only allows
+// it from inside a user gesture, and the game loop is not one, so a
+// programmatic click would be ignored and the Promise never settle. The <input>
+// stays in the document because some browsers drop a detached input's event.
 // clang-format off
 EM_ASYNC_JS(int, js_pick_into, (const char* ctitle, const char* caccept, const char* cdest), {
     var title = UTF8ToString(ctitle);

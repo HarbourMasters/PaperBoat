@@ -10,11 +10,9 @@ import java.util.zip.ZipInputStream
 /**
  * Everything the game needs on disk, and how it gets there.
  *
- * libultraship resolves every runtime path on Android through
- * `SDL_AndroidGetExternalStoragePath()`, i.e. `getExternalFilesDir(null)` — both
- * `GetAppBundlePath()` and `GetAppDirectoryPath()` land there. That is also
- * somewhere the user can reach with a file manager, which is what makes dropping
- * mods in possible, so everything lives there:
+ * libultraship resolves every runtime path through
+ * `SDL_AndroidGetExternalStoragePath()` — `getExternalFilesDir(null)`, which a
+ * file manager can also reach, so mods can be dropped in. Everything lives there:
  *
  *     Android/data/dev.net64.paperboat/files/
  *       baserom.us.z64       the user's ROM, copied in by the launcher
@@ -24,15 +22,13 @@ import java.util.zip.ZipInputStream
  *       mods/                user mods (.o2r, .zip or plain folders)
  *       saves/               fileN.json, one per save slot
  *
- * The unpacking happens here rather than inside the engine because Torch needs
- * config.yml and assets/ on disk before the game process starts, not after.
- * The zip itself is assembled by android/app/build.gradle.kts.
+ * Unpacking happens here, not in the engine: Torch needs config.yml and assets/
+ * on disk before the game process starts. The zip is built by build.gradle.kts.
  */
 object GameAssets {
 
-    // Named for the engine's own mobile fallback (GameExtractor.cpp), so a
-    // re-extraction triggered from inside the game finds it too. Torch hashes
-    // the contents, so the name says nothing about which region it is.
+    // Matches the engine's mobile fallback (GameExtractor.cpp), so an
+    // in-game re-extraction finds it too. Torch hashes contents, not the name.
     const val ROM_NAME = "baserom.us.z64"
 
     private const val TAG = "GameAssets"
@@ -55,11 +51,9 @@ object GameAssets {
     fun isExtracted(context: Context) = gameArchive(context).length() > 0
 
     /**
-     * Unpacks the APK-bundled extraction inputs into [gameDir].
-     *
-     * Re-runs whenever the packaged zip changes, so an app update ships new
-     * recipes and a new paperboat.o2r without the user clearing data. Returns an
-     * error message, or null when the directory is ready.
+     * Unpacks the APK-bundled extraction inputs into [gameDir]. Re-runs whenever
+     * the packaged zip changes, so an update ships new recipes without the user
+     * clearing data. Returns an error message, or null when ready.
      */
     fun stageBundledAssets(context: Context): String? {
         val target = gameDir(context)
@@ -77,8 +71,7 @@ object GameAssets {
                         val entry = zip.nextEntry ?: break
                         val destination = File(target, entry.name).canonicalFile
 
-                        // An entry named ../../something would otherwise write
-                        // outside the game directory.
+                        // An entry named ../../x would escape the game directory.
                         if (!destination.path.startsWith(target.canonicalPath + File.separator)) {
                             Log.w(TAG, "Skipping suspicious zip entry ${entry.name}")
                             zip.closeEntry()
@@ -105,8 +98,7 @@ object GameAssets {
             val mods = modsDir(context)
             mods.mkdirs()
             if (mods.list().isNullOrEmpty()) {
-                // Only a hint for the player, and nothing reads it back, so it
-                // must not fail an extraction that has otherwise succeeded.
+                // Only a hint; nothing reads it back, so it must not fail here.
                 try {
                     copyAsset(context, "mods/place_mods_here.txt", File(mods, "place_mods_here.txt"))
                 } catch (error: IOException) {
@@ -114,7 +106,7 @@ object GameAssets {
                 }
             }
 
-            // New recipes mean the previous archive is stale, and Torch skips
+            // New recipes make the previous archive stale, and Torch skips
             // work whose inputs it believes are unchanged.
             gameArchive(context).delete()
             File(target, TORCH_HASHES).delete()
@@ -128,15 +120,11 @@ object GameAssets {
     }
 
     /**
-     * The display name Torch knows this ROM by, or null if it is not one the
-     * recipes support.
+     * The name Torch knows this ROM by, or null if the recipes don't support it.
+     * Answered by the engine from the same config.yml the extraction reads, so
+     * the launcher carries no second list of hashes to drift out of sync.
      *
-     * The answer comes from the engine, which reads the same config.yml the
-     * extraction does, so the launcher never carries a second list of hashes
-     * that could drift away from the recipes it ships beside.
-     *
-     * [stageBundledAssets] must have run first — that is what puts config.yml
-     * where this can find it.
+     * [stageBundledAssets] must have run first; it puts config.yml in place.
      */
     fun identifyRom(context: Context, rom: File): String? =
         nativeDetectRom(rom.absolutePath, gameDir(context).absolutePath)

@@ -10,10 +10,8 @@
 #include "port/web/WebUtils.h"
 #endif
 #ifdef __ANDROID__
-// Redefines main() to SDL_main(), which is what SDLActivity calls into. The
-// packaged game data is unpacked before this process starts rather than from
-// here: extracting the ROM needs config.yml and assets/ on disk first. See
-// android/app/src/main/java/dev/net64/paperboat/GameAssets.kt.
+// Redefines main() to SDL_main(), which SDLActivity calls into. The game data
+// is unpacked before this process starts, by GameAssets.kt.
 #include <SDL2/SDL_main.h>
 #endif
 
@@ -41,10 +39,8 @@ extern "C"
     main(int argc, char *argv[]) {
 #endif
 #ifdef __EMSCRIPTEN__
-  // Everything the engine writes — the config, saves, and the pm64.o2r
-  // generated from the player's ROM — lives under /storage, which is an IndexedDB
-  // mount rather than real storage. Both have to happen before anything looks
-  // for a file there.
+  // Everything the engine writes lives under /storage, an IndexedDB mount.
+  // Both calls must precede anything that looks for a file there.
   WebCache_Mount("/storage");
   WebCache_Load();
 #endif
@@ -65,8 +61,7 @@ extern "C"
     Graphics_ThreadUpdate();
     FrameInterpolation_StopRecord();
 #ifdef __EMSCRIPTEN__
-    // A tab can be closed without warning, so the virtual filesystem is pushed
-    // to IndexedDB periodically rather than only on the way out.
+    // A tab can close without warning, so sync periodically, not just on exit.
     static uint32_t lastSync = 0;
     const uint32_t now = SDL_GetTicks();
     if (now - lastSync > 5000) {
@@ -78,9 +73,8 @@ extern "C"
 
   GameEngine::Instance->Destroy();
 #ifdef __EMSCRIPTEN__
-  // Destroy() wrote the config and the periodic sync above has stopped, so push
-  // it to browser storage now or the last window state is lost on the next
-  // visit. Not awaited: the write finishes in the page after the runtime exits.
+  // Destroy() wrote the config after the last periodic sync. Not awaited: the
+  // write finishes in the page after the runtime exits.
   WebCache_SaveNoWait();
 #endif
   return 0;

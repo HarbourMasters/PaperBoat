@@ -20,11 +20,9 @@ import java.io.FileOutputStream
 import kotlin.concurrent.thread
 
 /**
- * First-run flow: unpack the bundled game files, take a ROM from the user, and
- * turn it into pm64.o2r before handing off to the game.
- *
- * Nothing about the game is shipped in the APK — the ROM stays on the device
- * and the extraction runs here, on demand.
+ * First-run flow: unpack the bundled files, take a ROM from the user, and turn
+ * it into pm64.o2r before handing off to the game. Nothing about the game ships
+ * in the APK; the ROM stays on the device and the extraction runs here.
  */
 class LauncherActivity : ComponentActivity() {
 
@@ -44,11 +42,9 @@ class LauncherActivity : ComponentActivity() {
     }
 
     /**
-     * Unpacks the bundled game files, then decides what still has to happen:
-     * nothing (start the game), extract an already-imported ROM, or ask for one.
-     *
-     * The unpacking moves tens of megabytes out of the APK, so it cannot run on
-     * the main thread.
+     * Unpacks the bundled files, then decides what is left to do: start the
+     * game, extract an already-imported ROM, or ask for one. Off the main
+     * thread — this moves tens of megabytes out of the APK.
      */
     private fun prepare() {
         setBusy(true, getString(R.string.launcher_preparing))
@@ -58,8 +54,7 @@ class LauncherActivity : ComponentActivity() {
 
             runOnUiThread {
                 when {
-                    // Nothing else will work without the bundled files, so
-                    // leave the button disabled rather than invite a retry.
+                    // Nothing works without the bundled files; don't invite a retry.
                     stagingError != null -> {
                         setBusy(false, stagingError)
                         chooseButton.isEnabled = false
@@ -92,8 +87,8 @@ class LauncherActivity : ComponentActivity() {
         }
         progress = ProgressBar(this).apply { visibility = View.GONE }
 
-        // The failure messages can run long, and the launcher is fixed to
-        // landscape, so let the text scroll rather than push the button away.
+        // Failure messages run long and the launcher is landscape-only, so let
+        // the text scroll rather than push the button off-screen.
         val scroller = ScrollView(this).apply {
             addView(
                 status,
@@ -111,8 +106,7 @@ class LauncherActivity : ComponentActivity() {
     /**
      * Copies the picked document in under a temporary name, asks the engine
      * whether it recognises it, and only then makes it the ROM. Verifying the
-     * landed copy rather than the source is what makes a truncated read fail
-     * here instead of halfway through the extraction.
+     * landed copy is what makes a truncated read fail here, not mid-extraction.
      */
     private fun importRom(uri: Uri) {
         setBusy(true, getString(R.string.launcher_verifying))
@@ -172,9 +166,8 @@ class LauncherActivity : ComponentActivity() {
     }
 
     /**
-     * Both long-running steps keep the screen awake: the extraction has no
-     * progress to report and can outlast the display timeout, and being killed
-     * part-way through leaves a truncated archive behind.
+     * Keeps the screen awake while busy: the extraction reports no progress, can
+     * outlast the display timeout, and leaves a truncated archive if killed.
      */
     private fun setBusy(busy: Boolean, message: String) {
         status.text = message
@@ -191,14 +184,11 @@ class LauncherActivity : ComponentActivity() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
 
-        // This activity has a process to itself and the game runs in the app's
-        // main one, so ending this one costs the game nothing and hands back
-        // everything the launcher touched: after an extraction that is Torch
-        // still holding the ROM and every decoded asset, which is deliberately
-        // never freed (see src/port/android/AndroidBridge.cpp), and otherwise
-        // it is still the game library mapped in just to reach that one JNI
-        // call. startActivity() has already reached the activity manager by
-        // this point, so the game starts either way.
+        // This activity has its own process and the game runs in the main one,
+        // so ending it costs the game nothing and hands back everything the
+        // launcher touched — after an extraction, Torch still holding the ROM
+        // and every decoded asset. startActivity() has already reached the
+        // activity manager, so the game starts either way.
         Runtime.getRuntime().exit(0)
     }
 

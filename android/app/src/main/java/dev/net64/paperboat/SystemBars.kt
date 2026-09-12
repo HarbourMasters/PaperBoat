@@ -5,14 +5,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 /**
- * Keeps this view's content clear of the status bar, navigation bar and camera
- * cutout, on top of whatever padding it already has.
- *
- * From API 35 the system lays every window out edge to edge and ignores the old
- * opt-outs, so a screen that does nothing about it gets its content drawn
- * underneath the bars — which put the launcher's Choose ROM button behind the
- * navigation bar. The game does the opposite and hides the bars outright; see
- * [MainActivity].
+ * Keeps content clear of the status bar, navigation bar and cutout, on top of
+ * whatever padding it already has. From API 35 every window is laid out edge to
+ * edge and the old opt-outs are ignored, which put the launcher's Choose ROM
+ * button behind the navigation bar. The game instead hides the bars outright;
+ * see [MainActivity].
  */
 fun View.padForSystemBars() {
     val left = paddingLeft

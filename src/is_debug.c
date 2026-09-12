@@ -24,11 +24,9 @@ void is_debug_init(void) {
     osEPiWriteIo(nuPiCartHandle, (u32) &gISVDbgPrnAdrs->magic, ASCII_TO_U32('I', 'S', '6', '4'));
 }
 
-// Replacing libc's printf/puts relies on the linker letting this definition win
-// over the one in the C library. MSVC's does not, and neither does wasm-ld,
-// which rejects the second definition outright ("duplicate symbol: printf").
-// Both platforms keep the real libc versions instead; the IS-Viewer this writes
-// to is N64 cartridge hardware that exists on neither.
+// Overriding libc's printf/puts needs a linker that lets this definition win.
+// MSVC's does not, and wasm-ld rejects it ("duplicate symbol: printf"). Both
+// keep libc's; the IS-Viewer is cartridge hardware neither platform has.
 #if !defined(_WIN32) && !defined(__EMSCRIPTEN__)
 #define PAPERBOAT_OVERRIDE_LIBC_PRINT 1
 #endif

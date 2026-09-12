@@ -99,9 +99,8 @@ void SetupGuiElements() {
       CVAR_WINDOW("ShaderSettings"), "Shader Settings", ImVec2(420, 520));
   gui->AddGuiWindow(mShaderSettingsWindow);
 
-  // Always registered, on every platform: it draws nothing unless the touch
-  // controls are switched on, which lets a desktop build be used to lay the
-  // on-screen pad out without a device in hand.
+  // Registered everywhere; draws nothing unless the touch controls are on, so
+  // the layout can be edited from a desktop build.
   mTouchControlsOverlay = std::make_shared<TouchControlsOverlay>(
       CVAR_WINDOW("TouchControls"), "##TouchControls");
   gui->AddGuiWindow(mTouchControlsOverlay);

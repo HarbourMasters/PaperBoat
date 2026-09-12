@@ -29,12 +29,8 @@
     <!-- Rumble -->
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <!--
-        No storage permissions: the ROM is read once through the document
-        picker, and everything the game writes lives in the app's own external
-        files directory (Android/data/dev.net64.paperboat/files), which is
-        also where mods are dropped in.
-    -->
+    <!-- No storage permissions: the ROM comes through the document picker, and
+         everything else lives in the app's own external files directory. -->
 
     <application
         android:allowBackup="false"
@@ -49,23 +45,15 @@
             android:name="SDL_ENV.SDL_ANDROID_TRAP_BACK_BUTTON"
             android:value="1" />
 
-        <!--
-            SDL calls setRequestedOrientation() itself when the video subsystem
-            starts, which overrides the activity's screenOrientation. With no
-            hint it promotes a resizable window to FULL_USER and the game turns
-            with the device. Naming both landscapes pins it to landscape while
-            still allowing either way up.
-        -->
+        <!-- SDL overrides screenOrientation when its video subsystem starts,
+             promoting a resizable window to FULL_USER. Naming both landscapes
+             pins it while still allowing either way up. -->
         <meta-data
             android:name="SDL_ENV.SDL_IOS_ORIENTATIONS"
             android:value="LandscapeLeft LandscapeRight" />
 
-        <!--
-            Its own process, because extracting the ROM leaves Torch's decoded
-            asset data behind — Torch's Companion is deliberately never freed
-            (see src/port/android/AndroidBridge.cpp). Ending this process once
-            the archive is written hands all of it back before the game starts.
-        -->
+        <!-- Its own process: extraction leaves Torch's decoded assets behind,
+             and ending the process hands them back before the game starts. -->
         <activity
             android:name=".LauncherActivity"
             android:exported="true"

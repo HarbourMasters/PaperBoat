@@ -1,5 +1,4 @@
-# 3.24 is libultraship's own floor, and what FetchContent's
-# OVERRIDE_FIND_PACKAGE / CMAKE_FIND_PACKAGE_REDIRECTS_DIR need.
+# libultraship's floor, and what FetchContent's OVERRIDE_FIND_PACKAGE needs.
 cmake_minimum_required(VERSION 3.24)
 
 project(Paperboat
@@ -19,9 +18,8 @@ include(cmake/lus-cvars.cmake)
 ################################################################################
 # Mobile / web platform setup
 #
-# Each of these has to happen before anything else is configured: the iOS
-# toolchain rewrites the compiler and sysroot, and the Emscripten flags have to
-# reach libultraship and ImGui as well as the game.
+# Must run before anything else: the iOS toolchain rewrites the compiler, and
+# the Emscripten flags have to reach libultraship and ImGui too.
 ################################################################################
 if(IOS)
     if(NOT DEFINED PLATFORM)
@@ -29,10 +27,8 @@ if(IOS)
     endif()
     option(IOS_SIGNING "Code sign the iOS app (OFF produces an unsigned bundle for sideloading)" ON)
     include(cmake/ios.toolchain.cmake)
-    # Configure with cmake/ios.paperboat.toolchain.cmake, which sets this before
-    # the toolchain bakes it into the compiler's target triple. Reaching here
-    # with anything lower means the plain upstream toolchain was used, and the
-    # build would die deep in <format> instead of saying why.
+    # cmake/ios.paperboat.toolchain.cmake sets this before the toolchain bakes
+    # it into the target triple. Anything lower dies deep in <format> instead.
     if(DEPLOYMENT_TARGET VERSION_LESS 16.3)
         message(FATAL_ERROR
             "iOS deployment target is ${DEPLOYMENT_TARGET}; Paperboat needs 16.3 or newer "
@@ -46,8 +42,7 @@ if(IOS)
         __IOS__
     )
     if(IOS_SIGNING)
-        # Xcode picks the team from the signing identity when this is left as is;
-        # set it to your own team ID to pin one.
+        # Empty means "whatever the signing identity says".
         set(CMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "$ENV{IOS_DEVELOPMENT_TEAM}")
     endif()
     set(BUNDLE_ID "dev.net64.paperboat")
@@ -56,9 +51,8 @@ if(IOS)
 endif()
 
 if(EMSCRIPTEN)
-    # The macro, not the CMake option: the source-level GLES path is what the
-    # web build wants, while libultraship's USE_OPENGLES option would also try
-    # to link a libGLESv2 that Emscripten does not have.
+    # The macro, not the CMake option: the option would also try to link a
+    # libGLESv2 that Emscripten does not have.
     add_compile_definitions(USE_OPENGLES=1)
     add_compile_options(-pthread -sUSE_SDL=2 -fexceptions)
     add_link_options(-pthread -sUSE_SDL=2)
@@ -147,10 +141,8 @@ include(FetchContent)
 ################################################################################
 # libultraship dependencies the platform files don't cover
 #
-# libultraship ships cmake/dependencies/{android,ios,mac,linux,windows}.cmake and
-# picks one by CMAKE_SYSTEM_NAME. There is no Emscripten file, so its
-# find_package(libzip/nlohmann_json/tinyxml2/spdlog REQUIRED) calls have nothing
-# to find; declaring them here with OVERRIDE_FIND_PACKAGE is what answers them.
+# libultraship has no cmake/dependencies/emscripten.cmake, so its
+# find_package(... REQUIRED) calls have nothing to find without these.
 ################################################################################
 if(EMSCRIPTEN)
     set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
@@ -178,9 +170,8 @@ if(EMSCRIPTEN)
         OVERRIDE_FIND_PACKAGE
     )
 
-    # libzip finds zlib through find_package. Emscripten ships one in its
-    # sysroot, but emcc only builds the port on demand, and a stale redirect
-    # from an earlier configure would point at a file that is not there yet.
+    # libzip finds zlib through find_package; a stale redirect from an earlier
+    # configure would point at a port emcc has not built yet.
     file(REMOVE
         "${CMAKE_FIND_PACKAGE_REDIRECTS_DIR}/zlib-config.cmake"
         "${CMAKE_FIND_PACKAGE_REDIRECTS_DIR}/zlib-config-version.cmake"
@@ -220,19 +211,15 @@ if(EMSCRIPTEN)
     FetchContent_MakeAvailable(tinyxml2 nlohmann_json spdlog libzip)
 endif()
 
-# Nothing on these platforms can dlopen a native mod, and the TCC runtime has no
-# backend for any of them.
+# None of these can dlopen a native mod, and TCC has no backend for them.
 if(ANDROID OR IOS OR EMSCRIPTEN)
     set(ENABLE_SCRIPTING OFF CACHE BOOL "" FORCE)
     set(DISABLE_DLL_LOADER ON CACHE BOOL "" FORCE)
 endif()
 
 # Add libultraship BEFORE setting include directories to avoid polluting its builds.
-#
-# Built into the binary tree, not the submodule's own source directory: Android
-# configures once per ABI, and an in-source build dir has them all writing the
-# same libImGui.a/libstb.a/libmonocypher.a — whichever ABI ran last wins and the
-# other fails to link with "is incompatible with aarch64linux".
+# Into the binary tree, not the submodule: Android configures once per ABI, and
+# an in-source build dir has them all overwriting the same libImGui.a.
 add_subdirectory(external/libultraship ${CMAKE_BINARY_DIR}/libultraship)
 
 # Prism (fetched by libultraship) misdetects clang-cl as non-MSVC and skips /EHsc
@@ -382,11 +369,10 @@ if (NOT MSVC)
     )
 endif()
 
-# Neither the Visual Studio nor the Xcode generator can put a COMPILE_LANGUAGE
-# generator expression in a compile *definition* — both carry one preprocessor
-# definition list per configuration, with no per-language split. Without the
-# per-file fallback below, iOS compiles the game's C with _LANGUAGE_C_PLUS_PLUS
-# and every `extern "C" {` in the headers fails with "expected identifier".
+# Neither the VS nor the Xcode generator can put COMPILE_LANGUAGE in a compile
+# *definition* — one definition list per config, no per-language split. Without
+# the per-file fallback, iOS compiles the game's C as C++ and every
+# `extern "C" {` in the headers fails with "expected identifier".
 if(MSVC OR CMAKE_GENERATOR STREQUAL "Xcode")
     set(PAPERBOAT_PER_FILE_LANGUAGE_DEFS TRUE)
 endif()
@@ -466,10 +452,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 add_dependencies(${PROJECT_NAME} libultraship)
 
-# The engine's own archive: everything under port/ (shaders, fonts, button art)
-# zipped up. A target rather than a POST_BUILD step, because the web build has
-# to preload it at link time and the iOS bundle has to carry it — neither of
-# which can wait until after the game has been linked.
+# The engine's own archive: everything under port/ zipped up. A target rather
+# than a POST_BUILD step because the web build preloads it at link time.
 set(PAPERBOAT_PORT_O2R "${CMAKE_BINARY_DIR}/paperboat.o2r")
 file(GLOB_RECURSE PAPERBOAT_PORT_FILES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/port/*")
 add_custom_command(
@@ -486,8 +470,8 @@ add_dependencies(${PROJECT_NAME} GeneratePortO2R)
 target_link_libraries(${PROJECT_NAME} PRIVATE libultraship torch)
 
 if(ANDROID)
-    # libzip comes from libultraship's android.cmake via FetchContent, so its
-    # headers are in the build tree rather than on a system include path.
+    # libzip comes from libultraship's android.cmake, so its headers are in the
+    # build tree rather than on a system include path.
     FetchContent_GetProperties(libzip)
     if(libzip_SOURCE_DIR)
         target_include_directories(${PROJECT_NAME} PRIVATE ${libzip_SOURCE_DIR}/lib ${libzip_BINARY_DIR})
@@ -513,9 +497,8 @@ if(EMSCRIPTEN)
         -sEXIT_RUNTIME=1
         -sSTACK_SIZE=5242880
         -sPTHREAD_POOL_SIZE=8
-        # The engine's frame loop blocks; Asyncify is what lets it yield to the
-        # browser. Torch is excluded because instrumenting it overflows the
-        # worker stack — see src/port/web/asyncify-remove.txt.
+        # The frame loop blocks; Asyncify lets it yield to the browser. Torch
+        # is excluded — see src/port/web/asyncify-remove.txt.
         -sASYNCIFY=1
         "-sASYNCIFY_REMOVE=@${CMAKE_SOURCE_DIR}/src/port/web/asyncify-remove.txt"
         -sASYNCIFY_STACK_SIZE=8388608
@@ -532,8 +515,7 @@ if(EMSCRIPTEN)
         "SHELL:--preload-file ${PAPERBOAT_PORT_O2R}@/paperboat.o2r"
     )
 
-    # Skips the in-browser extraction during development; players generate the
-    # archive from their own ROM instead.
+    # Development shortcut; players generate the archive from their own ROM.
     set(PAPERBOAT_WEB_PRELOAD_ROM "" CACHE FILEPATH "Path to a pm64.o2r to embed (debug only)")
     if(PAPERBOAT_WEB_PRELOAD_ROM)
         target_link_options(${PROJECT_NAME} PRIVATE
@@ -545,8 +527,7 @@ if(EMSCRIPTEN)
         "${CMAKE_SOURCE_DIR}/src/port/web/asyncify-remove.txt"
         "${PAPERBOAT_PORT_O2R}")
 
-    # SharedArrayBuffer needs COOP/COEP headers, which a plain static host does
-    # not send; the service worker adds them client-side.
+    # SharedArrayBuffer needs COOP/COEP headers a static host won't send.
     add_custom_command(
         TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -555,10 +536,9 @@ if(EMSCRIPTEN)
     )
 endif()
 
-# Torch reads config.yml and the asset yamls off disk when it extracts a ROM.
-# Android unpacks its own copies out of the APK (android/app/build.gradle.kts),
-# the web build preloads them into the virtual filesystem at link time, and iOS
-# carries them inside the .app because that is where GetAppBundlePath() points.
+# Torch reads config.yml and the asset yamls off disk to extract a ROM. Android
+# unpacks its own out of the APK and the web build preloads them at link time;
+# iOS needs them inside the .app, where GetAppBundlePath() points.
 if(IOS)
     add_custom_command(
         TARGET ${PROJECT_NAME} POST_BUILD
@@ -663,8 +643,7 @@ elseif(APPLE)
     target_link_options(${PROJECT_NAME} PRIVATE -pthread)
 
 elseif(ANDROID OR EMSCRIPTEN)
-    # GL comes from the platform (GLESv3/EGL on Android, WebGL2 through
-    # Emscripten's own flags), and neither has a desktop OpenGL to find.
+    # GL comes from the platform; neither has a desktop OpenGL to find.
     target_compile_options(${PROJECT_NAME} PRIVATE
         -Wall -Wextra -Wno-error
         -Wno-unused-parameter

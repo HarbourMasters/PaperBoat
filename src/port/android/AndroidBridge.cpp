@@ -1,17 +1,11 @@
 /**
- * JNI surface for the Android app — the only three places the Kotlin side
- * reaches into native code:
+ * JNI surface for the Android app: menu state, ROM recognition, and extraction.
  *
- *  - whether the engine's menu is up, which decides when the Mods button shows,
- *  - whether a file is a ROM the bundled recipes recognise, and
- *  - game asset generation, which runs Torch against that ROM.
+ * On-screen controls are not here — the engine draws its own, in
+ * src/port/ui/TouchControls.cpp.
  *
- * On-screen controls are not here: the engine draws and handles its own (see
- * src/port/ui/TouchControls.cpp).
- *
- * The two extraction entry points are deliberately independent of libultraship:
- * they are called from the launcher activity, before SDL exists, so they cannot
- * use Ship::Context to discover paths. The launcher passes them in explicitly.
+ * The two extraction entry points take their paths as arguments rather than
+ * asking Ship::Context: the launcher calls them before SDL exists.
  */
 #ifdef __ANDROID__
 
@@ -51,17 +45,11 @@ std::string ToStdString(JNIEnv* env, jstring value) {
 extern "C" {
 
 /**
- * Whether libultraship's menu is currently up.
+ * Whether libultraship's menu is up. A keyboard, a gamepad or the menu itself
+ * can change this behind Kotlin's back, so ask the engine rather than mirror it.
  *
- * The Mods button needs this because the menu is not only opened by the engine's
- * own on-screen toggle — a keyboard, a gamepad, or the menu closing itself all
- * change it behind Kotlin's back. Reading the engine's state instead of
- * mirroring it is what keeps the two from drifting apart.
- *
- * Called from the UI thread while the game thread renders. It reads a bool the
- * game thread may be writing, which is worth accepting here: the value only
- * decides whether one button is shown, and a torn read self-corrects on the
- * next poll.
+ * Races with the game thread by design: it decides whether one button shows,
+ * and a torn read self-corrects on the next poll.
  */
 JNIEXPORT jboolean JNICALL Java_dev_net64_paperboat_MainActivity_isMenuOpen(JNIEnv*, jobject) {
     auto window = WindowGetWindowComponent();
@@ -78,11 +66,9 @@ JNIEXPORT jboolean JNICALL Java_dev_net64_paperboat_MainActivity_isMenuOpen(JNIE
 }
 
 /**
- * The name config.yml gives the ROM at romPath, or null when it is not one the
- * recipes in sourceDir can extract.
- *
- * Answering from the same config.yml the extraction reads is what keeps the
- * launcher from carrying its own copy of the supported hashes.
+ * The name config.yml gives the ROM at romPath, or null if it has no recipe.
+ * Reading the same config.yml the extraction does keeps the launcher from
+ * carrying its own copy of the supported hashes.
  */
 JNIEXPORT jstring JNICALL Java_dev_net64_paperboat_GameAssets_nativeDetectRom(JNIEnv* env, jobject, jstring jRomPath,
                                                                              jstring jSourceDir) {
@@ -101,10 +87,8 @@ JNIEXPORT jstring JNICALL Java_dev_net64_paperboat_GameAssets_nativeDetectRom(JN
 
 /**
  * Runs Torch over the ROM at romPath and writes pm64.o2r into destDir.
- *
- * sourceDir is the directory holding config.yml and assets/ymls (unpacked from
- * the APK by the launcher). Returns null on success, or a message describing
- * what went wrong.
+ * sourceDir holds config.yml and assets/, unpacked from the APK by the
+ * launcher. Returns null on success, or a message describing the failure.
  */
 JNIEXPORT jstring JNICALL Java_dev_net64_paperboat_GameAssets_nativeGenerateGameArchive(JNIEnv* env, jobject,
                                                                                        jstring jRomPath,
@@ -143,8 +127,8 @@ JNIEXPORT jstring JNICALL Java_dev_net64_paperboat_GameAssets_nativeGenerateGame
         return fail(extractError);
     }
 
-    // Init() logs and returns rather than throwing for a few failure modes
-    // (missing config, unrecognised ROM), so confirm the archive really landed.
+    // Init() logs and returns rather than throwing for some failures, so
+    // confirm the archive really landed.
     std::error_code error;
     const std::filesystem::path archive = std::filesystem::path(destDir) / kGameArchive;
     if (!std::filesystem::exists(archive, error) || std::filesystem::file_size(archive, error) == 0) {

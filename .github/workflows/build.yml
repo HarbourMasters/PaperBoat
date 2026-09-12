@@ -3,20 +3,16 @@ name: Build
 # The port, on every platform it targets. The decomp's own ROM-building
 # workflows are the disabled ones in .github/workflows.disabled/.
 #
-# No job produces paperboat.o2r for the others: the GeneratePortO2R CMake target
-# builds it from port/ as part of every build, and the Android APK packs its own
-# from the same directory. Nothing here needs a ROM — pm64.o2r is generated on
-# the player's own machine, from their own copy.
+# No job produces paperboat.o2r for the others: every build makes its own from
+# port/. Nothing here needs a ROM.
 #
-# The Vulkan SDK is deliberately not installed anywhere. libultraship treats it
-# as optional (find_package(Vulkan QUIET)) and falls back to OpenGL, Metal or
-# DX11, so CI validates the build without paying for the SDK download. Add it to
-# the relevant job if you want the Vulkan backend in the artifacts.
+# The Vulkan SDK is deliberately not installed; libultraship treats it as
+# optional and falls back to OpenGL, Metal or DX11. Add it per-job if you want
+# the Vulkan backend in the artifacts.
 
-# push, not pull_request: every branch in this repo already builds on push, and
-# adding pull_request would run the whole six-platform matrix a second time for
-# the same commits. A fork's PR does not build automatically — its jobs could
-# not reach the signing secrets anyway — so review one with workflow_dispatch.
+# push, not pull_request: every branch already builds on push, and adding it
+# would run the six-platform matrix twice for the same commits. Review a fork's
+# PR with workflow_dispatch; its jobs could not reach the secrets anyway.
 on:
   push:
   workflow_dispatch:
@@ -107,8 +103,8 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      # The clang-cl toolchain finds the compiler through vswhere, but Ninja
-      # still needs INCLUDE/LIB pointing at the MSVC and Windows SDK headers.
+      # The toolchain finds clang-cl via vswhere, but Ninja still needs
+      # INCLUDE/LIB pointing at the MSVC and Windows SDK headers.
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
       - name: Cache vcpkg binaries
@@ -129,8 +125,8 @@ jobs:
       - name: Build
         shell: pwsh
         run: |
-          # Reuse the runner's preinstalled vcpkg. Blanking VCPKG_ROOT makes
-          # automate-vcpkg clone into an empty path instead.
+          # Reuse the runner's vcpkg; blanking this makes automate-vcpkg clone
+          # into an empty path instead.
           $env:VCPKG_ROOT = $env:VCPKG_INSTALLATION_ROOT
           # The repo's supported Windows configuration: Ninja + clang-cl.
           cmake --preset windows-release `
@@ -175,26 +171,21 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Install Android SDK components
-        # Versions match android/app/build.gradle.kts. libultraship needs
-        # CMake >= 3.24, so the NDK's bundled 3.22.1 will not do.
+        # Versions match build.gradle.kts; the NDK's CMake 3.22.1 is too old.
         run: |
           yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
             "cmake;3.30.3" "ndk;30.0.15729638" \
             "platforms;android-36" "build-tools;36.0.0" > /dev/null
-      # Signed with the release key when the secrets are set. Without them the
-      # Gradle build falls back to the debug key, so a fork still gets an
-      # installable APK instead of a failure on a keystore nobody has.
-      # android/app/, not android/: the env-var branch of signingConfigs uses
-      # the :app project's file(), which resolves relative to that project dir.
+      # Release key when the secrets are set, debug key otherwise, so a fork
+      # still gets an installable APK. android/app/, not android/: the env-var
+      # branch of signingConfigs uses the :app project's file().
       - name: Write release keystore
         if: env.KEYSTORE_BASE64 != ''
         run: |
           echo "$KEYSTORE_BASE64" | base64 -d > android/app/release.keystore
           test -s android/app/release.keystore || { echo "::error::empty keystore"; exit 1; }
-      # Two steps rather than one with a conditional KEYSTORE_FILE: an empty
-      # env var is still set, and build.gradle.kts only checks for null, so a
-      # blank value would be taken for a configured keystore and fail on
-      # file("").
+      # Two steps, not a conditional KEYSTORE_FILE: an empty env var is still
+      # set, and build.gradle.kts only checks for null.
       - name: Build APK (release-signed)
         if: env.KEYSTORE_BASE64 != ''
         run: android/gradlew -p android assembleRelease
@@ -210,9 +201,8 @@ jobs:
         run: |
           APK=android/app/build/outputs/apk/release/app-release.apk
           test -f "$APK" || { echo "::error::APK not found"; exit 1; }
-          # GameAssets.kt opens each of these by name. An APK missing one
-          # installs and launches fine, then fails on the device during
-          # staging — so catch it here, not after a release goes out.
+          # GameAssets.kt opens each by name. An APK missing one installs fine,
+          # then fails on the device during staging.
           for entry in assets/gamedata.zip assets/gamedata.version \
                        assets/gamecontrollerdb.txt assets/mods/place_mods_here.txt \
                        lib/arm64-v8a/libmain.so lib/arm64-v8a/libSDL2.so; do
@@ -245,9 +235,8 @@ jobs:
           path: build-ios
       - name: Build (unsigned, device arm64)
         run: |
-          # ios.paperboat.toolchain.cmake, not the upstream ios.toolchain.cmake:
-          # it pins the 16.3 deployment target before the toolchain bakes it into
-          # the compiler's target triple. See docs/android-ios-web.md.
+          # Not the upstream ios.toolchain.cmake: this one pins the 16.3
+          # deployment target before it reaches the compiler's target triple.
           cmake -S . -B build-ios -G Xcode \
             -DCMAKE_TOOLCHAIN_FILE=cmake/ios.paperboat.toolchain.cmake \
             -DPLATFORM=OS64 -DCMAKE_BUILD_TYPE=Release -DIOS_SIGNING=OFF
@@ -258,8 +247,8 @@ jobs:
         run: |
           APP="build-ios/Release-iphoneos/Paperboat.app"
           test -d "$APP" || { echo "::error::$APP not found"; exit 1; }
-          # The bundle is where Torch reads its recipes from on device, so a
-          # bundle missing them is an IPA that cannot extract a ROM.
+          # Torch reads its recipes from the bundle, so one missing them is an
+          # IPA that cannot extract a ROM.
           for f in Paperboat paperboat.o2r config.yml assets Info.plist; do
             test -e "$APP/$f" || { echo "::error::$f missing from the app bundle"; exit 1; }
           done
@@ -305,9 +294,8 @@ jobs:
         with:
           version: 4.0.12
           actions-cache-folder: emsdk-cache
-      # libzip links against the sysroot's libz.a, and emcc only builds a port
-      # the first time something asks for it — which is too late for the
-      # find_package(ZLIB) that runs at configure time.
+      # emcc only builds a port on first use, which is too late for the
+      # find_package(ZLIB) at configure time.
       - name: Build zlib port
         run: embuilder build zlib
       - name: Build
@@ -322,8 +310,7 @@ jobs:
             test -s "build-web/$f" || { echo "::error::build-web/$f missing or empty"; exit 1; }
             cp "build-web/$f" site/
           done
-          # Both names: index.html is what Pages serves, paperboat.html is what
-          # the .js was told its page is called.
+          # index.html for Pages; paperboat.html is the name the .js expects.
           cp build-web/paperboat.html site/paperboat.html
           cp build-web/paperboat.html site/index.html
       - uses: actions/upload-artifact@v4
@@ -341,14 +328,12 @@ jobs:
     needs: web
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop' && github.repository == 'HarbourMasters/PaperBoat'
     runs-on: ubuntu-latest
-    # Job-level permissions replace the workflow's rather than add to them, so
-    # contents: read is restated here.
+    # Job-level permissions replace the workflow's, so contents is restated.
     permissions:
       contents: read
       pages: write
       id-token: write
-    # Separate from the build concurrency group: cancelling a half-finished
-    # deployment leaves the Pages site in whatever state it got to.
+    # Its own group: cancelling a half-finished deploy leaves the site broken.
     concurrency:
       group: pages
       cancel-in-progress: false
