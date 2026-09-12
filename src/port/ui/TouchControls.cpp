@@ -167,7 +167,7 @@ void ComputeLayout(OverlayState& state) {
     const float w = display.x;
     const float h = display.y;
     const float scale = std::clamp(CVarGetFloat(CVAR_TOUCH("Scale"), 1.0f), 0.5f, 2.0f);
-    const float u = std::min(w, h) * 0.055f * scale;
+    const float u = std::min<float>(w, h) * 0.055f * scale;
 
     // Element bounding boxes within the 327x175 frame.
     const Rect rA = { 164, 116, 210, 162 };
@@ -298,11 +298,11 @@ float Dist(const ImVec2& a, const ImVec2& b) {
 // Fingers press only their best-scoring button so tight clusters (D-pad arms)
 // never fire opposite directions from one touch.
 float HitScore(const TouchButton& b, const ImVec2& p) {
-    const float mx = std::max(b.halfW * 1.15f, b.halfH * 1.4f);
+    const float mx = std::max<float>(b.halfW * 1.15f, b.halfH * 1.4f);
     const float my = b.halfH * 1.5f;
     const float nx = std::fabs(p.x - b.center.x) / mx;
     const float ny = std::fabs(p.y - b.center.y) / my;
-    const float score = std::max(nx, ny);
+    const float score = std::max<float>(nx, ny);
     return score <= 1.0f ? score : -1.0f;
 }
 
@@ -561,8 +561,8 @@ extern "C" void TouchControls_ApplyPad(void* pads) {
         sState.stickHeld = true;
         sState.stickX = (int8_t)std::clamp(dx * kStickMax, -kStickMax, kStickMax);
         sState.stickY = (int8_t)std::clamp(-dy * kStickMax, -kStickMax, kStickMax); // screen y is down, stick y is up
-        sState.stickPos = ImVec2(sState.stickAnchor.x + dx * sState.stickTravel * std::min(len, 1.0f),
-                                 sState.stickAnchor.y + dy * sState.stickTravel * std::min(len, 1.0f));
+        sState.stickPos = ImVec2(sState.stickAnchor.x + dx * sState.stickTravel * std::min<float>(len, 1.0f),
+                                 sState.stickAnchor.y + dy * sState.stickTravel * std::min<float>(len, 1.0f));
     }
 
     if (pads == nullptr || ControllerGetControlDeck() == nullptr ||
@@ -616,12 +616,14 @@ void TouchControlsOverlay::Draw() {
         }
     }
 
-    const float u = std::min(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y) * 0.055f *
+    const float u = std::min<float>(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y) * 0.055f *
                     std::clamp(CVarGetFloat(CVAR_TOUCH("Scale"), 1.0f), 0.5f, 2.0f);
-    const float stroke = std::max(2.0f, u * 0.09f);
+    const float stroke = std::max<float>(2.0f, u * 0.09f);
     ImFont* font = ImGui::GetFont();
 
-    const auto alpha = [opacity](float a) { return (ImU32)(std::min(a, 1.0f) * opacity * 255.0f) << IM_COL32_A_SHIFT; };
+    const auto alpha = [opacity](float a) {
+        return (ImU32)(std::min<float>(a, 1.0f) * opacity * 255.0f) << IM_COL32_A_SHIFT;
+    };
     const auto rgb = [](ImU32 c) { return c & ~IM_COL32_A_MASK; };
     const auto text = [&](const ImVec2& center, float size, const char* s, ImU32 col) {
         const ImVec2 ts = font->CalcTextSizeA(size, FLT_MAX, 0.0f, s);
@@ -629,9 +631,9 @@ void TouchControlsOverlay::Draw() {
     };
     // Draws a cropped sprite region centered on a button.
     const auto sprite = [&](ImTextureID tex, const TouchButton& b, const ImVec2& uv0, const ImVec2& uv1, float a) {
-        const ImVec2 min(b.center.x - b.halfW, b.center.y - b.halfH);
-        const ImVec2 max(b.center.x + b.halfW, b.center.y + b.halfH);
-        drawList->AddImage(tex, min, max, uv0, uv1, IM_COL32(255, 255, 255, 0) | alpha(a));
+        const ImVec2 pMin(b.center.x - b.halfW, b.center.y - b.halfH);
+        const ImVec2 pMax(b.center.x + b.halfW, b.center.y + b.halfH);
+        drawList->AddImage(tex, pMin, pMax, uv0, uv1, IM_COL32(255, 255, 255, 0) | alpha(a));
     };
 
     // Menu toggle, drawn in every state (including while the menu is open).
@@ -655,7 +657,7 @@ void TouchControlsOverlay::Draw() {
             }
         } else {
             // Vector fallback (textures unavailable): colored disc + glyph.
-            const float r = std::min(button.halfW, button.halfH);
+            const float r = std::min<float>(button.halfW, button.halfH);
             const ImU32 fill = button.pressed ? (rgb(button.color) | alpha(1.0f)) : (rgb(button.color) | alpha(0.55f));
             drawList->AddCircleFilled(button.center, r, fill);
             drawList->AddCircle(button.center, r, IM_COL32(255, 255, 255, 0) | alpha(0.9f), 0, stroke);
@@ -718,11 +720,11 @@ void TouchControlsOverlay::Draw() {
         }
 
         const auto pill = [&](const ImVec2& c, const ImVec2& half, ImU32 fillColor, const char* s, bool down) {
-            const ImVec2 min(c.x - half.x, c.y - half.y);
-            const ImVec2 max(c.x + half.x, c.y + half.y);
-            drawList->AddRectFilled(min, max, (fillColor & ~IM_COL32_A_MASK) | (down ? IM_COL32_A_MASK : alpha(0.85f)),
-                                    half.y);
-            drawList->AddRect(min, max, IM_COL32(255, 255, 255, 230), half.y, 0, stroke);
+            const ImVec2 pMin(c.x - half.x, c.y - half.y);
+            const ImVec2 pMax(c.x + half.x, c.y + half.y);
+            drawList->AddRectFilled(pMin, pMax,
+                                    (fillColor & ~IM_COL32_A_MASK) | (down ? IM_COL32_A_MASK : alpha(0.85f)), half.y);
+            drawList->AddRect(pMin, pMax, IM_COL32(255, 255, 255, 230), half.y, 0, stroke);
             text(c, half.y * 1.0f, s, IM_COL32(255, 255, 255, 255));
         };
         pill(sState.doneCenter, sState.doneHalf, IM_COL32(40, 170, 80, 255), "Done", sDoneDown);
