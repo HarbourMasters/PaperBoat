@@ -350,9 +350,9 @@ void filemenu_draw_contents_title(
     s32 width, s32 height,
     s32 opacity, s32 darkening
 ) {
-    char strBuf[64];
-    u8 msgBuf[64];
-    s32 msgWidth;
+    // char strBuf[64];
+    // u8 msgBuf[64];
+    // s32 msgWidth;
     s32 msgIdx;
     s32 xOffset;
     s32 yOffset;
@@ -383,10 +383,10 @@ void filemenu_draw_contents_title(
 
     filemenu_draw_message(filemenu_get_menu_message(msgIdx), baseX + xOffset, baseY + yOffset, 255, 0, 0);
 
-    sprintf(strBuf, "%s (v%d.%d.%d)", DX_MOD_NAME, DX_MOD_VER_MAJOR, DX_MOD_VER_MINOR, DX_MOD_VER_PATCH);
-    dx_string_to_msg(msgBuf, strBuf);
-    msgWidth = get_msg_width((intptr_t)msgBuf, 0);
-    filemenu_draw_message(msgBuf, (SCREEN_WIDTH - msgWidth) / 2, 245 - baseY, 255, 0, 0);
+    // sprintf(strBuf, "%s (v%d.%d.%d)", DX_MOD_NAME, DX_MOD_VER_MAJOR, DX_MOD_VER_MINOR, DX_MOD_VER_PATCH);
+    // dx_string_to_msg(msgBuf, strBuf);
+    // msgWidth = get_msg_width((intptr_t)msgBuf, 0);
+    // filemenu_draw_message(msgBuf, (SCREEN_WIDTH - msgWidth) / 2, 245 - baseY, 255, 0, 0);
 }
 
 void filemenu_draw_contents_stereo(
