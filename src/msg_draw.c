@@ -1809,12 +1809,25 @@ void msg_draw_speech_bubble(
     s16 temp_v0;
     s16 temp_v0_2;
     s32 negHeight;
+    s32 texT;
 
     if (opacity == 255 && scaleX == 1.0 && scaleY == 1.0) {
         msg_draw_prim_rect(32, 128, 240, 0, posX - 1, posY + 1, curveWidth + (straightWidth + curveWidth) + 2, height - 2);
     }
 
     negHeight = -height;
+
+    // Prevent arrow and message box from overlapping on a weird fraction offset
+    texT = (((printer->maxLinesPerPage == 3 ? 1920 : 1904) * height) / (height - 4)) + 5;
+    if (texT > 0x800) {
+        texT = 0x800;
+    }
+    gMsgSpeechBoxLQuad[2].v.tc[1] = texT;
+    gMsgSpeechBoxLQuad[3].v.tc[1] = texT;
+    gMsgSpeechBoxMQuad[2].v.tc[1] = texT;
+    gMsgSpeechBoxMQuad[3].v.tc[1] = texT;
+    gMsgSpeechBoxRQuad[2].v.tc[1] = texT;
+    gMsgSpeechBoxRQuad[3].v.tc[1] = texT;
 
     gMsgSpeechBoxLQuad[0].v.ob[0] = 1;
     gMsgSpeechBoxLQuad[2].v.ob[0] = 1;
@@ -2239,6 +2252,7 @@ void msg_draw_frame(s32 posX, s32 posY, s32 sizeX, s32 sizeY, s32 style, s32 pal
     }
 
     gDPPipeSync(gMainGfxPos++);
+    gDPSetTextureFilter(gMainGfxPos++, G_TF_POINT);
     gDPSetRenderMode(gMainGfxPos++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     gDPSetCombineMode(gMainGfxPos++, PM_CC_02, PM_CC_02);
     gDPSetPrimColor(gMainGfxPos++, 0, 0, 0, 0, 0, frameAlpha);
