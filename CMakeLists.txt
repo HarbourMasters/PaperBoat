@@ -467,7 +467,7 @@ add_custom_command(
 add_custom_target(GeneratePortO2R DEPENDS "${PAPERBOAT_PORT_O2R}")
 add_dependencies(${PROJECT_NAME} GeneratePortO2R)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE libultraship torch)
+target_link_libraries(${PROJECT_NAME} PRIVATE libultraship torch yaml-cpp)
 
 if(ANDROID)
     # libzip comes from libultraship's android.cmake, so its headers are in the
