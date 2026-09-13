@@ -261,8 +261,13 @@ void GameEngine::FinishInit() {
         }
     }
 
+#ifdef _DEBUG
     spdlog::set_level(spdlog::level::trace);
     spdlog::flush_on(spdlog::level::trace);
+#else
+    spdlog::set_level(spdlog::level::info);
+    spdlog::flush_on(spdlog::level::warn);
+#endif
 
     Ship::Context::GetRawInstance()->InitAudio({ .SampleRate = 32000, .SampleLength = 1024, .DesiredBuffered = 1680 });
 
