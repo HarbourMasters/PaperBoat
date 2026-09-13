@@ -102,6 +102,7 @@ class GameEngine {
   private:
     mutable bool mPrevAltAssets = false;
     mutable bool mPrevDPadAsLeftStick = false;
+    mutable bool mPrevAutoMipmaps = true;
 
     static struct {
         std::thread thread;

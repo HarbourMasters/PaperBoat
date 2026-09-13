@@ -900,7 +900,7 @@ void GameEngine::StartFrame() const {
     if (altAssets != mPrevAltAssets) {
         mPrevAltAssets = altAssets;
         Ship::Context::GetRawInstance()->GetResourceManager()->SetAltAssetsEnabled(altAssets);
-        gfx_texture_cache_clear();
+        //  gfx_texture_cache_clear();
         SPDLOG_INFO("Alt assets {}", altAssets ? "enabled" : "disabled");
     }
 
@@ -908,6 +908,19 @@ void GameEngine::StartFrame() const {
     if (dpadAsLeftStick != mPrevDPadAsLeftStick) {
         mPrevDPadAsLeftStick = dpadAsLeftStick;
         ApplyDPadAsLeftStick(dpadAsLeftStick);
+    }
+
+    // HD replacements upload with generated mip chains, and drawing with those hangs the GPU
+    // on Adreno through zink. The devices that hit it ship with this turned off.
+    const bool autoMipmaps = CVarGetInteger("gEnhancements.Mods.AutoMipmaps", 1) != 0;
+    if (autoMipmaps != mPrevAutoMipmaps) {
+        mPrevAutoMipmaps = autoMipmaps;
+        if (gsFast3dWindow != nullptr) {
+            if (auto interpreter = gsFast3dWindow->GetInterpreterWeak().lock()) {
+                interpreter->SetAutoMipmapsEnabled(autoMipmaps);
+            }
+        }
+        SPDLOG_INFO("HD auto-mipmaps {}", autoMipmaps ? "enabled" : "disabled");
     }
 
     using Ship::KbScancode;

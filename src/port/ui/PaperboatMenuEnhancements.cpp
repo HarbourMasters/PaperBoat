@@ -50,6 +50,15 @@ void PaperboatMenu::AddMenuEnhancements() {
                 "this setting has to be used or not."
             )
         );
+    AddWidget(path, "HD Texture Mipmaps", WIDGET_CVAR_CHECKBOX)
+        .CVar("gEnhancements.Mods.AutoMipmaps")
+        .Options(
+            CheckboxOptions().DefaultValue(true).Tooltip(
+                "Generates mipmaps for HD replacement textures, which smooths them in "
+                "the distance. Turn it off if the GPU hangs while a texture pack is "
+                "enabled."
+            )
+        );
 }
 
 } // namespace PaperboatGui

@@ -43,7 +43,6 @@ static char* bg_intern_path(const char* path) {
 
 static char* sBgRasterPath = NULL;
 static char* sBgPalettePath = NULL;
-static PAL_BIN* sBgPaletteTlut = NULL;
 
 void port_load_map_bg(char* optAssetName) {
     if (optAssetName == NULL) {
@@ -199,11 +198,6 @@ void port_appendGfx_background_texture(void) {
                 }
                 break;
         }
-
-        free(sBgPaletteTlut);
-        sBgPaletteTlut = malloc(256 * sizeof(PAL_BIN));
-        memcpy(sBgPaletteTlut, gBackgroundPalette, 256 * sizeof(PAL_BIN));
-        gfx_texture_cache_clear();
     }
 
     bgMaxX = gGameStatusPtr->backgroundMaxX;
@@ -246,21 +240,50 @@ void port_appendGfx_background_texture(void) {
     }
 
     gDPPipeSync(gMainGfxPos++);
-    gDPSetCycleType(gMainGfxPos++, G_CYC_COPY);
     gDPSetTexturePersp(gMainGfxPos++, G_TP_NONE);
     gDPSetTextureLUT(gMainGfxPos++, G_TT_RGBA16);
-    gDPSetCombineMode(gMainGfxPos++, G_CC_DECALRGB, G_CC_DECALRGB);
-    gDPSetRenderMode(gMainGfxPos++, G_RM_NOOP, G_RM_NOOP2);
     gDPSetTextureFilter(gMainGfxPos++, G_TF_POINT);
-    gDPPipeSync(gMainGfxPos++);
 
-    // Palette: non-fog passes the raw RGBA16 palette data loaded in port_load_map_bg,
-    // fog passes the CPU-blended palette computed above instead.
+    // Always the background's own palette, loaded by name so a replacement can key on it.
+    // Fog and tint used to be baked into the palette on the CPU; they're per-channel
+    // scales, so the combiner does the same job — and it works on replacement art too.
+    s32 bgDsdx = 4096; // copy mode steps four texels per pixel
     if (!(gGameStatusPtr->backgroundFlags & BACKGROUND_FLAG_FOG)) {
-        gDPLoadTLUT_pal256(gMainGfxPos++, gGameStatusPtr->backgroundPalette);
+        gDPSetCycleType(gMainGfxPos++, G_CYC_COPY);
+        gDPSetCombineMode(gMainGfxPos++, G_CC_DECALRGB, G_CC_DECALRGB);
+        gDPSetRenderMode(gMainGfxPos++, G_RM_NOOP, G_RM_NOOP2);
     } else {
-        gDPLoadTLUT_pal256(gMainGfxPos++, sBgPaletteTlut);
+        bgDsdx = 1024;
+        gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);
+        gDPSetRenderMode(gMainGfxPos++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+        switch (*gBackgroundTintModePtr) {
+            case ENV_TINT_NONE:
+            case ENV_TINT_SHROUD:
+                if (fogA == 255) {
+                    gDPSetPrimColor(gMainGfxPos++, 0, 0, 0, 0, 0, 255);
+                } else {
+                    gDPSetPrimColor(gMainGfxPos++, 0, 0, fogR, fogG, fogB, fogA);
+                }
+                gDPSetCombineLERP(
+                    gMainGfxPos++, PRIMITIVE, TEXEL0, PRIMITIVE_ALPHA, TEXEL0, 0, 0, 0, 1, PRIMITIVE, TEXEL0,
+                    PRIMITIVE_ALPHA, TEXEL0, 0, 0, 0, 1
+                );
+                break;
+            case ENV_TINT_DEPTH:
+            case ENV_TINT_REMAP:
+            default:
+                // channels remapped to [offset, offset + scale]: texel * prim + env
+                gDPSetPrimColor(gMainGfxPos++, 0, 0, r1, g1, b1, 255);
+                gDPSetEnvColor(gMainGfxPos++, r2, g2, b2, 255);
+                gDPSetCombineLERP(
+                    gMainGfxPos++, TEXEL0, 0, PRIMITIVE, ENVIRONMENT, 0, 0, 0, 1, TEXEL0, 0, PRIMITIVE, ENVIRONMENT, 0,
+                    0, 0, 1
+                );
+                break;
+        }
     }
+    gDPPipeSync(gMainGfxPos++);
+    gDPLoadTLUT_pal256(gMainGfxPos++, sBgPalettePath);
 
     gDPLoadTextureTile(
         gMainGfxPos++, gGameStatusPtr->backgroundRaster, G_IM_FMT_CI, G_IM_SIZ_8b, bgMaxX, bgMaxY, 0, 0, bgMaxX - 1,
@@ -289,11 +312,11 @@ void port_appendGfx_background_texture(void) {
         for (tx = bgTileBaseX; tx < wsRight; tx += bgMaxX) {
             gSPWideTextureRectangle(
                 gMainGfxPos++, tx * 4, bgMinY * 4, (bgXOffset + tx - 1) * 4, (bgMaxY - 1 + bgMinY) * 4, G_TX_RENDERTILE,
-                (bgMaxX - bgXOffset) * 32, 0, 4096, 1024
+                (bgMaxX - bgXOffset) * 32, 0, bgDsdx, 1024
             );
             gSPWideTextureRectangle(
                 gMainGfxPos++, (bgXOffset + tx) * 4, bgMinY * 4, (bgMaxX + tx - 1) * 4, (bgMaxY - 1 + bgMinY) * 4,
-                G_TX_RENDERTILE, 0, 0, 4096, 1024
+                G_TX_RENDERTILE, 0, 0, bgDsdx, 1024
             );
         }
     } else {
@@ -308,11 +331,11 @@ void port_appendGfx_background_texture(void) {
             gSPTextureRectangle(
                 gMainGfxPos++, bgMinX * 4, (lineHeight * i + bgMinY) * 4, (2 * bgXOffset + (bgMinX - 1)) * 4,
                 (lineHeight * i + lineHeight - 1 + bgMinY) * 4, G_TX_RENDERTILE, bgMaxX * 32 - bgXOffset * 16,
-                (lineHeight * i) * 32, 4096, 1024
+                (lineHeight * i) * 32, bgDsdx, 1024
             );
             gSPTextureRectangle(
                 gMainGfxPos++, bgXOffset * 2 + bgMinX * 4, (lineHeight * i + bgMinY) * 4, (bgMaxX + bgMinX - 1) * 4,
-                (lineHeight * i + lineHeight - 1 + bgMinY) * 4, G_TX_RENDERTILE, 0, (lineHeight * i) * 32, 4096, 1024
+                (lineHeight * i + lineHeight - 1 + bgMinY) * 4, G_TX_RENDERTILE, 0, (lineHeight * i) * 32, bgDsdx, 1024
             );
         }
         if (extraHeight != 0) {
@@ -320,12 +343,12 @@ void port_appendGfx_background_texture(void) {
             bgXOffset = 2.0f * (gGameStatusPtr->backgroundXOffset + waveOffset);
             gSPTextureRectangle(
                 gMainGfxPos++, bgMinX * 4, (lineHeight * i + bgMinY) * 4, (2 * bgXOffset + (bgMinX - 1)) * 4,
-                (bgMaxY - 1 + bgMinY) * 4, G_TX_RENDERTILE, bgMaxX * 32 - bgXOffset * 16, (lineHeight * i) * 32, 4096,
+                (bgMaxY - 1 + bgMinY) * 4, G_TX_RENDERTILE, bgMaxX * 32 - bgXOffset * 16, (lineHeight * i) * 32, bgDsdx,
                 1024
             );
             gSPTextureRectangle(
                 gMainGfxPos++, bgXOffset * 2 + bgMinX * 4, (lineHeight * i + bgMinY) * 4, (bgMaxX + bgMinX - 1) * 4,
-                (bgMaxY - 1 + bgMinY) * 4, G_TX_RENDERTILE, 0, (lineHeight * i) * 32, 4096, 1024
+                (bgMaxY - 1 + bgMinY) * 4, G_TX_RENDERTILE, 0, (lineHeight * i) * 32, bgDsdx, 1024
             );
         }
     }

@@ -3,11 +3,8 @@
 #include "assets/effects.h"
 #include <string.h>
 
-// Same combined palette fix as something_rotating.c — see comments there.
-// spirit_card uses the same effect_gfx_spirit_card graphics.
-extern u8 sSpiritCardCombinedPals[7][64];
-extern s32 sCombinedPalsInitialized;
-extern void InitCombinedPalettes(void);
+// Spirit face palettes (something_rotating.c)
+extern const char* gSpiritFacePalPaths[];
 
 const char* D_E0112630[] = { D_09004458_3FE908, D_09004600_3FEAB0 };
 const char* D_E0112638[] = { D_09004360_3FE810, D_09004508_3FE9B8 };
@@ -156,18 +153,12 @@ void spirit_card_appendGfx(void* effect) {
     if (unk_00 < 2) {
         func_E0112330(0, data);
 
-        InitCombinedPalettes();
-
         gSPDisplayList(gMainGfxPos++, D_E0112638[0]);
         gSPDisplayList(gMainGfxPos++, D_E0112640[data->chapter]);
 
-        // Reload combined card_front+spirit_face palette so palettes[0] is contiguous
-        gDPSetTextureImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, sSpiritCardCombinedPals[data->chapter]);
-        gDPTileSync(gMainGfxPos++);
-        gDPSetTile(gMainGfxPos++, 0, 0, 0, 256, G_TX_LOADTILE, 0, 0, 0, 0, 0, 0, 0);
-        gDPLoadSync(gMainGfxPos++);
-        gDPLoadTLUTCmd(gMainGfxPos++, G_TX_LOADTILE, 31);
-        gDPPipeSync(gMainGfxPos++);
+        // Card front palette in bank 0, this spirit's face palette in bank 1
+        gDPLoadTLUT_pal16(gMainGfxPos++, 0, "__OTR__effects/effect_gfx_spirit_card/tex_200");
+        gDPLoadTLUT_pal16(gMainGfxPos++, 1, gSpiritFacePalPaths[data->chapter]);
 
         gSPDisplayList(gMainGfxPos++, D_E0112630[0]);
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
