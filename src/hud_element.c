@@ -190,7 +190,7 @@ void hud_element_load_script(HudElement* hudElement, HudScript* anim) {
                 while (true) {
                     if (entry->id == -1) {
                         entry->id = raster;
-                        entry->data = (u8*)LOAD_ASSET((const char*)raster);
+                        entry->data = (u8*)LOAD_ASSET_GFX((const char*)raster);
                         i++;
                         break;
                     } else if (entry->id == raster) {
@@ -208,7 +208,7 @@ void hud_element_load_script(HudElement* hudElement, HudScript* anim) {
                 while (true) {
                     if (entry->id == -1) {
                         entry->id = palette;
-                        entry->data = (u8*)LOAD_ASSET((const char*)palette);
+                        entry->data = (u8*)LOAD_ASSET_GFX((const char*)palette);
                         i++;
                         break;
                     } else if (entry->id == palette) {
@@ -829,7 +829,7 @@ s32 hud_element_update(HudElement* hudElement) {
             hudElement->updateTimer = *nextPos++;
             {
                 const char* imagePath = (const char*)*nextPos++;
-                hudElement->imageAddr = (u8*)LOAD_ASSET(imagePath);
+                hudElement->imageAddr = (u8*)LOAD_ASSET_GFX(imagePath);
             }
             hudElement->readPos = (HudScript*)nextPos;
 
@@ -869,7 +869,7 @@ s32 hud_element_update(HudElement* hudElement) {
                 const char* rasterPath = (const char*)*nextPos++;
                 const char* palPath = (const char*)*nextPos++;
                 hudElement->imageAddr = (u8*)rasterPath;
-                hudElement->paletteAddr = (u8*)LOAD_ASSET(palPath);
+                hudElement->paletteAddr = (u8*)LOAD_ASSET_GFX(palPath);
 
                 // Override custom size from OTR texture metadata to support HD texture replacements
                 if ((hudElement->flags & HUD_ELEMENT_FLAG_CUSTOM_SIZE) && GameEngine_OTRSigCheck(rasterPath)) {
@@ -935,7 +935,7 @@ s32 hud_element_update(HudElement* hudElement) {
             }
 
             nextPos++;
-            hudElement->imageAddr = entryRaster[i].data;
+            hudElement->imageAddr = (u8*)entryRaster[i].id;
 
             i = 0;
             while (true) {
@@ -944,7 +944,7 @@ s32 hud_element_update(HudElement* hudElement) {
                 }
                 ASSERT(++i < MAX_HUD_CACHE_ENTRIES);
             }
-            hudElement->paletteAddr = entryPalette[i].data;
+            hudElement->paletteAddr = (u8*)entryPalette[i].id;
             nextPos += 3;
             hudElement->readPos = (HudScript*)nextPos;
 

@@ -75,8 +75,8 @@ API_CALLABLE(N(CreateSticker)) {
 
     static StickerData stickerStorage;
     StickerData* sticker = &stickerStorage;
-    IMG_PTR iconImg = (IMG_PTR) LOAD_ASSET((const char*)gItemIconRasterOffsets[itemID]);
-    PAL_PTR iconPal = (PAL_PTR) LOAD_ASSET((const char*)gItemIconPaletteOffsets[itemID]);
+    IMG_PTR iconImg = (IMG_PTR) LOAD_ASSET_GFX((const char*)gItemIconRasterOffsets[itemID]);
+    PAL_PTR iconPal = (PAL_PTR) LOAD_ASSET_GFX((const char*)gItemIconPaletteOffsets[itemID]);
 
     sticker->pos.x = 0.0f;
     sticker->pos.y = 0.0f;

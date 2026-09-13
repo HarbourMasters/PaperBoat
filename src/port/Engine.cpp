@@ -266,6 +266,13 @@ void GameEngine::FinishInit() {
 
     Ship::Context::GetRawInstance()->InitAudio({ .SampleRate = 32000, .SampleLength = 1024, .DesiredBuffered = 1680 });
 
+    // Opt in to texture path memoization.
+    if (gsFast3dWindow != nullptr) {
+        if (auto interpreter = gsFast3dWindow->GetInterpreterWeak().lock()) {
+            interpreter->SetResolvedResourceCacheEnabled(true);
+        }
+    }
+
     auto loader = Ship::Context::GetRawInstance()->GetResourceManager()->GetResourceLoader();
     loader->RegisterResourceFactory(
         std::make_shared<Ship::ResourceFactoryBinaryBlobV0>(), RESOURCE_FORMAT_BINARY, "Blob",

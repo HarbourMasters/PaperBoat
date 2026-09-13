@@ -386,12 +386,9 @@ s32 draw_box(s32 flags, void* windowStyleArg, s32 posX, s32 posY, s32 posZ, s32 
         Mtx* sp154;
 
         bgFmt = background->fmt;
-        // TODO: re-visit this LOAD_ASSET call.
-        cornersImage = (u8*)LOAD_ASSET(corners->imgData);
-
+        cornersImage = (u8*)LOAD_ASSET_GFX(corners->imgData);
         bgWidth = background->width;
-        // TODO: re-visit this LOAD_ASSET call.
-        bgImage = (u8*)LOAD_ASSET(background->imgData);
+        bgImage = (u8*)LOAD_ASSET_GFX(background->imgData);
         bgHeight = background->height;
 
         bgMasks = INTEGER_LOG2(bgWidth);
@@ -520,6 +517,8 @@ s32 draw_box(s32 flags, void* windowStyleArg, s32 posX, s32 posY, s32 posZ, s32 
         }
 
         if (cornersImage != nullptr) {
+            s32 cornerY = 0;
+            s32 sheetHeight = cornersSizes[0].y + cornersSizes[1].y + cornersSizes[2].y + cornersSizes[3].y;
             for (idx = 0; idx < 4; idx++) {
                 cornerWidth = cornersSizes[idx].x;
                 cornerHeight = cornersSizes[idx].y;
@@ -528,22 +527,23 @@ s32 draw_box(s32 flags, void* windowStyleArg, s32 posX, s32 posY, s32 posZ, s32 
 
                 switch (cornersBitDepth) {
                     case G_IM_SIZ_4b:
-                        gDPLoadMultiTile_4b(gMainGfxPos++, cornersImage, tmem, 1, cornersFmt, cornerWidth, cornerHeight, 0, 0, cornerWidth - 1, cornerHeight - 1, 0, G_TX_CLAMP, G_TX_CLAMP, masks, maskt, G_TX_NOLOD, G_TX_NOLOD);
-                        cornersImage += cornerWidth * cornerHeight / 2;
+                        gDPLoadMultiTile_4b(gMainGfxPos++, cornersImage, tmem, 1, cornersFmt, cornerWidth, sheetHeight, 0, cornerY, cornerWidth - 1, cornerY + cornerHeight - 1, 0, G_TX_CLAMP, G_TX_CLAMP, masks, maskt, G_TX_NOLOD, G_TX_NOLOD);
+                        gDPSetTileSize(gMainGfxPos++, 1, 0, 0, (cornerWidth - 1) << 2, (cornerHeight - 1) << 2);
                         break;
                     case G_IM_SIZ_8b:
-                        gDPLoadMultiTile(gMainGfxPos++, cornersImage, tmem, 1, cornersFmt, G_IM_SIZ_8b, cornerWidth, cornerHeight, 0, 0, cornerWidth - 1, cornerHeight - 1, 0, G_TX_CLAMP, G_TX_CLAMP, masks, maskt, G_TX_NOLOD, G_TX_NOLOD);
-                        cornersImage += cornerWidth * cornerHeight;
+                        gDPLoadMultiTile(gMainGfxPos++, cornersImage, tmem, 1, cornersFmt, G_IM_SIZ_8b, cornerWidth, sheetHeight, 0, cornerY, cornerWidth - 1, cornerY + cornerHeight - 1, 0, G_TX_CLAMP, G_TX_CLAMP, masks, maskt, G_TX_NOLOD, G_TX_NOLOD);
+                        gDPSetTileSize(gMainGfxPos++, 1, 0, 0, (cornerWidth - 1) << 2, (cornerHeight - 1) << 2);
                         break;
                     case G_IM_SIZ_16b:
-                        gDPLoadMultiTile(gMainGfxPos++, cornersImage, tmem, 1, cornersFmt, G_IM_SIZ_16b, cornerWidth, cornerHeight, 0, 0, cornerWidth - 1, cornerHeight - 1, 0, G_TX_CLAMP, G_TX_CLAMP, masks, maskt, G_TX_NOLOD, G_TX_NOLOD);
-                        cornersImage += cornerWidth * cornerHeight * 2;
+                        gDPLoadMultiTile(gMainGfxPos++, cornersImage, tmem, 1, cornersFmt, G_IM_SIZ_16b, cornerWidth, sheetHeight, 0, cornerY, cornerWidth - 1, cornerY + cornerHeight - 1, 0, G_TX_CLAMP, G_TX_CLAMP, masks, maskt, G_TX_NOLOD, G_TX_NOLOD);
+                        gDPSetTileSize(gMainGfxPos++, 1, 0, 0, (cornerWidth - 1) << 2, (cornerHeight - 1) << 2);
                         break;
                     case G_IM_SIZ_32b:
-                        gDPLoadMultiTile(gMainGfxPos++, cornersImage, tmem, 1, cornersFmt, G_IM_SIZ_32b, cornerWidth, cornerHeight, 0, 0, cornerWidth - 1, cornerHeight - 1, 0, G_TX_CLAMP, G_TX_CLAMP, masks, maskt, G_TX_NOLOD, G_TX_NOLOD);
-                        cornersImage += cornerWidth * cornerHeight * 4;
+                        gDPLoadMultiTile(gMainGfxPos++, cornersImage, tmem, 1, cornersFmt, G_IM_SIZ_32b, cornerWidth, sheetHeight, 0, cornerY, cornerWidth - 1, cornerY + cornerHeight - 1, 0, G_TX_CLAMP, G_TX_CLAMP, masks, maskt, G_TX_NOLOD, G_TX_NOLOD);
+                        gDPSetTileSize(gMainGfxPos++, 1, 0, 0, (cornerWidth - 1) << 2, (cornerHeight - 1) << 2);
                         break;
                 }
+                cornerY += cornerHeight;
 
                 switch(idx) {
                     case 1:

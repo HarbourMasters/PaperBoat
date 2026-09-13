@@ -58,7 +58,7 @@ void appendGfx_speech_bubble(void) {
 
         gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
                   G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(speech_bubble_gfx));
+        gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET_GFX(speech_bubble_gfx));
 
         ifxImg.raster  = speech_bubble_img;
         ifxImg.palette = speech_bubble_pal;

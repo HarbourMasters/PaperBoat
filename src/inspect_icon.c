@@ -90,8 +90,8 @@ void appendGfx_interact_prompt(void) {
                   G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gMainGfxPos++, &inspect_icon_gfx);
 
-        ifxImg.raster  = LOAD_ASSET(ICON_inspect_icon_img);
-        ifxImg.palette = LOAD_ASSET(ICON_inspect_icon_pal);
+        ifxImg.raster  = LOAD_ASSET_GFX(ICON_inspect_icon_img);
+        ifxImg.palette = LOAD_ASSET_GFX(ICON_inspect_icon_pal);
         ifxImg.width   = 32;
         ifxImg.height  = 32;
         ifxImg.xOffset = -16;

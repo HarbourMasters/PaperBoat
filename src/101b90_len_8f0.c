@@ -157,6 +157,12 @@ IMG_PTR spr_get_player_raster(s32 rasterIndex, s32 playerSpriteID) {
     s32 idx = -1;
     s32 i;
 
+    // Path-addressed rasters resolve at draw time and don't need a cache slot
+    IMG_PTR rasterPath = Sprite_GetPlayerRasterPath(playerSpriteID, rasterIndex);
+    if (rasterPath != nullptr) {
+        return rasterPath;
+    }
+
     for (i = 0; i < PlayerRasterCacheSize; i++) {
         if (PlayerRasterCache[i].lazyDeleteTime != 0) {
             if (PlayerRasterCache[i].rasterIndex == rasterIndex && PlayerRasterCache[i].spriteIndex == playerSpriteID) {

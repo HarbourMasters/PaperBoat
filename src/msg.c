@@ -85,6 +85,7 @@ u16 gMsgGlobalWaveCounter;
 MessageImageDataList gMsgVarImages;
 s32 gMsgBGScrollAmtY;
 u8* D_8015131C;
+PAL_PTR MsgItemIconPalette;
 Gfx* D_80151338;
 
 // static char gMessageBuffers[2][1024]; // no longer needed — messages loaded directly from OTR
@@ -987,12 +988,9 @@ void msg_copy_to_print_buffer(MessagePrintState* printer, s32 arg1, s32 arg2) {
                         arg = *srcBuf++;
                         argQ = *srcBuf++;
 
-                        a2 = D_80159B50;
                         offset = arg << 8 | argQ;
-
-                        D_8015131C = D_80159B50;
-                        memcpy(a2, LOAD_ASSET((const char*)gItemIconRasterOffsets[offset]), 0x200);
-                        memcpy(D_8015C7E0, LOAD_ASSET((const char*)gItemIconPaletteOffsets[offset]), 0x20);
+                        D_8015131C = (u8*) LOAD_ASSET_GFX((const char*)gItemIconRasterOffsets[offset]);
+                        MsgItemIconPalette = (PAL_PTR) LOAD_ASSET_GFX((const char*)gItemIconPaletteOffsets[offset]);
                         printer->curPrintDelay = printer->printDelayTime;
                         if (--arg1 <= 0) {
                             printer->delayFlags |= MSG_DELAY_FLAG_1;

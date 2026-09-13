@@ -158,7 +158,7 @@ void star_power_shimmer_draw(void) {
     guMtxF2L(viewMtx, &gDisplayContext->matrixStack[gMatrixListPos]);
 
     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++], G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
-    gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(D_80109710)); // setup texture
+    gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET_GFX(D_80109710)); // setup texture
     gDPSetEnvColor(gMainGfxPos++, 127, 127, 127, 127);
 
     for (i = 0; i < ARRAY_COUNT(ShimmerEmitters); i++, emitter++) {
@@ -177,7 +177,7 @@ void star_power_shimmer_draw(void) {
                     gSPMatrix(gMainGfxPos++, &gDisplayContext->matrixStack[gMatrixListPos++],
                               G_MTX_PUSH | G_MTX_MUL | G_MTX_MODELVIEW);
                     gDPSetPrimColor(gMainGfxPos++, 0, 80 - particle->animTime, particle->rgba.r, particle->rgba.g, particle->rgba.b, particle->rgba.a);
-                    gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(D_801097D8)); // draw particle
+                    gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET_GFX(D_801097D8)); // draw particle
                     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
                 }
             }

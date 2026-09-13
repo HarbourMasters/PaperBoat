@@ -54,12 +54,12 @@ void entity_StarBoxLauncher_setupGfx(s32 entityIndex) {
 
     gDPPipeSync(gfxPos++);
     gDPSetTextureLUT(gfxPos++, G_TT_RGBA16);
-    gDPLoadTLUT_pal16(gfxPos++, 0, (u8*) LOAD_ASSET(D_0A000D08_E56748));
+    gDPLoadTLUT_pal16(gfxPos++, 0, (u8*) LOAD_ASSET_GFX(D_0A000D08_E56748));
     gSPTexture(gfxPos++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
     gDPSetCombineMode(gfxPos++, G_CC_MODULATEIA, G_CC_MODULATEIA);
     gDPSetTextureDetail(gfxPos++, G_TD_CLAMP);
     gDPSetTextureLOD(gfxPos++, G_TL_TILE);
-    gDPLoadTextureBlock_4b(gfxPos++, (u8*) LOAD_ASSET(D_0A000508_E55F48), G_IM_FMT_CI, 128, 32, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 7, 5, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock_4b(gfxPos++, (u8*) LOAD_ASSET_GFX(D_0A000508_E55F48), G_IM_FMT_CI, 128, 32, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 7, 5, G_TX_NOLOD, G_TX_NOLOD);
     gDPSetTexturePersp(gfxPos++, G_TP_PERSP);
     gDPSetTextureFilter(gfxPos++, G_TF_BILERP);
     gDPSetTileSize(gfxPos++, G_TX_RENDERTILE, data->faceTexOffset * 4, 0, (data->faceTexOffset + 124) * 4, 31 * 4);

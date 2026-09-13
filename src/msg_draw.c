@@ -25,6 +25,7 @@ extern u8* D_8015131C;
 extern Gfx* D_80151338;
 extern IMG_BIN D_80159B50[0x200];
 extern PAL_BIN D_8015C7E0[0x10];
+extern PAL_PTR MsgItemIconPalette;
 
 #if !VERSION_JP
 extern s16 MsgStyleVerticalLineOffsets[];
@@ -975,7 +976,7 @@ void appendGfx_message(MessagePrintState* printer, s16 posX, s16 posY, u16 addit
                             imgDrawPosY = (s16)((msg_drawState->nextPos[1] + (msg_drawState->textStartPos[1] + (printer->windowBasePos.y + posY))) -
                                        additionalOffsetY);
 
-                            draw_ci_image_with_clipping(D_80159B50, 32, 32, G_IM_FMT_CI, G_IM_SIZ_4b, D_8015C7E0, imgDrawPosX, imgDrawPosY, msg_drawState->clipX[0],
+                            draw_ci_image_with_clipping(D_8015131C, 32, 32, G_IM_FMT_CI, G_IM_SIZ_4b, MsgItemIconPalette, imgDrawPosX, imgDrawPosY, msg_drawState->clipX[0],
                                                         msg_drawState->clipY[0], msg_drawState->clipX[1] - msg_drawState->clipX[0],
                                                         msg_drawState->clipY[1] - msg_drawState->clipY[0], phi_t3);
                             msg_drawState->printModeFlags |= MSG_PRINT_FLAG_10;

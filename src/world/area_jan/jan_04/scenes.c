@@ -1,12 +1,15 @@
 #include "jan_04.h"
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 
 BSS Evt* D_8024A290;
 BSS MessageImageData N(image);
 
 API_CALLABLE(N(LoadPartyImage)) {
-    N(image).palette = (PAL_BIN*)LOAD_ASSET("__OTR__party/party_opuku_pal");
-    N(image).raster = (IMG_BIN*)LOAD_ASSET("__OTR__party/party_opuku");
+    N(image).palette = (PAL_BIN*)port_named_image("__OTR__party/party_opuku", "_img_tlut",
+                                                  LOAD_ASSET("__OTR__party/party_opuku_pal"));
+    N(image).raster = (IMG_BIN*)port_named_image("__OTR__party/party_opuku", "_img",
+                                                 LOAD_ASSET("__OTR__party/party_opuku"));
     N(image).width = 150;
     N(image).height = 105;
     N(image).format = G_IM_FMT_CI;

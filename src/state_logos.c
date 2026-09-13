@@ -78,9 +78,9 @@ void state_init_logos(void) {
     startup_set_fade_screen_color(0);
 
     // Load logo textures from OTR archive
-    gLogosImage1 = (u8*)LOAD_ASSET(LOGO_1);
-    gLogosImage2 = (u8*)LOAD_ASSET(LOGO_2);
-    gLogosImage3 = (u8*)LOAD_ASSET(LOGO_3);
+    gLogosImage1 = (u8*)LOAD_ASSET_GFX(LOGO_1);
+    gLogosImage2 = (u8*)LOAD_ASSET_GFX(LOGO_2);
+    gLogosImage3 = (u8*)LOAD_ASSET_GFX(LOGO_3);
     gLogosImages = gLogosImage1;  // For cleanup compatibility
 
     nuContRmbForceStop();
@@ -272,10 +272,10 @@ void appendGfx_intro_logos(void) {
         case LOGOS_STATE_N64_FADE_OUT:
             gSPDisplayList(gMainGfxPos++, D_80077908);
             for (i = 0; i < 7; i++) {
-                gDPLoadTextureTile(gMainGfxPos++, gLogosImage1 + i * 0x1000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 128, 112,
-                                   0, 0, 127, 15, 0,
+                gDPLoadTextureTile(gMainGfxPos++, gLogosImage1, G_IM_FMT_RGBA, G_IM_SIZ_16b, 128, 112,
+                                   0, i * 16, 127, i * 16 + 15, 0,
                                    G_TX_WRAP, G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-                gSPTextureRectangle(gMainGfxPos++, 96 * 4, (64 + i * 16) * 4, 224 * 4, (80 + i * 16) * 4, G_TX_RENDERTILE, 0, 0, 1024, 1024);
+                gSPTextureRectangle(gMainGfxPos++, 96 * 4, (64 + i * 16) * 4, 224 * 4, (80 + i * 16) * 4, G_TX_RENDERTILE, 0, (i * 16) << 5, 1024, 1024);
                 gDPPipeSync(gMainGfxPos++);
             }
 
@@ -307,14 +307,14 @@ void appendGfx_intro_logos(void) {
 #endif
             gSPDisplayList(gMainGfxPos++, D_80077908);
             for (i = 0; i < 6; i++) {
-                gDPLoadTextureTile(gMainGfxPos++, gLogosImage2 + i * 0x1000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 256, 48,
-                                   0, 0, 255, 7, 0,
+                gDPLoadTextureTile(gMainGfxPos++, gLogosImage2, G_IM_FMT_RGBA, G_IM_SIZ_16b, 256, 48,
+                                   0, i * 8, 255, i * 8 + 7, 0,
                                    G_TX_WRAP, G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
                 gSPTextureRectangle(
                         gMainGfxPos++,
                         32 * 4, (LOGO_1_Y + i * 8) * 4,
                         288 * 4, (LOGO_1_Y + 8 + i * 8) * 4,
-                        G_TX_RENDERTILE, 0, 0, 1024, 1024);
+                        G_TX_RENDERTILE, 0, (i * 8) << 5, 1024, 1024);
                 gDPPipeSync(gMainGfxPos++);
             }
 #if !VERSION_JP
@@ -326,13 +326,13 @@ void appendGfx_intro_logos(void) {
             gSPDisplayList(gMainGfxPos++, D_80077908);
 #endif
             for (i = 0; i < 14; i++) {
-                gDPLoadTextureTile(gMainGfxPos++, gLogosImage3 + i * 0x1000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 256, 112,
-                                   0, 0, 255, 7, 0,
+                gDPLoadTextureTile(gMainGfxPos++, gLogosImage3, G_IM_FMT_RGBA, G_IM_SIZ_16b, 256, 112,
+                                   0, i * 8, 255, i * 8 + 7, 0,
                                    G_TX_WRAP, G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
                 gSPTextureRectangle(gMainGfxPos++,
                                     32 * 4, (LOGO_2_Y + i * 8) * 4,
                                     288 * 4, (LOGO_2_Y + 8 + i * 8) * 4,
-                                    G_TX_RENDERTILE, 0, 0, 1024, 1024);
+                                    G_TX_RENDERTILE, 0, (i * 8) << 5, 1024, 1024);
                 gDPPipeSync(gMainGfxPos++);
             }
             break;

@@ -54,12 +54,12 @@ void entity_Tweester_render_face(s32 entityIndex) {
 
     gDPPipeSync(gMainGfxPos++);
     gDPSetTextureLUT(gMainGfxPos++, G_TT_RGBA16);
-    gDPLoadTLUT_pal16(gMainGfxPos++, 0, (u8*) LOAD_ASSET(D_0A0018A0_E58700));
+    gDPLoadTLUT_pal16(gMainGfxPos++, 0, (u8*) LOAD_ASSET_GFX(D_0A0018A0_E58700));
     gSPTexture(gMainGfxPos++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
     gDPSetCombineMode(gMainGfxPos++, G_CC_MODULATEIA, G_CC_MODULATEIA);
     gDPSetTextureDetail(gMainGfxPos++, G_TD_CLAMP);
     gDPSetTextureLOD(gMainGfxPos++, G_TL_TILE);
-    gDPLoadTextureBlock_4b(gMainGfxPos++, (u8*) LOAD_ASSET(D_0A0014A0_E58300), G_IM_FMT_CI, 64, 32, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_CLAMP, 6, 5, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock_4b(gMainGfxPos++, (u8*) LOAD_ASSET_GFX(D_0A0014A0_E58300), G_IM_FMT_CI, 64, 32, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_CLAMP, 6, 5, G_TX_NOLOD, G_TX_NOLOD);
     gDPSetTexturePersp(gMainGfxPos++, G_TP_PERSP);
     gDPSetTextureFilter(gMainGfxPos++, G_TF_BILERP);
     gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, data->faceAnimTexOffset * 4, 0, (data->faceAnimTexOffset + 124) * 4, 31 * 4);

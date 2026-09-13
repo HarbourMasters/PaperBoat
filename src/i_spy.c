@@ -72,24 +72,24 @@ void appendGfx_ispy_icon(void) {
             case 1:
             case 2:
             case 3:
-                ifxImg.palette = LOAD_ASSET(ICON_ispy_icon_1_pal);
+                ifxImg.palette = LOAD_ASSET_GFX(ICON_ispy_icon_1_pal);
                 break;
             case 4:
             case 5:
             case 6:
             case 7:
-                ifxImg.palette = LOAD_ASSET(ICON_ispy_icon_2_pal);
+                ifxImg.palette = LOAD_ASSET_GFX(ICON_ispy_icon_2_pal);
                 break;
             case 8:
             case 9:
             case 10:
             case 11:
-                ifxImg.palette = LOAD_ASSET(ICON_ispy_icon_3_pal);
+                ifxImg.palette = LOAD_ASSET_GFX(ICON_ispy_icon_3_pal);
                 break;
         }
         imgfx_update(0, IMGFX_SET_ALPHA, 255, 255, 255, ISpyPtr->alpha, 0);
 
-        ifxImg.raster = LOAD_ASSET(ICON_ispy_icon_img);
+        ifxImg.raster = LOAD_ASSET_GFX(ICON_ispy_icon_img);
         ifxImg.width  = 56;
         ifxImg.height = 56;
         ifxImg.xOffset = -28;

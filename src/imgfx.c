@@ -1801,8 +1801,8 @@ void imgfx_appendGfx_mesh_strip(ImgFXState* state, Matrix4f mtx) {
         gDPSetCombineMode(gMainGfxPos++, G_CC_MODULATEIA, G_CC_MODULATEIA);
     }
     gDPSetTextureLUT(gMainGfxPos++, G_TT_RGBA16);
-    gDPLoadTLUT_pal16(gMainGfxPos++, 0, LOAD_ASSET(ufs->palette));
-    gDPScrollTextureTile_4b(gMainGfxPos++, LOAD_ASSET(ufs->raster), G_IM_FMT_CI, ufs->width, ufs->height,
+    gDPLoadTLUT_pal16(gMainGfxPos++, 0, LOAD_ASSET_GFX(ufs->palette));
+    gDPScrollTextureTile_4b(gMainGfxPos++, LOAD_ASSET_GFX(ufs->raster), G_IM_FMT_CI, ufs->width, ufs->height,
                           0, 0, ufs->width - 1, ufs->height - 1, 0,
                           G_TX_WRAP, G_TX_WRAP, shifts, shiftt, G_TX_NOLOD, G_TX_NOLOD,
                           256, 256);
@@ -1815,10 +1815,9 @@ void imgfx_appendGfx_mesh_strip(ImgFXState* state, Matrix4f mtx) {
 
     state->floats.overlay.posX = (s32)(state->floats.overlay.posX + ufs->offsetX) % (ufs->width * 4);
     state->floats.overlay.posY = (s32)(state->floats.overlay.posY + ufs->offsetY) % (ufs->height * 4);
-    //TODO: no need for LOAD_ASSET here.
     // Enable strict (depth-equal) decal compare for this overlay pass.
     gSPSetStrictDecal(gMainGfxPos++, 1);
-    gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET(ufs->displayList));
+    gSPDisplayList(gMainGfxPos++, (Gfx*) LOAD_ASSET_GFX(ufs->displayList));
     gSPSetStrictDecal(gMainGfxPos++, 0);
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }

@@ -2,6 +2,9 @@
 
 #include "common.h"
 #include "model.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "port/Engine.h"
 #include "port/patches/Patches.h"
 #include "alignment.h"
@@ -16,8 +19,30 @@ extern PAL_BIN gBackgroundPalette[256];
 
 u16 blend_background_channel(u16 arg0, s32 arg1, s32 alpha);
 
-static ALIGN_ASSET(2) char sBgRasterPath[64];
-static ALIGN_ASSET(2) char sBgPalettePath[64];
+// Fast3D memoizes by path pointer, so each background needs its own stable string:
+// a shared buffer would leave every map after the first drawing the previous texture.
+#define MAX_BG_PATHS 64
+
+static char* bg_intern_path(const char* path) {
+    static char* sPaths[MAX_BG_PATHS];
+    static s32 sPathCount = 0;
+    s32 i;
+
+    for (i = 0; i < sPathCount; i++) {
+        if (strcmp(sPaths[i], path) == 0) {
+            return sPaths[i];
+        }
+    }
+    if (sPathCount >= MAX_BG_PATHS) {
+        return NULL;
+    }
+    sPaths[sPathCount] = (char*) malloc(strlen(path) + 1);
+    strcpy(sPaths[sPathCount], path);
+    return sPaths[sPathCount++];
+}
+
+static char* sBgRasterPath = NULL;
+static char* sBgPalettePath = NULL;
 static PAL_BIN* sBgPaletteTlut = NULL;
 
 void port_load_map_bg(char* optAssetName) {
@@ -33,17 +58,25 @@ void port_load_map_bg(char* optAssetName) {
         }
     }
 
-    snprintf(sBgRasterPath, sizeof(sBgRasterPath), "__OTR__backgrounds/%s", assetName);
-    snprintf(sBgPalettePath, sizeof(sBgPalettePath), "__OTR__backgrounds/%s_pal0", assetName);
+    char rasterPath[64];
+    char palettePath[64];
+
+    snprintf(rasterPath, sizeof(rasterPath), "__OTR__backgrounds/%s", assetName);
+    snprintf(palettePath, sizeof(palettePath), "__OTR__backgrounds/%s_pal0", assetName);
+    sBgRasterPath = bg_intern_path(rasterPath);
+    sBgPalettePath = bg_intern_path(palettePath);
+    if (sBgRasterPath == NULL || sBgPalettePath == NULL) {
+        return;
+    }
 
     gBackgroundImage.raster = (IMG_PTR) sBgRasterPath;
 
     // CPU-side fog/tint blending
-    u8* palData = (u8*) ResourceGetDataByName(sBgPalettePath);
+    u8* palData = (u8*) GameEngine_GetDataExact(sBgPalettePath);
     gBackgroundImage.palette = (PAL_PTR) palData;
 
-    gBackgroundImage.width = ResourceGetTexWidthByName(sBgRasterPath);
-    gBackgroundImage.height = ResourceGetTexHeightByName(sBgRasterPath);
+    gBackgroundImage.width = GameEngine_GetTexWidthExact(sBgRasterPath);
+    gBackgroundImage.height = GameEngine_GetTexHeightExact(sBgRasterPath);
     gBackgroundImage.startX = 12;
     gBackgroundImage.startY = 20;
 }
