@@ -91,7 +91,9 @@ void PaperboatMenu::AddMenuSettings() {
         .CVar(CVAR_SETTING("CursorVisibility"))
         .RaceDisable(false)
         .Callback([](WidgetInfo& info) {
-            WindowGetWindowComponent()->SetForceCursorVisibility(CVarGetInteger(CVAR_SETTING("CursorVisibility"), 0));
+            Ship::Context::GetRawInstance()->GetWindow()->SetForceCursorVisibility(
+                CVarGetInteger(CVAR_SETTING("CursorVisibility"), 0)
+            );
         })
         .Options(CheckboxOptions().Tooltip("Makes the cursor always visible, even in full screen."));
 #endif
@@ -192,9 +194,11 @@ void PaperboatMenu::AddMenuSettings() {
                 "registered devices.\nContinue?",
                 "Clear", "Cancel",
                 []() {
-                    CVarGetConsoleVariable()->ClearBlock(CVAR_PREFIX_SETTING ".Controllers");
+                    Ship::Context::GetRawInstance()->GetConsoleVariables()->ClearBlock(
+                        CVAR_PREFIX_SETTING ".Controllers"
+                    );
                     uint8_t bits = 0;
-                    ControllerGetControlDeck()->Init(&bits);
+                    Ship::Context::GetRawInstance()->GetControlDeck()->Init(&bits);
                 },
                 nullptr
             );
@@ -245,7 +249,7 @@ void PaperboatMenu::AddMenuSettings() {
         .Callback([](WidgetInfo& info) {
             CVarSetInteger(CVAR_TOUCH("Enabled"), 1);
             CVarSetInteger(CVAR_TOUCH("EditMode"), 1);
-            WindowGetWindowComponent()->GetGui()->GetMenu()->Hide();
+            Ship::Context::GetRawInstance()->GetWindow()->GetGui()->GetMenu()->Hide();
         });
 
     path.column = SECTION_COLUMN_2;
@@ -273,13 +277,15 @@ void PaperboatMenu::AddMenuSettings() {
     AddWidget(path, "Graphics Options", WIDGET_SEPARATOR_TEXT);
     AddWidget(path, "Toggle Fullscreen", WIDGET_BUTTON)
         .RaceDisable(false)
-        .Callback([](WidgetInfo& info) { WindowGetWindowComponent()->ToggleFullscreen(); })
+        .Callback([](WidgetInfo& info) { Ship::Context::GetRawInstance()->GetWindow()->ToggleFullscreen(); })
         .Options(ButtonOptions().Tooltip("Toggles Fullscreen On/Off."));
     AddWidget(path, "Internal Resolution", WIDGET_CVAR_SLIDER_FLOAT)
         .CVar(CVAR_INTERNAL_RESOLUTION)
         .RaceDisable(false)
         .Callback([](WidgetInfo& info) {
-            WindowGetWindowComponent()->SetResolutionMultiplier(CVarGetFloat(CVAR_INTERNAL_RESOLUTION, 1));
+            Ship::Context::GetRawInstance()->GetWindow()->SetResolutionMultiplier(
+                CVarGetFloat(CVAR_INTERNAL_RESOLUTION, 1)
+            );
         })
         .PreFunc([](WidgetInfo& info) {
             if (mPaperboatMenu->disabledMap.at(DISABLE_FOR_ADVANCED_RESOLUTION_ON).active
@@ -308,7 +314,7 @@ void PaperboatMenu::AddMenuSettings() {
         .CVar(CVAR_MSAA_VALUE)
         .RaceDisable(false)
         .Callback([](WidgetInfo& info) {
-            WindowGetWindowComponent()->SetMsaaLevel(CVarGetInteger(CVAR_MSAA_VALUE, 1));
+            Ship::Context::GetRawInstance()->GetWindow()->SetMsaaLevel(CVarGetInteger(CVAR_MSAA_VALUE, 1));
         })
         .Options(
             IntSliderOptions()

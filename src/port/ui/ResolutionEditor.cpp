@@ -147,7 +147,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
 
         CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".VerticalPixelCount", verticalPixelCount);
         CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".UIComboItem.PixelCount", item_pixelCount);
-        WindowGetWindowComponent()->GetGui()->SaveConsoleVariablesNextFrame();
+        Ship::Context::GetRawInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
     }
     UIWidgets::PopStyleCombobox();
     // Horizontal Resolution, if visibility is enabled for it.
@@ -220,7 +220,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
         );
         if (disabled_pixelCount && CVarGetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".PixelPerfectMode", 0)) {
             CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".PixelPerfectMode", 0);
-            WindowGetWindowComponent()->GetGui()->SaveConsoleVariablesNextFrame();
+            Ship::Context::GetRawInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
         }
 
         // Integer Scaling
@@ -268,7 +268,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
             // The function in LUS to handle this setting will ignore
             // IntegerScaleFactor while active.
             CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".IntegerScale.Factor", integerScale_maximumBounds);
-            WindowGetWindowComponent()->GetGui()->SaveConsoleVariablesNextFrame();
+            Ship::Context::GetRawInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
         }
     } // End of integer scaling settings
     UIWidgets::PopStyleHeader();
@@ -302,7 +302,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
             );
             if (ImGui::Button("Click to reenable aspect correction.")) {
                 CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".IgnoreAspectCorrection", 0);
-                WindowGetWindowComponent()->GetGui()->SaveConsoleVariablesNextFrame();
+                Ship::Context::GetRawInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
             }
             UIWidgets::Spacer(2);
         }
@@ -368,7 +368,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
                 // been changed.
                 if (CVarGetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".IntegerScale.ExceedBoundsBy", 0)) {
                     CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".IntegerScale.ExceedBoundsBy", 0);
-                    WindowGetWindowComponent()->GetGui()->SaveConsoleVariablesNextFrame();
+                    Ship::Context::GetRawInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
                 }
             }
 
@@ -406,7 +406,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
                         ))
                     {
                         CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".IntegerScale.ExceedBoundsBy", 0);
-                        WindowGetWindowComponent()->GetGui()->SaveConsoleVariablesNextFrame();
+                        Ship::Context::GetRawInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
                     }
                 }
             } else {
@@ -445,12 +445,12 @@ void ResolutionCustomWidget(WidgetInfo& info) {
         }
         CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".UIComboItem.AspectRatio", item_aspectRatio);
         CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".UIComboItem.PixelCount", item_pixelCount);
-        WindowGetWindowComponent()->GetGui()->SaveConsoleVariablesNextFrame();
+        Ship::Context::GetRawInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
     }
 }
 
 void RegisterResolutionWidgets() {
-    auto fastWnd = dynamic_pointer_cast<Fast::Fast3dWindow>(WindowGetWindowComponent());
+    auto fastWnd = dynamic_pointer_cast<Fast::Fast3dWindow>(Ship::Context::GetRawInstance()->GetWindow());
     mInterpreter = fastWnd->GetInterpreterWeak();
 
     WidgetPath path = { "Settings", "Graphics", SECTION_COLUMN_2 };
@@ -498,7 +498,7 @@ void RegisterResolutionWidgets() {
         .PreFunc([](WidgetInfo& info) { info.isHidden = !CVarGetInteger(CVAR_LOW_RES_MODE, 0); })
         .Callback([](WidgetInfo& info) {
             CVarSetInteger(CVAR_LOW_RES_MODE, 0);
-            WindowGetWindowComponent()->GetGui()->SaveConsoleVariablesNextFrame();
+            Ship::Context::GetRawInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
         });
 
     // Aspect Ratio
@@ -546,7 +546,7 @@ void RegisterResolutionWidgets() {
                 CVarSetFloat(CVAR_PREFIX_ADVANCED_RESOLUTION ".AspectRatioY", aspectRatioY);
             }
             CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".UIComboItem.AspectRatio", item_aspectRatio);
-            WindowGetWindowComponent()->GetGui()->SaveConsoleVariablesNextFrame();
+            Ship::Context::GetRawInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
         })
         .Options(ComboboxOptions().ComboMap(aspectRatioPresetLabels));
     mPaperboatMenu->AddWidget(path, "AspectRatioCustom", WIDGET_CUSTOM)
@@ -627,7 +627,7 @@ void UpdateResolutionVars() {
         }
         CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".UIComboItem.AspectRatio", item_aspectRatio);
         CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".UIComboItem.PixelCount", item_pixelCount);
-        WindowGetWindowComponent()->GetGui()->SaveConsoleVariablesNextFrame();
+        Ship::Context::GetRawInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
     }
     // Initialise update flags.
     for (uint8_t i = 0; i < sizeof(update); i++) {

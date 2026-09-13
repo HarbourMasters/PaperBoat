@@ -56,7 +56,7 @@ uint32_t OTRGetGameRenderHeight(void);
 #define IDNO 7
 #endif
 
-extern std::shared_ptr<Ship::Context> gShipContext;
+extern Ship::Context* gShipContext;
 
 class GameEngine {
   public:
@@ -69,7 +69,7 @@ class GameEngine {
     ImFont *fontMonoLarger;
     ImFont *fontMonoLargest;
 
-    std::shared_ptr<Ship::Context> context;
+    Ship::Context* context;
 
     GameEngine();
     void StartFrame() const;

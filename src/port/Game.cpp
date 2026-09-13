@@ -46,7 +46,7 @@ extern "C"
 
     GameEngine::Create(argc, argv);
 
-    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(WindowGetWindowComponent());
+    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(Ship::Context::GetRawInstance()->GetWindow());
 
     // Initialize game systems
     init_game_globals();

@@ -25,8 +25,7 @@ class Window : public Ship::GuiWindow {
   public:
     using GuiWindow::GuiWindow;
 
-    void OnInit(const nlohmann::json& initArgs = nlohmann::json::object()) override {
-        Ship::GuiWindow::OnInit(initArgs);
+    void InitElement() override {
     };
     void DrawElement() override{};
     void Draw() override;

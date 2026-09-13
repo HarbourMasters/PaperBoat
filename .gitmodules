@@ -3,5 +3,5 @@
 	url = https://github.com/HarbourMasters/Torch.git
 [submodule "external/libultraship"]
 	path = external/libultraship
-	url = https://github.com/bass3l/libultraship.git
-	branch = converge/modules-renderer
+	url = https://github.com/JeodC/libultraship.git
+	branch = lus-converge

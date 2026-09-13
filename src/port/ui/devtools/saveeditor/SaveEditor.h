@@ -10,7 +10,7 @@ class SaveEditorWindow : public Ship::GuiWindow {
 public:
     using Ship::GuiWindow::GuiWindow;
 
-    void OnInit(const nlohmann::json& initArgs = nlohmann::json::object()) override;
+    void InitElement() override;
     void DrawElement() override;
     void Draw() override;
     void UpdateElement() override{};

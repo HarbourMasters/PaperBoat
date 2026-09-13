@@ -479,7 +479,7 @@ extern "C" void TouchControls_ApplyPad(void* pads) {
         return;
     }
 
-    const auto window = WindowGetWindowComponent();
+    const auto window = Ship::Context::GetRawInstance()->GetWindow();
     if (window == nullptr || window->GetGui() == nullptr) {
         sStickFinger = -1;
         return;
@@ -583,8 +583,8 @@ extern "C" void TouchControls_ApplyPad(void* pads) {
         );
     }
 
-    if (pads == nullptr || ControllerGetControlDeck() == nullptr
-        || ControllerGetControlDeck()->GamepadGameInputBlocked())
+    if (pads == nullptr || Ship::Context::GetRawInstance()->GetControlDeck() == nullptr
+        || Ship::Context::GetRawInstance()->GetControlDeck()->GamepadGameInputBlocked())
     {
         return;
     }
@@ -599,8 +599,7 @@ extern "C" void TouchControls_ApplyPad(void* pads) {
 
 namespace PaperboatGui {
 
-void TouchControlsOverlay::OnInit(const nlohmann::json& initArgs) {
-    Ship::GuiWindow::OnInit(initArgs);
+void TouchControlsOverlay::InitElement() {
     RegisterCVars();
 }
 
@@ -611,7 +610,7 @@ void TouchControlsOverlay::Draw() {
 
     const float opacity = std::clamp(CVarGetFloat(CVAR_TOUCH("Opacity"), 0.8f), 0.1f, 1.0f);
     ImDrawList* drawList = ImGui::GetForegroundDrawList();
-    const auto gui = std::static_pointer_cast<Fast::Fast3dGui>(WindowGetWindowComponent()->GetGui());
+    const auto gui = std::static_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
 
     // Registry names shared with InputViewer; retry while archives settle.
     static int textureAttempts = 120;

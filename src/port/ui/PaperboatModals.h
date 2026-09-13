@@ -8,8 +8,7 @@ class PaperboatModalWindow final : public Ship::GuiWindow {
     using GuiWindow::GuiWindow;
     void Draw() override;
 
-    void OnInit(const nlohmann::json& initArgs = nlohmann::json::object()) override {
-        Ship::GuiWindow::OnInit(initArgs);
+    void InitElement() override {
     };
     void DrawElement() override;
     void UpdateElement() override{};

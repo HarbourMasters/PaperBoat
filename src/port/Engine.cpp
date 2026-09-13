@@ -46,11 +46,7 @@
 #include <ship/config/ConsoleVariable.h>
 #include <ship/debug/Console.h>
 #include <ship/debug/CrashHandler.h>
-#include <ship/events/Events.h>
-#include <ship/log/Logger.h>
 #include <ship/resource/ResourceManager.h>
-#include <ship/thread/ThreadPool.h>
-#include <ship/window/FileDrop.h>
 #include <fast/debug/GfxDebugger.h>
 #include <libultraship/bridge/audiobridge.h>
 #include <libultraship/bridge/consolevariablebridge.h>
@@ -74,7 +70,7 @@ using json = nlohmann::json;
 
 const float imguiScaleOptionToValue[4] = { 0.75f, 1.0f, 1.5f, 2.0f };
 std::shared_ptr<Fast::Fast3dWindow> gsFast3dWindow;
-std::shared_ptr<Ship::Context> gShipContext;
+Ship::Context* gShipContext = nullptr;
 const uint32_t defaultImGuiScale = 1;
 int32_t previousImGuiScaleIndex = -1;
 float previousImGuiScale = defaultImGuiScale;
@@ -183,78 +179,30 @@ GameEngine::GameEngine() {
     const std::string assets_path = Ship::Context::LocateFileAcrossAppDirs("paperboat.o2r");
     portArchiveExists = std::filesystem::exists(assets_path);
 
-    this->context = Ship::Context::CreateInstance("Paperboat", "boat");
-    gShipContext = this->context;
-    this->context->Init();
-    auto& children = this->context->GetChildren();
-
-    auto logger =
-        std::make_shared<Ship::Logger>("Paperboat", Ship::Context::GetPathRelativeToAppDirectory("logs/Paperboat.log"));
-    children.Add(logger);
-    logger->Init();
-
-    const std::string configPath = Ship::Context::GetPathRelativeToAppDirectory("paperboat.cfg.json");
-    auto config = std::make_shared<Ship::Config>(configPath);
-    auto consoleVariables = std::make_shared<Ship::ConsoleVariable>(config);
-
-    gsFast3dWindow = std::make_shared<Fast::Fast3dWindow>(
-        std::vector<std::shared_ptr<Ship::GuiWindow>>({}), config, consoleVariables, nullptr
-    );
-    auto controlDeck = std::make_shared<LUS::ControlDeck>(gsFast3dWindow, consoleVariables);
-
-    const int32_t reservedThreadCount = 3;
-    const size_t threadCount =
-        std::max<int32_t>(1, (int32_t) (std::thread::hardware_concurrency() - reservedThreadCount - 1));
-    auto threadPool = std::make_shared<Ship::ThreadPool>(threadCount);
-    auto resourceManager = std::make_shared<Ship::ResourceManager>(threadPool);
-    auto crashHandler = std::make_shared<Ship::CrashHandler>();
-    auto console = std::make_shared<Ship::Console>();
-    auto gfxDebugger = std::make_shared<Fast::GfxDebugger>();
-    auto events = std::make_shared<Ship::Events>();
-
-    children.Add(config);
-    children.Add(consoleVariables);
-    children.Add(threadPool);
-    children.Add(resourceManager);
-    children.Add(controlDeck);
-    children.Add(crashHandler);
-    children.Add(console);
-    children.Add(gsFast3dWindow);
-    children.Add(gfxDebugger);
-    children.Add(events);
-
-    ResourceSetResourceManager(resourceManager);
-    CVarSetConsoleVariable(consoleVariables);
-
-#ifdef _DEBUG
-    auto defaultLogLevel = spdlog::level::debug;
-#else
-    auto defaultLogLevel = spdlog::level::info;
+#if defined(_WIN32) && defined(_DEBUG)
+    AllocConsole();
 #endif
-    auto logLevel =
-        static_cast<spdlog::level::level_enum>(CVarGetInteger(CVAR_DEVELOPER_TOOLS("LogLevel"), defaultLogLevel));
-    spdlog::set_level(logLevel);
-    spdlog::flush_on(logLevel);
 
-    WindowSetWindowComponent(gsFast3dWindow);
-    ControllerSetControlDeck(controlDeck);
-    EventSystemSetEvents(events);
-    CrashHandlerSetComponent(crashHandler);
-    GfxDebuggerSetComponent(gfxDebugger);
-    GfxSetFast3dWindow(gsFast3dWindow);
+    this->context = Ship::Context::CreateUninitializedInstance(
+        "Paperboat", "boat", Ship::Context::GetPathRelativeToAppDirectory("paperboat.cfg.json")
+    );
+    gShipContext = this->context;
 
-    nlohmann::json rmArgs;
-    rmArgs["archivePaths"] = portArchiveExists ? std::vector<std::string> { assets_path } : std::vector<std::string> {};
-    rmArgs["validHashes"] = std::vector<uint32_t> {};
+    this->context->InitLogging();
+    this->context->InitConfiguration();
+    this->context->InitConsoleVariables();
 
-    try {
-        resourceManager->Init(rmArgs);
-    } catch (const std::exception& e) {
-        SPDLOG_WARN("ResourceManager init deferred: {}", e.what());
-    }
+    this->context->InitControlDeck(std::make_shared<LUS::ControlDeck>());
+    this->context->InitResourceManager(
+        portArchiveExists ? std::vector<std::string> { assets_path } : std::vector<std::string> {}, {}, 3
+    );
+    this->context->InitConsole();
+    this->context->InitCrashHandler();
+    this->context->InitEventSystem();
 
-    console->Init();
-    gsFast3dWindow->Init();
+    gsFast3dWindow = std::make_shared<Fast::Fast3dWindow>(std::vector<std::shared_ptr<Ship::GuiWindow>>({}));
+    this->context->InitWindow(gsFast3dWindow);
+    this->context->InitFileDropMgr();
 
     PaperboatGui::SetupMenu();
 
@@ -280,7 +228,7 @@ void GameEngine::FinishInit() {
         std::string_view(gGitBranch), std::string_view(gGitCommitHash)
     );
 
-    auto archiveManager = ResourceGetResourceManager()->GetArchiveManager();
+    auto archiveManager = Ship::Context::GetRawInstance()->GetResourceManager()->GetArchiveManager();
 
     for (const auto& archive : sRomArchives) {
         const auto romPath = Ship::Context::LocateFileAcrossAppDirs(archive);
@@ -312,19 +260,12 @@ void GameEngine::FinishInit() {
         }
     }
 
-    auto& children = gShipContext->GetChildren();
+    spdlog::set_level(spdlog::level::trace);
+    spdlog::flush_on(spdlog::level::trace);
 
-    auto fileDrop = std::make_shared<Ship::FileDrop>(gsFast3dWindow);
-    children.Add(fileDrop);
-    fileDrop->Init();
+    Ship::Context::GetRawInstance()->InitAudio({ .SampleRate = 32000, .SampleLength = 1024, .DesiredBuffered = 1680 });
 
-    auto audio =
-        std::make_shared<Ship::Audio>(Ship::AudioSettings { 32000, 1024, 1680 }, children.GetFirst<Ship::Config>());
-    children.Add(audio);
-    AudioSetAudioComponent(audio);
-    audio->Init();
-
-    auto loader = ResourceGetResourceManager()->GetResourceLoader();
+    auto loader = Ship::Context::GetRawInstance()->GetResourceManager()->GetResourceLoader();
     loader->RegisterResourceFactory(
         std::make_shared<Ship::ResourceFactoryBinaryBlobV0>(), RESOURCE_FORMAT_BINARY, "Blob",
         static_cast<uint32_t>(Ship::ResourceType::Blob), 0
@@ -381,8 +322,9 @@ ImFont* GameEngine::CreateFontWithSize(float size, std::string fontPath) {
         initData->Type = static_cast<uint32_t>(RESOURCE_TYPE_FONT);
         initData->ResourceVersion = 0;
         initData->Path = fontPath;
-        std::shared_ptr<Ship::Font> fontData =
-            std::static_pointer_cast<Ship::Font>(ResourceGetResourceManager()->LoadResource(fontPath, false, initData));
+        std::shared_ptr<Ship::Font> fontData = std::static_pointer_cast<Ship::Font>(
+            Ship::Context::GetRawInstance()->GetResourceManager()->LoadResource(fontPath, false, initData)
+        );
         font = mImGuiIo->Fonts->AddFontFromMemoryTTF(fontData->Data, fontData->DataSize, size, &config);
     }
     // FontAwesome fonts need to have their sizes reduced by 2.0f/3.0f in order to
@@ -418,7 +360,7 @@ void GameEngine::RunExtract(int argc, char* argv[]) {
     bool extractDone = false;
     ExtractSteps extractStep = ES_PORT_ARCHIVE;
     WindowsSteps windowsStep = WS_TEMP;
-    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(WindowGetWindowComponent());
+    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(Ship::Context::GetRawInstance()->GetWindow());
     auto gui = wnd->GetGui();
     bool menuWasVisible = false;
     if (gui->GetMenu()->IsVisible()) {
@@ -879,11 +821,11 @@ void GameEngine::Destroy() {
 
     // Persist the window state (fullscreen, size, position) explicitly rather than
     // relying on Context::~Context to do it
-    if (auto window = WindowGetWindowComponent()) {
+    if (auto window = Ship::Context::GetRawInstance()->GetWindow()) {
         window->SaveWindowToConfig();
     }
     if (gShipContext != nullptr) {
-        if (auto config = gShipContext->GetChildren().GetFirst<Ship::Config>()) {
+        if (auto config = Ship::Context::GetRawInstance()->GetConfig()) {
             config->Save();
         }
     }
@@ -894,6 +836,11 @@ void GameEngine::Destroy() {
         free(ptr);
     }
     MemoryPool.clear();
+
+    gsFast3dWindow = nullptr;
+    Ship::Context::DestroyInstance();
+    gShipContext = nullptr;
+    spdlog::set_default_logger(std::make_shared<spdlog::logger>("shutdown"));
 }
 
 static void ApplyDPadAsLeftStick(bool enabled) {
@@ -939,12 +886,12 @@ void GameEngine::StartFrame() const {
     // input. This fires the keyboard callbacks that set mKeyPressed state in
     // ControlDeck, so that WriteToPad() sees current key state when called from
     // update_input().
-    WindowGetWindowComponent()->HandleEvents();
+    Ship::Context::GetRawInstance()->GetWindow()->HandleEvents();
 
     const bool altAssets = CVarGetInteger("gEnhancements.Mods.AlternateAssets", 0) != 0;
     if (altAssets != mPrevAltAssets) {
         mPrevAltAssets = altAssets;
-        ResourceGetResourceManager()->SetAltAssetsEnabled(altAssets);
+        Ship::Context::GetRawInstance()->GetResourceManager()->SetAltAssetsEnabled(altAssets);
         gfx_texture_cache_clear();
         SPDLOG_INFO("Alt assets {}", altAssets ? "enabled" : "disabled");
     }
@@ -956,8 +903,8 @@ void GameEngine::StartFrame() const {
     }
 
     using Ship::KbScancode;
-    const int32_t dwScancode = WindowGetWindowComponent()->GetLastScancode();
-    WindowGetWindowComponent()->SetLastScancode(-1);
+    const int32_t dwScancode = Ship::Context::GetRawInstance()->GetWindow()->GetLastScancode();
+    Ship::Context::GetRawInstance()->GetWindow()->SetLastScancode(-1);
 
     switch (dwScancode) {
         case KbScancode::LUS_KB_TAB: {
@@ -977,12 +924,15 @@ void GameEngine::StartFrame() const {
 
 uint32_t GameEngine::GetInterpolationFPS() {
     if (CVarGetInteger(CVAR_SETTING("MatchRefreshRate"), 0)) {
-        return WindowGetWindowComponent()->GetCurrentRefreshRate();
+        return Ship::Context::GetRawInstance()->GetWindow()->GetCurrentRefreshRate();
     }
 
-    if (CVarGetInteger(CVAR_VSYNC_ENABLED, 1) || !WindowGetWindowComponent()->CanDisableVerticalSync()) {
+    if (CVarGetInteger(CVAR_VSYNC_ENABLED, 1)
+        || !Ship::Context::GetRawInstance()->GetWindow()->CanDisableVerticalSync())
+    {
         return std::min<uint32_t>(
-            WindowGetWindowComponent()->GetCurrentRefreshRate(), CVarGetInteger(CVAR_SETTING("InterpolationFPS"), 30)
+            Ship::Context::GetRawInstance()->GetWindow()->GetCurrentRefreshRate(),
+            CVarGetInteger(CVAR_SETTING("InterpolationFPS"), 30)
         );
     }
     return CVarGetInteger(CVAR_SETTING("InterpolationFPS"), 30);
@@ -1129,7 +1079,7 @@ void GameEngine::AudioExit() {
 }
 
 void GameEngine::RunCommands(Gfx* Commands, const std::vector<std::unordered_map<Mtx*, MtxF>>& mtx_replacements) {
-    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(WindowGetWindowComponent());
+    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(Ship::Context::GetRawInstance()->GetWindow());
 
     if (wnd == nullptr) {
         return;
@@ -1149,7 +1099,7 @@ void GameEngine::RunCommands(Gfx* Commands, const std::vector<std::unordered_map
 }
 
 void GameEngine::ProcessGfxCommands(Gfx* commands) {
-    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(WindowGetWindowComponent());
+    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(Ship::Context::GetRawInstance()->GetWindow());
 
     if (wnd == nullptr)
         return;
@@ -1265,7 +1215,7 @@ extern "C" void GameEngine_ProcessGfxCommands(Gfx* commands) {
 
 // C-callable controller input reader
 extern "C" void GameEngine_ReadController(OSContPad* pads) {
-    auto controlDeck = ControllerGetControlDeck();
+    auto controlDeck = Ship::Context::GetRawInstance()->GetControlDeck();
     if (controlDeck != nullptr) {
         controlDeck->WriteToPad(pads);
     }
@@ -1349,7 +1299,7 @@ extern "C" void GameEngine_InvalidateTextureCache(const void* addr) {
     if (addr == nullptr) {
         return;
     }
-    auto window = WindowGetWindowComponent();
+    auto window = Ship::Context::GetRawInstance()->GetWindow();
     if (window != nullptr) {
         auto fast3d = std::dynamic_pointer_cast<Fast::Fast3dWindow>(window);
         if (fast3d != nullptr) {
@@ -1372,7 +1322,7 @@ extern "C" int GameEngine_GetSaveFilePath(char* buf, int bufSize) {
 }
 
 extern "C" void GameEngine_ClearDepthBuffer(void) {
-    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(WindowGetWindowComponent());
+    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(Ship::Context::GetRawInstance()->GetWindow());
     if (wnd) {
         auto interp = wnd->GetInterpreterWeak().lock();
         if (interp) {
@@ -1391,7 +1341,7 @@ static constexpr float WS_NATIVE_WIDTH = 320.0f;
 static constexpr float WS_NATIVE_HEIGHT = 240.0f;
 
 Fast::Interpreter* GameEngine_GetInterpreter() {
-    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(WindowGetWindowComponent());
+    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(Ship::Context::GetRawInstance()->GetWindow());
     if (wnd == nullptr) {
         return nullptr;
     }

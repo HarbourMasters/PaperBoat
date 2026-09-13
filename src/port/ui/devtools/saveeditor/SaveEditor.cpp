@@ -414,7 +414,7 @@ const char* GetNameFromPath(const char* path) {
 
 TextureData GetEquipmentTextureId(const char* equipName) {
     TextureData textureData;
-    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(WindowGetWindowComponent()->GetGui());
+    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
     if (equipName == ICON_gear_boots_1_raster) {
         switch (gPlayerData.bootsLevel) {
             case 0:
@@ -458,7 +458,7 @@ TextureData GetEquipmentTextureId(const char* equipName) {
 
 TextureData GetRankTexture(int32_t currentRank) {
     TextureData rankData;
-    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(WindowGetWindowComponent()->GetGui());
+    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
 
     rankData.textureId = gui->GetTextureByName(currentRank > 1 ? "Ultra Rank" : ui_pause_partner_rank_png);
 
@@ -634,7 +634,7 @@ bool ContainsIgnoreCase(const char* haystack, const char* needle) {
 }
 
 void SaveEditor_DrawImageButton(int32_t iconIndex, const char* itemType) {
-    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(WindowGetWindowComponent()->GetGui());
+    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
     const char* rasterPath = reinterpret_cast<const char*>(gItemIconRasterOffsets[iconIndex]);
     const char* palettePath = reinterpret_cast<const char*>(gItemIconPaletteOffsets[iconIndex]);
     ImTextureID itemTexture = gui->GetTextureByName(rasterPath);
@@ -704,7 +704,7 @@ void SaveEditor_DrawItemList(const char* itemType) {
 }
 
 void SaveEditor_DrawPlayerMenu() {
-    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(WindowGetWindowComponent()->GetGui());
+    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
     ImVec2 padding = ImGui::GetStyle().CellPadding;
     ImVec2 statImageSize = ImVec2(36.0f, 36.0f);
     padding.y += 8.0f;
@@ -992,7 +992,7 @@ void SaveEditor_DrawPlayerMenu() {
 }
 
 void SaveEditor_DrawItemsMenu() {
-    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(WindowGetWindowComponent()->GetGui());
+    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
     if (ImGui::BeginChild("ItemChild")) {
         for (int i = 0; i < MAX_INVENTORY_SIZE; i++) {
 
@@ -1027,7 +1027,7 @@ void SaveEditor_DrawItemsMenu() {
 }
 
 void SaveEditor_DrawPartyMenu() {
-    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(WindowGetWindowComponent()->GetGui());
+    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
     ImVec2 padding = ImGui::GetStyle().CellPadding;
     ImVec2 statImageSize = ImVec2(36.0f, 36.0f);
     padding.y += 4.0f;
@@ -1089,7 +1089,7 @@ void SaveEditor_DrawPartyMenu() {
 }
 
 void SaveEditor_DrawLettersMenu() {
-    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(WindowGetWindowComponent()->GetGui());
+    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
     ImVec2 padding = ImGui::GetStyle().CellPadding;
     ImVec2 statImageSize = ImVec2(36.0f, 36.0f);
     padding.y += 4.0f;
@@ -1164,7 +1164,7 @@ void SaveEditor_DrawLettersMenu() {
 }
 
 void SaveEditor_DrawRecipesMenu() {
-    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(WindowGetWindowComponent()->GetGui());
+    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
     int32_t columns = 13;
     ImVec2 padding = ImGui::GetStyle().CellPadding;
     padding.y += 2.0f;
@@ -1231,7 +1231,7 @@ void SaveEditor_DrawRecipesMenu() {
 }
 
 void SaveEditor_DrawStarPiecesMenu() {
-    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(WindowGetWindowComponent()->GetGui());
+    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
     ImVec2 padding = ImGui::GetStyle().CellPadding;
     ImVec2 statImageSize = ImVec2(36.0f, 36.0f);
     padding.y += 4.0f;
@@ -1481,8 +1481,7 @@ void SaveEditorWindow::Draw() {
     ImGui::PopStyleVar(1);
 }
 
-void SaveEditorWindow::OnInit(const nlohmann::json& initArgs) {
-    Ship::GuiWindow::OnInit(initArgs);
+void SaveEditorWindow::InitElement() {
 }
 
 #pragma pop_macro("End")

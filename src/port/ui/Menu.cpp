@@ -106,16 +106,15 @@ void Menu::RemoveSidebarSearch() {
 
 void Menu::UpdateWindowBackendObjects() {
     Fast::WindowBackend runningWindowBackend =
-        static_cast<Fast::WindowBackend>(WindowGetWindowComponent()->GetWindowBackend());
-    int32_t configWindowBackendId =
-        gShipContext->GetChildren().GetFirst<Ship::Config>()->GetInt("Window.Backend.Id", -1);
-    if (WindowGetWindowComponent()->IsAvailableWindowBackend(configWindowBackendId)) {
+        static_cast<Fast::WindowBackend>(Ship::Context::GetRawInstance()->GetWindow()->GetWindowBackend());
+    int32_t configWindowBackendId = Ship::Context::GetRawInstance()->GetConfig()->GetInt("Window.Backend.Id", -1);
+    if (Ship::Context::GetRawInstance()->GetWindow()->IsAvailableWindowBackend(configWindowBackendId)) {
         configWindowBackend = static_cast<Fast::WindowBackend>(configWindowBackendId);
     } else {
         configWindowBackend = runningWindowBackend;
     }
 
-    availableWindowBackends = WindowGetWindowComponent()->GetAvailableWindowBackends();
+    availableWindowBackends = Ship::Context::GetRawInstance()->GetWindow()->GetAvailableWindowBackends();
     for (auto& backend : *availableWindowBackends) {
         auto fb = static_cast<Fast::WindowBackend>(backend);
         availableWindowBackendsMap[fb] = windowBackendsMap.at(fb);
@@ -138,8 +137,7 @@ Menu::Menu(
     , defaultThemeIndex(defaultThemeIndex_) {
 }
 
-void Menu::OnInit(const nlohmann::json& initArgs) {
-    GuiWindow::OnInit(initArgs);
+void Menu::InitElement() {
     popped = CVarGetInteger(CVAR_SETTING("Menu.Popout"), 0);
     poppedSize.x = CVarGetInteger(CVAR_SETTING("Menu.PoppedWidth"), 1280);
     poppedSize.y = CVarGetInteger(CVAR_SETTING("Menu.PoppedHeight"), 800);
@@ -367,7 +365,7 @@ void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors me
                 };
             } break;
             case WIDGET_AUDIO_BACKEND: {
-                auto audio = AudioGetAudioComponent();
+                auto audio = Ship::Context::GetRawInstance()->GetAudio();
                 if (audio == nullptr) {
                     // The menu is created before the audio system exists.
                     break;
@@ -399,13 +397,13 @@ void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors me
                         "Renderer API (Needs reload)", &configWindowBackend, availableWindowBackendsMap, options
                     ))
                 {
-                    gShipContext->GetChildren().GetFirst<Ship::Config>()->SetInt(
+                    Ship::Context::GetRawInstance()->GetConfig()->SetInt(
                         "Window.Backend.Id", (int32_t) (configWindowBackend)
                     );
-                    gShipContext->GetChildren().GetFirst<Ship::Config>()->SetString(
+                    Ship::Context::GetRawInstance()->GetConfig()->SetString(
                         "Window.Backend.Name", windowBackendsMap.at(configWindowBackend)
                     );
-                    gShipContext->GetChildren().GetFirst<Ship::Config>()->Save();
+                    Ship::Context::GetRawInstance()->GetConfig()->Save();
                     UpdateWindowBackendObjects();
                 }
             } break;
@@ -527,7 +525,7 @@ void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors me
                     SPDLOG_ERROR(msg.c_str());
                     break;
                 }
-                auto window = WindowGetWindowComponent()->GetGui()->GetGuiWindow(widget.windowName);
+                auto window = Ship::Context::GetRawInstance()->GetWindow()->GetGui()->GetGuiWindow(widget.windowName);
                 if (!window) {
                     std::string msg =
                         fmt::format("Error drawing window contents: windowName {} does not exist", widget.windowName);
@@ -826,11 +824,12 @@ void Menu::DrawElement() {
         PaperboatGui::mModalWindow->RegisterPopup(
             "Quit Paperboat", "Are you sure you want to quit Paperboat?", "Quit", "Cancel",
             []() {
-                std::shared_ptr<Menu> menu = static_pointer_cast<Menu>(WindowGetWindowComponent()->GetGui()->GetMenu());
+                std::shared_ptr<Menu> menu =
+                    static_pointer_cast<Menu>(Ship::Context::GetRawInstance()->GetWindow()->GetGui()->GetMenu());
                 if (!menu->IsMenuPopped()) {
                     menu->ToggleVisibility();
                 }
-                WindowGetWindowComponent()->Close();
+                Ship::Context::GetRawInstance()->GetWindow()->Close();
             },
             nullptr
         );
@@ -851,7 +850,7 @@ void Menu::DrawElement() {
         ;
     if (UIWidgets::Button(ICON_FA_UNDO, options2)) {
         std::reinterpret_pointer_cast<Ship::ConsoleWindow>(
-            WindowGetWindowComponent()->GetGui()->GetGuiWindow("Console")
+            Ship::Context::GetRawInstance()->GetWindow()->GetGui()->GetGuiWindow("Console")
         )
             ->Dispatch("reset");
     }
@@ -866,7 +865,7 @@ void Menu::DrawElement() {
         // visible
         auto mImGuiIo = &ImGui::GetIO();
         if (CVarGetInteger(CVAR_IMGUI_CONTROLLER_NAV, 0)
-            && WindowGetWindowComponent()->GetGui()->GetMenuOrMenubarVisible())
+            && Ship::Context::GetRawInstance()->GetWindow()->GetGui()->GetMenuOrMenubarVisible())
         {
             mImGuiIo->ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
         } else {

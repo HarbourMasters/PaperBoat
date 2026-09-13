@@ -39,7 +39,7 @@ class PaperboatInputEditorWindow : public Ship::GuiWindow {
     void DrawPortTabContents(uint8_t portIndex);
 
   protected:
-    void OnInit(const nlohmann::json& initArgs = nlohmann::json::object()) override;
+    void InitElement() override;
     void DrawElement() override;
     void UpdateElement() override;
 
