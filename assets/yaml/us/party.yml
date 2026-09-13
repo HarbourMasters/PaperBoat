@@ -1,48 +1,48 @@
 
 # party_kurio (Goombario) - compressed=12658, decompressed=16272
 party_kurio_pal:
-  { type: PM64:TITLE_DATA, offset: 0x27E7192, sub_offset: 0x0000, size: 0x200, symbol: party_kurio_pal }
+  { type: PM64:TITLE_DATA, offset: 0x27E7192, sub_offset: 0x0000, size: 0x200, symbol: party_kurio_pal, tlut_colors: 256 }
 party_kurio:
-  { type: PM64:TITLE_DATA, offset: 0x27E7192, sub_offset: 0x0200, size: 0x3D86, symbol: party_kurio }
+  { type: PM64:TITLE_DATA, offset: 0x27E7192, sub_offset: 0x0200, size: 0x3D86, symbol: party_kurio, img_format: CI8, img_width: 150, img_height: 105 }
 
 # party_kameki (Kooper) - compressed=13472, decompressed=16272
 party_kameki_pal:
-  { type: PM64:TITLE_DATA, offset: 0x27EA304, sub_offset: 0x0000, size: 0x200, symbol: party_kameki_pal }
+  { type: PM64:TITLE_DATA, offset: 0x27EA304, sub_offset: 0x0000, size: 0x200, symbol: party_kameki_pal, tlut_colors: 256 }
 party_kameki:
-  { type: PM64:TITLE_DATA, offset: 0x27EA304, sub_offset: 0x0200, size: 0x3D86, symbol: party_kameki }
+  { type: PM64:TITLE_DATA, offset: 0x27EA304, sub_offset: 0x0200, size: 0x3D86, symbol: party_kameki, img_format: CI8, img_width: 150, img_height: 105 }
 
 # party_pinki (Bombette) - compressed=13422, decompressed=16272
 party_pinki_pal:
-  { type: PM64:TITLE_DATA, offset: 0x27ED7A4, sub_offset: 0x0000, size: 0x200, symbol: party_pinki_pal }
+  { type: PM64:TITLE_DATA, offset: 0x27ED7A4, sub_offset: 0x0000, size: 0x200, symbol: party_pinki_pal, tlut_colors: 256 }
 party_pinki:
-  { type: PM64:TITLE_DATA, offset: 0x27ED7A4, sub_offset: 0x0200, size: 0x3D86, symbol: party_pinki }
+  { type: PM64:TITLE_DATA, offset: 0x27ED7A4, sub_offset: 0x0200, size: 0x3D86, symbol: party_pinki, img_format: CI8, img_width: 150, img_height: 105 }
 
 # party_pareta (Parakarry) - compressed=12084, decompressed=16272
 party_pareta_pal:
-  { type: PM64:TITLE_DATA, offset: 0x27F0C12, sub_offset: 0x0000, size: 0x200, symbol: party_pareta_pal }
+  { type: PM64:TITLE_DATA, offset: 0x27F0C12, sub_offset: 0x0000, size: 0x200, symbol: party_pareta_pal, tlut_colors: 256 }
 party_pareta:
-  { type: PM64:TITLE_DATA, offset: 0x27F0C12, sub_offset: 0x0200, size: 0x3D86, symbol: party_pareta }
+  { type: PM64:TITLE_DATA, offset: 0x27F0C12, sub_offset: 0x0200, size: 0x3D86, symbol: party_pareta, img_format: CI8, img_width: 150, img_height: 105 }
 
 # party_resa (Bow) - compressed=10860, decompressed=16272
 party_resa_pal:
-  { type: PM64:TITLE_DATA, offset: 0x27F3B46, sub_offset: 0x0000, size: 0x200, symbol: party_resa_pal }
+  { type: PM64:TITLE_DATA, offset: 0x27F3B46, sub_offset: 0x0000, size: 0x200, symbol: party_resa_pal, tlut_colors: 256 }
 party_resa:
-  { type: PM64:TITLE_DATA, offset: 0x27F3B46, sub_offset: 0x0200, size: 0x3D86, symbol: party_resa }
+  { type: PM64:TITLE_DATA, offset: 0x27F3B46, sub_offset: 0x0200, size: 0x3D86, symbol: party_resa, img_format: CI8, img_width: 150, img_height: 105 }
 
 # party_akari (Watt) - compressed=11714, decompressed=16272
 party_akari_pal:
-  { type: PM64:TITLE_DATA, offset: 0x27F65B2, sub_offset: 0x0000, size: 0x200, symbol: party_akari_pal }
+  { type: PM64:TITLE_DATA, offset: 0x27F65B2, sub_offset: 0x0000, size: 0x200, symbol: party_akari_pal, tlut_colors: 256 }
 party_akari:
-  { type: PM64:TITLE_DATA, offset: 0x27F65B2, sub_offset: 0x0200, size: 0x3D86, symbol: party_akari }
+  { type: PM64:TITLE_DATA, offset: 0x27F65B2, sub_offset: 0x0200, size: 0x3D86, symbol: party_akari, img_format: CI8, img_width: 150, img_height: 105 }
 
 # party_opuku (Sushie) - compressed=11260, decompressed=16272
 party_opuku_pal:
-  { type: PM64:TITLE_DATA, offset: 0x27F9374, sub_offset: 0x0000, size: 0x200, symbol: party_opuku_pal }
+  { type: PM64:TITLE_DATA, offset: 0x27F9374, sub_offset: 0x0000, size: 0x200, symbol: party_opuku_pal, tlut_colors: 256 }
 party_opuku:
-  { type: PM64:TITLE_DATA, offset: 0x27F9374, sub_offset: 0x0200, size: 0x3D86, symbol: party_opuku }
+  { type: PM64:TITLE_DATA, offset: 0x27F9374, sub_offset: 0x0200, size: 0x3D86, symbol: party_opuku, img_format: CI8, img_width: 150, img_height: 105 }
 
 # party_pokopi (Lakilester) - compressed=11954, decompressed=16272
 party_pokopi_pal:
-  { type: PM64:TITLE_DATA, offset: 0x27FBF70, sub_offset: 0x0000, size: 0x200, symbol: party_pokopi_pal }
+  { type: PM64:TITLE_DATA, offset: 0x27FBF70, sub_offset: 0x0000, size: 0x200, symbol: party_pokopi_pal, tlut_colors: 256 }
 party_pokopi:
-  { type: PM64:TITLE_DATA, offset: 0x27FBF70, sub_offset: 0x0200, size: 0x3D86, symbol: party_pokopi }
+  { type: PM64:TITLE_DATA, offset: 0x27FBF70, sub_offset: 0x0200, size: 0x3D86, symbol: party_pokopi, img_format: CI8, img_width: 150, img_height: 105 }

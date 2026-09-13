@@ -3313,6 +3313,8 @@ void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_P
             }
             break;
         case EXTRA_TILE_MIPMAPS:
+            // Each mip level is its own resource ("<name>_mm<lod>"); port_mip_raster
+            // resolves those and passes blob pointers straight through.
             lodMode = G_TL_LOD;
             switch (mainBitDepth) {
                 case G_IM_SIZ_4b:
@@ -3320,7 +3322,7 @@ void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_P
                          mainWidth / lodDivisor * 4 >= 64 && mainHeight / lodDivisor != 0;
                          rasterPtr += mainWidth / lodDivisor * mainHeight / lodDivisor / 2, lodDivisor *= 2, lod++)
                     {
-                        gDPLoadMultiTile_4b((*gfxPos)++, rasterPtr, (u32)(rasterPtr - raster) >> 3, lod, mainFmt,
+                        gDPLoadMultiTile_4b((*gfxPos)++, port_mip_raster(raster, rasterPtr, lod), (u32)(rasterPtr - raster) >> 3, lod, mainFmt,
                                             mainWidth / lodDivisor, mainHeight / lodDivisor,
                                             0, 0, mainWidth / lodDivisor - 1, mainHeight / lodDivisor - 1, 0,
                                             mainWrapW, mainWrapH, mainMasks - lod, mainMaskt - lod, lod, lod);
@@ -3331,7 +3333,7 @@ void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_P
                          mainWidth / lodDivisor * 8 >= 64 && mainHeight / lodDivisor != 0;
                          rasterPtr += mainWidth / lodDivisor * mainHeight / lodDivisor, lodDivisor *= 2, lod++)
                     {
-                        gDPLoadMultiTile((*gfxPos)++, rasterPtr, ((u32)(rasterPtr - raster)) >> 3, lod, mainFmt, G_IM_SIZ_8b,
+                        gDPLoadMultiTile((*gfxPos)++, port_mip_raster(raster, rasterPtr, lod), ((u32)(rasterPtr - raster)) >> 3, lod, mainFmt, G_IM_SIZ_8b,
                                          mainWidth / lodDivisor, mainHeight / lodDivisor,
                                          0, 0, mainWidth / lodDivisor - 1, mainHeight / lodDivisor - 1, 0,
                                          mainWrapW, mainWrapH, mainMasks - lod, mainMaskt - lod, lod, lod);
@@ -3342,7 +3344,7 @@ void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_P
                          mainWidth / lodDivisor * 16 >= 64 && mainHeight / lodDivisor != 0;
                          rasterPtr += mainWidth / lodDivisor * mainHeight / lodDivisor * 2, lodDivisor *= 2, lod++)
                     {
-                        gDPLoadMultiTile((*gfxPos)++, rasterPtr, ((u32)(rasterPtr - raster)) >> 3, lod, mainFmt, G_IM_SIZ_16b,
+                        gDPLoadMultiTile((*gfxPos)++, port_mip_raster(raster, rasterPtr, lod), ((u32)(rasterPtr - raster)) >> 3, lod, mainFmt, G_IM_SIZ_16b,
                                          mainWidth / lodDivisor, mainHeight / lodDivisor,
                                          0, 0, mainWidth / lodDivisor - 1, mainHeight / lodDivisor - 1, 0,
                                          mainWrapW, mainWrapH, mainMasks - lod, mainMaskt - lod, lod, lod);
@@ -3353,7 +3355,7 @@ void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_P
                          mainWidth / lodDivisor * 32 >= 64 && mainHeight / lodDivisor != 0;
                          rasterPtr += mainWidth / lodDivisor * mainHeight / lodDivisor * 4, lodDivisor *= 2, lod++)
                     {
-                        gDPLoadMultiTile((*gfxPos)++, rasterPtr, ((u32)(rasterPtr - raster)) >> 4, lod, mainFmt, G_IM_SIZ_32b,
+                        gDPLoadMultiTile((*gfxPos)++, port_mip_raster(raster, rasterPtr, lod), ((u32)(rasterPtr - raster)) >> 4, lod, mainFmt, G_IM_SIZ_32b,
                                          mainWidth / lodDivisor, mainHeight / lodDivisor,
                                          0, 0, mainWidth / lodDivisor - 1, mainHeight / lodDivisor - 1, 0,
                                          mainWrapW, mainWrapH, mainMasks - lod, mainMaskt - lod, lod, lod);
@@ -3363,6 +3365,8 @@ void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_P
             gSPTexture((*gfxPos)++, 0xFFFF, 0xFFFF, lod - 1, G_TX_RENDERTILE, G_ON);
             break;
         case EXTRA_TILE_AUX_SAME_AS_MAIN:
+            // The bottom half is its own resource ("<name>_aux") for path-addressed
+            // rasters; port_aux_raster resolves it or returns the blob pointer.
             gSPTexture((*gfxPos)++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
             gDPPipeSync((*gfxPos)++);
             lodMode = G_TL_TILE;
@@ -3379,7 +3383,7 @@ void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_P
                         s32 halfH = mainHeight >> 1;
                         s32 halfBytes = mainWidth * halfH / 2;
                         s32 halfTmem = (halfBytes + 7) >> 3;
-                        gDPSetTextureImage((*gfxPos)++, mainFmt, G_IM_SIZ_16b, 1, raster + halfBytes);
+                        gDPSetTextureImage((*gfxPos)++, mainFmt, G_IM_SIZ_16b, 1, port_aux_raster(raster, raster + halfBytes));
                         gDPSetTile((*gfxPos)++, mainFmt, G_IM_SIZ_16b, 0, halfTmem, G_TX_LOADTILE,
                                    0, mainWrapH, mainMaskt, G_TX_NOLOD, mainWrapW, mainMasks, G_TX_NOLOD);
                         gDPLoadSync((*gfxPos)++);
@@ -3397,7 +3401,7 @@ void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_P
                         s32 halfH = mainHeight >> 1;
                         s32 halfBytes = mainWidth * halfH;
                         s32 halfTmem = (halfBytes + 7) >> 3;
-                        gDPSetTextureImage((*gfxPos)++, mainFmt, G_IM_SIZ_16b, 1, raster + halfBytes);
+                        gDPSetTextureImage((*gfxPos)++, mainFmt, G_IM_SIZ_16b, 1, port_aux_raster(raster, raster + halfBytes));
                         gDPSetTile((*gfxPos)++, mainFmt, G_IM_SIZ_16b, 0, halfTmem, G_TX_LOADTILE,
                                    0, mainWrapH, mainMaskt, G_TX_NOLOD, mainWrapW, mainMasks, G_TX_NOLOD);
                         gDPLoadSync((*gfxPos)++);
@@ -3415,7 +3419,7 @@ void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_P
                         s32 halfH = mainHeight >> 1;
                         s32 halfBytes = mainWidth * halfH * 2;
                         s32 halfTmem = (halfBytes + 7) >> 3;
-                        gDPSetTextureImage((*gfxPos)++, mainFmt, G_IM_SIZ_16b, 1, raster + halfBytes);
+                        gDPSetTextureImage((*gfxPos)++, mainFmt, G_IM_SIZ_16b, 1, port_aux_raster(raster, raster + halfBytes));
                         gDPSetTile((*gfxPos)++, mainFmt, G_IM_SIZ_16b, 0, halfTmem, G_TX_LOADTILE,
                                    0, mainWrapH, mainMaskt, G_TX_NOLOD, mainWrapW, mainMasks, G_TX_NOLOD);
                         gDPLoadSync((*gfxPos)++);
@@ -3433,7 +3437,7 @@ void make_texture_gfx(TextureHeader* header, Gfx** gfxPos, IMG_PTR raster, PAL_P
                         s32 halfH = mainHeight >> 1;
                         s32 halfBytes = mainWidth * halfH * 4;
                         s32 halfTmem = (halfBytes + 7) >> 3;
-                        gDPSetTextureImage((*gfxPos)++, mainFmt, G_IM_SIZ_32b, 1, raster + halfBytes);
+                        gDPSetTextureImage((*gfxPos)++, mainFmt, G_IM_SIZ_32b, 1, port_aux_raster(raster, raster + halfBytes));
                         gDPSetTile((*gfxPos)++, mainFmt, G_IM_SIZ_32b, 0, halfTmem, G_TX_LOADTILE,
                                    0, mainWrapH, mainMaskt, G_TX_NOLOD, mainWrapW, mainMasks, G_TX_NOLOD);
                         gDPLoadSync((*gfxPos)++);

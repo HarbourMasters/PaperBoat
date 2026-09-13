@@ -1,6 +1,7 @@
 #include "common.h"
 #include "npc.h"
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 
 #ifndef PARTY_IMAGE
 #error "Define PARTY_IMAGE to the asset name to use LoadPartyImage."
@@ -17,8 +18,9 @@ API_CALLABLE(N(LoadPartyImage)) {
     snprintf(palPath, sizeof(palPath), "__OTR__party/%s_pal", PARTY_IMAGE);
     snprintf(imgPath, sizeof(imgPath), "__OTR__party/%s", PARTY_IMAGE);
 
-    image.palette = (PAL_BIN*)LOAD_ASSET(palPath);
-    image.raster = (IMG_BIN*)LOAD_ASSET(imgPath);
+    // Drawn by name where the archive has the portrait as a texture
+    image.palette = (PAL_BIN*)port_named_image(imgPath, "_img_tlut", LOAD_ASSET(palPath));
+    image.raster = (IMG_BIN*)port_named_image(imgPath, "_img", LOAD_ASSET(imgPath));
     image.width = PARTY_IMAGE_WIDTH;
     image.height = PARTY_IMAGE_HEIGHT;
     image.format = G_IM_FMT_CI;

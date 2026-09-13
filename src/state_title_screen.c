@@ -137,11 +137,11 @@ void state_init_title_screen(void) {
     gGameStatusPtr->introPart = INTRO_PART_NONE;
     startup_fade_screen_update();
     // Load title screen images individually from OTR archive
-    TitleScreen_ImgList_Logo = (s32*) ResourceGetDataByName("__OTR__title_screen/title_logo");
-    TitleScreen_ImgList_Copyright = (u8 (*)[COPYRIGHT_WIDTH]) ResourceGetDataByName("__OTR__title_screen/title_copyright");
-    TitleScreen_ImgList_PressStart = (s32*) ResourceGetDataByName("__OTR__title_screen/title_press_start");
+    TitleScreen_ImgList_Logo = (s32*) port_named_image("__OTR__title_screen/title_logo", "_img", GameEngine_GetDataExact("__OTR__title_screen/title_logo"));
+    TitleScreen_ImgList_Copyright = (u8 (*)[COPYRIGHT_WIDTH]) port_named_image("__OTR__title_screen/title_copyright", "_img", GameEngine_GetDataExact("__OTR__title_screen/title_copyright"));
+    TitleScreen_ImgList_PressStart = (s32*) port_named_image("__OTR__title_screen/title_press_start", "_img", GameEngine_GetDataExact("__OTR__title_screen/title_press_start"));
 #if VERSION_JP
-    TitleScreen_ImgList_CopyrightPalette = (s32*) ResourceGetDataByName("__OTR__title_screen/title_copyright_palette");
+    TitleScreen_ImgList_CopyrightPalette = (s32*) GameEngine_GetDataExact("__OTR__title_screen/title_copyright_palette");
 #endif
 
     create_cameras();
@@ -445,9 +445,9 @@ void title_screen_draw_logo(f32 moveAlpha) {
 
     for (i = 0; i < TITLE_NUM_TILES; i++) {
         // Load a tile from the logo texture
-        gDPLoadTextureTile(gMainGfxPos++, &TitleScreen_ImgList_Logo[i * TITLE_TILE_PIXELS], G_IM_FMT_RGBA, G_IM_SIZ_32b,
-                           TITLE_WIDTH, TITLE_TILE_HEIGHT, // width, height
-                           0, 0, (TITLE_WIDTH - 1), (TITLE_TILE_HEIGHT - 1), // uls, ult, lrs, lrt
+        gDPLoadTextureTile(gMainGfxPos++, TitleScreen_ImgList_Logo, G_IM_FMT_RGBA, G_IM_SIZ_32b,
+                           TITLE_WIDTH, TITLE_HEIGHT, // width, height
+                           0, i * TITLE_TILE_HEIGHT, (TITLE_WIDTH - 1), (i + 1) * TITLE_TILE_HEIGHT - 1, // uls, ult, lrs, lrt
                            0, // pal
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, // cms, cmt
                            G_TX_NOMASK, G_TX_NOMASK, // masks, maskt
@@ -458,7 +458,7 @@ void title_screen_draw_logo(f32 moveAlpha) {
             (TITLE_POS_TOP + TITLE_TILE_HEIGHT * i + yOffset)                     << 2, // uly
             (TITLE_POS_LEFT + TITLE_WIDTH)                                        << 2, // lrx
             (TITLE_POS_TOP + TITLE_TILE_HEIGHT + TITLE_TILE_HEIGHT * i + yOffset) << 2, // lry
-            G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+            G_TX_RENDERTILE, 0, (i * TITLE_TILE_HEIGHT) << 5, 1 << 10, 1 << 10); // sample from the tile's rows
     }
 
     gDPPipeSync(gMainGfxPos++);
@@ -557,12 +557,13 @@ void title_screen_draw_copyright(f32 moveAlpha) {
     for (i = 0; i < COPYRIGHT_TEX_CHUNKS; i++) {
         alpha = 0; // TODO figure out why this is needed
 
-        gDPLoadTextureTile(gMainGfxPos++, COPYRIGHT_IMG(k, i), G_IM_FMT_IA, G_IM_SIZ_8b,
-                           COPYRIGHT_WIDTH, 32, 0, 0, 143, LTT_LRT, 0,
+        // Chunk rows through the tile origin
+        gDPLoadTextureTile(gMainGfxPos++, TitleScreen_ImgList_Copyright, G_IM_FMT_IA, G_IM_SIZ_8b,
+                           COPYRIGHT_WIDTH, 32, 0, 16 * i, 143, 16 * i + LTT_LRT, 0,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                            G_TX_NOLOD);
         gSPTextureRectangle(gMainGfxPos++, 356, YL_BASE + (RECT_SIZE * i), 932, YH_BASE + (RECT_SIZE * i),
-                            G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+                            G_TX_RENDERTILE, 0, (16 * i) << 5, 0x0400, 0x0400);
     }
 #endif
     gDPPipeSync(gMainGfxPos++);

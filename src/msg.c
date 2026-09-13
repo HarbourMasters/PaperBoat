@@ -5,6 +5,7 @@
 #include "sprite.h"
 
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 #include "assets/charset.h"
 #include "assets/messages.h"
 #include "assets/ui.h"
@@ -200,6 +201,7 @@ void clear_printers(void) {
 
 void load_font(s32 font) {
     if (font != D_80155C98) {
+        port_msg_font_loaded(font);
         if (font == 0) {
 // #if VERSION_JP
 //             load_font_data(charset_kana_OFFSET, 0x5710, MsgCharImgKana);
@@ -524,16 +526,17 @@ s32 _update_message(MessagePrintState* printer) {
     if (printer->stateFlags & MSG_STATE_FLAG_1) {
         printer->windowState = MSG_WINDOW_STATE_DONE;
         printer->stateFlags = 0;
-        if (printer->letterBackgroundImg != nullptr) {
+        // Names are not heap allocations (see MSG_STYLE_POSTCARD)
+        if (printer->letterBackgroundImg != nullptr && !GameEngine_OTRSigCheck((const char*)printer->letterBackgroundImg)) {
             general_heap_free(printer->letterBackgroundImg);
         }
-        if (printer->letterBackgroundPal != nullptr) {
+        if (printer->letterBackgroundPal != nullptr && !GameEngine_OTRSigCheck((const char*)printer->letterBackgroundPal)) {
             general_heap_free(printer->letterBackgroundPal);
         }
-        if (printer->letterContentImg != nullptr) {
+        if (printer->letterContentImg != nullptr && !GameEngine_OTRSigCheck((const char*)printer->letterContentImg)) {
             general_heap_free(printer->letterContentImg);
         }
-        if (printer->letterContentPal != nullptr) {
+        if (printer->letterContentPal != nullptr && !GameEngine_OTRSigCheck((const char*)printer->letterContentPal)) {
             general_heap_free(printer->letterContentPal);
         }
         if (printer->closedWritebackBool != nullptr) {
@@ -787,14 +790,28 @@ void msg_copy_to_print_buffer(MessagePrintState* printer, s32 arg1, s32 arg2) {
                         printer->windowState = MSG_WINDOW_STATE_OPENING;
                         printer->stateFlags |= MSG_STATE_FLAG_800;
                         printer->delayFlags |= MSG_DELAY_FLAG_1;
-                        printer->letterBackgroundImg = heap_malloc(((CHARSET_POSTCARD_WIDTH * CHARSET_POSTCARD_HEIGHT) / 2));
-                        memcpy(printer->letterBackgroundImg, LOAD_ASSET(CHARSET_POSTCARD), (CHARSET_POSTCARD_WIDTH * CHARSET_POSTCARD_HEIGHT) / 2);
-                        printer->letterBackgroundPal = heap_malloc(0x20);
-                        memcpy(printer->letterBackgroundPal, LOAD_ASSET(CHARSET_POSTCARD_PAL), 0x20);
-                        printer->letterContentImg = heap_malloc(CHARSET_LETTER_CONTENT_WIDTH * CHARSET_LETTER_CONTENT_HEIGHT);
-                        memcpy(printer->letterContentImg, LOAD_ASSET(CHARSET_LETTER_CONTENT_IMGS[arg]), CHARSET_LETTER_CONTENT_WIDTH * CHARSET_LETTER_CONTENT_HEIGHT);
-                        printer->letterContentPal = heap_malloc(0x200);
-                        memcpy(printer->letterContentPal, LOAD_ASSET(CHARSET_LETTER_CONTENT_PALS[arg]), 0x200);
+                        // The images only reach tile loads: drawn by name where the archive
+                        // has them as textures, else copied into the heap.
+                        printer->letterBackgroundImg = port_named_image(CHARSET_POSTCARD, "_img", NULL);
+                        if (printer->letterBackgroundImg == NULL) {
+                            printer->letterBackgroundImg = heap_malloc(((CHARSET_POSTCARD_WIDTH * CHARSET_POSTCARD_HEIGHT) / 2));
+                            memcpy(printer->letterBackgroundImg, LOAD_ASSET(CHARSET_POSTCARD), (CHARSET_POSTCARD_WIDTH * CHARSET_POSTCARD_HEIGHT) / 2);
+                        }
+                        printer->letterBackgroundPal = port_named_image(CHARSET_POSTCARD, "_img_tlut", NULL);
+                        if (printer->letterBackgroundPal == NULL) {
+                            printer->letterBackgroundPal = heap_malloc(0x20);
+                            memcpy(printer->letterBackgroundPal, LOAD_ASSET(CHARSET_POSTCARD_PAL), 0x20);
+                        }
+                        printer->letterContentImg = port_named_image(CHARSET_LETTER_CONTENT_IMGS[arg], "_img", NULL);
+                        if (printer->letterContentImg == NULL) {
+                            printer->letterContentImg = heap_malloc(CHARSET_LETTER_CONTENT_WIDTH * CHARSET_LETTER_CONTENT_HEIGHT);
+                            memcpy(printer->letterContentImg, LOAD_ASSET(CHARSET_LETTER_CONTENT_IMGS[arg]), CHARSET_LETTER_CONTENT_WIDTH * CHARSET_LETTER_CONTENT_HEIGHT);
+                        }
+                        printer->letterContentPal = port_named_image(CHARSET_LETTER_CONTENT_IMGS[arg], "_img_tlut", NULL);
+                        if (printer->letterContentPal == NULL) {
+                            printer->letterContentPal = heap_malloc(0x200);
+                            memcpy(printer->letterContentPal, LOAD_ASSET(CHARSET_LETTER_CONTENT_PALS[arg]), 0x200);
+                        }
                         break;
                     case MSG_STYLE_POPUP:
                     case MSG_STYLE_B:
@@ -2238,7 +2255,7 @@ void draw_number(s32 value, s32 x, s32 y, s32 charset, s32 palette, s32 opacity,
             gDPSetRenderMode(gMainGfxPos++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
             gDPSetCombineMode(gMainGfxPos++, PM_CC_07, PM_CC_07);
             gDPSetPrimColor(gMainGfxPos++, 0, 0, 40, 40, 40, 72);
-            draw_digit(raster + digits[i] * texSize, charset, digitPosX[i] + 2, y + 2);
+            draw_digit(port_msg_glyph_raster(raster + digits[i] * texSize), charset, digitPosX[i] + 2, y + 2);
             gDPPipeSync(gMainGfxPos++);
         }
     }
@@ -2252,11 +2269,11 @@ void draw_number(s32 value, s32 x, s32 y, s32 charset, s32 palette, s32 opacity,
         gDPSetPrimColor(gMainGfxPos++, 0, 0, 255, 255, 255, opacity);
     }
 
-    gDPLoadTLUT_pal16(gMainGfxPos++, 0, D_802F4560[palette]);
+    gDPLoadTLUT_pal16(gMainGfxPos++, 0, port_msg_glyph_palette(D_802F4560[palette]));
     for (i = 0; i < count; i++) {
         posX = digitPosX[i];
         if (posX > OTRGetDimensionFromLeftEdge(0) && posX < OTRGetDimensionFromRightEdge(0)) {
-            draw_digit(raster + digits[i] * texSize, charset, posX, y);
+            draw_digit(port_msg_glyph_raster(raster + digits[i] * texSize), charset, posX, y);
         }
     }
     gDPPipeSync(gMainGfxPos++);

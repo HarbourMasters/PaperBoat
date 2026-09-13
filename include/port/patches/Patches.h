@@ -23,6 +23,13 @@ void port_patch_animator_tree(struct StaticAnimatorNode** tree);
 // Map and battle textures O2R loader, replaces mdl_load_all_textures
 struct ModelNode;
 void port_load_map_textures(struct ModelNode* rootModel, const char* archiveName);
+IMG_PTR port_tex_named_level(IMG_PTR raster, const char* suffix);
+IMG_PTR port_mip_raster(IMG_PTR raster, IMG_PTR rasterPtr, s32 lod);
+IMG_PTR port_aux_raster(IMG_PTR raster, IMG_PTR auxPtr);
+IMG_PTR port_named_image(const char* asset, const char* suffix, void* fallback);
+
+// Sprite palettes carry asset paths, not colors (SpriteLoader.cpp)
+PAL_PTR port_sprite_palette_data(PAL_PTR palette);
 
 // Sprite shading (SpritePatches.c)
 void port_appendGfx_shading_palette(
@@ -31,6 +38,11 @@ void port_appendGfx_shading_palette(
     s32 shadowR, s32 shadowG, s32 shadowB,
     s32 highlightR, s32 highlightG, s32 highlightB,
     s32 ambientPower, s32 renderMode);
+
+// Message fonts (MessagePatches.c)
+void port_msg_font_loaded(s32 font);
+IMG_PTR port_msg_glyph_raster(IMG_PTR glyph);
+PAL_PTR port_msg_glyph_palette(PAL_PTR palette);
 
 // Background (BackgroundPatches.c)
 void port_load_map_bg(char* optAssetName);

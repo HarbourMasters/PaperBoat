@@ -28,55 +28,55 @@ player_sprite_index:
 # === Player Sprites (13 total) ===
 # player_sprite_0: size=0x9E8
 player_sprite_0:
-  { type: PM64:SPRITE, offset: 0x19E09A8, symbol: gPlayerSprite0 }
+  { type: PM64:SPRITE, offset: 0x19E09A8, symbol: gPlayerSprite0, raster_index: 0, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0 }
 
 # player_sprite_1: size=0x4F8
 player_sprite_1:
-  { type: PM64:SPRITE, offset: 0x19E1390, symbol: gPlayerSprite1 }
+  { type: PM64:SPRITE, offset: 0x19E1390, symbol: gPlayerSprite1, raster_index: 1, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0 }
 
 # player_sprite_2: size=0xAA8
 player_sprite_2:
-  { type: PM64:SPRITE, offset: 0x19E1888, symbol: gPlayerSprite2 }
+  { type: PM64:SPRITE, offset: 0x19E1888, symbol: gPlayerSprite2, raster_index: 2, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0 }
 
 # player_sprite_3: size=0xAB0
 player_sprite_3:
-  { type: PM64:SPRITE, offset: 0x19E2330, symbol: gPlayerSprite3 }
+  { type: PM64:SPRITE, offset: 0x19E2330, symbol: gPlayerSprite3, raster_index: 3, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0 }
 
 # player_sprite_4: size=0x428
 player_sprite_4:
-  { type: PM64:SPRITE, offset: 0x19E2DE0, symbol: gPlayerSprite4 }
+  { type: PM64:SPRITE, offset: 0x19E2DE0, symbol: gPlayerSprite4, raster_index: 4, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0 }
 
 # player_sprite_5: size=0x9A0
 player_sprite_5:
-  { type: PM64:SPRITE, offset: 0x19E3208, symbol: gPlayerSprite5 }
+  { type: PM64:SPRITE, offset: 0x19E3208, symbol: gPlayerSprite5, raster_index: 5, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0 }
 
 # player_sprite_6: size=0x430
 player_sprite_6:
-  { type: PM64:SPRITE, offset: 0x19E3BA8, symbol: gPlayerSprite6 }
+  { type: PM64:SPRITE, offset: 0x19E3BA8, symbol: gPlayerSprite6, raster_index: 6, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0 }
 
 # player_sprite_7: size=0x850
 player_sprite_7:
-  { type: PM64:SPRITE, offset: 0x19E3FD8, symbol: gPlayerSprite7 }
+  { type: PM64:SPRITE, offset: 0x19E3FD8, symbol: gPlayerSprite7, raster_index: 7, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0 }
 
 # player_sprite_8: size=0x3B8
 player_sprite_8:
-  { type: PM64:SPRITE, offset: 0x19E4828, symbol: gPlayerSprite8 }
+  { type: PM64:SPRITE, offset: 0x19E4828, symbol: gPlayerSprite8, raster_index: 8, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0 }
 
 # player_sprite_9: size=0xB78
 player_sprite_9:
-  { type: PM64:SPRITE, offset: 0x19E4BE0, symbol: gPlayerSprite9 }
+  { type: PM64:SPRITE, offset: 0x19E4BE0, symbol: gPlayerSprite9, raster_index: 9, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0 }
 
 # player_sprite_10: size=0x1F8
 player_sprite_10:
-  { type: PM64:SPRITE, offset: 0x19E5758, symbol: gPlayerSprite10 }
+  { type: PM64:SPRITE, offset: 0x19E5758, symbol: gPlayerSprite10, raster_index: 10, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0 }
 
 # player_sprite_11: size=0x950
 player_sprite_11:
-  { type: PM64:SPRITE, offset: 0x19E5950, symbol: gPlayerSprite11 }
+  { type: PM64:SPRITE, offset: 0x19E5950, symbol: gPlayerSprite11, raster_index: 11, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0 }
 
 # player_sprite_12: size=0x518
 player_sprite_12:
-  { type: PM64:SPRITE, offset: 0x19E62A0, symbol: gPlayerSprite12 }
+  { type: PM64:SPRITE, offset: 0x19E62A0, symbol: gPlayerSprite12, raster_index: 12, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0 }
 
 # === NPC Sprite Index ===
 npc_sprite_index:

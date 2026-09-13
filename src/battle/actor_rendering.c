@@ -3,6 +3,7 @@
 #include "effects.h"
 #include "battle/battle.h"
 #include "sprite/npc/BattleWatt.h"
+#include "port/patches/Patches.h"
 
 enum StandardPalettes {
     STANDARD_PAL_POISON     = 1,
@@ -2049,7 +2050,7 @@ void func_unkA_draw_npc(ActorPart* part, s32 yaw, Matrix4f mtx) {
         }
 
         for (i = 0; i < decorations->originalPalettesCount; i++) {
-            src = decorations->originalPalettesList[i];
+            src = port_sprite_palette_data(decorations->originalPalettesList[i]);
             dest = decorations->copiedPalettes[0][i];
             if (src != nullptr) {
                 for (j = 0; j < ARRAY_COUNT(decorations->copiedPalettes[0][i]); j++) {
@@ -2119,7 +2120,7 @@ void func_unkA_draw_player(ActorPart* part, s32 yaw, Matrix4f mtx) {
         }
 
         for (i = 0; i < decorations->originalPalettesCount; i++) {
-            src = decorations->originalPalettesList[i];
+            src = port_sprite_palette_data(decorations->originalPalettesList[i]);
             dest = decorations->copiedPalettes[0][i];
             if (decorations->originalPalettesList[i] != nullptr) {
                 for (j = 0; j < ARRAY_COUNT(decorations->copiedPalettes[0][i]); j++) {
@@ -2201,7 +2202,7 @@ void render_with_sleep_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Matri
     }
 
     for (i = 0; i < decorations->originalPalettesCount; i++) {
-        PAL_PTR palIn = decorations->originalPalettesList[i];
+        PAL_PTR palIn = port_sprite_palette_data(decorations->originalPalettesList[i]);
         PAL_PTR palOut = decorations->copiedPalettes[0][i];
         decorations->adjustedPalettes[i] = palOut;
         if (palIn != nullptr) {
@@ -2259,7 +2260,7 @@ void render_with_static_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Matr
         }
 
         for (i = 0; i < decorations->originalPalettesCount; i++) {
-            palIn = decorations->originalPalettesList[i];
+            palIn = port_sprite_palette_data(decorations->originalPalettesList[i]);
             palOut = decorations->copiedPalettes[0][i];
             if (palIn != nullptr) {
                 for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -2291,7 +2292,7 @@ void render_with_static_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Matr
     switch (paletteType) {
         case STATIC_DEFAULT: // no change
             for (i = 0; i < decorations->spriteColorVariations; i++) {
-                palIn = decorations->originalPalettesList[i];
+                palIn = port_sprite_palette_data(decorations->originalPalettesList[i]);
                 palOut = decorations->copiedPalettes[0][i];
                 if (palIn != nullptr) {
                     for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -2303,7 +2304,7 @@ void render_with_static_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Matr
         case STATIC_BRIGHT: // bright yellow
             for (i = 0; i < decorations->spriteColorVariations; i++) {
                 staticPalIdx = decorations->spriteColorVariations * STANDARD_PAL_STATIC + i;
-                palIn = decorations->originalPalettesList[staticPalIdx];
+                palIn = port_sprite_palette_data(decorations->originalPalettesList[staticPalIdx]);
                 palOut = decorations->copiedPalettes[0][i];
                 if (palIn != nullptr) {
                     for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -2314,7 +2315,7 @@ void render_with_static_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Matr
             break;
         case STATIC_DARK: // darkened via code
             for (i = 0; i < decorations->spriteColorVariations; i++) {
-                palIn = decorations->originalPalettesList[i];
+                palIn = port_sprite_palette_data(decorations->originalPalettesList[i]);
                 palOut = decorations->copiedPalettes[0][i];
                 if (palIn != nullptr) {
                     for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -2378,7 +2379,7 @@ void render_with_fear_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Matrix
     }
 
     for (i = 0; i < decorations->originalPalettesCount; i++) {
-        palIn = decorations->originalPalettesList[i];
+        palIn = port_sprite_palette_data(decorations->originalPalettesList[i]);
         palOut = decorations->copiedPalettes[0][i];
         decorations->adjustedPalettes[i] = palOut;
         if (palIn != nullptr) {
@@ -2448,7 +2449,7 @@ void render_with_poison_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Matr
     }
 
     for (i = 0; i < decorations->originalPalettesCount; i++) {
-        palIn = decorations->originalPalettesList[i];
+        palIn = port_sprite_palette_data(decorations->originalPalettesList[i]);
         palOut = decorations->copiedPalettes[0][i];
         if (palIn != nullptr) {
             for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -2457,7 +2458,7 @@ void render_with_poison_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Matr
         }
     }
     for (i = 0; i < decorations->spriteColorVariations; i++) {
-        palIn = decorations->originalPalettesList[decorations->spriteColorVariations + i];
+        palIn = port_sprite_palette_data(decorations->originalPalettesList[decorations->spriteColorVariations + i]);
         palOut = decorations->copiedPalettes[0][i];
         if (palIn != nullptr) {
             for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -2505,7 +2506,7 @@ void render_with_paralyze_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Ma
     }
 
     for (i = 0; i < decorations->originalPalettesCount; i++) {
-        palIn = decorations->originalPalettesList[i];
+        palIn = port_sprite_palette_data(decorations->originalPalettesList[i]);
         palOut = decorations->copiedPalettes[0][i];
         if (palIn != nullptr) {
             for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -2606,7 +2607,7 @@ void render_with_berserk_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Mat
 
     // adjust each palette
     for (i = 0; i < decorations->originalPalettesCount; i++) {
-        PAL_PTR palIn = decorations->originalPalettesList[i];
+        PAL_PTR palIn = port_sprite_palette_data(decorations->originalPalettesList[i]);
         PAL_PTR palOut = decorations->copiedPalettes[0][i];
         if (palIn != nullptr) {
             for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -2663,7 +2664,7 @@ void render_with_watt_idle_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, M
         }
 
         for (i = 0; i < decorations->originalPalettesCount; i++) {
-            palIn = decorations->originalPalettesList[i];
+            palIn = port_sprite_palette_data(decorations->originalPalettesList[i]);
             palOut = decorations->copiedPalettes[0][i];
             if (palIn != nullptr) {
                 for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -2697,7 +2698,7 @@ void render_with_watt_idle_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, M
         case WATT_DEFAULT:
             for (i = 0; i < decorations->spriteColorVariations; i++) {
                 // use watt's base palettes
-                palIn = decorations->originalPalettesList[i];
+                palIn = port_sprite_palette_data(decorations->originalPalettesList[i]);
                 palOut = decorations->copiedPalettes[0][i];
                 if (palIn != nullptr) {
                     for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -2710,7 +2711,7 @@ void render_with_watt_idle_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, M
             for (i = 0; i < decorations->spriteColorVariations; i++) {
                 // use watt's Brightest palettes
                 palIdx = decorations->spriteColorVariations * SPR_PAL_BattleWatt_Brightest + i;
-                palIn = decorations->originalPalettesList[palIdx];
+                palIn = port_sprite_palette_data(decorations->originalPalettesList[palIdx]);
                 palOut = decorations->copiedPalettes[0][i];
                 if (palIn != nullptr) {
                     for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -2723,7 +2724,7 @@ void render_with_watt_idle_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, M
             for (i = 0; i < decorations->spriteColorVariations; i++) {
                 // use watt's Brighter palettes
                 palIdx = decorations->spriteColorVariations * SPR_PAL_BattleWatt_Brighter + i;
-                palIn = decorations->originalPalettesList[palIdx];
+                palIn = port_sprite_palette_data(decorations->originalPalettesList[palIdx]);
                 palOut = decorations->copiedPalettes[0][i];
                 if (palIn != nullptr) {
                     for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -2775,7 +2776,7 @@ void render_with_watt_attack_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw,
         }
 
         for (i = 0; i < decorations->originalPalettesCount; i++) {
-            palIn = decorations->originalPalettesList[i];
+            palIn = port_sprite_palette_data(decorations->originalPalettesList[i]);
             palOut = decorations->copiedPalettes[0][i];
             if (palIn != nullptr) {
                 for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -2808,7 +2809,7 @@ void render_with_watt_attack_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw,
     switch (brightness) {
         case WATT_DEFAULT:
             for (i = 0; i < decorations->spriteColorVariations; i++) {
-                palIn = decorations->originalPalettesList[i];
+                palIn = port_sprite_palette_data(decorations->originalPalettesList[i]);
                 palOut = decorations->copiedPalettes[0][i];
                 if (palIn != nullptr) {
                     for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -2821,7 +2822,7 @@ void render_with_watt_attack_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw,
             for (i = 0; i < decorations->spriteColorVariations; i++) {
                 // use watt's Brightest palettes
                 palIdx = decorations->spriteColorVariations * SPR_PAL_BattleWatt_Brightest + i;
-                palIn = decorations->originalPalettesList[palIdx];
+                palIn = port_sprite_palette_data(decorations->originalPalettesList[palIdx]);
                 palOut = decorations->copiedPalettes[0][i];
                 if (palIn != nullptr) {
                     for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -2834,7 +2835,7 @@ void render_with_watt_attack_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw,
             for (i = 0; i < decorations->spriteColorVariations; i++) {
                 // use watt's Brighter palettes
                 palIdx = decorations->spriteColorVariations * SPR_PAL_BattleWatt_Brighter + i;
-                palIn = decorations->originalPalettesList[palIdx];
+                palIn = port_sprite_palette_data(decorations->originalPalettesList[palIdx]);
                 palOut = decorations->copiedPalettes[0][i];
                 if (palIn != nullptr) {
                     for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -2899,7 +2900,7 @@ void render_with_player_debuff_palettes(b32 isNpcSprite, ActorPart* part, s32 ya
         }
 
         for (i = 0; i < decorations->originalPalettesCount; i++) {
-            color2 = decorations->originalPalettesList[i];
+            color2 = port_sprite_palette_data(decorations->originalPalettesList[i]);
             color1 = decorations->copiedPalettes[0][i];
             decorations->adjustedPalettes[i] = color1;
             if (color2 != nullptr) {
@@ -2911,7 +2912,7 @@ void render_with_player_debuff_palettes(b32 isNpcSprite, ActorPart* part, s32 ya
 
         if (isPoison) {
             for (i = 0; i < decorations->spriteColorVariations; i++) {
-                color2 = decorations->originalPalettesList[decorations->spriteColorVariations + i];
+                color2 = port_sprite_palette_data(decorations->originalPalettesList[decorations->spriteColorVariations + i]);
                 palOut = decorations->copiedPalettes[0][i];
                 for (j = 0; j < SPR_PAL_SIZE; j++) {
                     *palOut++ = *color2++;
@@ -2938,11 +2939,11 @@ void render_with_player_debuff_palettes(b32 isNpcSprite, ActorPart* part, s32 ya
             blendAlpha = decorations->palBlendAlpha / 100;
             for (i = 0; i < decorations->spriteColorVariations; i++) {
                 if (!isPoison) {
-                    color2 = decorations->originalPalettesList[i];
+                    color2 = port_sprite_palette_data(decorations->originalPalettesList[i]);
                 } else {
-                    color2 = decorations->originalPalettesList[decorations->spriteColorVariations * STANDARD_PAL_POISON + i];
+                    color2 = port_sprite_palette_data(decorations->originalPalettesList[decorations->spriteColorVariations * STANDARD_PAL_POISON + i]);
                 }
-                color1 = decorations->originalPalettesList[decorations->spriteColorVariations * STANDARD_PAL_DIZZY + i];
+                color1 = port_sprite_palette_data(decorations->originalPalettesList[decorations->spriteColorVariations * STANDARD_PAL_DIZZY + i]);
                 palOut = decorations->copiedPalettes[0][i];
 
                 for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -3019,7 +3020,7 @@ void render_with_pal_blending(b32 isNpcSprite, ActorPart* part, s32 yaw, b32 has
         }
 
         for (i = 0; i < decorations->originalPalettesCount; i++) {
-            color2 = decorations->originalPalettesList[i];
+            color2 = port_sprite_palette_data(decorations->originalPalettesList[i]);
             color1 = decorations->copiedPalettes[0][i];
             decorations->adjustedPalettes[i] = color1;
             if (color2 != nullptr) {
@@ -3064,8 +3065,8 @@ void render_with_pal_blending(b32 isNpcSprite, ActorPart* part, s32 yaw, b32 has
             }
             blendAlpha = decorations->palBlendAlpha / 100;
             // blend two palettes
-            color2 = decorations->originalPalettesList[decorations->blendPalA];
-            color1 = decorations->originalPalettesList[decorations->blendPalB];
+            color2 = port_sprite_palette_data(decorations->originalPalettesList[decorations->blendPalA]);
+            color1 = port_sprite_palette_data(decorations->originalPalettesList[decorations->blendPalB]);
             outColor = decorations->adjustedPalettes[0] = decorations->copiedPalettes[0][0];
 
             for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -3115,8 +3116,8 @@ void render_with_pal_blending(b32 isNpcSprite, ActorPart* part, s32 yaw, b32 has
             }
             blendAlpha = decorations->palBlendAlpha / 100;
             // blend two palettes
-            color2 = decorations->originalPalettesList[decorations->blendPalB];
-            color1 = decorations->originalPalettesList[decorations->blendPalA];
+            color2 = port_sprite_palette_data(decorations->originalPalettesList[decorations->blendPalB]);
+            color1 = port_sprite_palette_data(decorations->originalPalettesList[decorations->blendPalA]);
             outColor = decorations->copiedPalettes[0][0];
             decorations->adjustedPalettes[0] = outColor;
 
@@ -3194,7 +3195,7 @@ void render_with_palset_blending(b32 isNpcSprite, ActorPart* part, s32 yaw, Matr
         }
 
          for (i = 0; i < decorations->originalPalettesCount; i++) {
-            color2 = decorations->originalPalettesList[i];
+            color2 = port_sprite_palette_data(decorations->originalPalettesList[i]);
             color1 = decorations->copiedPalettes[0][i];
             decorations->adjustedPalettes[i] = color1;
             if (color2 != nullptr) {
@@ -3233,8 +3234,8 @@ void render_with_palset_blending(b32 isNpcSprite, ActorPart* part, s32 yaw, Matr
             blendAlpha = decorations->palBlendAlpha / 100;
             // blend all palettes from two palette sets
             for (i = 0; i < decorations->spriteColorVariations; i++) {
-                color2 = decorations->originalPalettesList[decorations->blendPalA * decorations->spriteColorVariations + i];
-                color1 = decorations->originalPalettesList[decorations->blendPalB * decorations->spriteColorVariations + i];
+                color2 = port_sprite_palette_data(decorations->originalPalettesList[decorations->blendPalA * decorations->spriteColorVariations + i]);
+                color1 = port_sprite_palette_data(decorations->originalPalettesList[decorations->blendPalB * decorations->spriteColorVariations + i]);
                 outColor = decorations->copiedPalettes[0][i];
                 decorations->adjustedPalettes[i] = outColor;
 
@@ -3285,8 +3286,8 @@ void render_with_palset_blending(b32 isNpcSprite, ActorPart* part, s32 yaw, Matr
             blendAlpha = decorations->palBlendAlpha / 100;
             // blend all palettes from two palette sets
             for (i = 0; i < decorations->spriteColorVariations; i++) {
-                color2 = decorations->originalPalettesList[decorations->blendPalA * decorations->spriteColorVariations + i];
-                color1 = decorations->originalPalettesList[decorations->blendPalB * decorations->spriteColorVariations + i];
+                color2 = port_sprite_palette_data(decorations->originalPalettesList[decorations->blendPalA * decorations->spriteColorVariations + i]);
+                color1 = port_sprite_palette_data(decorations->originalPalettesList[decorations->blendPalB * decorations->spriteColorVariations + i]);
                 outColor = decorations->copiedPalettes[0][i];
                 decorations->adjustedPalettes[i] = outColor;
 

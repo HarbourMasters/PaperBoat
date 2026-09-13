@@ -2,14 +2,47 @@
 #include <cstdio>
 #include <cstring>
 #include <libultraship.h>
+#include <ship/resource/archive/ArchiveManager.h>
 #include <ship/resource/type/Blob.h>
 #include <ship/utils/binarytools/endianness.h>
 #include <spdlog/spdlog.h>
 
 #include "SpriteLoader.h"
 
+#include <string>
+#include <unordered_set>
+
 // Forward declaration of ResourceGetDataByName from Engine
 extern "C" void* ResourceGetDataByName(const char* name);
+
+static const char* SpriteImagePath(const char* assetPath, const char* kind, int index) {
+    static std::unordered_set<std::string> sPaths; // element addresses are stable across rehash
+    std::string path = std::string(assetPath) + "_" + kind + "_" + std::to_string(index);
+    auto it = sPaths.find(path);
+    if (it != sPaths.end()) {
+        return it->c_str();
+    }
+    auto archiveMgr = Ship::Context::GetRawInstance()->GetResourceManager()->GetArchiveManager();
+    // assetPath carries the __OTR__ signature; the archive index does not
+    if (archiveMgr == nullptr || !archiveMgr->HasFile(path.substr(7))) {
+        return nullptr;
+    }
+    return sPaths.insert(path).first->c_str();
+}
+
+extern "C" uint16_t* port_sprite_palette_data(uint16_t* palette) {
+    if (palette == nullptr || palette == reinterpret_cast<uint16_t*>(-1)) {
+        return palette;
+    }
+    const char* path = reinterpret_cast<const char*>(palette);
+    if (std::strncmp(path, "__OTR__", 7) != 0) {
+        return palette;
+    }
+    if (void* data = ResourceGetDataByName(path)) {
+        return reinterpret_cast<uint16_t*>(data);
+    }
+    return palette;
+}
 
 // Forward declaration of N64 sprite converter
 static size_t ConvertN64SpriteToNative(
@@ -484,6 +517,11 @@ static size_t ConvertN64SpriteToNative(
         // (Player sprites also need this - images are embedded in sprite data)
         uint32_t imgOffset = n64Raster->imageOffset;
         nativeRaster->image = rawDataPtr + imgOffset;
+        if (assetPath != nullptr) {
+            if (const char* path = SpriteImagePath(assetPath, "raster", i)) {
+                nativeRaster->image = const_cast<char*>(path);
+            }
+        }
 
         nativeRaster->width = n64Raster->width;
         nativeRaster->height = n64Raster->height;
@@ -499,6 +537,11 @@ static size_t ConvertN64SpriteToNative(
     for (int i = 0; i < numPalettes; i++) {
         uint32_t offset = n64PaletteOffsets[i];
         paletteArray[i] = rawDataPtr + offset;
+        if (assetPath != nullptr) {
+            if (const char* path = SpriteImagePath(assetPath, "pal", i)) {
+                paletteArray[i] = const_cast<char*>(path);
+            }
+        }
     }
     paletteArray[numPalettes] = reinterpret_cast<void*>(-1); // PTR_LIST_END
 
@@ -653,6 +696,12 @@ Sprite_GetPlayerRasterLoadDescriptors(SpriteS32 spriteIdx, SpriteS32 startIndex,
     }
 
     return 1;
+}
+
+void* Sprite_GetPlayerRasterPath(SpriteS32 spriteIdx, SpriteS32 rasterIndex) {
+    char assetPath[64];
+    snprintf(assetPath, sizeof(assetPath), "%s%d", PLAYER_SPRITE_ASSET_PREFIX, spriteIdx);
+    return const_cast<char*>(SpriteImagePath(assetPath, "raster", rasterIndex));
 }
 
 SpriteS32 Sprite_LoadPlayerRaster(SpriteS32 rasterOffset, void* destBuffer, SpriteS32 size) {

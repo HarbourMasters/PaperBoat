@@ -5,6 +5,7 @@
 #include "sprite.h"
 #include "world/partners.h"
 #include "sprite/npc/WorldWatt.h"
+#include "port/patches/Patches.h"
 
 s16 gNpcCount;
 static NpcList gWorldNpcList;
@@ -1357,7 +1358,7 @@ void npc_render_with_watt_idle_palettes(Npc* npc, s32 arg1, Matrix4f mtx) {
         npc->spriteColorVariations = spr_get_npc_color_variations(npc->curAnim >> 16);
         for (i = 0; i < npc->originalPalettesCount; i++) {
             dst = npc->copiedPalettes[i];
-            src = npc->originalPalettesList[i];
+            src = port_sprite_palette_data(npc->originalPalettesList[i]);
             if (src != nullptr) {
                 for (j = 0; j < SPR_PAL_SIZE; j++) {
                     *dst++ = *src++;
@@ -1387,7 +1388,7 @@ void npc_render_with_watt_idle_palettes(Npc* npc, s32 arg1, Matrix4f mtx) {
         case WATT_DEFAULT:
             for (i = 0; i < npc->spriteColorVariations; i++) {
                 dst = npc->copiedPalettes[i];
-                src = npc->originalPalettesList[i];
+                src = port_sprite_palette_data(npc->originalPalettesList[i]);
                 if (src != nullptr) {
                     for (j = 0; j < SPR_PAL_SIZE; j++) {
                         *dst++ = *src++;
@@ -1399,7 +1400,7 @@ void npc_render_with_watt_idle_palettes(Npc* npc, s32 arg1, Matrix4f mtx) {
             for (i = 0; i < npc->spriteColorVariations; i++) {
                 // use watt's Brightest palettes
                 dst = npc->copiedPalettes[i];
-                src = npc->originalPalettesList[npc->spriteColorVariations * SPR_PAL_WorldWatt_Brightest + i];
+                src = port_sprite_palette_data(npc->originalPalettesList[npc->spriteColorVariations * SPR_PAL_WorldWatt_Brightest + i]);
                 if (src != nullptr) {
                     for (j = 0; j < SPR_PAL_SIZE; j++) {
                         *dst++ = *src++;
@@ -1411,7 +1412,7 @@ void npc_render_with_watt_idle_palettes(Npc* npc, s32 arg1, Matrix4f mtx) {
             for (i = 0; i < npc->spriteColorVariations; i++) {
                 // use watt's Brighter palettes
                 dst = npc->copiedPalettes[i];
-                src = npc->originalPalettesList[npc->spriteColorVariations * SPR_PAL_WorldWatt_Brighter + i];
+                src = port_sprite_palette_data(npc->originalPalettesList[npc->spriteColorVariations * SPR_PAL_WorldWatt_Brighter + i]);
                 if (src != nullptr) {
                     for (j = 0; j < SPR_PAL_SIZE; j++) {
                         *dst++ = *src++;
@@ -1474,7 +1475,7 @@ void npc_render_with_single_pal_blending(Npc* npc, s32 yaw, b32 hasDifferentInte
 
         for (i = 0; i < npc->originalPalettesCount; i++) {
             color1 = npc->copiedPalettes[i];
-            color2 = npc->originalPalettesList[i];
+            color2 = port_sprite_palette_data(npc->originalPalettesList[i]);
             npc->adjustedPalettes[i] = color1;
             if (color2 != nullptr) {
                 for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -1515,8 +1516,8 @@ void npc_render_with_single_pal_blending(Npc* npc, s32 yaw, b32 hasDifferentInte
             blendAlpha = npc->palBlendAlpha / 100;
             // blend two palettes
             outColor = npc->copiedPalettes[0];
-            color2 = npc->originalPalettesList[npc->blendPalA];
-            color1 = npc->originalPalettesList[npc->blendPalB];
+            color2 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalA]);
+            color1 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalB]);
             npc->adjustedPalettes[0] = outColor;
 
             for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -1549,8 +1550,8 @@ void npc_render_with_single_pal_blending(Npc* npc, s32 yaw, b32 hasDifferentInte
             blendAlpha = npc->palBlendAlpha / 100;
             // blend two palettes
             outColor = npc->copiedPalettes[0];
-            color2 = npc->originalPalettesList[npc->blendPalB];
-            color1 = npc->originalPalettesList[npc->blendPalA];
+            color2 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalB]);
+            color1 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalA]);
             npc->adjustedPalettes[0] = outColor;
 
             for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -1610,7 +1611,7 @@ void npc_render_with_double_pal_blending(Npc* npc, s32 yaw, Matrix4f mtx) {
 
         for (i = 0; i < npc->originalPalettesCount; i++) {
             color1 = npc->copiedPalettes[i];
-            color2 = npc->originalPalettesList[i];
+            color2 = port_sprite_palette_data(npc->originalPalettesList[i]);
             npc->adjustedPalettes[i] = color1;
             if (color2 != nullptr) {
                 for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -1644,8 +1645,8 @@ void npc_render_with_double_pal_blending(Npc* npc, s32 yaw, Matrix4f mtx) {
 
             // blend first two palettes
             outColor = npc->copiedPalettes[0];
-            color2 = npc->originalPalettesList[npc->blendPalA];
-            color1 = npc->originalPalettesList[npc->blendPalB];
+            color2 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalA]);
+            color1 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalB]);
             npc->adjustedPalettes[0] = outColor;
 
             for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -1654,8 +1655,8 @@ void npc_render_with_double_pal_blending(Npc* npc, s32 yaw, Matrix4f mtx) {
 
             // blend next palettes
             outColor = npc->copiedPalettes[3];
-            color2 = npc->originalPalettesList[npc->blendPalC];
-            color1 = npc->originalPalettesList[npc->blendPalD];
+            color2 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalC]);
+            color1 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalD]);
             npc->adjustedPalettes[3] = outColor;
 
             for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -1689,8 +1690,8 @@ void npc_render_with_double_pal_blending(Npc* npc, s32 yaw, Matrix4f mtx) {
 
             // blend first two palettes
             outColor = npc->copiedPalettes[0];
-            color2 = npc->originalPalettesList[npc->blendPalB];
-            color1 = npc->originalPalettesList[npc->blendPalA];
+            color2 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalB]);
+            color1 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalA]);
             npc->adjustedPalettes[0] = outColor;
 
             for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -1699,8 +1700,8 @@ void npc_render_with_double_pal_blending(Npc* npc, s32 yaw, Matrix4f mtx) {
 
             // blend next palettes
             outColor = npc->copiedPalettes[1]; /// @bug? should this be index 3?
-            color2 = npc->originalPalettesList[npc->blendPalD];
-            color1 = npc->originalPalettesList[npc->blendPalC];
+            color2 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalD]);
+            color1 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalC]);
             npc->adjustedPalettes[3] = npc->copiedPalettes[3];
 
             for (j = 0; j < SPR_PAL_SIZE; j++) {

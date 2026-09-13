@@ -16,6 +16,11 @@ size_t ResourceGetSizeByName(const char* name);
 uint16_t ResourceGetTexWidthByName(const char* name);
 uint16_t ResourceGetTexHeightByName(const char* name);
 uint8_t GameEngine_OTRSigCheck(const char* data);
+// Vanilla bytes regardless of alt assets; for data the CPU reads or copies.
+void* GameEngine_GetDataExact(const char* name);
+size_t GameEngine_GetSizeExact(const char* name);
+uint16_t GameEngine_GetTexWidthExact(const char* name);
+uint16_t GameEngine_GetTexHeightExact(const char* name);
 
 // --- Widescreen helpers ---
 float GameEngine_GetAspectRatio(void);
@@ -35,10 +40,11 @@ uint32_t OTRGetGameRenderHeight(void);
 }
 #endif
 
-#define LOAD_ASSET(path) (path == NULL ? NULL : (GameEngine_OTRSigCheck((const char*) path) ? ResourceGetDataByName((const char*) path) : path))
-#define LOAD_ASSET_RAW(path) ResourceGetDataByName((const char*) path)
-#define LOAD_ASSET_TEX_WIDTH(path) (GameEngine_OTRSigCheck((const char*) path) ? ResourceGetTexWidthByName((const char*) path) : 0)
-#define LOAD_ASSET_TEX_HEIGHT(path) (GameEngine_OTRSigCheck((const char*) path) ? ResourceGetTexHeightByName((const char*) path) : 0)
+#define LOAD_ASSET(path) (path == NULL ? NULL : (GameEngine_OTRSigCheck((const char*) path) ? GameEngine_GetDataExact((const char*) path) : path))
+#define LOAD_ASSET_RAW(path) GameEngine_GetDataExact((const char*) path)
+#define LOAD_ASSET_GFX(path) (path)
+#define LOAD_ASSET_TEX_WIDTH(path) (GameEngine_OTRSigCheck((const char*) path) ? GameEngine_GetTexWidthExact((const char*) path) : 0)
+#define LOAD_ASSET_TEX_HEIGHT(path) (GameEngine_OTRSigCheck((const char*) path) ? GameEngine_GetTexHeightExact((const char*) path) : 0)
 
 #ifdef __cplusplus
 #include <vector>

@@ -61,7 +61,6 @@ static void port_build_texture_header(TextureHeader* h, const MapTexMeta* m) {
     h->auxCombineSubType = m->auxCombineSubType;
 }
 
-// Resolve a named texture resource to its raw pixel/palette pointer.
 static void* port_get_tex_resource(const char* archive, const char* name, const char* suffix) {
     char path[128];
 
@@ -70,75 +69,70 @@ static void* port_get_tex_resource(const char* archive, const char* name, const 
     } else {
         snprintf(path, sizeof(path), "__OTR__textures/%s/%s", archive, name);
     }
-    return ResourceGetDataByName(path);
+    return GameEngine_GetDataExact(path);
 }
 
-static size_t port_get_tex_resource_size(const char* archive, const char* name, const char* suffix) {
-    char path[128];
+typedef struct NamedLevel {
+    const char* base;
+    const char* suffix;
+    char* path;
+} NamedLevel;
 
-    if (suffix != NULL) {
-        snprintf(path, sizeof(path), "__OTR__textures/%s/%s%s", archive, name, suffix);
-    } else {
-        snprintf(path, sizeof(path), "__OTR__textures/%s/%s", archive, name);
-    }
-    return ResourceGetSizeByName(path);
-}
+static NamedLevel sNamedLevels[512];
+static s32 sNamedLevelCount = 0;
 
-static IMG_PTR port_resolve_main_raster(const char* archive, const char* name, u8 extraTiles) {
-    void* base;
-    size_t baseSize;
-    size_t total;
-    void* mm[16];
-    size_t mmSize[16];
-    s32 mmCount;
-    char suffix[8];
-    u8* buf;
-    size_t off;
+IMG_PTR port_tex_named_level(IMG_PTR raster, const char* suffix) {
+    const char* base = (const char*) raster;
+    size_t len;
     s32 i;
 
-    base = port_get_tex_resource(archive, name, NULL);
-
-    if (extraTiles != EXTRA_TILE_MIPMAPS || base == NULL) {
-        return (IMG_PTR) base;
-    }
-
-    // Collect consecutive mip-level resources.
-    mmCount = 0;
-    total = 0;
-    baseSize = port_get_tex_resource_size(archive, name, NULL);
-    total += baseSize;
-    for (i = 1; i < (s32) ARRAY_COUNT(mm); i++) {
-        void* p;
-        snprintf(suffix, sizeof(suffix), "_mm%d", i);
-        p = port_get_tex_resource(archive, name, suffix);
-        if (p == NULL) {
-            break;
+    for (i = 0; i < sNamedLevelCount; i++) {
+        if (sNamedLevels[i].base == base && strcmp(sNamedLevels[i].suffix, suffix) == 0) {
+            return (IMG_PTR) sNamedLevels[i].path;
         }
-        mm[mmCount] = p;
-        mmSize[mmCount] = port_get_tex_resource_size(archive, name, suffix);
-        total += mmSize[mmCount];
-        mmCount++;
     }
 
-    if (mmCount == 0) {
-        // No separate mip resources -> base is already the whole (single-LOD) raster.
-        return (IMG_PTR) base;
+    if (sNamedLevelCount >= (s32) ARRAY_COUNT(sNamedLevels)) {
+        GameEngine_LogInfo("port_tex_named_level: table full for %s%s", base, suffix);
+        return NULL;
     }
 
-    // Concatenate base + mip levels into a contiguous buffer (matches the blob
-    // layout make_texture_gfx expects).
-    buf = (u8*) malloc(total);
-    memcpy(buf, base, baseSize);
-    off = baseSize;
-    for (i = 0; i < mmCount; i++) {
-        memcpy(buf + off, mm[i], mmSize[i]);
-        off += mmSize[i];
-    }
-    return (IMG_PTR) buf;
+    len = strlen(base) + strlen(suffix) + 1;
+    sNamedLevels[sNamedLevelCount].base = base;
+    sNamedLevels[sNamedLevelCount].suffix = suffix;
+    sNamedLevels[sNamedLevelCount].path = (char*) malloc(len);
+    snprintf(sNamedLevels[sNamedLevelCount].path, len, "%s%s", base, suffix);
+    return (IMG_PTR) sNamedLevels[sNamedLevelCount++].path;
 }
 
-static b32 port_class_uses_otr_path(u8 extraTiles) {
-    return extraTiles == EXTRA_TILE_NONE || extraTiles == EXTRA_TILE_AUX_INDEPENDENT;
+IMG_PTR port_named_image(const char* asset, const char* suffix, void* fallback) {
+    IMG_PTR path = port_tex_named_level((IMG_PTR) asset, suffix);
+    if (path != NULL && GameEngine_GetDataExact((const char*) path) != NULL) {
+        return path;
+    }
+    return (IMG_PTR) fallback;
+}
+
+IMG_PTR port_mip_raster(IMG_PTR raster, IMG_PTR rasterPtr, s32 lod) {
+    static const char* const suffixes[] = { "", "_mm1", "_mm2", "_mm3", "_mm4", "_mm5", "_mm6", "_mm7" };
+
+    if (!GameEngine_OTRSigCheck((const char*) raster)) {
+        return rasterPtr;
+    }
+    if (lod == 0) {
+        return raster;
+    }
+    if (lod >= (s32) ARRAY_COUNT(suffixes)) {
+        return NULL;
+    }
+    return port_tex_named_level(raster, suffixes[lod]);
+}
+
+IMG_PTR port_aux_raster(IMG_PTR raster, IMG_PTR auxPtr) {
+    if (!GameEngine_OTRSigCheck((const char*) raster)) {
+        return auxPtr;
+    }
+    return port_tex_named_level(raster, "_aux");
 }
 
 // Load one texture (resolved via MapTexMeta index `metaIdx`) into
@@ -160,28 +154,25 @@ static void port_load_one_texture(const char* archive, const MapTexMeta* meta, s
     mainIsCI = (m->mainFmt == G_IM_FMT_CI);
     auxIsCI = (m->auxFmt == G_IM_FMT_CI);
 
-    if (port_class_uses_otr_path(m->extraTiles)) {
-        raster = (IMG_PTR) m->otrPath;
-    } else {
-        raster = port_resolve_main_raster(archive, m->name, m->extraTiles);
-    }
+    raster = (IMG_PTR) m->otrPath;
 
-    // Main palette (CI only).
+    // Main palette (CI only): the "<name>_tlut" resource, by name like the raster, so
+    // Fast3D can key palette-specific replacement art on it. Nothing reads its bytes.
     if (mainIsCI) {
-        palette = (PAL_PTR) port_get_tex_resource(archive, m->name, "_tlut");
+        palette = (PAL_PTR) port_tex_named_level(raster, "_tlut");
     } else {
         palette = NULL;
     }
 
-    // Aux raster/palette only for the independent-aux case (shared-aux keeps the
-    // bottom half inside the full-height main raster, exactly like the blob).
+    // Aux raster/palette only for the independent-aux case (shared-aux draws its
+    // bottom half from the "<name>_aux" resource, see make_texture_gfx).
     if (m->extraTiles == EXTRA_TILE_AUX_INDEPENDENT) {
         // The aux tile is its own resource loaded by its own gDPSetTextureImage
         // (gDPScrollMultiTile passes it through unmodified), so it is
         // path-addressed like the main raster.
         auxRaster = (IMG_PTR) m->auxOtrPath;
         if (auxIsCI) {
-            auxPalette = (PAL_PTR) port_get_tex_resource(archive, m->name, "_aux_tlut");
+            auxPalette = (PAL_PTR) port_tex_named_level(raster, "_aux_tlut");
         } else {
             auxPalette = NULL;
         }
@@ -195,16 +186,9 @@ static void port_load_one_texture(const char* archive, const MapTexMeta* meta, s
     handle->auxRaster = auxRaster;
     handle->auxPalette = auxPalette;
 
-    // Combined 32-entry CI4 palette for AUX_INDEPENDENT CI4+CI4 (matches
-    // load_texture_impl).
+    // No combined 32-entry palette: main and aux load into banks 0 and 1 by name
+    // (make_texture_gfx's plain path); Fast3D keeps a slot's banks contiguous itself.
     handle->combinedPalette = NULL;
-    if (header.extraTiles == EXTRA_TILE_AUX_INDEPENDENT && handle->palette != NULL && handle->auxPalette != NULL
-        && header.mainBitDepth == G_IM_SIZ_4b && header.auxBitDepth == G_IM_SIZ_4b)
-    {
-        handle->combinedPalette = (PAL_PTR) malloc(64); // 32 entries * 2 bytes
-        memcpy(handle->combinedPalette, handle->palette, 32);
-        memcpy((u8*) handle->combinedPalette + 32, handle->auxPalette, 32);
-    }
 
     handle->gfx = (Gfx*) malloc(MAX_TEXTURE_GFX_CMDS * sizeof(Gfx));
     gfxCursor = handle->gfx;

@@ -129,6 +129,12 @@ SpriteS32 Sprite_GetPlayerRasterLoadDescriptors(SpriteS32 spriteIdx, SpriteS32 s
  */
 SpriteS32 Sprite_LoadPlayerRaster(SpriteS32 rasterOffset, void* destBuffer, SpriteS32 size);
 
+/**
+ * Path of a player raster split out of the archive ("__OTR__sprites/player_sprite_N_raster_i"),
+ * or NULL when the archive only has the blob. Usable wherever a raster pointer is.
+ */
+void* Sprite_GetPlayerRasterPath(SpriteS32 spriteIdx, SpriteS32 rasterIndex);
+
 #ifdef __cplusplus
 }
 #endif

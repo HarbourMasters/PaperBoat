@@ -4,6 +4,7 @@
 #include "nu/nusys.h"
 #include "ld_addrs.h"
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 
 // Asset paths for story page images
 static const char* sStoryPageAssets[] = {
@@ -1537,14 +1538,16 @@ void N(load_story_image)(s32 loadBackImage, s32 imageIdx) {
     }
 
     // Load asset and point directly to it (no memcpy)
-    u8* assetData = (u8*)ResourceGetDataByName(sStoryPageAssets[imageIdx]);
+    u8* assetData = (u8*)GameEngine_GetDataExact(sStoryPageAssets[imageIdx]);
     if (assetData != NULL) {
+        IMG_PTR img = port_named_image(sStoryPageAssets[imageIdx], "_img", assetData);
+        PAL_PTR pal = (PAL_PTR)port_named_image(sStoryPageAssets[imageIdx], "_tlut", assetData + STORY_IMG_SIZE);
         if (!loadBackImage) {
-            N(StoryGraphicsPtr)->imgFront = assetData;
-            N(StoryGraphicsPtr)->palFront = (u16*)(assetData + STORY_IMG_SIZE);
+            N(StoryGraphicsPtr)->imgFront = img;
+            N(StoryGraphicsPtr)->palFront = pal;
         } else {
-            N(StoryGraphicsPtr)->imgBack = assetData;
-            N(StoryGraphicsPtr)->palBack = (u16*)(assetData + STORY_IMG_SIZE);
+            N(StoryGraphicsPtr)->imgBack = img;
+            N(StoryGraphicsPtr)->palBack = pal;
         }
     }
 }
@@ -1570,12 +1573,12 @@ API_CALLABLE(N(InitializeStoryGraphicsData)) {
     N(load_story_image)(true, STORY_PAGE_STARRY_SKY);
 
     // Load tape and bowser - direct pointer assignment
-    tapeData = (u8*)ResourceGetDataByName("__OTR__story_images/story_tape");
-    N(StoryGraphicsPtr)->imgTape = tapeData;
+    tapeData = (u8*)GameEngine_GetDataExact("__OTR__story_images/story_tape");
+    N(StoryGraphicsPtr)->imgTape = port_named_image("__OTR__story_images/story_tape", "_img", tapeData);
 
-    bowserData = (u8*)ResourceGetDataByName("__OTR__story_images/story_bowser_silhouette");
-    N(StoryGraphicsPtr)->imgBowser = bowserData;
-    N(StoryGraphicsPtr)->palBowser = (u16*)(bowserData + BOWSER_IMG_SIZE);
+    bowserData = (u8*)GameEngine_GetDataExact("__OTR__story_images/story_bowser_silhouette");
+    N(StoryGraphicsPtr)->imgBowser = port_named_image("__OTR__story_images/story_bowser_silhouette", "_img", bowserData);
+    N(StoryGraphicsPtr)->palBowser = (PAL_PTR)port_named_image("__OTR__story_images/story_bowser_silhouette", "_tlut", bowserData + BOWSER_IMG_SIZE);
 
     N(StoryGraphicsPtr)->flipOrder = 0;
     N(StoryGraphicsPtr)->storyPageAlpha = 255;

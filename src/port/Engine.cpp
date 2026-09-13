@@ -28,6 +28,7 @@
 #include <fast/resource/factory/LightFactory.h>
 #include <fast/resource/factory/MatrixFactory.h>
 #include <fast/resource/factory/TextureFactory.h>
+#include <fast/resource/type/Texture.h>
 #include <fast/resource/factory/VertexFactory.h>
 #include <filesystem>
 #include <fstream>
@@ -1165,6 +1166,56 @@ extern "C" void GameEngine_UnregisterPostPass(int id) {
 
 extern "C" void GameEngine_ClearPostPasses(void) {
     gfx_clear_post_passes();
+}
+
+// Raw bytes for CPU-side consumers.
+extern "C" void* GameEngine_GetDataExact(const char* name) {
+    if (name == nullptr) {
+        return nullptr;
+    }
+    std::string path = name;
+    if (GameEngine_OTRSigCheck(name)) {
+        path = path.substr(7);
+    }
+    auto resourceMgr = Ship::Context::GetRawInstance()->GetResourceManager();
+    auto res = resourceMgr->LoadResource(path, /*loadExact=*/true);
+    return res != nullptr ? resourceMgr->GetResourceRawPointer(res) : nullptr;
+}
+
+// Size counterpart of GameEngine_GetDataExact.
+extern "C" size_t GameEngine_GetSizeExact(const char* name) {
+    if (name == nullptr) {
+        return 0;
+    }
+    std::string path = name;
+    if (GameEngine_OTRSigCheck(name)) {
+        path = path.substr(7);
+    }
+    auto res = Ship::Context::GetRawInstance()->GetResourceManager()->LoadResource(path, /*loadExact=*/true);
+    return res != nullptr ? res->GetPointerSize() : 0;
+}
+
+static std::shared_ptr<Fast::Texture> GetTextureExact(const char* name) {
+    if (name == nullptr) {
+        return nullptr;
+    }
+    std::string path = name;
+    if (GameEngine_OTRSigCheck(name)) {
+        path = path.substr(7);
+    }
+    return std::static_pointer_cast<Fast::Texture>(
+        Ship::Context::GetRawInstance()->GetResourceManager()->LoadResource(path, /*loadExact=*/true)
+    );
+}
+
+extern "C" uint16_t GameEngine_GetTexWidthExact(const char* name) {
+    auto tex = GetTextureExact(name);
+    return tex != nullptr ? tex->Width : 0;
+}
+
+extern "C" uint16_t GameEngine_GetTexHeightExact(const char* name) {
+    auto tex = GetTextureExact(name);
+    return tex != nullptr ? tex->Height : 0;
 }
 
 extern "C" uint8_t GameEngine_OTRSigCheck(const char* data) {

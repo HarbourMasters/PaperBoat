@@ -3,6 +3,7 @@
 #include "hud_element.h"
 #include "sprite.h"
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 #include "sprite/npc/WorldGoombario.h"
 #include "sprite/npc/WorldKooper.h"
 #include "sprite/npc/WorldBombette.h"
@@ -290,24 +291,30 @@ typedef struct PartnerPosition {
     /* 0x04 */ s32 index;
 } PartnerPosition; // size = 0x8
 
-static void load_party_portrait_otr(const char* assetName, s32 bufIndex) {
+// [port] One path per partner, at a fixed address: port_named_image memoizes on the address
+// of the base string, so a shared stack buffer handed every partner the first one's portrait.
+static char sPartyPortraitPaths[ARRAY_COUNT(gPausePartnersAssetNames)][40];
+
+static void load_party_portrait_otr(s32 portraitIndex, s32 bufIndex) {
+    const char* assetName = gPausePartnersAssetNames[portraitIndex];
+    char* imgPath = sPartyPortraitPaths[portraitIndex];
     char palPath[64];
-    char imgPath[64];
     snprintf(palPath, sizeof(palPath), "__OTR__party/%s_pal", assetName);
-    snprintf(imgPath, sizeof(imgPath), "__OTR__party/%s", assetName);
-    gPausePartnersPaletteBuffers[bufIndex] = (s8*)LOAD_ASSET(palPath);
-    gPausePartnersImageBuffers[bufIndex] = (s8*)LOAD_ASSET(imgPath);
+    snprintf(imgPath, sizeof(sPartyPortraitPaths[portraitIndex]), "__OTR__party/%s", assetName);
+    // Drawn by name where the archive has the portrait as a texture
+    gPausePartnersPaletteBuffers[bufIndex] = (s8*)port_named_image(imgPath, "_img_tlut", LOAD_ASSET(palPath));
+    gPausePartnersImageBuffers[bufIndex] = (s8*)port_named_image(imgPath, "_img", LOAD_ASSET(imgPath));
 }
 
 void pause_partners_load_portrait(s32 index) {
     if (gPausePartnersCurrentPortraitIndex != gPausePartnersPartnerIdx[index]) {
         gPausePartnersCurrentPortraitIndex = gPausePartnersPartnerIdx[index];
-        load_party_portrait_otr(gPausePartnersAssetNames[gPausePartnersCurrentPortraitIndex], 0);
+        load_party_portrait_otr(gPausePartnersCurrentPortraitIndex, 0);
     }
 
     if (gPausePartnersNextPortraitIndex != gPausePartnersPartnerIdx[(index + 1) % gPausePartnersNumPartners]) {
         gPausePartnersNextPortraitIndex = gPausePartnersPartnerIdx[(index + 1) % gPausePartnersNumPartners];
-        load_party_portrait_otr(gPausePartnersAssetNames[gPausePartnersNextPortraitIndex], 1);
+        load_party_portrait_otr(gPausePartnersNextPortraitIndex, 1);
     }
 }
 
