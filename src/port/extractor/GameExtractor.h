@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include "Companion.h"
 
 #include <atomic>
@@ -16,7 +18,9 @@ public:
     // configDir holds config.yml. Empty asks Ship::Context; the Android
     // launcher runs before SDL exists, so it passes the path outright.
     bool RunStandalone(std::string rom, const std::string& configDir = "");
-    bool SelectGameFromUI();
+    // Answers through onComplete: the ImGui browser resolves on a later frame.
+    void SelectGameFromUI(std::function<void(bool)> onComplete);
+    bool LoadRomFromPath(const std::string& romPath);
     void SetSearchPath(const std::string& path);
     void GetRoms(std::vector<std::string>& roms);
     // The name config.yml gives this ROM, or nullopt if it has no recipe.

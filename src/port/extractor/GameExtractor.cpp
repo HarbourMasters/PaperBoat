@@ -15,10 +15,10 @@
 #include "ship/Context.h"
 #include "spdlog/spdlog.h"
 
+#include "port/FilePicker.h"
+
 #ifdef __EMSCRIPTEN__
 #include "port/web/WebUtils.h"
-#elif !defined(__IOS__) && !defined(__ANDROID__) && !defined(__SWITCH__)
-#include "portable-file-dialogs.h"
 #endif
 
 #ifdef unix
@@ -92,54 +92,49 @@ bool GameExtractor::RunStandalone(std::string rom, const std::string& configDir)
     return true;
 }
 
-bool GameExtractor::SelectGameFromUI() {
-    std::string romPath;
-    std::vector<uint8_t> romData;
-
-#if defined(__EMSCRIPTEN__)
-    // Blocks (ASYNCIFY) until the user picks a file or cancels.
-    romPath = WebFilePicker_PickROM();
-    if (romPath.empty()) {
-        return false;
-    }
-#elif !defined(__IOS__) && !defined(__ANDROID__) && !defined(__SWITCH__)
-    if (!pfd::settings::available()) {
-        SPDLOG_ERROR("portable-file-dialogs is not available on this system.");
+// Reads a ROM off disk into the extractor. Shared by every pick path below.
+bool GameExtractor::LoadRomFromPath(const std::string& romPath) {
+    if (!std::filesystem::exists(romPath)) {
+        SPDLOG_ERROR("Failed to find ROM at path: {}", romPath);
         return false;
     }
 
-    auto selection = pfd::open_file("Select a file", ".", { "N64 Roms", "*.z64" }).result();
-    if (selection.empty()) {
-        return false;
-    }
-
-    romPath = selection[0];
-#else
-    // Mobile has no file dialog: the ROM is put in place beforehand.
-    if (!std::filesystem::exists(Ship::Context::GetPathRelativeToAppDirectory("baserom.us.z64"))) {
-        SPDLOG_ERROR("baserom not found");
-        return false;
-    }
-
-    romPath = Ship::Context::GetPathRelativeToAppDirectory("baserom.us.z64");
-#endif
-
+    std::vector<uint8_t> romData = ReadWholeFile(romPath);
     if (romData.empty()) {
-        if (!std::filesystem::exists(romPath)) {
-            SPDLOG_ERROR("Failed to find ROM at path: {}", romPath);
-            return false;
-        }
-
-        romData = ReadWholeFile(romPath);
-        if (romData.empty()) {
-            return false;
-        }
+        return false;
     }
 
     this->mGamePath = romPath;
     this->mGameData = std::move(romData);
-
     return true;
+}
+
+// Paperboat::PickFile decides the backend: a native dialog where there is one, otherwise
+// libultraship's ImGui browser. The ImGui browser answers on a later frame, so the result
+// always comes back through onComplete rather than a return value.
+void GameExtractor::SelectGameFromUI(std::function<void(bool)> onComplete) {
+    const auto finish = [onComplete](bool ok) {
+        if (onComplete) {
+            onComplete(ok);
+        }
+    };
+
+#if defined(__EMSCRIPTEN__)
+    // Blocks (ASYNCIFY) until the user picks a file or cancels.
+    const std::string romPath = WebFilePicker_PickROM();
+    finish(!romPath.empty() && LoadRomFromPath(romPath));
+#elif defined(__IOS__) || defined(__ANDROID__)
+    // Mobile has no file dialog: the ROM is put in place beforehand.
+    finish(LoadRomFromPath(Ship::Context::GetPathRelativeToAppDirectory("baserom.us.z64")));
+#else
+    Ship::FileBrowserRequest req;
+    req.Title = "Select a Paper Mario ROM";
+    req.Filters = { { "N64 ROMs (.z64, .n64, .v64)", { "*.z64", "*.n64", "*.v64" } }, { "All files", { "*" } } };
+    req.StartDir = Ship::Context::GetAppDirectoryPath("boat");
+    Paperboat::PickFile(std::move(req), [this, finish](std::optional<std::filesystem::path> path) {
+        finish(path.has_value() && LoadRomFromPath(path->string()));
+    });
+#endif
 }
 
 void GameExtractor::SetSearchPath(const std::string& path) {

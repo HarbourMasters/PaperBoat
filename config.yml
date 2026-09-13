@@ -8,7 +8,7 @@
     gbi: F3DEX2_PM64
     gbi_floats: false
     sort: OFFSET
-    logging: INFO
+    logging: WARN
     output:
       binary: pm64.o2r
       headers: include

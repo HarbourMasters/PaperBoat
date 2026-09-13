@@ -624,17 +624,28 @@ void GameEngine::RunExtract(int argc, char* argv[]) {
                         continue;
                     }
                     case PS_FIRST: {
-                        if (args.empty() && !extract.SelectGameFromUI()) {
-                            promptStep = PS_FILE_CHECK;
+                        const auto startExtract = [&]() {
+                            extracting = true;
+                            extractStarted = true;
+                            file = extract.GetRomPath();
+                            threadPool->submit_task([&]() -> void {
+                                extract.GenerateOTR(extractCount, totalExtract, "boat");
+                                extracting = false;
+                            });
+                        };
+                        if (args.empty()) {
+                            promptStep = PS_WAIT;
+                            extract.SelectGameFromUI([&](bool picked) {
+                                if (!picked) {
+                                    promptStep = PS_FILE_CHECK;
+                                    return;
+                                }
+                                promptStep = PS_FIRST;
+                                startExtract();
+                            });
                             continue;
                         }
-                        extracting = true;
-                        extractStarted = true;
-                        file = extract.GetRomPath();
-                        threadPool->submit_task([&]() -> void {
-                            extract.GenerateOTR(extractCount, totalExtract, "boat");
-                            extracting = false;
-                        });
+                        startExtract();
                         continue;
                     }
                     default:
