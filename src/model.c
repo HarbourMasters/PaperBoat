@@ -1405,6 +1405,7 @@ void appendGfx_model(void* data) {
     s8 renderMode;
     s32 renderClass;
     s32 renderModeIdx;
+    s32 strictDecal;
     s32 flags = model->flags;
 
     ModelNode* modelNode;
@@ -1437,6 +1438,22 @@ void appendGfx_model(void* data) {
 
     renderMode = model->renderMode;
     tintCombineType = 0;
+
+    // [port] The RDP only draws a decal where coplanar geometry already wrote depth, so maps use
+    // decals that vanish on their own once the surface behind them is hidden. Fast3D compares them
+    // as ordinary geometry, which leaves them floating; ask it for the hardware compare instead.
+    switch (renderMode) {
+        case RENDER_MODE_DECAL_OPA:
+        case RENDER_MODE_DECAL_OPA_NO_AA:
+        case RENDER_MODE_DECAL_XLU:
+        case RENDER_MODE_DECAL_XLU_NO_AA:
+        case RENDER_MODE_DECAL_XLU_AHEAD:
+            strictDecal = true;
+            break;
+        default:
+            strictDecal = false;
+            break;
+    }
 
     if (textureHeader != nullptr) {
         switch (extraTileType) {
@@ -2019,7 +2036,13 @@ void appendGfx_model(void* data) {
 
     // render the model
     if (!(flags & MODEL_FLAG_HAS_LOCAL_VERTEX_COPY)) {
+        if (strictDecal) {
+            gSPSetStrictDecal((*gfxPos)++, 1);
+        }
         gSPDisplayList((*gfxPos)++, modelNode->displayData->displayList);
+        if (strictDecal) {
+            gSPSetStrictDecal((*gfxPos)++, 0);
+        }
     }
 
     // custom gfx 'post'
@@ -3826,7 +3849,7 @@ void clone_model(u16 srcModelID, u16 newModelID) {
 
 void mdl_group_set_visibility(u16 treeIndex, s32 flags, s32 mode) {
     s32 maxGroupIndex = -1;
-    s32 minGroupIndex;
+    s32 minGroupIndex = -1;
     s32 modelIndex = (*gCurrentModelTreeNodeInfo)[treeIndex].modelIndex;
     s32 siblingIndex;
     s32 i;
@@ -3852,8 +3875,14 @@ void mdl_group_set_visibility(u16 treeIndex, s32 flags, s32 mode) {
     }
 
     if (mode < 2) {
+        if (minGroupIndex < 0 || maxGroupIndex < 0) {
+            return;
+        }
         for (i = minGroupIndex; i <= maxGroupIndex; i++) {
             Model* model = (*gCurrentModels)[i];
+            if (model == nullptr) {
+                continue;
+            }
             if (mode != MODEL_GROUP_HIDDEN) {
                 model->flags &= ~flags;
             } else {
