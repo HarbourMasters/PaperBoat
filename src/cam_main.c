@@ -95,10 +95,26 @@ static b32 cam_has_fullscreen_viewport(s32 camID) {
            || gCameras[camID].viewportW >= SCREEN_WIDTH - 2 * SCREEN_INSET_X;
 }
 
+// Widescreen: the world and battle cameras are drawn inside a black margin.
+void get_cam_frame_x(s32 camID, s32* left, s32* right) {
+    Camera* camera = &gCameras[camID];
+
+    *left = OTRGetRectDimensionFromLeftEdge(camera->viewportStartX);
+    *right = OTRGetRectDimensionFromRightEdge(SCREEN_WIDTH - (camera->viewportStartX + abs(camera->viewportW)));
+}
+
+static b32 cam_is_framed(s32 camID) {
+    return camID == CAM_DEFAULT || camID == CAM_BATTLE;
+}
+
 void get_cam_scissor_x(s32 camID, s32* left, s32* right) {
     Camera* camera = &gCameras[camID];
 
-    if (cam_has_fullscreen_viewport(camID)) {
+    if (cam_is_framed(camID)) {
+        get_cam_frame_x(camID, left, right);
+        *left = OTRGetScissorCoordX(*left);
+        *right = OTRGetScissorCoordX(*right);
+    } else if (cam_has_fullscreen_viewport(camID)) {
         *left = 0;
         *right = SCREEN_WIDTH;
     } else {
@@ -107,15 +123,36 @@ void get_cam_scissor_x(s32 camID, s32* left, s32* right) {
     }
 }
 
-// Widescreen: keep a sub-viewport camera's 3D render inside the 4:3 box, so it stays
-// aligned with the 2D window frame drawn around it.
-static void cam_widescreen_recenter_viewport(s32 camID, Camera* camera) {
+// Widescreen: fit each camera's viewport to the screen.
+static void cam_widescreen_fit_viewport(s32 camID, Camera* camera) {
+    s32 left;
+    s32 right;
     s32 centerX;
+    f32 zoom;
+    f32 centerY;
+
+    if (cam_is_framed(camID)) {
+        get_cam_scissor_x(camID, &left, &right);
+        zoom = (f32) (right - left) / abs(camera->viewportW);
+        centerY = SCREEN_HEIGHT / 2 + (camera->viewportStartY + camera->viewportH / 2 - SCREEN_HEIGHT / 2) * zoom;
+
+        camera->vp.vp.vscale[0] = 2.0f * (right - left);
+        camera->vp.vp.vscale[1] = 2.0f * camera->viewportH * zoom;
+        camera->vp.vp.vtrans[0] = 4 * (left + (right - left) / 2);
+        camera->vp.vp.vtrans[1] = 4.0f * centerY;
+        camera->vpAlt.vp.vscale[0] = camera->vp.vp.vscale[0];
+        camera->vpAlt.vp.vscale[1] = camera->vp.vp.vscale[1];
+        camera->vpAlt.vp.vtrans[0] = gGameStatusPtr->altViewportOffset.x + camera->vp.vp.vtrans[0];
+        camera->vpAlt.vp.vtrans[1] = gGameStatusPtr->altViewportOffset.y + camera->vp.vp.vtrans[1];
+        return;
+    }
 
     if (cam_has_fullscreen_viewport(camID)) {
         return;
     }
 
+    // A sub-viewport camera's 3D render stays inside the 4:3 box, aligned with the 2D window
+    // frame drawn around it.
     centerX = OTRGetScissorCoordX(camera->viewportStartX + (camera->viewportW / 2));
     camera->vp.vp.vtrans[0] = 4 * centerX;
     camera->vpAlt.vp.vtrans[0] = gGameStatusPtr->altViewportOffset.x + 4 * centerX;
@@ -151,7 +188,7 @@ void render_frame(s32 isSecondPass) {
         gCurrentCamID = camID;
         FrameInterpolation_RecordOpenChild("camera_render", TAG_CAMERA(camID, camera));
 
-        cam_widescreen_recenter_viewport(camID, camera);
+        cam_widescreen_fit_viewport(camID, camera);
 
         if (camera->fpDoPreRender != nullptr) {
             camera->fpDoPreRender(camera);
@@ -168,8 +205,6 @@ void render_frame(s32 isSecondPass) {
             gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);
             gDPPipelineMode(gMainGfxPos++, G_PM_NPRIMITIVE);
 
-            // Widescreen: the overworld camera's scissor spans the full native width,
-            // sub-viewport cameras get mapped onto the centered 4:3 box
             get_cam_scissor_x(camID, &ulx, &lrx);
             uly = camera->viewportStartY;
             lry = uly + camera->viewportH;
@@ -449,13 +484,6 @@ void set_cam_viewport(s16 id, s16 x, s16 y, s16 width, s16 height) {
     camera->vpAlt.vp.vtrans[1] = gGameStatusPtr->altViewportOffset.y + 4 * (s16) ((u16) camera->viewportStartY + (camera->viewportH / 2));
     camera->vpAlt.vp.vtrans[2] = 0x200;
     camera->vpAlt.vp.vtrans[3] = 0;
-
-    if (id == CAM_DEFAULT || id == CAM_BATTLE) {
-        camera->vp.vp.vscale[0] = 2.0f * SCREEN_WIDTH;
-        camera->vp.vp.vtrans[0] = 4 * (SCREEN_WIDTH / 2);
-        camera->vpAlt.vp.vscale[0] = 2.0f * SCREEN_WIDTH;
-        camera->vpAlt.vp.vtrans[0] = gGameStatusPtr->altViewportOffset.x + 4 * (SCREEN_WIDTH / 2);
-    }
 }
 
 void get_cam_viewport(s32 camID, u16* x, u16* y, u16* width, u16* height) {

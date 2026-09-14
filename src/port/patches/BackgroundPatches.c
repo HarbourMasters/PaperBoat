@@ -197,11 +197,13 @@ void port_appendGfx_background_texture(void) {
 
     bgXOffset = gGameStatusPtr->backgroundXOffset = ((s32) scrollValue) % bgMaxX;
 
-    // Title screen (widescreen): fill the full visible width solid first;
+    // Title screen (widescreen): fill the camera's frame solid first;
     // the bg image is then drawn once on top of the center.
     if (gBackroundNoTileFill) {
-        s32 fillLeft = OTRGetRectDimensionFromLeftEdge(0);
-        s32 fillRight = OTRGetRectDimensionFromRightEdge(0);
+        s32 fillLeft;
+        s32 fillRight;
+
+        get_cam_frame_x(gCurrentCameraID, &fillLeft, &fillRight);
         gDPPipeSync(gMainGfxPos++);
         gDPSetCycleType(gMainGfxPos++, G_CYC_FILL);
         gDPSetRenderMode(gMainGfxPos++, G_RM_NOOP, G_RM_NOOP2);
@@ -233,11 +235,13 @@ void port_appendGfx_background_texture(void) {
     );
 
     if (!gBackroundWaveEnabled) {
-        // Widescreen: tile the scrolling background across the full visible
-        // width. Two rectangles per tile handle the horizontal scroll wrap.
-        s32 wsLeft = OTRGetRectDimensionFromLeftEdge(0);
-        s32 wsRight = OTRGetRectDimensionFromRightEdge(0);
+        // Widescreen: tile the scrolling background across the camera's frame.
+        // Two rectangles per tile handle the horizontal scroll wrap.
+        s32 wsLeft;
+        s32 wsRight;
         s32 tx, bgTileBaseX = bgMinX;
+
+        get_cam_frame_x(gCurrentCameraID, &wsLeft, &wsRight);
 
         if (gBackroundNoTileFill) {
             // Title screen: draw the image exactly once at its native position;

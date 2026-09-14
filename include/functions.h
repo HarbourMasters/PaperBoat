@@ -452,6 +452,7 @@ Trigger* bind_trigger_1(EvtScript* script, s32 flags, s32 triggerFlagIndex, intp
 
 void set_cam_viewport(s16 id, s16 x, s16 y, s16 width, s16 height);
 void get_cam_scissor_x(s32 camID, s32* left, s32* right);
+void get_cam_frame_x(s32 camID, s32* left, s32* right);
 
 void disable_player_shadow(void);
 void move_player(s32 duration, f32 heading, f32 speed);

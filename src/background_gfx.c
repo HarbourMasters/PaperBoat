@@ -465,9 +465,15 @@ void gfx_draw_background(void) {
             {
                 s32 wsLeft = OTRGetRectDimensionFromLeftEdge(0);
                 s32 wsRight = OTRGetRectDimensionFromRightEdge(0);
+                s32 frameLeft;
+                s32 frameRight;
+
+                // The backdrop fills the camera's frame; the margin around it is painted
+                // black below, with the letterbox.
+                get_cam_frame_x(gCurrentCameraID, &frameLeft, &frameRight);
 
                 if (!(gGameStatusPtr->backgroundFlags & BACKGROUND_FLAG_TEXTURE)) {
-                    gDPFillWideRectangle(gMainGfxPos++, wsLeft, backgroundMinY, wsRight - 1, backgroundMaxY - 1);
+                    gDPFillWideRectangle(gMainGfxPos++, frameLeft, backgroundMinY, frameRight - 1, backgroundMaxY - 1);
                 } else {
                     port_appendGfx_background_texture();
                 }
@@ -485,6 +491,15 @@ void gfx_draw_background(void) {
                 }
                 if (backgroundMaxY < SCREEN_HEIGHT) {
                     gDPFillWideRectangle(gMainGfxPos++, wsLeft, backgroundMaxY, wsRight - 1, SCREEN_HEIGHT - 1);
+                    gDPNoOp(gMainGfxPos++);
+                }
+                // Black margin either side of the frame, flush with the status bar.
+                if (frameLeft > wsLeft) {
+                    gDPFillWideRectangle(gMainGfxPos++, wsLeft, 0, frameLeft - 1, SCREEN_HEIGHT - 1);
+                    gDPNoOp(gMainGfxPos++);
+                }
+                if (frameRight < wsRight) {
+                    gDPFillWideRectangle(gMainGfxPos++, frameRight, 0, wsRight - 1, SCREEN_HEIGHT - 1);
                     gDPNoOp(gMainGfxPos++);
                 }
             }
