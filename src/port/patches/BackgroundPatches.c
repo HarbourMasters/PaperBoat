@@ -248,12 +248,14 @@ void port_appendGfx_background_texture(void) {
     // Fog and tint used to be baked into the palette on the CPU; they're per-channel
     // scales, so the combiner does the same job — and it works on replacement art too.
     s32 bgDsdx = 4096; // copy mode steps four texels per pixel
+    s32 bgEdge = 0;
     if (!(gGameStatusPtr->backgroundFlags & BACKGROUND_FLAG_FOG)) {
         gDPSetCycleType(gMainGfxPos++, G_CYC_COPY);
         gDPSetCombineMode(gMainGfxPos++, G_CC_DECALRGB, G_CC_DECALRGB);
         gDPSetRenderMode(gMainGfxPos++, G_RM_NOOP, G_RM_NOOP2);
     } else {
         bgDsdx = 1024;
+        bgEdge = 4;
         gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);
         gDPSetRenderMode(gMainGfxPos++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
         switch (*gBackgroundTintModePtr) {
@@ -311,12 +313,12 @@ void port_appendGfx_background_texture(void) {
 
         for (tx = bgTileBaseX; tx < wsRight; tx += bgMaxX) {
             gSPWideTextureRectangle(
-                gMainGfxPos++, tx * 4, bgMinY * 4, (bgXOffset + tx - 1) * 4, (bgMaxY - 1 + bgMinY) * 4, G_TX_RENDERTILE,
-                (bgMaxX - bgXOffset) * 32, 0, bgDsdx, 1024
+                gMainGfxPos++, tx * 4, bgMinY * 4, (bgXOffset + tx - 1) * 4 + bgEdge,
+                (bgMaxY - 1 + bgMinY) * 4 + bgEdge, G_TX_RENDERTILE, (bgMaxX - bgXOffset) * 32, 0, bgDsdx, 1024
             );
             gSPWideTextureRectangle(
-                gMainGfxPos++, (bgXOffset + tx) * 4, bgMinY * 4, (bgMaxX + tx - 1) * 4, (bgMaxY - 1 + bgMinY) * 4,
-                G_TX_RENDERTILE, 0, 0, bgDsdx, 1024
+                gMainGfxPos++, (bgXOffset + tx) * 4, bgMinY * 4, (bgMaxX + tx - 1) * 4 + bgEdge,
+                (bgMaxY - 1 + bgMinY) * 4 + bgEdge, G_TX_RENDERTILE, 0, 0, bgDsdx, 1024
             );
         }
     } else {
@@ -329,26 +331,28 @@ void port_appendGfx_background_texture(void) {
             waveOffset = sin_rad(gBackroundWavePhase + i * (TAU / 15)) * 3.0f;
             bgXOffset = 2.0f * (gGameStatusPtr->backgroundXOffset + waveOffset);
             gSPTextureRectangle(
-                gMainGfxPos++, bgMinX * 4, (lineHeight * i + bgMinY) * 4, (2 * bgXOffset + (bgMinX - 1)) * 4,
-                (lineHeight * i + lineHeight - 1 + bgMinY) * 4, G_TX_RENDERTILE, bgMaxX * 32 - bgXOffset * 16,
+                gMainGfxPos++, bgMinX * 4, (lineHeight * i + bgMinY) * 4, (2 * bgXOffset + (bgMinX - 1)) * 4 + bgEdge,
+                (lineHeight * i + lineHeight - 1 + bgMinY) * 4 + bgEdge, G_TX_RENDERTILE, bgMaxX * 32 - bgXOffset * 16,
                 (lineHeight * i) * 32, bgDsdx, 1024
             );
             gSPTextureRectangle(
-                gMainGfxPos++, bgXOffset * 2 + bgMinX * 4, (lineHeight * i + bgMinY) * 4, (bgMaxX + bgMinX - 1) * 4,
-                (lineHeight * i + lineHeight - 1 + bgMinY) * 4, G_TX_RENDERTILE, 0, (lineHeight * i) * 32, bgDsdx, 1024
+                gMainGfxPos++, bgXOffset * 2 + bgMinX * 4, (lineHeight * i + bgMinY) * 4,
+                (bgMaxX + bgMinX - 1) * 4 + bgEdge, (lineHeight * i + lineHeight - 1 + bgMinY) * 4 + bgEdge,
+                G_TX_RENDERTILE, 0, (lineHeight * i) * 32, bgDsdx, 1024
             );
         }
         if (extraHeight != 0) {
             waveOffset = sin_rad(gBackroundWavePhase + i * (TAU / 15)) * 3.0f;
             bgXOffset = 2.0f * (gGameStatusPtr->backgroundXOffset + waveOffset);
             gSPTextureRectangle(
-                gMainGfxPos++, bgMinX * 4, (lineHeight * i + bgMinY) * 4, (2 * bgXOffset + (bgMinX - 1)) * 4,
-                (bgMaxY - 1 + bgMinY) * 4, G_TX_RENDERTILE, bgMaxX * 32 - bgXOffset * 16, (lineHeight * i) * 32, bgDsdx,
-                1024
+                gMainGfxPos++, bgMinX * 4, (lineHeight * i + bgMinY) * 4, (2 * bgXOffset + (bgMinX - 1)) * 4 + bgEdge,
+                (bgMaxY - 1 + bgMinY) * 4 + bgEdge, G_TX_RENDERTILE, bgMaxX * 32 - bgXOffset * 16,
+                (lineHeight * i) * 32, bgDsdx, 1024
             );
             gSPTextureRectangle(
-                gMainGfxPos++, bgXOffset * 2 + bgMinX * 4, (lineHeight * i + bgMinY) * 4, (bgMaxX + bgMinX - 1) * 4,
-                (bgMaxY - 1 + bgMinY) * 4, G_TX_RENDERTILE, 0, (lineHeight * i) * 32, bgDsdx, 1024
+                gMainGfxPos++, bgXOffset * 2 + bgMinX * 4, (lineHeight * i + bgMinY) * 4,
+                (bgMaxX + bgMinX - 1) * 4 + bgEdge, (bgMaxY - 1 + bgMinY) * 4 + bgEdge, G_TX_RENDERTILE, 0,
+                (lineHeight * i) * 32, bgDsdx, 1024
             );
         }
     }
