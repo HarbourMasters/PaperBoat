@@ -248,6 +248,17 @@ void PaperboatMenu::AddMenuSettings() {
             WindowGetWindowComponent()->GetGui()->GetMenu()->Hide();
         });
 
+    path.column = SECTION_COLUMN_2;
+    AddWidget(path, "Additional Control Settings", WIDGET_SEPARATOR_TEXT);
+    AddWidget(path, "D-Pad as L-Stick", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_SETTING("Controls.DPadAsLeftStick"))
+        .Options(
+            CheckboxOptions().Tooltip(
+                "Makes the d-pad move Mario like the left stick does. The game only "
+                "walks from the stick, so a handheld d-pad does nothing without it."
+            )
+        );
+
     // Settings > Graphics
     static int32_t maxFps = 360;
     const char* tooltip = "Uses Matrix Interpolation to create extra frames, "
@@ -257,6 +268,7 @@ void PaperboatMenu::AddMenuSettings() {
                           "FPS than your monitor's refresh rate will waste "
                           "resources, and might give a worse result.";
     path.sidebarName = "Graphics";
+    path.column = SECTION_COLUMN_1;
     AddSidebarEntry("Settings", "Graphics", 2);
     AddWidget(path, "Graphics Options", WIDGET_SEPARATOR_TEXT);
     AddWidget(path, "Toggle Fullscreen", WIDGET_BUTTON)

@@ -45,6 +45,15 @@ void PaperboatMenu::AddMenuDevTools() {
                 (spdlog::level::level_enum) CVarGetInteger(CVAR_DEVELOPER_TOOLS("LogLevel"), defaultLogLevel)
             );
         });
+    AddWidget(path, "DX Debug Menu", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_DEVELOPER_TOOLS("DebugMenu"))
+        .Options(
+            CheckboxOptions().Tooltip(
+                "Lets D-Pad Left and D-Pad Right open the DX debug menus. Leave this "
+                "off to keep the d-pad free for normal play."
+            )
+        );
+
 #ifdef USE_GBI_TRACE
     AddWidget(path, "GFX Trace Mode", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_DEVELOPER_TOOLS("GFXTrace"))
@@ -55,6 +64,20 @@ void PaperboatMenu::AddMenuDevTools() {
             )
         );
 #endif
+
+    // Stats
+    path.sidebarName = "Stats";
+    AddSidebarEntry("Dev Tools", path.sidebarName, 1);
+    AddWidget(path, "Popout Stats", WIDGET_WINDOW_BUTTON)
+        .CVar(CVAR_WINDOW("Stats"))
+        .WindowName("Stats")
+        .HideInSearch(true)
+        .Options(
+            WindowButtonOptions().Tooltip(
+                "Shows the stats window, with frame rate, frame times and the "
+                "platform you are playing on."
+            )
+        );
 
     // Console
     path.sidebarName = "Console";

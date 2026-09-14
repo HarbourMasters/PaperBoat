@@ -35,6 +35,8 @@
 #include <chrono>
 #include <libultraship.h>
 #include <libultraship/controller/controldeck/ControlDeck.h>
+#include <ship/controller/controldevice/controller/mapping/sdl/SDLButtonToAxisDirectionMapping.h>
+#include <libultraship/controller/controldevice/controller/mapping/ControllerDefaultMappings.h>
 #include <mutex>
 #include <optional>
 #include <string_view>
@@ -894,6 +896,44 @@ void GameEngine::Destroy() {
     MemoryPool.clear();
 }
 
+static void ApplyDPadAsLeftStick(bool enabled) {
+    auto ctx = Ship::Context::GetRawInstance();
+    if (ctx == nullptr || ctx->GetControlDeck() == nullptr) {
+        return;
+    }
+    auto controller = ctx->GetControlDeck()->GetControllerByPort(0);
+    if (controller == nullptr) {
+        return;
+    }
+    auto stick = controller->GetLeftStick();
+    if (stick == nullptr) {
+        return;
+    }
+
+    static const std::pair<Ship::Direction, SDL_GameControllerButton> kDPad[] = {
+        { Ship::UP, SDL_CONTROLLER_BUTTON_DPAD_UP },
+        { Ship::DOWN, SDL_CONTROLLER_BUTTON_DPAD_DOWN },
+        { Ship::LEFT, SDL_CONTROLLER_BUTTON_DPAD_LEFT },
+        { Ship::RIGHT, SDL_CONTROLLER_BUTTON_DPAD_RIGHT },
+    };
+
+    for (const auto& [direction, button] : kDPad) {
+        if (enabled) {
+            auto mapping =
+                std::make_shared<Ship::SDLButtonToAxisDirectionMapping>(0, Ship::LEFT_STICK, direction, button);
+            stick->AddAxisDirectionMapping(direction, mapping);
+            mapping->SaveToConfig();
+        } else {
+            for (auto& [id, mapping] : stick->GetAllAxisDirectionMappingByDirection(direction)) {
+                if (std::dynamic_pointer_cast<Ship::SDLButtonToAxisDirectionMapping>(mapping) != nullptr) {
+                    stick->ClearAxisDirectionMapping(direction, id);
+                }
+            }
+        }
+        stick->SaveAxisDirectionMappingIdsToConfig();
+    }
+}
+
 void GameEngine::StartFrame() const {
     // Process window events (keyboard/mouse/gamepad) BEFORE game logic reads
     // input. This fires the keyboard callbacks that set mKeyPressed state in
@@ -907,6 +947,12 @@ void GameEngine::StartFrame() const {
         ResourceGetResourceManager()->SetAltAssetsEnabled(altAssets);
         gfx_texture_cache_clear();
         SPDLOG_INFO("Alt assets {}", altAssets ? "enabled" : "disabled");
+    }
+
+    const bool dpadAsLeftStick = CVarGetInteger(CVAR_SETTING("Controls.DPadAsLeftStick"), 0) != 0;
+    if (dpadAsLeftStick != mPrevDPadAsLeftStick) {
+        mPrevDPadAsLeftStick = dpadAsLeftStick;
+        ApplyDPadAsLeftStick(dpadAsLeftStick);
     }
 
     using Ship::KbScancode;

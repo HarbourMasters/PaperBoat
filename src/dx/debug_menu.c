@@ -8,6 +8,8 @@
 #include "qsort.h"
 #include <string.h>
 #include "dx/utils.h"
+#include "port/ui/cvar_prefixes.h"
+#include <libultraship/bridge/consolevariablebridge.h>
 #include "msg.h"
 #include "fio.h"
 
@@ -499,11 +501,13 @@ void dx_debug_menu_main() {
 
     // check input for menu open/close
     if (DebugMenuState == DBM_NONE) {
-        if (PRESSED(BUTTON_D_LEFT)) {
-            DebugMenuState = DBM_MAIN_MENU;
-        }
-        if (PRESSED(BUTTON_D_RIGHT)) {
-            DebugMenuState = DBM_EVT_MAIN;
+        if (CVarGetInteger(CVAR_DEVELOPER_TOOLS("DebugMenu"), 0)) {
+            if (PRESSED(BUTTON_D_LEFT)) {
+                DebugMenuState = DBM_MAIN_MENU;
+            }
+            if (PRESSED(BUTTON_D_RIGHT)) {
+                DebugMenuState = DBM_EVT_MAIN;
+            }
         }
     } else if (DebugMenuState == DBM_MAIN_MENU) {
         if (PRESSED(BUTTON_D_LEFT | BUTTON_L)) {

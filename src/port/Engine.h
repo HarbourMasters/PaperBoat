@@ -95,6 +95,7 @@ class GameEngine {
 
   private:
     mutable bool mPrevAltAssets = false;
+    mutable bool mPrevDPadAsLeftStick = false;
 
     static struct {
         std::thread thread;
