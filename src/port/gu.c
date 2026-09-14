@@ -104,6 +104,26 @@ void guRotateRPYF(float mf[4][4], float r, float p, float h) {
     guMtxCatF(tmp, rz, mf);
 }
 
+void guMtxF2L_NoInterp(float mf[4][4], Mtx* m) {
+#ifdef GBI_FLOATS
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            m->m[i][j] = mf[i][j];
+        }
+    }
+#else
+    int32_t* addr = (int32_t*) m;
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 2; j++) {
+            int32_t val0 = (int32_t) (mf[i][j * 2] * 65536.0f);
+            int32_t val1 = (int32_t) (mf[i][j * 2 + 1] * 65536.0f);
+            addr[i * 2 + j] = (val0 & 0xFFFF0000) | ((val1 >> 16) & 0xFFFF);
+            addr[8 + i * 2 + j] = ((val0 & 0xFFFF) << 16) | (val1 & 0xFFFF);
+        }
+    }
+#endif
+}
+
 void guMtxF2L(float mf[4][4], Mtx* m) {
 #ifdef GBI_FLOATS
     for (int i = 0; i < 4; i++) {

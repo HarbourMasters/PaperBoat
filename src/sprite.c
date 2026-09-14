@@ -320,6 +320,7 @@ void spr_appendGfx_component(
     s32 opacity, PAL_PTR palette, Matrix4f mtx)
 {
     Matrix4f mtxTransform;
+    Matrix4f mtxLocal;
     Matrix4f mtxTemp;
     ImgFXTexture ifxImg;
     s32 quadIndex;
@@ -327,30 +328,35 @@ void spr_appendGfx_component(
     s32 width;
     s32 height;
 
-    guTranslateF(mtxTemp, dx, dy, dz);
-    guMtxCatF(mtxTemp, mtx, mtxTransform);
+    guTranslateF(mtxLocal, dx, dy, dz);
 
     if (rotY != 0.0f) {
         guRotateF(mtxTemp, rotY, 0.0f, 1.0f, 0.0f);
-        guMtxCatF(mtxTemp, mtxTransform, mtxTransform);
+        guMtxCatF(mtxTemp, mtxLocal, mtxLocal);
     }
     if (rotZ != 0.0f) {
         guRotateF(mtxTemp, rotZ, 0.0f, 0.0f, 1.0f);
-        guMtxCatF(mtxTemp, mtxTransform, mtxTransform);
+        guMtxCatF(mtxTemp, mtxLocal, mtxLocal);
     }
     if (rotX != 0.0f) {
         guRotateF(mtxTemp, rotX, 1.0f, 0.0f, 0.0f);
-        guMtxCatF(mtxTemp, mtxTransform, mtxTransform);
+        guMtxCatF(mtxTemp, mtxLocal, mtxLocal);
     }
 
     if (scaleX != 1.0f || scaleY != 1.0f || scaleZ != 1.0f) {
         guScaleF(mtxTemp, scaleX, scaleY, scaleZ);
-        guMtxCatF(mtxTemp, mtxTransform, mtxTransform);
+        guMtxCatF(mtxTemp, mtxLocal, mtxLocal);
     }
 
-    guMtxF2L(mtxTransform, &gDisplayContext->matrixStack[gMatrixListPos]);
+    guMtxCatF(mtxLocal, mtx, mtxTransform);
+
+    guMtxF2L(mtx, &gDisplayContext->matrixStack[gMatrixListPos]);
     gSPMatrix(gMainGfxPos++, VIRTUAL_TO_PHYSICAL(&gDisplayContext->matrixStack[gMatrixListPos++]),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    guMtxF2L_NoInterp(mtxLocal, &gDisplayContext->matrixStack[gMatrixListPos]);
+    gSPMatrix(gMainGfxPos++, VIRTUAL_TO_PHYSICAL(&gDisplayContext->matrixStack[gMatrixListPos++]),
+              G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
 
     if (gSpriteShadingProfile->flags & SPR_SHADING_FLAG_ENABLED) {
         if ((u8) opacity == 255) {
