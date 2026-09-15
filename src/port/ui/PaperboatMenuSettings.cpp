@@ -250,7 +250,7 @@ void PaperboatMenu::AddMenuSettings() {
 
     path.column = SECTION_COLUMN_2;
     AddWidget(path, "Additional Control Settings", WIDGET_SEPARATOR_TEXT);
-    AddWidget(path, "D-Pad as L-Stick", WIDGET_CVAR_CHECKBOX)
+    AddWidget(path, "D-Pad as Left Stick", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_SETTING("Controls.DPadAsLeftStick"))
         .Options(
             CheckboxOptions().Tooltip(
