@@ -1,46 +1,19 @@
 #include "common.h"
 #include "sprite.h"
 #include "port/patches/Patches.h"
-#include "port/Engine.h"
 
-// Port-side reimplementation of appendGfx_shading_palette (src/sprite_shading.c).
-//
-// Per call, computes a 16-entry sprite-shading palette and binds it for the
-// next sprite draw:
-//   1. Compute facingDir, offsetX/offsetY and the per-channel-clamped shadow
-//      and highlight colors from inputs.
-//   2. Build a 16x2 RGBA16 palette image into the offscreen FB sShadingFbId
-//      (lazy-created via gfx_create_framebuffer):
-//      - bind sShadingFbId with gsSPSetFB,
-//      - load TMEM palette via gDPSetTextureImagePal at tile 2,
-//      - draw a 16x2 textured rect with PM_CC_55 to mix shadow (prim) and
-//        highlight (env) into the palette.
-//   3. Unbind FB (gsSPResetFB), restore the camera viewport scissor.
-//   4. gDPReadFB the FB into SpriteShadingPalette (RAM); gDPLoadTLUT_pal16
-//      loads it as the TLUT for the upcoming draw.
-//   5. gDPInvalTexByPalette(SpriteShadingPalette) drops cached CI4/CI8
-//      textures keyed on this palette address so the next sprite re-uploads
-//      with the freshly written palette.
-//   6. Set the 2-cycle other-mode + combiner (PM_CC_50/52 or PM_CC_51/52
-//      depending on alpha) and the offset tile size for the upcoming draw.
-//
-// LUS extensions this relies on:
-//   - gDPSetTextureImagePal: sample TMEM palette region as a texture image.
-//   - gDPInvalTexByPalette: drop cached textures keyed on the given palette
-//     RAM address.
+// The component's own palette, which the two-tone one is built from.
+static PAL_PTR sShadingSourcePalette;
 
-extern int gfx_create_framebuffer(
-    unsigned int width,
-    unsigned int height,
-    unsigned int native_width,
-    unsigned int native_height,
-    unsigned char resize,
-    unsigned char forceFixedAspect
-);
+// One palette per shaded component: the display list is built now and run later, so a
+// single buffer would leave every component drawing with the last one written.
+#define SHADING_PALETTE_COUNT 512
+static PAL_BIN sShadingPalettes[SHADING_PALETTE_COUNT][16];
+static s32 sShadingPaletteIdx;
 
-extern u16 SpriteShadingPalette[16];
-
-static s32 sShadingFbId = -1;
+void port_set_shading_source_palette(PAL_PTR palette) {
+    sShadingSourcePalette = palette;
+}
 
 void port_appendGfx_shading_palette(
     Matrix4f mtx,
@@ -139,50 +112,27 @@ void port_appendGfx_shading_palette(
         highlightB = 255;
     }
 
-    // Create the GPU FB on first use.
-    if (sShadingFbId < 0) {
-        sShadingFbId = gfx_create_framebuffer(16, 2, 16, 2, 0, 0);
+    // [port] The N64 built this palette by drawing a 16x2 rectangle and reading it back, which
+    // stalled the GPU once per shaded component. PM_CC_55 over a 1-bit alpha only selects
+    // between two colours, so fill it directly: opaque entries take the shadow tone.
+    PAL_BIN* palette = sShadingPalettes[sShadingPaletteIdx];
+    sShadingPaletteIdx = (sShadingPaletteIdx + 1) % SHADING_PALETTE_COUNT;
+    {
+        const u8* source = (const u8*) port_sprite_palette_data(sShadingSourcePalette);
+        u8* out = (u8*) palette;
+        const u16 shadow = ((shadowR >> 3) << 11) | ((shadowG >> 3) << 6) | ((shadowB >> 3) << 1) | 1;
+        const u16 highlight = ((highlightR >> 3) << 11) | ((highlightG >> 3) << 6) | ((highlightB >> 3) << 1) | 1;
+        s32 i;
+        for (i = 0; i < 16; i++) {
+            const u16 entry = (source != NULL && (source[i * 2 + 1] & 1)) ? shadow : highlight;
+            out[i * 2 + 0] = entry >> 8;
+            out[i * 2 + 1] = entry & 0xFF;
+        }
     }
 
-    gDPSetPrimColor(gMainGfxPos++, 0, 0, shadowR, shadowG, shadowB, alpha);
-    gDPSetCombineMode(gMainGfxPos++, PM_CC_53, PM_CC_54);
-
-    // Bind tile 2 to TMEM palette region 0 as a texture image.
-    gDPSetTextureImagePal(gMainGfxPos++, 2, 0);
-    gDPSetTile(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0x100, 2, 0, G_TX_CLAMP, 0, 0, G_TX_CLAMP, 0, 0);
-    gDPSetTileSize(gMainGfxPos++, 2, 0, 0, (16 - 1) << 2, 0);
-
-    // Bind the shading FB as render target.
-    gsSPSetFB(gMainGfxPos++, sShadingFbId);
-    gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, 0, 0, 16, 2);
-
-    gDPPipeSync(gMainGfxPos++);
-    gSPSetOtherMode(
-        gMainGfxPos++, G_SETOTHERMODE_H, 4, 18,
-        G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE | G_TD_CLAMP
-            | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE
-    );
-    gDPSetRenderMode(gMainGfxPos++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
-
-    gDPSetPrimColor(gMainGfxPos++, 0, 0, shadowR, shadowG, shadowB, alpha);
-    gDPSetEnvColor(gMainGfxPos++, highlightR, highlightG, highlightB, 0);
-    gDPSetCombineMode(gMainGfxPos++, PM_CC_55, PM_CC_55);
-    gSPTextureRectangle(gMainGfxPos++, 0, 0, 16 << 2, 2 << 2, 2, 0, 0, 1 << 10, 1 << 10);
-    gDPPipeSync(gMainGfxPos++);
-
-    gsSPResetFB(gMainGfxPos++);
-
-    get_cam_scissor_x(gCurrentCameraID, &scissorLeft, &scissorRight);
-    gDPSetScissor(
-        gMainGfxPos++, 0, scissorLeft, camera->viewportStartY, scissorRight, camera->viewportStartY + camera->viewportH
-    );
-
-    // Read the FB back into SpriteShadingPalette and load it as TLUT.
-    gDPReadFB(gMainGfxPos++, sShadingFbId, SpriteShadingPalette, 0, 0, 16, 1, 1);
-    gDPLoadTLUT_pal16(gMainGfxPos++, 1, SpriteShadingPalette);
-    // Drop cached CI4/CI8 textures keyed on this palette address so the next
-    // sprite re-uploads with the freshly written palette contents.
-    gDPInvalTexByPalette(gMainGfxPos++, SpriteShadingPalette);
+    gDPLoadTLUT_pal16(gMainGfxPos++, 1, palette);
+    // Drop textures cached against this palette address: the ring comes back to it later.
+    gDPInvalTexByPalette(gMainGfxPos++, palette);
 
     gSPSetOtherMode(
         gMainGfxPos++, G_SETOTHERMODE_H, 4, 18,

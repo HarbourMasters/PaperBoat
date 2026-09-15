@@ -32,6 +32,7 @@ IMG_PTR port_named_image(const char* asset, const char* suffix, void* fallback);
 PAL_PTR port_sprite_palette_data(PAL_PTR palette);
 
 // Sprite shading (SpritePatches.c)
+void port_set_shading_source_palette(PAL_PTR palette);
 void port_appendGfx_shading_palette(
     Matrix4f mtx, s32 uls, s32 ult, s32 lrs, s32 lrt, s32 alpha,
     f32 shadowX, f32 shadowY, f32 shadowZ,

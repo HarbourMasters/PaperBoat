@@ -3,6 +3,7 @@
 #include "sprite.h"
 #include "imgfx.h"
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 #include "assets/imgfx.h"
 
 typedef union ImgFXIntVars {
@@ -714,6 +715,7 @@ s32 imgfx_appendGfx_component(s32 idx, ImgFXTexture* ifxImg, u32 flagBits, Matri
     state->flags |= flagBits;
     ImgFXCurrentTexturePtr->tex.raster  = ifxImg->raster;
     ImgFXCurrentTexturePtr->tex.palette = ifxImg->palette;
+    port_set_shading_source_palette(ifxImg->palette); // [port] the shading palette is built from this one
     ImgFXCurrentTexturePtr->tex.width   = ifxImg->width;
     ImgFXCurrentTexturePtr->tex.height  = ifxImg->height;
     ImgFXCurrentTexturePtr->tex.xOffset = ifxImg->xOffset;
