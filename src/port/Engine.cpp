@@ -12,9 +12,15 @@
 #include "port/audio/AudioVolume.h"
 #include "src/Companion.h"
 #include "ui/PaperboatGui.hpp"
+#include "ui/PaperboatModMenuWindow.h"
 #include "ui/TouchControls.h"
 #ifdef __EMSCRIPTEN__
 #include "port/web/WebUtils.h"
+#endif
+#if (defined(__linux__) || defined(__APPLE__)) && !defined(__ANDROID__)
+#include <cerrno>
+#include <cstring>
+#include <unistd.h>
 #endif
 #include <BS_thread_pool.hpp>
 #include <algorithm>
@@ -243,23 +249,7 @@ void GameEngine::FinishInit() {
         SPDLOG_INFO("Loading HD asset archive: paperboat-hd.o2r");
         archiveManager->AddArchive(hd_path);
     }
-
-    const std::string mods_path = Ship::Context::GetPathRelativeToAppDirectory("mods");
-    if (std::filesystem::exists(mods_path) && std::filesystem::is_directory(mods_path)) {
-        std::vector<std::string> mod_archives;
-        for (const auto& entry : std::filesystem::directory_iterator(mods_path)) {
-            const auto ext = entry.path().extension().string();
-            if ((entry.is_regular_file() && (ext == ".o2r" || ext == ".otr" || ext == ".zip")) || entry.is_directory())
-            {
-                mod_archives.push_back(std::filesystem::absolute(entry.path()).string());
-            }
-        }
-        std::sort(mod_archives.begin(), mod_archives.end());
-        for (const auto& mod : mod_archives) {
-            SPDLOG_INFO("Loading mod archive: {}", mod);
-            archiveManager->AddArchive(mod);
-        }
-    }
+    UpdateModFiles(true);
 
 #ifdef _DEBUG
     spdlog::set_level(spdlog::level::trace);
@@ -838,6 +828,39 @@ void GameEngine::Create(int argc, char* argv[]) {
     PortEnhancements_Init();
     ShipInit::InitAll();
     instance->AudioInit();
+}
+
+bool GameEngine::sRelaunchRequested = false;
+
+bool GameEngine::CanRelaunch() {
+#if defined(_WIN32) || ((defined(__linux__) || defined(__APPLE__)) && !defined(__ANDROID__))
+    return true;
+#else
+    return false;
+#endif
+}
+
+void GameEngine::RelaunchIfRequested(int argc, char* argv[]) {
+    if (!sRelaunchRequested) {
+        return;
+    }
+#ifdef _WIN32
+    wchar_t exePath[MAX_PATH];
+    if (GetModuleFileNameW(nullptr, exePath, MAX_PATH) > 0) {
+        STARTUPINFOW si {};
+        si.cb = sizeof(si);
+        PROCESS_INFORMATION pi {};
+        if (CreateProcessW(exePath, nullptr, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {
+            CloseHandle(pi.hThread);
+            CloseHandle(pi.hProcess);
+        } else {
+            SPDLOG_ERROR("Relaunch failed: CreateProcess error {}", GetLastError());
+        }
+    }
+#elif (defined(__linux__) || defined(__APPLE__)) && !defined(__ANDROID__)
+    execv(argv[0], argv);
+    SPDLOG_ERROR("Relaunch failed: execv error {}", strerror(errno));
+#endif
 }
 
 void GameEngine::Destroy() {

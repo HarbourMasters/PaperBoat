@@ -88,6 +88,13 @@ class GameEngine {
     static void AudioExit();
     void FinishInit();
     void RunExtract(int argc, char* argv[]);
+    static bool sRelaunchRequested;
+    static bool CanRelaunch();
+    static void RequestRelaunch() {
+        sRelaunchRequested = true;
+    }
+    static void RelaunchIfRequested(int argc, char* argv[]);
+
     static void RunCommands(Gfx* Commands, const std::vector<std::unordered_map<Mtx*, MtxF>>& mtx_replacements);
     static void Destroy();
     static uint32_t GetInterpolationFPS();

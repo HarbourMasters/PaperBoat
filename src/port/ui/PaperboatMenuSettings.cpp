@@ -477,6 +477,17 @@ void PaperboatMenu::AddMenuSettings() {
         .RaceDisable(false)
         .Callback([](WidgetInfo& info) { Notification::EmitAchievement(nullptr, "Harbour Mastery", 0); })
         .Options(ButtonOptions().Tooltip("Displays a test notification."));
+
+    // Mod Menu
+    path.sidebarName = "Mod Menu";
+    path.column = SECTION_COLUMN_1;
+    AddSidebarEntry("Settings", path.sidebarName, 1);
+    AddWidget(path, "Popout Mod Menu Window", WIDGET_WINDOW_BUTTON)
+        .CVar(CVAR_WINDOW("ModMenu"))
+        .RaceDisable(false)
+        .WindowName("Mod Menu")
+        .HideInSearch(true)
+        .Options(WindowButtonOptions().Tooltip("Enables the separate Mod Menu Window."));
 }
 
 } // namespace PaperboatGui

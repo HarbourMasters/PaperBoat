@@ -11,6 +11,7 @@
 
 #include "Notification.h"
 #include "PaperboatInputEditorWindow.h"
+#include "PaperboatModMenuWindow.h"
 #include "TouchControls.h"
 #include "port/ui/devtools/hooks/EventDebugger.h"
 #include <ship/window/gui/ConsoleWindow.h>
@@ -31,6 +32,7 @@ std::shared_ptr<EventDebuggerWindow> mEventDebuggerWindow;
 std::shared_ptr<ValueViewerWindow> mValueViewerWindow;
 std::shared_ptr<ValueViewerSettingsWindow> mValueViewerSettingsWindow;
 std::shared_ptr<SaveEditorWindow> mSaveEditorWindow;
+std::shared_ptr<PaperboatModMenuWindow> mModMenuWindow;
 std::shared_ptr<TouchControlsOverlay> mTouchControlsOverlay;
 
 UIWidgets::Colors GetMenuThemeColor() {
@@ -70,6 +72,9 @@ void SetupGuiElements() {
 
     mSaveEditorWindow = std::make_shared<SaveEditorWindow>(CVAR_WINDOW("SaveEditor"), "Save Editor");
     gui->AddGuiWindow(mSaveEditorWindow);
+
+    mModMenuWindow = std::make_shared<PaperboatModMenuWindow>(CVAR_WINDOW("ModMenu"), "Mod Menu");
+    gui->AddGuiWindow(mModMenuWindow);
 
     mInputEditorWindow =
         std::make_shared<PaperboatInputEditorWindow>(CVAR_WINDOW("ControllerConfiguration"), "Configure Controller");
@@ -113,6 +118,7 @@ void Destroy() {
     mValueViewerWindow = nullptr;
     mValueViewerSettingsWindow = nullptr;
     mSaveEditorWindow = nullptr;
+    mModMenuWindow = nullptr;
     mTouchControlsOverlay = nullptr;
 }
 

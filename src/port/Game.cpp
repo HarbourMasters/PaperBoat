@@ -70,6 +70,7 @@ extern "C"
     }
 
     GameEngine::Instance->Destroy();
+    GameEngine::RelaunchIfRequested(argc, argv);
 #ifdef __EMSCRIPTEN__
     // Destroy() wrote the config after the last periodic sync. Not awaited: the
     // write finishes in the page after the runtime exits.
