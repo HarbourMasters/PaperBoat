@@ -1,4 +1,14 @@
 # PaperBoat
+*Harbour Masters port of Paper Mario 64*
+
+Project Lead: 
+* Caladius
+
+Developers:
+* Bass3l
+* JeodC
+* Caladius
+* KiritoDv
 
 ## Website & Discord
 Official Website: https://www.harbourmasters.org/
