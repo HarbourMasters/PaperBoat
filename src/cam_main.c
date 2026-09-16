@@ -95,16 +95,29 @@ static b32 cam_has_fullscreen_viewport(s32 camID) {
            || gCameras[camID].viewportW >= SCREEN_WIDTH - 2 * SCREEN_INSET_X;
 }
 
-// Widescreen: the world and battle cameras are drawn inside a black margin.
-void get_cam_frame_x(s32 camID, s32* left, s32* right) {
-    Camera* camera = &gCameras[camID];
-
-    *left = OTRGetRectDimensionFromLeftEdge(camera->viewportStartX);
-    *right = OTRGetRectDimensionFromRightEdge(SCREEN_WIDTH - (camera->viewportStartX + abs(camera->viewportW)));
+// Widescreen: true when the view is wider than 4:3 and so reaches past the 4:3 box.
+static b32 cam_view_is_widened(void) {
+    return OTRGetRectDimensionFromLeftEdge(0) < 0;
 }
 
+void get_cam_frame_x(s32 camID, s32* left, s32* right) {
+    Camera* camera = &gCameras[camID];
+    s32 startX = 0;
+    s32 endX = SCREEN_WIDTH;
+
+    if (!cam_view_is_widened()) {
+        startX = camera->viewportStartX;
+        endX = camera->viewportStartX + abs(camera->viewportW);
+    }
+
+    *left = OTRGetRectDimensionFromLeftEdge(startX);
+    *right = OTRGetRectDimensionFromRightEdge(SCREEN_WIDTH - endX);
+}
+
+// The world and battle cameras are drawn inside a black margin, but only at 4:3 or narrower:
+// a wider view has no margin to draw.
 static b32 cam_is_framed(s32 camID) {
-    return camID == CAM_DEFAULT || camID == CAM_BATTLE;
+    return (camID == CAM_DEFAULT || camID == CAM_BATTLE) && !cam_view_is_widened();
 }
 
 void get_cam_scissor_x(s32 camID, s32* left, s32* right) {
@@ -144,6 +157,14 @@ static void cam_widescreen_fit_viewport(s32 camID, Camera* camera) {
         camera->vpAlt.vp.vscale[1] = camera->vp.vp.vscale[1];
         camera->vpAlt.vp.vtrans[0] = gGameStatusPtr->altViewportOffset.x + camera->vp.vp.vtrans[0];
         camera->vpAlt.vp.vtrans[1] = gGameStatusPtr->altViewportOffset.y + camera->vp.vp.vtrans[1];
+        return;
+    }
+
+    if (camID == CAM_DEFAULT || camID == CAM_BATTLE) {
+        camera->vp.vp.vscale[0] = 2.0f * SCREEN_WIDTH;
+        camera->vp.vp.vtrans[0] = 4 * (SCREEN_WIDTH / 2);
+        camera->vpAlt.vp.vscale[0] = camera->vp.vp.vscale[0];
+        camera->vpAlt.vp.vtrans[0] = gGameStatusPtr->altViewportOffset.x + camera->vp.vp.vtrans[0];
         return;
     }
 
