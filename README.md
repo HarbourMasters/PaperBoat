@@ -1,41 +1,78 @@
-# Paper Mario DX
+# PaperBoat
 
-[![Release](https://img.shields.io/github/v/release/bates64/papermario-dx)][releases]
-[![Download](https://img.shields.io/github/downloads/bates64/papermario-dx/total)][download]
-![Build Status](https://img.shields.io/github/actions/workflow/status/bates64/papermario-dx/build.yaml)
+## Website & Discord
+Official Website: https://www.harbourmasters.org/
 
-This is a fork of the [Paper Mario decompilation][papermario-repo] which provides a flexible, easy-to-use base for creating romhacks.
+Official Discord: https://discord.gg/harbourmasters
 
-To get started, [read the docs](https://docs.starhaven.dev).
+*If you're having any trouble after reading through this `README`, feel free ask for help in the PaperBoat text channels. Please keep in mind that we do not condone piracy.*
 
-Paperboat is the native port built on top of it. Alongside Windows, macOS and
-Linux it builds for **Android, iOS and the browser** — see
-[docs/android-ios-web.md](docs/android-ios-web.md). No game
-data ships with any of them: each one extracts `pm64.o2r` from your own ROM,
-on your own device.
+# Quick Start
 
-[discord]: https://discord.gg/star-haven
-[discord-badge]: https://img.shields.io/discord/279322074412089344?color=%237289DA&logo=discord&logoColor=ffffff
-[papermario-repo]: https://github.com/pmret/papermario
-[releases]: https://github.com/bates64/papermario-dx/releases
-[download]: https://github.com/bates64/papermario-dx/releases/download/latest/papermario.bps
+PaperBoat does not include any copyrighted assets.  You are required to provide a supported copy of the game.
 
-### List of changes (incomplete)
+### 1. Verify your ROM dump
+US SHA1 Hash: `3837f44cda784b466c9a2d99df70d77c322b97a0`
 
-- US release only (no JP, PAL, or iQue - none of these are near 100% yet).
-- Default configure flags: `--shift --modern-gcc --non-matching --ccache`
-- Backtrace (call stack) on crash screen including file names and line numbers.
-    - You can call [`debug_backtrace()`](src/dx/backtrace.h) to print a backtrace in any function.
-    - Failed assertions (`ASSERT`) will trigger the crash screen and print a backtrace instead of hanging.
-    - Backtraces provide filenames and line numbers for files with debug symbols (pass `--debug` to configure to enable for all files).
-- `assets/star_rod_build` directory for Star Rod to write assets to.
-- Fixed many bugs / incorrect behaviour.
-- Skip compiling or linking dead code.
-- Link with [libgcc_vr4300] to provide compiler intrinsics.
-- Added a debug/cheats menu.
-- Enemy HP is now a `s16`, increasing the cap to 32767.
-- Added support for badges with negative BP costs.
-- Additional features can be configured in [src/dx/config.h](src/dx/config.h).
+### 2. Download PaperBoat from [Releases](https://github.com/HarbourMasters/PaperBoat/releases)
 
-[libgcc_vr4300]: https://github.com/Decompollaborate/libgcc_vr4300
+### 3. Launch the Game!
+#### Windows
+* Extract the zip
+* Launch `paperboat.exe`
+
+#### Linux
+* Place your supported copy of the game in the same folder as the appimage.
+* Execute `paperboat.appimage`. You may have to `chmod +x` the appimage via terminal.
+
+#### macOS
+* Run `paperboat.app`.
+* When prompted, select your supported copy of the game.
+
+### 4. Play!
+
+Congratulations, you are now sailing with 2 Ship 2 Harkinian! Have fun!
+
+# Configuration
+
+### Default keyboard configuration
+| N64 | A | B | Z | Start | Analog stick | C buttons | D-Pad |
+| - | - | - | - | - | - | - | - |
+| Keyboard | X | C | Z | Space | WASD | Arrow keys | TFGH |
+
+### Other shortcuts
+| Keys | Action |
+| - | - |
+| F1 | Toggle menubar |
+| F11 | Fullscreen |
+| Tab | Toggle Alternate assets |
+| Ctrl+R | Reset |
+
+### Graphics Backends
+Currently, there are three rendering APIs supported: DirectX 11 (Windows), OpenGL (all platforms), and Metal (macOS). You can change which API to use in the `Settings` menu of the menubar, which requires a restart.
+
+If you're having an issue with crashing, you can also change the API manually in the `paperboat.cfg.json` file by finding the `"Backend": {` section and updating the backend ID and name. Be sure to use one of the valid values:
+
+- `0` = DirectX 11 (default on Windows)
+- `1` = OpenGL
+- `2` = Metal (default on macOS)
+
+# Custom Assets
+
+Custom assets are packed in `.o2r` or `.otr` files. To use custom assets, place them in the `mods` folder.
+
+If you're interested in creating and/or packing your own custom asset `.o2r`/`.otr` files, check out the following tools:
+* [**retro - OTR and O2R generator**](https://github.com/HarbourMasters64/retro)
+* [**fast64 - Blender plugin (Note that PM64 is not fully supported at this time)**](https://github.com/HarbourMasters/fast64)
+
+# Development
+
+If you want to manually compile PaperBoat, please consult the [building instructions](docs/BUILDING.md).
+
+<a href="https://github.com/Kenix3/libultraship/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./docs/poweredbylus.darkmode.png">
+    <img alt="Powered by libultraship" src="./docs/poweredbylus.lightmode.png">
+  </picture>
+</a>
 
