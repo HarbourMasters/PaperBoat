@@ -26,6 +26,10 @@
 # and pass it as an argument to clang-format
 # verbose to print files being formatted and X out of Y status
 
+# The CI workflow pins clang-format 21.1.8 (see .github/workflows/clang-format.yml);
+# other versions format braces/wrapping differently and will disagree with CI.
+REQUIRED_VERSION="21.1.8"
+
 # Autodetect the command, unless CLANG_FORMAT already names one
 if [ -n "$CLANG_FORMAT" ]; then
     :
@@ -33,6 +37,20 @@ elif command -v clang-format-14 &> /dev/null; then
     CLANG_FORMAT="clang-format-14"
 else
     CLANG_FORMAT="clang-format"
+fi
+
+if ! command -v "$CLANG_FORMAT" &> /dev/null; then
+    echo "error: '$CLANG_FORMAT' not found. Install the CI-pinned version with:" >&2
+    echo "  pip install --user clang-format==$REQUIRED_VERSION" >&2
+    exit 1
+fi
+
+FOUND_VERSION="$("$CLANG_FORMAT" --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -n1)"
+if [ "$FOUND_VERSION" != "$REQUIRED_VERSION" ]; then
+    echo "error: $CLANG_FORMAT is version $FOUND_VERSION, but CI uses $REQUIRED_VERSION." >&2
+    echo "Formatting with a different version will disagree with CI. Install the pinned version with:" >&2
+    echo "  pip install --user clang-format==$REQUIRED_VERSION" >&2
+    exit 1
 fi
 
 find src/port -type f \( -name "*.c" -o -name "*.cpp" -o \( \( -name "*.h" -o -name "*.hpp" \) ! -path "src/*" ! -path "include/*" \) \) ! -path "assets/*" -print0 | xargs -0 $CLANG_FORMAT -i --verbose
