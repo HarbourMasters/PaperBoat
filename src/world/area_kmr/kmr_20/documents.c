@@ -2,6 +2,7 @@
 #include "hud_element.h"
 #include "vars_access.h"
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 #include "assets/charset.h"
 
 #define PACKED_BYTE(base, i) \
@@ -213,8 +214,8 @@ API_CALLABLE(N(ReadLetters)){
                        (CHARSET_POSTCARD_WIDTH * CHARSET_POSTCARD_HEIGHT) / 2);
                 memcpy(N(LetterBackgroundPal), LOAD_ASSET(CHARSET_POSTCARD_PAL), 0x20);
 
-                N(LetterImgData)[0].raster = N(LetterBackgroundImg);
-                N(LetterImgData)[0].palette = N(LetterBackgroundPal);
+                N(LetterImgData)[0].raster = port_named_image(CHARSET_POSTCARD, "_img", N(LetterBackgroundImg));
+                N(LetterImgData)[0].palette = (PAL_PTR) port_named_image(CHARSET_POSTCARD, "_img_tlut", N(LetterBackgroundPal));
                 N(LetterImgData)[0].width = CHARSET_POSTCARD_WIDTH;
                 N(LetterImgData)[0].height = CHARSET_POSTCARD_HEIGHT;
                 N(LetterImgData)[0].format = G_IM_FMT_CI;
@@ -224,8 +225,8 @@ API_CALLABLE(N(ReadLetters)){
                        CHARSET_LETTER_CONTENT_WIDTH * CHARSET_LETTER_CONTENT_HEIGHT);
                 memcpy(N(N(LetterPhotoPal)), LOAD_ASSET(CHARSET_LETTER_CONTENT_PALS[userIndex]), 0x200);
 
-                N(LetterImgData)[1].raster = N(LetterPhotoImg);
-                N(LetterImgData)[1].palette = N(N(LetterPhotoPal));
+                N(LetterImgData)[1].raster = port_named_image(CHARSET_LETTER_CONTENT_IMGS[userIndex], "_img", N(LetterPhotoImg));
+                N(LetterImgData)[1].palette = (PAL_PTR) port_named_image(CHARSET_LETTER_CONTENT_IMGS[userIndex], "_img_tlut", N(N(LetterPhotoPal)));
                 N(LetterImgData)[1].width = CHARSET_LETTER_CONTENT_WIDTH;
                 N(LetterImgData)[1].height = CHARSET_LETTER_CONTENT_HEIGHT;
                 N(LetterImgData)[1].format = G_IM_FMT_CI;
