@@ -21,7 +21,7 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           submodules: recursive
           # CMakeLists.txt runs `git describe --tags` for the build stamp.
@@ -36,14 +36,14 @@ jobs:
             libopengl-dev libgl1-mesa-dev libogg-dev libvorbis-dev zlib1g-dev libbz2-dev
 
       - name: ccache
-        uses: hendrikmuhs/ccache-action@v1.2.23
+        uses: hendrikmuhs/ccache-action@v1.2.24
         with:
           key: linux-ccache-${{ github.ref }}
           restore-keys: |
             linux-ccache-
 
       - name: Cache third-party source builds
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           key: linux-thirdparty-sdl2.30.3-tinyxml2.10.0.0-libzip1.10.1
           path: |
@@ -110,7 +110,7 @@ jobs:
           wget -q -O Paperboat-linux/gamecontrollerdb.txt https://raw.githubusercontent.com/mdqinc/SDL_GameControllerDB/master/gamecontrollerdb.txt
 
       - name: Upload build
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Paperboat-linux
           path: Paperboat-linux
@@ -120,13 +120,13 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: recursive
           fetch-depth: 0
 
       - name: Cache vcpkg binaries
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           key: windows-vcpkg-${{ hashFiles('CMakeLists.txt') }}
           restore-keys: |
@@ -153,7 +153,7 @@ jobs:
           Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mdqinc/SDL_GameControllerDB/master/gamecontrollerdb.txt" -OutFile "Paperboat-windows/gamecontrollerdb.txt"
 
       - name: Upload build
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Paperboat-windows
           path: Paperboat-windows
@@ -163,7 +163,7 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: recursive
           fetch-depth: 0
@@ -173,7 +173,7 @@ jobs:
           brew install ninja sdl2 glew libzip nlohmann-json tinyxml2 spdlog libpng
 
       - name: ccache
-        uses: hendrikmuhs/ccache-action@v1.2.23
+        uses: hendrikmuhs/ccache-action@v1.2.24
         with:
           key: macos-ccache-${{ github.ref }}
           restore-keys: |
@@ -193,7 +193,7 @@ jobs:
           cp README.md Paperboat-mac/readme.txt
 
       - name: Upload build
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Paperboat-mac
           path: Paperboat-mac
