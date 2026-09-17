@@ -191,7 +191,7 @@ GameEngine::GameEngine() {
 #endif
 
     this->context = Ship::Context::CreateUninitializedInstance(
-        "Paperboat", "boat", Ship::Context::GetPathRelativeToAppDirectory("paperboat.cfg.json")
+        "Paperboat", "boat", "paperboat.cfg.json"
     );
     gShipContext = this->context;
 

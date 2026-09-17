@@ -741,7 +741,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
         ${CMAKE_BINARY_DIR}/gamecontrollerdb.txt)
 
     install(TARGETS ${PROJECT_NAME} DESTINATION ../MacOS COMPONENT ${PROJECT_NAME})
-    install(FILES ${CMAKE_BINARY_DIR}/gamecontrollerdb.txt DESTINATION ../MacOS COMPONENT ${PROJECT_NAME})
+    install(FILES ${CMAKE_BINARY_DIR}/gamecontrollerdb.txt DESTINATION ../Resources COMPONENT ${PROJECT_NAME})
     install(FILES ${PAPERBOAT_PORT_O2R} DESTINATION ../Resources COMPONENT ${PROJECT_NAME})
     install(FILES ${CMAKE_SOURCE_DIR}/config.yml DESTINATION ../Resources COMPONENT ${PROJECT_NAME})
     install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets/ DESTINATION ../Resources/assets COMPONENT ${PROJECT_NAME})
