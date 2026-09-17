@@ -1,7 +1,7 @@
 # PaperBoat
 *Harbour Masters port of Paper Mario 64*
 
-Project Lead: 
+Project Lead:
 * Caladius
 
 Developers:
@@ -87,3 +87,9 @@ If you want to manually compile PaperBoat, please consult the [building instruct
   </picture>
 </a>
 
+# Special Thanks:
+
+This wouldn't have been possible without your amazing work:
+
+* [The Paper Mario decomp team](https://github.com/pmret/papermario)
+* [The Paper Mario DX team](https://github.com/bates64/papermario-dx)
