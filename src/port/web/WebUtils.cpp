@@ -12,7 +12,7 @@ EM_JS(void, js_idbfs_mount, (const char* cpath), {
         FS.mkdir(path);
     } catch (e) {
     }
-    FS.mount(IDBFS, { }, path);
+    FS.mount(IDBFS, {}, path);
 });
 
 // Sync from IndexedDB → virtual FS (populate = true)

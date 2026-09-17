@@ -198,7 +198,7 @@ void ComputeLayout(OverlayState& state) {
                        h](uint16_t mask, const char* id, const char* label, const char* base, const char* basePath,
                           const char* outline, const char* outlinePath, const Rect& r, ImU32 color, float dirX,
                           float dirY, ImVec2 center, float halfH) {
-        TouchButton b { };
+        TouchButton b {};
         b.mask = mask;
         b.id = id;
         b.label = label;

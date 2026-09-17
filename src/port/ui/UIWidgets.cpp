@@ -839,10 +839,8 @@ bool InputString(const char* label, std::string* value, const InputOptions& opti
         && !Ship_IsCStringEmpty(options.errorText))
     {
         ImGui::SetTooltip("%s", WrappedText(options.errorText).c_str());
-    } else if (
-        options.disabled && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)
-        && !Ship_IsCStringEmpty(options.disabledTooltip)
-    )
+    } else if (options.disabled && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)
+               && !Ship_IsCStringEmpty(options.disabledTooltip))
     {
         ImGui::SetTooltip("%s", WrappedText(options.disabledTooltip).c_str());
     } else if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) && !Ship_IsCStringEmpty(options.tooltip)) {
@@ -1227,7 +1225,7 @@ ImVec4 GetRandomValue() {
     std::random_device rd;
     std::mt19937 rng(rd());
 #else
-    size_t seed = std::hash<std::string> { }(std::to_string(rand()));
+    size_t seed = std::hash<std::string> {}(std::to_string(rand()));
     std::mt19937_64 rng(seed);
 #endif
     std::uniform_int_distribution<int> dist(0, 255 - 1);

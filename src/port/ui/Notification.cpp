@@ -12,8 +12,8 @@
 namespace Notification {
 
 static uint32_t nextId = 0;
-static std::vector<Options> notifications = { };
-static std::map<uint32_t, float> notificationHeights = { }; // Cache actual heights by notification ID
+static std::vector<Options> notifications = {};
+static std::map<uint32_t, float> notificationHeights = {}; // Cache actual heights by notification ID
 
 void Window::Draw() {
     auto vp = ImGui::GetMainViewport();

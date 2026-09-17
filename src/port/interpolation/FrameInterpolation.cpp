@@ -469,7 +469,7 @@ void FrameInterpolation_ShouldInterpolateFrame(bool shouldInterpolate) {
 
 void FrameInterpolation_StartRecord(void) {
     previous_recording = move(current_recording);
-    current_recording = { };
+    current_recording = {};
     current_path.clear();
     current_path.push_back(&current_recording.root_path);
     if (!camera_interpolation) {

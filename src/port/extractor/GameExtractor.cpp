@@ -64,9 +64,9 @@ std::optional<YAML::Node> GetSupportedRomNode(const std::vector<uint8_t>& romDat
 std::vector<uint8_t> ReadWholeFile(const std::filesystem::path& path) {
     std::ifstream inFile(path, std::ios::binary);
     if (!inFile.is_open()) {
-        return { };
+        return {};
     }
-    return std::vector<uint8_t>(std::istreambuf_iterator<char>(inFile), { });
+    return std::vector<uint8_t>(std::istreambuf_iterator<char>(inFile), {});
 }
 } // namespace
 
