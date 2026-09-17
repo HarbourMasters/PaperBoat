@@ -36,6 +36,17 @@ void PaperboatMenu::AddMenuEnhancements() {
     AddSidebarEntry("Enhancements", path.sidebarName, 1);
     path.column = SECTION_COLUMN_1;
 
+    AddWidget(path, "DX: Prevent Loading Zone Storage", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("PreventLoadingZoneStorage"))
+        .Options(
+            CheckboxOptions().Tooltip(
+                "Locks out player input the moment a loading zone is triggered, which patches "
+                "out the Loading Zone Storage glitch. Off by default to match the original "
+                "game. Note that most loading zones also trigger while you are airborne above "
+                "them, so enabling this can freeze Mario in midair until he lands."
+            )
+        );
+
     // Enhancements > Graphics
     path = { "Enhancements", "Graphics", SECTION_COLUMN_1 };
     AddSidebarEntry("Enhancements", "Graphics", 1);

@@ -1330,6 +1330,11 @@ API_CALLABLE(DisablePlayerPhysics);
 /// @param disable
 API_CALLABLE(DisablePlayerInput);
 
+/// Disables player and partner input during a loading zone walk, but only when
+/// the "DX: Prevent Loading Zone Storage" enhancement is enabled. Takes no arguments.
+/// @evtapi
+API_CALLABLE(DisableLoadingZoneInput);
+
 /// Sets the player position. A `y` of `-1000` is used for hiding the player.
 /// @evtapi
 /// @param x
