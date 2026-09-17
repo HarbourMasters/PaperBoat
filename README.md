@@ -54,7 +54,7 @@ Congratulations, you are now sailing with PaperBoat! Have fun!
 ### Other shortcuts
 | Keys | Action |
 | - | - |
-| F1 | Toggle menubar |
+| Esc | Toggle menubar |
 | F11 | Fullscreen |
 | Tab | Toggle Alternate assets |
 | Ctrl+R | Reset |
