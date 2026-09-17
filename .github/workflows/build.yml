@@ -169,8 +169,9 @@ jobs:
           fetch-depth: 0
 
       - name: Install dependencies
-        run: |
-          brew install ninja sdl2 glew libzip nlohmann-json tinyxml2 spdlog libpng
+        uses: melusina-org/setup-macports@v1
+        with:
+          parameters: '.github/macports.yml'
 
       - name: ccache
         uses: hendrikmuhs/ccache-action@v1.2.23
