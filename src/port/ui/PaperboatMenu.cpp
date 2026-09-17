@@ -31,7 +31,7 @@ WidgetInfo& PaperboatMenu::AddWidget(WidgetPath& pathInfo, std::string widgetNam
     uint8_t column = pathInfo.column;
     if (sidebar.contains(pathInfo.sidebarName)) {
         while (sidebar.at(pathInfo.sidebarName).columnWidgets.size() < column + 1) {
-            sidebar.at(pathInfo.sidebarName).columnWidgets.push_back({});
+            sidebar.at(pathInfo.sidebarName).columnWidgets.push_back({ });
         }
     }
     SidebarEntry& entry = sidebar.at(pathInfo.sidebarName);

@@ -13,59 +13,54 @@ namespace Paperboat {
 
 #if PAPERBOAT_NATIVE_FILE_DIALOG
 // portable-file-dialogs takes a flat filter list: { label, "*.a *.b", label2, "*.c", ... }.
-static std::vector<std::string> ToPfdFilters(const std::vector<Ship::FileFilter> &filters) {
-  std::vector<std::string> out;
-  for (const auto &filter : filters) {
-    out.push_back(filter.Label);
-    std::string patterns;
-    for (const auto &pattern : filter.Patterns) {
-      if (!patterns.empty()) {
-        patterns += " ";
-      }
-      patterns += pattern;
+static std::vector<std::string> ToPfdFilters(const std::vector<Ship::FileFilter>& filters) {
+    std::vector<std::string> out;
+    for (const auto& filter : filters) {
+        out.push_back(filter.Label);
+        std::string patterns;
+        for (const auto& pattern : filter.Patterns) {
+            if (!patterns.empty()) {
+                patterns += " ";
+            }
+            patterns += pattern;
+        }
+        out.push_back(patterns);
     }
-    out.push_back(patterns);
-  }
-  if (out.empty()) {
-    out = {"All Files", "*"};
-  }
-  return out;
+    if (out.empty()) {
+        out = { "All Files", "*" };
+    }
+    return out;
 }
 #endif
 
-void PickFile(Ship::FileBrowserRequest request,
-              std::function<void(std::optional<fs::path>)> onResult) {
+void PickFile(Ship::FileBrowserRequest request, std::function<void(std::optional<fs::path>)> onResult) {
 #if PAPERBOAT_NATIVE_FILE_DIALOG
-  const std::string startDir =
-      request.StartDir.empty() ? "." : request.StartDir.string();
-  const std::vector<std::string> filters = ToPfdFilters(request.Filters);
+    const std::string startDir = request.StartDir.empty() ? "." : request.StartDir.string();
+    const std::vector<std::string> filters = ToPfdFilters(request.Filters);
 
-  std::optional<fs::path> result;
-  if (pfd::settings::available()) {
-    if (request.Save) {
-      const std::string defaultPath =
-          (fs::path(startDir) / request.DefaultName).string();
-      std::string selection =
-          pfd::save_file(request.Title, defaultPath, filters).result();
-      if (!selection.empty()) {
-        result = fs::path(selection);
-      }
+    std::optional<fs::path> result;
+    if (pfd::settings::available()) {
+        if (request.Save) {
+            const std::string defaultPath = (fs::path(startDir) / request.DefaultName).string();
+            std::string selection = pfd::save_file(request.Title, defaultPath, filters).result();
+            if (!selection.empty()) {
+                result = fs::path(selection);
+            }
+        } else {
+            std::vector<std::string> selection = pfd::open_file(request.Title, startDir, filters).result();
+            if (!selection.empty()) {
+                result = fs::path(selection.front());
+            }
+        }
     } else {
-      std::vector<std::string> selection =
-          pfd::open_file(request.Title, startDir, filters).result();
-      if (!selection.empty()) {
-        result = fs::path(selection.front());
-      }
+        SPDLOG_ERROR("portable-file-dialogs is not available on this system.");
     }
-  } else {
-    SPDLOG_ERROR("portable-file-dialogs is not available on this system.");
-  }
-  if (onResult) {
-    onResult(result);
-  }
+    if (onResult) {
+        onResult(result);
+    }
 #else
-  request.OnResult = std::move(onResult);
-  Ship::FileBrowserWindow::Open(std::move(request));
+    request.OnResult = std::move(onResult);
+    Ship::FileBrowserWindow::Open(std::move(request));
 #endif
 }
 

@@ -488,8 +488,10 @@ void InputViewer::DrawElement() {
                             CVarGetColor(CVAR_INPUT_VIEWER("AnalogAngles.Range1.Color.Value"), range1ColorDefault)
                         )
                     );
-                } else if (CVarGetInteger(CVAR_INPUT_VIEWER("AnalogAngles.Range2.Enabled"), 0)
-                           && (rSquared >= (range2Min * range2Min)) && (rSquared < (range2Max * range2Max)))
+                } else if (
+                    CVarGetInteger(CVAR_INPUT_VIEWER("AnalogAngles.Range2.Enabled"), 0)
+                    && (rSquared >= (range2Min * range2Min)) && (rSquared < (range2Max * range2Max))
+                )
                 {
                     ImGui::PushStyleColor(
                         ImGuiCol_Text,

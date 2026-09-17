@@ -201,13 +201,13 @@ GameEngine::GameEngine() {
 
     this->context->InitControlDeck(std::make_shared<LUS::ControlDeck>());
     this->context->InitResourceManager(
-        portArchiveExists ? std::vector<std::string> { assets_path } : std::vector<std::string> {}, {}, 3
+        portArchiveExists ? std::vector<std::string> { assets_path } : std::vector<std::string> { }, { }, 3
     );
     this->context->InitConsole();
     this->context->InitCrashHandler();
     this->context->InitEventSystem();
 
-    gsFast3dWindow = std::make_shared<Fast::Fast3dWindow>(std::vector<std::shared_ptr<Ship::GuiWindow>>({}));
+    gsFast3dWindow = std::make_shared<Fast::Fast3dWindow>(std::vector<std::shared_ptr<Ship::GuiWindow>>({ }));
     this->context->InitWindow(gsFast3dWindow);
     this->context->InitFileDropMgr();
 
@@ -847,9 +847,9 @@ void GameEngine::RelaunchIfRequested(int argc, char* argv[]) {
 #ifdef _WIN32
     wchar_t exePath[MAX_PATH];
     if (GetModuleFileNameW(nullptr, exePath, MAX_PATH) > 0) {
-        STARTUPINFOW si {};
+        STARTUPINFOW si { };
         si.cb = sizeof(si);
-        PROCESS_INFORMATION pi {};
+        PROCESS_INFORMATION pi { };
         if (CreateProcessW(exePath, nullptr, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {
             CloseHandle(pi.hThread);
             CloseHandle(pi.hProcess);
@@ -1153,7 +1153,7 @@ void GameEngine::RunCommands(Gfx* Commands, const std::vector<std::unordered_map
     interpreter->mInterpolationIndex = 0;
 
     for (const auto& m : mtx_replacements) {
-        wnd->DrawAndRunGraphicsCommands(Commands, m, {});
+        wnd->DrawAndRunGraphicsCommands(Commands, m, { });
         interpreter->mInterpolationIndex++;
     }
 }
@@ -1319,7 +1319,7 @@ extern "C" void GameEngine_HoldFrame(void) {
 // C-callable wrapper for processing graphics commands
 extern "C" void GameEngine_ProcessGfxCommands(Gfx* commands) {
     std::vector<std::unordered_map<Mtx*, MtxF>> mtx_replacements;
-    mtx_replacements.push_back({}); // Empty map for now, interpolation can be added later
+    mtx_replacements.push_back({ }); // Empty map for now, interpolation can be added later
     GameEngine::RunCommands(commands, mtx_replacements);
 }
 

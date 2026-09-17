@@ -91,7 +91,7 @@ static void ModsHandleDragAndDrop(int targetIndex, const std::string& itemName) 
 static std::vector<std::string> SplitModCVar(const char* name) {
     std::string value = CVarGetString(name, "");
     if (value.empty()) {
-        return {};
+        return { };
     }
     return StringHelper::Split(value, SEPARATOR);
 }

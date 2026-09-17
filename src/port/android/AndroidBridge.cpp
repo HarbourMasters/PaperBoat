@@ -30,7 +30,7 @@ constexpr const char* kGameArchive = "pm64.o2r";
 
 std::string ToStdString(JNIEnv* env, jstring value) {
     if (value == nullptr) {
-        return {};
+        return { };
     }
     const char* chars = env->GetStringUTFChars(value, nullptr);
     std::string result = chars != nullptr ? chars : "";

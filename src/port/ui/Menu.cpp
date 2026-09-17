@@ -15,7 +15,7 @@
 
 #undef End
 
-std::vector<ImVec2> windowTypeSizes = { {} };
+std::vector<ImVec2> windowTypeSizes = { { } };
 
 extern std::unordered_map<s16, const char*> warpPointSceneList;
 extern void Warp();
@@ -23,7 +23,7 @@ extern void Warp();
 namespace PaperboatGui {
 extern std::shared_ptr<PaperboatModalWindow> mModalWindow;
 }
-std::vector<SearchWidget> extraSearchWidgets = {};
+std::vector<SearchWidget> extraSearchWidgets = { };
 
 namespace Ship {
 std::string disabledTempTooltip;
@@ -377,7 +377,7 @@ void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors me
                     }
                 }
                 auto currentAudioBackend = audio->GetCurrentAudioBackend();
-                UIWidgets::ComboboxOptions options = {};
+                UIWidgets::ComboboxOptions options = { };
                 options.color = menuThemeIndex;
                 options.tooltip = "Sets the audio API used by the game. Requires a "
                                   "relaunch to take effect.";
@@ -388,7 +388,7 @@ void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors me
                 }
             } break;
             case WIDGET_VIDEO_BACKEND: {
-                UIWidgets::ComboboxOptions options = {};
+                UIWidgets::ComboboxOptions options = { };
                 options.color = menuThemeIndex;
                 options.tooltip = "Sets the renderer API used by the game.";
                 options.disabled = availableWindowBackends->size() <= 1;
@@ -802,7 +802,7 @@ void Menu::DrawElement() {
     }
     ImGui::EndChild();
     ImGui::SameLine(menuSize.x - (buttonSize.x * 4.25f) - (style.ItemSpacing.x * 2));
-    UIWidgets::ButtonOptions options4 = {};
+    UIWidgets::ButtonOptions options4 = { };
     std::string option4Tooltip = fmt::format(
         "About PaperBoat \n"
         "- Version: {}\n"
@@ -816,7 +816,7 @@ void Menu::DrawElement() {
     if (UIWidgets::Button(ICON_FA_QUESTION_CIRCLE, options4)) {
     }
     ImGui::SameLine();
-    UIWidgets::ButtonOptions options3 = {};
+    UIWidgets::ButtonOptions options3 = { };
     options3.color = UIWidgets::Colors::Red;
     options3.size = UIWidgets::Sizes::Inline;
     options3.tooltip = "Quit Paperboat";
@@ -836,7 +836,7 @@ void Menu::DrawElement() {
     }
     ImGui::PopStyleVar();
     ImGui::SameLine();
-    UIWidgets::ButtonOptions options2 = {};
+    UIWidgets::ButtonOptions options2 = { };
     options2.color = UIWidgets::Colors::Red;
     options2.size = UIWidgets::Sizes::Inline;
     options2.tooltip = "Reset"
@@ -855,7 +855,7 @@ void Menu::DrawElement() {
             ->Dispatch("reset");
     }
     ImGui::SameLine();
-    UIWidgets::ButtonOptions options = {};
+    UIWidgets::ButtonOptions options = { };
     options.size = UIWidgets::Sizes::Inline;
     options.tooltip = "Close Menu (Esc)";
     if (UIWidgets::Button(ICON_FA_TIMES_CIRCLE, options)) {
@@ -960,7 +960,7 @@ void Menu::DrawElement() {
         ImGui::Text("Search Results");
         ImGui::PopFont();
         ImGui::SameLine();
-        UIWidgets::ButtonOptions clearBtnOpts = {};
+        UIWidgets::ButtonOptions clearBtnOpts = { };
         clearBtnOpts.size = UIWidgets::Sizes::Inline;
         if (UIWidgets::Button("Clear Search", clearBtnOpts)) {
             menuSearch.Clear();
