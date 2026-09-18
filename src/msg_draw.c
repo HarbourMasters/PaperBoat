@@ -80,7 +80,7 @@ Gfx D_8014C500[] = {
     gsDPSetCycleType(G_CYC_1CYCLE),
     gsDPSetRenderMode(G_RM_TEX_EDGE, G_RM_TEX_EDGE2),
     gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
-    gsDPSetTextureFilter(G_TF_AVERAGE),
+    gsDPSetTextureFilter(G_TF_POINT),
     gsSPTexture(-1, -1, 0, G_TX_RENDERTILE, G_ON),
     gsDPSetTexturePersp(G_TP_NONE),
     gsDPSetColorDither(G_CD_DISABLE),
@@ -903,7 +903,7 @@ void appendGfx_message(MessagePrintState* printer, s16 posX, s16 posY, u16 addit
                         msg_drawState->msgScale.x = 1.0f;
                         msg_drawState->msgScale.y = 1.0f;
                         msg_drawState->drawBufferPos++;
-                        gDPSetTextureFilter(gMainGfxPos++, G_TF_AVERAGE);
+                        gDPSetTextureFilter(gMainGfxPos++, G_TF_POINT);
                         break;
 #endif
                     case MSG_PRINT_FUNC_SET_X:
