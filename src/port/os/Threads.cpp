@@ -23,7 +23,7 @@ std::mutex sTableMutex;
 std::map<void*, OsThreadState> sThreads;
 std::set<void*> sEnabledEntries;
 
-std::atomic<bool> sExitRequested{ false };
+std::atomic<bool> sExitRequested { false };
 
 std::mutex sExitMutex;
 std::condition_variable sExitCv;

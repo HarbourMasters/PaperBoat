@@ -34,9 +34,9 @@ std::condition_variable sTickCv;
 int sPendingTicks = 0;
 
 std::thread sTicker;
-std::atomic<bool> sTickerRunning{ false };
+std::atomic<bool> sTickerRunning { false };
 
-std::atomic<int64_t> sAllowedUntilMs{ 0 };
+std::atomic<int64_t> sAllowedUntilMs { 0 };
 
 short sRetraceMsg = NU_SC_RETRACE_MSG;
 
@@ -164,7 +164,7 @@ extern "C" uint32_t port_aiGetLength(void) {
 }
 
 extern "C" int32_t port_aiSetNextBuffer(void* buf, uint32_t size) {
-    static std::atomic<bool> sLoggedFirst{ false };
+    static std::atomic<bool> sLoggedFirst { false };
     if (!sLoggedFirst.exchange(true)) {
         SPDLOG_INFO("nuAuMgr audio reaching backend: {} bytes, buffered {}", size, AudioPlayerBuffered());
     }

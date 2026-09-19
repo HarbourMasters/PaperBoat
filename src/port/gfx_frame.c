@@ -26,7 +26,6 @@ extern void step_game_loop(void);
 extern void gfx_task_background(void);
 extern void gfx_draw_frame(void);
 
-
 // C++ bridge function - defined in Game.cpp
 extern void Graphics_PushFrame(Gfx* displayList);
 
