@@ -87,3 +87,11 @@ API_CALLABLE(StepTaggedAIWaveBuf) {
         i += 2;
     }
 }
+
+API_CALLABLE(DisableLoadingZoneInput) {
+    if (!CVarGetInteger(CVAR_ENHANCEMENT("PreventLoadingZoneStorage"), 0)) {
+        return ApiStatus_DONE2;
+    }
+
+    return DisablePlayerInput(script, isInitialCall);
+}
