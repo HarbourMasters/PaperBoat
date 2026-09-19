@@ -1,6 +1,7 @@
 #include "audio/audio.h"
 #include "audio/core.h"
 #include "dx/profiling.h"
+#include "port/os/OS.h"
 
 u8 nuAuPreNMI = 0;
 NUAuPreNMIFunc nuAuPreNMIFunc = nullptr;
@@ -121,6 +122,7 @@ void nuAuMgr(void* arg) {
     u8* bufferPtr;
     s32 samples;
     s32 cond;
+    s32 hasFrame;
 
     osCreateMesgQueue(&auMesgQ, auMsgBuf, NU_AU_MESG_MAX);
     osCreateMesgQueue(&auRtnMesgQ, &auRtnMesgBuf, 1);
@@ -130,13 +132,18 @@ void nuAuMgr(void* arg) {
     cmdListIndex = 0;
     bufferIndex = 0;
     samples = 0;
+    cond = false;
+    hasFrame = 0;
     cmdListBuf = AlCmdListBuffers[0];
     bufferPtr = D_800A3628[0];
     while (true) {
-        osRecvMesg(&auMesgQ, (OSMesg*)&mesg_type, OS_MESG_BLOCK);
+        port_auWaitRetrace(&mesg_type);
+        if (OS_ThreadShouldExit()) {
+            return;
+        }
         switch (*mesg_type) {
             case NU_SC_RETRACE_MSG:
-                if (cmdList_len != 0 && nuAuTaskStop == NU_AU_TASK_RUN) {
+                if (hasFrame && nuAuTaskStop == NU_AU_TASK_RUN) {
                     nuAuTasks[cmdListIndex].msgQ = &auRtnMesgQ;
                     nuAuTasks[cmdListIndex].list.t.data_ptr = (u64*)cmdListBuf;
                     nuAuTasks[cmdListIndex].list.t.data_size = (cmdListAfter_ptr - cmdListBuf) * sizeof(Acmd);
@@ -158,9 +165,9 @@ void nuAuMgr(void* arg) {
                     profiler_audio_completed();
                     continue;
                 }
-                sampleSize = osAiGetLength() >> 2;
-                if (cmdList_len != 0 && nuAuTaskStop == NU_AU_TASK_RUN) {
-                    osAiSetNextBuffer(bufferPtr, samples * 4);
+                sampleSize = port_aiGetLength() >> 2;
+                if (hasFrame && nuAuTaskStop == NU_AU_TASK_RUN) {
+                    port_aiSetNextBuffer(bufferPtr, samples * 4);
                     cmdListBuf = AlCmdListBuffers[cmdListIndex];
                     bufferPtr = D_800A3628[bufferIndex];
                 }
@@ -172,6 +179,7 @@ void nuAuMgr(void* arg) {
                     cond = true;
                 }
                 cmdListAfter_ptr = alAudioFrame(cmdListBuf, &cmdList_len, (s16*)osVirtualToPhysical(bufferPtr), samples);
+                hasFrame = 1;
                 if (nuAuPreNMIFunc != 0 && nuAuPreNMI != 0) {
                     nuAuPreNMIFunc(NU_SC_RETRACE_MSG, nuAuPreNMI);
                     nuAuPreNMI++;

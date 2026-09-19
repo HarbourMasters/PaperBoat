@@ -1,5 +1,6 @@
 #include "audio/audio.h"
 #include "audio/core.h"
+#include "port/os/OS.h"
 
 static void au_sfx_play_sound(SoundManager* manager, SoundPlayer* player, s8* readPos, SoundRequest* request, s32 priority, s32 exclusiveID);
 static void au_sfx_set_triggers(SoundManager* manager, u32 soundID);
@@ -609,6 +610,7 @@ void au_sfx_enqueue_event(SoundManager* manager, u32 soundID, s16 volume, s16 pi
             nextPos = 0;
         }
 
+        port_auReleaseFence();
         manager->sfxQueueWritePos = nextPos;
     }
 }
@@ -681,6 +683,7 @@ void au_sfx_begin_video_frame(SoundManager* manager) {
 
     // Determine the number of pending sound effects in the queue
     pending = manager->sfxQueueWritePos - manager->sfxQueueReadPos;
+    port_auAcquireFence();
     if (pending < 0) {
         pending += SFX_QUEUE_SIZE;
     }
@@ -711,7 +714,7 @@ void au_sfx_begin_video_frame(SoundManager* manager) {
                 j = 0;
             }
         }
-        manager->sfxQueueReadPos = manager->sfxQueueWritePos;
+        manager->sfxQueueReadPos = j;
     }
 }
 
