@@ -43,6 +43,11 @@ static const std::unordered_map<int32_t, const char*> textureFilteringMap = {
     { Fast::FILTER_NONE, "None" },
 };
 
+static const std::unordered_map<int32_t, const char*> texture2DFilteringMap = {
+    { 0, "Default" },
+    { 1, "Sharp" },
+};
+
 static const std::unordered_map<int32_t, const char*> notificationPosition = {
     { 0, "Top Left" }, { 1, "Top Right" }, { 2, "Bottom Left" }, { 3, "Bottom Right" }, { 4, "Hidden" },
 };
@@ -391,6 +396,11 @@ void PaperboatMenu::AddMenuSettings() {
         .CVar(CVAR_TEXTURE_FILTER)
         .RaceDisable(false)
         .Options(ComboboxOptions().Tooltip("Sets the applied Texture Filtering.").ComboMap(textureFilteringMap));
+
+    AddWidget(path, "2D Texture Filter", WIDGET_CVAR_COMBOBOX)
+    .CVar(CVAR_2D_TEXTURE_FILTER)
+    .RaceDisable(false)
+    .Options(ComboboxOptions().Tooltip("Sets texture filtering for 2D sprites.").ComboMap(texture2DFilteringMap));
 
     path.column = SECTION_COLUMN_2;
     AddWidget(path, "Advanced Graphics Options", WIDGET_SEPARATOR_TEXT);

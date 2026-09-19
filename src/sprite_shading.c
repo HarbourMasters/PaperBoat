@@ -392,8 +392,10 @@ void appendGfx_shading_palette(
     gDPLoadTLUT_pal16(gMainGfxPos++, 1, SpriteShadingPalette);
 
     gSPSetOtherMode(gMainGfxPos++, G_SETOTHERMODE_H, 4, 18,
-                    G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_RGBA16 | G_TL_TILE |
-                    G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE);
+                    G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT |
+                    (CVarGetInteger(CVAR_2D_TEXTURE_FILTER, 0) ? G_TF_POINT : G_TF_BILERP) |
+                    G_TT_RGBA16 | G_TL_TILE | G_TD_CLAMP | G_TP_PERSP |
+                    G_CYC_2CYCLE | G_PM_NPRIMITIVE);
 
     gDPSetRenderMode(gMainGfxPos++, G_RM_PASS, renderMode);
     gDPSetEnvColor(gMainGfxPos++, 100, 100, 100, 255);
