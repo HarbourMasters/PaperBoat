@@ -42,7 +42,7 @@ static char* bg_intern_path(const char* path) {
 }
 
 static char* sBgRasterPath = NULL;
-static char* sBgPalettePath = NULL;
+char* gBgPalettePath = NULL;
 
 void port_load_map_bg(char* optAssetName) {
     if (optAssetName == NULL) {
@@ -63,15 +63,15 @@ void port_load_map_bg(char* optAssetName) {
     snprintf(rasterPath, sizeof(rasterPath), "__OTR__backgrounds/%s", assetName);
     snprintf(palettePath, sizeof(palettePath), "__OTR__backgrounds/%s_pal0", assetName);
     sBgRasterPath = bg_intern_path(rasterPath);
-    sBgPalettePath = bg_intern_path(palettePath);
-    if (sBgRasterPath == NULL || sBgPalettePath == NULL) {
+    gBgPalettePath = bg_intern_path(palettePath);
+    if (sBgRasterPath == NULL || gBgPalettePath == NULL) {
         return;
     }
 
     gBackgroundImage.raster = (IMG_PTR) sBgRasterPath;
 
     // CPU-side fog/tint blending
-    u8* palData = (u8*) GameEngine_GetDataExact(sBgPalettePath);
+    u8* palData = (u8*) GameEngine_GetDataExact(gBgPalettePath);
     gBackgroundImage.palette = (PAL_PTR) palData;
 
     gBackgroundImage.width = GameEngine_GetTexWidthExact(sBgRasterPath);
@@ -285,7 +285,7 @@ void port_appendGfx_background_texture(void) {
         }
     }
     gDPPipeSync(gMainGfxPos++);
-    gDPLoadTLUT_pal256(gMainGfxPos++, sBgPalettePath);
+    gDPLoadTLUT_pal256(gMainGfxPos++, gBgPalettePath);
 
     gDPLoadTextureTile(
         gMainGfxPos++, gGameStatusPtr->backgroundRaster, G_IM_FMT_CI, G_IM_SIZ_8b, bgMaxX, bgMaxY, 0, 0, bgMaxX - 1,

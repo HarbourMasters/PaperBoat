@@ -46,6 +46,7 @@ IMG_PTR port_msg_glyph_raster(IMG_PTR glyph);
 PAL_PTR port_msg_glyph_palette(PAL_PTR palette);
 
 // Background (BackgroundPatches.c)
+extern char* gBgPalettePath;
 void port_load_map_bg(char* optAssetName);
 void port_appendGfx_background_texture(void);
 
