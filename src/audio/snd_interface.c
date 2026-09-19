@@ -1,6 +1,7 @@
 #include "common.h"
 #include "audio/audio.h"
 #include "audio/core.h"
+#include "port/os/OS.h"
 
 static u8* snd_song_get_track_volumes_set(MusicTrackVols arg0);
 
@@ -462,7 +463,7 @@ AuResult snd_song_request_play_default(s32 songName) {
     AuResult status;
     SongStartRequest s;
 
-    PreventBGMPlayerUpdate = true;
+    port_auBgmLock();
     s.songName = songName;
     s.duration = 0;
     s.startVolume = AU_MAX_VOLUME_8;
@@ -470,7 +471,7 @@ AuResult snd_song_request_play_default(s32 songName) {
     s.variation = BGM_VARIATION_0;
     s.unused_14 = 0;
     status = au_bgm_process_init_song(&s);
-    PreventBGMPlayerUpdate = false;
+    port_auBgmUnlock();
 
     return status;
 }
@@ -480,7 +481,7 @@ AuResult snd_song_request_play(s32 songName, s32 variation) {
     AuResult status;
     SongStartRequest s;
 
-    PreventBGMPlayerUpdate = true;
+    port_auBgmLock();
     s.songName = songName;
     s.duration = 0;
     s.startVolume = AU_MAX_VOLUME_8;
@@ -488,7 +489,7 @@ AuResult snd_song_request_play(s32 songName, s32 variation) {
     s.variation = variation;
     s.unused_14 = 0;
     status = au_bgm_process_init_song(&s);
-    PreventBGMPlayerUpdate = false;
+    port_auBgmUnlock();
 
     return status;
 }
@@ -510,7 +511,7 @@ AuResult snd_song_request_fade_in(s32 songName, s32 variation, s32 fadeInTime, s
     AuResult status;
     SongStartRequest s;
 
-    PreventBGMPlayerUpdate = true;
+    port_auBgmLock();
     s.songName = songName;
     s.duration = fadeInTime;
     s.startVolume = startVolume;
@@ -518,7 +519,7 @@ AuResult snd_song_request_fade_in(s32 songName, s32 variation, s32 fadeInTime, s
     s.variation = variation;
     s.unused_14 = 0;
     status = au_bgm_process_init_song(&s);
-    PreventBGMPlayerUpdate = false;
+    port_auBgmUnlock();
 
     return status;
 }
@@ -528,7 +529,7 @@ AuResult snd_song_request_fade_in_default(s32 songName, s32 fadeInTime, s32 star
     AuResult status;
     SongStartRequest s;
 
-    PreventBGMPlayerUpdate = true;
+    port_auBgmLock();
     s.songName = songName;
     s.duration = fadeInTime;
     s.startVolume = startVolume;
@@ -536,7 +537,7 @@ AuResult snd_song_request_fade_in_default(s32 songName, s32 fadeInTime, s32 star
     s.variation = 0;
     s.unused_14 = 0;
     status = au_bgm_process_init_song(&s);
-    PreventBGMPlayerUpdate = false;
+    port_auBgmUnlock();
 
     return status;
 }
@@ -571,7 +572,7 @@ AuResult snd_song_request_pop(s32 songName) {
     AuResult status;
     SongResumeRequest s;
 
-    PreventBGMPlayerUpdate = true;
+    port_auBgmLock();
     s.songName = songName;
     s.duration = 2000;
     s.startVolume = 1;
@@ -579,7 +580,7 @@ AuResult snd_song_request_pop(s32 songName) {
     s.index = BGM_SNAPSHOT_0;
     s.pauseMode = false;
     status = au_bgm_process_resume(&s);
-    PreventBGMPlayerUpdate = false;
+    port_auBgmUnlock();
 
     return status;
 }

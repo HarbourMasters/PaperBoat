@@ -10,6 +10,7 @@
 #include "port/interpolation/FrameInterpolation.h"
 #include "port/ui/cvar_prefixes.h"
 #include "port/audio/AudioVolume.h"
+#include "port/os/OS.h"
 #include "src/Companion.h"
 #include "ui/PaperboatGui.hpp"
 #include "ui/PaperboatModMenuWindow.h"
@@ -94,6 +95,7 @@ decltype(GameEngine::mAudio) GameEngine::mAudio;
 extern "C" {
 void nuScCreateScheduler(uint8_t mode, uint8_t numFields);
 void create_audio_system(void);
+void nuAuMgr(void* arg);
 Acmd* alAudioFrame(Acmd* cmdList, int32_t* cmdLen, int16_t* outBuf, int32_t outLen);
 extern int32_t AlFrameSize;
 extern int32_t AlMinFrameSize;
@@ -1000,107 +1002,12 @@ uint32_t GameEngine::GetInterpolationFPS() {
 
 // Audio
 
-void GameEngine::HandleAudioThread() {
-    int16_t audioBuffer[AUDIO_SAMPLES * 4 * 2];
-    Acmd cmdList[0x800];
-
-    while (mAudio.running) {
-        {
-            std::unique_lock<std::mutex> lock(mAudio.mutex);
-            while (!mAudio.processing && mAudio.running) {
-                mAudio.cv_to_thread.wait(lock);
-            }
-            if (!mAudio.running)
-                break;
-        }
-
-        // A 60Hz tick owes 1600/3 samples at 32kHz, and alAudioFrame only renders
-        // whole AUDIO_SAMPLES blocks
-        auto produceFrame = [&]() {
-            int32_t cmdLen = 0;
-            int32_t frameSamples = (mAudio.sampleDebtThirds > 0) ? AlFrameSize : AlMinFrameSize;
-            mAudio.sampleDebtThirds += 1600 - 3 * frameSamples;
-
-            int byteLen = frameSamples * 2 * sizeof(int16_t);
-
-            memset(audioBuffer, 0, byteLen);
-
-            alAudioFrame(cmdList, &cmdLen, audioBuffer, frameSamples);
-
-            float master = AudioVolume_GetMaster();
-            if (master != 1.0f) {
-                int sampleCount = byteLen / (int) sizeof(int16_t);
-                for (int i = 0; i < sampleCount; i++) {
-                    audioBuffer[i] = (int16_t) (audioBuffer[i] * master);
-                }
-            }
-
-            int32_t before = AudioPlayerBuffered();
-            AudioPlayerPlayFrame((uint8_t*) audioBuffer, byteLen);
-
-            bool accepted = AudioPlayerBuffered() >= before + (frameSamples / 2);
-            if (accepted && before == 0) {
-                SPDLOG_WARN("audio queue underran");
-            }
-        };
-
-        // Two ticks per game frame, matching N64's 60Hz audio thread.
-        for (int pass = 0; pass < 2; pass++) {
-            if (AudioPlayerBuffered() > 2 * AudioPlayerGetDesiredBuffered()) {
-                break;
-            }
-            produceFrame();
-        }
-
-        // Refill after a map load drained the queue; exact pacing has no surplus to
-        // recover with. Bounded so a stalled device cannot wedge EndAudioFrame.
-        for (int guard = 0; guard < 32 && mAudio.running; guard++) {
-            if (AudioPlayerBuffered() + AlFrameSize >= AudioPlayerGetDesiredBuffered()) {
-                break;
-            }
-            produceFrame();
-        }
-
-        {
-            std::unique_lock<std::mutex> lock(mAudio.mutex);
-            mAudio.processing = false;
-        }
-        mAudio.cv_from_thread.notify_one();
-    }
-}
-
-void GameEngine::StartAudioFrame() {
-    if (!mAudio.running)
-        return;
-
-    AudioVolume_Update();
-
-    {
-        std::unique_lock<std::mutex> lock(mAudio.mutex);
-        mAudio.processing = true;
-    }
-    mAudio.cv_to_thread.notify_one();
-}
-
-void GameEngine::EndAudioFrame() {
-    if (!mAudio.running)
-        return;
-
-    std::unique_lock<std::mutex> lock(mAudio.mutex);
-    while (mAudio.processing) {
-        mAudio.cv_from_thread.wait(lock);
-    }
-}
-
 void GameEngine::AudioInit() {
     SPDLOG_INFO("Initializing audio system...");
 
     // NTSC: retraceCount=1 → AlFrameSize=552 (3 chunks of 184 samples)
     // Must be set before create_audio_system() which reads nusched.retraceCount
     nuScCreateScheduler(0, 1);
-
-    // Initialize the game's audio system
-    create_audio_system();
 
     // Start at the target queue depth; an empty queue underruns on the first
     // hitch before it has had a chance to build.
@@ -1109,10 +1016,12 @@ void GameEngine::AudioInit() {
         AudioPlayerPlayFrame(silence.data(), silence.size());
     }
 
-    // Start the audio thread
+    OS_EnableThreadEntry((void*) nuAuMgr);
+
+    create_audio_system();
+
+    port_auStartTicker();
     mAudio.running = true;
-    mAudio.processing = false;
-    mAudio.thread = std::thread(&GameEngine::HandleAudioThread);
 
     SPDLOG_INFO("Audio system initialized");
 }
@@ -1121,18 +1030,11 @@ void GameEngine::AudioExit() {
     if (mAudio.running) {
         SPDLOG_INFO("Shutting down audio system...");
 
-        // Signal thread to stop
-        {
-            std::unique_lock<std::mutex> lock(mAudio.mutex);
-            mAudio.running = false;
-            mAudio.processing = true; // Wake up the thread
-        }
-        mAudio.cv_to_thread.notify_one();
+        mAudio.running = false;
 
-        // Wait for thread to finish
-        if (mAudio.thread.joinable()) {
-            mAudio.thread.join();
-        }
+        OS_RequestThreadExit();
+        port_auStopTicker();
+        OS_JoinDecompThreads();
 
         SPDLOG_INFO("Audio system shut down");
     }
@@ -1289,15 +1191,6 @@ extern "C" uint8_t GameEngine_OTRSigCheck(const char* data) {
         return 0;
     }
     return strncmp(data, sOtrSignature, strlen(sOtrSignature)) == 0;
-}
-
-// C-callable audio frame hooks
-extern "C" void GameEngine_StartAudioFrame(void) {
-    GameEngine::StartAudioFrame();
-}
-
-extern "C" void GameEngine_EndAudioFrame(void) {
-    GameEngine::EndAudioFrame();
 }
 
 // Pace an iteration that presents nothing (see GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME
