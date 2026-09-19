@@ -212,6 +212,16 @@ GameEngine::GameEngine() {
 
     gsFast3dWindow = std::make_shared<Fast::Fast3dWindow>(std::vector<std::shared_ptr<Ship::GuiWindow>>({}));
     this->context->InitWindow(gsFast3dWindow);
+    if (auto interpreter = gsFast3dWindow->GetInterpreterWeak().lock()) {
+        // Prefetch sprites when using alt assets
+        interpreter->SetReplacementGroupResolver([](const std::string& name) -> std::string {
+            if (name.rfind("sprites/", 0) == 0) {
+                const size_t raster = name.find("_raster_");
+                return raster == std::string::npos ? std::string() : name.substr(0, raster + 8);
+            }
+            return name.substr(0, name.find_last_of('/') + 1);
+        });
+    }
     this->context->InitFileDropMgr();
 
     PaperboatGui::SetupMenu();
@@ -944,6 +954,14 @@ void GameEngine::StartFrame() const {
         Ship::Context::GetRawInstance()->GetResourceManager()->SetAltAssetsEnabled(altAssets);
         //  gfx_texture_cache_clear();
         SPDLOG_INFO("Alt assets {}", altAssets ? "enabled" : "disabled");
+        // Decode alt menu assets so they can draw more quickly.
+        if (altAssets && gsFast3dWindow != nullptr) {
+            if (auto interpreter = gsFast3dWindow->GetInterpreterWeak().lock()) {
+                for (const char* group : { "ui/", "misc/pause/", "misc/starpoint/", "icons/", "party/" }) {
+                    interpreter->PrefetchReplacementGroup(group);
+                }
+            }
+        }
     }
 
     const bool dpadAsLeftStick = CVarGetInteger(CVAR_SETTING("Controls.DPadAsLeftStick"), 0) != 0;
@@ -1302,6 +1320,14 @@ extern "C" void GameEngine_LogStackTrace(const char* label) {
 #else
     SPDLOG_INFO("Stack trace [{}]: (not available on this platform)", label ? label : "unnamed");
 #endif
+}
+
+extern "C" void GameEngine_PrefetchTextures(const char* group) {
+    if (gsFast3dWindow != nullptr) {
+        if (auto interpreter = gsFast3dWindow->GetInterpreterWeak().lock()) {
+            interpreter->PrefetchReplacementGroup(group);
+        }
+    }
 }
 
 extern "C" void GameEngine_InvalidateTextureCache(const void* addr) {
