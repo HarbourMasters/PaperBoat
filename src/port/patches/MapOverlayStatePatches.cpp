@@ -140,7 +140,7 @@ static void ResetHos05State() {
 
 static void RegisterMapOverlayStatePatches_Init() {
     REGISTER_LISTENER(OnMapLoad, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
-        const char* mapName = ((OnMapLoad*)event)->mapName;
+        const char* mapName = ((OnMapLoad*) event)->mapName;
 
         if (mapName == nullptr) {
             return;
