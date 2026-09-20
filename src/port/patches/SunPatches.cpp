@@ -155,5 +155,4 @@ void port_sun_appendGfx(void* argEffect) {
         gDPPipeSync(gMainGfxPos++);
     }
 }
-
 }

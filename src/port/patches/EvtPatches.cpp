@@ -101,5 +101,4 @@ API_CALLABLE(DisableLoadingZoneInput) {
 
     return DisablePlayerInput(script, isInitialCall);
 }
-
 }

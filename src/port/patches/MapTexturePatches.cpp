@@ -316,5 +316,4 @@ void port_load_map_textures(ModelNode* rootModel, const char* archiveName) {
     TreeIterPos = 0;
     port_load_next_model_textures(arc->archive, arc->textures, arc->count, rootModel);
 }
-
 }

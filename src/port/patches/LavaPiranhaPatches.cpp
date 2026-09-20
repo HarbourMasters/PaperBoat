@@ -85,5 +85,4 @@ s16* port_lava_piranha_translate(s16* addr) {
     }
     return addr;
 }
-
 }

@@ -88,5 +88,4 @@ void port_energy_in_out_appendGfx(void* effect) {
 
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }
-
 }

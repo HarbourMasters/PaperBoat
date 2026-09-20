@@ -70,13 +70,15 @@ void PaperboatMenu::AddMenuEnhancements() {
 
     AddWidget(path, "Full Height View", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("Graphics.FullHeightView"))
-        .Options(CheckboxOptions().Tooltip(
-            "Removes the letterboxing bars on the top and bottom of the screen in gameplay."));
+        .Options(
+            CheckboxOptions().Tooltip("Removes the letterboxing bars on the top and bottom of the screen in gameplay.")
+        );
 
     AddWidget(path, "Rounded Projector Reel", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("Graphics.RoundedReel"))
-        .Options(CheckboxOptions().Tooltip(
-            "Flips the battle projector reel to appear rounded for widescreen resolutions."));
+        .Options(
+            CheckboxOptions().Tooltip("Flips the battle projector reel to appear rounded for widescreen resolutions.")
+        );
 }
 
 } // namespace PaperboatGui

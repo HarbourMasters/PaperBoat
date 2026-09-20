@@ -186,7 +186,6 @@ void port_appendGfx_pause_background(s32 bgRenderState) {
 b32 port_isPauseBackgroundActive(void) {
     return (gGameStatusPtr->backgroundFlags & BACKGROUND_RENDER_STATE_MASK) != 0;
 }
-
 }
 
 static void RegisterFramebufferPatches_Init() {

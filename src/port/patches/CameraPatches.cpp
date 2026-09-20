@@ -10,8 +10,8 @@
 #define LETTERBOX_VIEW_H (SCREEN_HEIGHT - 2 * SCREEN_INSET_Y)
 
 #define STATUS_BAR_VANILLA_Y 18
-#define BTL_MENU_DROP SCREEN_INSET_Y
-#define REEL_MIRROR_DX 37
+#define BTL_MENU_DROP        SCREEN_INSET_Y
+#define REEL_MIRROR_DX       37
 
 extern "C" {
 extern Camera gCameras[4];
@@ -31,8 +31,8 @@ static bool cam_view_is_widened(void) {
 }
 
 static bool cam_has_fullscreen_viewport(s32 camID) {
-    return camID == CAM_DEFAULT || camID == CAM_BATTLE ||
-           gCameras[camID].viewportW >= SCREEN_WIDTH - 2 * SCREEN_INSET_X;
+    return camID == CAM_DEFAULT || camID == CAM_BATTLE
+        || gCameras[camID].viewportW >= SCREEN_WIDTH - 2 * SCREEN_INSET_X;
 }
 
 static bool cam_is_framed(s32 camID) {

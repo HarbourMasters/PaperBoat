@@ -133,5 +133,4 @@ void port_appendGfx_darkness_stencil(b32 isWorld, s32 posX, s32 posY, f32 alpha,
     );
     gDPPipeSync(gMainGfxPos++);
 }
-
 }

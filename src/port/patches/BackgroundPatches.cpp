@@ -375,8 +375,8 @@ void port_appendGfx_background_texture(void) {
             stripTop = bgTopY + lineHeight * i * bgScaleNum / bgScaleDen;
             gSPTextureRectangle(
                 gMainGfxPos++, bgMinX * 4, stripTop * 4, (2 * bgXOffset + (bgMinX - 1)) * 4 + bgEdge,
-                (bgBotY - 1) * 4 + bgEdge, G_TX_RENDERTILE, bgMaxX * 32 - bgXOffset * 16, (lineHeight * i) * 32,
-                bgDsdx, bgDtdy
+                (bgBotY - 1) * 4 + bgEdge, G_TX_RENDERTILE, bgMaxX * 32 - bgXOffset * 16, (lineHeight * i) * 32, bgDsdx,
+                bgDtdy
             );
             gSPTextureRectangle(
                 gMainGfxPos++, bgXOffset * 2 + bgMinX * 4, stripTop * 4, (bgMaxX + bgMinX - 1) * 4 + bgEdge,
@@ -385,5 +385,4 @@ void port_appendGfx_background_texture(void) {
         }
     }
 }
-
 }

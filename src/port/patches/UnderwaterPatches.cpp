@@ -161,5 +161,4 @@ void port_underwater_appendGfx(void* effect) {
     );
     gDPPipeSync(gMainGfxPos++);
 }
-
 }

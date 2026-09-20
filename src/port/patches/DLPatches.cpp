@@ -31,5 +31,4 @@ void port_patch_animator_tree(StaticAnimatorNode** tree) {
         }
     }
 }
-
 }

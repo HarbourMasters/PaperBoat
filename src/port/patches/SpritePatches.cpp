@@ -161,5 +161,4 @@ void port_appendGfx_shading_palette(
         ((lrt + 0x100 - 1) << 2) + (s32) offsetY
     );
 }
-
 }

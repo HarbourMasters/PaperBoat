@@ -101,5 +101,4 @@ PAL_PTR port_msg_glyph_palette(PAL_PTR palette) {
     }
     return (PAL_PTR) sPalettePaths[sPaletteSet][index];
 }
-
 }

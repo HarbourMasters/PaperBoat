@@ -146,5 +146,4 @@ void port_motion_blur_flame_appendGfx(void* effect) {
         data->unk_2C[i + 1] = screenY[i];
     }
 }
-
 }

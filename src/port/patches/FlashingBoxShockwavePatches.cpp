@@ -97,5 +97,4 @@ void port_flashing_box_shockwave_appendGfx(void* effect) {
 
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
 }
-
 }

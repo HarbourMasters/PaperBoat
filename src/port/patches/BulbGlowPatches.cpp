@@ -176,5 +176,4 @@ void port_bulb_glow_appendGfx(void* effect) {
         gDPPipeSync(gMainGfxPos++);
     }
 }
-
 }

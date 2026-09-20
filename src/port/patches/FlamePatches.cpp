@@ -31,7 +31,6 @@ extern "C" {
 //   - gDPReadFBToI8: queued FB readback with RGBA5551 -> I8 conversion.
 //   - gDPSetKeyR / gDPSetKeyGB: chroma-key combiner inputs (CENTER/SCALE).
 
-
 // Mirrors the layout of flame.c's local FlamePreset struct.
 typedef struct FlamePreset {
     /* 0x00 */ Color_RGB8 colorScale;
@@ -230,5 +229,4 @@ void port_flame_appendGfx(void* effect) {
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     gDPPipeSync(gMainGfxPos++);
 }
-
 }
