@@ -68,25 +68,15 @@ void PaperboatMenu::AddMenuEnhancements() {
     path = { "Enhancements", "Graphics", SECTION_COLUMN_1 };
     AddSidebarEntry("Enhancements", "Graphics", 1);
 
-    AddWidget(path, "Mods", WIDGET_SEPARATOR_TEXT);
-    AddWidget(path, "Use Alternate Assets", WIDGET_CVAR_CHECKBOX)
-        .CVar("gEnhancements.Mods.AlternateAssets")
-        .Options(
-            CheckboxOptions().Tooltip(
-                "Toggle between standard assets and alternate assets. Usually mods "
-                "will indicate if "
-                "this setting has to be used or not."
-            )
-        );
-    AddWidget(path, "HD Texture Mipmaps", WIDGET_CVAR_CHECKBOX)
-        .CVar("gEnhancements.Mods.AutoMipmaps")
-        .Options(
-            CheckboxOptions().DefaultValue(true).Tooltip(
-                "Generates mipmaps for HD replacement textures, which smooths them in "
-                "the distance. Turn it off if the GPU hangs while a texture pack is "
-                "enabled."
-            )
-        );
+    AddWidget(path, "Full Height View", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("Graphics.FullHeightView"))
+        .Options(CheckboxOptions().Tooltip(
+            "Removes the letterboxing bars on the top and bottom of the screen in gameplay."));
+
+    AddWidget(path, "Rounded Projector Reel", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("Graphics.RoundedReel"))
+        .Options(CheckboxOptions().Tooltip(
+            "Flips the battle projector reel to appear rounded for widescreen resolutions."));
 }
 
 } // namespace PaperboatGui

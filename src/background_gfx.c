@@ -417,6 +417,11 @@ void gfx_draw_background(void) {
             backgroundMaxY = backgroundMinY + gGameStatusPtr->backgroundMaxY;
             viewportStartX = camera->viewportStartX;
 
+            if (port_cam_full_height(gCurrentCameraID)) {
+                backgroundMinY = 0;
+                backgroundMaxY = SCREEN_HEIGHT;
+            }
+
             if (backgroundMinX < viewportStartX) {
                 backgroundMinX = viewportStartX;
             }

@@ -81,6 +81,14 @@ void port_appendGfx_darkness_stencil(b32 isWorld, s32 posX, s32 posY, f32 alpha,
 ApiStatus LoadPtrFromArray(Evt* script, bool isInitialCall);
 ApiStatus StepTaggedAIWaveBuf(Evt* script, bool isInitialCall);
 
+// Full Height View (CameraPatches.cpp)
+b32 port_cam_full_height(s32 camID);
+b32 port_hud_full_height(void);
+s32 port_hud_clip_top(void);
+s32 port_hud_clip_bottom(void);
+s32 port_status_bar_y(void);
+s32 port_btl_menu_y(void);
+
 // Lava piranha vines (LavaPiranhaPatches.c)
 extern u8 PortLavaPiranhaVineBase[4][16];
 void port_lava_piranha_set_script(s32 vine, s32 index);

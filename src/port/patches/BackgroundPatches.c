@@ -205,6 +205,21 @@ void port_appendGfx_background_texture(void) {
     bgMinX = gGameStatusPtr->backgroundMinX;
     bgMinY = gGameStatusPtr->backgroundMinY;
 
+    s32 bgScaleNum = 1;
+    s32 bgScaleDen = 1;
+    s32 bgTopY = bgMinY;
+    s32 bgBotY = bgMinY + bgMaxY;
+    s32 bgDtdy;
+
+    if (bgMaxY > 0 && port_cam_full_height(gCurrentCameraID)) {
+        bgScaleNum = cam->viewportH;
+        bgScaleDen = bgMaxY;
+        bgTopY = cam->viewportStartY;
+        bgBotY = cam->viewportStartY + cam->viewportH;
+    }
+
+    bgDtdy = 1024 * bgScaleDen / bgScaleNum;
+
     theta = clamp_angle(-cam->curBoomYaw);
     sinTheta = sin_deg(theta);
     cosTheta = cos_deg(theta);
@@ -235,7 +250,7 @@ void port_appendGfx_background_texture(void) {
         gDPSetCycleType(gMainGfxPos++, G_CYC_FILL);
         gDPSetRenderMode(gMainGfxPos++, G_RM_NOOP, G_RM_NOOP2);
         gDPSetFillColor(gMainGfxPos++, PACK_FILL_COLOR(255, 255, 255, 1));
-        gDPFillWideRectangle(gMainGfxPos++, fillLeft, bgMinY, fillRight - 1, bgMinY + bgMaxY - 1);
+        gDPFillWideRectangle(gMainGfxPos++, fillLeft, bgTopY, fillRight - 1, bgBotY - 1);
         gDPPipeSync(gMainGfxPos++);
     }
 
@@ -299,30 +314,37 @@ void port_appendGfx_background_texture(void) {
         s32 wsRight;
         s32 tx, bgTileBaseX = bgMinX;
 
+        s32 bgStepX = bgMaxX * bgScaleNum / bgScaleDen;
+        s32 bgSplitX = bgXOffset * bgScaleNum / bgScaleDen;
+
+        bgDsdx = bgDsdx * bgScaleDen / bgScaleNum;
+
         get_cam_frame_x(gCurrentCameraID, &wsLeft, &wsRight);
 
         if (gBackroundNoTileFill) {
             // Title screen: draw the image exactly once at its native position;
             // the side bands were already filled solid above.
-            wsRight = bgMinX + bgMaxX;
+            wsRight = bgMinX + bgStepX;
         } else {
             while (bgTileBaseX > wsLeft) {
-                bgTileBaseX -= bgMaxX;
+                bgTileBaseX -= bgStepX;
             }
         }
 
-        for (tx = bgTileBaseX; tx < wsRight; tx += bgMaxX) {
+        for (tx = bgTileBaseX; tx < wsRight; tx += bgStepX) {
             gSPWideTextureRectangle(
-                gMainGfxPos++, tx * 4, bgMinY * 4, (bgXOffset + tx - 1) * 4 + bgEdge,
-                (bgMaxY - 1 + bgMinY) * 4 + bgEdge, G_TX_RENDERTILE, (bgMaxX - bgXOffset) * 32, 0, bgDsdx, 1024
+                gMainGfxPos++, tx * 4, bgTopY * 4, (bgSplitX + tx - 1) * 4 + bgEdge, (bgBotY - 1) * 4 + bgEdge,
+                G_TX_RENDERTILE, (bgMaxX - bgXOffset) * 32, 0, bgDsdx, bgDtdy
             );
             gSPWideTextureRectangle(
-                gMainGfxPos++, (bgXOffset + tx) * 4, bgMinY * 4, (bgMaxX + tx - 1) * 4 + bgEdge,
-                (bgMaxY - 1 + bgMinY) * 4 + bgEdge, G_TX_RENDERTILE, 0, 0, bgDsdx, 1024
+                gMainGfxPos++, (bgSplitX + tx) * 4, bgTopY * 4, (bgStepX + tx - 1) * 4 + bgEdge,
+                (bgBotY - 1) * 4 + bgEdge, G_TX_RENDERTILE, 0, 0, bgDsdx, bgDtdy
             );
         }
     } else {
         // Wave: per-strip rectangles with sine-based horizontal offset
+        s32 stripTop, stripBot;
+
         lineHeight = 6;
         numLines = bgMaxY / lineHeight;
         extraHeight = bgMaxY % lineHeight;
@@ -330,29 +352,30 @@ void port_appendGfx_background_texture(void) {
         for (i = 0; i < numLines; i++) {
             waveOffset = sin_rad(gBackroundWavePhase + i * (TAU / 15)) * 3.0f;
             bgXOffset = 2.0f * (gGameStatusPtr->backgroundXOffset + waveOffset);
+            stripTop = bgTopY + lineHeight * i * bgScaleNum / bgScaleDen;
+            stripBot = bgTopY + lineHeight * (i + 1) * bgScaleNum / bgScaleDen;
             gSPTextureRectangle(
-                gMainGfxPos++, bgMinX * 4, (lineHeight * i + bgMinY) * 4, (2 * bgXOffset + (bgMinX - 1)) * 4 + bgEdge,
-                (lineHeight * i + lineHeight - 1 + bgMinY) * 4 + bgEdge, G_TX_RENDERTILE, bgMaxX * 32 - bgXOffset * 16,
-                (lineHeight * i) * 32, bgDsdx, 1024
+                gMainGfxPos++, bgMinX * 4, stripTop * 4, (2 * bgXOffset + (bgMinX - 1)) * 4 + bgEdge,
+                (stripBot - 1) * 4 + bgEdge, G_TX_RENDERTILE, bgMaxX * 32 - bgXOffset * 16, (lineHeight * i) * 32,
+                bgDsdx, bgDtdy
             );
             gSPTextureRectangle(
-                gMainGfxPos++, bgXOffset * 2 + bgMinX * 4, (lineHeight * i + bgMinY) * 4,
-                (bgMaxX + bgMinX - 1) * 4 + bgEdge, (lineHeight * i + lineHeight - 1 + bgMinY) * 4 + bgEdge,
-                G_TX_RENDERTILE, 0, (lineHeight * i) * 32, bgDsdx, 1024
+                gMainGfxPos++, bgXOffset * 2 + bgMinX * 4, stripTop * 4, (bgMaxX + bgMinX - 1) * 4 + bgEdge,
+                (stripBot - 1) * 4 + bgEdge, G_TX_RENDERTILE, 0, (lineHeight * i) * 32, bgDsdx, bgDtdy
             );
         }
         if (extraHeight != 0) {
             waveOffset = sin_rad(gBackroundWavePhase + i * (TAU / 15)) * 3.0f;
             bgXOffset = 2.0f * (gGameStatusPtr->backgroundXOffset + waveOffset);
+            stripTop = bgTopY + lineHeight * i * bgScaleNum / bgScaleDen;
             gSPTextureRectangle(
-                gMainGfxPos++, bgMinX * 4, (lineHeight * i + bgMinY) * 4, (2 * bgXOffset + (bgMinX - 1)) * 4 + bgEdge,
-                (bgMaxY - 1 + bgMinY) * 4 + bgEdge, G_TX_RENDERTILE, bgMaxX * 32 - bgXOffset * 16,
-                (lineHeight * i) * 32, bgDsdx, 1024
+                gMainGfxPos++, bgMinX * 4, stripTop * 4, (2 * bgXOffset + (bgMinX - 1)) * 4 + bgEdge,
+                (bgBotY - 1) * 4 + bgEdge, G_TX_RENDERTILE, bgMaxX * 32 - bgXOffset * 16, (lineHeight * i) * 32,
+                bgDsdx, bgDtdy
             );
             gSPTextureRectangle(
-                gMainGfxPos++, bgXOffset * 2 + bgMinX * 4, (lineHeight * i + bgMinY) * 4,
-                (bgMaxX + bgMinX - 1) * 4 + bgEdge, (bgMaxY - 1 + bgMinY) * 4 + bgEdge, G_TX_RENDERTILE, 0,
-                (lineHeight * i) * 32, bgDsdx, 1024
+                gMainGfxPos++, bgXOffset * 2 + bgMinX * 4, stripTop * 4, (bgMaxX + bgMinX - 1) * 4 + bgEdge,
+                (bgBotY - 1) * 4 + bgEdge, G_TX_RENDERTILE, 0, (lineHeight * i) * 32, bgDsdx, bgDtdy
             );
         }
     }

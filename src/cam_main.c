@@ -392,6 +392,8 @@ Camera* initialize_next_camera(CameraInitData* initData) {
 void set_cam_viewport(s16 id, s16 x, s16 y, s16 width, s16 height) {
     Camera* camera = &gCameras[id];
 
+    CALL_EVENT(CameraSetViewport, id, &x, &y, &width, &height);
+
     camera->viewportW = width;
     camera->viewportH = height;
     camera->viewportStartX = x;
