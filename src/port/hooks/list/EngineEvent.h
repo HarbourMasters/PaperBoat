@@ -176,6 +176,10 @@ DEFINE_EVENT(TheaterPostDraw);
 DEFINE_EVENT(CurtainsPreDraw);
 DEFINE_EVENT(CurtainsPostDraw);
 
+DEFINE_EVENT(BackgroundPreDraw,
+    int32_t bgRenderState;
+);
+
 DEFINE_EVENT(VanillaBehavior,
     VBehaviorID id;
     bool* should;

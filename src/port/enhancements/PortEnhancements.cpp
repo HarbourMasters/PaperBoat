@@ -55,6 +55,7 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(TheaterPostDraw);
     REGISTER_EVENT(CurtainsPreDraw);
     REGISTER_EVENT(CurtainsPostDraw);
+    REGISTER_EVENT(BackgroundPreDraw);
     REGISTER_EVENT(VanillaBehavior);
 
     // Register game events

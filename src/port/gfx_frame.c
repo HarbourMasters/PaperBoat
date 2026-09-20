@@ -68,8 +68,10 @@ void Graphics_ThreadUpdate(void) {
     // Link main display list
     gSPDisplayList(gMasterDisp++, ctx->mainGfx);
 
-    // GPU-side prev-frame mirror: gDPCopyFB(main -> prevFb) every frame
-    port_emitPrevFrameCapture(&gMasterDisp);
+    // Freeze while the pause background is up, which samples the mirror to draw itself
+    if (!port_isPauseBackgroundActive()) {
+        port_emitPrevFrameCapture(&gMasterDisp);
+    }
 
     // Finalize master display list
     gDPFullSync(gMasterDisp++);
