@@ -167,9 +167,13 @@ Gfx D_8014EA48[] = {
 // behind the spinning-star stencils. The static D_8014E9A8 fills only native
 // [0,320], which AdjX squishes to the center ~75% of a wide window, leaving the
 // revealed side edges un-darkened. This emits the same render state but fills
-// the true visible width via gDPFillWideRectangle. The caller must set the
+// the camera's frame via gDPFillWideRectangle. The caller must set the
 // overlay prim color/alpha before calling, exactly as with D_8014E9A8.
 static void appendGfx_overlay_screen_fill(void) {
+    s32 frameLeft, frameRight;
+
+    get_cam_frame_x(gCurrentCameraID, &frameLeft, &frameRight);
+
     gDPPipeSync(gMainGfxPos++);
     gDPSetDepthSource(gMainGfxPos++, G_ZS_PRIM);
     gDPSetPrimDepth(gMainGfxPos++, 20, 0);
@@ -185,8 +189,7 @@ static void appendGfx_overlay_screen_fill(void) {
     gDPSetTextureLUT(gMainGfxPos++, G_TT_NONE);
     gDPSetTextureDetail(gMainGfxPos++, G_TD_CLAMP);
     gDPSetTextureConvert(gMainGfxPos++, G_TC_FILT);
-    gDPFillWideRectangle(gMainGfxPos++, OTRGetRectDimensionFromLeftEdge(0), 0,
-                         OTRGetRectDimensionFromRightEdge(0), SCREEN_HEIGHT);
+    gDPFillWideRectangle(gMainGfxPos++, frameLeft, 0, frameRight - 1, SCREEN_HEIGHT);
     gDPSetColorDither(gMainGfxPos++, G_CD_DISABLE);
     gDPPipeSync(gMainGfxPos++);
     gDPSetDepthSource(gMainGfxPos++, G_ZS_PIXEL);
@@ -196,6 +199,7 @@ void _render_transition_stencil(u8 stencilType, f32 progress, ScreenOverlay* ove
     Camera* camera = &gCameras[gCurrentCameraID];
     u8 colR, colG, colB;
     s32 x1, y1, x2, y2;
+    s32 frameLeft, frameRight;
     f32 alpha;
     s16 v0;
     s16 s0;
@@ -240,9 +244,9 @@ void _render_transition_stencil(u8 stencilType, f32 progress, ScreenOverlay* ove
             }
             gDPSetCombineMode(gMainGfxPos++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
             gDPSetPrimColor(gMainGfxPos++, 0, 0, colR, colG, colB, progress);
+            get_cam_frame_x(gCurrentCameraID, &frameLeft, &frameRight);
             gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-            gDPFillWideRectangle(gMainGfxPos++, OTRGetRectDimensionFromLeftEdge(0), 0,
-                             OTRGetRectDimensionFromRightEdge(0), SCREEN_HEIGHT - 1);
+            gDPFillWideRectangle(gMainGfxPos++, frameLeft, 0, frameRight - 1, SCREEN_HEIGHT - 1);
             gDPSetColorDither(gMainGfxPos++, G_CD_DISABLE);
             return;
         case OVERLAY_VIEWPORT_COLOR:
@@ -257,9 +261,10 @@ void _render_transition_stencil(u8 stencilType, f32 progress, ScreenOverlay* ove
             }
             gDPSetCombineMode(gMainGfxPos++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
             gDPSetPrimColor(gMainGfxPos++, 0, 0, colR, colG, colB, progress);
+            get_cam_frame_x(gCurrentCameraID, &frameLeft, &frameRight);
             gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-            gDPFillWideRectangle(gMainGfxPos++, OTRGetRectDimensionFromLeftEdge(0), camera->viewportStartY,
-                             OTRGetRectDimensionFromRightEdge(0), camera->viewportStartY + camera->viewportH);
+            gDPFillWideRectangle(gMainGfxPos++, frameLeft, camera->viewportStartY, frameRight - 1,
+                             camera->viewportStartY + camera->viewportH);
             gDPSetColorDither(gMainGfxPos++, G_CD_DISABLE);
             return;
     }
