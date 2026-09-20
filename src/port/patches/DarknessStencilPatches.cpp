@@ -1,7 +1,12 @@
+#include "port/ShipInit.hpp"
+#include "port/Engine.h"
+#include "port/hooks/Events.h"
+
 #include "common.h"
 #include "nu/nusys.h"
-#include "port/Engine.h"
 #include "port/patches/Patches.h"
+
+extern "C" {
 
 // Port replacement for appendGfx_darkness_stencil (src/screen_render_util.c).
 
@@ -127,4 +132,6 @@ void port_appendGfx_darkness_stencil(b32 isWorld, s32 posX, s32 posY, f32 alpha,
         (camera->viewportStartY + camera->viewportH) * 4, G_TX_RENDERTILE, sStart, tStart, dsdx, dsdx
     );
     gDPPipeSync(gMainGfxPos++);
+}
+
 }

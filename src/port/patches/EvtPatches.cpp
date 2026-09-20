@@ -1,7 +1,13 @@
+#include "port/ShipInit.hpp"
+#include "port/Engine.h"
+#include "port/hooks/Events.h"
+
 #include "common.h"
 #include "evt.h"
 #include "npc.h"
 #include "port/patches/Patches.h"
+
+extern "C" {
 
 // Read a pointer-sized element from a host-pointer array into an EVT variable.
 //
@@ -94,4 +100,6 @@ API_CALLABLE(DisableLoadingZoneInput) {
     }
 
     return DisablePlayerInput(script, isInitialCall);
+}
+
 }

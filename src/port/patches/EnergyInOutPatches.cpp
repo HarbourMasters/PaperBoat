@@ -1,7 +1,13 @@
+#include "port/ShipInit.hpp"
+#include "port/Engine.h"
+#include "port/hooks/Events.h"
+
 #include "common.h"
 #include "effects_internal.h"
 #include "assets/effects.h"
 #include "port/patches/Patches.h"
+
+extern "C" {
 
 // Port reimplementation of energy_in_out_appendGfx (src/effects/energy_in_out.c).
 //
@@ -81,4 +87,6 @@ void port_energy_in_out_appendGfx(void* effect) {
     }
 
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
+}
+
 }

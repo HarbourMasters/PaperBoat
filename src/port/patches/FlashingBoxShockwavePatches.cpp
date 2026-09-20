@@ -1,7 +1,13 @@
+#include "port/ShipInit.hpp"
+#include "port/Engine.h"
+#include "port/hooks/Events.h"
+
 #include "common.h"
 #include "effects_internal.h"
 #include "assets/effects.h"
 #include "port/patches/Patches.h"
+
+extern "C" {
 
 // Port reimplementation of flashing_box_shockwave_appendGfx
 // (src/effects/flashing_box_shockwave.c).
@@ -90,4 +96,6 @@ void port_flashing_box_shockwave_appendGfx(void* effect) {
     }
 
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
+}
+
 }

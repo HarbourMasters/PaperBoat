@@ -1,3 +1,7 @@
+#include "port/ShipInit.hpp"
+#include "port/Engine.h"
+#include "port/hooks/Events.h"
+
 // Port reimplementation of load_map_bg / appendGfx_background_texture (src/background.c).
 
 #include "common.h"
@@ -5,9 +9,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "port/Engine.h"
 #include "port/patches/Patches.h"
 #include "alignment.h"
+
+extern "C" {
 
 extern char gCloudyFlowerFieldsBg[];
 extern char gSunnyFlowerFieldsBg[];
@@ -379,4 +384,6 @@ void port_appendGfx_background_texture(void) {
             );
         }
     }
+}
+
 }

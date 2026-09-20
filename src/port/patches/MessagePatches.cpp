@@ -1,6 +1,11 @@
+#include "port/ShipInit.hpp"
+#include "port/Engine.h"
+#include "port/hooks/Events.h"
+
 #include "common.h"
 #include "port/patches/Patches.h"
-#include "port/Engine.h"
+
+extern "C" {
 
 extern IMG_BIN MsgCharImgNormal[];
 extern IMG_BIN MsgCharImgTitle[];
@@ -95,4 +100,6 @@ PAL_PTR port_msg_glyph_palette(PAL_PTR palette) {
         }
     }
     return (PAL_PTR) sPalettePaths[sPaletteSet][index];
+}
+
 }

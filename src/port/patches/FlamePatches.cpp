@@ -1,10 +1,15 @@
+#include "port/ShipInit.hpp"
+#include "port/Engine.h"
+#include "port/hooks/Events.h"
+
 #include "common.h"
 #include "effects_internal.h"
 #include "assets/effects.h"
 #include "nu/nusys.h"
-#include "port/Engine.h"
 #include "port/patches/Patches.h"
 #include <string.h>
+
+extern "C" {
 
 // Port-side reimplementation of flame_appendGfx (src/effects/flame.c).
 //
@@ -26,14 +31,6 @@
 //   - gDPReadFBToI8: queued FB readback with RGBA5551 -> I8 conversion.
 //   - gDPSetKeyR / gDPSetKeyGB: chroma-key combiner inputs (CENTER/SCALE).
 
-extern int gfx_create_framebuffer(
-    unsigned int width,
-    unsigned int height,
-    unsigned int native_width,
-    unsigned int native_height,
-    unsigned char resize,
-    unsigned char forceFixedAspect
-);
 
 // Mirrors the layout of flame.c's local FlamePreset struct.
 typedef struct FlamePreset {
@@ -232,4 +229,6 @@ void port_flame_appendGfx(void* effect) {
     gSPDisplayList(gMainGfxPos++, D_090008F8_3544A8);
     gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);
     gDPPipeSync(gMainGfxPos++);
+}
+
 }

@@ -1,9 +1,14 @@
+#include "port/ShipInit.hpp"
+#include "port/Engine.h"
+#include "port/hooks/Events.h"
+
 #include "common.h"
 #include "effects_internal.h"
 #include "assets/effects.h"
 #include "nu/nusys.h"
-#include "port/Engine.h"
 #include "port/patches/Patches.h"
+
+extern "C" {
 
 // Port-side reimplementation of motion_blur_flame_appendGfx
 
@@ -140,4 +145,6 @@ void port_motion_blur_flame_appendGfx(void* effect) {
         data->unk_1C[i + 1] = screenX[i];
         data->unk_2C[i + 1] = screenY[i];
     }
+}
+
 }

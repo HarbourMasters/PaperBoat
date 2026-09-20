@@ -1,3 +1,7 @@
+#include "port/ShipInit.hpp"
+#include "port/Engine.h"
+#include "port/hooks/Events.h"
+
 // Port-side replacement for the lava piranha vine DMA loader.
 //
 // Exposes host BSS buffers as VINE_*_BASE identity tokens, records the
@@ -7,6 +11,8 @@
 
 #include "common.h"
 #include "animation_script.h"
+
+extern "C" {
 
 // 37 compiled-in lava piranha animation scripts at src/world/model_anim/kzn/XX.c.
 extern s16 LavaPiranha_ModelScript_00[];
@@ -78,4 +84,6 @@ s16* port_lava_piranha_translate(s16* addr) {
         }
     }
     return addr;
+}
+
 }

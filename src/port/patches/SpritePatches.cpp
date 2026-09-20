@@ -1,6 +1,12 @@
+#include "port/ShipInit.hpp"
+#include "port/Engine.h"
+#include "port/hooks/Events.h"
+
 #include "common.h"
 #include "sprite.h"
 #include "port/patches/Patches.h"
+
+extern "C" {
 
 // The component's own palette, which the two-tone one is built from.
 static PAL_PTR sShadingSourcePalette;
@@ -167,4 +173,6 @@ void port_appendGfx_shading_palette(
         ((lrs + 0x100 - 1) << 2) + (s32) (offsetX * facingDir),
         ((lrt + 0x100 - 1) << 2) + (s32) offsetY
     );
+}
+
 }

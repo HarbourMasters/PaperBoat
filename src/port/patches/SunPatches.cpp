@@ -1,8 +1,13 @@
+#include "port/ShipInit.hpp"
+#include "port/Engine.h"
+#include "port/hooks/Events.h"
+
 #include "common.h"
 #include "effects_internal.h"
 #include "assets/effects.h"
-#include "port/Engine.h"
 #include "port/patches/Patches.h"
+
+extern "C" {
 
 // Port reimplementation of sun_appendGfx (src/effects/sun.c).
 
@@ -149,4 +154,6 @@ void port_sun_appendGfx(void* argEffect) {
         );
         gDPPipeSync(gMainGfxPos++);
     }
+}
+
 }

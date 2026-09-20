@@ -1,11 +1,16 @@
+#include "port/ShipInit.hpp"
+#include "port/Engine.h"
+#include "port/hooks/Events.h"
+
 #include "common.h"
 #include "model.h"
 #include <stdio.h>
 #include <string.h>
-#include "port/Engine.h"
 #include "port/patches/Patches.h"
 
 #include "MapTextureMeta.inc.c"
+
+extern "C" {
 
 // Port-side reimplementation of the map/battle texture loaders.
 #define MAX_TEXTURE_GFX_CMDS 64
@@ -310,4 +315,6 @@ void port_load_map_textures(ModelNode* rootModel, const char* archiveName) {
 
     TreeIterPos = 0;
     port_load_next_model_textures(arc->archive, arc->textures, arc->count, rootModel);
+}
+
 }

@@ -1,9 +1,14 @@
+#include "port/ShipInit.hpp"
+#include "port/Engine.h"
+#include "port/hooks/Events.h"
+
 #include "common.h"
 #include "effects_internal.h"
 #include "assets/effects.h"
 #include "nu/nusys.h"
-#include "port/Engine.h"
 #include "port/patches/Patches.h"
+
+extern "C" {
 
 // Port reimplementation of bulb_glow_appendGfx (src/effects/bulb_glow.c).
 
@@ -170,4 +175,6 @@ void port_bulb_glow_appendGfx(void* effect) {
         );
         gDPPipeSync(gMainGfxPos++);
     }
+}
+
 }

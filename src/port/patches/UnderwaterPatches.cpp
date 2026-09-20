@@ -1,8 +1,13 @@
+#include "port/ShipInit.hpp"
+#include "port/Engine.h"
+#include "port/hooks/Events.h"
+
 #include "common.h"
 #include "effects_internal.h"
 #include "nu/nusys.h"
-#include "port/Engine.h"
 #include "port/patches/Patches.h"
+
+extern "C" {
 
 // Port-side reimplementation of underwater_appendGfx (src/effects/underwater.c).
 
@@ -155,4 +160,6 @@ void port_underwater_appendGfx(void* effect) {
         gMainGfxPos++, &gDisplayContext->camPerspMatrix[gCurrentCameraID], G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION
     );
     gDPPipeSync(gMainGfxPos++);
+}
+
 }
