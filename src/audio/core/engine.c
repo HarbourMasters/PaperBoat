@@ -235,7 +235,7 @@ void au_update_clients_for_audio_frame(void) {
     }
 
     // Update gBGMPlayerB
-    if (port_auBgmTryLock()) {
+    {
         bgmPlayer = gBGMPlayerB;
         if (bgmPlayer->fadeInfo.baseTicks != 0) {
             au_bgm_update_fade(bgmPlayer);
@@ -249,11 +249,10 @@ void au_update_clients_for_audio_frame(void) {
             bgmPlayer->nextUpdateCounter += bgmPlayer->tickUpdateInterval;
             bgmPlayer->prevUpdateResult = au_bgm_player_audio_frame_update(bgmPlayer);
         }
-        port_auBgmUnlock();
     }
 
     // Update gBGMPlayerA
-    if (port_auBgmTryLock()) {
+    {
         if (globals->resumeRequested) {
             au_bgm_restore_copied_player(globals);
         }
@@ -277,7 +276,6 @@ void au_update_clients_for_audio_frame(void) {
             bgmPlayer->nextUpdateCounter += bgmPlayer->tickUpdateInterval;
             bgmPlayer->prevUpdateResult = au_bgm_player_audio_frame_update(bgmPlayer);
         }
-        port_auBgmUnlock();
     }
 
     // With all clients updated, now update all voices

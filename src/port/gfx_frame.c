@@ -11,6 +11,7 @@
 #include "port/interpolation/FrameInterpolation.h"
 #include "port/patches/Patches.h"
 #include "port/os/OS.h"
+#include "port/DevTools/ThreadWatchdog.h"
 #include "port/audio/AudioVolume.h"
 
 // Double-buffered graphics pools
@@ -43,7 +44,7 @@ void Graphics_ThreadUpdate(void) {
     // Initialize frame pointers
     Graphics_InitializeTask();
 
-    port_noteMainLoopAlive();
+    ThreadWatchdog_Beat(WATCHDOG_MAIN_LOOP);
     AudioVolume_Update();
 
     // Run game logic

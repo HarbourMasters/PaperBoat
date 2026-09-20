@@ -21,6 +21,8 @@ void port_auWaitRetrace(short** outMsg);
 void port_auStartTicker(void);
 void port_auStopTicker(void);
 
+void port_auBackendGone(void);
+
 uint32_t port_aiGetLength(void);
 int32_t port_aiSetNextBuffer(void* buf, uint32_t size);
 
@@ -31,8 +33,6 @@ int port_auBgmTryLock(void);
 void port_auReleaseFence(void);
 void port_auAcquireFence(void);
 
-void port_noteMainLoopAlive(void);
-int port_audioStallHold(void);
 
 #ifdef __cplusplus
 }

@@ -11,6 +11,7 @@
 #include "port/ui/cvar_prefixes.h"
 #include "port/audio/AudioVolume.h"
 #include "port/os/OS.h"
+#include "port/DevTools/ThreadWatchdog.h"
 #include "src/Companion.h"
 #include "ui/PaperboatGui.hpp"
 #include "ui/PaperboatModMenuWindow.h"
@@ -1021,6 +1022,7 @@ void GameEngine::AudioInit() {
     create_audio_system();
 
     port_auStartTicker();
+    ThreadWatchdog_Start();
     mAudio.running = true;
 
     SPDLOG_INFO("Audio system initialized");
@@ -1033,8 +1035,10 @@ void GameEngine::AudioExit() {
         mAudio.running = false;
 
         OS_RequestThreadExit();
+        port_auBackendGone();
         port_auStopTicker();
         OS_JoinDecompThreads();
+        ThreadWatchdog_Stop();
 
         SPDLOG_INFO("Audio system shut down");
     }

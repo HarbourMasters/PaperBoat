@@ -25,9 +25,17 @@ std::set<void*> sEnabledEntries;
 
 std::atomic<bool> sExitRequested { false };
 
-std::mutex sExitMutex;
-std::condition_variable sExitCv;
-int sLiveThreads = 0;
+std::mutex& ExitMutex() {
+    static std::mutex* m = new std::mutex();
+    return *m;
+}
+
+std::condition_variable& ExitCv() {
+    static std::condition_variable* cv = new std::condition_variable();
+    return *cv;
+}
+
+std::atomic<int> sLiveThreads { 0 };
 
 bool ThreadEnabled(void* entry) {
     return sEnabledEntries.count(entry) != 0;
@@ -51,8 +59,8 @@ extern "C" int OS_ThreadShouldExit(void) {
 extern "C" void OS_JoinDecompThreads(void) {
     bool allReturned;
     {
-        std::unique_lock<std::mutex> lock(sExitMutex);
-        allReturned = sExitCv.wait_for(lock, std::chrono::seconds(2), [] { return sLiveThreads == 0; });
+        std::unique_lock<std::mutex> lock(ExitMutex());
+        allReturned = ExitCv().wait_for(lock, std::chrono::seconds(2), [] { return sLiveThreads == 0; });
     }
 
     std::lock_guard<std::mutex> lock(sTableMutex);
@@ -96,7 +104,7 @@ extern "C" void OS_StartThread(void* thread) {
 
     st.started = true;
     {
-        std::lock_guard<std::mutex> exitLock(sExitMutex);
+        std::lock_guard<std::mutex> exitLock(ExitMutex());
         sLiveThreads++;
     }
 
@@ -105,10 +113,10 @@ extern "C" void OS_StartThread(void* thread) {
     st.worker = std::thread([entry, arg]() {
         entry(arg);
         {
-            std::lock_guard<std::mutex> exitLock(sExitMutex);
+            std::lock_guard<std::mutex> exitLock(ExitMutex());
             sLiveThreads--;
         }
-        sExitCv.notify_all();
+        ExitCv().notify_all();
     });
 }
 

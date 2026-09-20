@@ -2,6 +2,7 @@
 #include "audio/core.h"
 #include "dx/profiling.h"
 #include "port/os/OS.h"
+#include "port/DevTools/ThreadWatchdog.h"
 
 u8 nuAuPreNMI = 0;
 NUAuPreNMIFunc nuAuPreNMIFunc = nullptr;
@@ -141,6 +142,7 @@ void nuAuMgr(void* arg) {
         if (OS_ThreadShouldExit()) {
             return;
         }
+        ThreadWatchdog_Beat(WATCHDOG_AUDIO_MANAGER);
         switch (*mesg_type) {
             case NU_SC_RETRACE_MSG:
                 if (hasFrame && nuAuTaskStop == NU_AU_TASK_RUN) {
@@ -178,8 +180,13 @@ void nuAuMgr(void* arg) {
                     samples = AlMinFrameSize;
                     cond = true;
                 }
+                if (OS_ThreadShouldExit()) {
+                    return;
+                }
+                port_auBgmLock();
                 cmdListAfter_ptr = alAudioFrame(cmdListBuf, &cmdList_len, (s16*)osVirtualToPhysical(bufferPtr), samples);
-                hasFrame = 1;
+                hasFrame = gActiveSynDriverPtr != nullptr;
+                port_auBgmUnlock();
                 if (nuAuPreNMIFunc != 0 && nuAuPreNMI != 0) {
                     nuAuPreNMIFunc(NU_SC_RETRACE_MSG, nuAuPreNMI);
                     nuAuPreNMI++;
