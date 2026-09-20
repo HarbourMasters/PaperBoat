@@ -1037,6 +1037,8 @@ void GameEngine::AudioExit() {
         OS_RequestThreadExit();
         port_auBackendGone();
         port_auStopTicker();
+        port_auBgmLock();
+        port_auBgmUnlock();
         OS_JoinDecompThreads();
         ThreadWatchdog_Stop();
 

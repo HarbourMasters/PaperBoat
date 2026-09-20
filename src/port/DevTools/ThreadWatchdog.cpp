@@ -2,6 +2,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <mutex>
 #include <spdlog/fmt/fmt.h>
 #include <spdlog/spdlog.h>
 #include <cstring>
@@ -48,7 +49,7 @@ constexpr const char* kThreadNonQueueWaits[WATCHDOG_NUM_THREADS] = {
     "HandleEvents (SDL/window), step_game_loop map-load I/O, ProcessGfxCommands (renderer present), "
     "port_auBgmLock (sBgmMutex) in snd_song_request_*",
     "port_auWaitRetrace -> sTickCv/sTickMutex; AudioPlayerPlayFrame -> SDL_QueueAudio; "
-    "port_auBgmTryLock is non-blocking so it cannot park here",
+    "port_auBgmLock (sBgmMutex) around alAudioFrame",
 };
 
 // Entry point each heartbeat belongs to.

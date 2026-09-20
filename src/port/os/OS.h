@@ -28,7 +28,6 @@ int32_t port_aiSetNextBuffer(void* buf, uint32_t size);
 
 void port_auBgmLock(void);
 void port_auBgmUnlock(void);
-int port_auBgmTryLock(void);
 
 void port_auReleaseFence(void);
 void port_auAcquireFence(void);

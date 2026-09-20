@@ -591,12 +591,13 @@ void au_sfx_clear_queue(SoundManager* manager) {
 void au_sfx_enqueue_event(SoundManager* manager, u32 soundID, s16 volume, s16 pitchShift, u8 pan) {
     // Determine the number of pending sound effects in the queue
     s32 pending = manager->sfxQueueWritePos - manager->sfxQueueReadPos;
+    port_auAcquireFence();
     if (pending < 0) {
         pending += SFX_QUEUE_SIZE;
     }
 
     // Only enqueue if there's room in the buffer
-    if (pending < SFX_QUEUE_SIZE) {
+    if (pending < SFX_QUEUE_SIZE - 1) {
         u32 nextPos = manager->sfxQueueWritePos;
 
         manager->soundQueue[nextPos].soundID = soundID & (SOUND_ID_LOWER | SOUND_ID_STOP | SOUND_ID_ADJUST | SOUND_ID_TRIGGER_MASK);
@@ -714,6 +715,7 @@ void au_sfx_begin_video_frame(SoundManager* manager) {
                 j = 0;
             }
         }
+        port_auReleaseFence();
         manager->sfxQueueReadPos = j;
     }
 }

@@ -172,6 +172,7 @@ void snd_bgm_enqueue_legacy_command(u32 cmd) {
     if (player != nullptr) {
         u32 pos;
 
+        port_auBgmLock();
         if (player->cmdBufPending < ARRAY_COUNT(player->cmdBufData)) {
             pos = player->cmdBufWritePos;
 
@@ -192,6 +193,7 @@ void snd_bgm_enqueue_legacy_command(u32 cmd) {
             }
             player->cmdBufOverflows = pos;
         }
+        port_auBgmUnlock();
     }
 }
 
@@ -274,7 +276,9 @@ void snd_stop_sound(s32 soundID) {
 }
 
 void snd_reset(void) {
+    port_auBgmLock();
     gSoundManager->resetPending = 1;
+    port_auBgmUnlock();
 }
 
 void snd_start_sound_raw(s32 soundID, s16 volume, s16 pitchShift, s32 pan) {
@@ -715,22 +719,32 @@ AuResult snd_song_request_unpause(s32 songName) {
 
 AuResult snd_song_set_volume_quiet(s32 songName) {
     SongStartRequest s;
+    AuResult status;
 
     s.songName = songName;
     s.duration = 500;
     s.finalVolume = 0.25001 * AU_MAX_VOLUME_16;
 
-    return au_bgm_adjust_volume(&s);
+    port_auBgmLock();
+    status = au_bgm_adjust_volume(&s);
+    port_auBgmUnlock();
+
+    return status;
 }
 
 AuResult snd_song_set_volume_full(s32 songName) {
     SongStartRequest s;
+    AuResult status;
 
     s.songName = songName;
     s.duration = 500;
     s.finalVolume = AU_MAX_VOLUME_16;
 
-    return au_bgm_adjust_volume(&s);
+    port_auBgmLock();
+    status = au_bgm_adjust_volume(&s);
+    port_auBgmUnlock();
+
+    return status;
 }
 
 AuResult snd_song_set_linked_mode(s32 songName, b32 mode) {
@@ -773,11 +787,13 @@ AuResult snd_song_set_playback_rate(s32 songName, f32 rate) {
     BGMHeader* bgmFile;
     AuResult status;
 
+    port_auBgmLock();
     status = snd_song_get_playing_info(songName, &bgmFile, &bgmPlayer);
 
     if (status == AU_RESULT_OK) {
         au_bgm_set_playback_rate(bgmPlayer, rate);
     }
+    port_auBgmUnlock();
 
     return status;
 }
@@ -787,11 +803,13 @@ AuResult snd_song_set_detune(s32 songName, s32 detune) {
     BGMHeader* bgmFile;
     AuResult status;
 
+    port_auBgmLock();
     status = snd_song_get_playing_info(songName, &bgmFile, &bgmPlayer);
 
     if (status == AU_RESULT_OK) {
         au_bgm_player_set_detune(bgmPlayer, detune);
     }
+    port_auBgmUnlock();
 
     return status;
 }
@@ -878,6 +896,7 @@ static AuResult snd_song_change_track_volume(s32 songName, u32 trackIdx, u32 vol
     BGMHeader* bgmFile;
     AuResult status;
 
+    port_auBgmLock();
     status = snd_song_get_playing_info(songName, &bgmFile, &bgmPlayer);
     if (status == AU_RESULT_OK) {
         if (volume > AU_MAX_VOLUME_8) {
@@ -888,6 +907,7 @@ static AuResult snd_song_change_track_volume(s32 songName, u32 trackIdx, u32 vol
         }
         au_bgm_change_track_volume(bgmPlayer, trackIdx, 96, volume);
     }
+    port_auBgmUnlock();
     return status;
 }
 
@@ -904,15 +924,21 @@ AuResult snd_song_set_track_vol_full(s32 songName, s32 trackIdx) {
 }
 
 void snd_song_set_proximity_mix_far(s32 songName, s32 mix) {
+    port_auBgmLock();
     au_bgm_set_proximity_mix(songName, (u8)mix);
+    port_auBgmUnlock();
 }
 
 void snd_song_set_proximity_mix_near(s32 songName, s32 mix) {
+    port_auBgmLock();
     au_bgm_set_proximity_mix(songName, (u8)mix | ((s32)(0.69f * AU_MAX_VOLUME_8) << 24));
+    port_auBgmUnlock();
 }
 
 void snd_song_set_proximity_mix_full(s32 songName, s32 mix) {
+    port_auBgmLock();
     au_bgm_set_proximity_mix(songName, (u8)mix | (AU_MAX_VOLUME_8 << 24));
+    port_auBgmUnlock();
 }
 
 void snd_song_poll_music_events(MusicEventTrigger** musicEvents, s32* count) {
@@ -953,29 +979,41 @@ void snd_song_clear_music_events(void) {
 
 
 void snd_register_callback(AuCallback func, s32 index) {
+    port_auBgmLock();
     gSoundGlobals->audioThreadCallbacks[index] = func;
+    port_auBgmUnlock();
 }
 
 void snd_set_stereo(void) {
+    port_auBgmLock();
     au_set_stereo_enabled(true);
     au_sync_channel_delay_enabled(0);
+    port_auBgmUnlock();
 }
 
 void snd_set_mono(void) {
+    port_auBgmLock();
     au_set_stereo_enabled(false);
     au_sync_channel_delay_enabled(1);
+    port_auBgmUnlock();
 }
 
 void snd_set_bgm_volume(VolumeLevels volume) {
+    port_auBgmLock();
     au_set_bus_volume_level(AUDIO_TYPE_BGM, volume);
+    port_auBgmUnlock();
 }
 
 void snd_set_sfx_volume(VolumeLevels volume) {
+    port_auBgmLock();
     au_set_bus_volume_level(AUDIO_TYPE_SFX, volume);
+    port_auBgmUnlock();
 }
 
 void snd_set_sfx_reverb_type(s32 reverbType) {
+    port_auBgmLock();
     au_set_reverb_type(AUDIO_TYPE_SFX, reverbType);
+    port_auBgmUnlock();
 }
 
 void snd_enable_sfx(void) {

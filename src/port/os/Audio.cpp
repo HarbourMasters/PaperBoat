@@ -26,7 +26,6 @@ void AudioPlayerPlayFrame(const uint8_t* buf, size_t len);
 
 namespace {
 
-constexpr int kMaxPendingTicks = 32;
 constexpr int kBackendCapacityFrames = 6000;
 
 std::mutex& TickMutex() {
@@ -97,9 +96,6 @@ void TickerMain() {
             if (sPendingTicks < ticks) {
                 sPendingTicks = ticks;
             }
-            if (sPendingTicks > kMaxPendingTicks) {
-                sPendingTicks = kMaxPendingTicks;
-            }
         }
         TickCv().notify_one();
     }
@@ -115,10 +111,6 @@ extern "C" void port_auBgmLock(void) {
 
 extern "C" void port_auBgmUnlock(void) {
     BgmMutex().unlock();
-}
-
-extern "C" int port_auBgmTryLock(void) {
-    return BgmMutex().try_lock() ? 1 : 0;
 }
 
 extern "C" void port_auReleaseFence(void) {

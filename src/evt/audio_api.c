@@ -1,4 +1,6 @@
 #include "common.h"
+#include "audio/audio.h"
+#include "port/os/OS.h"
 
 API_CALLABLE(PollMusicEvents);
 
@@ -16,11 +18,20 @@ static EvtScript EVS_MusicEventMonitor = {
 
 API_CALLABLE(PollMusicEvents) {
     MusicEventTrigger* list;
+    MusicEventTrigger events[MUS_QUEUE_SIZE];
     s32 musicEventID, scriptSelector;
     u32 count;
     s32 i;
 
+    port_auBgmLock();
     snd_song_poll_music_events(&list, &count);
+    for (i = 0; i < count; i++) {
+        events[i] = list[i];
+    }
+    snd_song_clear_music_events();
+    port_auBgmUnlock();
+
+    list = events;
 
     for (i = 0; i < count; i++, list++) {
         MusicEvent* cur = MusicEventList;
@@ -46,7 +57,6 @@ API_CALLABLE(PollMusicEvents) {
             }
         }
     }
-    snd_song_flush_music_events();
     MusicEventPollCount++;
     return ApiStatus_BLOCK;
 }
