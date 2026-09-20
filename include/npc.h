@@ -240,6 +240,9 @@ typedef union NpcInitialVars {
     /* 0x0 */ s32* array;
 } NpcInitialVars;
 
+#define NPC_INIT_VAR_BYTES(b0, b1, b2, b3) \
+    { .value = ((b0) << 24) | ((b1) << 16) | ((b2) << 8) | (b3) }
+
 typedef struct NpcData {
     /* 0x000 */ s32 id;
     /* 0x004 */ NpcSettings* settings;
