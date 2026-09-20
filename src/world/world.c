@@ -126,6 +126,7 @@ void load_map_by_IDs(s16 areaID, s16 mapID, s16 loadType) {
     if (mapConfig->dmaStart != nullptr) {
         dma_copy(mapConfig->dmaStart, mapConfig->dmaEnd, mapConfig->dmaDest);
     }
+    CALL_EVENT(OnMapLoad, mapConfig->id);
 
     gMapSettings = *mapConfig->settings;
 

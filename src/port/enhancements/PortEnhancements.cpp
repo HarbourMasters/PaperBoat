@@ -67,6 +67,7 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnPlayerBPCostCheck);
     REGISTER_EVENT(OnPostSaveFileLoad);
     REGISTER_EVENT(OnBattleEffectsRemoved);
+    REGISTER_EVENT(OnMapLoad);
 }
 
 void PortEnhancements_Exit() {

@@ -35,3 +35,8 @@ DEFINE_EVENT(OnPostSaveFileLoad);
 
 // Battle
 DEFINE_EVENT(OnBattleEffectsRemoved);
+
+// World
+DEFINE_EVENT(OnMapLoad,
+    const char* mapName;
+);
