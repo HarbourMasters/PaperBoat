@@ -33,7 +33,6 @@ int port_auBgmTryLock(void);
 void port_auReleaseFence(void);
 void port_auAcquireFence(void);
 
-
 #ifdef __cplusplus
 }
 #endif
