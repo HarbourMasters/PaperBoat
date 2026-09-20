@@ -35,3 +35,8 @@ DEFINE_EVENT(OnPostSaveFileLoad);
 
 // Battle
 DEFINE_EVENT(OnBattleEffectsRemoved);
+
+DEFINE_EVENT(OnBlockWindowCheck,
+    int32_t* blockWindow;
+    int32_t* mashWindow;
+);
