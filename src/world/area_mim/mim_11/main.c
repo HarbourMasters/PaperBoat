@@ -135,6 +135,8 @@ EvtScript N(EVS_ExitWarp_osr_03_4) = {
     Call(FadeOutMusic, 0, 1500)
     Call(GotoMapSpecial, Ref("osr_03"), osr_03_ENTRY_4, 0xB)
     Wait(100)
+    Return
+    End
 };
 
 EvtScript N(EVS_ExitWalk_mim_07_3) = {

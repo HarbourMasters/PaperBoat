@@ -8,6 +8,8 @@ EvtScript N(EVS_GotoMap_hos_00_1) = {
     Call(PlaySound, SOUND_SLIDE_WHISTLE_OUT)
     Call(GotoMapSpecial, Ref("hos_00"), hos_00_ENTRY_1, TRANSITION_END_PEACH_INTERLUDE)
     Wait(100)
+    Return
+    End
 };
 
 EvtScript N(EVS_ExitDoors_kkj_14_1) = {

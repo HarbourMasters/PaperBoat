@@ -55,7 +55,10 @@ EvtScript N(EVS_NpcAI_MBush) = {
     Call(SetTimeFreezeMode, TIME_FREEZE_NONE)
     Call(DisablePlayerInput, false)
     Call(StartBattle)
-}; // fallthrough :(
+    Call(SetSelfVar, 0, 1)
+    Return
+    End
+};
 
 EvtScript N(EVS_NpcInteract_MBush) = {
     Call(SetSelfVar, 0, 1)
