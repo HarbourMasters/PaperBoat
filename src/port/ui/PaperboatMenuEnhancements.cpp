@@ -6,6 +6,12 @@ extern std::shared_ptr<PaperboatMenu> mPaperboatMenu;
 
 using namespace UIWidgets;
 
+static const std::unordered_map<int32_t, const char*> blockWindowOptions = {
+    { 0, "Original (3 frames)" },
+    { 1, "Forgiving (7 frames)" },
+    { 2, "Very Forgiving (10 frames)" },
+};
+
 void PaperboatMenu::AddMenuEnhancements() {
     // Add Enhancements Menu
     AddMenuEntry("Enhancements", CVAR_SETTING("Menu.EnhancementsSidebarSection"));
@@ -33,7 +39,7 @@ void PaperboatMenu::AddMenuEnhancements() {
 
     // Enhancements > Gameplay
     path = { "Enhancements", "Gameplay", SECTION_COLUMN_1 };
-    AddSidebarEntry("Enhancements", path.sidebarName, 1);
+    AddSidebarEntry("Enhancements", path.sidebarName, 2);
     path.column = SECTION_COLUMN_1;
 
     AddWidget(path, "DX: Prevent Loading Zone Storage", WIDGET_CVAR_CHECKBOX)
@@ -45,6 +51,17 @@ void PaperboatMenu::AddMenuEnhancements() {
                 "game. Note that most loading zones also trigger while you are airborne above "
                 "them, so enabling this can freeze Mario in midair until he lands."
             )
+        );
+
+    AddWidget(path, "Block Window", WIDGET_CVAR_COMBOBOX)
+        .CVar(CVAR_ENHANCEMENT("BlockWindowMode"))
+        .Options(
+            ComboboxOptions()
+                .Tooltip(
+                    "Sets the window for timed defensive blocks. The default is 3 frames. Anything "
+                    "wider overrides the Dodge Master badge."
+                )
+                .ComboMap(blockWindowOptions)
         );
 
     // Enhancements > Graphics

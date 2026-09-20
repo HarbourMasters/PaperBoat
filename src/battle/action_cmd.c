@@ -568,6 +568,8 @@ s32 check_block_input(s32 buttonMask) {
         blockWindow = 5;
     }
 
+    CALL_EVENT(OnBlockWindowCheck, &blockWindow, &mashWindow);
+
     // Pre-window mashing check
     bufferPos = battleStatus->inputBufferPos;
     bufferPos -= mashWindow + blockWindow;
