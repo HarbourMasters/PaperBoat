@@ -56,6 +56,8 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(CurtainsPreDraw);
     REGISTER_EVENT(CurtainsPostDraw);
     REGISTER_EVENT(BackgroundPreDraw);
+    REGISTER_EVENT(CameraPerspective);
+    REGISTER_EVENT(CameraFitViewport);
     REGISTER_EVENT(VanillaBehavior);
 
     // Register game events

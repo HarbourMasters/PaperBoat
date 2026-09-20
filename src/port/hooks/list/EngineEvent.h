@@ -180,6 +180,17 @@ DEFINE_EVENT(BackgroundPreDraw,
     int32_t bgRenderState;
 );
 
+DEFINE_EVENT(CameraPerspective,
+    s32 camID;
+    Camera* camera;
+    f32* aspect;
+);
+
+DEFINE_EVENT(CameraFitViewport,
+    s32 camID;
+    Camera* camera;
+);
+
 DEFINE_EVENT(VanillaBehavior,
     VBehaviorID id;
     bool* should;
