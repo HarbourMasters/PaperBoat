@@ -5,6 +5,7 @@
 #include "TouchControls.h"
 #include "UIWidgets.hpp"
 #include "port/Engine.h"
+#include "port/TextureCache.h"
 #include <spdlog/fmt/fmt.h>
 
 namespace PaperboatGui {
@@ -394,6 +395,30 @@ void PaperboatMenu::AddMenuSettings() {
 
     path.column = SECTION_COLUMN_2;
     AddWidget(path, "Advanced Graphics Options", WIDGET_SEPARATOR_TEXT);
+    static std::string sTextureCacheLabels[5];
+    static std::unordered_map<int32_t, const char*> sTextureCacheMap;
+    sTextureCacheLabels[0] = "Auto";
+    sTextureCacheMap[0] = sTextureCacheLabels[0].c_str();
+    for (int32_t step = 1; step <= 4; step++) {
+        const uint64_t mb = TextureCache_CeilingBytes() * step / 4 / (1024 * 1024);
+        sTextureCacheLabels[step] = mb >= 1024 ? fmt::format("{:.1f} GB", mb / 1024.0) : fmt::format("{} MB", mb);
+        sTextureCacheMap[step] = sTextureCacheLabels[step].c_str();
+    }
+    AddWidget(path, "Texture Cache Size", WIDGET_CVAR_COMBOBOX)
+        .CVar("gGraphics.TextureCache")
+        .RaceDisable(false)
+        .Callback([](WidgetInfo& info) { TextureCache_Configure(); })
+        .Options(
+            ComboboxOptions()
+                .Tooltip(
+                    "Video memory the texture cache may hold before it drops oldest textures. "
+                    "Auto sizes it for the texture packs loaded; the other "
+                    "steps are fixed shares of what the video card can spare. "
+                    "Takes immediate effect."
+                )
+                .ComboMap(sTextureCacheMap)
+                .DefaultIndex(0)
+        );
 
     // Settings > Input Viewer
     path.sidebarName = "Input Viewer";

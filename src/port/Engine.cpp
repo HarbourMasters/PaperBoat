@@ -12,6 +12,7 @@
 #include "port/audio/AudioVolume.h"
 #include "port/os/OS.h"
 #include "port/DevTools/ThreadWatchdog.h"
+#include "port/TextureCache.h"
 #include "src/Companion.h"
 #include "ui/PaperboatGui.hpp"
 #include "ui/PaperboatModMenuWindow.h"
@@ -280,6 +281,7 @@ void GameEngine::FinishInit() {
             interpreter->SetResolvedResourceCacheEnabled(true);
         }
     }
+    TextureCache_Configure();
 
     auto loader = Ship::Context::GetRawInstance()->GetResourceManager()->GetResourceLoader();
     loader->RegisterResourceFactory(
