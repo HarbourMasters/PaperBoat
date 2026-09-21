@@ -73,18 +73,21 @@ b32 fio_validate_globals_checksums(void) {
 }
 
 b32 fio_load_globals(void) {
-    fio_read_flash(GLOBALS_PAGE_1, &gSaveGlobals, sizeof(gSaveGlobals));
-    if (fio_validate_globals_checksums()) {
-        return true;
-    }
+    CALL_CANCELLABLE_EVENT(OnSaveGlobalsLoad, &gSaveGlobals) {
+        fio_read_flash(GLOBALS_PAGE_1, &gSaveGlobals, sizeof(gSaveGlobals));
+        if (fio_validate_globals_checksums()) {
+            return true;
+        }
 
-    fio_read_flash(GLOBALS_PAGE_2, &gSaveGlobals, sizeof(gSaveGlobals));
-    if (fio_validate_globals_checksums()) {
-        return true;
-    }
+        fio_read_flash(GLOBALS_PAGE_2, &gSaveGlobals, sizeof(gSaveGlobals));
+        if (fio_validate_globals_checksums()) {
+            return true;
+        }
 
-    bzero(&gSaveGlobals, sizeof(gSaveGlobals));
-    return false;
+        bzero(&gSaveGlobals, sizeof(gSaveGlobals));
+        return false;
+    }
+    return fio_validate_globals_checksums();
 }
 
 b32 fio_save_globals(void) {
@@ -96,10 +99,12 @@ b32 fio_save_globals(void) {
     checksum = fio_calc_globals_checksum();
     gSaveGlobals.crc1 = checksum;
     gSaveGlobals.crc2 = ~checksum;
-    fio_erase_flash(GLOBALS_PAGE_1);
-    fio_write_flash(GLOBALS_PAGE_1, (s8*)&gSaveGlobals, sizeof(gSaveGlobals));
-    fio_erase_flash(GLOBALS_PAGE_2);
-    fio_write_flash(GLOBALS_PAGE_2, (s8*)&gSaveGlobals, sizeof(gSaveGlobals));
+    CALL_CANCELLABLE_EVENT(OnSaveGlobalsSave, &gSaveGlobals) {
+        fio_erase_flash(GLOBALS_PAGE_1);
+        fio_write_flash(GLOBALS_PAGE_1, (s8*)&gSaveGlobals, sizeof(gSaveGlobals));
+        fio_erase_flash(GLOBALS_PAGE_2);
+        fio_write_flash(GLOBALS_PAGE_2, (s8*)&gSaveGlobals, sizeof(gSaveGlobals));
+    }
     return true;
 }
 

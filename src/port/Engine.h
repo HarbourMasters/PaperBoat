@@ -149,9 +149,6 @@ void GameEngine_InvalidateTextureCache(const void* addr);
 void GameEngine_PrefetchTextures(const char* group);
 void gfx_texture_cache_clear(void);
 
-// Save file path - returns path to "pm64.sav" in app directory
-// Buffer must be at least 512 bytes. Returns 0 on success, -1 on failure.
-int GameEngine_GetSaveFilePath(char* buf, int bufSize);
 
 // Clear the GPU depth buffer (replaces N64 gDPSetColorImage-to-ZBuffer hack)
 void GameEngine_ClearDepthBuffer(void);

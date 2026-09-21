@@ -1346,16 +1346,6 @@ extern "C" void GameEngine_InvalidateTextureCache(const void* addr) {
     }
 }
 
-extern "C" int GameEngine_GetSaveFilePath(char* buf, int bufSize) {
-    std::string path = Ship::Context::GetPathRelativeToAppDirectory("default.sav");
-    if ((int) path.size() >= bufSize) {
-        return -1;
-    }
-    strncpy(buf, path.c_str(), bufSize);
-    buf[bufSize - 1] = '\0';
-    return 0;
-}
-
 extern "C" void GameEngine_ClearDepthBuffer(void) {
     auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(Ship::Context::GetRawInstance()->GetWindow());
     if (wnd) {

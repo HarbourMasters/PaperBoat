@@ -43,21 +43,6 @@ NUGfxPreNMIFunc nuGfxPreNMIFunc = NULL;
 // Scheduler
 NUSched nusched;
 
-// Flash emulation state
-#define FLASH_PAGE_BYTES 128
-#define FLASH_TOTAL_SIZE 0x20000 // 128KB, matches N64 Flash chip
-static u8 sFlashWriteBuf[FLASH_PAGE_BYTES];
-static char sSaveFilePath[512];
-static s32 sSaveFilePathValid = 0;
-
-static void flash_ensure_path(void) {
-    if (!sSaveFilePathValid) {
-        if (GameEngine_GetSaveFilePath(sSaveFilePath, sizeof(sSaveFilePath)) == 0) {
-            sSaveFilePathValid = 1;
-        }
-    }
-}
-
 // Main stack
 u64 nuMainStack[NU_SC_STACK_SIZE / sizeof(u64)];
 
@@ -421,13 +406,6 @@ OSThread* __osGetActiveQueue(void) {
 void osUnmapTLBAll(void) {
 }
 
-s32 osFlashSectorErase(u32 page_num) {
-    (void) page_num;
-    // No-op: game always writes immediately after erase, and
-    // osFlashWriteArray does a full read-modify-write.
-    return 0;
-}
-
 void osCreateViManager(OSPri pri) {
     (void) pri;
 }
@@ -597,79 +575,38 @@ void osUnmapTLB(s32 index) {
     (void) index;
 }
 
+// ============================================================================
+// Flash
+// ============================================================================
+
 OSPiHandle* osFlashInit(void) {
-    flash_ensure_path();
     return NULL;
+}
+
+s32 osFlashSectorErase(u32 page_num) {
+    (void) page_num;
+    return 0;
 }
 
 s32 osFlashReadArray(OSIoMesg* mb, s32 priority, u32 page_num, void* dramAddr, u32 n_pages, OSMesgQueue* mq) {
     (void) mb;
     (void) priority;
+    (void) page_num;
     (void) mq;
-
-    flash_ensure_path();
-
-    u32 offset = page_num * FLASH_PAGE_BYTES;
-    u32 size = n_pages * FLASH_PAGE_BYTES;
-
-    // Pre-fill with zeros (like a blank Flash chip)
-    memset(dramAddr, 0, size);
-
-    if (!sSaveFilePathValid) {
-        return 0;
-    }
-
-    FILE* fp = fopen(sSaveFilePath, "rb");
-    if (fp == NULL) {
-        return 0;
-    }
-
-    fseek(fp, offset, SEEK_SET);
-    fread(dramAddr, 1, size, fp);
-    fclose(fp);
+    memset(dramAddr, 0, n_pages * 128);
     return 0;
 }
 
 s32 osFlashWriteBuffer(OSIoMesg* mb, s32 priority, void* dramAddr, OSMesgQueue* mq) {
     (void) mb;
     (void) priority;
+    (void) dramAddr;
     (void) mq;
-
-    memcpy(sFlashWriteBuf, dramAddr, FLASH_PAGE_BYTES);
     return 0;
 }
 
 s32 osFlashWriteArray(u32 page_num) {
-    flash_ensure_path();
-    if (!sSaveFilePathValid) {
-        return -1;
-    }
-
-    u32 offset = page_num * FLASH_PAGE_BYTES;
-    if (offset + FLASH_PAGE_BYTES > FLASH_TOTAL_SIZE) {
-        return -1;
-    }
-
-    // Read existing save file (or start from zeros)
-    u8 flash[FLASH_TOTAL_SIZE];
-    memset(flash, 0, sizeof(flash));
-
-    FILE* fp = fopen(sSaveFilePath, "rb");
-    if (fp != NULL) {
-        fread(flash, 1, FLASH_TOTAL_SIZE, fp);
-        fclose(fp);
-    }
-
-    // Patch the page with the write buffer contents
-    memcpy(flash + offset, sFlashWriteBuf, FLASH_PAGE_BYTES);
-
-    // Write back the full file
-    fp = fopen(sSaveFilePath, "wb");
-    if (fp == NULL) {
-        return -1;
-    }
-    fwrite(flash, 1, FLASH_TOTAL_SIZE, fp);
-    fclose(fp);
+    (void) page_num;
     return 0;
 }
 
