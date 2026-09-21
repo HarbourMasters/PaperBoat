@@ -12,6 +12,13 @@ static const std::unordered_map<int32_t, const char*> blockWindowOptions = {
     { 2, "Very Forgiving (10 frames)" },
 };
 
+static const std::unordered_map<int32_t, const char*> actionCommandDifficultyOptions = {
+    { 0, "Original" },
+    { 1, "Forgiving (-1 level)" },
+    { 2, "Very Forgiving (-2 levels)" },
+    { 3, "Extremely Forgiving (-3 levels)" },
+};
+
 void PaperboatMenu::AddMenuEnhancements() {
     // Add Enhancements Menu
     AddMenuEntry("Enhancements", CVAR_SETTING("Menu.EnhancementsSidebarSection"));
@@ -56,6 +63,17 @@ void PaperboatMenu::AddMenuEnhancements() {
     AddWidget(path, "Sprint Button", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("SprintButton"))
         .Options(CheckboxOptions().Tooltip("Hold R to move at double speed in the overworld."));
+
+    AddWidget(path, "Action Command Difficulty", WIDGET_CVAR_COMBOBOX)
+        .CVar(CVAR_ENHANCEMENT("ActionCommandDifficulty"))
+        .Options(
+            ComboboxOptions()
+                .Tooltip(
+                    "Lowers the difficulty of attack action commands, which widens their input "
+                    "windows. Stacks with the Dodge Master badge."
+                )
+                .ComboMap(actionCommandDifficultyOptions)
+        );
 
     AddWidget(path, "Block Window", WIDGET_CVAR_COMBOBOX)
         .CVar(CVAR_ENHANCEMENT("BlockWindowMode"))

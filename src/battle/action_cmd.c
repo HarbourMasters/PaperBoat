@@ -100,6 +100,8 @@ s32 adjust_action_command_difficulty(s32 difficultyLevel) {
         difficultyLevel -= is_ability_active(ABILITY_DODGE_MASTER) * 3;
     }
 
+    CALL_EVENT(OnActionCommandDifficulty, &difficultyLevel);
+
     if (difficultyLevel < 0) {
         difficultyLevel = 0;
     }
