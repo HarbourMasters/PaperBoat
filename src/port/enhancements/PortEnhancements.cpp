@@ -74,6 +74,7 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnBattleEffectsRemoved);
     REGISTER_EVENT(OnBlockWindowCheck);
     REGISTER_EVENT(OnMapLoad);
+    REGISTER_EVENT(OnPlayerSpeedUpdate);
 }
 
 void PortEnhancements_Exit() {
