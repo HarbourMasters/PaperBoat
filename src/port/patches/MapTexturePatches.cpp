@@ -81,33 +81,81 @@ typedef struct NamedLevel {
     const char* base;
     const char* suffix;
     char* path;
+    u32 hash;
 } NamedLevel;
 
-static NamedLevel sNamedLevels[512];
+static NamedLevel* sNamedLevels = NULL;
 static s32 sNamedLevelCount = 0;
+static s32 sNamedLevelCap = 0;
+static s32* sNamedLevelIndex = NULL; // open addressing over sNamedLevels, -1 = empty
+static u32 sNamedLevelMask = 0;
+
+static u32 named_level_hash(const char* base, const char* suffix) {
+    u32 h = 2166136261u;
+    uintptr_t p = (uintptr_t) base;
+    while (p != 0) {
+        h = (h ^ (u32) (p & 0xFF)) * 16777619u;
+        p >>= 8;
+    }
+    for (; *suffix != '\0'; suffix++) {
+        h = (h ^ (u8) *suffix) * 16777619u;
+    }
+    return h;
+}
+
+static void named_level_index_insert(s32 entry) {
+    u32 slot = sNamedLevels[entry].hash & sNamedLevelMask;
+    while (sNamedLevelIndex[slot] >= 0) {
+        slot = (slot + 1) & sNamedLevelMask;
+    }
+    sNamedLevelIndex[slot] = entry;
+}
+
+static void named_level_grow(void) {
+    s32 i;
+
+    sNamedLevelCap = sNamedLevelCap == 0 ? 1024 : sNamedLevelCap * 2;
+    sNamedLevels = (NamedLevel*) realloc(sNamedLevels, sNamedLevelCap * sizeof(NamedLevel));
+    sNamedLevelMask = (u32) sNamedLevelCap * 2 - 1;
+    sNamedLevelIndex = (s32*) realloc(sNamedLevelIndex, (sNamedLevelMask + 1) * sizeof(s32));
+    for (i = 0; i <= (s32) sNamedLevelMask; i++) {
+        sNamedLevelIndex[i] = -1;
+    }
+    for (i = 0; i < sNamedLevelCount; i++) {
+        named_level_index_insert(i);
+    }
+}
 
 IMG_PTR port_tex_named_level(IMG_PTR raster, const char* suffix) {
     const char* base = (const char*) raster;
+    const u32 hash = named_level_hash(base, suffix);
+    NamedLevel* entry;
     size_t len;
-    s32 i;
 
-    for (i = 0; i < sNamedLevelCount; i++) {
-        if (sNamedLevels[i].base == base && strcmp(sNamedLevels[i].suffix, suffix) == 0) {
-            return (IMG_PTR) sNamedLevels[i].path;
+    if (sNamedLevelIndex != NULL) {
+        u32 slot = hash & sNamedLevelMask;
+        while (sNamedLevelIndex[slot] >= 0) {
+            entry = &sNamedLevels[sNamedLevelIndex[slot]];
+            if (entry->hash == hash && entry->base == base && strcmp(entry->suffix, suffix) == 0) {
+                return (IMG_PTR) entry->path;
+            }
+            slot = (slot + 1) & sNamedLevelMask;
         }
     }
 
-    if (sNamedLevelCount >= (s32) ARRAY_COUNT(sNamedLevels)) {
-        GameEngine_LogInfo("port_tex_named_level: table full for %s%s", base, suffix);
-        return NULL;
+    if (sNamedLevelCount >= sNamedLevelCap) {
+        named_level_grow();
     }
-
     len = strlen(base) + strlen(suffix) + 1;
-    sNamedLevels[sNamedLevelCount].base = base;
-    sNamedLevels[sNamedLevelCount].suffix = suffix;
-    sNamedLevels[sNamedLevelCount].path = (char*) malloc(len);
-    snprintf(sNamedLevels[sNamedLevelCount].path, len, "%s%s", base, suffix);
-    return (IMG_PTR) sNamedLevels[sNamedLevelCount++].path;
+    entry = &sNamedLevels[sNamedLevelCount];
+    entry->base = base;
+    entry->suffix = suffix;
+    entry->hash = hash;
+    entry->path = (char*) malloc(len);
+    snprintf(entry->path, len, "%s%s", base, suffix);
+    named_level_index_insert(sNamedLevelCount);
+    sNamedLevelCount++;
+    return (IMG_PTR) entry->path;
 }
 
 IMG_PTR port_named_image(const char* asset, const char* suffix, void* fallback) {
