@@ -15,10 +15,21 @@ extern void gfx_register_fb_texture(const void* cpuAddr, int fbId);
 // GPU framebuffer plus a registered CPU sentinel, so binding the sentinel as a
 // texture binds the FB directly. Consumers must declare the full frame as the
 // tile and use absolute screen-space UVs.
+typedef struct MirrorRequest {
+    s32* fbId;
+    const u16* sentinel;
+} MirrorRequest;
+
+static void createMirror(void* arg) {
+    MirrorRequest* req = (MirrorRequest*)arg;
+    *req->fbId = gfx_create_framebuffer(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT, 1, 0);
+    gfx_register_fb_texture(req->sentinel, *req->fbId);
+}
+
 static void ensureMirror(s32* fbId, const u16* sentinel) {
     if (*fbId < 0) {
-        *fbId = gfx_create_framebuffer(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT, 1, 0);
-        gfx_register_fb_texture(sentinel, *fbId);
+        MirrorRequest req = { fbId, sentinel };
+        port_runOnRenderThread(createMirror, &req);
     }
 }
 

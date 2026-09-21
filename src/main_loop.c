@@ -182,6 +182,8 @@ void gfx_task_background(void) {
     ASSERT((s32)((u32)((gMainGfxPos - gDisplayContext->backgroundGfx) << 3) >> 3) < ARRAY_COUNT(
                gDisplayContext->backgroundGfx))
 
+    nuGfxTaskStart(&gDisplayContext->backgroundGfx[0], (u32)(gMainGfxPos - gDisplayContext->backgroundGfx) * 8,
+                   NU_GFX_UCODE_F3DEX2, NU_SC_NOSWAPBUFFER);
 }
 
 void gfx_draw_frame(void) {
@@ -191,9 +193,7 @@ void gfx_draw_frame(void) {
     gMainGfxPos = &gDisplayContext->mainGfx[0];
 
     if (gOverrideFlags & GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME) {
-        // Still need to end the DL even if skipping render
-        gSPEndDisplayList(gMainGfxPos++);
-        // NOTE: context toggle moved to Graphics_ThreadUpdate
+        gCurrentDisplayContextIndex = gCurrentDisplayContextIndex ^ 1;
         return;
     }
 
@@ -305,6 +305,9 @@ void gfx_draw_frame(void) {
     gDPFullSync(gMainGfxPos++);
     gSPEndDisplayList(gMainGfxPos++);
 
+    nuGfxTaskStart(gDisplayContext->mainGfx, (u32)(gMainGfxPos - gDisplayContext->mainGfx) * 8, NU_GFX_UCODE_F3DEX2,
+                   NU_SC_TASK_LODABLE | NU_SC_SWAPBUFFER);
+    gCurrentDisplayContextIndex = gCurrentDisplayContextIndex ^ 1;
     crash_screen_set_draw_info(nuGfxCfb_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 

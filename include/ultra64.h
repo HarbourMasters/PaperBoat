@@ -49,6 +49,12 @@
 #ifndef SP_UCODE_DATA_SIZE
 #define SP_UCODE_DATA_SIZE 2048
 #endif
+#ifndef SP_UCODE_SIZE
+#define SP_UCODE_SIZE 4096
+#endif
+#ifndef SP_DRAM_STACK_SIZE8
+#define SP_DRAM_STACK_SIZE8 1024
+#endif
 
 // Additional PI functions and video modes not in libultraship
 #include <stdint.h>

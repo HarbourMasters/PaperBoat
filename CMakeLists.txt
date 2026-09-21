@@ -251,6 +251,11 @@ list(FILTER GAME_SOURCES EXCLUDE REGEX "/src/port/")
 list(FILTER GAME_SOURCES EXCLUDE REGEX "/src/os/")
 list(FILTER GAME_SOURCES EXCLUDE REGEX "/src/boot/")
 
+# nusys runs as written on top of src/port/os
+file(GLOB NUSYS_SOURCES ${CMAKE_SOURCE_DIR}/src/os/nusys/*.c)
+list(FILTER NUSYS_SOURCES EXCLUDE REGEX "/src/os/nusys/(nucontinit|nucontpakmgr|nupi|nugfxinit)")
+list(APPEND GAME_SOURCES ${NUSYS_SOURCES})
+
 # Exclude effects/gfx/ asset data files (replaced by OTR)
 list(FILTER GAME_SOURCES EXCLUDE REGEX "/src/effects/gfx/")
 list(FILTER GAME_SOURCES EXCLUDE REGEX "unused_gfx\\.c$")
