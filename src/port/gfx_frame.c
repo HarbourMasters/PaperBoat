@@ -10,6 +10,9 @@
 #include "port/Engine.h"
 #include "port/interpolation/FrameInterpolation.h"
 #include "port/patches/Patches.h"
+#include "port/os/OS.h"
+#include "port/DevTools/ThreadWatchdog.h"
+#include "port/audio/AudioVolume.h"
 
 // Double-buffered graphics pools
 GfxPool gGfxPools[2];
@@ -23,10 +26,6 @@ extern s32 gCurrentDisplayContextIndex;
 extern void step_game_loop(void);
 extern void gfx_task_background(void);
 extern void gfx_draw_frame(void);
-
-// Audio frame hooks from Engine.cpp
-extern void GameEngine_StartAudioFrame(void);
-extern void GameEngine_EndAudioFrame(void);
 
 // C++ bridge function - defined in Game.cpp
 extern void Graphics_PushFrame(Gfx* displayList);
@@ -45,8 +44,8 @@ void Graphics_ThreadUpdate(void) {
     // Initialize frame pointers
     Graphics_InitializeTask();
 
-    // Start audio generation in parallel
-    GameEngine_StartAudioFrame();
+    ThreadWatchdog_Beat(WATCHDOG_MAIN_LOOP);
+    AudioVolume_Update();
 
     // Run game logic
     FrameInterpolation_RecordOpenChild("game_logic", 0);
@@ -68,8 +67,10 @@ void Graphics_ThreadUpdate(void) {
     // Link main display list
     gSPDisplayList(gMasterDisp++, ctx->mainGfx);
 
-    // GPU-side prev-frame mirror: gDPCopyFB(main -> prevFb) every frame
-    port_emitPrevFrameCapture(&gMasterDisp);
+    // Freeze while the pause background is up, which samples the mirror to draw itself
+    if (!port_isPauseBackgroundActive()) {
+        port_emitPrevFrameCapture(&gMasterDisp);
+    }
 
     // Finalize master display list
     gDPFullSync(gMasterDisp++);
@@ -77,9 +78,6 @@ void Graphics_ThreadUpdate(void) {
 
     // Toggle display context for next frame (moved from gfx_draw_frame)
     gCurrentDisplayContextIndex ^= 1;
-
-    // Wait for audio frame to complete
-    GameEngine_EndAudioFrame();
 
     // Handle GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME, which means "hold the last image on screen"
     // while the game tears down and rebuilds state (state transitions, demo

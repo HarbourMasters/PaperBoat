@@ -14,6 +14,8 @@ void port_emitPrevFrameCapture(Gfx** gfxP);
 void port_appendGfx_draw_prev_frame_buffer(s32 x1, s32 y1, s32 x2, s32 y2, f32 alpha);
 u16* port_getSceneMirrorSentinel(void);
 void port_emitSceneMirrorCapture(Gfx** gfxP);
+void port_appendGfx_pause_background(s32 bgRenderState);
+b32 port_isPauseBackgroundActive(void);
 
 // Static Gfx[] with VTXs
 void port_patch_dl(Gfx* dl);

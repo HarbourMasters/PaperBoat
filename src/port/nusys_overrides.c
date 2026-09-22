@@ -9,6 +9,7 @@
 #include "Engine.h"
 #include "common.h"
 #include "nu/nusys.h"
+#include "port/os/OS.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -341,10 +342,6 @@ void nuPiReadRomOverlay(NUPiOverlaySegment* seg) {
 // Audio Interface Functions
 // ============================================================================
 
-u32 osAiGetStatus(void) {
-    return 0;
-}
-
 s32 osAiSetFrequency(u32 frequency) {
     return (s32) frequency;
 }
@@ -454,25 +451,19 @@ void osViSetEvent(OSMesgQueue* mq, OSMesg msg, u32 retraceCount) {
 }
 
 void osCreateThread(OSThread* thread, OSId id, void (*entry)(void*), void* arg, void* sp, OSPri pri) {
-    (void) thread;
-    (void) id;
-    (void) entry;
-    (void) arg;
-    (void) sp;
-    (void) pri;
+    OS_CreateThread(thread, id, entry, arg, sp, pri);
 }
 
 void osStartThread(OSThread* thread) {
-    (void) thread;
+    OS_StartThread(thread);
 }
 
 void osStopThread(OSThread* thread) {
-    (void) thread;
+    OS_StopThread(thread);
 }
 
 void osSetThreadPri(OSThread* thread, OSPri pri) {
-    (void) thread;
-    (void) pri;
+    OS_SetThreadPri(thread, pri);
 }
 
 void osWritebackDCacheAll(void) {

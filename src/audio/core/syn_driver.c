@@ -2,6 +2,7 @@
 #include "audio/audio.h"
 #include "audio/core.h"
 #include "port/audio/AudioVolume.h"
+#include "port/os/OS.h"
 
 static s16 _getVol(s16 arg0, s32 arg1, s16 arg2, u16 arg3);
 

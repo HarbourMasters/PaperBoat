@@ -2,6 +2,7 @@
 #include "audio/core.h"
 #include "ld_addrs.h"
 #include "port/Engine.h"
+#include "port/os/OS.h"
 #include "assets/audio_sbn.h"
 #include <string.h>
 #include <stddef.h>
@@ -234,7 +235,7 @@ void au_update_clients_for_audio_frame(void) {
     }
 
     // Update gBGMPlayerB
-    if (!PreventBGMPlayerUpdate) {
+    {
         bgmPlayer = gBGMPlayerB;
         if (bgmPlayer->fadeInfo.baseTicks != 0) {
             au_bgm_update_fade(bgmPlayer);
@@ -251,7 +252,7 @@ void au_update_clients_for_audio_frame(void) {
     }
 
     // Update gBGMPlayerA
-    if (!PreventBGMPlayerUpdate) {
+    {
         if (globals->resumeRequested) {
             au_bgm_restore_copied_player(globals);
         }

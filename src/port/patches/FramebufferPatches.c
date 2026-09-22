@@ -1,6 +1,9 @@
 #include "common.h"
+#include "nu/nusys.h"
 #include "port/Engine.h"
 #include "port/patches/Patches.h"
+
+extern s32 gPauseBackgroundFade;
 
 extern int gfx_create_framebuffer(
     unsigned int width,
@@ -113,4 +116,76 @@ void port_appendGfx_draw_prev_frame_buffer(s32 x1, s32 y1, s32 x2, s32 y2, f32 a
         gMainGfxPos++, dstLeft * 4, y1 * 4, dstRight * 4, y2 * 4, G_TX_RENDERTILE, port_fbMirrorS(dstLeft), y1 * 32,
         (s32) (1024.0f * SCREEN_WIDTH / visWidth), 1024
     );
+}
+
+// Pause background fb
+void port_appendGfx_pause_background(s32 bgRenderState) {
+    u16* mirror;
+    s32 visLeft;
+    s32 visRight;
+    s32 visWidth;
+
+    switch (bgRenderState) {
+        case BACKGROUND_RENDER_STATE_BEGIN_PAUSED:
+            gGameStatusPtr->backgroundFlags &= ~BACKGROUND_RENDER_STATE_MASK;
+            gGameStatusPtr->backgroundFlags |= BACKGROUND_RENDER_STATE_FILTER_PAUSED;
+            gPauseBackgroundFade = 0;
+            return;
+        case BACKGROUND_RENDER_STATE_FILTER_PAUSED:
+            gGameStatusPtr->backgroundFlags &= ~BACKGROUND_RENDER_STATE_MASK;
+            gGameStatusPtr->backgroundFlags |= BACKGROUND_RENDER_STATE_SHOW_PAUSED;
+            gPauseBackgroundFade = 0;
+            break;
+    }
+
+    gPauseBackgroundFade += 16;
+    if (gPauseBackgroundFade > 128) {
+        gPauseBackgroundFade = 128;
+    }
+
+    mirror = port_getPrevFrameSentinel();
+    visLeft = OTRGetRectDimensionFromLeftEdge(0);
+    visRight = OTRGetRectDimensionFromRightEdge(0);
+    visWidth = visRight - visLeft;
+    if (visWidth < 1) {
+        visWidth = SCREEN_WIDTH;
+    }
+
+    gDPPipeSync(gMainGfxPos++);
+    gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    gDPSetCycleType(gMainGfxPos++, G_CYC_FILL);
+    gDPSetRenderMode(gMainGfxPos++, G_RM_NOOP, G_RM_NOOP2);
+    gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(nuGfxCfb_ptr));
+    gDPSetFillColor(gMainGfxPos++, PACK_FILL_COLOR(0, 0, 0, 1));
+    gDPFillWideRectangle(gMainGfxPos++, visLeft, 0, visRight - 1, SCREEN_HEIGHT - 1);
+    gDPPipeSync(gMainGfxPos++);
+
+    gDPSetCycleType(gMainGfxPos++, G_CYC_1CYCLE);
+    // The ROM pairs PM_CC_43 with PM_CC_44 and compensates for the resulting
+    // one-pixel texel offset with a -1 shift on S; neither is needed here.
+    gDPSetCombineMode(gMainGfxPos++, PM_CC_43, PM_CC_43);
+    gDPSetRenderMode(gMainGfxPos++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+    gDPSetColorDither(gMainGfxPos++, G_CD_DISABLE);
+    gDPSetTextureFilter(gMainGfxPos++, G_TF_POINT);
+    gDPSetTexturePersp(gMainGfxPos++, G_TP_NONE);
+    gDPSetTextureLUT(gMainGfxPos++, G_TT_NONE);
+    gDPSetTextureDetail(gMainGfxPos++, G_TD_CLAMP);
+    gDPSetTextureLOD(gMainGfxPos++, G_TL_TILE);
+    gSPTexture(gMainGfxPos++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
+    gDPSetPrimColor(gMainGfxPos++, 0, 0, 40, 40, 40, gPauseBackgroundFade);
+
+    gDPLoadTextureTile(
+        gMainGfxPos++, osVirtualToPhysical(mirror), G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0,
+        SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD
+    );
+
+    gSPWideTextureRectangle(
+        gMainGfxPos++, visLeft * 4, 0, visRight * 4, SCREEN_HEIGHT * 4, G_TX_RENDERTILE, port_fbMirrorS(visLeft), 0,
+        (s32) (1024.0f * SCREEN_WIDTH / visWidth), 1024
+    );
+    gDPPipeSync(gMainGfxPos++);
+}
+
+b32 port_isPauseBackgroundActive(void) {
+    return (gGameStatusPtr->backgroundFlags & BACKGROUND_RENDER_STATE_MASK) != 0;
 }

@@ -292,11 +292,6 @@ FetchContent_MakeAvailable(dr_libs)
 
 file(GLOB_RECURSE PORT_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
     src/port/*.cpp
-    src/port/audio/*.c
-    src/port/audio/*.cpp
-    src/port/embedded/*.c
-    src/port/importer/*.cpp
-    src/port/sprite/*.cpp
     src/port/*.c
 )
 

@@ -371,7 +371,7 @@ NpcData N(NpcData_Quizmo_Unused) = {
     .pos = { 545.0f, 20.0f, 150.0f },
     .yaw = 30,
     .initVarCount = 1,
-    .initVar = { .bytes = { 0, QUIZ_AREA_MAC, QUIZ_COUNT_MAC, QUIZ_MAP_MAC_00 }},
+    .initVar = NPC_INIT_VAR_BYTES(0, QUIZ_AREA_MAC, QUIZ_COUNT_MAC, QUIZ_MAP_MAC_00),
     .settings = &N(NpcSettings_ChuckQuizmo),
     .flags = COMMON_PASSIVE_FLAGS | ENEMY_FLAG_NO_SHADOW_RAYCAST | ENEMY_FLAG_HAS_NO_SPRITE,
     .drops = NO_DROPS,
