@@ -374,6 +374,10 @@ void spr_appendGfx_component(
         }
     }
 
+    if (CVarGetInteger(CVAR_2D_TEXTURE_FILTER, 0)) {
+        gDPSetTextureFilter(gMainGfxPos++, G_TF_POINT);
+    }
+
     width = cache->width;
     height = cache->height;
     quadIndex = cache->quadCacheIndex;
@@ -393,7 +397,13 @@ void spr_appendGfx_component(
         ifxImg.xOffset = -(width / 2);
         ifxImg.yOffset = height;
         ifxImg.alpha = opacity;
-        if (imgfx_appendGfx_component((u8) CurSpriteImgFX, &ifxImg, IMGFX_FLAG_80000, mtxTransform) == 1) {
+        u32 imgfxFlags = IMGFX_FLAG_80000;
+
+        if (CVarGetInteger(CVAR_2D_TEXTURE_FILTER, 0)) {
+            imgfxFlags |= IMGFX_FLAG_NO_FILTERING;
+        }
+
+        if (imgfx_appendGfx_component((u8) CurSpriteImgFX, &ifxImg, imgfxFlags, mtxTransform) == 1) {
             CurSpriteImgFX &= ~SPR_IMGFX_FLAG_ALL;
         }
     }
