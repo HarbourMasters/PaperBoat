@@ -156,6 +156,10 @@ static void flame_distort_cpu(u8* dst, const u8* t0_src, const u8* t1_src, s32 d
     }
 }
 
+static void createFlameBlendFb(void* arg) {
+    *(s32*) arg = gfx_create_framebuffer(FLAME_TEX_W, FLAME_TEX_H, FLAME_TEX_W, FLAME_TEX_H, 0, 0);
+}
+
 void port_flame_appendGfx(void* effect) {
     FlameFXData* data = ((EffectInstance*) effect)->data.flame;
     Camera* camera = &gCameras[gCurrentCameraID];
@@ -175,7 +179,7 @@ void port_flame_appendGfx(void* effect) {
         LastFlameRenderFrame = gGameStatusPtr->frameCounter;
 
         if (sFbBlend < 0) {
-            sFbBlend = gfx_create_framebuffer(FLAME_TEX_W, FLAME_TEX_H, FLAME_TEX_W, FLAME_TEX_H, 0, 0);
+            port_runOnRenderThread(createFlameBlendFb, &sFbBlend);
         }
 
         // Tile 0/1: two noise textures from the original effect DL.
