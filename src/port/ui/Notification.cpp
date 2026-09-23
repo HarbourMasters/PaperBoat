@@ -77,11 +77,17 @@ void Window::DrawRegularNotification(
     ImGuiViewport* vp,
     int index
 ) {
-    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0, 0, 0, CVarGetFloat(CVAR_SETTING("Notifications.BgOpacity"), 0.5f)));
+    ImGui::PushStyleColor(
+        ImGuiCol_WindowBg, ImVec4(0, 0, 0, CVarGetFloat(CVAR_SETTING("Notifications.BgOpacity"), 0.5f))
+    );
     ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 0));
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 4.0f);
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8.0f * CVarGetFloat(CVAR_SETTING("Notifications.Size"), 1.8f), 6.0f));
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8.0f * CVarGetFloat(CVAR_SETTING("Notifications.Size"), 1.8f), 8.0f));
+    ImGui::PushStyleVar(
+        ImGuiStyleVar_ItemSpacing, ImVec2(8.0f * CVarGetFloat(CVAR_SETTING("Notifications.Size"), 1.8f), 6.0f)
+    );
+    ImGui::PushStyleVar(
+        ImGuiStyleVar_WindowPadding, ImVec2(8.0f * CVarGetFloat(CVAR_SETTING("Notifications.Size"), 1.8f), 8.0f)
+    );
 
     ImGui::SetNextWindowViewport(vp->ID);
     if (notification.remainingTime < 4.0f) {

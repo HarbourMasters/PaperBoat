@@ -6,6 +6,7 @@
 #include "UIWidgets.hpp"
 #include "port/Engine.h"
 #include "port/TextureCache.h"
+#include "port/save/SaveConverter.h"
 #include <spdlog/fmt/fmt.h>
 
 namespace PaperboatGui {
@@ -13,6 +14,17 @@ namespace PaperboatGui {
 extern std::shared_ptr<PaperboatMenu> mPaperboatMenu;
 extern std::shared_ptr<PaperboatModalWindow> mModalWindow;
 using namespace UIWidgets;
+
+static const std::unordered_map<int32_t, const char*> saveImportFromLabels = {
+    { SaveConverter::kSlotAll, "All slots" }, { 1, "Slot 1" }, { 2, "Slot 2" }, { 3, "Slot 3" }, { 4, "Slot 4" },
+};
+
+static const std::unordered_map<int32_t, const char*> saveImportToLabels = {
+    { 1, "Slot 1" },
+    { 2, "Slot 2" },
+    { 3, "Slot 3" },
+    { 4, "Slot 4" },
+};
 
 static std::unordered_map<int32_t, const char*> imguiScaleOptions = {
     { 0, "Small" },
@@ -143,6 +155,57 @@ void PaperboatMenu::AddMenuSettings() {
                 .LabelPosition(LabelPositions::Far)
         )
         .Callback([](WidgetInfo& info) { GameEngine::Instance->ScaleImGui(); });
+
+    path.column = SECTION_COLUMN_2;
+    AddWidget(path, "Save Conversion", WIDGET_SEPARATOR_TEXT);
+    AddWidget(path, "Import From", WIDGET_CVAR_COMBOBOX)
+        .CVar(CVAR_SETTING("SaveImportFromSlot"))
+        .RaceDisable(false)
+        .Options(
+            ComboboxOptions()
+                .DefaultIndex(SaveConverter::kSlotAll)
+                .ComboMap(saveImportFromLabels)
+                .Tooltip("Which save slot to take from the chosen file. \"All slots\" takes every one.")
+        );
+    AddWidget(path, "Import To", WIDGET_CVAR_COMBOBOX)
+        .CVar(CVAR_SETTING("SaveImportToSlot"))
+        .RaceDisable(false)
+        .Options(
+            ComboboxOptions()
+                .DefaultIndex(1)
+                .ComboMap(saveImportToLabels)
+                .Tooltip("Which Paperboat save slot it imports to. Ignored when you are importing all slots.")
+        );
+    AddWidget(path, "Import N64 Save", WIDGET_BUTTON)
+        .RaceDisable(false)
+        .Callback([](WidgetInfo& info) {
+            int from = CVarGetInteger(CVAR_SETTING("SaveImportFromSlot"), SaveConverter::kSlotAll);
+            int to = CVarGetInteger(CVAR_SETTING("SaveImportToSlot"), 1);
+            std::string what = from == SaveConverter::kSlotAll ? "every save slot" : fmt::format("save slot {}", to);
+            std::string with = from == SaveConverter::kSlotAll ? "the slots in the save file you pick"
+                                                               : fmt::format("slot {} of the save file you pick", from);
+            PaperboatGui::mModalWindow->RegisterPopup(
+                "Import Save", "This overwrites " + what + " with " + with + ".\nIt cannot be undone.", "Select Save",
+                "Cancel",
+                [from, to]() {
+                    SaveConverter::PickAndImport(from, to, [](SaveConverter::Result r) {
+                        if (r.message.empty()) {
+                            return;
+                        }
+                        PaperboatGui::mModalWindow->RegisterPopup(
+                            r.ok ? "Import Complete" : "Import Failed", r.message, "OK", "", nullptr, nullptr
+                        );
+                    });
+                },
+                nullptr
+            );
+        })
+        .Options(
+            ButtonOptions().Tooltip(
+                "Bring a save across from an emulator or console. Accepts .fla, .srm "
+                "and raw flash dumps.\n\nThis overwrites the files you have here."
+            )
+        );
 
     // Settings > Audio
     path.sidebarName = "Audio";

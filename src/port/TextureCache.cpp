@@ -47,8 +47,7 @@ static VideoMemoryEstimate QueryVideoMemory() {
                 && SUCCEEDED(adapter3->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &info)))
             {
                 reported = true;
-                SPDLOG_INFO("Video memory: {} MB",
-                            (uint64_t) desc.DedicatedVideoMemory / (1024ull * 1024ull));
+                SPDLOG_INFO("Video memory: {} MB", (uint64_t) desc.DedicatedVideoMemory / (1024ull * 1024ull));
             }
             return { (uint64_t) desc.DedicatedVideoMemory, true };
         }

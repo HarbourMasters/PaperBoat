@@ -21,7 +21,7 @@ typedef struct MirrorRequest {
 } MirrorRequest;
 
 static void createMirror(void* arg) {
-    MirrorRequest* req = (MirrorRequest*)arg;
+    MirrorRequest* req = (MirrorRequest*) arg;
     *req->fbId = gfx_create_framebuffer(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT, 1, 0);
     gfx_register_fb_texture(req->sentinel, *req->fbId);
 }
