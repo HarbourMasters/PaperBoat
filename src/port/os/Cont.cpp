@@ -35,15 +35,15 @@ int32_t osContInit(OSMesgQueue* mq, uint8_t* controllerBits, OSContStatus* statu
 // OS_EVENT_SI, which is what pfsManager_init already registered for and what
 // its thread has been waiting on all along.
 namespace {
-std::atomic<bool> sReadPending{ false };
-std::mutex sLatchMutex;
-OSContPad sLatch[MAXCONTROLLERS];
-std::atomic<bool> sLatchValid{ false };
-std::atomic<bool> sPumpLive{ false };
+    std::atomic<bool> sReadPending { false };
+    std::mutex sLatchMutex;
+    OSContPad sLatch[MAXCONTROLLERS];
+    std::atomic<bool> sLatchValid { false };
+    std::atomic<bool> sPumpLive { false };
 } // namespace
 
 int32_t osContStartReadData(OSMesgQueue* mesg) {
-    (void)mesg; // completion goes to whoever registered for OS_EVENT_SI
+    (void) mesg; // completion goes to whoever registered for OS_EVENT_SI
     sReadPending.store(true, std::memory_order_release);
     return 0;
 }
@@ -94,9 +94,9 @@ int32_t osMotorInit(OSMesgQueue* ctrlrqueue, OSPfs* pfs, int32_t channel) {
 
 // Controller Pak gets probed first, the return kickstarts rumble
 int32_t osPfsInit(OSMesgQueue* mq, OSPfs* pfs, int32_t channel) {
-    (void)mq;
-    (void)pfs;
-    (void)channel;
+    (void) mq;
+    (void) pfs;
+    (void) channel;
     return PFS_ERR_DEVICE;
 }
 

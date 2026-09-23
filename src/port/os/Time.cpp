@@ -21,14 +21,13 @@ uint64_t __osCurrentTime = 0;
 
 void osSetTime(OSTime time) {
     __osCurrentTime =
-        std::chrono::duration_cast<n64CycleRateDuration>(std::chrono::steady_clock::now().time_since_epoch()).count() +
-        time;
+        std::chrono::duration_cast<n64CycleRateDuration>(std::chrono::steady_clock::now().time_since_epoch()).count()
+        + time;
 }
 
 uint64_t osGetTime() {
-    return std::chrono::duration_cast<n64CycleRateDuration>(std::chrono::steady_clock::now().time_since_epoch())
-               .count() -
-           __osCurrentTime;
+    return std::chrono::duration_cast<n64CycleRateDuration>(std::chrono::steady_clock::now().time_since_epoch()).count()
+        - __osCurrentTime;
 }
 
 uint32_t osGetCount() {

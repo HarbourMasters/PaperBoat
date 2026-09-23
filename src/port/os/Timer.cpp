@@ -43,7 +43,7 @@ void Worker() {
             return;
         }
         OSTimer* key = nullptr;
-        std::chrono::steady_clock::time_point deadline{};
+        std::chrono::steady_clock::time_point deadline {};
         for (auto& [t, armed] : sTimers) {
             if (key == nullptr || armed.deadline < deadline) {
                 key = t;
