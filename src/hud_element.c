@@ -1771,6 +1771,7 @@ void immediately_render_complex_hud_element(s32 elemID, s32 arg1, s32 camID) {
         gDPPipeSync(gMainGfxPos++);
         //clear Z buffer inside camera viewport
         gDPSetCycleType(gMainGfxPos++, G_CYC_FILL);
+        gDPSetDepthImage(gMainGfxPos++, osVirtualToPhysical(nuGfxZBuffer));
         gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(nuGfxZBuffer));
         gDPSetFillColor(gMainGfxPos++, GPACK_ZDZ(G_MAXFBZ, 0)<<16 | GPACK_ZDZ(G_MAXFBZ, 0));
         gDPFillRectangle(gMainGfxPos++, camera->viewportStartX, camera->viewportStartY,
