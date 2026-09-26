@@ -941,7 +941,7 @@ EvtScript N(EVS_Attack_GrappleDrop) = {
     EndThread
     Wait(20)
     Call(LoadActionCommand, ACTION_COMMAND_BREAK_FREE)
-    Call(action_command_whirlwind_init)
+    Call(action_command_break_free_init)
     Call(SetupMashMeter, 1, 30, 0, 0, 0, 0)
     Wait(10)
     Call(SetAnimation, ACTOR_SELF, PRT_MAIN, ANIM_Buzzar_Anim17)
