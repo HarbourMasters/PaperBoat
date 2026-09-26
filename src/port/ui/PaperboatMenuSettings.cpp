@@ -156,7 +156,7 @@ void PaperboatMenu::AddMenuSettings() {
         })
         .Options(ButtonOptions().Tooltip(
             "Extract a PAL ROM alongside your current one to add the German, French and Spanish "
-            "text used by the Language setting. Any other supported ROM works too."
+            "text used by the Language setting."
         ));
     AddWidget(path, "Search In Sidebar", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_SETTING("Menu.SidebarSearch"))
