@@ -1,4 +1,5 @@
 #include "pause/pause_common.h"
+#include "port/patches/Patches.h"
 
 #if VERSION_PAL
 #define TABS_CURSOR_OFFSET_X (-4)
@@ -313,7 +314,8 @@ void pause_tabs_init(MenuPanel* tab) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(gPauseTabsHudScripts[0]); i++) {
-        gPauseTabsHIDs[i] = hud_element_create(gPauseTabsHudScripts[gCurrentLanguage][i]);
+        gPauseTabsHIDs[i] = hud_element_create(
+            port_pause_tab_hud_script(i, gPauseTabsHudScripts[gCurrentLanguage][i]));
         hud_element_set_flags(gPauseTabsHIDs[i], HUD_ELEMENT_FLAG_MANUAL_RENDER);
     }
 

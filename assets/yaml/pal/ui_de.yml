@@ -1,0 +1,44 @@
+pause/label_stats:
+  { type: TEXTURE, format: CI4, offset: 0x133C40, width: 48, height: 16, symbol: de_ui_pause_label_stats_png }
+pause/label_stats.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x133DC0, colors: 16, symbol: de_ui_pause_label_stats_pal }
+pause/label_badges:
+  { type: TEXTURE, format: CI4, offset: 0x133DE0, width: 48, height: 16, symbol: de_ui_pause_label_badges_png }
+pause/label_badges.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x133F60, colors: 16, symbol: de_ui_pause_label_badges_pal }
+pause/label_items:
+  { type: TEXTURE, format: CI4, offset: 0x133F80, width: 48, height: 16, symbol: de_ui_pause_label_items_png }
+pause/label_items.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x134100, colors: 16, symbol: de_ui_pause_label_items_pal }
+pause/label_party:
+  { type: TEXTURE, format: CI4, offset: 0x134120, width: 48, height: 16, symbol: de_ui_pause_label_party_png }
+pause/label_party.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x1342A0, colors: 16, symbol: de_ui_pause_label_party_pal }
+pause/label_spirits:
+  { type: TEXTURE, format: CI4, offset: 0x1342C0, width: 48, height: 16, symbol: de_ui_pause_label_spirits_png }
+pause/label_spirits.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x134440, colors: 16, symbol: de_ui_pause_label_spirits_pal }
+pause/label_map:
+  { type: TEXTURE, format: CI4, offset: 0x134460, width: 48, height: 16, symbol: de_ui_pause_label_map_png }
+pause/label_map.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x1345E0, colors: 16, symbol: de_ui_pause_label_map_pal }
+files/option_mono_on:
+  { type: TEXTURE, format: CI4, offset: 0x136700, width: 64, height: 16, symbol: de_ui_files_option_mono_on_png }
+files/option_mono_on.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x136900, colors: 16, symbol: de_ui_files_option_mono_on_pal }
+files/option_mono_off:
+  { type: TEXTURE, format: CI4, offset: 0x136920, width: 64, height: 16, symbol: de_ui_files_option_mono_off_png }
+files/option_mono_off.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x136B20, colors: 16, symbol: de_ui_files_option_mono_off_pal }
+files/option_stereo_on:
+  { type: TEXTURE, format: CI4, offset: 0x136B40, width: 64, height: 16, symbol: de_ui_files_option_stereo_on_png }
+files/option_stereo_on.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x136D40, colors: 16, symbol: de_ui_files_option_stereo_on_pal }
+files/option_stereo_off:
+  { type: TEXTURE, format: CI4, offset: 0x136D60, width: 64, height: 16, symbol: de_ui_files_option_stereo_off_png }
+files/option_stereo_off.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x136F60, colors: 16, symbol: de_ui_files_option_stereo_off_pal }
+pause/bp_needed:
+  { type: TEXTURE, format: CI4, offset: 0x139460, width: 48, height: 8, symbol: de_ui_pause_bp_needed_png }
+pause/bp_needed.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x139520, colors: 16, symbol: de_ui_pause_bp_needed_pal }

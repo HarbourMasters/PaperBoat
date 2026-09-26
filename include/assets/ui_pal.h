@@ -1,0 +1,72 @@
+#pragma once
+
+#include "alignment.h"
+
+static const ALIGN_ASSET(2) char de_ui_pause_label_stats_png[] = "__OTR__ui_de/pause/label_stats";
+static const ALIGN_ASSET(2) char de_ui_pause_label_stats_pal[] = "__OTR__ui_de/pause/label_stats.pal";
+static const ALIGN_ASSET(2) char de_ui_pause_label_badges_png[] = "__OTR__ui_de/pause/label_badges";
+static const ALIGN_ASSET(2) char de_ui_pause_label_badges_pal[] = "__OTR__ui_de/pause/label_badges.pal";
+static const ALIGN_ASSET(2) char de_ui_pause_label_items_png[] = "__OTR__ui_de/pause/label_items";
+static const ALIGN_ASSET(2) char de_ui_pause_label_items_pal[] = "__OTR__ui_de/pause/label_items.pal";
+static const ALIGN_ASSET(2) char de_ui_pause_label_party_png[] = "__OTR__ui_de/pause/label_party";
+static const ALIGN_ASSET(2) char de_ui_pause_label_party_pal[] = "__OTR__ui_de/pause/label_party.pal";
+static const ALIGN_ASSET(2) char de_ui_pause_label_spirits_png[] = "__OTR__ui_de/pause/label_spirits";
+static const ALIGN_ASSET(2) char de_ui_pause_label_spirits_pal[] = "__OTR__ui_de/pause/label_spirits.pal";
+static const ALIGN_ASSET(2) char de_ui_pause_label_map_png[] = "__OTR__ui_de/pause/label_map";
+static const ALIGN_ASSET(2) char de_ui_pause_label_map_pal[] = "__OTR__ui_de/pause/label_map.pal";
+static const ALIGN_ASSET(2) char de_ui_files_option_mono_on_png[] = "__OTR__ui_de/files/option_mono_on";
+static const ALIGN_ASSET(2) char de_ui_files_option_mono_on_pal[] = "__OTR__ui_de/files/option_mono_on.pal";
+static const ALIGN_ASSET(2) char de_ui_files_option_mono_off_png[] = "__OTR__ui_de/files/option_mono_off";
+static const ALIGN_ASSET(2) char de_ui_files_option_mono_off_pal[] = "__OTR__ui_de/files/option_mono_off.pal";
+static const ALIGN_ASSET(2) char de_ui_files_option_stereo_on_png[] = "__OTR__ui_de/files/option_stereo_on";
+static const ALIGN_ASSET(2) char de_ui_files_option_stereo_on_pal[] = "__OTR__ui_de/files/option_stereo_on.pal";
+static const ALIGN_ASSET(2) char de_ui_files_option_stereo_off_png[] = "__OTR__ui_de/files/option_stereo_off";
+static const ALIGN_ASSET(2) char de_ui_files_option_stereo_off_pal[] = "__OTR__ui_de/files/option_stereo_off.pal";
+static const ALIGN_ASSET(2) char de_ui_pause_bp_needed_png[] = "__OTR__ui_de/pause/bp_needed";
+static const ALIGN_ASSET(2) char de_ui_pause_bp_needed_pal[] = "__OTR__ui_de/pause/bp_needed.pal";
+
+static const ALIGN_ASSET(2) char fr_ui_pause_label_stats_png[] = "__OTR__ui_fr/pause/label_stats";
+static const ALIGN_ASSET(2) char fr_ui_pause_label_stats_pal[] = "__OTR__ui_fr/pause/label_stats.pal";
+static const ALIGN_ASSET(2) char fr_ui_pause_label_badges_png[] = "__OTR__ui_fr/pause/label_badges";
+static const ALIGN_ASSET(2) char fr_ui_pause_label_badges_pal[] = "__OTR__ui_fr/pause/label_badges.pal";
+static const ALIGN_ASSET(2) char fr_ui_pause_label_items_png[] = "__OTR__ui_fr/pause/label_items";
+static const ALIGN_ASSET(2) char fr_ui_pause_label_items_pal[] = "__OTR__ui_fr/pause/label_items.pal";
+static const ALIGN_ASSET(2) char fr_ui_pause_label_party_png[] = "__OTR__ui_fr/pause/label_party";
+static const ALIGN_ASSET(2) char fr_ui_pause_label_party_pal[] = "__OTR__ui_fr/pause/label_party.pal";
+static const ALIGN_ASSET(2) char fr_ui_pause_label_spirits_png[] = "__OTR__ui_fr/pause/label_spirits";
+static const ALIGN_ASSET(2) char fr_ui_pause_label_spirits_pal[] = "__OTR__ui_fr/pause/label_spirits.pal";
+static const ALIGN_ASSET(2) char fr_ui_pause_label_map_png[] = "__OTR__ui_fr/pause/label_map";
+static const ALIGN_ASSET(2) char fr_ui_pause_label_map_pal[] = "__OTR__ui_fr/pause/label_map.pal";
+static const ALIGN_ASSET(2) char fr_ui_files_option_mono_on_png[] = "__OTR__ui_fr/files/option_mono_on";
+static const ALIGN_ASSET(2) char fr_ui_files_option_mono_on_pal[] = "__OTR__ui_fr/files/option_mono_on.pal";
+static const ALIGN_ASSET(2) char fr_ui_files_option_mono_off_png[] = "__OTR__ui_fr/files/option_mono_off";
+static const ALIGN_ASSET(2) char fr_ui_files_option_mono_off_pal[] = "__OTR__ui_fr/files/option_mono_off.pal";
+static const ALIGN_ASSET(2) char fr_ui_files_option_stereo_on_png[] = "__OTR__ui_fr/files/option_stereo_on";
+static const ALIGN_ASSET(2) char fr_ui_files_option_stereo_on_pal[] = "__OTR__ui_fr/files/option_stereo_on.pal";
+static const ALIGN_ASSET(2) char fr_ui_files_option_stereo_off_png[] = "__OTR__ui_fr/files/option_stereo_off";
+static const ALIGN_ASSET(2) char fr_ui_files_option_stereo_off_pal[] = "__OTR__ui_fr/files/option_stereo_off.pal";
+static const ALIGN_ASSET(2) char fr_ui_pause_bp_needed_png[] = "__OTR__ui_fr/pause/bp_needed";
+static const ALIGN_ASSET(2) char fr_ui_pause_bp_needed_pal[] = "__OTR__ui_fr/pause/bp_needed.pal";
+
+static const ALIGN_ASSET(2) char es_ui_pause_label_stats_png[] = "__OTR__ui_es/pause/label_stats";
+static const ALIGN_ASSET(2) char es_ui_pause_label_stats_pal[] = "__OTR__ui_es/pause/label_stats.pal";
+static const ALIGN_ASSET(2) char es_ui_pause_label_badges_png[] = "__OTR__ui_es/pause/label_badges";
+static const ALIGN_ASSET(2) char es_ui_pause_label_badges_pal[] = "__OTR__ui_es/pause/label_badges.pal";
+static const ALIGN_ASSET(2) char es_ui_pause_label_items_png[] = "__OTR__ui_es/pause/label_items";
+static const ALIGN_ASSET(2) char es_ui_pause_label_items_pal[] = "__OTR__ui_es/pause/label_items.pal";
+static const ALIGN_ASSET(2) char es_ui_pause_label_party_png[] = "__OTR__ui_es/pause/label_party";
+static const ALIGN_ASSET(2) char es_ui_pause_label_party_pal[] = "__OTR__ui_es/pause/label_party.pal";
+static const ALIGN_ASSET(2) char es_ui_pause_label_spirits_png[] = "__OTR__ui_es/pause/label_spirits";
+static const ALIGN_ASSET(2) char es_ui_pause_label_spirits_pal[] = "__OTR__ui_es/pause/label_spirits.pal";
+static const ALIGN_ASSET(2) char es_ui_pause_label_map_png[] = "__OTR__ui_es/pause/label_map";
+static const ALIGN_ASSET(2) char es_ui_pause_label_map_pal[] = "__OTR__ui_es/pause/label_map.pal";
+static const ALIGN_ASSET(2) char es_ui_files_option_mono_on_png[] = "__OTR__ui_es/files/option_mono_on";
+static const ALIGN_ASSET(2) char es_ui_files_option_mono_on_pal[] = "__OTR__ui_es/files/option_mono_on.pal";
+static const ALIGN_ASSET(2) char es_ui_files_option_mono_off_png[] = "__OTR__ui_es/files/option_mono_off";
+static const ALIGN_ASSET(2) char es_ui_files_option_mono_off_pal[] = "__OTR__ui_es/files/option_mono_off.pal";
+static const ALIGN_ASSET(2) char es_ui_files_option_stereo_on_png[] = "__OTR__ui_es/files/option_stereo_on";
+static const ALIGN_ASSET(2) char es_ui_files_option_stereo_on_pal[] = "__OTR__ui_es/files/option_stereo_on.pal";
+static const ALIGN_ASSET(2) char es_ui_files_option_stereo_off_png[] = "__OTR__ui_es/files/option_stereo_off";
+static const ALIGN_ASSET(2) char es_ui_files_option_stereo_off_pal[] = "__OTR__ui_es/files/option_stereo_off.pal";
+static const ALIGN_ASSET(2) char es_ui_pause_bp_needed_png[] = "__OTR__ui_es/pause/bp_needed";
+static const ALIGN_ASSET(2) char es_ui_pause_bp_needed_pal[] = "__OTR__ui_es/pause/bp_needed.pal";

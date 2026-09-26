@@ -2,6 +2,7 @@
 #define PORT_PATCHES_H
 
 #include "common.h"
+#include "hud_element.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -50,6 +51,9 @@ PAL_PTR port_msg_glyph_palette(PAL_PTR palette);
 // Message localization (LanguagePatches.cpp)
 s32 port_msg_language(void);
 u8* port_msg_localized_asset(const char* basePath);
+
+// Localized UI textures (LocalizedHud.c)
+HudScript* port_pause_tab_hud_script(s32 index, HudScript* fallback);
 
 // Background (BackgroundPatches.c)
 extern char* gBgPalettePath;
