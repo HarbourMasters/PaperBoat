@@ -76,6 +76,7 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnActionCommandDifficulty);
     REGISTER_EVENT(OnMapLoad);
     REGISTER_EVENT(OnPlayerSpeedUpdate);
+    REGISTER_EVENT(OnMapReady);
 }
 
 void PortEnhancements_Exit() {

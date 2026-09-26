@@ -54,3 +54,7 @@ DEFINE_EVENT(OnPlayerSpeedUpdate,
     float* walkSpeed;
     float* runSpeed;
 );
+
+DEFINE_EVENT(OnMapReady,
+    const char* mapName;
+);
