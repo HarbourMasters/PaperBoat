@@ -86,11 +86,16 @@ class GameEngine {
     void FinishInit();
     void RunExtract(int argc, char* argv[]);
     static bool sRelaunchRequested;
+    static std::string sRelaunchArg;
     static bool CanRelaunch();
-    static void RequestRelaunch() {
+    // A relaunch arg is forwarded as argv[1], which RunExtract treats as a ROM
+    // to extract, so a second ROM reuses the boot extraction flow.
+    static void RequestRelaunch(std::string arg = "") {
         sRelaunchRequested = true;
+        sRelaunchArg = std::move(arg);
     }
     static void RelaunchIfRequested(int argc, char* argv[]);
+    static bool HasPalArchive();
 
     static void RunCommands(Gfx* Commands, const std::vector<std::unordered_map<Mtx*, MtxF>>& mtx_replacements);
     static void Destroy();

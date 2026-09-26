@@ -1,4 +1,5 @@
 #include "PaperboatMenu.h"
+#include "port/Engine.h"
 #include "PaperboatInputEditorWindow.h"
 
 #include "ShipInit.hpp"
@@ -146,6 +147,9 @@ void PaperboatMenu::InitElement() {
                return !CVarGetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".VerticalResolutionToggle", 0);
            },
             "Vertical Resolution Toggle is Off" } },
+        { DISABLE_FOR_NO_PAL_ARCHIVE,
+          { [](disabledInfo& info) -> bool { return !GameEngine::HasPalArchive(); },
+            "No PAL ROM extracted" } },
     };
 }
 

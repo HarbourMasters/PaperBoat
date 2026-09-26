@@ -117,6 +117,7 @@ static const std::vector<std::string> sRomArchives = { "pm64.o2r" };
 
 // PAL ROM for European languages
 static const std::vector<std::string> sOptionalRomArchives = { "pm64-pal.o2r" };
+static bool sPalArchiveLoaded = false;
 
 typedef enum ExtractSteps {
     ES_PORT_ARCHIVE,
@@ -265,6 +266,7 @@ void GameEngine::FinishInit() {
         if (std::filesystem::exists(romPath)) {
             SPDLOG_INFO("Loading additional ROM archive: {}", archive);
             archiveManager->AddArchive(romPath);
+            sPalArchiveLoaded = true;
         }
     }
 
@@ -855,6 +857,11 @@ void GameEngine::Create(int argc, char* argv[]) {
 }
 
 bool GameEngine::sRelaunchRequested = false;
+std::string GameEngine::sRelaunchArg;
+
+bool GameEngine::HasPalArchive() {
+    return sPalArchiveLoaded;
+}
 
 bool GameEngine::CanRelaunch() {
 #if defined(_WIN32) || ((defined(__linux__) || defined(__APPLE__)) && !defined(__ANDROID__))
@@ -874,7 +881,13 @@ void GameEngine::RelaunchIfRequested(int argc, char* argv[]) {
         STARTUPINFOW si {};
         si.cb = sizeof(si);
         PROCESS_INFORMATION pi {};
-        if (CreateProcessW(exePath, nullptr, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {
+        std::wstring cmdLine = L"\"" + std::wstring(exePath) + L"\"";
+        if (!sRelaunchArg.empty()) {
+            cmdLine += L" \"" + std::filesystem::path(sRelaunchArg).wstring() + L"\"";
+        }
+        std::vector<wchar_t> cmdBuf(cmdLine.begin(), cmdLine.end());
+        cmdBuf.push_back(L'\0');
+        if (CreateProcessW(exePath, cmdBuf.data(), nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {
             CloseHandle(pi.hThread);
             CloseHandle(pi.hProcess);
         } else {
@@ -882,7 +895,14 @@ void GameEngine::RelaunchIfRequested(int argc, char* argv[]) {
         }
     }
 #elif (defined(__linux__) || defined(__APPLE__)) && !defined(__ANDROID__)
-    execv(argv[0], argv);
+    if (!sRelaunchArg.empty()) {
+        std::vector<char> arg(sRelaunchArg.begin(), sRelaunchArg.end());
+        arg.push_back('\0');
+        char* relaunchArgv[] = { argv[0], arg.data(), nullptr };
+        execv(argv[0], relaunchArgv);
+    } else {
+        execv(argv[0], argv);
+    }
     SPDLOG_ERROR("Relaunch failed: execv error {}", strerror(errno));
 #endif
 }

@@ -5,6 +5,8 @@
 #include "TouchControls.h"
 #include "UIWidgets.hpp"
 #include "port/Engine.h"
+#include "port/extractor/GameExtractor.h"
+#include "PaperboatGui.hpp"
 #include <spdlog/fmt/fmt.h>
 
 namespace PaperboatGui {
@@ -107,6 +109,11 @@ void PaperboatMenu::AddMenuSettings() {
     AddWidget(path, "Language", WIDGET_CVAR_COMBOBOX)
         .CVar(CVAR_SETTING("Language"))
         .RaceDisable(false)
+        .PreFunc([](WidgetInfo& info) {
+            if (mPaperboatMenu->disabledMap.at(DISABLE_FOR_NO_PAL_ARCHIVE).active) {
+                info.activeDisables.push_back(DISABLE_FOR_NO_PAL_ARCHIVE);
+            }
+        })
         .Options(
             ComboboxOptions()
                 .Tooltip(
@@ -116,6 +123,41 @@ void PaperboatMenu::AddMenuSettings() {
                 .ComboMap(languageOptions)
                 .DefaultIndex(0)
         );
+
+    AddWidget(path, "Extract Additional ROM...", WIDGET_BUTTON)
+        .RaceDisable(false)
+        .Callback([](WidgetInfo& info) {
+            static GameExtractor extractor;
+            extractor.SelectGameFromUI([](bool ok) {
+                if (!ok) {
+                    return;
+                }
+                const std::string rom = extractor.GetRomPath();
+                const auto version = GameExtractor::DetectVersion(rom);
+                if (!version.has_value()) {
+                    RegisterPopup(
+                        "Unsupported ROM", "That file is not a supported Paper Mario ROM."
+                    );
+                    return;
+                }
+                RegisterPopup(
+                    "Extract & Restart",
+                    fmt::format(
+                        "Extract {} and relaunch Paperboat?\nExtraction runs on the next start.", *version
+                    )
+                        .c_str(),
+                    "Restart", "Cancel",
+                    [rom]() {
+                        GameEngine::RequestRelaunch(rom);
+                        Ship::Context::GetRawInstance()->GetWindow()->Close();
+                    }
+                );
+            });
+        })
+        .Options(ButtonOptions().Tooltip(
+            "Extract a second ROM alongside your current one. A PAL ROM adds the German, French "
+            "and Spanish text used by the Language setting."
+        ));
     AddWidget(path, "Search In Sidebar", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_SETTING("Menu.SidebarSearch"))
         .RaceDisable(false)
