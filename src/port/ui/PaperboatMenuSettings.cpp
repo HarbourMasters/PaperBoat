@@ -47,9 +47,6 @@ static const std::unordered_map<int32_t, const char*> notificationPosition = {
     { 0, "Top Left" }, { 1, "Top Right" }, { 2, "Bottom Left" }, { 3, "Bottom Right" }, { 4, "Hidden" },
 };
 
-// Keys match enum Language in enums.h, which is not included here: pulling in
-// game headers after the UI ones trips the script_api/prism macro collision.
-// Anything but English needs pm64-pal.o2r present.
 static const std::unordered_map<int32_t, const char*> languageOptions = {
     { 0, "English" },
     { 1, "German" },

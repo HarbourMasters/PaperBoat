@@ -115,10 +115,7 @@ extern Gfx* gMainGfxPos;
 static bool portArchiveExists = false;
 static const std::vector<std::string> sRomArchives = { "pm64.o2r" };
 
-// Extracted from a second ROM and mounted on top when present. These carry
-// additions only — pm64.o2r remains the base the game cannot run without — so
-// they must stay out of sRomArchives, which decides whether the ROM prompt is
-// still needed.
+// PAL ROM for European languages
 static const std::vector<std::string> sOptionalRomArchives = { "pm64-pal.o2r" };
 
 typedef enum ExtractSteps {
@@ -696,8 +693,6 @@ void GameEngine::RunExtract(int argc, char* argv[]) {
                 args.erase(args.begin());
                 extract = GameExtractor();
                 if (extract.RunStandalone(file)) {
-                    // Names the archive this ROM actually produces: a PAL dump
-                    // extracts to pm64-pal.o2r, not over the base pm64.o2r.
                     std::string archive = GameExtractor::DetectVersion(file).value_or("pm64") + ".o2r";
                     if (std::filesystem::exists(Ship::Context::GetAppDirectoryPath("boat") + "/" + archive)) {
                         std::string msg = "Archive for current ROM, " + archive + ", already exists.\nExtract again?";

@@ -1,21 +1,6 @@
 #!/usr/bin/env python3
 """Generate a torch asset YAML for a ROM's message block.
 
-Messages are stored in the ROM as a self-describing two-level offset table:
-
-    +0x00            u32 section_offsets[]   terminated by 0
-    section_offsets[i]
-                     u32 msg_offsets[]       terminated by a value == section_offsets[i]
-
-Message data for section i lives *before* that section's offset table, so the
-last message in a section ends exactly where the table begins. Every offset is
-relative to the start of the block.
-
-Walking that structure gives offset and size for every message without any
-hardcoded addresses, which is what makes this reusable across regions. Names
-come from the splat tables in tools/splat_ext/ (msg.yaml, msg_pal_en.yaml, ...);
-slots with no entry there get a positional fallback name.
-
 Usage:
     gen_message_yaml.py --rom ROM --base 0x1B83000 --names tools/splat_ext/msg.yaml \\
                         --out assets/yaml/us/messages.yml
@@ -33,11 +18,6 @@ NAME_RE = re.compile(r"^- \[\s*(0x[0-9A-Fa-f]+)\s*,\s*(0x[0-9A-Fa-f]+)\s*,\s*(\S
 
 
 def load_names(path):
-    """Parse a splat msg name table into {(section, index): name}.
-
-    Hand-parsed rather than via pyyaml: the tables are uniform three-field
-    rows, and avoiding the dependency keeps this runnable from a bare python.
-    """
     text = Path(path).read_text(encoding="utf-8")
     names = {}
     for section, index, name in NAME_RE.findall(text):
@@ -48,12 +28,6 @@ def load_names(path):
 
 
 def walk(rom, base):
-    """Return [[(offset, size), ...], ...] indexed by section.
-
-    Offsets are relative to base, matching what torch expects for a segmented
-    asset YAML.
-    """
-
     def u32(pos):
         return struct.unpack_from(">I", rom, base + pos)[0]
 

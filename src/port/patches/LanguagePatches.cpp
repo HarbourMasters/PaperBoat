@@ -12,11 +12,6 @@ extern "C" {
 // Messages for the non-English PAL languages ship in their own o2r, extracted
 // from a PAL ROM into messages_de/, messages_fr/ and messages_es/. English
 // stays in messages/, from the base pm64.o2r.
-//
-// The path table the game holds (gMsgSectionPaths) is baked with the English
-// paths, so a localized lookup rewrites the directory and leaves the message
-// name alone: "__OTR__messages/MSG_Intro_0001" becomes
-// "__OTR__messages_de/MSG_Intro_0001".
 
 extern "C" {
 
@@ -39,8 +34,6 @@ s32 port_msg_language(void) {
 }
 
 u8* port_msg_localized_asset(const char* basePath) {
-    // Reused across calls: the path is consumed by the lookup below and never
-    // retained by the caller, which only ever receives message data.
     static char path[128];
     s32 language;
     const char* name;
@@ -55,8 +48,6 @@ u8* port_msg_localized_asset(const char* basePath) {
         return (u8*) LOAD_ASSET_RAW(basePath);
     }
 
-    // Anything not shaped like a message path is left alone rather than
-    // guessed at.
     if (strncmp(basePath, MSG_PATH_PREFIX "/", sizeof(MSG_PATH_PREFIX)) != 0) {
         return (u8*) LOAD_ASSET_RAW(basePath);
     }
@@ -64,9 +55,7 @@ u8* port_msg_localized_asset(const char* basePath) {
 
     snprintf(path, sizeof(path), MSG_PATH_PREFIX "%s/%s", sLangSuffix[language], name);
 
-    // Fall back to English whenever the translated message is absent, so a
-    // missing or partial language archive degrades to readable text instead of
-    // handing the printer a null buffer.
+    // Fall back to English whenever the translated message is absent
     data = (u8*) LOAD_ASSET_RAW(path);
     if (data == NULL) {
         data = (u8*) LOAD_ASSET_RAW(basePath);
