@@ -1,6 +1,7 @@
 #include "common.h"
 #include "filemenu.h"
 #include "hud_element.h"
+#include "port/patches/Patches.h"
 
 #if VERSION_PAL
 extern u8 D_filemenu_802508FC[];
@@ -13,10 +14,12 @@ extern u8 D_filemenu_80250968[];
 
 #if VERSION_IQUE
 #define CREATE_SUCCESS_NUMBER_X 49
+#define CREATE_SUCCESS_SUFFIX_X 49
 #define NUMBER_OFFSET_Y 1
 #else
 #define NUMBER_OFFSET_Y 0
-#define CREATE_SUCCESS_NUMBER_X 48
+#define CREATE_SUCCESS_NUMBER_X port_filemenu_layout(FM_LAYOUT_CREATE_NUMBER_X, 48)
+#define CREATE_SUCCESS_SUFFIX_X port_filemenu_layout(FM_LAYOUT_CREATE_SUFFIX_X, 49)
 #endif
 
 u8 filemenu_info_gridData[] = {
@@ -103,8 +106,8 @@ void filemenu_info_draw_message_contents(
     switch (menu->state) {
         case FM_MESSAGE_DELETED:
             filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_FILE_26), baseX + 10, baseY + 4, 255, 0, 0);
-            draw_number(filemenu_menus[FILE_MENU_MAIN]->selected + 1, baseX + 48, baseY + 6 + NUMBER_OFFSET_Y, DRAW_NUMBER_CHARSET_NORMAL, MSG_PAL_WHITE, 255, DRAW_NUMBER_STYLE_MONOSPACE | DRAW_NUMBER_STYLE_ALIGN_RIGHT);
-            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_HAS_BEEN_DELETED), baseX + 49, baseY + 4, 255, 0, 0);
+            draw_number(filemenu_menus[FILE_MENU_MAIN]->selected + 1, baseX + CREATE_SUCCESS_NUMBER_X, baseY + 6 + NUMBER_OFFSET_Y, DRAW_NUMBER_CHARSET_NORMAL, MSG_PAL_WHITE, 255, DRAW_NUMBER_STYLE_MONOSPACE | DRAW_NUMBER_STYLE_ALIGN_RIGHT);
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_HAS_BEEN_DELETED), baseX + CREATE_SUCCESS_SUFFIX_X, baseY + 4, 255, 0, 0);
             break;
         case FM_MESSAGE_COPIED:
 #if VERSION_IQUE
@@ -128,7 +131,7 @@ void filemenu_info_draw_message_contents(
         case FM_MESSAGE_CREATED:
             filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_FILE_26), baseX + 10, baseY + 4, 255, 0, 0);
             draw_number(filemenu_menus[FILE_MENU_MAIN]->selected + 1, baseX + CREATE_SUCCESS_NUMBER_X, baseY + 6 + NUMBER_OFFSET_Y, DRAW_NUMBER_CHARSET_NORMAL, MSG_PAL_WHITE, 255, DRAW_NUMBER_STYLE_MONOSPACE | DRAW_NUMBER_STYLE_ALIGN_RIGHT);
-            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_HAS_BEEN_CREATED), baseX + 49, baseY + 4, 255, 0, 0);
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_HAS_BEEN_CREATED), baseX + CREATE_SUCCESS_SUFFIX_X, baseY + 4, 255, 0, 0);
             break;
     }
 #endif

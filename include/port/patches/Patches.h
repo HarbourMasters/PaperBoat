@@ -49,6 +49,29 @@ PAL_PTR port_msg_glyph_palette(PAL_PTR palette);
 // Optional language-pack blob; falls back to the compiled US string.
 void* port_msg_override(const char* name, void* fallback);
 
+// Optional file-menu X offsets from mods (filemenu/layout blob). Falls back to US.
+enum {
+    FM_LAYOUT_FILE_NUMBER_X = 0,
+    FM_LAYOUT_FILE_NAME_X,
+    FM_LAYOUT_CREATE_NUMBER_X,
+    FM_LAYOUT_CREATE_SUFFIX_X,
+    FM_LAYOUT_OPTION_DELETE_X,
+    FM_LAYOUT_OPTION_COPY_X,
+    FM_LAYOUT_OPTION_CENTER_CANCEL_X,
+    FM_LAYOUT_OPTION_CANCEL_X,
+    FM_LAYOUT_BACK_OFFSET,
+    FM_LAYOUT_DELETE_CONFIRM_FILE_X,
+    FM_LAYOUT_DELETE_CONFIRM_NUMBER_X,
+    FM_LAYOUT_DELETE_CONFIRM_QMARK_X,
+    FM_LAYOUT_COPY_CONFIRM_NUMBER_X,
+    FM_LAYOUT_COPY_CONFIRM_SUFFIX_X,
+    FM_LAYOUT_START_FILE_X,
+    FM_LAYOUT_START_NUMBER_X,
+    FM_LAYOUT_START_QMARK_X,
+    FM_LAYOUT_COUNT
+};
+s32 port_filemenu_layout(s32 id, s32 fallback);
+
 // Background (BackgroundPatches.c)
 extern char* gBgPalettePath;
 void port_load_map_bg(char* optAssetName);

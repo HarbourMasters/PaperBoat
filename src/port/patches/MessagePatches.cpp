@@ -111,4 +111,37 @@ void* port_msg_override(const char* name, void* fallback) {
     data = ResourceGetDataByName(name);
     return data != NULL ? data : fallback;
 }
+
+// filemenu/layout: u16 version, u16 count, s16 values[count] (LE). v1 = FM_LAYOUT_COUNT entries.
+s32 port_filemenu_layout(s32 id, s32 fallback) {
+    static s16 sValues[FM_LAYOUT_COUNT];
+    static s32 sReady = -1;
+
+    if (sReady < 0) {
+        u8* data = (u8*)ResourceGetDataByName("__OTR__filemenu/layout");
+        sReady = 0;
+        if (data != NULL) {
+            u16 version = data[0] | (data[1] << 8);
+            u16 count = data[2] | (data[3] << 8);
+            if (version == 1 && count > 0) {
+                s32 n = count < FM_LAYOUT_COUNT ? count : FM_LAYOUT_COUNT;
+                s32 i;
+
+                for (i = 0; i < n; i++) {
+                    u8* p = data + 4 + i * 2;
+                    sValues[i] = (s16)(p[0] | (p[1] << 8));
+                }
+                for (; i < FM_LAYOUT_COUNT; i++) {
+                    sValues[i] = 0x7FFF; // unset → use fallback
+                }
+                sReady = 1;
+            }
+        }
+    }
+
+    if (sReady == 1 && id >= 0 && id < FM_LAYOUT_COUNT && sValues[id] != 0x7FFF) {
+        return sValues[id];
+    }
+    return fallback;
+}
 }
