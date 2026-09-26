@@ -124,7 +124,7 @@ void PaperboatMenu::AddMenuSettings() {
                 .DefaultIndex(0)
         );
 
-    AddWidget(path, "Extract Additional ROM...", WIDGET_BUTTON)
+    AddWidget(path, "Extract PAL ROM...", WIDGET_BUTTON)
         .RaceDisable(false)
         .Callback([](WidgetInfo& info) {
             static GameExtractor extractor;
@@ -155,8 +155,8 @@ void PaperboatMenu::AddMenuSettings() {
             });
         })
         .Options(ButtonOptions().Tooltip(
-            "Extract a second ROM alongside your current one. A PAL ROM adds the German, French "
-            "and Spanish text used by the Language setting."
+            "Extract a PAL ROM alongside your current one to add the German, French and Spanish "
+            "text used by the Language setting. Any other supported ROM works too."
         ));
     AddWidget(path, "Search In Sidebar", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_SETTING("Menu.SidebarSearch"))
