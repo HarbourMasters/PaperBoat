@@ -667,7 +667,7 @@ API_CALLABLE(N(SetMsgVars_BlocksRemaining)) {
 #if VERSION_PAL
     evt_set_variable(script, LVarD, remaining);
 #else
-    set_message_text_var((remaining == 1) ? (s32)&MessageSingular : (s32)&MessagePlural, 1);
+    set_message_text_var((remaining == 1) ? (intptr_t)&MessageSingular : (intptr_t)&MessagePlural, 1);
 #endif
 
     return ApiStatus_DONE2;
