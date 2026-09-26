@@ -3,9 +3,6 @@
 #include "assets/ui_pal.h"
 #include "port/patches/Patches.h"
 
-// PAL's own localized HudScripts live behind #if VERSION_PAL. Rather than
-// un-guard them across the decomp, the port keeps its own copies here.
-
 HudScript HES_PortHeaderStats_de = HES_TEMPLATE_CI_CUSTOM_SIZE(de_ui_pause_label_stats, 48, 16);
 HudScript HES_PortHeaderBadges_de = HES_TEMPLATE_CI_CUSTOM_SIZE(de_ui_pause_label_badges, 48, 16);
 HudScript HES_PortHeaderItems_de = HES_TEMPLATE_CI_CUSTOM_SIZE(de_ui_pause_label_items, 48, 16);
