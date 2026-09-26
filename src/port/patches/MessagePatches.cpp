@@ -101,4 +101,14 @@ PAL_PTR port_msg_glyph_palette(PAL_PTR palette) {
     }
     return (PAL_PTR) sPalettePaths[sPaletteSet][index];
 }
+
+void* port_msg_override(const char* name, void* fallback) {
+    void* data;
+
+    if (name == NULL) {
+        return fallback;
+    }
+    data = ResourceGetDataByName(name);
+    return data != NULL ? data : fallback;
+}
 }

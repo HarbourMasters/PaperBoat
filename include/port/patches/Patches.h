@@ -46,6 +46,8 @@ void port_appendGfx_shading_palette(
 void port_msg_font_loaded(s32 font);
 IMG_PTR port_msg_glyph_raster(IMG_PTR glyph);
 PAL_PTR port_msg_glyph_palette(PAL_PTR palette);
+// Optional language-pack blob; falls back to the compiled US string.
+void* port_msg_override(const char* name, void* fallback);
 
 // Background (BackgroundPatches.c)
 extern char* gBgPalettePath;
