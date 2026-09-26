@@ -1376,7 +1376,9 @@ void initialize_printer(MessagePrintState* printer, s32 arg1, s32 arg2) {
 static u8* load_msg_asset(u32 msgID) {
     u32 section = msgID >> 16;
     u32 index = msgID & 0xFFFF;
-    return (u8*)LOAD_ASSET(gMsgSectionPaths[section][index]);
+    // Resolves against the selected language's archive, falling back to the
+    // English message when there is no translation for it.
+    return port_msg_localized_asset(gMsgSectionPaths[section][index]);
 }
 
 s8* load_message_to_buffer(s32 msgID) {

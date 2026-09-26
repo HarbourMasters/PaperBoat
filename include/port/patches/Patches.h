@@ -47,6 +47,10 @@ void port_msg_font_loaded(s32 font);
 IMG_PTR port_msg_glyph_raster(IMG_PTR glyph);
 PAL_PTR port_msg_glyph_palette(PAL_PTR palette);
 
+// Message localization (LanguagePatches.cpp)
+s32 port_msg_language(void);
+u8* port_msg_localized_asset(const char* basePath);
+
 // Background (BackgroundPatches.c)
 extern char* gBgPalettePath;
 void port_load_map_bg(char* optAssetName);

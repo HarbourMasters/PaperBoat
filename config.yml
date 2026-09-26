@@ -13,3 +13,37 @@
       binary: pm64.o2r
       headers: include
       code: code
+
+# PAL (Europe), for the German, French and Spanish message sets only. The game
+# still runs on US assets and US timing; this archive contributes nothing but
+# translated text, so it is extracted alongside pm64.o2r rather than replacing
+# it. See assets/yaml/pal/.
+2111d39265a317414d359e35a7d971c4dfa5f9e1:
+  name: pm64-pal
+  path: ./assets/yaml/pal
+  config:
+    gbi: F3DEX2_PM64
+    gbi_floats: false
+    sort: OFFSET
+    logging: WARN
+    output:
+      binary: pm64-pal.o2r
+      headers: include
+      code: code
+
+# The same PAL release, trimmed to 48 MB. Dumps in the wild often drop the
+# final 16 MB, which is only a duplicate of 0x2000000-0x3000000 (see the tail
+# of ver/pal/splat.yaml). Every message block sits below that point, so a
+# trimmed dump extracts identically.
+1273275142b79f7443f55bd35679a19670adfe3a:
+  name: pm64-pal
+  path: ./assets/yaml/pal
+  config:
+    gbi: F3DEX2_PM64
+    gbi_floats: false
+    sort: OFFSET
+    logging: WARN
+    output:
+      binary: pm64-pal.o2r
+      headers: include
+      code: code
