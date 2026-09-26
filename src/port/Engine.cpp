@@ -113,6 +113,11 @@ extern "C" {
 extern Gfx* gMainGfxPos;
 }
 
+// nusys's count of graphics tasks the game has submitted that haven't finished drawing
+extern "C" {
+extern volatile uint32_t nuGfxTaskSpool;
+}
+
 static bool portArchiveExists = false;
 static const std::vector<std::string> sRomArchives = { "pm64.o2r" };
 
@@ -1073,8 +1078,14 @@ void GameEngine::RunCommands(Gfx* Commands, const std::vector<std::unordered_map
 
     interpreter->mInterpolationIndex = 0;
 
-    for (const auto& m : mtx_replacements) {
-        wnd->DrawAndRunGraphicsCommands(Commands, m, {});
+    for (size_t i = 0; i < mtx_replacements.size(); i++) {
+        // The game has queued its next frame, so we're behind: skip to this frame's last draw
+        // rather than leaving the game to skip drawing a whole frame.
+        if (i + 1 < mtx_replacements.size() && nuGfxTaskSpool >= 2) {
+            interpreter->mInterpolationIndex++;
+            continue;
+        }
+        wnd->DrawAndRunGraphicsCommands(Commands, mtx_replacements[i], {});
         OS_ViNotifyPresent();
         interpreter->mInterpolationIndex++;
     }
