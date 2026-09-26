@@ -33,6 +33,20 @@ s32 port_msg_language(void) {
     return language;
 }
 
+// PAL keeps menu labels the US build hardcodes as C byte arrays in the message
+// table instead, as MSG_PAL_Menu_XXXX. Those indices run past the end of the
+// US gMsgSectionPaths row, so the path is built directly.
+u8* port_msg_pal_menu_asset(s32 index) {
+    static char path[128];
+    s32 language = port_msg_language();
+
+    if (language <= LANGUAGE_EN || language >= (s32) ARRAY_COUNT(sLangSuffix)) {
+        return NULL;
+    }
+    snprintf(path, sizeof(path), MSG_PATH_PREFIX "%s/MSG_PAL_Menu_%04X", sLangSuffix[language], index);
+    return (u8*) LOAD_ASSET_RAW(path);
+}
+
 u8* port_msg_localized_asset(const char* basePath) {
     static char path[128];
     s32 language;

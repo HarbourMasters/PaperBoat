@@ -1,5 +1,6 @@
 #include "pause/pause_common.h"
 #include "message_ids.h"
+#include "port/patches/Patches.h"
 // Asset paths defined in assets/misc/pause.h, loaded via OTR
 #include "assets/misc/pause.h"
 
@@ -507,6 +508,11 @@ Gfx* PauseGfxLabels[] = {
 };
 
 intptr_t pause_get_menu_msg(s32 index) {
+    intptr_t localized = port_pause_menu_msg(index);
+
+    if (localized != 0) {
+        return localized;
+    }
     return gPauseMessages[index];
 }
 

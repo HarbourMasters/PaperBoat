@@ -55,6 +55,10 @@ u8* port_msg_localized_asset(const char* basePath);
 // Localized UI textures (LocalizedHud.c)
 HudScript* port_pause_tab_hud_script(s32 index, HudScript* fallback);
 
+// Localized pause menu labels (LocalizedPauseMsg.c)
+u8* port_msg_pal_menu_asset(s32 index);
+intptr_t port_pause_menu_msg(s32 index);
+
 // Background (BackgroundPatches.c)
 extern char* gBgPalettePath;
 void port_load_map_bg(char* optAssetName);
