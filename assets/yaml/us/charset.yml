@@ -6,7 +6,7 @@ charset_standard_palette:
   { type: PM64:CHARSET, offset: 0x1144B0, size: 0x500, symbol: gCharsetStandardPalette, palette_stride: 16 }
 
 charset_title:
-  { type: PM64:CHARSET, offset: 0x1149B0, size: 0xF60, symbol: gCharsetTitle, glyph_width: 12, glyph_height: 15 }
+  { type: PM64:CHARSET, offset: 0x1149B0, size: 0xF60, symbol: gCharsetTitle, glyph_width: 12, glyph_height: 16 }
 
 charset_subtitle:
   { type: PM64:CHARSET, offset: 0x115910, size: 0xB88, symbol: gCharsetSubtitle, glyph_width: 12, glyph_height: 12 }
