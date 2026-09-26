@@ -47,6 +47,16 @@ static const std::unordered_map<int32_t, const char*> notificationPosition = {
     { 0, "Top Left" }, { 1, "Top Right" }, { 2, "Bottom Left" }, { 3, "Bottom Right" }, { 4, "Hidden" },
 };
 
+// Keys match enum Language in enums.h, which is not included here: pulling in
+// game headers after the UI ones trips the script_api/prism macro collision.
+// Anything but English needs pm64-pal.o2r present.
+static const std::unordered_map<int32_t, const char*> languageOptions = {
+    { 0, "English" },
+    { 1, "German" },
+    { 2, "French" },
+    { 3, "Spanish" },
+};
+
 void PaperboatMenu::AddMenuSettings() {
     // Add Settings Menu
     AddMenuEntry("Settings", CVAR_SETTING("Menu.SettingsSidebarSection"));
@@ -97,6 +107,18 @@ void PaperboatMenu::AddMenuSettings() {
         })
         .Options(CheckboxOptions().Tooltip("Makes the cursor always visible, even in full screen."));
 #endif
+    AddWidget(path, "Language", WIDGET_CVAR_COMBOBOX)
+        .CVar(CVAR_SETTING("Language"))
+        .RaceDisable(false)
+        .Options(
+            ComboboxOptions()
+                .Tooltip(
+                    "Language used for in-game text. Anything other than English needs a PAL ROM "
+                    "extracted alongside your current one; untranslated text falls back to English."
+                )
+                .ComboMap(languageOptions)
+                .DefaultIndex(0)
+        );
     AddWidget(path, "Search In Sidebar", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_SETTING("Menu.SidebarSearch"))
         .RaceDisable(false)

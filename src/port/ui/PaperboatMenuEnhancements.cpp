@@ -12,13 +12,6 @@ static const std::unordered_map<int32_t, const char*> blockWindowOptions = {
     { 2, "Very Forgiving (10 frames)" },
 };
 
-static const std::unordered_map<int32_t, const char*> languageOptions = {
-    { 0, "English" },
-    { 1, "German" },
-    { 2, "French" },
-    { 3, "Spanish" },
-};
-
 static const std::unordered_map<int32_t, const char*> actionCommandDifficultyOptions = {
     { 0, "Original" },
     { 1, "Forgiving (-1 level)" },
@@ -55,17 +48,6 @@ void PaperboatMenu::AddMenuEnhancements() {
     path = { "Enhancements", "Gameplay", SECTION_COLUMN_1 };
     AddSidebarEntry("Enhancements", path.sidebarName, 2);
     path.column = SECTION_COLUMN_1;
-
-    AddWidget(path, "Language", WIDGET_CVAR_COMBOBOX)
-        .CVar(CVAR_ENHANCEMENT("Language"))
-        .Options(
-            ComboboxOptions()
-                .Tooltip(
-                    "Language used for in-game text. Anything other than English needs a PAL ROM "
-                    "extracted alongside your current one; untranslated text falls back to English."
-                )
-                .ComboMap(languageOptions)
-        );
 
     AddWidget(path, "DX: Prevent Loading Zone Storage", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("PreventLoadingZoneStorage"))

@@ -30,7 +30,7 @@ static const char* sLangSuffix[] = {
 };
 
 s32 port_msg_language(void) {
-    s32 language = CVarGetInteger(CVAR_ENHANCEMENT("Language"), LANGUAGE_EN);
+    s32 language = CVarGetInteger(CVAR_SETTING("Language"), LANGUAGE_EN);
 
     if (language < 0 || language >= (s32) ARRAY_COUNT(sLangSuffix)) {
         return LANGUAGE_EN;
