@@ -4,9 +4,12 @@
 #include <chrono>
 #include <condition_variable>
 #include <map>
+#include <memory>
 #include <mutex>
 #include <set>
 #include <thread>
+
+#include <SDL2/SDL_thread.h>
 
 namespace {
 
@@ -90,7 +93,7 @@ extern "C" void OS_CreateThread(void* thread, int32_t id, void (*entry)(void*), 
 }
 
 extern "C" void OS_StartThread(void* thread) {
-    std::lock_guard<std::mutex> lock(sTableMutex);
+    std::unique_lock<std::mutex> lock(sTableMutex);
 
     auto it = sThreads.find(thread);
     if (it == sThreads.end()) {
@@ -110,7 +113,9 @@ extern "C" void OS_StartThread(void* thread) {
 
     void (*entry)(void*) = st.entry;
     void* arg = st.arg;
-    st.worker = std::thread([entry, arg]() {
+    auto tid = std::make_shared<std::atomic<unsigned long>>(0);
+    st.worker = std::thread([entry, arg, tid]() {
+        tid->store((unsigned long) SDL_ThreadID(), std::memory_order_release);
         entry(arg);
         {
             std::lock_guard<std::mutex> exitLock(ExitMutex());
@@ -118,6 +123,23 @@ extern "C" void OS_StartThread(void* thread) {
         }
         ExitCv().notify_all();
     });
+    lock.unlock();
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(50);
+    while (std::chrono::steady_clock::now() < deadline) {
+        const unsigned long id = tid->load(std::memory_order_acquire);
+        OS_BlockedWait waits[16];
+        const int n = OS_MesgSnapshotBlockedWaits(waits, 16);
+        bool parked = false;
+        for (int i = 0; i < n && id != 0; i++) {
+            if (waits[i].tid == id) {
+                parked = true;
+            }
+        }
+        if (parked) {
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::microseconds(200));
+    }
 }
 
 extern "C" void OS_StopThread(void* thread) {

@@ -12,6 +12,8 @@ extern "C" {
 #include "dx/versioning.h"
 
 extern SaveData gCurrentSaveFile;
+extern char MagicSaveString[];
+s32 fio_calc_globals_checksum(void);
 }
 
 using nlohmann::json;
@@ -468,7 +470,58 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
     return jsonSave;
 }
 
+static std::string GlobalsPath() {
+    return Ship::Context::GetPathRelativeToAppDirectory("saves/globals.json", "pm64");
+}
+
+static void StampGlobals(SaveGlobals* globals) {
+    strcpy(globals->magicString, MagicSaveString);
+    globals->crc1 = 0;
+    globals->crc2 = ~globals->crc1;
+    globals->crc1 = fio_calc_globals_checksum();
+    globals->crc2 = ~globals->crc1;
+}
+
+static void WriteGlobals(const SaveGlobals* globals) {
+    ordered_json j = ordered_json::object();
+    j["useMonoSound"] = globals->useMonoSound;
+    j["lastFileSelected"] = globals->lastFileSelected;
+
+    std::string dir = Ship::Context::GetPathRelativeToAppDirectory("saves/", "pm64");
+    if (!fs::exists(dir)) {
+        fs::create_directories(dir);
+    }
+    std::ofstream out(GlobalsPath());
+    if (out.is_open()) {
+        out << j.dump(4);
+    }
+}
+
 void SaveManager_Init() {
+    REGISTER_LISTENER(OnSaveGlobalsSave, EVENT_PRIORITY_HIGH, [](IEvent* event) {
+        OnSaveGlobalsSave* ev = (OnSaveGlobalsSave*) event;
+        event->Cancelled = true;
+        WriteGlobals((const SaveGlobals*) ev->saveGlobals);
+    })
+
+    REGISTER_LISTENER(OnSaveGlobalsLoad, EVENT_PRIORITY_HIGH, [](IEvent* event) {
+        OnSaveGlobalsLoad* ev = (OnSaveGlobalsLoad*) event;
+        event->Cancelled = true;
+
+        SaveGlobals* globals = (SaveGlobals*) ev->saveGlobals;
+        memset(globals, 0, sizeof(*globals));
+
+        const std::string path = GlobalsPath();
+        if (fs::exists(path)) {
+            std::ifstream in(path);
+            json j;
+            in >> j;
+            globals->useMonoSound = j.value("useMonoSound", 0);
+            globals->lastFileSelected = j.value("lastFileSelected", 0u);
+            StampGlobals(globals);
+        }
+    })
+
     REGISTER_LISTENER(OnSaveFileSave, EVENT_PRIORITY_HIGH, [](IEvent* event) {
         OnSaveFileSave* ev = (OnSaveFileSave*) event;
         event->Cancelled = true;

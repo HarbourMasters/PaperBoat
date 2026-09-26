@@ -126,6 +126,7 @@ void nuAuMgr(void* arg) {
     s32 hasFrame;
 
     osCreateMesgQueue(&auMesgQ, auMsgBuf, NU_AU_MESG_MAX);
+    OS_SetQueueBlocking(&auMesgQ, 1); // [port]
     osCreateMesgQueue(&auRtnMesgQ, &auRtnMesgBuf, 1);
     nuScAddClient(&auClient, &auMesgQ, NU_SC_RETRACE_MSG | NU_SC_PRENMI_MSG);
 
@@ -138,8 +139,8 @@ void nuAuMgr(void* arg) {
     cmdListBuf = AlCmdListBuffers[0];
     bufferPtr = D_800A3628[0];
     while (true) {
-        port_auWaitRetrace(&mesg_type);
-        if (OS_ThreadShouldExit()) {
+        osRecvMesg(&auMesgQ, (OSMesg*)&mesg_type, OS_MESG_BLOCK);
+        if (OS_ThreadShouldExit()) { // [port]
             return;
         }
         ThreadWatchdog_Beat(WATCHDOG_AUDIO_MANAGER);

@@ -189,7 +189,7 @@ static void appendGfx_overlay_screen_fill(void) {
     gDPSetTextureLUT(gMainGfxPos++, G_TT_NONE);
     gDPSetTextureDetail(gMainGfxPos++, G_TD_CLAMP);
     gDPSetTextureConvert(gMainGfxPos++, G_TC_FILT);
-    gDPFillWideRectangle(gMainGfxPos++, frameLeft, 0, frameRight - 1, SCREEN_HEIGHT);
+    gDPFillWideRectangle(gMainGfxPos++, frameLeft, 0, frameRight, SCREEN_HEIGHT);
     gDPSetColorDither(gMainGfxPos++, G_CD_DISABLE);
     gDPPipeSync(gMainGfxPos++);
     gDPSetDepthSource(gMainGfxPos++, G_ZS_PIXEL);
@@ -246,7 +246,7 @@ void _render_transition_stencil(u8 stencilType, f32 progress, ScreenOverlay* ove
             gDPSetPrimColor(gMainGfxPos++, 0, 0, colR, colG, colB, progress);
             get_cam_frame_x(gCurrentCameraID, &frameLeft, &frameRight);
             gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-            gDPFillWideRectangle(gMainGfxPos++, frameLeft, 0, frameRight - 1, SCREEN_HEIGHT - 1);
+            gDPFillWideRectangle(gMainGfxPos++, frameLeft, 0, frameRight, SCREEN_HEIGHT);
             gDPSetColorDither(gMainGfxPos++, G_CD_DISABLE);
             return;
         case OVERLAY_VIEWPORT_COLOR:
@@ -263,7 +263,7 @@ void _render_transition_stencil(u8 stencilType, f32 progress, ScreenOverlay* ove
             gDPSetPrimColor(gMainGfxPos++, 0, 0, colR, colG, colB, progress);
             get_cam_frame_x(gCurrentCameraID, &frameLeft, &frameRight);
             gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-            gDPFillWideRectangle(gMainGfxPos++, frameLeft, camera->viewportStartY, frameRight - 1,
+            gDPFillWideRectangle(gMainGfxPos++, frameLeft, camera->viewportStartY, frameRight,
                              camera->viewportStartY + camera->viewportH);
             gDPSetColorDither(gMainGfxPos++, G_CD_DISABLE);
             return;

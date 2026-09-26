@@ -12,6 +12,7 @@
 #include "port/audio/AudioVolume.h"
 #include "port/os/OS.h"
 #include "port/DevTools/ThreadWatchdog.h"
+#include "port/TextureCache.h"
 #include "src/Companion.h"
 #include "ui/PaperboatGui.hpp"
 #include "ui/PaperboatModMenuWindow.h"
@@ -112,6 +113,11 @@ extern "C" {
 extern Gfx* gMainGfxPos;
 }
 
+// nusys's count of graphics tasks the game has submitted that haven't finished drawing
+extern "C" {
+extern volatile uint32_t nuGfxTaskSpool;
+}
+
 static bool portArchiveExists = false;
 static const std::vector<std::string> sRomArchives = { "pm64.o2r" };
 
@@ -193,9 +199,7 @@ GameEngine::GameEngine() {
     AllocConsole();
 #endif
 
-    this->context = Ship::Context::CreateUninitializedInstance(
-        "Paperboat", "boat", Ship::Context::GetPathRelativeToAppDirectory("paperboat.cfg.json")
-    );
+    this->context = Ship::Context::CreateUninitializedInstance("Paperboat", "boat", "paperboat.cfg.json");
     gShipContext = this->context;
 
     this->context->InitLogging();
@@ -280,6 +284,7 @@ void GameEngine::FinishInit() {
             interpreter->SetResolvedResourceCacheEnabled(true);
         }
     }
+    TextureCache_Configure();
 
     auto loader = Ship::Context::GetRawInstance()->GetResourceManager()->GetResourceLoader();
     loader->RegisterResourceFactory(
@@ -942,11 +947,8 @@ static void ApplyDPadAsLeftStick(bool enabled) {
 }
 
 void GameEngine::StartFrame() const {
-    // Process window events (keyboard/mouse/gamepad) BEFORE game logic reads
-    // input. This fires the keyboard callbacks that set mKeyPressed state in
-    // ControlDeck, so that WriteToPad() sees current key state when called from
-    // update_input().
     Ship::Context::GetRawInstance()->GetWindow()->HandleEvents();
+    PollControllers();
 
     const bool altAssets = CVarGetInteger("gEnhancements.Mods.AlternateAssets", 0) != 0;
     if (altAssets != mPrevAltAssets) {
@@ -1039,7 +1041,6 @@ void GameEngine::AudioInit() {
 
     create_audio_system();
 
-    port_auStartTicker();
     ThreadWatchdog_Start();
     mAudio.running = true;
 
@@ -1054,7 +1055,6 @@ void GameEngine::AudioExit() {
 
         OS_RequestThreadExit();
         port_auBackendGone();
-        port_auStopTicker();
         port_auBgmLock();
         port_auBgmUnlock();
         OS_JoinDecompThreads();
@@ -1078,8 +1078,15 @@ void GameEngine::RunCommands(Gfx* Commands, const std::vector<std::unordered_map
 
     interpreter->mInterpolationIndex = 0;
 
-    for (const auto& m : mtx_replacements) {
-        wnd->DrawAndRunGraphicsCommands(Commands, m, {});
+    for (size_t i = 0; i < mtx_replacements.size(); i++) {
+        // The game has queued its next frame, so we're behind: skip to this frame's last draw
+        // rather than leaving the game to skip drawing a whole frame.
+        if (i + 1 < mtx_replacements.size() && nuGfxTaskSpool >= 2) {
+            interpreter->mInterpolationIndex++;
+            continue;
+        }
+        wnd->DrawAndRunGraphicsCommands(Commands, mtx_replacements[i], {});
+        OS_ViNotifyPresent();
         interpreter->mInterpolationIndex++;
     }
 }
@@ -1217,37 +1224,114 @@ extern "C" uint8_t GameEngine_OTRSigCheck(const char* data) {
     return strncmp(data, sOtrSignature, strlen(sOtrSignature)) == 0;
 }
 
-// Pace an iteration that presents nothing (see GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME
-// in Graphics_ThreadUpdate).
-extern "C" void GameEngine_HoldFrame(void) {
-    using namespace std::chrono;
-    static steady_clock::time_point sNextHold;
-
-    constexpr auto kGameFrame = duration_cast<steady_clock::duration>(duration<double>(1.0 / 30.0));
-
-    const auto now = steady_clock::now();
-    if (sNextHold < now) {
-        sNextHold = now;
-    }
-    sNextHold += kGameFrame;
-    std::this_thread::sleep_until(sNextHold);
-}
-
 // C-callable wrapper for processing graphics commands
 extern "C" void GameEngine_ProcessGfxCommands(Gfx* commands) {
-    std::vector<std::unordered_map<Mtx*, MtxF>> mtx_replacements;
-    mtx_replacements.push_back({}); // Empty map for now, interpolation can be added later
-    GameEngine::RunCommands(commands, mtx_replacements);
+    GameEngine::ProcessGfxCommands(commands);
 }
 
-// C-callable controller input reader
-extern "C" void GameEngine_ReadController(OSContPad* pads) {
+// Renderer calls from tick code come through here
+namespace {
+std::mutex sSvcMutex;
+std::condition_variable sSvcCv;
+void (*sSvcFn)(void*) = nullptr;
+void* sSvcArg = nullptr;
+std::atomic<bool> sSvcShutdown { false };
+SDL_threadID sWindowThread = 0;
+std::mutex sInvalidateMutex;
+std::vector<const void*> sInvalidateAddrs;
+std::mutex sPadMutex;
+OSContPad sPads[MAXCONTROLLERS] = {};
+} // namespace
+
+void GameEngine::DrainRenderService() {
+    if (sWindowThread == 0) {
+        sWindowThread = SDL_ThreadID();
+    }
+    {
+        std::vector<const void*> addrs;
+        {
+            std::lock_guard<std::mutex> lock(sInvalidateMutex);
+            addrs.swap(sInvalidateAddrs);
+        }
+        if (!addrs.empty()) {
+            if (auto interp = gsFast3dWindow != nullptr ? gsFast3dWindow->GetInterpreterWeak().lock() : nullptr) {
+                for (const void* addr : addrs) {
+                    interp->TextureCacheDelete(reinterpret_cast<const uint8_t*>(addr));
+                }
+            }
+        }
+    }
+    std::unique_lock<std::mutex> lock(sSvcMutex);
+    if (sSvcFn != nullptr) {
+        auto* fn = sSvcFn;
+        void* arg = sSvcArg;
+        lock.unlock();
+        fn(arg);
+        lock.lock();
+        sSvcFn = nullptr;
+        sSvcCv.notify_all();
+    }
+}
+
+void GameEngine::ShutdownRenderService() {
+    {
+        std::lock_guard<std::mutex> lock(sSvcMutex);
+        sSvcShutdown.store(true, std::memory_order_release);
+        sSvcFn = nullptr;
+    }
+    sSvcCv.notify_all();
+}
+
+extern "C" void port_runOnRenderThread(void (*fn)(void*), void* arg) {
+    if (sWindowThread == 0 || SDL_ThreadID() == sWindowThread) {
+        fn(arg);
+        return;
+    }
+    std::unique_lock<std::mutex> lock(sSvcMutex);
+    auto done = [] { return sSvcFn == nullptr || sSvcShutdown.load(std::memory_order_acquire); };
+    if (sSvcShutdown.load(std::memory_order_acquire)) {
+        return;
+    }
+    sSvcCv.wait(lock, done);
+    if (sSvcShutdown.load(std::memory_order_acquire)) {
+        return;
+    }
+    sSvcFn = fn;
+    sSvcArg = arg;
+    sSvcCv.wait(lock, done);
+}
+
+// The extraction loop's frame
+void GameEngine::RenderGuiFrame() const {
+    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(Ship::Context::GetRawInstance()->GetWindow());
+    auto gui = Ship::Context::GetRawInstance()->GetWindow()->GetGui();
+    if (wnd == nullptr || gui == nullptr || !wnd->IsFrameReady()) {
+        return;
+    }
+    gui->StartDraw();
+    wnd->StartFrame();
+    wnd->RunGuiOnly();
+    gui->EndDraw();
+    wnd->EndFrame();
+    OS_ViNotifyPresent();
+}
+
+void GameEngine::PollControllers() const {
+    OSContPad pads[MAXCONTROLLERS] = {};
     auto controlDeck = Ship::Context::GetRawInstance()->GetControlDeck();
     if (controlDeck != nullptr) {
         controlDeck->WriteToPad(pads);
     }
     // Merges the on-screen controls into port 0; no-op unless enabled.
     TouchControls_ApplyPad(pads);
+    std::lock_guard<std::mutex> lock(sPadMutex);
+    memcpy(sPads, pads, sizeof(sPads));
+}
+
+// C-callable controller input reader
+extern "C" void GameEngine_ReadController(OSContPad* pads) {
+    std::lock_guard<std::mutex> lock(sPadMutex);
+    memcpy(pads, sPads, sizeof(sPads));
 }
 
 // C-callable memory allocator
@@ -1334,36 +1418,8 @@ extern "C" void GameEngine_InvalidateTextureCache(const void* addr) {
     if (addr == nullptr) {
         return;
     }
-    auto window = Ship::Context::GetRawInstance()->GetWindow();
-    if (window != nullptr) {
-        auto fast3d = std::dynamic_pointer_cast<Fast::Fast3dWindow>(window);
-        if (fast3d != nullptr) {
-            auto interp = fast3d->GetInterpreterWeak().lock();
-            if (interp != nullptr) {
-                interp->TextureCacheDelete(reinterpret_cast<const uint8_t*>(addr));
-            }
-        }
-    }
-}
-
-extern "C" int GameEngine_GetSaveFilePath(char* buf, int bufSize) {
-    std::string path = Ship::Context::GetPathRelativeToAppDirectory("default.sav");
-    if ((int) path.size() >= bufSize) {
-        return -1;
-    }
-    strncpy(buf, path.c_str(), bufSize);
-    buf[bufSize - 1] = '\0';
-    return 0;
-}
-
-extern "C" void GameEngine_ClearDepthBuffer(void) {
-    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(Ship::Context::GetRawInstance()->GetWindow());
-    if (wnd) {
-        auto interp = wnd->GetInterpreterWeak().lock();
-        if (interp) {
-            interp->GetCurrentRenderingAPI()->ClearFramebuffer(false, true);
-        }
-    }
+    std::lock_guard<std::mutex> lock(sInvalidateMutex);
+    sInvalidateAddrs.push_back(addr);
 }
 
 // ---------------------------------------------------------------------------

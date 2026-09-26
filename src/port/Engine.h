@@ -79,6 +79,10 @@ class GameEngine {
 
     GameEngine();
     void StartFrame() const;
+    void RenderGuiFrame() const;
+    void PollControllers() const;
+    static void DrainRenderService();
+    static void ShutdownRenderService();
     static bool GenAssetFile(bool exitOnFail = true);
     static void Create(int argc, char* argv[]);
     static void AudioInit();
@@ -149,15 +153,8 @@ void GameEngine_InvalidateTextureCache(const void* addr);
 void GameEngine_PrefetchTextures(const char* group);
 void gfx_texture_cache_clear(void);
 
-// Save file path - returns path to "pm64.sav" in app directory
-// Buffer must be at least 512 bytes. Returns 0 on success, -1 on failure.
-int GameEngine_GetSaveFilePath(char* buf, int bufSize);
-
-// Clear the GPU depth buffer (replaces N64 gDPSetColorImage-to-ZBuffer hack)
-void GameEngine_ClearDepthBuffer(void);
-
-// Pace one game frame without presenting.
-void GameEngine_HoldFrame(void);
+void port_nuGfxOnSubmit(void* task);
+void port_runOnRenderThread(void (*fn)(void*), void* arg);
 
 #ifdef __cplusplus
 }

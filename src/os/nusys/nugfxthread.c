@@ -1,5 +1,6 @@
 #include "common.h"
 #include "nu/nusys.h"
+#include "port/os/OS.h"
 
 void gfxThread(void*);
 
@@ -25,6 +26,9 @@ void gfxThread(void* data) {
 
     while (true) {
         osRecvMesg(&nuGfxMesgQ, (OSMesg*) &mesgType, OS_MESG_BLOCK);
+        if (OS_ThreadShouldExit()) { // [port]
+            return;
+        }
 
         switch (*mesgType) {
             case NU_SC_RETRACE_MSG:

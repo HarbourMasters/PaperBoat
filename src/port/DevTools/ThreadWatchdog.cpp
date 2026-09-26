@@ -27,8 +27,12 @@
 #endif
 
 extern "C" {
+#include "libultraship/libultra/types.h"
+#include "libultraship/libultra/message.h"
 int32_t AudioPlayerBuffered(void);
 int32_t AudioPlayerGetDesiredBuffered(void);
+void* osViGetCurrentFramebuffer(void);
+void* osViGetNextFramebuffer(void);
 }
 
 namespace {
@@ -36,31 +40,32 @@ namespace {
 using Clock = std::chrono::steady_clock;
 
 constexpr const char* kThreadNames[WATCHDOG_NUM_THREADS] = {
-    "audio-tick",
-    "main-loop",
-    "audio-mgr",
+    "main-loop", "audio-mgr", "vi-ticker", "game-tick", "si-mgr",
 };
 
 // Blocking points in each loop that are not message-queue waits. A stall with
 // no queue park is in one of these; naming them gives the reader somewhere to
 // look when no symbols were available to resolve a stack.
 constexpr const char* kThreadNonQueueWaits[WATCHDOG_NUM_THREADS] = {
-    "sleep_until(next); sTickMutex in TickerMain",
-    "HandleEvents (SDL/window), step_game_loop map-load I/O, ProcessGfxCommands (renderer present), "
-    "port_auBgmLock (sBgmMutex) in snd_song_request_*",
-    "port_auWaitRetrace -> sTickCv/sTickMutex; AudioPlayerPlayFrame -> SDL_QueueAudio; "
-    "port_auBgmLock (sBgmMutex) around alAudioFrame",
+    "HandleEvents (SDL/window), ProcessGfxCommands (renderer present), DrainRenderService callback",
+    "AudioPlayerPlayFrame -> SDL_QueueAudio; port_auBgmLock (sBgmMutex) around alAudioFrame",
+    "sleep_until; OS_SendEventMesg -> sMesgMutex",
+    "port_runOnRenderThread sSvcCv handoff; osSetIntMask (sIntLock); port_auBgmLock (sBgmMutex) in "
+    "snd_song_request_*; step_game_loop map-load I/O",
+    "__osMotorAccess -> ControlDeck rumble; osSendMesg to a nuSiSendMesg reply queue",
 };
 
 // Entry point each heartbeat belongs to.
 constexpr const char* kThreadLoops[WATCHDOG_NUM_THREADS] = {
-    "TickerMain (port/os/Audio.cpp)",
-    "Graphics_ThreadUpdate (port/gfx_frame.c)",
+    "SDL_main service loop (port/Game.cpp)",
     "nuAuMgr (audio/core/system.c)",
+    "osCreateViManager ticker (port/os/VI.cpp)",
+    "gfxThread (nugfxthread.c) -> Graphics_Retrace (port/gfx_frame.c) -> gfxRetrace_Callback (main.c)",
+    "nuSiMgrThread (nusimgr.c) -> contRmbRetrace (nucontrmbmgr.c)",
 };
 
-// nuAuMgr parks in port_auWaitRetrace whenever the ticker is not handing out
-// ticks, so it gets a longer leash than the frame-paced threads.
+// nuAuMgr skips retraces while the backend's FIFO is full, so it gets a longer
+// leash than the frame-paced threads.
 constexpr auto kStallAfter = std::chrono::seconds(5);
 constexpr auto kRelaxedStallAfter = std::chrono::seconds(10);
 constexpr auto kSampleEvery = std::chrono::milliseconds(500);
@@ -226,8 +231,27 @@ std::string CaptureStalledStack(int threadIdx) {
 }
 
 std::string BuildDump(const bool* stalled, Clock::time_point now, const std::string& stack) {
+    OS_BlockedWait waits[16];
+    const int numWaits = OS_MesgSnapshotBlockedWaits(waits, 16);
+    auto waitFor = [&](int threadIdx) -> const OS_BlockedWait* {
+        unsigned long tid = sBeats[threadIdx].tid.load(std::memory_order_relaxed);
+        for (int i = 0; i < numWaits; i++) {
+            if (waits[i].tid == tid) {
+                return &waits[i];
+            }
+        }
+        return nullptr;
+    };
     auto ageOf = [&](int threadIdx) {
         return std::chrono::duration_cast<std::chrono::milliseconds>(now - sBeats[threadIdx].lastBeat);
+    };
+    auto queueName = [](OSMesgQueue* mq) {
+        const char* name = Graphics_QueueName(mq);
+        return name != nullptr ? name : "unmapped queue";
+    };
+    auto queueFedBy = [](OSMesgQueue* mq) {
+        const char* fedBy = Graphics_QueueFedBy(mq);
+        return fedBy != nullptr ? fedBy : "unknown";
     };
 
     std::string out;
@@ -260,10 +284,18 @@ std::string BuildDump(const bool* stalled, Clock::time_point now, const std::str
             numStalled > 1 ? fmt::format(", {} stalled total, this one first", numStalled) : "",
             kThreadLoops[firstStalled]
         );
-        if (!stack.empty()) {
-            out += "Parked at: see Stack below\n";
+        if (const OS_BlockedWait* w = waitFor(firstStalled)) {
+            out += fmt::format(
+                "Parked at: {} on {} {}/{}\n", w->isSend ? "osSendMesg (full)" : "osRecvMesg (empty)", queueName(w->mq),
+                w->mq->validCount, w->mq->msgCount
+            );
+            out += fmt::format("Producers: {}\n", queueFedBy(w->mq));
+        } else if (!stack.empty()) {
+            out += "Parked at: no queue wait; see Stack below\n";
         } else {
-            out += fmt::format("Parked at: loop/mutex/condvar. Candidates: {}\n", kThreadNonQueueWaits[firstStalled]);
+            out += fmt::format(
+                "Parked at: no queue wait, so loop/mutex/condvar. Candidates: {}\n", kThreadNonQueueWaits[firstStalled]
+            );
         }
     }
 
@@ -275,12 +307,46 @@ std::string BuildDump(const bool* stalled, Clock::time_point now, const std::str
             continue;
         }
         std::string age = (hb.lastBeat == Clock::time_point {}) ? std::string("?") : HumanDuration(ageOf(i));
+        std::string park;
+        if (const OS_BlockedWait* w = waitFor(i)) {
+            park = fmt::format(
+                "  {} {} {}/{}", w->isSend ? "send" : "recv", queueName(w->mq), w->mq->validCount, w->mq->msgCount
+            );
+        }
         out += fmt::format(
-            "  {:<11} {:<7} {:>6} tid {:<6} {} beats\n", kThreadNames[i],
-            (stalled != nullptr && stalled[i]) ? "STALLED" : "ok", age, hb.tid.load(std::memory_order_relaxed), count
+            "  {:<11} {:<7} {:>6} tid {:<6} {} beats{}\n", kThreadNames[i],
+            (stalled != nullptr && stalled[i]) ? "STALLED" : "ok", age, hb.tid.load(std::memory_order_relaxed), count,
+            park
         );
     }
 
+    for (int i = 0; i < numWaits; i++) {
+        bool known = false;
+        for (int t = 0; t < WATCHDOG_NUM_THREADS; t++) {
+            if (sBeats[t].tid.load(std::memory_order_relaxed) == waits[i].tid) {
+                known = true;
+                break;
+            }
+        }
+        if (!known) {
+            out += fmt::format(
+                "  tid {:<6} parked {} {} {}/{}\n", waits[i].tid, waits[i].isSend ? "send" : "recv",
+                queueName(waits[i].mq), waits[i].mq->validCount, waits[i].mq->msgCount
+            );
+        }
+    }
+
+    NusysWatchdogState nu;
+    Graphics_GetWatchdogState(&nu);
+    void* curFb = osViGetCurrentFramebuffer();
+    void* nextFb = osViGetNextFramebuffer();
+    out += fmt::format(
+        "Pipeline: taskSpool={} pendingSpTask={} retraceQ={} gfxMesgQ={} gfxRequestQ={} rspQ={} rdpQ={} waitQ={} "
+        "taskMgrQ={} fb cur{}next{} area={} map={}\n",
+        nu.taskSpool, OS_SpPeekPendingTask() != nullptr ? "yes" : "no", nu.retraceQ, nu.gfxMesgQ, nu.gfxRequestQ,
+        nu.rspQ, nu.rdpQ, nu.waitQ, nu.taskMgrQ, curFb == nextFb ? "==" : "!=", OS_ViBlackActive() ? " viBlack" : "",
+        nu.areaID, nu.mapID
+    );
     out += fmt::format("Audio queue: buffered={} desired={}", AudioPlayerBuffered(), AudioPlayerGetDesiredBuffered());
 
     if (!stack.empty()) {

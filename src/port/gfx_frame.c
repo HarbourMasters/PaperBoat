@@ -1,92 +1,138 @@
-/**
- * gfx_frame.c - Starship Architecture Frame Orchestration
- *
- * Consolidates all display list building and submission into a single frame.
- * This eliminates flickering caused by multiple buffer swaps per frame.
- */
-
 #include "common.h"
-#include "gfx_pool.h"
+#include "nu/nusys.h"
 #include "port/Engine.h"
-#include "port/interpolation/FrameInterpolation.h"
-#include "port/patches/Patches.h"
-#include "port/os/OS.h"
-#include "port/DevTools/ThreadWatchdog.h"
 #include "port/audio/AudioVolume.h"
+#include "port/DevTools/ThreadWatchdog.h"
+#include "port/interpolation/FrameInterpolation.h"
+#include "port/os/OS.h"
+#include "port/patches/Patches.h"
 
-// Double-buffered graphics pools
-GfxPool gGfxPools[2];
-GfxPool* gGfxPool;
-Gfx* gMasterDisp;
-u32 gSysFrameCount = 0;
+extern void gfxRetrace_Callback(s32 gfxTaskNum);
+extern void gfxPreNMI_Callback(void);
+extern void gfx_task_end_callback(void* unk);
 
-// External references to existing game functions/data
-extern DisplayContext DisplayContexts[2];
-extern s32 gCurrentDisplayContextIndex;
-extern void step_game_loop(void);
-extern void gfx_task_background(void);
-extern void gfx_draw_frame(void);
+extern OSMesgQueue nuGfxMesgQ;       // nugfxthread.c
+extern OSMesgQueue D_800DAC90;       // nugfxtaskmgr.c: the task manager's queue
+extern OSMesgQueue nuSiMgrMesgQ;     // nusimgr.c
+extern OSMesgQueue nuContDataMutexQ; // nucontmgr.c
 
-// C++ bridge function - defined in Game.cpp
-extern void Graphics_PushFrame(Gfx* displayList);
+extern void nuScEventHandler(void);
+extern void nuScExecuteGraphics(void);
+extern void gfxThread(void* data);
+extern void nuGfxTaskMgr(void* data);
 
-void Graphics_InitializeTask(void) {
-    // Select pool based on frame parity (double-buffering)
-    gGfxPool = &gGfxPools[gSysFrameCount % 2];
+static Gfx sMasterList[8];
 
-    // Initialize master display list write pointer
-    gMasterDisp = gGfxPool->masterDL;
+// audioRequestMQ stays non-blocking: nothing drains it.
+void Graphics_EnableNusysThreads(void) {
+    OS_SetQueueBlocking(&nusched.retraceMQ, 1);
+    OS_SetQueueBlocking(&nusched.rspMQ, 1);
+    OS_SetQueueBlocking(&nusched.rdpMQ, 1);
+    OS_SetQueueBlocking(&nusched.graphicsRequestMQ, 1);
+    OS_SetQueueBlocking(&nusched.waitMQ, 1);
+    OS_SetQueueBlocking(&nuGfxMesgQ, 1);
+    OS_SetQueueBlocking(&D_800DAC90, 1);
+
+    OS_EnableThreadEntry((void*) nuScEventHandler);
+    OS_EnableThreadEntry((void*) nuScExecuteGraphics);
+    OS_EnableThreadEntry((void*) gfxThread);
+    OS_EnableThreadEntry((void*) nuGfxTaskMgr);
 }
 
-void Graphics_ThreadUpdate(void) {
-    gSysFrameCount++;
-
-    // Initialize frame pointers
-    Graphics_InitializeTask();
-
-    ThreadWatchdog_Beat(WATCHDOG_MAIN_LOOP);
+static void Graphics_Retrace(u32 gfxTaskNum) {
+    ThreadWatchdog_Beat(WATCHDOG_GAME_TICK);
     AudioVolume_Update();
-
-    // Run game logic
+    FrameInterpolation_StartRecord();
     FrameInterpolation_RecordOpenChild("game_logic", 0);
-    step_game_loop();
+    gfxRetrace_Callback((s32) gfxTaskNum);
     FrameInterpolation_RecordCloseChild();
+}
 
-    // Build background display list (no submission)
-    gfx_task_background();
+// The tail of boot_main.
+void Graphics_Start(void) {
+    nuGfxFuncSet(Graphics_Retrace);
+    nuGfxPreNMIFuncSet(gfxPreNMI_Callback);
+    nuGfxTaskEndFunc = gfx_task_end_callback;
+    nuGfxDisplayOn();
+}
 
-    // Build main frame display list (no submission)
-    gfx_draw_frame();
+void* Graphics_TaskFromList(const void* osTask) {
+    return (void*) ((const char*) osTask - offsetof(NUScTask, list));
+}
 
-    // Now create master display list that links both
-    DisplayContext* ctx = &DisplayContexts[gCurrentDisplayContextIndex];
+u32 Graphics_TaskFlags(const void* nuTask) {
+    return ((const NUScTask*) nuTask)->flags;
+}
 
-    // Link background display list
-    gSPDisplayList(gMasterDisp++, ctx->backgroundGfx);
+// The pause background draws from the mirror, so the capture freezes while it is up.
+s32 Graphics_ShouldCapturePrevFrame(void) {
+    return !port_isPauseBackgroundActive();
+}
 
-    // Link main display list
-    gSPDisplayList(gMasterDisp++, ctx->mainGfx);
+void Graphics_DrawFrame(Gfx* backgroundList, Gfx* mainList, s32 capturePrevFrame) {
+    Gfx* g = sMasterList;
 
-    // Freeze while the pause background is up, which samples the mirror to draw itself
-    if (!port_isPauseBackgroundActive()) {
-        port_emitPrevFrameCapture(&gMasterDisp);
+    if (backgroundList != NULL) {
+        gSPDisplayList(g++, backgroundList);
+    }
+    gSPDisplayList(g++, mainList);
+
+    if (capturePrevFrame) {
+        port_emitPrevFrameCapture(&g);
     }
 
-    // Finalize master display list
-    gDPFullSync(gMasterDisp++);
-    gSPEndDisplayList(gMasterDisp++);
+    gDPFullSync(g++);
+    gSPEndDisplayList(g++);
 
-    // Toggle display context for next frame (moved from gfx_draw_frame)
-    gCurrentDisplayContextIndex ^= 1;
+    GameEngine_ProcessGfxCommands(sMasterList);
+}
 
-    // Handle GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME, which means "hold the last image on screen"
-    // while the game tears down and rebuilds state (state transitions, demo
-    // scene changes, map loads).
-    if (gOverrideFlags & GLOBAL_OVERRIDES_DISABLE_DRAW_FRAME) {
-        GameEngine_HoldFrame();
-        return;
+void Graphics_GetWatchdogState(NusysWatchdogState* out) {
+    out->taskSpool = (s32) nuGfxTaskSpool;
+    out->retraceQ = nusched.retraceMQ.validCount;
+    out->rspQ = nusched.rspMQ.validCount;
+    out->rdpQ = nusched.rdpMQ.validCount;
+    out->gfxRequestQ = nusched.graphicsRequestMQ.validCount;
+    out->waitQ = nusched.waitMQ.validCount;
+    out->gfxMesgQ = nuGfxMesgQ.validCount;
+    out->taskMgrQ = D_800DAC90.validCount;
+    out->areaID = gGameStatusPtr != NULL ? gGameStatusPtr->areaID : -1;
+    out->mapID = gGameStatusPtr != NULL ? gGameStatusPtr->mapID : -1;
+}
+
+static const struct {
+    const OSMesgQueue* mq;
+    const char* name;
+    const char* fedBy;
+} sQueueInfo[] = {
+    { &nusched.retraceMQ, "nusched.retraceMQ (nusched.c)", "VI ticker via OS_EVENT_VI (os/VI.cpp)" },
+    { &nusched.rspMQ, "nusched.rspMQ (nusched.c)", "OS_EVENT_SP from ServiceRcp (Game.cpp) after the task is drawn" },
+    { &nusched.rdpMQ, "nusched.rdpMQ (nusched.c)", "OS_EVENT_DP from ServiceRcp (Game.cpp) after the task is drawn" },
+    { &nusched.graphicsRequestMQ, "nusched.graphicsRequestMQ (nusched.c)",
+      "nuGfxTaskStart from gfx_task_background / gfx_draw_frame (main_loop.c)" },
+    { &nusched.audioRequestMQ, "nusched.audioRequestMQ (nusched.c)", "nuAuMgr (audio/core/system.c)" },
+    { &nusched.waitMQ, "nusched.waitMQ (nusched.c)", "nuScExecuteAudio (not revived: never)" },
+    { &nuGfxMesgQ, "nuGfxMesgQ (nugfxthread.c)", "nuScEventBroadcast retrace (nusched.c) from nuScEventHandler" },
+    { &D_800DAC90, "D_800DAC90 task manager queue (nugfxtaskmgr.c)",
+      "nuScExecuteGraphics (nusched.c) once SP and DP have been raised" },
+    { &nuSiMgrMesgQ, "nuSiMgrMesgQ (nusimgr.c)", "nuScEventBroadcast retrace; nuSiSendMesg from the game" },
+    { &nuContDataMutexQ, "nuContDataMutexQ (nucontmgr.c)", "nuContDataClose/Open on the SI thread and the game" },
+};
+
+const char* Graphics_QueueName(const void* mq) {
+    for (u32 i = 0; i < ARRAY_COUNT(sQueueInfo); i++) {
+        if (sQueueInfo[i].mq == mq) {
+            return sQueueInfo[i].name;
+        }
     }
+    return NULL;
+}
 
-    // Submit ONCE to libultraship
-    Graphics_PushFrame(gGfxPool->masterDL);
+const char* Graphics_QueueFedBy(const void* mq) {
+    for (u32 i = 0; i < ARRAY_COUNT(sQueueInfo); i++) {
+        if (sQueueInfo[i].mq == mq) {
+            return sQueueInfo[i].fedBy;
+        }
+    }
+    return NULL;
 }

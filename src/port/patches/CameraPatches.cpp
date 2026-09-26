@@ -26,7 +26,22 @@ static s32 cam_abs(s32 v) {
     return v < 0 ? -v : v;
 }
 
+static bool cam_is_letterbox_rect(s32 x, s32 y, s32 w, s32 h) {
+    return x == LETTERBOX_VIEW_X && y == LETTERBOX_VIEW_Y && w == LETTERBOX_VIEW_W && h == LETTERBOX_VIEW_H;
+}
+
+static bool cam_is_letterboxed(Camera* cam) {
+    return cam_is_letterbox_rect(cam->viewportStartX, cam->viewportStartY, cam->viewportW, cam->viewportH);
+}
+
+static bool cam_demo_active(void) {
+    return gGameStatusPtr->demoState != DEMO_STATE_NONE;
+}
+
 static bool cam_view_is_widened(void) {
+    if (cam_demo_active() && cam_is_letterboxed(&gCameras[CAM_DEFAULT])) {
+        return false;
+    }
     return OTRGetRectDimensionFromLeftEdge(0) < 0;
 }
 
@@ -122,19 +137,11 @@ static f32 cam_get_display_aspect(s32 camID, Camera* camera) {
 // FULL HEIGHT VIEW
 
 static bool cam_full_height_enabled(void) {
-    return CVarGetInteger(CVAR_ENHANCEMENT("Graphics.FullHeightView"), 0) != 0;
-}
-
-static bool cam_is_letterbox_rect(s32 x, s32 y, s32 w, s32 h) {
-    return x == LETTERBOX_VIEW_X && y == LETTERBOX_VIEW_Y && w == LETTERBOX_VIEW_W && h == LETTERBOX_VIEW_H;
+    return CVarGetInteger(CVAR_ENHANCEMENT("Graphics.FullHeightView"), 0) != 0 && !cam_demo_active();
 }
 
 static bool cam_is_full_height_rect(s32 x, s32 y, s32 w, s32 h) {
     return x == LETTERBOX_VIEW_X && y == 0 && w == LETTERBOX_VIEW_W && h == SCREEN_HEIGHT;
-}
-
-static bool cam_is_letterboxed(Camera* cam) {
-    return cam_is_letterbox_rect(cam->viewportStartX, cam->viewportStartY, cam->viewportW, cam->viewportH);
 }
 
 static bool cam_is_full_height(Camera* cam) {

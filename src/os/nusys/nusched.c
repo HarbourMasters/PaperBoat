@@ -1,5 +1,6 @@
 #include "common.h"
 #include "nu/nusys.h"
+#include "port/os/OS.h"
 
 NUSched nusched;
 NUScPreNMIFunc nuScPreNMIFunc = nullptr;
@@ -7,13 +8,16 @@ u8 nuScPreNMIFlag;
 
 char nusys_version[] = "NuSystem2.05";
 
-u32 nuScRetraceCounter = (u32) nusys_version;
+//  u32 nuScRetraceCounter = (u32) nusys_version;
+u32 nuScRetraceCounter = 0;
 
 void nuScEventHandler(void);
 void nuScExecuteAudio(void);
 void nuScExecuteGraphics(void);
 void nuScEventBroadcast(NUScMsg* msg);
 void nuScWaitTaskReady(NUScTask* task);
+
+extern OSViMode osViModeTable[]; // [port] nusys_overrides.c
 
 static u64 nuScStack[NU_SC_STACK_SIZE / sizeof(u64)];
 static u64 nuScAudioStack[NU_SC_STACK_SIZE / sizeof(u64)];
@@ -48,11 +52,11 @@ void nuScCreateScheduler(u8 videoMode, u8 numFields) {
     osCreateViManager(0xFE);
     osViSetMode(&osViModeTable[videoMode]);
     osViBlack(true);
-    osViSetEvent(&nusched.retraceMQ, (OSMesg) 0x29A, numFields);
+    osViSetEvent(&nusched.retraceMQ, OS_MESG_32(0x29A), numFields);
 
-    osSetEventMesg(OS_EVENT_SP,     &nusched.rspMQ, (OSMesg) 0x29B);
-    osSetEventMesg(OS_EVENT_DP,     &nusched.rdpMQ, (OSMesg) 0x29C);
-    osSetEventMesg(OS_EVENT_PRENMI, &nusched.retraceMQ, (OSMesg) 0x29D);
+    osSetEventMesg(OS_EVENT_SP,     &nusched.rspMQ, OS_MESG_32(0x29B));
+    osSetEventMesg(OS_EVENT_DP,     &nusched.rdpMQ, OS_MESG_32(0x29C));
+    osSetEventMesg(OS_EVENT_PRENMI, &nusched.retraceMQ, OS_MESG_32(0x29D));
 
     osCreateThread(&nusched.schedulerThread, 19, (void(*)) nuScEventHandler,    &nusched,
                    nuScStack + NU_SC_STACK_SIZE / sizeof(u64),         NU_SC_HANDLER_PRI);
@@ -103,12 +107,12 @@ void nuScExecuteAudio(void) {
         nusched.curAudioTask = nullptr;
 
         if( nusched.graphicsTaskSuspended )
-            osSendMesg(&nusched.waitMQ, &msg, OS_MESG_BLOCK );
+            osSendMesg(&nusched.waitMQ, OS_MESG_PTR(&msg), OS_MESG_BLOCK );
 
         if (yieldFlag == 1) {
             osSpTaskStart(&gfxTask->list);
         } else if (yieldFlag == 2) {
-            osSendMesg(&nusched.rspMQ, &msg, OS_MESG_BLOCK);
+            osSendMesg(&nusched.rspMQ, OS_MESG_PTR(&msg), OS_MESG_BLOCK);
         }
 
         osSendMesg(audioTask->msgQ, audioTask->msg, OS_MESG_BLOCK);
@@ -122,8 +126,11 @@ void nuScExecuteGraphics(void) {
 
     while (true) {
         osRecvMesg(&nusched.graphicsRequestMQ, (OSMesg *) &gfxTask, OS_MESG_BLOCK);
+        if (OS_ThreadShouldExit()) { // [port]
+            return;
+        }
         if(nuScPreNMIFlag & NU_SC_BEFORE_RESET){
-            osSendMesg(gfxTask->msgQ, (OSMesg*) gfxTask, OS_MESG_BLOCK);
+            osSendMesg(gfxTask->msgQ, OS_MESG_PTR(gfxTask), OS_MESG_BLOCK);
             continue;
         }
 
@@ -146,6 +153,9 @@ void nuScExecuteGraphics(void) {
         osSpTaskStart(&gfxTask->list);
 
         osRecvMesg(&nusched.rspMQ, &msg, OS_MESG_BLOCK);
+        if (OS_ThreadShouldExit()) { // [port]
+            return;
+        }
 
         mask = osSetIntMask(OS_IM_NONE);
         nusched.curGraphicsTask = nullptr;
@@ -153,8 +163,11 @@ void nuScExecuteGraphics(void) {
 
         if (!(gfxTask->flags & NU_SC_NORDP)) {
             osRecvMesg(&nusched.rdpMQ, &msg, OS_MESG_BLOCK);
+            if (OS_ThreadShouldExit()) { // [port]
+                return;
+            }
         }
-        osSendMesg(gfxTask->msgQ, (OSMesg*) gfxTask, OS_MESG_BLOCK);
+        osSendMesg(gfxTask->msgQ, OS_MESG_PTR(gfxTask), OS_MESG_BLOCK);
     }
 }
 
@@ -170,7 +183,7 @@ void nuScAddClient(NUScClient* c, OSMesgQueue* mq, NUScMsg msgType) {
     nusched.clientList = c;
 
     if ((msgType & NU_SC_PRENMI_MSG) && nuScPreNMIFlag) {
-        osSendMesg(mq, &nusched.prenmiMsg, OS_MESG_NOBLOCK);
+        osSendMesg(mq, OS_MESG_PTR(&nusched.prenmiMsg), OS_MESG_NOBLOCK);
     }
 
     osSetIntMask(mask);
@@ -229,8 +242,11 @@ void nuScEventHandler(void) {
 
     while (true) {
         osRecvMesg(&nusched.retraceMQ, &msg, OS_MESG_BLOCK);
+        if (OS_ThreadShouldExit()) { // [port]
+            return;
+        }
 
-        switch ((s32) msg) {
+        switch ((s32) msg.data32) {
             case 666:
                 nuScRetraceCounter++;
 
@@ -264,14 +280,17 @@ void nuScEventHandler(void) {
 }
 
 void nuScEventBroadcast(NUScMsg* msg) {
-    NUScClient* clientList = nusched.clientList;
+    NUScClient* clientList;
+    s32 mask = osSetIntMask(OS_IM_NONE);
 
+    clientList = nusched.clientList;
     while (clientList != nullptr) {
         if (clientList->msgType & *msg) {
-            osSendMesg(clientList->msgQ, msg, OS_MESG_NOBLOCK);
+            osSendMesg(clientList->msgQ, OS_MESG_PTR(msg), OS_MESG_NOBLOCK);
         }
         clientList = clientList->next;
     }
+    osSetIntMask(mask); // [port]
 }
 
 // copy of nuScAddClient
@@ -287,7 +306,7 @@ static inline void nuScAddClient_inline(NUScClient* c, OSMesgQueue* mq, NUScMsg 
     nusched.clientList = c;
 
     if ((msgType & NU_SC_PRENMI_MSG) && nuScPreNMIFlag) {
-        osSendMesg(mq, &nusched.prenmiMsg, OS_MESG_NOBLOCK);
+        osSendMesg(mq, OS_MESG_PTR(&nusched.prenmiMsg), OS_MESG_NOBLOCK);
     }
 
     osSetIntMask(mask);

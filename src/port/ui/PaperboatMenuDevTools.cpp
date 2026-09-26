@@ -83,8 +83,8 @@ void PaperboatMenu::AddMenuDevTools() {
     path.sidebarName = "Console";
     AddSidebarEntry("Dev Tools", path.sidebarName, 1);
     AddWidget(path, "Popout Console", WIDGET_WINDOW_BUTTON)
-        .CVar(CVAR_WINDOW("DevConsole"))
-        .WindowName("Console##Dev")
+        .CVar(CVAR_WINDOW("Console"))
+        .WindowName("Console")
         .HideInSearch(true)
         .Options(WindowButtonOptions().Tooltip("Enables the separate Console Window."));
 
