@@ -45,3 +45,8 @@ DEFINE_EVENT(OnBlockWindowCheck,
 DEFINE_EVENT(OnMapLoad,
     const char* mapName;
 );
+
+DEFINE_EVENT(OnPlayerSpeedUpdate,
+    float* walkSpeed;
+    float* runSpeed;
+);

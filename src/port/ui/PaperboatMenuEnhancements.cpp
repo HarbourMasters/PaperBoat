@@ -53,6 +53,10 @@ void PaperboatMenu::AddMenuEnhancements() {
             )
         );
 
+    AddWidget(path, "Sprint Button", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("SprintButton"))
+        .Options(CheckboxOptions().Tooltip("Hold R to move at double speed in the overworld."));
+
     AddWidget(path, "Block Window", WIDGET_CVAR_COMBOBOX)
         .CVar(CVAR_ENHANCEMENT("BlockWindowMode"))
         .Options(
