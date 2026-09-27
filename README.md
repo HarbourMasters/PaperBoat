@@ -1,14 +1,11 @@
 # PaperBoat
 *Harbour Masters port of Paper Mario 64*
 
-Project Lead:
-* Caladius
-
 Developers:
 * Bass3l
 * JeodC
-* Caladius
 * KiritoDv
+* Caladius
 
 ## Website & Discord
 Official Website: https://www.harbourmasters.org/
@@ -101,3 +98,7 @@ This wouldn't have been possible without your amazing work:
 
 * [The Paper Mario decomp team](https://github.com/pmret/papermario)
 * [The Paper Mario DX team](https://github.com/bates64/papermario-dx)
+
+# AI Disclosure
+
+PaperBoat accepts pull requests that use AI, within policy guidelines. For more information please see the HarbourMasters [AI Policy](https://github.com/HarbourMasters/code-of-conduct/blob/main/AI_POLICY.md).
