@@ -42,6 +42,26 @@ void RegisterCheats_Init() {
 
         event->Cancelled = true;
     });
+
+    REGISTER_LISTENER(OnStarPointDrop, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
+        OnStarPointDrop* ev = (OnStarPointDrop*) event;
+
+        if (!CVarGetInteger(CVAR_CHEAT("DoubleRewards"), 0)) {
+            return;
+        }
+
+        *ev->count *= 2;
+    });
+
+    REGISTER_LISTENER(OnCoinDrop, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
+        OnCoinDrop* ev = (OnCoinDrop*) event;
+
+        if (!CVarGetInteger(CVAR_CHEAT("DoubleRewards"), 0)) {
+            return;
+        }
+
+        *ev->count *= 2;
+    });
 }
 
 static RegisterShipInitFunc initCheatsFunc(RegisterCheats_Init);

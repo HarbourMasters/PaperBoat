@@ -45,6 +45,14 @@ DEFINE_EVENT(OnActionCommandDifficulty,
     int32_t* difficultyLevel;
 );
 
+DEFINE_EVENT(OnStarPointDrop,
+    int32_t* count;
+);
+
+DEFINE_EVENT(OnCoinDrop,
+    int32_t* count;
+);
+
 // World
 DEFINE_EVENT(OnMapLoad,
     const char* mapName;

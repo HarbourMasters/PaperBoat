@@ -74,6 +74,8 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnBattleEffectsRemoved);
     REGISTER_EVENT(OnBlockWindowCheck);
     REGISTER_EVENT(OnActionCommandDifficulty);
+    REGISTER_EVENT(OnStarPointDrop);
+    REGISTER_EVENT(OnCoinDrop);
     REGISTER_EVENT(OnMapLoad);
     REGISTER_EVENT(OnPlayerSpeedUpdate);
     REGISTER_EVENT(OnMapReady);

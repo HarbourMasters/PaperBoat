@@ -278,6 +278,10 @@ void spawn_drops(Enemy* enemy) {
     if (is_ability_active(ABILITY_MONEY_MONEY)) {
         dropCount *= 2;
     }
+
+    // Double rewards cheat
+    CALL_EVENT(OnCoinDrop, &dropCount);
+
     if (dropCount > 20) {
         dropCount = 20;
     }

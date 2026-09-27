@@ -2742,6 +2742,10 @@ API_CALLABLE(DropStarPoints) {
         }
 
         battleStatus->incrementStarPointDelay = 40;
+
+        // Double rewards cheat
+        CALL_EVENT(OnStarPointDrop, &numToDrop);
+
         battleStatus->pendingStarPoints += numToDrop;
     }
 
