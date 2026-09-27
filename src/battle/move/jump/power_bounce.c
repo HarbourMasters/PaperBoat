@@ -39,6 +39,7 @@ BSS s32 N(HitCounter);
 
 API_CALLABLE(N(InitializeHitCounter)) {
     N(HitCounter) = 0;
+    N(BaseHitChance) = 200;
     return ApiStatus_DONE2;
 }
 
