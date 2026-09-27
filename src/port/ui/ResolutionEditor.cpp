@@ -3,6 +3,7 @@
 #include "PaperboatMenu.h"
 #include "UIWidgets.hpp"
 #include "port/Engine.h"
+#include "port/TextureCache.h"
 #include <fast/Fast3dWindow.h>
 #include <fast/interpreter.h>
 #include <imgui.h>
@@ -475,6 +476,34 @@ void RegisterResolutionWidgets() {
             );
         });
 
+    static std::string sTextureCacheLabels[5];
+    static std::unordered_map<int32_t, const char*> sTextureCacheMap;
+    const auto sizeText = [](uint64_t bytes) {
+        const uint64_t mb = bytes / (1024 * 1024);
+        return mb >= 1024 ? fmt::format("{:.1f} GB", mb / 1024.0) : fmt::format("{} MB", mb);
+    };
+    sTextureCacheLabels[0] = fmt::format("Auto ({})", sizeText(TextureCache_AutoBytes()));
+    sTextureCacheMap[0] = sTextureCacheLabels[0].c_str();
+    for (int32_t step = 1; step <= 4; step++) {
+        const std::string size = sizeText(TextureCache_CeilingBytes() * step / 4);
+        sTextureCacheLabels[step] = step == 4 ? fmt::format("Max ({})", size) : size;
+        sTextureCacheMap[step] = sTextureCacheLabels[step].c_str();
+    }
+    mPaperboatMenu->AddWidget(path, "Texture Cache Size", WIDGET_CVAR_COMBOBOX)
+        .CVar("gGraphics.TextureCache")
+        .RaceDisable(false)
+        .Callback([](WidgetInfo& info) { TextureCache_Configure(); })
+        .Options(
+            ComboboxOptions()
+                .Tooltip(
+                    "Video memory the texture cache may hold before it drops oldest textures. "
+                    "Auto sizes it for the texture packs loaded; the other "
+                    "steps are fixed shares of what the video card can spare. "
+                    "Takes immediate effect."
+                )
+                .ComboMap(sTextureCacheMap)
+                .DefaultIndex(0)
+        );
     //  Activator
     mPaperboatMenu->AddWidget(path, "Enable advanced settings.", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_PREFIX_ADVANCED_RESOLUTION ".Enabled")

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "nu/nusys.h"
+#include "port/os/OS.h"
 
 OSMesgQueue    nuContWaitMesgQ;
 static OSMesg  nuContWaitMesgBuf;
@@ -38,6 +39,7 @@ u8 nuContMgrInit(void) {
     nuContDataUnLock();
     osCreateMesgQueue(&nuContWaitMesgQ, &nuContWaitMesgBuf, 1);
     osCreateMesgQueue(&nuContDataMutexQ, &nuContDataMutexBuf, 1);
+    OS_SetQueueBlocking(&nuContDataMutexQ, 1); // [port]
     nuSiCallBackAdd(&nuContCallBack);
     nuContQueryRead();
 
@@ -46,7 +48,8 @@ u8 nuContMgrInit(void) {
     pattern = 0;
 
     for (i = 0; i < NU_CONT_MAXCONTROLLERS; i++) {
-        if (nuContStatus[i].errno != 0) {
+//      if (nuContStatus[i].errno != 0) {
+        if (nuContStatus[i].err_no != 0) {
             continue;
         }
 
@@ -65,7 +68,8 @@ void nuContMgrRemove(void) {
 }
 
 void nuContDataClose(void) {
-    osSendMesg(&nuContDataMutexQ, nullptr, OS_MESG_BLOCK);
+//  osSendMesg(&nuContDataMutexQ, nullptr, OS_MESG_BLOCK);
+    osSendMesg(&nuContDataMutexQ, OS_MESG_PTR(nullptr), OS_MESG_BLOCK);
 }
 
 void nuContDataOpen(void) {
@@ -74,7 +78,8 @@ void nuContDataOpen(void) {
 
 //copy of nuContDataClose
 static inline void nuContDataClose_inline(void) {
-    osSendMesg(&nuContDataMutexQ, nullptr, OS_MESG_BLOCK);
+//  osSendMesg(&nuContDataMutexQ, nullptr, OS_MESG_BLOCK);
+    osSendMesg(&nuContDataMutexQ, OS_MESG_PTR(nullptr), OS_MESG_BLOCK);
 }
 
 //copy of nuContDataOpen
@@ -116,7 +121,8 @@ static s32 contRetrace(NUSiCommonMesg* mesg) {
         (*nuContReadFunc)(mesg->mesg);
     }
 
-    osSendMesg(&nuContWaitMesgQ, nullptr, OS_MESG_NOBLOCK);
+//  osSendMesg(&nuContWaitMesgQ, nullptr, OS_MESG_NOBLOCK);
+    osSendMesg(&nuContWaitMesgQ, OS_MESG_PTR(nullptr), OS_MESG_NOBLOCK);
 
     return NU_SI_CALLBACK_CONTINUE;
 }

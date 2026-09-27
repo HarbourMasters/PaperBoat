@@ -4,6 +4,7 @@
 #include "nu/nusys.h"
 #include "game_modes.h"
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 #include "alignment.h"
 
 static const ALIGN_ASSET(2) char theater_walls_tex_setup_gfx[]    = "__OTR__theater/walls_tex_setup_gfx";
@@ -267,12 +268,18 @@ void render_curtains(void) {
         Matrix4f m;
         f32 scale;
         s8 rgb;
+        f32 zoom = 1.0f;
 
         gDPPipeSync(gMainGfxPos++);
         gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(nuGfxCfb_ptr));
         gSPDisplayList(gMainGfxPos++, &TheaterInitGfx);
 
-        guFrustumF(m, -80.0f, 80.0f, -60.0f, 60.0f, 160.0f, 640.0f, 1.0f);
+        // Full Height View zooms the world to fill the letterbox rows, zoom the theater with it
+        if (port_cam_full_height(CAM_DEFAULT)) {
+            zoom = (f32) SCREEN_HEIGHT / (SCREEN_HEIGHT - 2 * SCREEN_INSET_Y);
+        }
+
+        guFrustumF(m, -80.0f / zoom, 80.0f / zoom, -60.0f / zoom, 60.0f / zoom, 160.0f, 640.0f, 1.0f);
         guMtxF2L(m, &D_8009BAA8[0]);
 
         gSPMatrix(gMainGfxPos++, &D_8009BAA8[0], G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
