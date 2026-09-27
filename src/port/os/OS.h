@@ -12,14 +12,24 @@ void OS_StartThread(void* thread);
 void OS_StopThread(void* thread);
 void OS_SetThreadPri(void* thread, int32_t pri);
 
+// osStartThread only launches entries enabled here.
 void OS_EnableThreadEntry(void* entry);
+
 void OS_RequestThreadExit(void);
 int OS_ThreadShouldExit(void);
 void OS_JoinDecompThreads(void);
 
-void port_auWaitRetrace(short** outMsg);
-void port_auStartTicker(void);
-void port_auStopTicker(void);
+void OS_SetQueueBlocking(void* mq, int enabled);
+
+void OS_BeginShutdown(void);
+
+void OS_StopViTicker(void);
+
+void OS_ViNotifyPresent(void);
+
+int OS_SiService(void);
+
+int OS_ViBlackActive(void);
 
 void port_auBackendGone(void);
 
@@ -34,6 +44,26 @@ void port_auAcquireFence(void);
 
 #ifdef __cplusplus
 }
+
+#include "libultraship/libultra/message.h"
+#include "libultraship/libultra/sptask.h"
+
+extern "C" {
+
+typedef struct OS_BlockedWait {
+    unsigned long tid; // SDL thread id
+    OSMesgQueue* mq;
+    int isSend; // 0 = recv, 1 = send/jam
+} OS_BlockedWait;
+int OS_MesgSnapshotBlockedWaits(OS_BlockedWait* out, int max);
+
+void OS_SendEventMesg(OSEvent event);
+void OS_JamEventMesg(OSEvent event);
+
+OSTask* OS_SpTakePendingTask(void);
+OSTask* OS_SpPeekPendingTask(void);
+
+} // extern "C"
 #endif
 
 #endif

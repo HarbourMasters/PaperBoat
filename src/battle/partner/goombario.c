@@ -68,6 +68,10 @@ API_CALLABLE(N(AdjustMultibonkChance)) {
 
     N(MultibonkChance) *= targetActor->actorBlueprint->powerBounceChance;
     N(MultibonkChance) /= 100;
+
+    // Power bounce cheat
+    CALL_EVENT(OnPowerBounceChance, &N(MultibonkChance), targetActor->actorBlueprint->powerBounceChance);
+
     if (N(MultibonkChance) < rand_int(100)) {
         script->varTable[0] = 0;
     }
@@ -1261,6 +1265,7 @@ s32 N(actionCommandTable)[] = { 7, 6, 5, 4, 3, 2, 1, 0 };
 s32 N(MultibonkChance) = 200;
 
 EvtScript N(EVS_Move_Multibonk) = {
+    Call(N(ResetMultibonkChance))
     Call(LoadActionCommand, ACTION_COMMAND_JUMP)
     Call(action_command_jump_init)
     ExecWait(N(runToTarget))

@@ -89,6 +89,12 @@ DEFINE_EVENT(HudElementPostDraw,
     int32_t dropShadow;
 );
 
+DEFINE_EVENT(SpriteComponentPreDraw,
+    uint32_t* imgfxFlags;
+);
+
+DEFINE_EVENT(SpriteShadingPreDraw);
+
 DEFINE_EVENT(EntityPreUpdate,
     Entity* entity;
 );

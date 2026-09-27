@@ -105,6 +105,7 @@ void port_appendGfx_background_texture(void) {
     s32 extraHeight;
 
     s32 bgXOffset;
+    f32 bgScrollF;
 
     enum {
         BG_BLEND_NONE = 0,
@@ -232,7 +233,7 @@ void port_appendGfx_background_texture(void) {
     scrollValue = -f5 * 0.25f;
     scrollValue += bgMaxX * theta * (1 / 90.0f);
 
-    if (fabsf(scrollValue - gBackroundLastScrollValue) < 0.3f) {
+    if (fabsf(scrollValue - gBackroundLastScrollValue) < 0.02f) {
         scrollValue = gBackroundLastScrollValue;
     } else {
         gBackroundLastScrollValue = scrollValue;
@@ -242,7 +243,8 @@ void port_appendGfx_background_texture(void) {
         scrollValue += bgMaxX * 32;
     }
 
-    bgXOffset = gGameStatusPtr->backgroundXOffset = ((s32) scrollValue) % bgMaxX;
+    bgScrollF = fmodf(scrollValue, (f32) bgMaxX);
+    bgXOffset = gGameStatusPtr->backgroundXOffset = (s32) bgScrollF;
 
     // Title screen (widescreen): fill the camera's frame solid first;
     // the bg image is then drawn once on top of the center.
@@ -320,7 +322,8 @@ void port_appendGfx_background_texture(void) {
         s32 tx, bgTileBaseX = bgMinX;
 
         s32 bgStepX = bgMaxX * bgScaleNum / bgScaleDen;
-        s32 bgSplitX = bgXOffset * bgScaleNum / bgScaleDen;
+        s32 bgSplitX4 = (s32) (bgScrollF * 4.0f * bgScaleNum / bgScaleDen);
+        s32 bgScrollS = (s32) ((bgMaxX - bgScrollF) * 32.0f);
 
         bgDsdx = bgDsdx * bgScaleDen / bgScaleNum;
 
@@ -338,11 +341,11 @@ void port_appendGfx_background_texture(void) {
 
         for (tx = bgTileBaseX; tx < wsRight; tx += bgStepX) {
             gSPWideTextureRectangle(
-                gMainGfxPos++, tx * 4, bgTopY * 4, (bgSplitX + tx - 1) * 4 + bgEdge, (bgBotY - 1) * 4 + bgEdge,
-                G_TX_RENDERTILE, (bgMaxX - bgXOffset) * 32, 0, bgDsdx, bgDtdy
+                gMainGfxPos++, tx * 4, bgTopY * 4, tx * 4 + bgSplitX4 - 4 + bgEdge, (bgBotY - 1) * 4 + bgEdge,
+                G_TX_RENDERTILE, bgScrollS, 0, bgDsdx, bgDtdy
             );
             gSPWideTextureRectangle(
-                gMainGfxPos++, (bgSplitX + tx) * 4, bgTopY * 4, (bgStepX + tx - 1) * 4 + bgEdge,
+                gMainGfxPos++, tx * 4 + bgSplitX4, bgTopY * 4, (bgStepX + tx - 1) * 4 + bgEdge,
                 (bgBotY - 1) * 4 + bgEdge, G_TX_RENDERTILE, 0, 0, bgDsdx, bgDtdy
             );
         }

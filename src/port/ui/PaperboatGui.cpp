@@ -56,9 +56,10 @@ void SetupGuiElements() {
     style.FramePadding = ImVec2(4.0f, 6.0f);
     style.ItemSpacing = ImVec2(8.0f, 6.0f);
     style.Colors[ImGuiCol_MenuBarBg] = UIWidgets::ColorValues.at(UIWidgets::Colors::DarkGray);
-
-    mConsoleWindow = std::make_shared<Ship::ConsoleWindow>(CVAR_WINDOW("DevConsole"), "Console##Dev", ImVec2(820, 630));
-    gui->AddGuiWindow(mConsoleWindow);
+    mConsoleWindow = gui->GetGuiWindow("Console");
+    if (mConsoleWindow == nullptr) {
+        SPDLOG_ERROR("Could not find console window");
+    }
 
     mEventDebuggerWindow = std::make_shared<EventDebuggerWindow>(CVAR_WINDOW("EventDebugger"), "Event Debugger");
     gui->AddGuiWindow(mEventDebuggerWindow);

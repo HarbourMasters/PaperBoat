@@ -51,6 +51,16 @@ void RegisterCheats_Init() {
         event->Cancelled = true;
     });
 
+    REGISTER_LISTENER(OnPowerBounceChance, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
+        OnPowerBounceChance* ev = (OnPowerBounceChance*) event;
+
+        if (!CVarGetInteger(CVAR_CHEAT("MaxPowerBounceChance"), 0) || ev->targetChance == 0) {
+            return;
+        }
+
+        *ev->hitChance = 200;
+    });
+
     REGISTER_LISTENER(OnStarPointDrop, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
         OnStarPointDrop* ev = (OnStarPointDrop*) event;
 

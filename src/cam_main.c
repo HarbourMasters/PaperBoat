@@ -4,6 +4,7 @@
 #include "hud_element.h"
 #include "dx/profiling.h"
 #include "port/Engine.h"
+#include "port/interpolation/FrameInterpolation.h"
 
 void render_models(void);
 void execute_render_tasks(void);
@@ -355,6 +356,7 @@ Camera* initialize_next_camera(CameraInitData* initData) {
     camera->curBoomYaw = 0.0f;
     camera->targetBoomYaw = 0.0f;
     camera->needsInit = true;
+    FrameInterpolation_DontInterpolateCamera();
     camera->updateMode = initData->updateMode;
     camera->nearClip = initData->nearClip;
     camera->farClip = initData->farClip;

@@ -251,6 +251,11 @@ list(FILTER GAME_SOURCES EXCLUDE REGEX "/src/port/")
 list(FILTER GAME_SOURCES EXCLUDE REGEX "/src/os/")
 list(FILTER GAME_SOURCES EXCLUDE REGEX "/src/boot/")
 
+# nusys runs as written on top of src/port/os
+file(GLOB NUSYS_SOURCES ${CMAKE_SOURCE_DIR}/src/os/nusys/*.c)
+list(FILTER NUSYS_SOURCES EXCLUDE REGEX "/src/os/nusys/(nucontinit|nucontpakmgr|nupi|nugfxinit)")
+list(APPEND GAME_SOURCES ${NUSYS_SOURCES})
+
 # Exclude effects/gfx/ asset data files (replaced by OTR)
 list(FILTER GAME_SOURCES EXCLUDE REGEX "/src/effects/gfx/")
 list(FILTER GAME_SOURCES EXCLUDE REGEX "unused_gfx\\.c$")
@@ -454,12 +459,17 @@ add_dependencies(${PROJECT_NAME} libultraship)
 # The engine's own archive: everything under port/ zipped up. A target rather
 # than a POST_BUILD step because the web build preloads it at link time.
 set(PAPERBOAT_PORT_O2R "${CMAKE_BINARY_DIR}/paperboat.o2r")
-file(GLOB_RECURSE PAPERBOAT_PORT_FILES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/port/*")
+set(PAPERBOAT_PORT_STAGING "${CMAKE_BINARY_DIR}/port_staging")
+set(PAPERBOAT_LUS_SHADERS "${CMAKE_SOURCE_DIR}/external/libultraship/src/fast/shaders")
+file(GLOB_RECURSE PAPERBOAT_PORT_FILES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/port/*" "${PAPERBOAT_LUS_SHADERS}/*")
 add_custom_command(
     OUTPUT "${PAPERBOAT_PORT_O2R}"
     COMMENT "Generating paperboat.o2r shader archive..."
-    COMMAND ${CMAKE_COMMAND} -E tar cf "${PAPERBOAT_PORT_O2R}" --format=zip -- .
-    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/port"
+    COMMAND ${CMAKE_COMMAND} -E rm -rf "${PAPERBOAT_PORT_STAGING}"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/port" "${PAPERBOAT_PORT_STAGING}"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${PAPERBOAT_LUS_SHADERS}" "${PAPERBOAT_PORT_STAGING}/shaders"
+    COMMAND ${CMAKE_COMMAND} -E chdir "${PAPERBOAT_PORT_STAGING}" ${CMAKE_COMMAND} -E tar cf "${PAPERBOAT_PORT_O2R}" --format=zip -- .
+    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
     DEPENDS ${PAPERBOAT_PORT_FILES}
     VERBATIM
 )
@@ -738,7 +748,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
         ${CMAKE_BINARY_DIR}/gamecontrollerdb.txt)
 
     install(TARGETS ${PROJECT_NAME} DESTINATION ../MacOS COMPONENT ${PROJECT_NAME})
-    install(FILES ${CMAKE_BINARY_DIR}/gamecontrollerdb.txt DESTINATION ../MacOS COMPONENT ${PROJECT_NAME})
+    install(FILES ${CMAKE_BINARY_DIR}/gamecontrollerdb.txt DESTINATION ../Resources COMPONENT ${PROJECT_NAME})
     install(FILES ${PAPERBOAT_PORT_O2R} DESTINATION ../Resources COMPONENT ${PROJECT_NAME})
     install(FILES ${CMAKE_SOURCE_DIR}/config.yml DESTINATION ../Resources COMPONENT ${PROJECT_NAME})
     install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets/ DESTINATION ../Resources/assets COMPONENT ${PROJECT_NAME})

@@ -44,6 +44,15 @@ void PaperboatMenu::AddMenuEnhancements() {
         .CVar(CVAR_CHEAT("MaxStarPower"))
         .Options(CheckboxOptions().Tooltip("Star Power stays full and won't decrease."));
 
+    AddWidget(path, "Max Power Bounce Chance", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_CHEAT("MaxPowerBounceChance"))
+        .Options(
+            CheckboxOptions().Tooltip(
+                "Power Bounce's and Goombario's Multibonk's chance to continue stays full, so a chain only ends "
+                "when you miss the timing or reach the bounce limit."
+            )
+        );
+
     AddWidget(path, "2x Star Points and Coins", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_CHEAT("DoubleRewards"))
         .Options(CheckboxOptions().Tooltip("Defeated enemies give twice the Star Points and coins."));

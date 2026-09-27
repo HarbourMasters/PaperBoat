@@ -1,6 +1,7 @@
 #include <libultraship/bridge.h>
 
 #include "port/Engine.h"
+#include <atomic>
 #include <map>
 #include <math.h>
 #include <stdlib.h>
@@ -8,6 +9,7 @@
 #include <vector>
 
 #include "FrameInterpolation.h"
+#include <spdlog/spdlog.h>
 
 extern MtxF* gInterpolationMatrix;
 extern "C" {
@@ -179,8 +181,15 @@ bool is_recording;
 vector<Path*> current_path;
 uint32_t camera_epoch;
 uint32_t previous_camera_epoch;
-Recording current_recording;
-Recording previous_recording;
+
+constexpr int kRingSlots = 8;
+Recording gRing[kRingSlots];
+std::atomic<int> gSlotClaims[kRingSlots] = {};
+int gRecordSlot = 0;
+int gLastRecordedSlot = -1;
+Recording* gRenderPrev = nullptr;
+Recording* gRenderCurr = nullptr;
+bool gRenderShould = false;
 
 bool next_is_actor_pos_rot_MtxF;
 bool has_inv_actor_mtx;
@@ -454,9 +463,12 @@ struct InterpolateCtx {
 
 unordered_map<Mtx*, MtxF> FrameInterpolation_Interpolate(float step) {
     InterpolateCtx ctx;
+    if (!gRenderShould) {
+        return ctx.mtx_replacements;
+    }
     ctx.step = step;
     ctx.w = 1.0f - step;
-    ctx.interpolate_branch(&previous_recording.root_path, &current_recording.root_path);
+    ctx.interpolate_branch(&gRenderPrev->root_path, &gRenderCurr->root_path);
     return ctx.mtx_replacements;
 }
 
@@ -468,10 +480,18 @@ void FrameInterpolation_ShouldInterpolateFrame(bool shouldInterpolate) {
 }
 
 void FrameInterpolation_StartRecord(void) {
-    previous_recording = move(current_recording);
-    current_recording = {};
+    for (int i = 0; i < kRingSlots; i++) {
+        gRecordSlot = (gRecordSlot + 1) % kRingSlots;
+        if (gSlotClaims[gRecordSlot].load(std::memory_order_acquire) == 0 && gRecordSlot != gLastRecordedSlot) {
+            break;
+        }
+    }
+    if (gSlotClaims[gRecordSlot].load(std::memory_order_acquire) != 0) {
+        SPDLOG_WARN("interp record forced into claimed slot {}", gRecordSlot);
+    }
+    gRing[gRecordSlot] = {};
     current_path.clear();
-    current_path.push_back(&current_recording.root_path);
+    current_path.push_back(&gRing[gRecordSlot].root_path);
     if (!camera_interpolation) {
         // default to interpolating
         camera_interpolation = true;
@@ -484,8 +504,48 @@ void FrameInterpolation_StartRecord(void) {
 }
 
 void FrameInterpolation_StopRecord(void) {
+    if (!is_recording) {
+        return;
+    }
     previous_camera_epoch = camera_epoch;
     is_recording = false;
+    gLastRecordedSlot = gRecordSlot;
+}
+
+void FrameInterpolation_GetRecordingPair(int* prevSlot, int* currSlot, bool* shouldInterpolate) {
+    if (!is_recording) {
+        *prevSlot = -1;
+        *currSlot = -1;
+        *shouldInterpolate = false;
+        return;
+    }
+    *prevSlot = gLastRecordedSlot;
+    *currSlot = gRecordSlot;
+    *shouldInterpolate = true;
+}
+
+void FrameInterpolation_ClaimPair(int prevSlot, int currSlot) {
+    if (prevSlot >= 0 && prevSlot < kRingSlots) {
+        gSlotClaims[prevSlot].fetch_add(1, std::memory_order_release);
+    }
+    if (currSlot >= 0 && currSlot < kRingSlots) {
+        gSlotClaims[currSlot].fetch_add(1, std::memory_order_release);
+    }
+}
+
+void FrameInterpolation_ReleasePair(int prevSlot, int currSlot) {
+    if (prevSlot >= 0 && prevSlot < kRingSlots) {
+        gSlotClaims[prevSlot].fetch_sub(1, std::memory_order_release);
+    }
+    if (currSlot >= 0 && currSlot < kRingSlots) {
+        gSlotClaims[currSlot].fetch_sub(1, std::memory_order_release);
+    }
+}
+
+void FrameInterpolation_BeginRenderPass(int prevSlot, int currSlot, bool shouldInterpolate) {
+    gRenderPrev = (prevSlot >= 0 && prevSlot < kRingSlots) ? &gRing[prevSlot] : nullptr;
+    gRenderCurr = (currSlot >= 0 && currSlot < kRingSlots) ? &gRing[currSlot] : nullptr;
+    gRenderShould = shouldInterpolate && gRenderCurr != nullptr && gRenderPrev != nullptr;
 }
 
 void FrameInterpolation_RecordOpenChild(const void* a, uintptr_t b) {

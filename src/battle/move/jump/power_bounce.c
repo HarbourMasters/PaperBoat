@@ -25,6 +25,9 @@ API_CALLABLE(N(GetHitChance)) {
     }
     N(BaseHitChance) = N(BaseHitChance) * powerBounceChance / 100;
 
+    // Power bounce cheat
+    CALL_EVENT(OnPowerBounceChance, &N(BaseHitChance), targetActor->actorBlueprint->powerBounceChance);
+
     if (N(BaseHitChance) < rand_int(100)) {
         script->varTable[0] = 0;
     }
@@ -36,6 +39,7 @@ BSS s32 N(HitCounter);
 
 API_CALLABLE(N(InitializeHitCounter)) {
     N(HitCounter) = 0;
+    N(BaseHitChance) = 200;
     return ApiStatus_DONE2;
 }
 

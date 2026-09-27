@@ -39,6 +39,10 @@ bool check_if_recording();
 void FrameInterpolation_StartRecord(void);
 
 void FrameInterpolation_StopRecord(void);
+void FrameInterpolation_GetRecordingPair(int* prevSlot, int* currSlot, bool* shouldInterpolate);
+void FrameInterpolation_ClaimPair(int prevSlot, int currSlot);
+void FrameInterpolation_ReleasePair(int prevSlot, int currSlot);
+void FrameInterpolation_BeginRenderPass(int prevSlot, int currSlot, bool shouldInterpolate);
 
 void FrameInterpolation_RecordMarker(const char* file, int line);
 

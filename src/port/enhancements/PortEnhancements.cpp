@@ -32,6 +32,8 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(HudElementUpdate);
     REGISTER_EVENT(HudElementPreDraw);
     REGISTER_EVENT(HudElementPostDraw);
+    REGISTER_EVENT(SpriteComponentPreDraw);
+    REGISTER_EVENT(SpriteShadingPreDraw);
     REGISTER_EVENT(EntityPreUpdate);
     REGISTER_EVENT(EntityPostUpdate);
     REGISTER_EVENT(EntityPreDraw);
@@ -66,6 +68,8 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnSaveFileSave);
     REGISTER_EVENT(OnSaveFileLoad);
     REGISTER_EVENT(OnSaveFileErase);
+    REGISTER_EVENT(OnSaveGlobalsSave);
+    REGISTER_EVENT(OnSaveGlobalsLoad);
     REGISTER_EVENT(OnPlayerDamageReceived);
     REGISTER_EVENT(OnPlayerFPChange);
     REGISTER_EVENT(OnPlayerSPChange);
@@ -74,6 +78,7 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnBattleEffectsRemoved);
     REGISTER_EVENT(OnBlockWindowCheck);
     REGISTER_EVENT(OnActionCommandDifficulty);
+    REGISTER_EVENT(OnPowerBounceChance);
     REGISTER_EVENT(OnStarPointDrop);
     REGISTER_EVENT(OnCoinDrop);
     REGISTER_EVENT(OnMapLoad);
