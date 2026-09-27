@@ -44,6 +44,15 @@ void PaperboatMenu::AddMenuEnhancements() {
         .CVar(CVAR_CHEAT("MaxStarPower"))
         .Options(CheckboxOptions().Tooltip("Star Power stays full and won't decrease."));
 
+    AddWidget(path, "Max Power Bounce Chance", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_CHEAT("MaxPowerBounceChance"))
+        .Options(
+            CheckboxOptions().Tooltip(
+                "Power Bounce's chance to continue stays full, so a chain only ends when you miss the timing or "
+                "reach the bounce limit."
+            )
+        );
+
     // Enhancements > Gameplay
     path = { "Enhancements", "Gameplay", SECTION_COLUMN_1 };
     AddSidebarEntry("Enhancements", path.sidebarName, 2);
