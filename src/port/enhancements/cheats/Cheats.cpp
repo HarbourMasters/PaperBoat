@@ -2,6 +2,14 @@
 #include "port/ui/cvar_prefixes.h"
 #include "port/ShipInit.hpp"
 
+#include <algorithm>
+
+extern "C" {
+#include "common_structs.h"
+
+extern BattleStatus gBattleStatus;
+}
+
 void RegisterCheats_Init() {
     REGISTER_LISTENER(OnPlayerDamageReceived, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
         OnPlayerDamageReceived* ev = (OnPlayerDamageReceived*) event;
@@ -50,7 +58,8 @@ void RegisterCheats_Init() {
             return;
         }
 
-        *ev->count *= 2;
+        int32_t room = 100 - gBattleStatus.totalStarPoints - gBattleStatus.pendingStarPoints;
+        *ev->count = (std::max) (0, (std::min) (*ev->count * 2, room));
     });
 
     REGISTER_LISTENER(OnCoinDrop, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
