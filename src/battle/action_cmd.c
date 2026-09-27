@@ -100,6 +100,8 @@ s32 adjust_action_command_difficulty(s32 difficultyLevel) {
         difficultyLevel -= is_ability_active(ABILITY_DODGE_MASTER) * 3;
     }
 
+    CALL_EVENT(OnActionCommandDifficulty, &difficultyLevel);
+
     if (difficultyLevel < 0) {
         difficultyLevel = 0;
     }
@@ -567,6 +569,8 @@ s32 check_block_input(s32 buttonMask) {
     if (!(gBattleStatus.flags1 & BS_FLAGS1_PARTNER_ACTING) && is_ability_active(ABILITY_DODGE_MASTER)) {
         blockWindow = 5;
     }
+
+    CALL_EVENT(OnBlockWindowCheck, &blockWindow, &mashWindow);
 
     // Pre-window mashing check
     bufferPos = battleStatus->inputBufferPos;

@@ -327,6 +327,9 @@ void gfx_draw_background(void) {
     camera = &gCameras[gCurrentCameraID];
     bgRenderState = gGameStatusPtr->backgroundFlags & BACKGROUND_RENDER_STATE_MASK;
 
+    // port_appendGfx_pause_background
+    CALL_CANCELLABLE_RETURN_EVENT(BackgroundPreDraw, bgRenderState);
+
     switch (bgRenderState) {
         case BACKGROUND_RENDER_STATE_BEGIN_PAUSED:
             // Save coverage to nunGfxCfb[1] using the VISCVG render mode
@@ -413,6 +416,11 @@ void gfx_draw_background(void) {
             backgroundMinY = gGameStatusPtr->backgroundMinY;
             backgroundMaxY = backgroundMinY + gGameStatusPtr->backgroundMaxY;
             viewportStartX = camera->viewportStartX;
+
+            if (port_cam_full_height(gCurrentCameraID)) {
+                backgroundMinY = 0;
+                backgroundMaxY = SCREEN_HEIGHT;
+            }
 
             if (backgroundMinX < viewportStartX) {
                 backgroundMinX = viewportStartX;

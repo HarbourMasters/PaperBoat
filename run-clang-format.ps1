@@ -1,9 +1,9 @@
 Using Namespace System
 
-$url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/LLVM-14.0.6-win64.exe"
-$llvmInstallerPath = ".\LLVM-14.0.6-win64.exe"
+$url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.8/LLVM-21.1.8-win64.exe"
+$llvmInstallerPath = ".\LLVM-21.1.8-win64.exe"
 $clangFormatFilePath = ".\clang-format.exe"
-$requiredVersion = "clang-format version 14.0.6"
+$requiredVersion = "clang-format version 21.1.8"
 $currentVersion = ""
 
 # --- Dynamically find 7-Zip anywhere in PATH ---
@@ -48,15 +48,15 @@ if (-not (Test-Path $clangFormatFilePath)) {
 }
 
 $basePath = Join-Path (Get-Location).Path "src/port"
-$files = Get-ChildItem -Path $basePath -Recurse -File `
+$files = @(Get-ChildItem -Path $basePath -Recurse -File `
     | Where-Object { ($_.Extension -eq '.c' -or $_.Extension -eq '.cpp' -or `
                       (($_.Extension -eq '.h' -or $_.Extension -eq '.hpp') -and `
                        (-not ($_.FullName -like "*\src\*" -or $_.FullName -like "*\include\*")))) -and `
-                     (-not ($_.FullName -like "*\assets\*" -or $_.FullName -like "*\build\*")) }
+                     (-not ($_.FullName -like "*\assets\*" -or $_.FullName -like "*\build\*")) })
 
-for ($i = 0; $i -lt $files.Length; $i++) {
+for ($i = 0; $i -lt $files.Count; $i++) {
     $file = $files[$i]
     $relativePath = $file.FullName.Substring($basePath.Length + 1)
-    Write-Host "Formatting [$($i+1)/$($files.Length)] $relativePath"
+    Write-Host "Formatting [$($i+1)/$($files.Count)] $relativePath"
     .\clang-format.exe -i $file.FullName
 }

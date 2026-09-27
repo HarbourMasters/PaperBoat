@@ -176,6 +176,35 @@ DEFINE_EVENT(TheaterPostDraw);
 DEFINE_EVENT(CurtainsPreDraw);
 DEFINE_EVENT(CurtainsPostDraw);
 
+DEFINE_EVENT(BackgroundPreDraw,
+    int32_t bgRenderState;
+);
+
+DEFINE_EVENT(CameraPerspective,
+    s32 camID;
+    Camera* camera;
+    f32* aspect;
+);
+
+DEFINE_EVENT(CameraFitViewport,
+    s32 camID;
+    Camera* camera;
+);
+
+DEFINE_EVENT(CameraSetViewport,
+    s32 camID;
+    s16* x;
+    s16* y;
+    s16* width;
+    s16* height;
+);
+
+DEFINE_EVENT(BattleMenuDrawReel,
+    s32 hid;
+    s32 x;
+    s32 y;
+);
+
 DEFINE_EVENT(VanillaBehavior,
     VBehaviorID id;
     bool* should;

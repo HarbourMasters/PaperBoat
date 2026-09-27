@@ -52,7 +52,12 @@ extern "C" {
  * and a torn read self-corrects on the next poll.
  */
 JNIEXPORT jboolean JNICALL Java_dev_net64_paperboat_MainActivity_isMenuOpen(JNIEnv*, jobject) {
-    auto window = Ship::Context::GetRawInstance()->GetWindow();
+    auto context = Ship::Context::GetRawInstance();
+    if (context == nullptr) {
+        return JNI_FALSE;
+    }
+
+    auto window = context->GetWindow();
     if (window == nullptr) {
         return JNI_FALSE;
     }

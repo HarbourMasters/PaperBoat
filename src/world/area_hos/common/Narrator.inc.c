@@ -32,6 +32,10 @@ void N(UpdateIntroMessages)(IntroMessage** introMessageLists) {
         N(CurMessageList) = introMessageLists[IntroMessageIdx];
     }
 
+    if (N(CurMessageList)->messageID == MSG_NONE) {
+        N(IntroMessageState) = INTRO_MSG_STATE_DONE;
+    }
+
     switch (N(IntroMessageState)) {
         case INTRO_MSG_STATE_APPEAR:
             if (N(CurMessageList)->messageID == INTRO_MSG_BLANK) {

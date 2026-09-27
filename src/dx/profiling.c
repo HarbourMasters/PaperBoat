@@ -392,8 +392,8 @@ void profiler_print_times() {
         text_buffer_labels[1] = text_buffer_time[1] = MSG_READ_FUNC_SIZE;
         text_buffer_labels[2] = text_buffer_time[2] = 14;
         text_buffer_labels[3] = text_buffer_time[3] = 14;
-        draw_msg((s32)&text_buffer_labels, 3, 0, 255, 0, 0);
-        draw_msg((s32)&text_buffer_time, 110, 0, 255, 0, 0);
+        draw_msg((intptr_t)&text_buffer_labels, 3, 0, 255, 0, 0);
+        draw_msg((intptr_t)&text_buffer_time, 110, 0, 255, 0, 0);
 
 #ifdef GFX_PROFILING
         s32 time_offset = 100;
@@ -479,8 +479,8 @@ void profiler_print_times() {
         text_buffer_labels[1] = text_buffer_time[1] = MSG_READ_FUNC_SIZE;
         text_buffer_labels[2] = text_buffer_time[2] = 14;
         text_buffer_labels[3] = text_buffer_time[3] = 14;
-        draw_msg((s32)&text_buffer_labels, SCREEN_WIDTH/2, 0, 255, 0, 0);
-        draw_msg((s32)&text_buffer_time, SCREEN_WIDTH/2 + time_offset, 0, 255, 0, 0);
+        draw_msg((intptr_t)&text_buffer_labels, SCREEN_WIDTH/2, 0, 255, 0, 0);
+        draw_msg((intptr_t)&text_buffer_time, SCREEN_WIDTH/2 + time_offset, 0, 255, 0, 0);
     }
 }
 

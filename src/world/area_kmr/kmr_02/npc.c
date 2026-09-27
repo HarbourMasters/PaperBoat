@@ -1945,7 +1945,7 @@ NpcData N(NpcData_ChuckQuizmo) = {
     .pos = { -300.0f, 0.0f, 175.0f },
     .yaw = 90,
     .initVarCount = 1,
-    .initVar = { .bytes = { 0, QUIZ_AREA_KMR, QUIZ_COUNT_KMR, QUIZ_MAP_KMR_02 }},
+    .initVar = NPC_INIT_VAR_BYTES(0, QUIZ_AREA_KMR, QUIZ_COUNT_KMR, QUIZ_MAP_KMR_02),
     .settings = &N(NpcSettings_ChuckQuizmo),
     .flags = BASE_PASSIVE_FLAGS | ENEMY_FLAG_NO_SHADOW_RAYCAST | ENEMY_FLAG_HAS_NO_SPRITE | ENEMY_FLAG_DO_NOT_AUTO_FACE_PLAYER,
     .drops = NO_DROPS,

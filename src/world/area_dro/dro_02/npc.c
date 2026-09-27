@@ -537,7 +537,7 @@ NpcData N(PassiveNPCs)[] = {
         .pos = { -335.0f, 0.0f, 90.0f },
         .yaw = 270,
         .initVarCount = 1,
-        .initVar = { .bytes = { 0, QUIZ_AREA_DRO, QUIZ_COUNT_DRO, QUIZ_MAP_DRO_02 } },
+        .initVar = NPC_INIT_VAR_BYTES(0, QUIZ_AREA_DRO, QUIZ_COUNT_DRO, QUIZ_MAP_DRO_02),
         .settings = &N(NpcSettings_ChuckQuizmo),
         .flags = COMMON_PASSIVE_FLAGS | ENEMY_FLAG_NO_SHADOW_RAYCAST,
         .drops = NO_DROPS,

@@ -3,6 +3,10 @@
 
 #include "ultra64.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // OTR middleware — resolves __OTR__ asset paths at runtime
 void gSPVertexOTR(Gfx* pkt, uintptr_t v, int n, int v0);
 void gSPDisplayListOTR(Gfx* pkt, const void* dl);
@@ -222,5 +226,9 @@ void gbi_resolve_vtx_in_static_dl(Gfx* dl);
 		(((width)-1) << G_TEXTURE_IMAGE_FRAC) + scrolls,			\
 		((((height) >> 1)-1) << G_TEXTURE_IMAGE_FRAC)  + scrollt);		\
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

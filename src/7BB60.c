@@ -335,7 +335,9 @@ void player_handle_floor_collider_type(s32 colliderID) {
                 set_action_state(ACTION_STATE_LAND);
                 break;
             case SURFACE_TYPE_LAVA:
-                if ((*(s32*)(&partnerStatus->partnerActionState) & 0xFF0000FF) != 0x01000009) {
+                // port: This path executes when mario gets into lava, and couldn't find a place in the
+                // game to test this at all, I don't think it's reachable, nevertheless the byte order is fixed
+                if (partnerStatus->partnerActionState != PARTNER_ACTION_USE || partnerStatus->actingPartner != PARTNER_BOW) {
                     if (playerStatus->blinkTimer == 0) {
                         if (playerStatus->actionState != ACTION_STATE_HIT_LAVA) {
                             playerStatus->hazardType = HAZARD_TYPE_LAVA;
@@ -347,7 +349,9 @@ void player_handle_floor_collider_type(s32 colliderID) {
                 }
                 break;
             case SURFACE_TYPE_SPIKES:
-                if ((*(s32*)(&partnerStatus->partnerActionState) & 0xFF0000FF) != 0x01000009) {
+                // port: This path executes when mario flies into the spikes, and couldn't find a place in the
+                // game to test this at all, I don't think it's reachable, nevertheless the byte order is fixed
+                if (partnerStatus->partnerActionState != PARTNER_ACTION_USE || partnerStatus->actingPartner != PARTNER_BOW) {
                     if (playerStatus->blinkTimer == 0) {
                         if (playerStatus->actionState != ACTION_STATE_HIT_FIRE) {
                             playerStatus->hazardType = HAZARD_TYPE_SPIKES;

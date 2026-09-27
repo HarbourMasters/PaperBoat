@@ -78,7 +78,15 @@ If you're interested in creating and/or packing your own custom asset `.o2r`/`.o
 
 # Development
 
+### Building
 If you want to manually compile PaperBoat, please consult the [building instructions](docs/BUILDING.md).
+
+### Playtesting
+If you want to playtest a continuous integration build, you can find them at the links below. Keep in mind that these are for playtesting only, and you will likely encounter bugs and possibly crashes.
+
+* [Windows](https://nightly.link/HarbourMasters/PaperBoat/workflows/build/develop/Paperboat-windows.zip)
+* [macOS](https://nightly.link/HarbourMasters/PaperBoat/workflows/build/develop/Paperboat-mac.zip)
+* [Linux](https://nightly.link/HarbourMasters/PaperBoat/workflows/build/develop/Paperboat-linux.zip)
 
 <a href="https://github.com/Kenix3/libultraship/">
   <picture>
