@@ -3,6 +3,7 @@
 // taking osSetTimer port-side meant taking that whole object with it.
 
 #include "OS.h"
+#include "port/ui/TouchControls.h"
 
 #include <libultraship/libultraship.h>
 
@@ -61,6 +62,8 @@ extern "C" int OS_SiService(void) {
         std::lock_guard<std::mutex> lock(sLatchMutex);
         memset(sLatch, 0, sizeof(sLatch));
         Ship::Context::GetRawInstance()->GetControlDeck()->WriteToPad(sLatch);
+        // Merges the on-screen controls into port 0; no-op unless enabled.
+        TouchControls_ApplyPad(sLatch);
     }
     sLatchValid.store(true, std::memory_order_release);
     OS_SendEventMesg(OS_EVENT_SI);

@@ -80,7 +80,6 @@ class GameEngine {
     GameEngine();
     void StartFrame() const;
     void RenderGuiFrame() const;
-    void PollControllers() const;
     static void DrainRenderService();
     static void ShutdownRenderService();
     static bool GenAssetFile(bool exitOnFail = true);
@@ -138,13 +137,6 @@ void GameEngine_ProcessGfxCommands(void* commands);
 #endif
 void GameEngine_LogInfo(const char* fmt, ...);
 void GameEngine_LogStackTrace(const char* label);
-
-// Controller input - reads all 4 pads from libultraship ControlDeck
-#ifdef __cplusplus
-void GameEngine_ReadController(OSContPad* pads);
-#else
-void GameEngine_ReadController(void* pads);
-#endif
 
 // Invalidate GPU texture cache entry for a specific RAM address.
 // Call when player raster cache overwrites a buffer with new image data,
