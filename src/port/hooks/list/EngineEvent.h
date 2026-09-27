@@ -60,6 +60,8 @@ DEFINE_EVENT(MessagePostDraw,
     MessagePrintState* message;
 );
 
+DEFINE_EVENT(MessageTextFilterSet);
+
 DEFINE_EVENT(HudElementUpdate,
     HudElement* element;
     int32_t* result;

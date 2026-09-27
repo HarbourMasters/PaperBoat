@@ -29,6 +29,7 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(MessageDrawSetup);
     REGISTER_EVENT(MessagePreDraw);
     REGISTER_EVENT(MessagePostDraw);
+    REGISTER_EVENT(MessageTextFilterSet);
     REGISTER_EVENT(HudElementUpdate);
     REGISTER_EVENT(HudElementPreDraw);
     REGISTER_EVENT(HudElementPostDraw);

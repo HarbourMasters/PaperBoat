@@ -6,6 +6,7 @@
 #include "assets/ui.h"
 #include "port/Engine.h"
 #include "port/patches/Patches.h"
+#include "port/hooks/Events.h"
 
 //TODO get a real ceil
 s32 my_ceil(f32 f) {
@@ -79,7 +80,7 @@ Gfx D_8014C500[] = {
     gsDPSetCycleType(G_CYC_1CYCLE),
     gsDPSetRenderMode(G_RM_TEX_EDGE, G_RM_TEX_EDGE2),
     gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
-    gsDPSetTextureFilter(G_TF_POINT),
+    gsDPSetTextureFilter(G_TF_AVERAGE),
     gsSPTexture(-1, -1, 0, G_TX_RENDERTILE, G_ON),
     gsDPSetTexturePersp(G_TP_NONE),
     gsDPSetColorDither(G_CD_DISABLE),
@@ -902,7 +903,8 @@ void appendGfx_message(MessagePrintState* printer, s16 posX, s16 posY, u16 addit
                         msg_drawState->msgScale.x = 1.0f;
                         msg_drawState->msgScale.y = 1.0f;
                         msg_drawState->drawBufferPos++;
-                        gDPSetTextureFilter(gMainGfxPos++, G_TF_POINT);
+                        gDPSetTextureFilter(gMainGfxPos++, G_TF_AVERAGE);
+                        CALL_EVENT(MessageTextFilterSet);
                         break;
 #endif
                     case MSG_PRINT_FUNC_SET_X:
@@ -1241,6 +1243,7 @@ void appendGfx_message(MessagePrintState* printer, s16 posX, s16 posY, u16 addit
                     sp96 = 0xFF;
                     gDPPipeSync(gMainGfxPos++);
                     gSPDisplayList(gMainGfxPos++, D_8014C500);
+                    CALL_EVENT(MessageTextFilterSet);
                 }
                 msg_drawState->charScale.x = msg_drawState->msgScale.x;
                 msg_drawState->charScale.y = msg_drawState->msgScale.y;
@@ -1624,6 +1627,7 @@ void appendGfx_message(MessagePrintState* printer, s16 posX, s16 posY, u16 addit
 void msg_reset_gfx_state(void) {
     gDPPipeSync(gMainGfxPos++);
     gSPDisplayList(gMainGfxPos++, D_8014C500);
+    CALL_EVENT(MessageTextFilterSet);
 }
 
 void msg_draw_char(MessagePrintState* printer, MessageDrawState* drawState, s32 charIndex, s32 palette, s32 posX, s32 posY) {
