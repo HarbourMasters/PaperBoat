@@ -48,8 +48,8 @@ void PaperboatMenu::AddMenuEnhancements() {
         .CVar(CVAR_CHEAT("MaxPowerBounceChance"))
         .Options(
             CheckboxOptions().Tooltip(
-                "Power Bounce's chance to continue stays full, so a chain only ends when you miss the timing or "
-                "reach the bounce limit."
+                "Power Bounce's and Goombario's Multibonk's chance to continue stays full, so a chain only ends "
+                "when you miss the timing or reach the bounce limit."
             )
         );
 
