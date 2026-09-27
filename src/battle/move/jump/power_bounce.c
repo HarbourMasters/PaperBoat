@@ -26,7 +26,7 @@ API_CALLABLE(N(GetHitChance)) {
     N(BaseHitChance) = N(BaseHitChance) * powerBounceChance / 100;
 
     // Power bounce cheat
-    CALL_EVENT(OnPowerBounceChance, &N(BaseHitChance));
+    CALL_EVENT(OnPowerBounceChance, &N(BaseHitChance), targetActor->actorBlueprint->powerBounceChance);
 
     if (N(BaseHitChance) < rand_int(100)) {
         script->varTable[0] = 0;

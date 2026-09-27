@@ -46,7 +46,7 @@ void RegisterCheats_Init() {
     REGISTER_LISTENER(OnPowerBounceChance, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
         OnPowerBounceChance* ev = (OnPowerBounceChance*) event;
 
-        if (!CVarGetInteger(CVAR_CHEAT("MaxPowerBounceChance"), 0)) {
+        if (!CVarGetInteger(CVAR_CHEAT("MaxPowerBounceChance"), 0) || ev->targetChance == 0) {
             return;
         }
 

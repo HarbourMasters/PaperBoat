@@ -55,6 +55,7 @@ DEFINE_EVENT(OnActionCommandDifficulty,
 
 DEFINE_EVENT(OnPowerBounceChance,
     int32_t* hitChance;
+    int32_t targetChance;
 );
 
 // World

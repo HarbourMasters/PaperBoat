@@ -70,7 +70,7 @@ API_CALLABLE(N(AdjustMultibonkChance)) {
     N(MultibonkChance) /= 100;
 
     // Power bounce cheat
-    CALL_EVENT(OnPowerBounceChance, &N(MultibonkChance));
+    CALL_EVENT(OnPowerBounceChance, &N(MultibonkChance), targetActor->actorBlueprint->powerBounceChance);
 
     if (N(MultibonkChance) < rand_int(100)) {
         script->varTable[0] = 0;
