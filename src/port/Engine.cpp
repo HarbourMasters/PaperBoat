@@ -16,7 +16,6 @@
 #include "src/Companion.h"
 #include "ui/PaperboatGui.hpp"
 #include "ui/PaperboatModMenuWindow.h"
-#include "ui/TouchControls.h"
 #ifdef __EMSCRIPTEN__
 #include "port/web/WebUtils.h"
 #endif
@@ -948,7 +947,6 @@ static void ApplyDPadAsLeftStick(bool enabled) {
 
 void GameEngine::StartFrame() const {
     Ship::Context::GetRawInstance()->GetWindow()->HandleEvents();
-    PollControllers();
 
     const bool altAssets = CVarGetInteger("gEnhancements.Mods.AlternateAssets", 0) != 0;
     if (altAssets != mPrevAltAssets) {
@@ -1239,8 +1237,6 @@ std::atomic<bool> sSvcShutdown { false };
 SDL_threadID sWindowThread = 0;
 std::mutex sInvalidateMutex;
 std::vector<const void*> sInvalidateAddrs;
-std::mutex sPadMutex;
-OSContPad sPads[MAXCONTROLLERS] = {};
 } // namespace
 
 void GameEngine::DrainRenderService() {
@@ -1314,24 +1310,6 @@ void GameEngine::RenderGuiFrame() const {
     gui->EndDraw();
     wnd->EndFrame();
     OS_ViNotifyPresent();
-}
-
-void GameEngine::PollControllers() const {
-    OSContPad pads[MAXCONTROLLERS] = {};
-    auto controlDeck = Ship::Context::GetRawInstance()->GetControlDeck();
-    if (controlDeck != nullptr) {
-        controlDeck->WriteToPad(pads);
-    }
-    // Merges the on-screen controls into port 0; no-op unless enabled.
-    TouchControls_ApplyPad(pads);
-    std::lock_guard<std::mutex> lock(sPadMutex);
-    memcpy(sPads, pads, sizeof(sPads));
-}
-
-// C-callable controller input reader
-extern "C" void GameEngine_ReadController(OSContPad* pads) {
-    std::lock_guard<std::mutex> lock(sPadMutex);
-    memcpy(pads, sPads, sizeof(sPads));
 }
 
 // C-callable memory allocator
