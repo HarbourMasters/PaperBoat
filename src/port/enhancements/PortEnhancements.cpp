@@ -32,6 +32,8 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(HudElementUpdate);
     REGISTER_EVENT(HudElementPreDraw);
     REGISTER_EVENT(HudElementPostDraw);
+    REGISTER_EVENT(SpriteComponentPreDraw);
+    REGISTER_EVENT(SpriteShadingPreDraw);
     REGISTER_EVENT(EntityPreUpdate);
     REGISTER_EVENT(EntityPostUpdate);
     REGISTER_EVENT(EntityPreDraw);
@@ -55,17 +57,30 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(TheaterPostDraw);
     REGISTER_EVENT(CurtainsPreDraw);
     REGISTER_EVENT(CurtainsPostDraw);
+    REGISTER_EVENT(BackgroundPreDraw);
+    REGISTER_EVENT(CameraPerspective);
+    REGISTER_EVENT(CameraFitViewport);
+    REGISTER_EVENT(CameraSetViewport);
+    REGISTER_EVENT(BattleMenuDrawReel);
     REGISTER_EVENT(VanillaBehavior);
 
     // Register game events
     REGISTER_EVENT(OnSaveFileSave);
     REGISTER_EVENT(OnSaveFileLoad);
     REGISTER_EVENT(OnSaveFileErase);
+    REGISTER_EVENT(OnSaveGlobalsSave);
+    REGISTER_EVENT(OnSaveGlobalsLoad);
     REGISTER_EVENT(OnPlayerDamageReceived);
     REGISTER_EVENT(OnPlayerFPChange);
     REGISTER_EVENT(OnPlayerSPChange);
     REGISTER_EVENT(OnPlayerBPCostCheck);
     REGISTER_EVENT(OnPostSaveFileLoad);
+    REGISTER_EVENT(OnBattleEffectsRemoved);
+    REGISTER_EVENT(OnBlockWindowCheck);
+    REGISTER_EVENT(OnActionCommandDifficulty);
+    REGISTER_EVENT(OnMapLoad);
+    REGISTER_EVENT(OnPlayerSpeedUpdate);
+    REGISTER_EVENT(OnMapReady);
 }
 
 void PortEnhancements_Exit() {

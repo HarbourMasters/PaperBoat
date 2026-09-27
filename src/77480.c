@@ -625,6 +625,9 @@ void update_player(void) {
     PlayerStatus* playerStatus = &gPlayerStatus;
     CollisionStatus* collisionStatus = &gCollisionStatus;
 
+    // Sprint enhancement
+    CALL_EVENT(OnPlayerSpeedUpdate, &playerStatus->walkSpeed, &playerStatus->runSpeed);
+
     #if DX_DEBUG_MENU
     if (dx_debug_is_cheat_enabled(DEBUG_CHEAT_SPEED_MODE)) {
         gPlayerStatus.walkSpeed = 6.0f;

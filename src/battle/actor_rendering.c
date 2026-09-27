@@ -11,6 +11,26 @@ enum StandardPalettes {
     STANDARD_PAL_STATIC     = 3,
 };
 
+static void port_use_named_palettes(DecorationTable* decorations, s32 set) {
+    s32 n = decorations->spriteColorVariations;
+    s32 i;
+
+    for (i = 0; i < decorations->originalPalettesCount; i++) {
+        decorations->adjustedPalettes[i] = decorations->originalPalettesList[i < n ? n * set + i : i];
+    }
+}
+
+// a palette lerped between two sets has no name, so Fast3D gets both ends and the alpha
+static void port_blend_named_palettes(DecorationTable* decorations, s32 from, s32 to, s32 alpha) {
+    s32 n = decorations->spriteColorVariations;
+    s32 i;
+
+    for (i = 0; i < n; i++) {
+        gDPPaletteBlend(gMainGfxPos++, decorations->adjustedPalettes[i], decorations->originalPalettesList[n * from + i],
+                        decorations->originalPalettesList[n * to + i], alpha);
+    }
+}
+
 // lerp from A to B as alpha does from 0 to 255
 #define LERP_COMPONENT(a, b, alpha) ((a) * (255 - (alpha)) + (b) * (alpha)) / 255;
 
@@ -2011,7 +2031,7 @@ void make_flash_palettes(ActorPart* part) {
 
     for (i = 0; i < decorations->originalPalettesCount; i++) {
         if (decorations->adjustedPalettes[i] != nullptr) {
-            src = decorations->adjustedPalettes[i];
+            src = port_sprite_palette_data(decorations->adjustedPalettes[i]);
             dest = decorations->copiedPalettes[1][i];
 
             for (j = 0; j < SPR_PAL_SIZE; j++) {
@@ -2339,6 +2359,11 @@ void render_with_static_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Matr
     for (i = 0; i < decorations->originalPalettesCount; i++) {
         decorations->adjustedPalettes[i] = decorations->copiedPalettes[0][i];
     }
+    if (paletteType == STATIC_DEFAULT) {
+        port_use_named_palettes(decorations, 0);
+    } else if (paletteType == STATIC_BRIGHT) {
+        port_use_named_palettes(decorations, STANDARD_PAL_STATIC);
+    }
 
     if (isNpcSprite == SPRITE_MODE_PLAYER) {
         func_unkB_draw_player(part, yaw, mtx);
@@ -2467,9 +2492,7 @@ void render_with_poison_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Matr
         }
     }
 
-    for (i = 0; i < decorations->originalPalettesCount; i++) {
-        decorations->adjustedPalettes[i] = decorations->copiedPalettes[0][i];
-    }
+    port_use_named_palettes(decorations, STANDARD_PAL_POISON);
 
     if (isNpcSprite == SPRITE_MODE_PLAYER) {
         func_unkB_draw_player(part, yaw, mtx);
@@ -2738,6 +2761,13 @@ void render_with_watt_idle_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, M
     for (i = 0; i < decorations->originalPalettesCount; i++) {
         decorations->adjustedPalettes[i] = decorations->copiedPalettes[0][i];
     }
+    if (brightnessLevel == WATT_DEFAULT) {
+        port_use_named_palettes(decorations, 0);
+    } else if (brightnessLevel == WATT_BRIGHTEST) {
+        port_use_named_palettes(decorations, SPR_PAL_BattleWatt_Brightest);
+    } else if (brightnessLevel == WATT_BRIGHTER) {
+        port_use_named_palettes(decorations, SPR_PAL_BattleWatt_Brighter);
+    }
 
     if (isNpcSprite == SPRITE_MODE_PLAYER) {
         func_unkB_draw_player(part, yaw, mtx);
@@ -2848,6 +2878,13 @@ void render_with_watt_attack_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw,
 
     for (i = 0; i < decorations->originalPalettesCount; i++) {
         decorations->adjustedPalettes[i] = decorations->copiedPalettes[0][i];
+    }
+    if (brightness == WATT_DEFAULT) {
+        port_use_named_palettes(decorations, 0);
+    } else if (brightness == WATT_BRIGHTEST) {
+        port_use_named_palettes(decorations, SPR_PAL_BattleWatt_Brightest);
+    } else if (brightness == WATT_BRIGHTER) {
+        port_use_named_palettes(decorations, SPR_PAL_BattleWatt_Brighter);
     }
 
     if (isNpcSprite == SPRITE_MODE_PLAYER) {
@@ -2973,6 +3010,14 @@ void render_with_player_debuff_palettes(b32 isNpcSprite, ActorPart* part, s32 ya
     for (i = 0; i < decorations->originalPalettesCount; i++) {
         decorations->adjustedPalettes[i] = decorations->copiedPalettes[0][i];
     }
+    if (decorations->palAnimState == 1) {
+        port_use_named_palettes(decorations, STANDARD_PAL_DIZZY);
+    } else if (decorations->palBlendAlpha == 0) {
+        port_use_named_palettes(decorations, isPoison ? STANDARD_PAL_POISON : 0);
+    } else {
+        port_blend_named_palettes(decorations, isPoison ? STANDARD_PAL_POISON : 0, STANDARD_PAL_DIZZY,
+                                  decorations->palBlendAlpha / 100);
+    }
 
     switch (decorations->palAnimState) {
         case 0:
@@ -3041,6 +3086,7 @@ void render_with_pal_blending(b32 isNpcSprite, ActorPart* part, s32 yaw, b32 has
         decorations->palBlendAlpha = 0;
         decorations->palAnimState = PAL_SWAP_HOLD_A;
         decorations->resetPalAdjust = false;
+        port_use_named_palettes(decorations, 0);
     }
 
     // blending from A -> B
@@ -3145,6 +3191,26 @@ void render_with_pal_blending(b32 isNpcSprite, ActorPart* part, s32 yaw, b32 has
             break;
     }
 
+    // a hold is on B, or on A once a cycle has run (the original palette until then)
+    switch (decorations->palAnimState) {
+        case PAL_SWAP_HOLD_A:
+            if (decorations->palBlendAlpha != 0) {
+                decorations->adjustedPalettes[0] = decorations->originalPalettesList[decorations->blendPalA];
+            }
+            break;
+        case PAL_SWAP_A_TO_B:
+            gDPPaletteBlend(gMainGfxPos++, decorations->adjustedPalettes[0], decorations->originalPalettesList[decorations->blendPalA],
+                            decorations->originalPalettesList[decorations->blendPalB], decorations->palBlendAlpha / 100);
+            break;
+        case PAL_SWAP_HOLD_B:
+            decorations->adjustedPalettes[0] = decorations->originalPalettesList[decorations->blendPalB];
+            break;
+        case PAL_SWAP_B_TO_A:
+            gDPPaletteBlend(gMainGfxPos++, decorations->adjustedPalettes[0], decorations->originalPalettesList[decorations->blendPalB],
+                            decorations->originalPalettesList[decorations->blendPalA], decorations->palBlendAlpha / 100);
+            break;
+    }
+
     switch (decorations->palAnimState) {
         case PAL_SWAP_HOLD_A:
         case PAL_SWAP_A_TO_B:
@@ -3209,6 +3275,7 @@ void render_with_palset_blending(b32 isNpcSprite, ActorPart* part, s32 yaw, Matr
         decorations->palBlendAlpha = 0;
         decorations->palAnimState = PAL_SWAP_HOLD_A;
         decorations->resetPalAdjust = false;
+        port_use_named_palettes(decorations, 0);
     }
 
     // blending from A -> B
@@ -3313,6 +3380,23 @@ void render_with_palset_blending(b32 isNpcSprite, ActorPart* part, s32 yaw, Matr
                 decorations->palAnimState = PAL_SWAP_HOLD_A;
                 decorations->nextPalTime = decorations->palswapTimeHoldA;
             }
+            break;
+    }
+
+    // both lerps run A to B, so once one has run a hold is on set B (the originals until then)
+    switch (decorations->palAnimState) {
+        case PAL_SWAP_HOLD_A:
+            if (decorations->palBlendAlpha == 0) {
+                break;
+            }
+            // fallthrough
+        case PAL_SWAP_HOLD_B:
+            port_use_named_palettes(decorations, decorations->blendPalB);
+            break;
+        case PAL_SWAP_A_TO_B:
+        case PAL_SWAP_B_TO_A:
+            port_blend_named_palettes(decorations, decorations->blendPalA, decorations->blendPalB,
+                                      decorations->palBlendAlpha / 100);
             break;
     }
 

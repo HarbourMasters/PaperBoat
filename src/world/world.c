@@ -126,6 +126,7 @@ void load_map_by_IDs(s16 areaID, s16 mapID, s16 loadType) {
     if (mapConfig->dmaStart != nullptr) {
         dma_copy(mapConfig->dmaStart, mapConfig->dmaEnd, mapConfig->dmaDest);
     }
+    CALL_EVENT(OnMapLoad, mapConfig->id);
 
     gMapSettings = *mapConfig->settings;
 
@@ -199,7 +200,7 @@ void load_map_by_IDs(s16 areaID, s16 mapID, s16 loadType) {
 
     gPlayerStatus.targetYaw = gPlayerStatus.curYaw;
 
-    sfx_set_reverb_mode(WorldReverbModeMapping[*(s32*)mapConfig->unk_1C & 0x3]);
+    sfx_set_reverb_mode(WorldReverbModeMapping[mapConfig->sfxReverb & 0x3]);
     sfx_reset_door_sounds();
 
     if (!skipLoadingAssets) {
@@ -230,6 +231,7 @@ void load_map_by_IDs(s16 areaID, s16 mapID, s16 loadType) {
     initialize_status_bar();
     gGameStatusPtr->unk_90 = 1000;
     gGameStatusPtr->unk_92 = 1000;
+    CALL_EVENT(OnMapReady, mapConfig->id);
     gGameStatusPtr->mainScriptID = start_script_in_group(mapSettings->main, EVT_PRIORITY_0, 0, EVT_GROUP_NEVER_PAUSE)->id;
 }
 

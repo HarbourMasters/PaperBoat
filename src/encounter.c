@@ -2542,7 +2542,7 @@ void create_encounters(void) {
                     enemy->npcID = npcData->id;
                     npcSettings = enemy->npcSettings = npcData->settings;
                     enemy->drops = &npcData->drops;
-                    if ((*(s16*)(&npcData->drops) & 0xFF00) != 0x8000) { //TODO s16?
+                    if (npcData->drops.dropFlags != NPC_DROP_FLAG_80) {
                         enemy->drops = &DefaultEnemyDrops;
                     }
                     enemy->encountered = 0;

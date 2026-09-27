@@ -1,6 +1,8 @@
 #include "battle/battle.h"
 #include "battle_hud_scripts.h"
+#include "port/patches/Patches.h"
 
+#define BTL_MENU_Y(y) ((y) + port_btl_menu_y())
 #define MENU_CAPACITY 6
 
 #define WHEEL_SPACING (28.0f)
@@ -405,7 +407,7 @@ s32 btl_main_menu_update(void) {
                         add_vec2D_polar(&x, &y, WHEEL_RADIUS, BattleMenu_WheelBase * WHEEL_SPACING);
 
                         l = BattleMenu_BasePosX + x;
-                        t = BattleMenu_BasePosY + y;
+                        t = BTL_MENU_Y(BattleMenu_BasePosY) + y;
                         hid = HID_OptionIcons[i];
                         hud_element_set_render_pos(hid, l, t);
                         hud_element_clear_flags(hid, HUD_ELEMENT_FLAG_DISABLED);
@@ -421,7 +423,7 @@ s32 btl_main_menu_update(void) {
                     add_vec2D_polar(&x, &y, WHEEL_RADIUS, BattleMenu_WheelBase * WHEEL_SPACING);
 
                     l = BattleMenu_BasePosX + x;
-                    t = BattleMenu_BasePosY + y;
+                    t = BTL_MENU_Y(BattleMenu_BasePosY) + y;
                     hid = HID_HighlightSpot;
                     hud_element_set_render_pos(hid, l, t);
                     hud_element_set_alpha(hid, 180);
@@ -512,11 +514,17 @@ void btl_main_menu_draw(void) {
             hid = HID_ProjectorReelB;
             hud_element_set_transform_rotation(hid, 0.0f, 0.0f, 0.0f);
             hud_element_set_alpha(hid, (BattleMenu_ReelAlpha * 254) / 255);
-            hud_element_set_render_pos(hid, 40 - BattleMenu_ReelHidePercent + 3900, BattleMenu_ReelHidePercent + 212);
+            hud_element_set_render_pos(hid, 40 - BattleMenu_ReelHidePercent + 3900,
+                                       BTL_MENU_Y(BattleMenu_ReelHidePercent + 212));
             hud_element_draw_complex_hud_next(hid);
             hid = HID_ProjectorReelA;
             hud_element_set_alpha(hid, (BattleMenu_ReelAlpha * 254) / 255);
-            hud_element_set_render_pos(hid, 40 - BattleMenu_ReelHidePercent, BattleMenu_ReelHidePercent + 212);
+            {
+                CALL_EVENT(BattleMenuDrawReel, hid, 40 - BattleMenu_ReelHidePercent,
+                           BTL_MENU_Y(BattleMenu_ReelHidePercent + 212));
+            }
+            hud_element_set_render_pos(hid, 40 - BattleMenu_ReelHidePercent,
+                                       BTL_MENU_Y(BattleMenu_ReelHidePercent + 212));
             hud_element_draw_complex_hud_next(hid);
             break;
         case BTL_MENU_STATE_SUBMENU_OPEN:
@@ -560,7 +568,7 @@ void btl_main_menu_draw(void) {
                 y = 0.0f;
                 add_vec2D_polar(&x, &y, WHEEL_RADIUS, theta);
                 x += BattleMenu_BasePosX;
-                y += BattleMenu_BasePosY;
+                y += BTL_MENU_Y(BattleMenu_BasePosY);
 
                 hid = HID_Spotlights[i];
                 hud_element_set_transform_pos(hid, x, -y, 0.0f);
@@ -580,7 +588,7 @@ void btl_main_menu_draw(void) {
                     y = 0.0f;
                     add_vec2D_polar(&x, &y, WHEEL_RADIUS, 2 * WHEEL_SPACING);
                     x += BattleMenu_BasePosX;
-                    y += BattleMenu_BasePosY;
+                    y += BTL_MENU_Y(BattleMenu_BasePosY);
 
                     hid = HID_HighlightSpot;
                     hud_element_set_transform_pos(hid, x, -y, 0.0f);
@@ -610,7 +618,7 @@ void btl_main_menu_draw(void) {
             hud_element_set_scale(hid, scale);
             hud_element_set_transform_scale(hid, 1.0f, 1.8f, 1.0f);
             hud_element_set_alpha(hid, (opacity * 200) / 255);
-            hud_element_set_render_pos(hid, 79, 176);
+            hud_element_set_render_pos(hid, 79, BTL_MENU_Y(176));
             hud_element_draw_complex_hud_next(hid);
 
             hid = HID_ProjectorReelB;
@@ -620,12 +628,18 @@ void btl_main_menu_draw(void) {
             hud_element_set_transform_rotation_pivot(hid, 18, -20);
             hud_element_set_scale(hid, 0.95f);
             hud_element_set_alpha(hid, (opacity * 254) / 255);
-            hud_element_set_render_pos(hid, 40 - BattleMenu_ReelHidePercent, BattleMenu_ReelHidePercent + 212);
+            hud_element_set_render_pos(hid, 40 - BattleMenu_ReelHidePercent,
+                                       BTL_MENU_Y(BattleMenu_ReelHidePercent + 212));
             hud_element_draw_complex_hud_next(hid);
 
             hid = HID_ProjectorReelA;
             hud_element_set_alpha(hid, (opacity * 254) / 255);
-            hud_element_set_render_pos(hid, 40 - BattleMenu_ReelHidePercent, BattleMenu_ReelHidePercent + 212);
+            {
+                CALL_EVENT(BattleMenuDrawReel, hid, 40 - BattleMenu_ReelHidePercent,
+                           BTL_MENU_Y(BattleMenu_ReelHidePercent + 212));
+            }
+            hud_element_set_render_pos(hid, 40 - BattleMenu_ReelHidePercent,
+                                       BTL_MENU_Y(BattleMenu_ReelHidePercent + 212));
             hud_element_set_scale(hid, 1.0f);
             hud_element_draw_complex_hud_next(hid);
 
@@ -636,7 +650,7 @@ void btl_main_menu_draw(void) {
                 y = 0.0f;
                 add_vec2D_polar(&x, &y, WHEEL_RADIUS, theta);
                 x += BattleMenu_BasePosX;
-                y += BattleMenu_BasePosY;
+                y += BTL_MENU_Y(BattleMenu_BasePosY);
 
                 btl_draw_prim_quad(0, 0, 0, 0, x - 12, y - 12, 24, 24);
                 hid = HID_OptionIcons[i];
@@ -651,7 +665,7 @@ void btl_main_menu_draw(void) {
             // draw the names for each option
             if (wheelDoneMoving) {
                 x = BattleMenu_BasePosX + 20;
-                y = BattleMenu_BasePosY - 34;
+                y = BTL_MENU_Y(BattleMenu_BasePosY) - 34;
                 btl_draw_prim_quad(0, 0, 0, 0, x + 26, y, 48, 16);
                 draw_msg(WheelOptionName[BattleMenu_CurPos + BattleMenu_HomePos], x, y, opacity, MSG_PAL_35, 0);
             }
@@ -662,15 +676,19 @@ void btl_main_menu_draw(void) {
 
             if (BattleMenu_ShowSwapIcons) {
                 hid = HID_SwapBackground;
+                hud_element_set_render_pos(hid, 97, BTL_MENU_Y(208));
                 hud_element_set_alpha(hid, (opacity * 200) / 255);
                 hud_element_draw_clipped(hid);
                 hid = HID_SwapZ;
+                hud_element_set_render_pos(hid, 94, BTL_MENU_Y(209));
                 hud_element_set_alpha(hid, opacity);
                 hud_element_draw_clipped(hid);
                 hid = HID_SwapArrowLeft;
+                hud_element_set_render_pos(hid, 81, BTL_MENU_Y(210));
                 hud_element_set_alpha(hid, opacity);
                 hud_element_draw_clipped(hid);
                 hid = HID_SwapArrowRight;
+                hud_element_set_render_pos(hid, 102, BTL_MENU_Y(210));
                 hud_element_set_alpha(hid, opacity);
                 hud_element_draw_clipped(hid);
             }

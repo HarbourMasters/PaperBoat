@@ -2,8 +2,9 @@
 #include "hud_element.h"
 #include "dx/config.h"
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 
-#define FULLY_EXTENDED_Y  18
+#define FULLY_EXTENDED_Y  port_status_bar_y()
 #define FULLY_RETRACTED_Y -100
 
 enum BlinkModes {

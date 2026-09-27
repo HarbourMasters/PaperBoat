@@ -7,6 +7,7 @@
 #include "effects.h"
 #include "battle/states/states.h"
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 
 f32 StarPointsIncrementInterp = 0.0f;
 b8 BtlStarPointsBlinking = false;
@@ -718,7 +719,7 @@ void tattle_cam_pre_render(Camera* camera) {
         gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, scissorLeft, cam->viewportStartY, scissorRight - 1, cam->viewportStartY + cam->viewportH - 1);
         gDPPipeSync(gMainGfxPos++);
         if (!fogEnabled) {
-            gDPLoadTLUT_pal256(gMainGfxPos++, gGameStatusPtr->backgroundPalette);
+            gDPLoadTLUT_pal256(gMainGfxPos++, gBgPalettePath);
         } else {
             gDPLoadTLUT_pal256(gMainGfxPos++, gTattleBgPalette);
         }

@@ -28,6 +28,8 @@ EvtScript N(EVS_EndPeachChapter4) = {
     Call(PlaySound, SOUND_SLIDE_WHISTLE_OUT)
     Call(GotoMapSpecial, Ref("mac_04"), mac_04_ENTRY_5, TRANSITION_END_PEACH_INTERLUDE)
     Wait(100)
+    Return
+    End
 };
 
 EvtScript N(EVS_UpdateClockPendulum) = {

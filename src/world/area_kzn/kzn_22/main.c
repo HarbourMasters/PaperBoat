@@ -2,7 +2,7 @@
 
 #include "world/common/atomic/TexturePan.inc.c"
 
-EvtScript N(EVS_ExitWalk_kzn_20_1) = EVT_EXIT_WALK(60, kzn_22_ENTRY_0, "kzn_20", kzn_20_ENTRY_1);
+EvtScript N(EVS_ExitWalk_kzn_20_1) = EVT_EXIT_WALK_FIXED(60, kzn_22_ENTRY_0, "kzn_20", kzn_20_ENTRY_1);
 
 EvtScript N(EVS_BindExitTriggers) = {
     BindTrigger(N(EVS_ExitWalk_kzn_20_1), TRIGGER_FLOOR_TOUCH, COLLIDER_deili1, 1, 0)

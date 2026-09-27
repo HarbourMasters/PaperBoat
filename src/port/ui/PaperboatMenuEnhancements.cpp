@@ -6,6 +6,19 @@ extern std::shared_ptr<PaperboatMenu> mPaperboatMenu;
 
 using namespace UIWidgets;
 
+static const std::unordered_map<int32_t, const char*> blockWindowOptions = {
+    { 0, "Original (3 frames)" },
+    { 1, "Forgiving (7 frames)" },
+    { 2, "Very Forgiving (10 frames)" },
+};
+
+static const std::unordered_map<int32_t, const char*> actionCommandDifficultyOptions = {
+    { 0, "Original" },
+    { 1, "Forgiving (-1 level)" },
+    { 2, "Very Forgiving (-2 levels)" },
+    { 3, "Extremely Forgiving (-3 levels)" },
+};
+
 void PaperboatMenu::AddMenuEnhancements() {
     // Add Enhancements Menu
     AddMenuEntry("Enhancements", CVAR_SETTING("Menu.EnhancementsSidebarSection"));
@@ -33,31 +46,60 @@ void PaperboatMenu::AddMenuEnhancements() {
 
     // Enhancements > Gameplay
     path = { "Enhancements", "Gameplay", SECTION_COLUMN_1 };
-    AddSidebarEntry("Enhancements", path.sidebarName, 1);
+    AddSidebarEntry("Enhancements", path.sidebarName, 2);
     path.column = SECTION_COLUMN_1;
+
+    AddWidget(path, "DX: Prevent Loading Zone Storage", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("PreventLoadingZoneStorage"))
+        .Options(
+            CheckboxOptions().Tooltip(
+                "Locks out player input the moment a loading zone is triggered, which patches "
+                "out the Loading Zone Storage glitch. Off by default to match the original "
+                "game. Note that most loading zones also trigger while you are airborne above "
+                "them, so enabling this can freeze Mario in midair until he lands."
+            )
+        );
+
+    AddWidget(path, "Sprint Button", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("SprintButton"))
+        .Options(CheckboxOptions().Tooltip("Hold R to move at double speed in the overworld."));
+
+    AddWidget(path, "Action Command Difficulty", WIDGET_CVAR_COMBOBOX)
+        .CVar(CVAR_ENHANCEMENT("ActionCommandDifficulty"))
+        .Options(
+            ComboboxOptions()
+                .Tooltip(
+                    "Lowers the difficulty of attack action commands, which widens their input "
+                    "windows. Stacks with the Dodge Master badge."
+                )
+                .ComboMap(actionCommandDifficultyOptions)
+        );
+
+    AddWidget(path, "Block Window", WIDGET_CVAR_COMBOBOX)
+        .CVar(CVAR_ENHANCEMENT("BlockWindowMode"))
+        .Options(
+            ComboboxOptions()
+                .Tooltip(
+                    "Sets the window for timed defensive blocks. The default is 3 frames. Anything "
+                    "wider overrides the Dodge Master badge."
+                )
+                .ComboMap(blockWindowOptions)
+        );
 
     // Enhancements > Graphics
     path = { "Enhancements", "Graphics", SECTION_COLUMN_1 };
     AddSidebarEntry("Enhancements", "Graphics", 1);
 
-    AddWidget(path, "Mods", WIDGET_SEPARATOR_TEXT);
-    AddWidget(path, "Use Alternate Assets", WIDGET_CVAR_CHECKBOX)
-        .CVar("gEnhancements.Mods.AlternateAssets")
+    AddWidget(path, "Full Height View", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("Graphics.FullHeightView"))
         .Options(
-            CheckboxOptions().Tooltip(
-                "Toggle between standard assets and alternate assets. Usually mods "
-                "will indicate if "
-                "this setting has to be used or not."
-            )
+            CheckboxOptions().Tooltip("Removes the letterboxing bars on the top and bottom of the screen in gameplay.")
         );
-    AddWidget(path, "HD Texture Mipmaps", WIDGET_CVAR_CHECKBOX)
-        .CVar("gEnhancements.Mods.AutoMipmaps")
+
+    AddWidget(path, "Rounded Projector Reel", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("Graphics.RoundedReel"))
         .Options(
-            CheckboxOptions().DefaultValue(true).Tooltip(
-                "Generates mipmaps for HD replacement textures, which smooths them in "
-                "the distance. Turn it off if the GPU hangs while a texture pack is "
-                "enabled."
-            )
+            CheckboxOptions().Tooltip("Flips the battle projector reel to appear rounded for widescreen resolutions.")
         );
 }
 

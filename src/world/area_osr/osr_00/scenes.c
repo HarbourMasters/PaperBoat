@@ -1,5 +1,6 @@
 #include "osr_00.h"
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 #include "assets/charset.h"
 
 #include "sprite/npc/Luigi.h"
@@ -26,8 +27,8 @@ API_CALLABLE(N(func_802406E0_AACF10)) {
     memcpy(&N(PeachLetterImg), LOAD_ASSET(CHARSET_PEACH_LETTER), sizeof(N(PeachLetterImg)));
     memcpy(&N(PeachLetterPal), LOAD_ASSET(CHARSET_PEACH_LETTER_PAL), sizeof(N(PeachLetterPal)));
 
-    N(MsgImage).raster   = N(PeachLetterImg);
-    N(MsgImage).palette  = N(PeachLetterPal);
+    N(MsgImage).raster   = port_named_image(CHARSET_PEACH_LETTER, "_img", N(PeachLetterImg));
+    N(MsgImage).palette  = (PAL_PTR) port_named_image(CHARSET_PEACH_LETTER, "_img_tlut", N(PeachLetterPal));
     N(MsgImage).width    = CHARSET_PEACH_LETTER_WIDTH;
     N(MsgImage).height   = CHARSET_PEACH_LETTER_HEIGHT;
     N(MsgImage).format   = G_IM_FMT_CI;

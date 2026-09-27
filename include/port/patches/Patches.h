@@ -14,6 +14,8 @@ void port_emitPrevFrameCapture(Gfx** gfxP);
 void port_appendGfx_draw_prev_frame_buffer(s32 x1, s32 y1, s32 x2, s32 y2, f32 alpha);
 u16* port_getSceneMirrorSentinel(void);
 void port_emitSceneMirrorCapture(Gfx** gfxP);
+void port_appendGfx_pause_background(s32 bgRenderState);
+b32 port_isPauseBackgroundActive(void);
 
 // Static Gfx[] with VTXs
 void port_patch_dl(Gfx* dl);
@@ -46,6 +48,7 @@ IMG_PTR port_msg_glyph_raster(IMG_PTR glyph);
 PAL_PTR port_msg_glyph_palette(PAL_PTR palette);
 
 // Background (BackgroundPatches.c)
+extern char* gBgPalettePath;
 void port_load_map_bg(char* optAssetName);
 void port_appendGfx_background_texture(void);
 
@@ -77,6 +80,14 @@ void port_appendGfx_darkness_stencil(b32 isWorld, s32 posX, s32 posY, f32 alpha,
 // BufRead1`.
 ApiStatus LoadPtrFromArray(Evt* script, bool isInitialCall);
 ApiStatus StepTaggedAIWaveBuf(Evt* script, bool isInitialCall);
+
+// Full Height View (CameraPatches.cpp)
+b32 port_cam_full_height(s32 camID);
+b32 port_hud_full_height(void);
+s32 port_hud_clip_top(void);
+s32 port_hud_clip_bottom(void);
+s32 port_status_bar_y(void);
+s32 port_btl_menu_y(void);
 
 // Lava piranha vines (LavaPiranhaPatches.c)
 extern u8 PortLavaPiranhaVineBase[4][16];

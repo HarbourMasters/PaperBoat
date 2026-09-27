@@ -652,6 +652,21 @@ extern "C" {
 #define EVT_EXIT_WALK(walkDistance, exitIdx, map, entryIdx) \
     { \
         SetGroup(EVT_GROUP_EXIT_MAP) \
+        Call(DisableLoadingZoneInput, true) \
+        Call(UseExitHeading, walkDistance, exitIdx) \
+        Exec(ExitWalk) \
+        Call(GotoMap, Ref(map), entryIdx) \
+        Wait(100) \
+        Return \
+        End \
+    }
+
+// alternate version of EVT_EXIT_WALK which includes a call to DisablePlayerInput
+// kzn_08 and kzn_22 use this in the decomp, so it stays outside the
+// LZS enhancement
+#define EVT_EXIT_WALK_FIXED(walkDistance, exitIdx, map, entryIdx) \
+    { \
+        SetGroup(EVT_GROUP_EXIT_MAP) \
         Call(DisablePlayerInput, true) \
         Call(UseExitHeading, walkDistance, exitIdx) \
         Exec(ExitWalk) \

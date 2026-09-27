@@ -251,7 +251,7 @@ NpcData N(NpcData_Townsfolk)[] = {
         .pos = { -200.0f, 0.0f, 400.0f },
         .yaw = 90,
         .initVarCount = 1,
-        .initVar = { .bytes = { 0, QUIZ_AREA_HOS, QUIZ_COUNT_HOS, QUIZ_MAP_HOS_03 }},
+        .initVar = NPC_INIT_VAR_BYTES(0, QUIZ_AREA_HOS, QUIZ_COUNT_HOS, QUIZ_MAP_HOS_03),
         .settings = &N(NpcSettings_ChuckQuizmo),
         .flags = COMMON_PASSIVE_FLAGS | ENEMY_FLAG_NO_SHADOW_RAYCAST,
         .drops = NO_DROPS,

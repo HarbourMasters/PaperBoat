@@ -33,6 +33,8 @@ EvtScript N(EVS_EndPeachChapter7) = {
     Call(PlaySound, SOUND_SLIDE_WHISTLE_OUT)
     Call(GotoMapSpecial, Ref("pra_01"), pra_01_ENTRY_4, TRANSITION_END_PEACH_INTERLUDE)
     Wait(100)
+    Return
+    End
 };
 
 EvtScript N(EVS_ExitDoor_GrandHall) = {

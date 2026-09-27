@@ -51,7 +51,7 @@ ModelIDList N(LavaModelIDs) = {
     .list = { MODEL_yougan }
 };
 
-EvtScript N(EVS_ExitWalk_kzn_06) = EVT_EXIT_WALK(60, kzn_08_ENTRY_0, "kzn_06", kzn_06_ENTRY_2);
+EvtScript N(EVS_ExitWalk_kzn_06) = EVT_EXIT_WALK_FIXED(60, kzn_08_ENTRY_0, "kzn_06", kzn_06_ENTRY_2);
 
 EvtScript N(EVS_BindExitTriggers) = {
     BindTrigger(N(EVS_ExitWalk_kzn_06), TRIGGER_FLOOR_TOUCH, COLLIDER_deili1, 1, 0)

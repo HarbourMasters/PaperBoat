@@ -311,6 +311,7 @@ void remove_all_effects(void) {
             gEffectInstances[i] = nullptr;
         }
     }
+    CALL_EVENT(OnBattleEffectsRemoved);
 }
 
 s32 load_effect(s32 effectIndex) {
