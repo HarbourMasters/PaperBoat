@@ -1,5 +1,7 @@
 #include "common.h"
 #include "nu/nusys.h"
+#include "port/Engine.h"
+#include "port/os/OS.h"
 
 u32 nuGfxCfbNum = 1;
 NUGfxSwapCfbFunc nuGfxSwapCfbFunc = nullptr;
@@ -34,7 +36,10 @@ void nuGfxTaskMgr(void* data) {
 
     while (true) {
         osRecvMesg(&D_800DAC90, (OSMesg*)&task, OS_MESG_BLOCK);
-        msg = task->msg;
+        if (OS_ThreadShouldExit()) { // [port]
+            return;
+        }
+        msg = task->msg.ptr;
 
         switch (*msg) {
             case NU_SC_SWAPBUFFER_MSG:
@@ -117,17 +122,18 @@ void nuGfxTaskStart(Gfx* gfxList_ptr, u32 gfxListSize, u32 ucode, u32 flag) {
     beforeFlag = flag;
 
     if (flag & NU_SC_SWAPBUFFER) {
-        nuGfxTask_ptr->msg = (void*) &swapBufMsg;
+        nuGfxTask_ptr->msg = OS_MESG_PTR(&swapBufMsg);
         nuGfxCfbCounter = (nuGfxCfbCounter + 1) % nuGfxCfbNum;
         nuGfxCfb_ptr = nuGfxCfb[nuGfxCfbCounter];
     } else {
-        nuGfxTask_ptr->msg = (void*) &taskDoneMsg;
+        nuGfxTask_ptr->msg = OS_MESG_PTR(&taskDoneMsg);
     }
 
     mask = osSetIntMask(OS_IM_NONE);
     nuGfxTaskSpool++;
     osSetIntMask(mask);
     osWritebackDCacheAll();
-    osSendMesg(&nusched.graphicsRequestMQ, (void*) nuGfxTask_ptr, OS_MESG_BLOCK);
+    port_nuGfxOnSubmit(nuGfxTask_ptr); // [port]
+    osSendMesg(&nusched.graphicsRequestMQ, OS_MESG_PTR(nuGfxTask_ptr), OS_MESG_BLOCK);
     nuGfxTask_ptr = nuGfxTask_ptr->next;
 }

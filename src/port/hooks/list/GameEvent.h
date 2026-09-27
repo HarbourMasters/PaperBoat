@@ -15,6 +15,14 @@ DEFINE_EVENT(OnSaveFileErase,
     int32_t saveSlot;
 );
 
+DEFINE_EVENT(OnSaveGlobalsSave,
+    void* saveGlobals;
+);
+
+DEFINE_EVENT(OnSaveGlobalsLoad,
+    void* saveGlobals;
+);
+
 // Cheats
 DEFINE_EVENT(OnPlayerDamageReceived,
     int32_t* damage;
