@@ -32,6 +32,8 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(HudElementUpdate);
     REGISTER_EVENT(HudElementPreDraw);
     REGISTER_EVENT(HudElementPostDraw);
+    REGISTER_EVENT(SpriteComponentPreDraw);
+    REGISTER_EVENT(SpriteShadingPreDraw);
     REGISTER_EVENT(EntityPreUpdate);
     REGISTER_EVENT(EntityPostUpdate);
     REGISTER_EVENT(EntityPreDraw);
