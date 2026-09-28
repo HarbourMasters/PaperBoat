@@ -89,6 +89,11 @@ s32 port_hud_clip_bottom(void);
 s32 port_status_bar_y(void);
 s32 port_btl_menu_y(void);
 
+// World-anchored screen overlays (ScreenAnchorPatches.cpp)
+void port_rect_anchor_begin(const void* key, uintptr_t index, s32 x, s32 y);
+void port_rect_anchor_end(void);
+void port_wide_texture_rectangle(s32 ulx, s32 uly, s32 lrx, s32 lry, s32 tile, s32 s, s32 t, s32 dsdx, s32 dtdy);
+
 // Lava piranha vines (LavaPiranhaPatches.c)
 extern u8 PortLavaPiranhaVineBase[4][16];
 void port_lava_piranha_set_script(s32 vine, s32 index);

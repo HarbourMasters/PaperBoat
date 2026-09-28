@@ -21,7 +21,9 @@ void flower_splash_update_part_transform(FlowerFXData* effect) {
     guMtxCatF(tempMtx, transformMtx, transformMtx);
     guTranslateF(tempMtx, effect->pos.x, effect->pos.y, effect->pos.z);
     guMtxCatF(transformMtx, tempMtx, transformMtx);
+    FrameInterpolation_RecordOpenChild("flower_part", (uintptr_t)effect);
     guMtxF2L(transformMtx, &effect->transformMtx);
+    FrameInterpolation_RecordCloseChild();
 }
 
 void flower_splash_update_part(FlowerFXData* effect) {

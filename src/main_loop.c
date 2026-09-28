@@ -214,7 +214,9 @@ void gfx_draw_frame(void) {
     }
     FrameInterpolation_RecordCloseChild();
 
+    FrameInterpolation_RecordOpenChild("gfx_interact_prompts", 0);
     player_render_interact_prompts();
+    FrameInterpolation_RecordCloseChild();
     //func_802C3EE4();
 
     GFX_PROFILER_SWITCH(PROFILER_TIME_SUB_GFX_HUD_ELEMENTS, PROFILER_TIME_SUB_GFX_BACK_UI);

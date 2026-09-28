@@ -460,8 +460,10 @@ void update_entity_transform_matrix(Entity* entity) {
     Matrix4f sp158;
     Matrix4f sp198;
 
+    FrameInterpolation_RecordOpenChild("entity_transform", (uintptr_t)entity);
     if (entity->updateMatrixOverride != nullptr) {
         entity->updateMatrixOverride(entity);
+        FrameInterpolation_RecordCloseChild();
         return;
     }
 
@@ -475,6 +477,7 @@ void update_entity_transform_matrix(Entity* entity) {
     guMtxCatF(sp198, sp98, sp18);
     guMtxCatF(sp18, sp58, sp98);
     guMtxF2L(sp98, &entity->transformMatrix);
+    FrameInterpolation_RecordCloseChild();
 }
 
 void update_shadow_transform_matrix(Shadow* shadow) {
@@ -495,7 +498,9 @@ void update_shadow_transform_matrix(Shadow* shadow) {
     guScaleF(sp198, shadow->scale.x, shadow->scale.y, shadow->scale.z);
     guMtxCatF(sp198, sp98, sp18);
     guMtxCatF(sp18, sp58, sp98);
+    FrameInterpolation_RecordOpenChild("shadow_transform", (uintptr_t)shadow);
     guMtxF2L(sp98, &shadow->transformMatrix);
+    FrameInterpolation_RecordCloseChild();
 }
 
 void update_entity_inverse_rotation_matrix(Entity* entity) {

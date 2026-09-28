@@ -4,6 +4,7 @@
 #include "model.h"
 #include "pause/pause_common.h"
 #include "inventory.h"
+#include "port/patches/Patches.h"
 
 #if !VERSION_JP
 extern u8 MessagePlural[];
@@ -836,13 +837,17 @@ void draw_shop_items(void) {
                 }
 
                 if (!(get_item_entity(shopItemEntities->index)->flags & ITEM_ENTITY_FLAG_HIDDEN)) {
+                    port_rect_anchor_begin("shop_price", i, xTemp + xOffset, yTemp);
                     draw_number(itemData->price, xTemp + xOffset, yTemp, DRAW_NUMBER_CHARSET_THIN, MSG_PAL_WHITE, 255, 0);
+                    port_rect_anchor_end();
                 }
 
                 if (i == shop->curItemSlot) {
                     hud_element_set_render_pos(shop->costHID, (xTemp + xOffset) - 6, yTemp + 5);
                     hud_element_set_scale(shop->costHID, 0.7f);
+                    port_rect_anchor_begin("shop_cost_icon", i, xTemp + xOffset, yTemp);
                     hud_element_draw_clipped(shop->costHID);
+                    port_rect_anchor_end();
                 }
             }
         }
