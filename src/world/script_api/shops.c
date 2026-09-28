@@ -102,7 +102,7 @@ s32 shop_owner_buy_dialog(s32 messageIndex, s32 itemName, s32 coinCost, s32 bpCo
     set_message_text_var(itemName, 0);
     set_message_int_var(coinCost, 1);
 
-    if (bpCost > 0) {
+    if (bpCost >= 0) {
         set_message_int_var(bpCost, 2);
 #if !VERSION_JP
     } else {
