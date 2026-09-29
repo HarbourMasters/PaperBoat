@@ -39,7 +39,8 @@ jobs:
           sudo apt-get install -y gcc-14 g++-14 git cmake ninja-build lsb-release file \
             libsdl2-dev libsdl2-net-dev libpng-dev libzip-dev zipcmp zipmerge ziptool \
             nlohmann-json3-dev libtinyxml2-dev libspdlog-dev libfmt-dev libboost-dev \
-            libopengl-dev libgl1-mesa-dev libogg-dev libvorbis-dev zlib1g-dev libbz2-dev
+            libopengl-dev libgl1-mesa-dev libogg-dev libvorbis-dev zlib1g-dev libbz2-dev \
+            libvulkan-dev libshaderc-dev glslang-dev spirv-tools
 
       - name: ccache
         uses: hendrikmuhs/ccache-action@v1.2.24
@@ -144,6 +145,25 @@ jobs:
           path: |
             ~/AppData/Local/vcpkg/archives
 
+      - name: Cache Vulkan SDK
+        uses: actions/cache@v6
+        with:
+          key: windows-vulkan-sdk-v1
+          path: C:\VulkanSDK
+
+      - name: Install Vulkan SDK
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "C:\VulkanSDK\Lib")) {
+            $url = "https://sdk.lunarg.com/sdk/download/latest/windows/vulkan_sdk.exe"
+            Invoke-WebRequest -Uri $url -OutFile "$env:RUNNER_TEMP\vulkan_sdk.exe"
+            $p = Start-Process -FilePath "$env:RUNNER_TEMP\vulkan_sdk.exe" `
+              -ArgumentList "--root","C:\VulkanSDK","--accept-licenses","--default-answer","--confirm-command","install" `
+              -Wait -PassThru
+            if ($p.ExitCode -ne 0) { throw "Vulkan SDK install failed with exit code $($p.ExitCode)" }
+          }
+          "VULKAN_SDK=C:\VulkanSDK" | Out-File -FilePath $env:GITHUB_ENV -Append
+
       # Mirrors generate-vs-solution.bat: VS 2022 + ClangCL, x64, static triplet.
       - name: Build
         run: |
@@ -160,6 +180,9 @@ jobs:
           Move-Item build/x64/Release/assets Paperboat-windows/
           Get-ChildItem build/x64/Release/*.pdb | Move-Item -Destination Paperboat-windows/debug/
           Copy-Item README.md Paperboat-windows/readme.txt
+          $shaderc = Get-ChildItem "$env:VULKAN_SDK/Bin/shaderc_shared.dll" -ErrorAction SilentlyContinue
+          if (-not $shaderc) { throw "shaderc_shared.dll not found in the Vulkan SDK; the Vulkan backend would not start" }
+          Copy-Item $shaderc.FullName Paperboat-windows/
           Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mdqinc/SDL_GameControllerDB/master/gamecontrollerdb.txt" -OutFile "Paperboat-windows/gamecontrollerdb.txt"
 
       - name: Upload build
@@ -192,6 +215,9 @@ jobs:
 
       - name: Build
         run: |
+          # MacPorts puts the Vulkan loader, MoltenVK and shaderc under
+          # /opt/local, which CMake's FindVulkan does not search on its own.
+          export VULKAN_SDK=/opt/local
           cmake --preset ninja-release \
             -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
           cmake --build build/ninja-release --parallel $(sysctl -n hw.logicalcpu)
