@@ -21,3 +21,10 @@ ports:
     select: [ universal ]
   - name: libvorbis
     select: [ universal ]
+  - name: vulkan-headers
+  - name: vulkan-loader
+    select: [ universal ]
+  - name: MoltenVK
+    select: [ universal ]
+  - name: shaderc
+    select: [ universal ]
