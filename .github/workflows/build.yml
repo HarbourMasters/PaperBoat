@@ -43,11 +43,13 @@ jobs:
 
       - name: Install dependencies
         run: |
+          sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
           sudo apt-get update
           sudo apt-get install -y gcc-14 g++-14 git cmake ninja-build lsb-release file \
             libsdl2-dev libsdl2-net-dev libpng-dev libzip-dev zipcmp zipmerge ziptool \
             nlohmann-json3-dev libtinyxml2-dev libspdlog-dev libfmt-dev libboost-dev \
             libopengl-dev libgl1-mesa-dev libogg-dev libvorbis-dev zlib1g-dev libbz2-dev
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 14 --slave /usr/bin/g++ g++ /usr/bin/g++-14
 
       - name: ccache
         uses: hendrikmuhs/ccache-action@v1.2.24
