@@ -23,7 +23,15 @@ jobs:
     name: Linux
     # Same-repo branches fire both push and pull_request; only build once.
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-24.04
+            arch: x86_64
+          - runner: ubuntu-24.04-arm
+            arch: aarch64
+    runs-on: ${{ matrix.runner }}
     outputs:
       build-name: ${{ steps.build-name.outputs.name }}
     steps:
@@ -45,14 +53,14 @@ jobs:
       - name: ccache
         uses: hendrikmuhs/ccache-action@v1.2.24
         with:
-          key: linux-ccache-${{ github.ref }}
+          key: linux-${{ matrix.arch }}-ccache-${{ github.ref }}
           restore-keys: |
-            linux-ccache-
+            linux-${{ matrix.arch }}-ccache-
 
       - name: Cache third-party source builds
         uses: actions/cache@v6
         with:
-          key: linux-thirdparty-sdl2.30.3-tinyxml2.10.0.0-libzip1.10.1
+          key: linux-${{ matrix.arch }}-thirdparty-sdl2.30.3-tinyxml2.10.0.0-libzip1.10.1
           path: |
             SDL2-2.30.3
             tinyxml2-10.0.0
@@ -68,7 +76,7 @@ jobs:
             (cd SDL2-2.30.3 && ./configure --enable-hidapi-libusb && make -j$(nproc))
           fi
           sudo make -C SDL2-2.30.3 install
-          sudo cp -av /usr/local/lib/libSDL* /lib/x86_64-linux-gnu/
+          sudo cp -av /usr/local/lib/libSDL* /lib/${{ matrix.arch }}-linux-gnu/
 
       - name: Install latest tinyxml2
         run: |
@@ -90,7 +98,7 @@ jobs:
             cmake --build libzip-1.10.1/build -j$(nproc)
           fi
           sudo cmake --install libzip-1.10.1/build
-          sudo cp -av /usr/local/lib/libzip* /lib/x86_64-linux-gnu/
+          sudo cp -av /usr/local/lib/libzip* /lib/${{ matrix.arch }}-linux-gnu/
           sudo ldconfig
 
       - uses: root-project/gcc-problem-matcher-improved@v0.0.1-alpha.1
@@ -123,7 +131,7 @@ jobs:
       - name: Upload build
         uses: actions/upload-artifact@v7
         with:
-          name: Paperboat-linux
+          name: Paperboat-linux-${{ matrix.arch }}
           path: Paperboat-linux
 
   build-windows:
