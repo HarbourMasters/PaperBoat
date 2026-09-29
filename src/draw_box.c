@@ -2,6 +2,7 @@
 #include "nu/nusys.h"
 #include "assets/ui.h"
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 
 #define INTEGER_LOG2(x) ((x) <= 1 ? 0 : (x) <= 2 ? 1 : (x) <= 4 ? 2 : (x) <= 8 ? 3 : (x) <= 16 ? 4 : (x) <= 32 ? 5 : (x) <= 64 ? 6 : (x) <= 128 ? 7 : (x) <= 256 ? 8 : (x) <= 512 ? 9 : 10)
 
@@ -302,6 +303,17 @@ Gfx gBoxCombineModes[] = {
     gsDPSetCombineMode(PM_CC_BOX2_TRANSPARENT, PM_CC_BOX2_CYC2)
 };
 
+void port_box_default_style(WindowStyleCustom* out, s32 styleID) {
+    DefaultWindowStyle* style = &gBoxDefaultStyles[styleID];
+
+    out->background = gBoxBackground[style->bgIndex];
+    out->corners = gBoxCorners[style->cornersIndex];
+    out->opaqueCombineMode = gBoxCombineModes[style->combineModeIndex];
+    out->transparentCombineMode = gBoxCombineModes[style->combineModeIndex + 2];
+    out->color1 = style->color1;
+    out->color2 = style->color2;
+}
+
 s32 gBoxQuadIndex = 0;
 
 Vp gBoxViewport = {
@@ -384,6 +396,10 @@ s32 draw_box(s32 flags, void* windowStyleArg, s32 posX, s32 posY, s32 posZ, s32 
         u32 cornersFmt;
         u32 cornersBitDepth;
         Mtx* sp154;
+        s32 rectWidth = width;
+        s32 rectHeight = height;
+        s32 dsdx = 0x400;
+        s32 dtdy = 0x400;
 
         bgFmt = background->fmt;
         cornersImage = (u8*)LOAD_ASSET_GFX(corners->imgData);
@@ -410,6 +426,13 @@ s32 draw_box(s32 flags, void* windowStyleArg, s32 posX, s32 posY, s32 posZ, s32 
 
         if (posX + width >= 768 || posY + height >= 768 || posX + width <= 0 || posY + height <= 0) {
             return true;
+        }
+
+        if ((flags & DRAW_FLAG_TEXEL_SCALE) && !(flags & DRAW_FLAG_ROTSCALE) && scaleX > 0.0f && scaleY > 0.0f) {
+            width = rectWidth / scaleX + 0.5f;
+            height = rectHeight / scaleY + 0.5f;
+            dsdx = (width << 10) / rectWidth;
+            dtdy = (height << 10) / rectHeight;
         }
 
         if (flags & DRAW_FLAG_ROTSCALE) {
@@ -697,16 +720,16 @@ s32 draw_box(s32 flags, void* windowStyleArg, s32 posX, s32 posY, s32 posZ, s32 
                 } else {
                     switch (idx) {
                         case 0:
-                            gSPWideTextureRectangle(gMainGfxPos++, posX * 4, posY * 4, (posX + width / 2) * 4, (posY + height / 2) * 4, G_TX_RENDERTILE, 0, 0, 0x400, 0x400);
+                            gSPWideTextureRectangle(gMainGfxPos++, posX * 4, posY * 4, (posX + rectWidth / 2) * 4, (posY + rectHeight / 2) * 4, G_TX_RENDERTILE, 0, 0, dsdx, dtdy);
                             break;
                         case 1:
-                            gSPWideTextureRectangle(gMainGfxPos++, (posX + width / 2) * 4, posY * 4, (posX + width) * 4, (posY + height / 2) * 4, G_TX_RENDERTILE, (width / 2) * 32, 0, 0x400, 0x400);
+                            gSPWideTextureRectangle(gMainGfxPos++, (posX + rectWidth / 2) * 4, posY * 4, (posX + rectWidth) * 4, (posY + rectHeight / 2) * 4, G_TX_RENDERTILE, (width / 2) * 32, 0, dsdx, dtdy);
                             break;
                         case 2:
-                            gSPWideTextureRectangle(gMainGfxPos++, posX * 4, (posY + height / 2) * 4, (posX + width / 2) * 4, (posY + height) * 4, G_TX_RENDERTILE, 0, (height / 2) * 32, 0x400, 0x400);
+                            gSPWideTextureRectangle(gMainGfxPos++, posX * 4, (posY + rectHeight / 2) * 4, (posX + rectWidth / 2) * 4, (posY + rectHeight) * 4, G_TX_RENDERTILE, 0, (height / 2) * 32, dsdx, dtdy);
                             break;
                         case 3:
-                            gSPWideTextureRectangle(gMainGfxPos++, (posX + width / 2) * 4, (posY + height / 2) * 4, (posX + width) * 4, (posY + height) * 4, G_TX_RENDERTILE, (width / 2) * 32, (height / 2) * 32, 0x400, 0x400);
+                            gSPWideTextureRectangle(gMainGfxPos++, (posX + rectWidth / 2) * 4, (posY + rectHeight / 2) * 4, (posX + rectWidth) * 4, (posY + rectHeight) * 4, G_TX_RENDERTILE, (width / 2) * 32, (height / 2) * 32, dsdx, dtdy);
                             break;
                     }
 
@@ -746,7 +769,7 @@ s32 draw_box(s32 flags, void* windowStyleArg, s32 posX, s32 posY, s32 posZ, s32 
                 gSPVertex(gMainGfxPos++, &quads[0], 4, 0);
                 gSP2Triangles(gMainGfxPos++, 0, 3, 1, 0, 0, 2, 3, 0);
             } else {
-                gSPWideTextureRectangle(gMainGfxPos++, posX * 4, posY * 4, (posX + width) * 4, (posY + height) * 4, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+                gSPWideTextureRectangle(gMainGfxPos++, posX * 4, posY * 4, (posX + rectWidth) * 4, (posY + rectHeight) * 4, G_TX_RENDERTILE, 0, 0, dsdx, dtdy);
             }
             gDPPipeSync(gMainGfxPos++);
         }
@@ -818,7 +841,7 @@ s32 draw_box(s32 flags, void* windowStyleArg, s32 posX, s32 posY, s32 posZ, s32 
             //} else {
             //    fpDrawContents((s32)drawContentsArg0, posX, posY, width, height, opacity, darkening);
             if (quads == nullptr) {
-                fpDrawContents(drawContentsArg0, posX, posY, width, height, opacity, darkening);
+                fpDrawContents(drawContentsArg0, posX, posY, rectWidth, rectHeight, opacity, darkening);
             }
         }
         if (quads != nullptr) {

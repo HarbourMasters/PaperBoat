@@ -4589,6 +4589,7 @@ enum DrawFlags {
     DRAW_FLAG_ANIMATED_BACKGROUND       = 0x00000002,
     DRAW_FLAG_NO_CLIP                   = 0x00000004,
     DRAW_FLAG_CULL_BACK                 = 0x00000008,
+    DRAW_FLAG_TEXEL_SCALE               = 0x00000010, // port: without ROTSCALE, scale the box texture by scaleX/scaleY
 };
 
 enum EntityModelFlags {

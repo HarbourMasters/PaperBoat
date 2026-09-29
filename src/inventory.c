@@ -5,7 +5,7 @@
 #include "port/patches/Patches.h"
 
 #define FULLY_EXTENDED_Y  port_status_bar_y()
-#define FULLY_RETRACTED_Y -100
+#define FULLY_RETRACTED_Y port_status_bar_retracted_y()
 
 enum BlinkModes {
     BLINK_OFF   = 0,
@@ -22,6 +22,16 @@ BSS b16 ShowingCoinCounter;
 BSS b16 HidingCoinCounter;
 
 StatusBar gStatusBar;
+
+static HudElemID StarPieceIconHID;
+static HudElemID StarPieceTimesHID;
+static HudElemID BadgeIconHID;
+static HudElemID BadgeTimesHID;
+
+// Status bar scale and the point it scales about (the bar's left edge or the screen's right edge)
+static f32 StatusBarScale = 1.0f;
+static s32 StatusBarOriginX;
+static s32 StatusBarOriginY;
 
 extern HudScript* TimesHudScript;
 extern HudScript* SPIncrementHudScripts[];
@@ -47,6 +57,8 @@ extern HudScript HES_StatusTimes;
 extern HudScript HES_StatusSPShine;
 extern HudScript HES_StatusSPEmptyIncrement;
 extern HudScript HES_StatusStarEmpty;
+extern HudScript HES_StatusStarPiece;
+extern HudScript HES_StatBp;
 
 extern HudScript* SlashHudScript;
 
@@ -619,7 +631,40 @@ void initialize_status_bar(void) {
     hud_element_set_flags(hid, HUD_ELEMENT_FLAG_MANUAL_RENDER);
     hud_element_clear_flags(hid, HUD_ELEMENT_FLAG_FILTER_TEX);
 
+    StarPieceIconHID = hid = hud_element_create(&HES_StatusStarPiece);
+    hud_element_set_flags(hid, HUD_ELEMENT_FLAG_MANUAL_RENDER);
+    hud_element_clear_flags(hid, HUD_ELEMENT_FLAG_FILTER_TEX);
+
+    StarPieceTimesHID = hid = hud_element_create(&HES_StatusTimes);
+    hud_element_set_flags(hid, HUD_ELEMENT_FLAG_MANUAL_RENDER | HUD_ELEMENT_FLAG_DISABLED);
+    hud_element_clear_flags(hid, HUD_ELEMENT_FLAG_FILTER_TEX);
+
+    BadgeIconHID = hid = hud_element_create(&HES_StatBp);
+    hud_element_set_flags(hid, HUD_ELEMENT_FLAG_MANUAL_RENDER);
+    hud_element_clear_flags(hid, HUD_ELEMENT_FLAG_FILTER_TEX);
+
+    BadgeTimesHID = hid = hud_element_create(&HES_StatusTimes);
+    hud_element_set_flags(hid, HUD_ELEMENT_FLAG_MANUAL_RENDER | HUD_ELEMENT_FLAG_DISABLED);
+    hud_element_clear_flags(hid, HUD_ELEMENT_FLAG_FILTER_TEX);
+
     star_power_shimmer_init();
+}
+
+static void status_bar_draw_next(s32 id) {
+    port_hud_element_draw_next_scaled(id, StatusBarOriginX, StatusBarOriginY, StatusBarScale);
+}
+
+static s32 status_bar_count_badges(void) {
+    s32 count = 0;
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNT(gPlayerData.badges); i++) {
+        if (gPlayerData.badges[i] != ITEM_NONE) {
+            count++;
+        }
+    }
+
+    return count;
 }
 
 void status_bar_draw_number(s32 iconID, s32 startX, s32 startY, s32 value, s32 numDigits) {
@@ -634,7 +679,7 @@ void status_bar_draw_number(s32 iconID, s32 startX, s32 startY, s32 value, s32 n
     drawY = startY + 8;
     hud_element_set_render_pos(iconID, drawX, drawY - 1);
     hud_element_clear_flags(iconID, HUD_ELEMENT_FLAG_DISABLED);
-    hud_element_draw_next(iconID);
+    status_bar_draw_next(iconID);
 
     // Write each digit of the input number into the digits array
     for (i = 0; i < numDigits; i++) {
@@ -655,7 +700,7 @@ void status_bar_draw_number(s32 iconID, s32 startX, s32 startY, s32 value, s32 n
             hud_element_set_script(iconID, DigitHudScripts[digit]);
             hud_element_set_render_pos(iconID, drawX, drawY);
             hud_element_clear_flags(iconID, HUD_ELEMENT_FLAG_DISABLED);
-            hud_element_draw_next(iconID);
+            status_bar_draw_next(iconID);
         }
     }
 }
@@ -674,7 +719,7 @@ void status_bar_draw_stat(s32 id, s32 startX, s32 startY, s32 currentValue, s32 
     hud_element_set_script(id, SlashHudScript);
     hud_element_set_render_pos(id, baseX + 14, baseY + 1);
     hud_element_clear_flags(id, HUD_ELEMENT_FLAG_DISABLED);
-    hud_element_draw_next(id);
+    status_bar_draw_next(id);
 
     for (i = 0; i < numDigits; i++) {
         s32 num = currentValue % 10;
@@ -692,7 +737,7 @@ void status_bar_draw_stat(s32 id, s32 startX, s32 startY, s32 currentValue, s32 
             hud_element_set_script(id, DigitHudScripts[digit]);
             hud_element_set_render_pos(id, drawX, drawY);
             hud_element_clear_flags(id, HUD_ELEMENT_FLAG_DISABLED);
-            hud_element_draw_next(id);
+            status_bar_draw_next(id);
         }
     }
 
@@ -711,7 +756,7 @@ void status_bar_draw_stat(s32 id, s32 startX, s32 startY, s32 currentValue, s32 
             hud_element_set_script(id, DigitHudScripts[digit]);
             hud_element_set_render_pos(id, drawX, drawY);
             hud_element_clear_flags(id, HUD_ELEMENT_FLAG_DISABLED);
-            hud_element_draw_next(id);
+            status_bar_draw_next(id);
         }
     }
 }
@@ -732,6 +777,16 @@ void update_status_bar(void) {
     s32 s1;
     s32 spBars;
     s32 maxStarPower;
+    b32 showStarPower;
+    s32 boxWidth;
+    s32 leftWidth;
+    f32 boxHeight;
+    s32 fpShiftX;
+    s32 rightInset;
+    s32 coinsInset;
+    s32 starPointsInset;
+    s32 starPiecesInset;
+    s32 badgesInset;
 
     if (gGameStatusPtr->introPart >= INTRO_PART_0
         || gGameStatusPtr->demoState != DEMO_STATE_NONE
@@ -844,7 +899,8 @@ void update_status_bar(void) {
         return;
     }
 
-    if (statusBar->alwaysShown && statusBar->hidden && playerStatus->inputDisabledCount == 0) {
+    if ((statusBar->alwaysShown || (port_status_bar_always_show() && !statusBar->ignoreChanges))
+        && statusBar->hidden && playerStatus->inputDisabledCount == 0) {
         statusBar->showTimer = 42;
         statusBar->hidden = false;
         statusBar->unk_3B = false;
@@ -901,9 +957,42 @@ void update_status_bar(void) {
     statusBar->drawPosX = OTRGetRectDimensionFromLeftEdge(12);
     x = statusBar->drawPosX;
     y = statusBar->drawPosY;
-    draw_box(0, WINDOW_STYLE_5, x,       y, 0, 174, 35, 255, 0, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, nullptr, nullptr, nullptr, SCREEN_WIDTH, SCREEN_HEIGHT, nullptr);
+    StatusBarScale = port_status_bar_scale();
+    StatusBarOriginX = x;
+    StatusBarOriginY = y;
+    boxWidth = (OTRGetRectDimensionFromRightEdge(12) - x) * port_status_bar_box_width();
+    boxHeight = StatusBarScale * port_status_bar_box_height();
+    leftWidth = MIN(174 * StatusBarScale, boxWidth);
+    // Texel-scaled so the step down to the right box stays lined up with it at any size
+    draw_box(DRAW_FLAG_TEXEL_SCALE, port_status_bar_box_style(WINDOW_STYLE_5), x, y, 0, leftWidth, 35 * boxHeight, 255, 0, StatusBarScale, boxHeight, 0.0f, 0.0f, 0.0f, nullptr, nullptr, nullptr, SCREEN_WIDTH, SCREEN_HEIGHT, nullptr);
     // Widescreen: stretch the right portion of the bar out to the screen's right
-    draw_box(0, WINDOW_STYLE_6, x + 174, y, 0, OTRGetRectDimensionFromRightEdge(12) - (x + 174), 25, 255, 0, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, nullptr, nullptr, nullptr, SCREEN_WIDTH, SCREEN_HEIGHT, nullptr);
+    draw_box(DRAW_FLAG_TEXEL_SCALE, port_status_bar_box_style(WINDOW_STYLE_6), x + leftWidth, y, 0, boxWidth - leftWidth, (port_status_bar_flat_bottom() ? 35 : 25) * boxHeight, 255, 0, StatusBarScale, boxHeight, 0.0f, 0.0f, 0.0f, nullptr, nullptr, nullptr, SCREEN_WIDTH, SCREEN_HEIGHT, nullptr);
+
+    // Counters pack against the right edge so hidden ones leave no gap; each inset is where its slot ends
+    rightInset = 24;
+    coinsInset = rightInset;
+    if (port_status_bar_show(PORT_STATUS_BAR_COINS)) {
+        rightInset += 55;
+    }
+    starPointsInset = rightInset;
+    if (port_status_bar_show(PORT_STATUS_BAR_STAR_POINTS)) {
+        rightInset += 49;
+    }
+    starPiecesInset = rightInset;
+    if (port_status_bar_show(PORT_STATUS_BAR_STAR_PIECES)) {
+        rightInset += 57;
+    }
+    badgesInset = rightInset;
+    if (port_status_bar_show(PORT_STATUS_BAR_BADGES)) {
+        rightInset += 57;
+    }
+
+    // FP takes HP's slot when HP is hidden, otherwise gives up to 5px to keep 7px clear of the counters
+    if (port_status_bar_show(PORT_STATUS_BAR_HP)) {
+        fpShiftX = MIN(MAX(7 - (OTRGetRectDimensionFromRightEdge(rightInset - 7) - (statusBar->drawPosX + 179)), 0), 5);
+    } else {
+        fpShiftX = 88;
+    }
 
     if (statusBar->hpBlinkTimeLeft > 0) {
         statusBar->hpBlinkTimeLeft--;
@@ -924,18 +1013,18 @@ void update_status_bar(void) {
         statusBar->hpBlinkAnimTime++;
     }
 
-    if (showStat) {
+    if (showStat && port_status_bar_show(PORT_STATUS_BAR_HP)) {
         id = statusBar->hpIconHIDs[0];
         x = statusBar->drawPosX + 22;
         y = statusBar->drawPosY + 13;
         hud_element_set_render_pos(id, x, y);
-        hud_element_draw_next(id);
+        status_bar_draw_next(id);
 
         id = statusBar->hpIconHIDs[1];
         x = statusBar->drawPosX + 37;
         y = statusBar->drawPosY + 13;
         hud_element_set_render_pos(id, x, y);
-        hud_element_draw_next(id);
+        status_bar_draw_next(id);
 
         x = statusBar->drawPosX + 48;
         y = statusBar->drawPosY + 8;
@@ -961,20 +1050,20 @@ void update_status_bar(void) {
         statusBar->fpBlinkAnimTime++;
     }
 
-    if (showStat) {
+    if (showStat && port_status_bar_show(PORT_STATUS_BAR_FP)) {
         id = statusBar->fpIconHIDs[0];
-        x = statusBar->drawPosX + 110;
+        x = statusBar->drawPosX + 110 - fpShiftX;
         y = statusBar->drawPosY + 13;
         hud_element_set_render_pos(id, x, y);
-        hud_element_draw_next(id);
+        status_bar_draw_next(id);
 
         id = statusBar->fpIconHIDs[1];
-        x = statusBar->drawPosX + 125;
+        x = statusBar->drawPosX + 125 - fpShiftX;
         y = statusBar->drawPosY + 13;
         hud_element_set_render_pos(id, x, y);
-        hud_element_draw_next(id);
+        status_bar_draw_next(id);
 
-        x = statusBar->drawPosX + 136;
+        x = statusBar->drawPosX + 136 - fpShiftX;
         y = statusBar->drawPosY + 8;
         status_bar_draw_stat(statusBar->fpTimesHID, x, y, statusBar->displayFP, playerData->curMaxFP);
     }
@@ -995,20 +1084,21 @@ void update_status_bar(void) {
         statusBar->starpointsBlinkAnimTime++;
     }
 
-    if (showStat) {
+    StatusBarOriginX = OTRGetRectDimensionFromRightEdge(12);
+    if (showStat && port_status_bar_show(PORT_STATUS_BAR_STAR_POINTS)) {
         id = statusBar->spIconHID;
-        x = OTRGetRectDimensionFromRightEdge(113); // native x 207, 113px from right
+        x = OTRGetRectDimensionFromRightEdge(starPointsInset + 34); // native x 207, 113px from right by default
         y = statusBar->drawPosY + 14;
         hud_element_set_render_pos(id, x, y);
-        hud_element_draw_next(id);
+        status_bar_draw_next(id);
 
         id = statusBar->spShineHID;
-        x = OTRGetRectDimensionFromRightEdge(113);
+        x = OTRGetRectDimensionFromRightEdge(starPointsInset + 34);
         y = statusBar->drawPosY + 9;
         hud_element_set_render_pos(id, x, y);
-        hud_element_draw_next(id);
+        status_bar_draw_next(id);
 
-        x = OTRGetRectDimensionFromRightEdge(108); // native x 212, 108px from right
+        x = OTRGetRectDimensionFromRightEdge(starPointsInset + 29); // native x 212, 108px from right by default
         y = statusBar->drawPosY + 8;
         status_bar_draw_number(statusBar->spTimesHID, x, y, playerData->starPoints, 2);
     }
@@ -1032,26 +1122,58 @@ void update_status_bar(void) {
         statusBar->coinsBlinkAnimTime++;
     }
 
-    if (showStat) {
+    if (showStat && port_status_bar_show(PORT_STATUS_BAR_COINS)) {
         id = statusBar->coinIconHID;
-        x = OTRGetRectDimensionFromRightEdge(64); // native x 256, 64px from right
+        x = OTRGetRectDimensionFromRightEdge(coinsInset + 40); // native x 256, 64px from right by default
         y = statusBar->drawPosY + 14;
         hud_element_set_render_pos(id, x, y);
-        hud_element_draw_next(id);
+        status_bar_draw_next(id);
 
         id = statusBar->coinSparkleHID;
-        x = OTRGetRectDimensionFromRightEdge(64);
+        x = OTRGetRectDimensionFromRightEdge(coinsInset + 40);
         y = statusBar->drawPosY + 14;
         hud_element_set_render_pos(id, x, y);
-        hud_element_draw_next(id);
+        status_bar_draw_next(id);
 
-        x = OTRGetRectDimensionFromRightEdge(61); // native x 259, 61px from right
+        x = OTRGetRectDimensionFromRightEdge(coinsInset + 37); // native x 259, 61px from right by default
         y = statusBar->drawPosY + 8;
         status_bar_draw_number(statusBar->coinTimesHID, x, y, statusBar->displayCoins, 3);
     }
 
+    if (port_status_bar_show(PORT_STATUS_BAR_STAR_PIECES)) {
+        id = StarPieceIconHID;
+        x = OTRGetRectDimensionFromRightEdge(starPiecesInset + 42);
+        y = statusBar->drawPosY + 14;
+        hud_element_set_render_pos(id, x, y);
+        status_bar_draw_next(id);
+
+        x = OTRGetRectDimensionFromRightEdge(starPiecesInset + 37);
+        y = statusBar->drawPosY + 8;
+        status_bar_draw_number(StarPieceTimesHID, x, y, playerData->starPieces, 3);
+    }
+
+    if (port_status_bar_show(PORT_STATUS_BAR_BADGES)) {
+        id = BadgeIconHID;
+        x = OTRGetRectDimensionFromRightEdge(badgesInset + 42);
+        y = statusBar->drawPosY + 14;
+        hud_element_set_render_pos(id, x, y);
+        status_bar_draw_next(id);
+
+        x = OTRGetRectDimensionFromRightEdge(badgesInset + 37);
+        y = statusBar->drawPosY + 8;
+        status_bar_draw_number(BadgeTimesHID, x, y, status_bar_count_badges(), 3);
+    }
+
+    StatusBarOriginX = statusBar->drawPosX;
     id = statusBar->starIconHID;
+    showStarPower = port_status_bar_show(PORT_STATUS_BAR_STAR_POWER);
+
+    if (!showStarPower) {
+        hud_element_set_flags(id, HUD_ELEMENT_FLAG_DISABLED);
+    }
+
     showStat = true;
+
     if (statusBar->starPowerBlinking != BLINK_OFF) {
         if (statusBar->starPowerBlinkCounter > 5) {
             if (statusBar->starPowerBlinkCounter <= 8) {
@@ -1076,7 +1198,8 @@ void update_status_bar(void) {
         limit = playerData->starPower % SP_PER_BAR;
         limit = limit / 32;
         limit += spBars * 8;
-        star_power_shimmer_start(0, x + limit * 25 / 10, y, 1.0f);
+        star_power_shimmer_start(0, StatusBarOriginX + (x + limit * 25 / 10 - StatusBarOriginX) * StatusBarScale,
+                                 StatusBarOriginY + (y - StatusBarOriginY) * StatusBarScale, StatusBarScale);
         statusBar->shimmerState = STATUS_SHIMMER_ON;
     }
 
@@ -1134,7 +1257,7 @@ void update_status_bar(void) {
 
         hud_element_set_script(id, SPIncrementHudScripts[sp50]);
         hud_element_set_render_pos(id, x + sp50 * 20 + StatusBarSPIncrementOffsets[0], y - 2);
-        hud_element_draw_next(id);
+        status_bar_draw_next(id);
 
         s1++;
         if (i >= limit || (i >= s7 && !showAddedBar)) {
@@ -1144,7 +1267,7 @@ void update_status_bar(void) {
         hud_element_set_script(id, SPIncrementHudScripts[sp50]);
 
         hud_element_set_render_pos(id, x + sp50 * 20 + StatusBarSPIncrementOffsets[1], y - 2);
-        hud_element_draw_next(id);
+        status_bar_draw_next(id);
         s1++;
         if (i >= limit || (i >= s7 && !showAddedBar)) {
             break;
@@ -1152,7 +1275,7 @@ void update_status_bar(void) {
         i++;
         hud_element_set_script(id, SPIncrementHudScripts[sp50]);
         hud_element_set_render_pos(id, x + sp50 * 20 + StatusBarSPIncrementOffsets[2], y - 2);
-        hud_element_draw_next(id);
+        status_bar_draw_next(id);
         s1++;
         if (i >= limit || (i >= s7 && !showAddedBar)) {
             break;
@@ -1160,7 +1283,7 @@ void update_status_bar(void) {
         i++;
         hud_element_set_script(id, SPIncrementHudScripts[sp50]);
         hud_element_set_render_pos(id, x + sp50 * 20 + StatusBarSPIncrementOffsets[3], y - 2);
-        hud_element_draw_next(id);
+        status_bar_draw_next(id);
         s1++;
         if (i >= limit || (i >= s7 && !showAddedBar)) {
             break;
@@ -1168,7 +1291,7 @@ void update_status_bar(void) {
         i++;
         hud_element_set_script(id, SPIncrementHudScripts[sp50]);
         hud_element_set_render_pos(id, x + sp50 * 20 + StatusBarSPIncrementOffsets[4], y - 2);
-        hud_element_draw_next(id);
+        status_bar_draw_next(id);
         s1++;
 
         if (i >= limit || (i >= s7 && !showAddedBar)) {
@@ -1177,7 +1300,7 @@ void update_status_bar(void) {
         i++;
         hud_element_set_script(id, SPIncrementHudScripts[sp50]);
         hud_element_set_render_pos(id, x + sp50 * 20 + StatusBarSPIncrementOffsets[5], y - 2);
-        hud_element_draw_next(id);
+        status_bar_draw_next(id);
         s1++;
 
         if (i >= limit || (i >= s7 && !showAddedBar)) {
@@ -1186,7 +1309,7 @@ void update_status_bar(void) {
         i++;
         hud_element_set_script(id, SPIncrementHudScripts[sp50]);
         hud_element_set_render_pos(id, x + sp50 * 20 + StatusBarSPIncrementOffsets[6], y - 2);
-        hud_element_draw_next(id);
+        status_bar_draw_next(id);
         s1++;
 
         if (i >= limit || (i >= s7 && !showAddedBar)) {
@@ -1195,7 +1318,7 @@ void update_status_bar(void) {
         i++;
         hud_element_set_script(id, SPStarHudScripts[sp50]);
         hud_element_set_render_pos(id, x + 12 + sp50 * 20, y);
-        hud_element_draw_next(id);
+        status_bar_draw_next(id);
 
         s1 = 0;
         sp50++;
@@ -1214,7 +1337,7 @@ void update_status_bar(void) {
             i++;
             hud_element_set_script(id, &HES_StatusSPEmptyIncrement);
             hud_element_set_render_pos(id, x + sp50 * 20 + StatusBarSPIncrementOffsets[s1], y - 2);
-            hud_element_draw_next(id);
+            status_bar_draw_next(id);
             if (i >= limit) {
                 break;
             }
@@ -1224,7 +1347,7 @@ void update_status_bar(void) {
             i++;
             hud_element_set_script(id, &HES_StatusSPEmptyIncrement);
             hud_element_set_render_pos(id, x + sp50 * 20 + StatusBarSPIncrementOffsets[s1], y - 2);
-            hud_element_draw_next(id);
+            status_bar_draw_next(id);
             if (i >= limit) {
                 break;
             }
@@ -1234,7 +1357,7 @@ void update_status_bar(void) {
             i++;
             hud_element_set_script(id, &HES_StatusSPEmptyIncrement);
             hud_element_set_render_pos(id, x + sp50 * 20 + StatusBarSPIncrementOffsets[s1], y - 2);
-            hud_element_draw_next(id);
+            status_bar_draw_next(id);
             if (i >= limit) {
                 break;
             }
@@ -1244,7 +1367,7 @@ void update_status_bar(void) {
             i++;
             hud_element_set_script(id, &HES_StatusSPEmptyIncrement);
             hud_element_set_render_pos(id, x + sp50 * 20 + StatusBarSPIncrementOffsets[s1], y - 2);
-            hud_element_draw_next(id);
+            status_bar_draw_next(id);
             if (i >= limit) {
                 break;
             }
@@ -1254,7 +1377,7 @@ void update_status_bar(void) {
             i++;
             hud_element_set_script(id, &HES_StatusSPEmptyIncrement);
             hud_element_set_render_pos(id, x + sp50 * 20 + StatusBarSPIncrementOffsets[s1], y - 2);
-            hud_element_draw_next(id);
+            status_bar_draw_next(id);
             if (i >= limit) {
                 break;
             }
@@ -1264,7 +1387,7 @@ void update_status_bar(void) {
             i++;
             hud_element_set_script(id, &HES_StatusSPEmptyIncrement);
             hud_element_set_render_pos(id, x + sp50 * 20 + StatusBarSPIncrementOffsets[s1], y - 2);
-            hud_element_draw_next(id);
+            status_bar_draw_next(id);
             if (i >= limit) {
                 break;
             }
@@ -1274,7 +1397,7 @@ void update_status_bar(void) {
             i++;
             hud_element_set_script(id, &HES_StatusSPEmptyIncrement);
             hud_element_set_render_pos(id, x + sp50 * 20 + StatusBarSPIncrementOffsets[s1], y - 2);
-            hud_element_draw_next(id);
+            status_bar_draw_next(id);
             if (i >= limit) {
                 break;
             }
@@ -1285,7 +1408,7 @@ void update_status_bar(void) {
             i++;
             hud_element_set_script(id, &HES_StatusStarEmpty);
             hud_element_set_render_pos(id, x + 12 + sp50 * 20, y);
-            hud_element_draw_next(id);
+            status_bar_draw_next(id);
             if (i >= limit) {
                 break;
             }
@@ -1294,8 +1417,13 @@ void update_status_bar(void) {
         sp50++;
     }
 
+    if (!showStarPower) {
+        hud_element_clear_flags(id, HUD_ELEMENT_FLAG_DISABLED);
+    }
     star_power_shimmer_update();
-    star_power_shimmer_draw();
+    if (showStarPower) {
+        star_power_shimmer_draw();
+    }
 }
 
 void coin_counter_draw_content(UNK_TYPE arg0, s32 posX, s32 posY) {
@@ -1734,6 +1862,10 @@ void reset_status_bar(void) {
     copy_world_hud_element_ref_to_battle(statusBar->spTimesHID, statusBar->spTimesHID);
     copy_world_hud_element_ref_to_battle(statusBar->coinTimesHID, statusBar->coinTimesHID);
     copy_world_hud_element_ref_to_battle(statusBar->starIconHID, statusBar->starIconHID);
+    copy_world_hud_element_ref_to_battle(StarPieceIconHID, StarPieceIconHID);
+    copy_world_hud_element_ref_to_battle(StarPieceTimesHID, StarPieceTimesHID);
+    copy_world_hud_element_ref_to_battle(BadgeIconHID, BadgeIconHID);
+    copy_world_hud_element_ref_to_battle(BadgeTimesHID, BadgeTimesHID);
 }
 
 s32 is_ability_active(s32 ability) {
