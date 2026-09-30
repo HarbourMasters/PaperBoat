@@ -23,7 +23,15 @@ jobs:
     name: Linux
     # Same-repo branches fire both push and pull_request; only build once.
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-22.04
+            arch: x86_64
+          - runner: ubuntu-22.04-arm
+            arch: aarch64
+    runs-on: ${{ matrix.runner }}
     outputs:
       build-name: ${{ steps.build-name.outputs.name }}
     steps:
@@ -35,23 +43,25 @@ jobs:
 
       - name: Install dependencies
         run: |
+          sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
           sudo apt-get update
           sudo apt-get install -y gcc-14 g++-14 git cmake ninja-build lsb-release file \
             libsdl2-dev libsdl2-net-dev libpng-dev libzip-dev zipcmp zipmerge ziptool \
             nlohmann-json3-dev libtinyxml2-dev libspdlog-dev libfmt-dev libboost-dev \
             libopengl-dev libgl1-mesa-dev libogg-dev libvorbis-dev zlib1g-dev libbz2-dev
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 14 --slave /usr/bin/g++ g++ /usr/bin/g++-14
 
       - name: ccache
         uses: hendrikmuhs/ccache-action@v1.2.24
         with:
-          key: linux-ccache-${{ github.ref }}
+          key: linux-${{ matrix.arch }}-ccache-${{ github.ref }}
           restore-keys: |
-            linux-ccache-
+            linux-${{ matrix.arch }}-ccache-
 
       - name: Cache third-party source builds
         uses: actions/cache@v6
         with:
-          key: linux-thirdparty-sdl2.30.3-tinyxml2.10.0.0-libzip1.10.1
+          key: linux-${{ matrix.arch }}-thirdparty-sdl2.30.3-tinyxml2.10.0.0-libzip1.10.1
           path: |
             SDL2-2.30.3
             tinyxml2-10.0.0
@@ -67,7 +77,7 @@ jobs:
             (cd SDL2-2.30.3 && ./configure --enable-hidapi-libusb && make -j$(nproc))
           fi
           sudo make -C SDL2-2.30.3 install
-          sudo cp -av /usr/local/lib/libSDL* /lib/x86_64-linux-gnu/
+          sudo cp -av /usr/local/lib/libSDL* /lib/${{ matrix.arch }}-linux-gnu/
 
       - name: Install latest tinyxml2
         run: |
@@ -89,7 +99,7 @@ jobs:
             cmake --build libzip-1.10.1/build -j$(nproc)
           fi
           sudo cmake --install libzip-1.10.1/build
-          sudo cp -av /usr/local/lib/libzip* /lib/x86_64-linux-gnu/
+          sudo cp -av /usr/local/lib/libzip* /lib/${{ matrix.arch }}-linux-gnu/
           sudo ldconfig
 
       - uses: root-project/gcc-problem-matcher-improved@v0.0.1-alpha.1
@@ -122,7 +132,7 @@ jobs:
       - name: Upload build
         uses: actions/upload-artifact@v7
         with:
-          name: Paperboat-linux
+          name: Paperboat-linux-${{ matrix.arch }}
           path: Paperboat-linux
 
   build-windows:
