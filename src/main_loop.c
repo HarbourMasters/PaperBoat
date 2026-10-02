@@ -130,6 +130,9 @@ void step_game_loop(void) {
                 SoftResetDelay--;
                 if (SoftResetDelay == 0) {
                     sfx_stop_env_sounds();
+                    u8 contBitPattern = gGameStatus.contBitPattern;
+                    mem_clear(&gGameStatus, sizeof(gGameStatus));
+                    gGameStatus.contBitPattern = contBitPattern;
                     set_game_mode(GAME_MODE_STARTUP);
                     gOverrideFlags &= ~GLOBAL_OVERRIDES_SOFT_RESET;
                 }
