@@ -61,6 +61,8 @@ BSS s32 NextPartnerID;
 BSS s32 NextPartnerCommand;
 BSS WorldPartner* wPartner;
 
+extern f32 DefaultRunSpeed;
+
 extern HudScript HES_Partner0;
 extern HudScript HES_Goombario;
 extern HudScript HES_Kooper;
@@ -1239,6 +1241,7 @@ void partner_walking_follow_player(Npc* partner) {
     f32 temp_a3;
     f32 angle;
     PlayerPathElement* currentSnapshot;
+    f32 speedScale = playerStatus->runSpeed / DefaultRunSpeed;
 
     switch (wPartnerFollowState) {
         case 0:
@@ -1257,6 +1260,7 @@ void partner_walking_follow_player(Npc* partner) {
             if (wPartnerTetherDistance < 20.0) {
                 partner->moveSpeed = 4.0f;
             }
+            partner->moveSpeed *= speedScale;
             partner->curAnim = gPartnerAnimations[wCurrentPartnerId].run;
             if (!(partner->flags & NPC_FLAG_GROUNDED)) {
                 partner->curAnim = gPartnerAnimations[wCurrentPartnerId].fall;
@@ -1271,10 +1275,10 @@ void partner_walking_follow_player(Npc* partner) {
                     }
                     if (wPartnerTetherDistance < distance) {
                         partner->moveSpeed = distance - wPartnerTetherDistance;
-                        if (partner->moveSpeed > 3.0) {
-                            partner->moveSpeed = 3.0f;
+                        if (partner->moveSpeed > 3.0 * speedScale) {
+                            partner->moveSpeed = 3.0f * speedScale;
                             if (wPartnerTetherDistance < 20.0f) {
-                                partner->moveSpeed = 4.0f;
+                                partner->moveSpeed = 4.0f * speedScale;
                             }
                         } else {
                             partner->moveSpeed += 1.0;
