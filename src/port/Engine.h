@@ -110,6 +110,7 @@ class GameEngine {
     mutable bool mPrevAltAssets = false;
     mutable bool mPrevDPadAsLeftStick = false;
     mutable bool mPrevAutoMipmaps = true;
+    mutable bool mPrevMipmaps = true;
 
     static struct {
         bool running = false;
