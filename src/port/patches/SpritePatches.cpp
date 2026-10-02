@@ -182,7 +182,8 @@ static void PrefetchAnim(SpriteAnimData* sprite, s32 animIndex, s32 playerSprite
                         s32 raster = *cmd & 0xFFF;
                         GameEngine_PrefetchTexture(
                             playerSpriteIndex >= 0 ? (const char*) Sprite_GetPlayerRasterPath(playerSpriteIndex, raster)
-                                                   : (const char*) sprite->rastersOffset[raster]->image);
+                                                   : (const char*) sprite->rastersOffset[raster]->image
+                        );
                     }
                     cmd += 1;
                     break;
@@ -216,8 +217,8 @@ void port_prefetch_player_anim(SpriteAnimData* sprite, s32 prevAnimID, s32 animI
     }
     // Facing away draws from the next sprite (see spr_draw_player_sprite)
     s32 spriteID = SPR_UNPACK_SPR(animID);
-    b32 back = (animID & SPRITE_ID_BACK_FACING) &&
-               (spriteID == SPR_Mario1 || spriteID == SPR_MarioW1 || spriteID == SPR_Peach1);
+    b32 back = (animID & SPRITE_ID_BACK_FACING)
+        && (spriteID == SPR_Mario1 || spriteID == SPR_MarioW1 || spriteID == SPR_Peach1);
     PrefetchAnim(sprite, SPR_UNPACK_ANIM(animID), spriteID - 1 + back);
 }
 }
