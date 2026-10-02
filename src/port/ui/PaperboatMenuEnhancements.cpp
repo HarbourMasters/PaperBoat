@@ -117,11 +117,7 @@ void PaperboatMenu::AddMenuEnhancements() {
 
     AddWidget(path, "Disable Mipmaps", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("Graphics.DisableMipmaps"))
-        .Options(
-            CheckboxOptions().Tooltip(
-                "Just like emulator!"
-            )
-        );
+        .Options(CheckboxOptions().Tooltip("Just like emulator!"));
 }
 
 } // namespace PaperboatGui
