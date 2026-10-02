@@ -216,11 +216,11 @@ GameEngine::GameEngine() {
     gsFast3dWindow = std::make_shared<Fast::Fast3dWindow>(std::vector<std::shared_ptr<Ship::GuiWindow>>({}));
     this->context->InitWindow(gsFast3dWindow);
     if (auto interpreter = gsFast3dWindow->GetInterpreterWeak().lock()) {
-        // Prefetch sprites when using alt assets
+        // Prefetch a replacement's folder on its first draw. Sprites, map textures and
+        // backgrounds are prefetched by whatever loads them instead.
         interpreter->SetReplacementGroupResolver([](const std::string& name) -> std::string {
-            if (name.rfind("sprites/", 0) == 0) {
-                const size_t raster = name.find("_raster_");
-                return raster == std::string::npos ? std::string() : name.substr(0, raster + 8);
+            if (name.starts_with("sprites/") || name.starts_with("textures/") || name.starts_with("backgrounds/")) {
+                return {};
             }
             return name.substr(0, name.find_last_of('/') + 1);
         });
@@ -957,7 +957,7 @@ void GameEngine::StartFrame() const {
         // Decode alt menu assets so they can draw more quickly.
         if (altAssets && gsFast3dWindow != nullptr) {
             if (auto interpreter = gsFast3dWindow->GetInterpreterWeak().lock()) {
-                for (const char* group : { "ui/", "misc/pause/", "misc/starpoint/", "icons/", "party/" }) {
+                for (const char* group : { "misc/pause/", "ui/pause/" }) {
                     interpreter->PrefetchReplacementGroup(group);
                 }
             }
@@ -1384,10 +1384,10 @@ extern "C" void GameEngine_LogStackTrace(const char* label) {
 #endif
 }
 
-extern "C" void GameEngine_PrefetchTextures(const char* group) {
-    if (gsFast3dWindow != nullptr) {
+extern "C" void GameEngine_PrefetchTexture(const char* path) {
+    if (path != nullptr && GameEngine_OTRSigCheck(path) && gsFast3dWindow != nullptr) {
         if (auto interpreter = gsFast3dWindow->GetInterpreterWeak().lock()) {
-            interpreter->PrefetchReplacementGroup(group);
+            interpreter->PrefetchReplacement(path + 7); // past "__OTR__"
         }
     }
 }
