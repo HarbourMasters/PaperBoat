@@ -43,6 +43,11 @@ u8* filemenu_specialSymbols[][5] = {
 };
 #else
 intptr_t filemenu_specialSymbols[] = { (intptr_t)filemenu_msg_C6, (intptr_t)filemenu_msg_C7, (intptr_t)filemenu_msg_C8, (intptr_t)filemenu_msg_C9, (intptr_t)filemenu_msg_CA };
+static const char* sFileMenuSpecialOtr[] = {
+    [0] = "__OTR__messages/MSG_FileMenu_Space",
+    [3] = "__OTR__messages/MSG_FileMenu_Back",
+    [4] = "__OTR__messages/MSG_FileMenu_End",
+};
 #endif
 
 Gfx filemenu_dl_draw_char_init[] = {
@@ -629,7 +634,15 @@ void filemenu_draw_message(u8* message, s32 x, s32 y, s32 alpha, s32 color, u32 
 #if VERSION_PAL
             message = (u8*) filemenu_specialSymbols[gCurrentLanguage][(uintptr_t) message - 0xC6];
 #else
-            message = (u8*)filemenu_specialSymbols[(uintptr_t) message - 0xC6];
+            {
+                u32 spec = (u32)((uintptr_t)message - 0xC6);
+                const char* name = NULL;
+
+                if (spec < ARRAY_COUNT(sFileMenuSpecialOtr)) {
+                    name = sFileMenuSpecialOtr[spec];
+                }
+                message = (u8*)port_msg_override(name, (void*)filemenu_specialSymbols[spec]);
+            }
 #endif
         }
     }
@@ -658,11 +671,54 @@ void filemenu_draw_message(u8* message, s32 x, s32 y, s32 alpha, s32 color, u32 
     }
 }
 
+#if !VERSION_PAL
+static const char* sFileMenuOtr[] = {
+    [FILE_MESSAGE_SELECT_FILE_TO_START] = "__OTR__messages/MSG_FileMenu_SelectToStart",
+    [FILE_MESSAGE_SELECT_FILE_TO_DELETE] = "__OTR__messages/MSG_FileMenu_SelectToDelete",
+    [FILE_MESSAGE_SELECT_FILE_TO_SAVE] = "__OTR__messages/MSG_FileMenu_SelectToSave",
+    [FILE_MESSAGE_COPY_WHICH_FILE] = "__OTR__messages/MSG_FileMenu_CopyWhichFile",
+    [FILE_MESSAGE_COPY_TO_WHICH_FILE] = "__OTR__messages/MSG_FileMenu_CopyToWhichFile",
+    [FILE_MESSAGE_NEW] = "__OTR__messages/MSG_FileMenu_New",
+    [FILE_MESSAGE_LEVEL] = "__OTR__messages/MSG_FileMenu_Level",
+    [FILE_MESSAGE_PLAY_TIME] = "__OTR__messages/MSG_FileMenu_PlayTime",
+    [FILE_MESSAGE_DELETE_FILE] = "__OTR__messages/MSG_FileMenu_DeleteFile",
+    [FILE_MESSAGE_CANCEL] = "__OTR__messages/MSG_FileMenu_Cancel",
+    [FILE_MESSAGE_COPY_FILE] = "__OTR__messages/MSG_FileMenu_CopyFile",
+    [FILE_MESSAGE_FIRST_PLAY] = "__OTR__messages/MSG_FileMenu_FirstPlay",
+    [FILE_MESSAGE_PERIOD_13] = "__OTR__messages/MSG_FileMenu_Period13",
+    [FILE_MESSAGE_YES] = "__OTR__messages/MSG_FileMenu_Yes",
+    [FILE_MESSAGE_NO] = "__OTR__messages/MSG_FileMenu_No",
+    [FILE_MESSAGE_DELETE] = "__OTR__messages/MSG_FileMenu_Delete",
+    [FILE_MESSAGE_OVERRIDE_TO_NEW_DATA] = "__OTR__messages/MSG_FileMenu_OverrideToNewData",
+    [FILE_MESSAGE_SAVE_OK] = "__OTR__messages/MSG_FileMenu_SaveOK",
+    [FILE_MESSAGE_FILE_NAME_IS] = "__OTR__messages/MSG_FileMenu_FileNameIs",
+    [FILE_MESSAGE_PERIOD_20] = "__OTR__messages/MSG_FileMenu_Period20",
+    [FILE_MESSAGE_OK] = "__OTR__messages/MSG_FileMenu_OK",
+    [FILE_MESSAGE_FILE_22] = "__OTR__messages/MSG_FileMenu_File22",
+    [FILE_MESSAGE_WILL_BE_DELETED] = "__OTR__messages/MSG_FileMenu_WillBeDeleted",
+    [FILE_MESSAGE_OK_TO_COPY_TO_THIS_FILE] = "__OTR__messages/MSG_FileMenu_OkToCopy",
+    [FILE_MESSAGE_START_GAME_WITH] = "__OTR__messages/MSG_FileMenu_StartGameWith",
+    [FILE_MESSAGE_FILE_26] = "__OTR__messages/MSG_FileMenu_File26",
+    [FILE_MESSAGE_HAS_BEEN_DELETED] = "__OTR__messages/MSG_FileMenu_HasBeenDeleted",
+    [FILE_MESSAGE_COPY_FROM] = "__OTR__messages/MSG_FileMenu_CopyFrom",
+    [FILE_MESSAGE_TO] = "__OTR__messages/MSG_FileMenu_To",
+    [FILE_MESSAGE_HAS_BEEN_CREATED] = "__OTR__messages/MSG_FileMenu_HasBeenCreated",
+    [FILE_MESSAGE_ENTER_A_FILE_NAME] = "__OTR__messages/MSG_FileMenu_EnterAFileName",
+    [FILE_MESSAGE_QUESTION] = "__OTR__messages/MSG_FileMenu_Question",
+    [FILE_MESSAGE_PERIOD_34] = "__OTR__messages/MSG_FileMenu_Period34",
+};
+#endif
+
 u8* filemenu_get_menu_message(s32 idx) {
 #if VERSION_PAL
     return gFileMenuMessages_intl[gCurrentLanguage][idx];
 #else
-    return (u8*)gFileMenuMessages[idx];
+    const char* name = NULL;
+
+    if (idx >= 0 && idx < (s32)ARRAY_COUNT(sFileMenuOtr)) {
+        name = sFileMenuOtr[idx];
+    }
+    return (u8*)port_msg_override(name, (void*)gFileMenuMessages[idx]);
 #endif
 }
 

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "filemenu.h"
 #include "hud_element.h"
+#include "port/patches/Patches.h"
 
 extern HudScript HES_FilenameCaret;
 extern HudScript HES_FilenameSpace;
@@ -165,7 +166,7 @@ s32 msg_get_print_char_width(s32 character, s32 charset, s32 variation, f32 msgS
 #define FILEMENU_C9_OFFSET  16
 #else
 #define KEYBOARD_ROW_HEIGHT 17
-#define FILEMENU_C9_OFFSET  5
+#define FILEMENU_C9_OFFSET  port_filemenu_layout(FM_LAYOUT_BACK_OFFSET, 5)
 #endif
 #define KEYBOARD_COL_WIDTH 19
 
@@ -245,7 +246,7 @@ void filemenu_draw_contents_choose_name(
 #if VERSION_PAL
                             xOffset += 16;
 #else
-                            xOffset += 5;
+                            xOffset += FILEMENU_C9_OFFSET;
 #endif
                         }
                         if (specialChar == MSG_CHAR_MENU_END) {
