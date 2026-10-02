@@ -1,9 +1,11 @@
 #include "port/ShipInit.hpp"
 #include "port/Engine.h"
 #include "port/hooks/Events.h"
+#include "port/sprite/SpriteLoader.h"
 
 #include "common.h"
 #include "sprite.h"
+#include "sprite/player.h"
 #include "port/patches/Patches.h"
 
 extern "C" {
@@ -161,5 +163,61 @@ void port_appendGfx_shading_palette(
         ((lrs + 0x100 - 1) << 2) + (s32) (offsetX * facingDir),
         ((lrt + 0x100 - 1) << 2) + (s32) offsetY
     );
+}
+
+// Start decoding the HD art for an animation's frames before they're drawn. Reads its
+// SetImage commands and skips the rest by length, like spr_load_npc_extra_anims.
+static void PrefetchAnim(SpriteAnimData* sprite, s32 animIndex, s32 playerSpriteIndex) {
+    SpriteAnimComponent** compList = sprite->animListStart[animIndex];
+    SpriteAnimComponent* comp;
+
+    while ((comp = *compList++) != PTR_LIST_END) {
+        u16* cmd = comp->cmdList;
+        u16* end = &comp->cmdList[comp->cmdListSize / 2];
+
+        while (cmd < end) {
+            switch (*cmd & 0xF000) {
+                case 0x1000:
+                    if ((*cmd & 0xFFF) != 0xFFF) {
+                        s32 raster = *cmd & 0xFFF;
+                        GameEngine_PrefetchTexture(
+                            playerSpriteIndex >= 0 ? (const char*) Sprite_GetPlayerRasterPath(playerSpriteIndex, raster)
+                                                   : (const char*) sprite->rastersOffset[raster]->image);
+                    }
+                    cmd += 1;
+                    break;
+                case 0x3000:
+                    cmd += 4;
+                    break;
+                case 0x4000:
+                    cmd += 3;
+                    break;
+                case 0x5000:
+                case 0x7000:
+                    cmd += 2;
+                    break;
+                default:
+                    cmd += 1;
+                    break;
+            }
+        }
+    }
+}
+
+void port_prefetch_npc_anim(SpriteAnimData* sprite, s32 prevAnimID, s32 animID) {
+    if (SPR_UNPACK_ANIM(prevAnimID) != SPR_UNPACK_ANIM(animID)) {
+        PrefetchAnim(sprite, SPR_UNPACK_ANIM(animID), -1);
+    }
+}
+
+void port_prefetch_player_anim(SpriteAnimData* sprite, s32 prevAnimID, s32 animID) {
+    if (animID == prevAnimID) {
+        return;
+    }
+    // Facing away draws from the next sprite (see spr_draw_player_sprite)
+    s32 spriteID = SPR_UNPACK_SPR(animID);
+    b32 back = (animID & SPRITE_ID_BACK_FACING) &&
+               (spriteID == SPR_Mario1 || spriteID == SPR_MarioW1 || spriteID == SPR_Peach1);
+    PrefetchAnim(sprite, SPR_UNPACK_ANIM(animID), spriteID - 1 + back);
 }
 }

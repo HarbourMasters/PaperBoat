@@ -179,10 +179,6 @@ void* Sprite_LoadNPC(SpriteS32 spriteIdx, void* destBuffer, size_t bufferSize) {
         return nullptr;
     }
 
-    // Pre-decode a sprite
-    snprintf(assetPath, sizeof(assetPath), "sprites/npc_sprite_%03d_raster_", spriteIdx);
-    GameEngine_PrefetchTextures(assetPath);
-
     return destBuffer;
 }
 
@@ -673,9 +669,6 @@ void* Sprite_LoadPlayer(SpriteS32 spriteIdx, void* destBuffer, size_t bufferSize
         SPDLOG_ERROR("Sprite_LoadPlayer: Failed to convert player sprite {}", spriteIdx);
         return nullptr;
     }
-
-    snprintf(assetPath, sizeof(assetPath), "sprites/player_sprite_%d_raster_", spriteIdx);
-    GameEngine_PrefetchTextures(assetPath);
 
     return destBuffer;
 }
