@@ -983,6 +983,17 @@ void GameEngine::StartFrame() const {
         SPDLOG_INFO("HD auto-mipmaps {}", autoMipmaps ? "enabled" : "disabled");
     }
 
+    const bool mipmaps = CVarGetInteger("gEnhancements.Graphics.DisableMipmaps", 0) == 0;
+    if (mipmaps != mPrevMipmaps) {
+        mPrevMipmaps = mipmaps;
+        if (gsFast3dWindow != nullptr) {
+            if (auto interpreter = gsFast3dWindow->GetInterpreterWeak().lock()) {
+                interpreter->SetMipmapsEnabled(mipmaps);
+            }
+        }
+        SPDLOG_INFO("Mipmaps {}", mipmaps ? "enabled" : "disabled");
+    }
+
     using Ship::KbScancode;
     const int32_t dwScancode = Ship::Context::GetRawInstance()->GetWindow()->GetLastScancode();
     Ship::Context::GetRawInstance()->GetWindow()->SetLastScancode(-1);
