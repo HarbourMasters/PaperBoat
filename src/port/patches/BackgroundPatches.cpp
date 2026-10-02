@@ -74,6 +74,7 @@ void port_load_map_bg(char* optAssetName) {
     }
 
     gBackgroundImage.raster = (IMG_PTR) sBgRasterPath;
+    GameEngine_PrefetchTexture(sBgRasterPath);
 
     // CPU-side fog/tint blending
     u8* palData = (u8*) GameEngine_GetDataExact(gBgPalettePath);
