@@ -16,6 +16,7 @@
 extern "C" {
 extern Camera gCameras[4];
 extern GameStatus* gGameStatusPtr;
+extern Gfx* gMainGfxPos;
 void set_cam_viewport(s16 id, s16 x, s16 y, s16 width, s16 height);
 void hud_element_set_render_pos(s32 id, s32 x, s32 y);
 void hud_element_set_transform_scale(s32 id, f32 x, f32 y, f32 z);
@@ -215,10 +216,14 @@ static void RegisterCameraPatches_Init() {
             return;
         }
 
+        // The HUD scissor (12..308) cuts into the mirrored half on some wide ratios,
+        // so clip that half to the window edges instead.
+        gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, 0, port_hud_clip_top(), SCREEN_WIDTH, port_hud_clip_bottom());
         hud_element_set_transform_scale(ev->hid, -1.0f, 1.0f, 1.0f);
         hud_element_set_render_pos(ev->hid, ev->x - REEL_MIRROR_DX, ev->y);
         hud_element_draw_complex_hud_next(ev->hid);
         hud_element_set_transform_scale(ev->hid, 1.0f, 1.0f, 1.0f);
+        gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, 12, port_hud_clip_top(), 308, port_hud_clip_bottom());
     });
 
     REGISTER_LISTENER(CameraFitViewport, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
