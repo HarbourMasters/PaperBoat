@@ -128,7 +128,7 @@ void ver_port_item_ids(s16* array, s16* mapping, s32 size, s32 mapMax) {
 #define COPY_S16_ARRAY(new, old) ver_copy_s16_array(new, old, ARRAY_COUNT(old), ARRAY_COUNT(new));
 #define COPY_S32_ARRAY(new, old) ver_copy_s32_array(new, old, ARRAY_COUNT(old), ARRAY_COUNT(new));
 
-#define PORT_ITEM_IDS(array, map) ver_copy_s16_array(array, map, ARRAY_COUNT(array), ARRAY_COUNT(map));
+#define PORT_ITEM_IDS(array, map) ver_port_item_ids(array, map, ARRAY_COUNT(array), ARRAY_COUNT(map));
 
 // Maps vanilla itemIDs to enum values which may have changed in the mod
 // If your mod removes an item, you can remap it to ITEM_NONE or something else here.
@@ -527,6 +527,7 @@ void ver_deserialize_vanilla_save(SaveData* newSave) {
     // defeat flags are unchanged
     for (i = 0; i < ARRAY_COUNT(gCurrentEncounter.defeatFlags[0]); i++) {
         for (j = 0; j < ARRAY_COUNT(gCurrentEncounter.defeatFlags); j++) {
+            newSave->enemyDefeatFlags[j][i] = oldSave.enemyDefeatFlags[j][i];
             gCurrentEncounter.defeatFlags[j][i] = newSave->enemyDefeatFlags[j][i];
         }
     }
