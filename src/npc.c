@@ -1495,6 +1495,9 @@ void npc_render_with_single_pal_blending(Npc* npc, s32 yaw, b32 hasDifferentInte
         npc->palBlendAlpha = 0;
         npc->palAnimState = PAL_SWAP_HOLD_A;
         npc->resetPalAdjust = 0;
+        for (i = 0; i < npc->originalPalettesCount; i++) {
+            npc->adjustedPalettes[i] = npc->originalPalettesList[i];
+        }
     }
 
     // blending from A -> B
@@ -1562,6 +1565,25 @@ void npc_render_with_single_pal_blending(Npc* npc, s32 yaw, b32 hasDifferentInte
                 npc->palAnimState = PAL_SWAP_HOLD_A;
                 npc->nextPalTime = npc->palswapTimeHoldA;
             }
+            break;
+    }
+
+    switch (npc->palAnimState) {
+        case PAL_SWAP_HOLD_A:
+            if (npc->palBlendAlpha != 0) {
+                npc->adjustedPalettes[0] = npc->originalPalettesList[npc->blendPalA];
+            }
+            break;
+        case PAL_SWAP_A_TO_B:
+            gDPPaletteBlend(gMainGfxPos++, npc->adjustedPalettes[0], npc->originalPalettesList[npc->blendPalA],
+                            npc->originalPalettesList[npc->blendPalB], npc->palBlendAlpha / 100);
+            break;
+        case PAL_SWAP_HOLD_B:
+            npc->adjustedPalettes[0] = npc->originalPalettesList[npc->blendPalB];
+            break;
+        case PAL_SWAP_B_TO_A:
+            gDPPaletteBlend(gMainGfxPos++, npc->adjustedPalettes[0], npc->originalPalettesList[npc->blendPalB],
+                            npc->originalPalettesList[npc->blendPalA], npc->palBlendAlpha / 100);
             break;
     }
 
