@@ -24,10 +24,10 @@
 // Defined in state_startup.c.
 extern "C" b32 gPortResetToTitleScreen;
 
-static bool ResetHandler(std::shared_ptr<Ship::Console> Console, std::vector<std::string> args, std::string* output) {
+static int32_t ResetHandler(std::shared_ptr<Ship::Console> Console, std::vector<std::string> args, std::string* output) {
     gPortResetToTitleScreen = true;
     gOverrideFlags |= GLOBAL_OVERRIDES_SOFT_RESET;
-    return 1;
+    return 0;
 }
 
 void DevConsole_Init(void) {
