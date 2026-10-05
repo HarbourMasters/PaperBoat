@@ -307,9 +307,11 @@ struct InterpolateCtx {
     }
 
     void interpolate_branch(Path* old_path, Path* new_path) {
+        Path* old_children = old_path;
         // Preliminary solution: ops are paired by index, so a path whose recorded
         // sequence changed would pair every matrix with an unrelated one. Interpolate
-        // it against itself instead preventing weird flashes with curtains and STORY_INTRO.
+        // this path's own ops against themselves instead, preventing weird flashes with
+        // curtains and STORY_INTRO. Children still pair by key against the real old path.
         if (old_path != new_path && old_path->op_signature != new_path->op_signature) {
             old_path = new_path;
         }
@@ -318,8 +320,8 @@ struct InterpolateCtx {
             Data& new_op = new_path->ops[item.first][item.second];
 
             if (item.first == Op::OpenChild) {
-                if (auto it = old_path->children.find(new_op.open_child.key);
-                    it != old_path->children.end() && new_op.open_child.idx < it->second.size())
+                if (auto it = old_children->children.find(new_op.open_child.key);
+                    it != old_children->children.end() && new_op.open_child.idx < it->second.size())
                 {
                     interpolate_branch(
                         &it->second[new_op.open_child.idx],
