@@ -26,8 +26,8 @@ static void port_blend_named_palettes(DecorationTable* decorations, s32 from, s3
     s32 i;
 
     for (i = 0; i < n; i++) {
-        gDPPaletteBlend(gMainGfxPos++, decorations->adjustedPalettes[i], decorations->originalPalettesList[n * from + i],
-                        decorations->originalPalettesList[n * to + i], alpha);
+        port_palette_blend(decorations->adjustedPalettes[i], decorations->originalPalettesList[n * from + i],
+                           decorations->originalPalettesList[n * to + i], alpha);
     }
 }
 
@@ -2225,6 +2225,7 @@ void render_with_sleep_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Matri
         PAL_PTR palIn = port_sprite_palette_data(decorations->originalPalettesList[i]);
         PAL_PTR palOut = decorations->copiedPalettes[0][i];
         decorations->adjustedPalettes[i] = palOut;
+        port_palette_tint(palOut, decorations->originalPalettesList[i], 0.2f, 0.4f, 0.7f, 0, 0, 0); // [port]
         if (palIn != nullptr) {
             for (j = 0; j < SPR_PAL_SIZE; j++) {
                 u8 r = UNPACK_PAL_R(*palIn);
@@ -2407,6 +2408,7 @@ void render_with_fear_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Matrix
         palIn = port_sprite_palette_data(decorations->originalPalettesList[i]);
         palOut = decorations->copiedPalettes[0][i];
         decorations->adjustedPalettes[i] = palOut;
+        port_palette_tint(palOut, decorations->originalPalettesList[i], 0.5f, 0.5f, 0.5f, 0, 0, 0); // [port]
         if (palIn != nullptr) {
             for (j = 0; j < SPR_PAL_SIZE; j++) {
                 u8 r = UNPACK_PAL_R(*palIn);
@@ -2558,6 +2560,7 @@ void render_with_paralyze_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Ma
 
     for (i = 0; i < decorations->originalPalettesCount; i++) {
         decorations->adjustedPalettes[i] = decorations->copiedPalettes[0][i];
+        port_palette_tint(decorations->adjustedPalettes[i], decorations->originalPalettesList[i], 1.0f, 1.0f, 1.0f, 4, 4, 4); // [port]
     }
 
     switch (decorations->palAnimState) {
@@ -2652,6 +2655,7 @@ void render_with_berserk_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Mat
 
     for (i = 0; i < decorations->originalPalettesCount; i++) {
         decorations->adjustedPalettes[i] = decorations->copiedPalettes[0][i];
+        port_palette_tint(decorations->adjustedPalettes[i], decorations->originalPalettesList[i], 0.8f, 0.6f, 0.1f, 0, 0, 0); // [port]
     }
 
     if (isNpcSprite == SPRITE_MODE_PLAYER) {
@@ -3199,15 +3203,15 @@ void render_with_pal_blending(b32 isNpcSprite, ActorPart* part, s32 yaw, b32 has
             }
             break;
         case PAL_SWAP_A_TO_B:
-            gDPPaletteBlend(gMainGfxPos++, decorations->adjustedPalettes[0], decorations->originalPalettesList[decorations->blendPalA],
-                            decorations->originalPalettesList[decorations->blendPalB], decorations->palBlendAlpha / 100);
+            port_palette_blend(decorations->adjustedPalettes[0], decorations->originalPalettesList[decorations->blendPalA],
+                               decorations->originalPalettesList[decorations->blendPalB], decorations->palBlendAlpha / 100);
             break;
         case PAL_SWAP_HOLD_B:
             decorations->adjustedPalettes[0] = decorations->originalPalettesList[decorations->blendPalB];
             break;
         case PAL_SWAP_B_TO_A:
-            gDPPaletteBlend(gMainGfxPos++, decorations->adjustedPalettes[0], decorations->originalPalettesList[decorations->blendPalB],
-                            decorations->originalPalettesList[decorations->blendPalA], decorations->palBlendAlpha / 100);
+            port_palette_blend(decorations->adjustedPalettes[0], decorations->originalPalettesList[decorations->blendPalB],
+                               decorations->originalPalettesList[decorations->blendPalA], decorations->palBlendAlpha / 100);
             break;
     }
 
