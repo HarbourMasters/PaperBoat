@@ -1728,7 +1728,7 @@ typedef struct DecorationTable {
     /* 0x767 */ s8 flashFramesLeft;
     /* 0x768 */ u8 flashEnabled;
     /* 0x769 */ char unk_769[3];
-    /* 0x76C */ PAL_PTR flashPalettes[16];
+    /* 0x76C */ PAL_PTR flashPalettes[27]; // [port]
     /* 0x78C */ char unk_7AC[0x2C];
     /* 0x7D8 */ s8 blurUnused;
     /* 0x7D9 */ s8 blurBufferPos;

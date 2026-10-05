@@ -1523,6 +1523,8 @@ void npc_render_with_single_pal_blending(Npc* npc, s32 yaw, b32 hasDifferentInte
             color1 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalB]);
             npc->adjustedPalettes[0] = outColor;
 
+            port_palette_blend(outColor, npc->originalPalettesList[npc->blendPalA],
+                               npc->originalPalettesList[npc->blendPalB], blendAlpha); // [port]
             for (j = 0; j < SPR_PAL_SIZE; j++) {
                 *outColor++ = npc_blend_palette_colors(*color2++, *color1++, blendAlpha);
             }
@@ -1557,6 +1559,8 @@ void npc_render_with_single_pal_blending(Npc* npc, s32 yaw, b32 hasDifferentInte
             color1 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalA]);
             npc->adjustedPalettes[0] = outColor;
 
+            port_palette_blend(outColor, npc->originalPalettesList[npc->blendPalB],
+                               npc->originalPalettesList[npc->blendPalA], blendAlpha); // [port]
             for (j = 0; j < SPR_PAL_SIZE; j++) {
                 *outColor++ = npc_blend_palette_colors(*color2++, *color1++, blendAlpha);
             }
@@ -1574,16 +1578,8 @@ void npc_render_with_single_pal_blending(Npc* npc, s32 yaw, b32 hasDifferentInte
                 npc->adjustedPalettes[0] = npc->originalPalettesList[npc->blendPalA];
             }
             break;
-        case PAL_SWAP_A_TO_B:
-            gDPPaletteBlend(gMainGfxPos++, npc->adjustedPalettes[0], npc->originalPalettesList[npc->blendPalA],
-                            npc->originalPalettesList[npc->blendPalB], npc->palBlendAlpha / 100);
-            break;
         case PAL_SWAP_HOLD_B:
             npc->adjustedPalettes[0] = npc->originalPalettesList[npc->blendPalB];
-            break;
-        case PAL_SWAP_B_TO_A:
-            gDPPaletteBlend(gMainGfxPos++, npc->adjustedPalettes[0], npc->originalPalettesList[npc->blendPalB],
-                            npc->originalPalettesList[npc->blendPalA], npc->palBlendAlpha / 100);
             break;
     }
 
@@ -1671,6 +1667,8 @@ void npc_render_with_double_pal_blending(Npc* npc, s32 yaw, Matrix4f mtx) {
             color1 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalB]);
             npc->adjustedPalettes[0] = outColor;
 
+            port_palette_blend(outColor, npc->originalPalettesList[npc->blendPalA],
+                               npc->originalPalettesList[npc->blendPalB], blendAlpha); // [port]
             for (j = 0; j < SPR_PAL_SIZE; j++) {
                 *outColor++ = npc_blend_palette_colors(*color2++, *color1++, blendAlpha);
             }
@@ -1681,6 +1679,8 @@ void npc_render_with_double_pal_blending(Npc* npc, s32 yaw, Matrix4f mtx) {
             color1 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalD]);
             npc->adjustedPalettes[3] = outColor;
 
+            port_palette_blend(outColor, npc->originalPalettesList[npc->blendPalC],
+                               npc->originalPalettesList[npc->blendPalD], blendAlpha); // [port]
             for (j = 0; j < SPR_PAL_SIZE; j++) {
                 *outColor++ = npc_blend_palette_colors(*color2++, *color1++, blendAlpha);
             }
@@ -1716,6 +1716,8 @@ void npc_render_with_double_pal_blending(Npc* npc, s32 yaw, Matrix4f mtx) {
             color1 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalA]);
             npc->adjustedPalettes[0] = outColor;
 
+            port_palette_blend(outColor, npc->originalPalettesList[npc->blendPalB],
+                               npc->originalPalettesList[npc->blendPalA], blendAlpha); // [port]
             for (j = 0; j < SPR_PAL_SIZE; j++) {
                 *outColor++ = npc_blend_palette_colors(*color2++, *color1++, blendAlpha);
             }
@@ -1726,6 +1728,8 @@ void npc_render_with_double_pal_blending(Npc* npc, s32 yaw, Matrix4f mtx) {
             color1 = port_sprite_palette_data(npc->originalPalettesList[npc->blendPalC]);
             npc->adjustedPalettes[3] = npc->copiedPalettes[3];
 
+            port_palette_blend(outColor, npc->originalPalettesList[npc->blendPalD],
+                               npc->originalPalettesList[npc->blendPalC], blendAlpha); // [port]
             for (j = 0; j < SPR_PAL_SIZE; j++) {
                 *outColor++ = npc_blend_palette_colors(*color2++, *color1++, blendAlpha);
             }
