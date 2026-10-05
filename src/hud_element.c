@@ -376,7 +376,7 @@ void hud_element_draw_rect(HudElement* hudElement, s16 texSizeX, s16 texSizeY, s
             texStartY = 0;
         }
 
-        if (lry < 0 || uly > SCREEN_HEIGHT) {
+        if (lry < 0 || uly >= SCREEN_HEIGHT) {
             break;
         }
 
@@ -399,6 +399,10 @@ void hud_element_draw_rect(HudElement* hudElement, s16 texSizeX, s16 texSizeY, s
             isLastTileY = true;
         }
 
+        if (lrt < ult) {
+            break;
+        }
+
         isLastTileX = false;
         uls = 0;
         ulx = baseX;
@@ -411,7 +415,7 @@ void hud_element_draw_rect(HudElement* hudElement, s16 texSizeX, s16 texSizeY, s
                 texStartX = 0;
             }
 
-            if (lrx < wsClipLeft || ulx > wsClipRight) {
+            if (lrx < wsClipLeft || ulx >= wsClipRight) {
                 break;
             }
 
@@ -432,6 +436,10 @@ void hud_element_draw_rect(HudElement* hudElement, s16 texSizeX, s16 texSizeY, s
                     lrx = baseX + drawSizeX;
                 }
                 isLastTileX = true;
+            }
+
+            if (lrs < uls) {
+                break;
             }
 
             gDPPipeSync(gMainGfxPos++);

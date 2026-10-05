@@ -110,6 +110,7 @@ class GameEngine {
     mutable bool mPrevAltAssets = false;
     mutable bool mPrevDPadAsLeftStick = false;
     mutable bool mPrevAutoMipmaps = true;
+    mutable bool mPrevMipmaps = true;
 
     static struct {
         bool running = false;
@@ -142,7 +143,8 @@ void GameEngine_LogStackTrace(const char* label);
 // Call when player raster cache overwrites a buffer with new image data,
 // since the Fast3D interpreter caches textures by pointer address.
 void GameEngine_InvalidateTextureCache(const void* addr);
-void GameEngine_PrefetchTextures(const char* group);
+// Start decoding an "__OTR__" path's HD texture before it gets drawn
+void GameEngine_PrefetchTexture(const char* path);
 void gfx_texture_cache_clear(void);
 
 void port_nuGfxOnSubmit(void* task);

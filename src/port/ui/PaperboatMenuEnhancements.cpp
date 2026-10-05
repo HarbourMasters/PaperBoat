@@ -115,6 +115,10 @@ void PaperboatMenu::AddMenuEnhancements() {
             CheckboxOptions().Tooltip("Flips the battle projector reel to appear rounded for widescreen resolutions.")
         );
 
+    AddWidget(path, "Disable Mipmaps", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("Graphics.DisableMipmaps"))
+        .Options(CheckboxOptions().Tooltip("Just like emulator!"));
+
     // Enhancements > Status Bar
     path = { "Enhancements", "Status Bar", SECTION_COLUMN_1 };
     AddSidebarEntry("Enhancements", path.sidebarName, 2);
