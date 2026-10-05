@@ -540,7 +540,7 @@ void filemenu_draw_contents_file_info(s32 fileIdx,
 
     // do not show file summary from mods that don't match the current one
     if (!gSaveSlotMetadata[fileIdx].validData) {
-        u8 buf[32];
+        static u8 buf[32];
         if (gSaveSlotMetadata[fileIdx].modName[0] == '\0') {
             dx_string_to_msg(buf, "Paper Mario");
         } else {
