@@ -17,6 +17,7 @@
 #include <ship/window/gui/ConsoleWindow.h>
 #include "port/ui/devtools/valueviewer/ValueViewer.h"
 #include "port/ui/devtools/saveeditor/SaveEditor.h"
+#include "port/ui/ActorBlueprintEditor.h"
 
 namespace PaperboatGui {
 // MARK: - Delegates
@@ -32,6 +33,7 @@ std::shared_ptr<EventDebuggerWindow> mEventDebuggerWindow;
 std::shared_ptr<ValueViewerWindow> mValueViewerWindow;
 std::shared_ptr<ValueViewerSettingsWindow> mValueViewerSettingsWindow;
 std::shared_ptr<SaveEditorWindow> mSaveEditorWindow;
+std::shared_ptr<ActorBlueprintEditorWindow> mActorBlueprintEditorWindow;
 std::shared_ptr<PaperboatModMenuWindow> mModMenuWindow;
 std::shared_ptr<TouchControlsOverlay> mTouchControlsOverlay;
 
@@ -73,6 +75,10 @@ void SetupGuiElements() {
 
     mSaveEditorWindow = std::make_shared<SaveEditorWindow>(CVAR_WINDOW("SaveEditor"), "Save Editor");
     gui->AddGuiWindow(mSaveEditorWindow);
+
+    mActorBlueprintEditorWindow =
+        std::make_shared<ActorBlueprintEditorWindow>(CVAR_WINDOW("ActorBlueprintEditor"), "Blueprint Editor");
+    gui->AddGuiWindow(mActorBlueprintEditorWindow);
 
     mModMenuWindow = std::make_shared<PaperboatModMenuWindow>(CVAR_WINDOW("ModMenu"), "Mod Menu");
     gui->AddGuiWindow(mModMenuWindow);
@@ -119,6 +125,7 @@ void Destroy() {
     mValueViewerWindow = nullptr;
     mValueViewerSettingsWindow = nullptr;
     mSaveEditorWindow = nullptr;
+    mActorBlueprintEditorWindow = nullptr;
     mModMenuWindow = nullptr;
     mTouchControlsOverlay = nullptr;
 }

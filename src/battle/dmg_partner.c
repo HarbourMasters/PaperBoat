@@ -387,7 +387,9 @@ HitResult calc_partner_damage_enemy(void) {
             statusChanceOrDefense += target->defenseBoost;
         }
 
-        damageDealt = battleStatus->curAttackDamage + partner->attackBoost;
+        damageDealt = battleStatus->curAttackDamage;
+        CALL_EVENT(OnPartnerAttackDamage, partner, target, &damageDealt);
+        damageDealt += partner->attackBoost;
 
         if (gBattleStatus.flags1 & BS_FLAGS1_TRIGGER_EVENTS) {
             if (battleStatus->curAttackElement & DAMAGE_TYPE_BLAST

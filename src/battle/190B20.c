@@ -1429,6 +1429,7 @@ Actor* create_actor(Formation formation) {
     }
 
     formationActor = formation->actor;
+    CALL_EVENT(OnActorBlueprintLoad, &formationActor);
     partCount = formationActor->partCount;
 
     for (i = 0; i < ARRAY_COUNT(battleStatus->enemyActors); i++) {
@@ -1671,6 +1672,7 @@ Actor* create_actor(Formation formation) {
     actor->disableEffect = fx_disable_x(0, -142.0f, 34.0f, 1.0f, 0);
     actor->icePillarEffect = nullptr;
     actor->hudElementDataIndex = create_status_icon_set();
+    CALL_EVENT(OnActorCreated, actor);
     return actor;
 }
 

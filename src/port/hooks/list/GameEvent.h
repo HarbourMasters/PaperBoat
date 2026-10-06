@@ -66,6 +66,26 @@ DEFINE_EVENT(OnCoinDrop,
     int32_t* count;
 );
 
+// Battle > Actors
+DEFINE_EVENT(OnActorBlueprintLoad,
+    struct ActorBlueprint** blueprint;
+);
+
+DEFINE_EVENT(OnActorCreated,
+    Actor* actor;
+);
+
+DEFINE_EVENT(OnEnemyAttackDamage,
+    Actor* attacker;
+    int32_t* damage;
+);
+
+DEFINE_EVENT(OnPartnerAttackDamage,
+    Actor* partner;
+    Actor* target;
+    int32_t* damage;
+);
+
 // World
 DEFINE_EVENT(OnMapLoad,
     const char* mapName;
