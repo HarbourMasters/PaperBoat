@@ -116,9 +116,11 @@ void PaperboatMenu::AddMenuDevTools() {
         .CVar(CVAR_WINDOW("ActorBlueprintEditor"))
         .WindowName("Blueprint Editor")
         .HideInSearch(true)
-        .Options(WindowButtonOptions().Tooltip(
-            "Edit enemy HP, attack power, rewards and partner odds, and share presets as JSON."
-        ));
+        .Options(
+            WindowButtonOptions().Tooltip(
+                "Edit enemy HP, attack power, rewards and partner odds, and share presets as JSON."
+            )
+        );
 }
 
 } // namespace PaperboatGui
