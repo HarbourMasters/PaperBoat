@@ -378,7 +378,7 @@ static void DrawPortraitAt(const ActorBlueprint* blueprint, ImVec2 min, ImVec2 b
     ImTextureID texture = GetPortrait(blueprint, &size);
 
     if (texture != nullptr && size.x > 0 && size.y > 0) {
-        float scale = std::min(box.x / size.x, box.y / size.y);
+        float scale = std::min<float>(box.x / size.x, box.y / size.y);
         ImVec2 drawMin = ImVec2(min.x + (box.x - size.x * scale) / 2, min.y + (box.y - size.y * scale) / 2);
         drawList->AddImage(texture, drawMin, ImVec2(drawMin.x + size.x * scale, drawMin.y + size.y * scale));
     } else {
@@ -630,7 +630,7 @@ static void DrawActorDetails(const CatalogEntry& entry) {
 }
 
 static void DrawTabContents(const std::vector<CatalogEntry>& catalog, int32_t tab) {
-    float listWidth = std::max(220.0f, ImGui::GetContentRegionAvail().x * 0.34f);
+    float listWidth = std::max<float>(220.0f, ImGui::GetContentRegionAvail().x * 0.34f);
 
     if (ImGui::BeginChild("ActorList", ImVec2(listWidth, 0), ImGuiChildFlags_Borders)) {
         DrawActorList(catalog, tab);
