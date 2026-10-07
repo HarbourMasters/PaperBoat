@@ -1891,15 +1891,15 @@ void imgfx_mesh_make_wavy(ImgFXState* state) {
         //TODO find better match
         v1 = (Vtx*)((state->firstVtxIdx + i) * sizeof(Vtx) + (uintptr_t)imgfx_vtxBuf);
         vx = v1->v.ob[0];
-        v1->v.ob[0] = (vx + (sin_deg(angle1) * state->ints.wavy.mag.x));
+        v1->v.ob[0] = (vx + (sin_rad(angle1) * state->ints.wavy.mag.x));
 
         v2 = (Vtx*)((state->firstVtxIdx + i) * sizeof(Vtx) + (uintptr_t)imgfx_vtxBuf);
         vy = v2->v.ob[1];
-        v2->v.ob[1] = (vy + (sin_deg(angle2) * state->ints.wavy.mag.y));
+        v2->v.ob[1] = (vy + (sin_rad(angle2) * state->ints.wavy.mag.y));
 
         v3 = (Vtx*)((state->firstVtxIdx + i) * sizeof(Vtx) + (uintptr_t)imgfx_vtxBuf);
         vz = v3->v.ob[2];
-        v3->v.ob[2] = (vz + (sin_deg(angle3) * state->ints.wavy.mag.z));
+        v3->v.ob[2] = (vz + (sin_rad(angle3) * state->ints.wavy.mag.z));
 
         angleInc++;
         if (i % (state->subdivX + 1) == 0) {
