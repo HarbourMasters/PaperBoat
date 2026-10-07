@@ -77,6 +77,10 @@ void PaperboatMenu::AddMenuEnhancements() {
         .CVar(CVAR_ENHANCEMENT("SprintButton"))
         .Options(CheckboxOptions().Tooltip("Hold R to move at double speed in the overworld."));
 
+    AddWidget(path, "Free QoL Badges", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("FreeQoLBadges"))
+        .Options(CheckboxOptions().Tooltip("Speedy Spin, I Spy and Peekaboo cost 0 BP."));
+
     AddWidget(path, "Action Command Difficulty", WIDGET_CVAR_COMBOBOX)
         .CVar(CVAR_ENHANCEMENT("ActionCommandDifficulty"))
         .Options(
