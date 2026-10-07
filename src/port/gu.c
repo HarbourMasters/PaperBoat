@@ -541,8 +541,8 @@ void guPositionF(float mf[4][4], float r, float p, float h, float s, float x, fl
     guScaleF(scale, s, s, s);
     guTranslateF(trans, x, y, z);
 
-    guMtxCatF(rz, ry, tmp);
-    guMtxCatF(tmp, rx, tmp2);
+    guMtxCatF(rx, ry, tmp);
+    guMtxCatF(tmp, rz, tmp2);
     guMtxCatF(tmp2, scale, tmp);
     guMtxCatF(tmp, trans, mf);
 }
