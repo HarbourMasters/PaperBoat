@@ -1348,8 +1348,10 @@ void SaveEditor_DrawLettersMenu() {
             }
         }
         if (ImGui::IsItemHovered()) {
-            ImGui::SetTooltip("Puts every letter that hasn't been delivered yet in key items.\n"
-                              "Letters share the 32 key item slots, so this stops once they are full.");
+            ImGui::SetTooltip(
+                "Puts every letter that hasn't been delivered yet in key items.\n"
+                "Letters share the 32 key item slots, so this stops once they are full."
+            );
         }
         ImGui::SameLine();
         if (UIWidgets::Button("Deliver All", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
@@ -1388,8 +1390,10 @@ void SaveEditor_DrawLettersMenu() {
         }
 
         ImGui::SeparatorText("Chain Letters");
-        ImGui::TextWrapped("Delivering a chain letter hands over the next one, so marking a letter here "
-                           "also updates the rest of the chain.");
+        ImGui::TextWrapped(
+            "Delivering a chain letter hands over the next one, so marking a letter here "
+            "also updates the rest of the chain."
+        );
         if (ImGui::BeginTable("ChainLettersTable", 4, ImGuiTableFlags_SizingStretchSame)) {
             SaveEditor_SetupLetterTable(padding, statImageSize);
             for (int i = 0; i < (int) chainLetterList.size(); i++) {
