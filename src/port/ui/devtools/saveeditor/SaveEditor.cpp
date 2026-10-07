@@ -22,6 +22,7 @@ extern s8 set_global_byte(s32 index, s32 value);
 extern s32 set_global_flag(s32 index);
 extern s32 clear_global_flag(s32 index);
 extern s32 get_global_flag(s32 index);
+extern void enforce_hpfp_limits(void);
 
 extern const s32 CookableItemIDs[];
 extern const s32 CookableDiscoveredFlags[];
@@ -898,7 +899,10 @@ void SaveEditor_DrawPlayerMenu() {
                 ImGui::Image(gui->GetTextureByName(ui_stat_heart_png), statImageSize);
                 ImGui::TableNextColumn();
                 int32_t curHealth = gPlayerData.curHP;
-                int32_t maxHealth = gPlayerData.curMaxHP;
+                int32_t maxHealth = gPlayerData.hardMaxHP;
+                std::string maxHealthFormat = gPlayerData.curMaxHP != gPlayerData.hardMaxHP
+                    ? fmt::format("Max HP: %i ({} with badges)", gPlayerData.curMaxHP)
+                    : "Max HP: %i";
                 if (UIWidgets::SliderInt(
                         "##pCurHP", &curHealth,
                         UIWidgets::IntSliderOptions()
@@ -916,13 +920,14 @@ void SaveEditor_DrawPlayerMenu() {
                         UIWidgets::IntSliderOptions()
                             .Color(WIDGET_COLOR)
                             .LabelPosition(UIWidgets::LabelPositions::None)
-                            .Format("Max HP: %i")
+                            .Format(maxHealthFormat.c_str())
                             .Step(5)
                             .Min(5)
                             .Max(50)
                     ))
                 {
-                    gPlayerData.curMaxHP = maxHealth;
+                    gPlayerData.hardMaxHP = maxHealth;
+                    enforce_hpfp_limits();
                 };
 
                 // Flower Points
@@ -930,7 +935,10 @@ void SaveEditor_DrawPlayerMenu() {
                 ImGui::Image(gui->GetTextureByName(ui_stat_flower_png), statImageSize);
                 ImGui::TableNextColumn();
                 int32_t curFlower = gPlayerData.curFP;
-                int32_t maxFlower = gPlayerData.curMaxFP;
+                int32_t maxFlower = gPlayerData.hardMaxFP;
+                std::string maxFlowerFormat = gPlayerData.curMaxFP != gPlayerData.hardMaxFP
+                    ? fmt::format("Max FP: %i ({} with badges)", gPlayerData.curMaxFP)
+                    : "Max FP: %i";
                 if (UIWidgets::SliderInt(
                         "##pCurFP", &curFlower,
                         UIWidgets::IntSliderOptions()
@@ -948,13 +956,14 @@ void SaveEditor_DrawPlayerMenu() {
                         UIWidgets::IntSliderOptions()
                             .Color(WIDGET_COLOR)
                             .LabelPosition(UIWidgets::LabelPositions::None)
-                            .Format("Max FP: %i")
+                            .Format(maxFlowerFormat.c_str())
                             .Step(5)
                             .Min(5)
                             .Max(50)
                     ))
                 {
-                    gPlayerData.curMaxFP = maxFlower;
+                    gPlayerData.hardMaxFP = maxFlower;
+                    enforce_hpfp_limits();
                 };
 
                 // Badge Points
