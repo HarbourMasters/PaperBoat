@@ -208,6 +208,15 @@ static void port_load_one_texture(const char* archive, const MapTexMeta* meta, s
     auxIsCI = (m->auxFmt == G_IM_FMT_CI);
 
     raster = (IMG_PTR) m->otrPath;
+    GameEngine_PrefetchTexture(m->otrPath);
+    GameEngine_PrefetchTexture(m->auxOtrPath);
+    if (m->extraTiles == EXTRA_TILE_MIPMAPS) {
+        // Same mip levels make_texture_gfx loads
+        s32 lod, d;
+        for (lod = 1, d = 2; m->mainW / d * (4 << m->mainDepth) >= 64 && m->mainH / d != 0; lod++, d *= 2) {
+            GameEngine_PrefetchTexture((const char*) port_mip_raster(raster, NULL, lod));
+        }
+    }
 
     // Main palette (CI only): the "<name>_tlut" resource, by name like the raster, so
     // Fast3D can key palette-specific replacement art on it. Nothing reads its bytes.

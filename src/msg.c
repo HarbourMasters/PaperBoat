@@ -1980,7 +1980,7 @@ void draw_msg(intptr_t msgID, s32 posX, s32 posY, s32 opacity, s32 palette, u8 s
             printer->srcBuffer = (u8*)msgID;
         } else {
             printer->srcBuffer = load_msg_asset(msgID);
-            get_msg_properties((intptr_t) printer->srcBuffer, 0, &width, 0, 0, 0, 0, charset);
+            get_msg_properties(msgID, 0, &width, 0, 0, 0, 0, charset);
             printer->msgWidth = width;
         }
 

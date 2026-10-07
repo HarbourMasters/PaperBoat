@@ -1,6 +1,7 @@
 #include "sprite.h"
 #include "sprite/player.h"
 #include "port/Engine.h"
+#include "port/patches/Patches.h"
 #include "port/hooks/Events.h"
 
 // perhaps extend to 0x200 and change animID fields for dx from SSSSPPAA --> SSSPPAAA
@@ -460,7 +461,7 @@ void spr_draw_component(s32 drawOpts, SpriteComponent* component, SpriteAnimComp
             cacheEntry->image = spr_get_player_raster(component->curRaster & 0xFFF, CurPlayerSpriteIndex);
         }
         CurSpriteImgFX = component->imgfxIdx;
-        pal = palettes[paletteIdx];
+        pal = port_resolve_palette(palettes, paletteIdx); // [port]
 
         spr_appendGfx_component(
             cacheEntry,
@@ -827,6 +828,7 @@ void spr_init_sprites(s32 playerSpriteSet) {
 }
 
 void spr_render_init(void) {
+    port_palette_frame(); // [port]
     spr_update_player_raster_cache();
     spr_clear_quad_cache();
 }
@@ -862,6 +864,7 @@ s32 spr_update_player_sprite(s32 spriteInstanceID, s32 animID, f32 timeScale) {
     animList = spriteData->animListStart[SPR_UNPACK_ANIM(animID)];
 
     spr_set_anim_timescale(timeScale);
+    port_prefetch_player_anim(spriteData, CurPlayerAnimInfo[instanceIdx].animID, animID); // [port]
     if ((spriteInstanceID & DRAW_SPRITE_OVERRIDE_ALPHA) ||
         (animID & ~SPRITE_ID_BACK_FACING) != (CurPlayerAnimInfo[instanceIdx].animID & ~SPRITE_ID_BACK_FACING))
     {
@@ -952,6 +955,7 @@ s32 spr_draw_player_sprite(s32 spriteInstanceID, s32 yaw, s32 alphaIn, PAL_PTR* 
 
     compList = CurPlayerAnimInfo[instanceIdx].componentList;
     if (spriteInstanceID & DRAW_SPRITE_OVERRIDE_PALETTES) {
+        port_begin_palette_override(paletteList, palettes); // [port]
         palettes = paletteList;
     }
 
@@ -961,6 +965,7 @@ s32 spr_draw_player_sprite(s32 spriteInstanceID, s32 yaw, s32 alphaIn, PAL_PTR* 
             animList++;
         }
     }
+    port_end_palette_override(); // [port]
 
     return true;
 }
@@ -1063,6 +1068,7 @@ s32 spr_load_npc_sprite(s32 animID, u32* extraAnimList) {
         //     spr_load_npc_extra_anims(header, extraAnimList);
         // }
     }
+    port_prefetch_npc_anim(header, -1, animID); // [port]
     compList = spr_allocate_components(header->maxComponents);
     SpriteInstances[listIndex].componentList = compList;
     while (*compList != PTR_LIST_END) {
@@ -1095,6 +1101,7 @@ s32 spr_update_sprite(s32 spriteInstanceID, s32 animID, f32 timeScale) {
 
     palID = SPR_UNPACK_PAL(animID);
     spr_set_anim_timescale(timeScale);
+    port_prefetch_npc_anim(spriteData, SpriteInstances[i].curAnimID, animID); // [port]
     if ((spriteInstanceID & DRAW_SPRITE_OVERRIDE_ALPHA) || (SPR_UNPACK_ANIM(SpriteInstances[i].curAnimID) != animIndex)) {
         ASSERT_MSG(animList != -1, "Anim %lx is not loaded", animID);
         spr_init_anim_state(compList, animList);
@@ -1159,6 +1166,7 @@ s32 spr_draw_npc_sprite(s32 spriteInstanceID, s32 yaw, s32 alphaIn, PAL_PTR* pal
 
     components = SpriteInstances[instanceIdx].componentList;
     if (spriteInstanceID & DRAW_SPRITE_OVERRIDE_PALETTES) {
+        port_begin_palette_override(paletteList, palettes); // [port]
         palettes = paletteList;
     }
 
@@ -1168,6 +1176,7 @@ s32 spr_draw_npc_sprite(s32 spriteInstanceID, s32 yaw, s32 alphaIn, PAL_PTR* pal
             animComps++;
         }
     }
+    port_end_palette_override(); // [port]
 
     return true;
 }

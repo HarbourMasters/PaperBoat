@@ -5,6 +5,7 @@
 extern "C" {
 #include "dx/versioning.h"
 
+extern s32 set_global_flag(s32 index);
 extern SaveData gCurrentSaveFile;
 }
 
@@ -24,12 +25,11 @@ void RegisterCutsceneSkips_Init() {
         gCurrentSaveFile.mapID = 1;
         gCurrentSaveFile.entryID = 5;
 
-        gCurrentSaveFile.globalFlags[2] = -2147483648;
-        gCurrentSaveFile.globalFlags[4] = -480;
-        gCurrentSaveFile.globalFlags[8] = 128;
-        gCurrentSaveFile.globalFlags[61] = 16384;
+        // Only the flags the skipped intro sets; neighboring flags share these words
+        set_global_flag(GF_Tutorial_SaveBlock);
+        set_global_flag(GF_MAP_GoombaVillage);
 
-        gCurrentSaveFile.globalBytes[0] = -126;
+        gCurrentSaveFile.globalBytes[0] = STORY_CH0_MET_INNKEEPER;
 
         gCurrentSaveFile.savePos.x = 250;
         gCurrentSaveFile.savePos.y = 0;

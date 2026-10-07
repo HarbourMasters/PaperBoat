@@ -41,6 +41,17 @@ void port_appendGfx_shading_palette(
     s32 shadowR, s32 shadowG, s32 shadowB,
     s32 highlightR, s32 highlightG, s32 highlightB,
     s32 ambientPower, s32 renderMode);
+void port_begin_palette_override(PAL_PTR* palettes, PAL_PTR* originals);
+void port_end_palette_override(void);
+PAL_PTR port_resolve_palette(PAL_PTR* palettes, s32 index);
+void port_palette_frame(void);
+void port_palette_blend(PAL_PTR palette, PAL_PTR from, PAL_PTR to, s32 alpha);
+void port_palette_tint(PAL_PTR palette, PAL_PTR base, f32 sr, f32 sg, f32 sb, s32 r, s32 g, s32 b);
+
+// Sprite HD prefetch (SpritePatches.c)
+struct SpriteAnimData;
+void port_prefetch_npc_anim(struct SpriteAnimData* sprite, s32 prevAnimID, s32 animID);
+void port_prefetch_player_anim(struct SpriteAnimData* sprite, s32 prevAnimID, s32 animID);
 
 // Message fonts (MessagePatches.c)
 void port_msg_font_loaded(s32 font);

@@ -216,7 +216,8 @@ s32 N(PlayerHasBadge)(s32 badgeID) {
 }
 
 API_CALLABLE(N(ResetHintFlags)) {
-    u32 i;
+//  u32 i;
+    s32 i;
 
     for (i = 0; i < ARRAY_COUNT(N(BadgeHintData)); i++) {
         evt_set_variable(nullptr, AF_HOS06_BadgeHints + i, false);
@@ -232,7 +233,8 @@ API_CALLABLE(N(GetBadgeHint)) {
     BadgeHint* hint;
     u32 count = 0;
     s32 selectedIdx;
-    u32 i;
+//  u32 i;
+    s32 i;
 
     // check for all badges obtainable outside Merlow's shop
     script->varTable[1] = 0;
@@ -306,7 +308,8 @@ API_CALLABLE(N(GetSuperBlockHint)) {
     GameFlagHint* hint;
     u32 count = 0;
     s32 selectedIdx;
-    u32 i;
+//  u32 i;
+    s32 i;
 
     script->varTable[1] = 0;
 
@@ -349,7 +352,8 @@ API_CALLABLE(N(GetStarPieceHint)) {
     GameFlagHint* hint;
     u32 count = 0;
     s32 selectedIdx;
-    u32 i;
+//  u32 i;
+    s32 i;
 
     script->varTable[1] = 0;
 

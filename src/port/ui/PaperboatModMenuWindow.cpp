@@ -405,12 +405,17 @@ static void RegisterModMenuWidgets() {
         .Options(
             UIWidgets::CheckboxOptions()
                 .DefaultValue(true)
+                .DisabledTooltip("Mipmaps are disabled in Enhancements > Graphics.")
                 .Color(THEME_COLOR)
                 .Tooltip(
                     "Generates mipmaps for HD replacement textures, which smooths them in the distance. Turn it "
                     "off if the GPU hangs while a texture pack is enabled."
                 )
-        );
+        )
+        .PreFunc([](WidgetInfo& info) {
+            std::static_pointer_cast<UIWidgets::CheckboxOptions>(info.options)->disabled =
+                CVarGetInteger(CVAR_ENHANCEMENT("Graphics.DisableMipmaps"), 0) != 0;
+        });
 }
 
 static RegisterMenuInitFunc menuInitFunc(RegisterModMenuWidgets);

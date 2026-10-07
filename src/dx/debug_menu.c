@@ -169,7 +169,7 @@ void dx_debug_draw_box(s32 posX, s32 posY, s32 sizeX, s32 sizeY, int style, s32 
 }
 
 void dx_debug_draw_ascii(char* text, s32 color, s32 posX, s32 posY) {
-    char buf[128] = {
+    static char buf[128] = {
         MSG_CHAR_READ_FUNCTION, MSG_READ_FUNC_SIZE, 12, 12
     };
     dx_string_to_msg(&buf[4], text);
@@ -177,7 +177,7 @@ void dx_debug_draw_ascii(char* text, s32 color, s32 posX, s32 posY) {
 }
 
 void dx_debug_draw_ascii_with_effect(char* text, s32 color, s32 posX, s32 posY, s32 effect) {
-    char buf[128] = {
+    static char buf[128] = {
         MSG_CHAR_READ_FUNCTION, MSG_READ_FUNC_SIZE, 12, 12
     };
     dx_string_to_msg(&buf[4], text);
@@ -185,7 +185,7 @@ void dx_debug_draw_ascii_with_effect(char* text, s32 color, s32 posX, s32 posY, 
 }
 
 void dx_debug_draw_msg(s32 msgID, s32 color, s32 alpha, s32 posX, s32 posY) {
-    ALIGNED(8) char buf[128] = {
+    static ALIGNED(8) char buf[128] = {
         MSG_CHAR_READ_FUNCTION, MSG_READ_FUNC_SIZE, 12, 12,
     };
     dma_load_msg(msgID, &buf[4]);
@@ -194,7 +194,7 @@ void dx_debug_draw_msg(s32 msgID, s32 color, s32 alpha, s32 posX, s32 posY) {
 
 void dx_debug_draw_number(s32 number, char* fmt, s32 color, s32 alpha, s32 posX, s32 posY) {
     char fmtBuf[16];
-    char buf[16] = {
+    static char buf[16] = {
         MSG_CHAR_READ_FUNCTION, MSG_READ_FUNC_SIZE, 12, 12
     };
     sprintf(fmtBuf, fmt, number);
@@ -204,7 +204,7 @@ void dx_debug_draw_number(s32 number, char* fmt, s32 color, s32 alpha, s32 posX,
 
 // efficiently renders an number with (optionally) a digit highlighted using a single draw_msg call
 void dx_debug_draw_editable_number(s32 number, char* fmt, s32 selectedDigit, b32 hasSelected, s32 posX, s32 posY) {
-    char msgBuf[32] = {
+    static char msgBuf[32] = {
         MSG_CHAR_READ_FUNCTION, MSG_READ_FUNC_SIZE, 12, 12,
         MSG_CHAR_READ_FUNCTION, MSG_READ_FUNC_SPACING, 8
     };
@@ -828,14 +828,14 @@ void dx_debug_update_select_map() {
     if (maxCol > 2) {
         // left arrow
         if (curCol > 1) {
-            char msgLeftArrow[] = {
+            static char msgLeftArrow[] = {
                 MSG_CHAR_LEFT, MSG_CHAR_READ_END
             };
             draw_msg((intptr_t)msgLeftArrow, SubmenuPosX - 2 - round(3.0f * ArrowAnimOffset), SubmenuPosY + 104, 255, DefaultColor, 0);
         }
         // right arrow
         if (curCol < maxCol - 1) {
-            char msgRightArrow[] = {
+            static char msgRightArrow[] = {
                 MSG_CHAR_RIGHT, MSG_CHAR_READ_END
             };
             draw_msg((intptr_t)msgRightArrow, SubmenuPosX + 128 + round(3.0f * ArrowAnimOffset), SubmenuPosY + 104, 255, DefaultColor, 0);
@@ -1170,10 +1170,10 @@ void dx_debug_update_edit_partners() {
         dx_debug_draw_msg(gPartnerPopupProperties[idx].nameMsg, color, alpha, SubmenuPosX + 15, posY);
 
         if (level == 1) {
-            char msg[] = { MSG_CHAR_CIRCLE, MSG_CHAR_READ_END };
+            static char msg[] = { MSG_CHAR_CIRCLE, MSG_CHAR_READ_END };
             draw_msg((intptr_t)msg, SubmenuPosX + 82, posY - 1, 255, MSG_PAL_BLUE, 0);
         } else if (level == 2) {
-            char msg[] = { MSG_CHAR_CIRCLE, MSG_CHAR_CIRCLE, MSG_CHAR_READ_END };
+            static char msg[] = { MSG_CHAR_CIRCLE, MSG_CHAR_CIRCLE, MSG_CHAR_READ_END };
             draw_msg((intptr_t)msg, SubmenuPosX + 82, posY - 1, 255, MSG_PAL_BLUE, 0);
         }
     }
@@ -1366,7 +1366,7 @@ void dx_debug_update_edit_items() {
         if (itemMsg != MSG_NONE) {
             dx_debug_draw_msg(itemMsg, DefaultColor, 255, SubmenuPosX + 50, posY);
         } else {
-            char msgBuf[] = {
+            static char msgBuf[] = {
                 MSG_CHAR_READ_FUNCTION, MSG_READ_FUNC_SIZE, 12, 12,
                 MSG_CHAR_LOWER_E, MSG_CHAR_LOWER_M, MSG_CHAR_LOWER_P, MSG_CHAR_LOWER_T, MSG_CHAR_LOWER_Y,
                 MSG_CHAR_READ_END,
@@ -1377,14 +1377,14 @@ void dx_debug_update_edit_items() {
 
     // up arrow
     if (menu->startPos > 0) {
-        char msgArrow[] = {
+        static char msgArrow[] = {
             MSG_CHAR_UP, MSG_CHAR_READ_END
         };
         draw_msg((intptr_t)msgArrow, SubmenuPosX + 132, SubmenuPosY + round(3.0f * ArrowAnimOffset), 255, DefaultColor, 0);
     }
     // down arrow
     if (menu->startPos + 10 < invSize) {
-        char msgArrow[] = {
+        static char msgArrow[] = {
             MSG_CHAR_DOWN, MSG_CHAR_READ_END
         };
         draw_msg((intptr_t)msgArrow, SubmenuPosX + 132, SubmenuPosY + 134 - round(3.0f * ArrowAnimOffset), 255, DefaultColor, 0);
@@ -2266,7 +2266,7 @@ void dx_debug_draw_evt_list() {
 
     // animated down arrow
     if (DebugEvtCount > last) {
-        char msgDownArrow[] = {
+        static char msgDownArrow[] = {
             MSG_CHAR_DOWN, MSG_CHAR_READ_END
         };
         s32 posY = EvtDebugInfoY + (9) * RowHeight;
@@ -2274,7 +2274,7 @@ void dx_debug_draw_evt_list() {
     }
     // animated up arrow
     if (EvtListDrawPos > 0) {
-        char msgUpArrow[] = {
+        static char msgUpArrow[] = {
             MSG_CHAR_UP, MSG_CHAR_READ_END
         };
         s32 posY = EvtDebugInfoY + (1) * RowHeight;
@@ -2393,7 +2393,7 @@ void dx_debug_evt_draw_menu_line(s32 idx, char* text) {
 
 void dx_debug_draw_var(s32 i, s32 number, char* fmt, s32 color, s32 alpha, s32 posX, s32 posY) {
     char fmtBuf[64];
-    char buf[64] = {
+    static char buf[64] = {
         MSG_CHAR_READ_FUNCTION, MSG_READ_FUNC_SIZE, 12, 12
     };
     sprintf(fmtBuf, fmt, i, number);
@@ -2403,7 +2403,7 @@ void dx_debug_draw_var(s32 i, s32 number, char* fmt, s32 color, s32 alpha, s32 p
 
 void dx_debug_draw_fvar(s32 i, f32 number, char* fmt, s32 color, s32 alpha, s32 posX, s32 posY) {
     char fmtBuf[64];
-    char buf[64] = {
+    static char buf[64] = {
         MSG_CHAR_READ_FUNCTION, MSG_READ_FUNC_SIZE, 12, 12
     };
     sprintf(fmtBuf, fmt, i, number);
