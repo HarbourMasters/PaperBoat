@@ -64,7 +64,16 @@ std::vector<std::pair<const char*, const char*>> partyMemberList = {
 typedef struct {
     const char* name;
     s32 itemID;
+    s32 obtainedFlag;
+    bool returnedToParakarry;
 } LetterData;
+
+typedef enum {
+    LETTER_NOT_FOUND,
+    LETTER_WITH_PARAKARRY,
+    LETTER_IN_ITEMS,
+    LETTER_DELIVERED,
+} LetterState;
 
 typedef struct {
     const char* location;
@@ -78,34 +87,40 @@ typedef struct {
     bool isUnused; // UNUSED_*/_DUP/_STUB entries, hidden behind a toggle
 } TattleData;
 
-// Standalone letters Parakarry delivers, followed by the chain letter quest that ends
-// back at Goompapa with the Lucky Day badge. Chain entries are named after the recipient.
+// Standalone letters Parakarry delivers, keyed by the flag set when the letter is picked up.
+// Delivering one only removes the key item, so "delivered" is picked up but no longer held.
 std::vector<LetterData> letterList = {
-    { "Letter to Merlon", ITEM_LETTER_TO_MERLON },
-    { "Letter to Goompa", ITEM_LETTER_TO_GOOMPA },
-    { "Letter to Mort T.", ITEM_LETTER_TO_MORT_T },
-    { "Letter to Russ T.", ITEM_LETTER_TO_RUSS_T },
-    { "Letter to Mayor Penguin", ITEM_LETTER_TO_MAYOR_PENGUIN },
-    { "Letter to Merlow", ITEM_LETTER_TO_MERLOW },
-    { "Letter to Fice T.", ITEM_LETTER_TO_FICE_T },
-    { "Letter to Nomadimouse", ITEM_LETTER_TO_NOMADIMOUSE },
-    { "Letter to Minh T.", ITEM_LETTER_TO_MINH_T },
-    { "Letter to Igor", ITEM_LETTER_TO_IGOR },
-    { "Letter to Kolorado", ITEM_LETTER_TO_KOLORADO },
-    { "Chain: Goompapa (1st)", ITEM_LETTER_CHAIN_GOOMPAPA_1 },
-    { "Chain: Franky", ITEM_LETTER_CHAIN_FRANKY },
-    { "Chain: Muss T.", ITEM_LETTER_CHAIN_MUSS_T },
-    { "Chain: Koover (1st)", ITEM_LETTER_CHAIN_KOOVER_1 },
-    { "Chain: Fishmael", ITEM_LETTER_CHAIN_FISHMAEL },
-    { "Chain: Koover (2nd)", ITEM_LETTER_CHAIN_KOOVER_2 },
-    { "Chain: Mr. E", ITEM_LETTER_CHAIN_MR_E },
-    { "Chain: Miss T.", ITEM_LETTER_CHAIN_MISS_T },
-    { "Chain: Little Mouser", ITEM_LETTER_CHAIN_LITTLE_MOUSER },
-    { "Chain: Dane T. (1st)", ITEM_LETTER_CHAIN_DANE_T_1 },
-    { "Chain: Yoshi Kid", ITEM_LETTER_CHAIN_YOSHI_KID },
-    { "Chain: Dane T. (2nd)", ITEM_LETTER_CHAIN_DANE_T_2 },
-    { "Chain: Frost T.", ITEM_LETTER_CHAIN_FROST_T },
-    { "Chain: Goompapa (2nd)", ITEM_LETTER_CHAIN_GOOMPAPA_2 },
+    { "Letter to Merlon", ITEM_LETTER_TO_MERLON, GF_IWA01_Item_Letter01, true },
+    { "Letter to Goompa", ITEM_LETTER_TO_GOOMPA, GF_SBK30_Tree2_Letter02, false },
+    { "Letter to Mort T.", ITEM_LETTER_TO_MORT_T, GF_SBK36_Tree9_Letter03, false },
+    { "Letter to Russ T.", ITEM_LETTER_TO_RUSS_T, GF_JAN04_Tree2_Letter04, false },
+    { "Letter to Mayor Penguin", ITEM_LETTER_TO_MAYOR_PENGUIN, GF_SAM04_Item_Letter05, false },
+    { "Letter to Merlow", ITEM_LETTER_TO_MERLOW, GF_SAM05_Item_Letter06, false },
+    { "Letter to Fice T.", ITEM_LETTER_TO_FICE_T, GF_ARN02_Item_LetterFiceT, false },
+    { "Letter to Nomadimouse", ITEM_LETTER_TO_NOMADIMOUSE, GF_DRO02_Item_Letter08, false },
+    { "Letter to Minh T.", ITEM_LETTER_TO_MINH_T, GF_FLO17_Item_Letter09, false },
+    { "Letter to Igor", ITEM_LETTER_TO_IGOR, GF_JAN01_Item_Letter11, false },
+    { "Letter to Kolorado", ITEM_LETTER_TO_KOLORADO, GF_IWA03_Item_LettertoKolorado, true },
+};
+
+// The chain letter quest in delivery order, named after the recipient. Each letter is the reward
+// for delivering the one before it, so only the first has a pickup flag and the rest of the chain
+// is derived from which chain letter is currently held.
+std::vector<LetterData> chainLetterList = {
+    { "Goompapa (1st)", ITEM_LETTER_CHAIN_GOOMPAPA_1, GF_IWA04_Item_Letter10, true },
+    { "Muss T.", ITEM_LETTER_CHAIN_MUSS_T },
+    { "Koover (1st)", ITEM_LETTER_CHAIN_KOOVER_1 },
+    { "Fishmael", ITEM_LETTER_CHAIN_FISHMAEL },
+    { "Koover (2nd)", ITEM_LETTER_CHAIN_KOOVER_2 },
+    { "Mr. E", ITEM_LETTER_CHAIN_MR_E },
+    { "Miss T.", ITEM_LETTER_CHAIN_MISS_T },
+    { "Little Mouser", ITEM_LETTER_CHAIN_LITTLE_MOUSER },
+    { "Franky", ITEM_LETTER_CHAIN_FRANKY },
+    { "Dane T. (1st)", ITEM_LETTER_CHAIN_DANE_T_1 },
+    { "Yoshi Kid", ITEM_LETTER_CHAIN_YOSHI_KID },
+    { "Dane T. (2nd)", ITEM_LETTER_CHAIN_DANE_T_2 },
+    { "Frost T.", ITEM_LETTER_CHAIN_FROST_T },
+    { "Goompapa (2nd)", ITEM_LETTER_CHAIN_GOOMPAPA_2 },
 };
 
 // The 63 star pieces lying around the overworld - the same set Merluvlee can predict.
@@ -553,6 +568,147 @@ void AddRemove_KeyItem(int itemId, bool currentState) {
                 break;
             }
         }
+    }
+}
+
+// Before Parakarry joins, the letters he lost may have been handed back to him rather than delivered.
+bool ParakarryHoldsLostLetters() {
+    return get_global_byte(EVT_INDEX_OF_GAME_BYTE(GB_StoryProgress)) < STORY_CH2_PARAKARRY_JOINED_PARTY;
+}
+
+LetterState GetLetterState(const LetterData& letter) {
+    if (PlayerHasKeyItem(letter.itemID)) {
+        return LETTER_IN_ITEMS;
+    }
+    if (!get_global_flag(letter.obtainedFlag)) {
+        return LETTER_NOT_FOUND;
+    }
+    if (letter.returnedToParakarry && ParakarryHoldsLostLetters()) {
+        return LETTER_WITH_PARAKARRY;
+    }
+    return LETTER_DELIVERED;
+}
+
+void SetLetterState(const LetterData& letter, LetterState state) {
+    bool held = PlayerHasKeyItem(letter.itemID);
+
+    if (state == LETTER_IN_ITEMS) {
+        if (!held && CountUsedKeyItemSlots() >= MAX_KEY_ITEM_SIZE) {
+            return;
+        }
+        set_global_flag(letter.obtainedFlag);
+        if (!held) {
+            AddRemove_KeyItem(letter.itemID, false);
+        }
+        return;
+    }
+
+    if (held) {
+        AddRemove_KeyItem(letter.itemID, true);
+    }
+    if (state == LETTER_NOT_FOUND) {
+        clear_global_flag(letter.obtainedFlag);
+    } else {
+        set_global_flag(letter.obtainedFlag);
+    }
+}
+
+// 0 = not started, N = holding chain letter N - 1, size + 1 = finished, -1 = first letter is with Parakarry.
+int32_t GetChainLetterProgress() {
+    for (int i = (int) chainLetterList.size() - 1; i >= 0; i--) {
+        if (PlayerHasKeyItem(chainLetterList[i].itemID)) {
+            return i + 1;
+        }
+    }
+    if (!get_global_flag(chainLetterList[0].obtainedFlag)) {
+        return 0;
+    }
+    if (ParakarryHoldsLostLetters()) {
+        return -1;
+    }
+    return (int32_t) chainLetterList.size() + 1;
+}
+
+void SetChainLetterProgress(int32_t progress) {
+    for (auto& letter : chainLetterList) {
+        if (PlayerHasKeyItem(letter.itemID)) {
+            AddRemove_KeyItem(letter.itemID, true);
+        }
+    }
+    if (progress <= 0) {
+        clear_global_flag(chainLetterList[0].obtainedFlag);
+        return;
+    }
+    set_global_flag(chainLetterList[0].obtainedFlag);
+    if (progress <= (int32_t) chainLetterList.size()) {
+        AddRemove_KeyItem(chainLetterList[progress - 1].itemID, false);
+    }
+}
+
+LetterState GetChainLetterState(int32_t index) {
+    int32_t progress = GetChainLetterProgress();
+
+    if (progress < 0) {
+        return index == 0 ? LETTER_WITH_PARAKARRY : LETTER_NOT_FOUND;
+    }
+    if (progress <= index) {
+        return LETTER_NOT_FOUND;
+    }
+    if (progress == index + 1) {
+        return LETTER_IN_ITEMS;
+    }
+    return LETTER_DELIVERED;
+}
+
+void SetChainLetterState(int32_t index, LetterState state) {
+    switch (state) {
+        case LETTER_NOT_FOUND:
+            SetChainLetterProgress(index);
+            break;
+        case LETTER_DELIVERED:
+            SetChainLetterProgress(index + 2);
+            break;
+        default:
+            SetChainLetterProgress(index + 1);
+            break;
+    }
+}
+
+LetterState NextLetterState(LetterState state) {
+    switch (state) {
+        case LETTER_NOT_FOUND:
+        case LETTER_WITH_PARAKARRY:
+            return LETTER_IN_ITEMS;
+        case LETTER_IN_ITEMS:
+            return LETTER_DELIVERED;
+        default:
+            return LETTER_NOT_FOUND;
+    }
+}
+
+const char* LetterStateName(LetterState state) {
+    switch (state) {
+        case LETTER_WITH_PARAKARRY:
+            return "With Parakarry";
+        case LETTER_IN_ITEMS:
+            return "In Items";
+        case LETTER_DELIVERED:
+            return "Delivered";
+        default:
+            return "Not Found";
+    }
+}
+
+ImVec4 LetterStateColor(LetterState state) {
+    switch (state) {
+        case LETTER_WITH_PARAKARRY:
+            return ImVec4(0.45f, 0.7f, 1.0f, 1.0f);
+        case LETTER_IN_ITEMS:
+            return ImVec4(0.95f, 0.85f, 0.3f, 1.0f);
+        case LETTER_DELIVERED:
+            return ImVec4(0.35f, 0.85f, 0.35f, 1.0f);
+        default:
+            return ImVec4(0.55f, 0.55f, 0.55f, 1.0f);
     }
 }
 
@@ -1088,6 +1244,62 @@ void SaveEditor_DrawPartyMenu() {
     }
 }
 
+void SaveEditor_SetupLetterTable(ImVec2 padding, ImVec2 imageSize) {
+    ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, padding);
+    ImGui::TableSetupColumn("icon1", ImGuiTableColumnFlags_WidthFixed, imageSize.x);
+    ImGui::TableSetupColumn("name1", ImGuiTableColumnFlags_WidthStretch);
+    ImGui::TableSetupColumn("icon2", ImGuiTableColumnFlags_WidthFixed, imageSize.x);
+    ImGui::TableSetupColumn("name2", ImGuiTableColumnFlags_WidthStretch);
+    SaveEditor_PushImageButtonStyle();
+}
+
+bool SaveEditor_DrawLetterCell(
+    const std::shared_ptr<Fast::Fast3dGui>& gui, const LetterData& letter, LetterState state, ImVec2 imageSize
+) {
+    const char* rasterPath = reinterpret_cast<const char*>(gItemIconRasterOffsets[letter.itemID]);
+    ImVec4 stateColor = LetterStateColor(state);
+    bool found = state != LETTER_NOT_FOUND;
+
+    ImGuiStorage* storage = ImGui::GetStateStorage();
+    ImGuiID cardID = ImGui::GetID("card");
+    bool wasHovered = storage->GetBool(cardID);
+    float highlightAlpha = (found ? 0.15f : 0.0f) + (wasHovered ? 0.12f : 0.0f);
+    ImU32 highlight = ImGui::GetColorU32(ImVec4(stateColor.x, stateColor.y, stateColor.z, highlightAlpha));
+
+    ImGui::TableNextColumn();
+    if (highlightAlpha > 0.0f) {
+        ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, highlight);
+    }
+    bool clicked = ImGui::ImageButton(
+        letter.name, gui->GetTextureByName(rasterPath), imageSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0),
+        ImVec4(1, 1, 1, found ? 1.0f : 0.35f)
+    );
+    bool hovered = ImGui::IsItemHovered();
+
+    ImGui::TableNextColumn();
+    if (highlightAlpha > 0.0f) {
+        ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, highlight);
+    }
+    ImVec2 textCellPos = ImGui::GetCursorPos();
+    float textCellWidth = std::max<float>(ImGui::GetContentRegionAvail().x, 1.0f);
+    clicked |= ImGui::InvisibleButton("##card", ImVec2(textCellWidth, imageSize.y));
+    hovered |= ImGui::IsItemHovered();
+
+    float textHeight = ImGui::GetTextLineHeightWithSpacing() + ImGui::GetTextLineHeight();
+    ImGui::SetCursorPos(
+        ImVec2(textCellPos.x, textCellPos.y + std::max<float>(0.0f, (imageSize.y - textHeight) * 0.5f))
+    );
+    ImGui::Text("%s", letter.name);
+    ImGui::TextColored(stateColor, "%s", LetterStateName(state));
+
+    if (hovered) {
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::SetTooltip("Click to mark as %s", LetterStateName(NextLetterState(state)));
+    }
+    storage->SetBool(cardID, hovered);
+    return clicked;
+}
+
 void SaveEditor_DrawLettersMenu() {
     auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
     ImVec2 padding = ImGui::GetStyle().CellPadding;
@@ -1095,67 +1307,93 @@ void SaveEditor_DrawLettersMenu() {
     padding.y += 4.0f;
 
     if (ImGui::BeginChild("LettersChild")) {
-        int32_t heldLetters = 0;
+        int32_t inItems = 0;
+        int32_t delivered = 0;
         for (auto& letter : letterList) {
-            if (PlayerHasKeyItem(letter.itemID)) {
-                heldLetters++;
-            }
+            LetterState state = GetLetterState(letter);
+            inItems += state == LETTER_IN_ITEMS;
+            delivered += state == LETTER_DELIVERED;
         }
-        int32_t usedSlots = CountUsedKeyItemSlots();
+        for (int i = 0; i < (int) chainLetterList.size(); i++) {
+            LetterState state = GetChainLetterState(i);
+            inItems += state == LETTER_IN_ITEMS;
+            delivered += state == LETTER_DELIVERED;
+        }
+        int32_t totalLetters = (int32_t) (letterList.size() + chainLetterList.size());
 
         ImGui::Text(
-            "Held: %d / %d     Key item slots used: %d / %d", heldLetters, (int32_t) letterList.size(), usedSlots,
-            MAX_KEY_ITEM_SIZE
+            "Delivered: %d / %d     In Items: %d     Key item slots used: %d / %d", delivered, totalLetters, inItems,
+            CountUsedKeyItemSlots(), MAX_KEY_ITEM_SIZE
         );
+        ImGui::TextWrapped("Click a letter to cycle it between Not Found, In Items and Delivered.");
 
-        if (UIWidgets::Button("Give All", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
+        if (UIWidgets::Button("Collect All", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
             for (auto& letter : letterList) {
-                if (!PlayerHasKeyItem(letter.itemID) && CountUsedKeyItemSlots() < MAX_KEY_ITEM_SIZE) {
-                    AddRemove_KeyItem(letter.itemID, false);
+                LetterState state = GetLetterState(letter);
+                if (state == LETTER_NOT_FOUND || state == LETTER_WITH_PARAKARRY) {
+                    SetLetterState(letter, LETTER_IN_ITEMS);
                 }
+            }
+            if (GetChainLetterProgress() <= 0) {
+                SetChainLetterProgress(1);
             }
         }
         if (ImGui::IsItemHovered()) {
-            ImGui::SetTooltip("Letters share the 32 key item slots, so this stops once they are full.");
+            ImGui::SetTooltip("Puts every letter that hasn't been delivered yet in key items.\n"
+                              "Letters share the 32 key item slots, so this stops once they are full.");
         }
         ImGui::SameLine();
-        if (UIWidgets::Button("Remove All", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
+        if (UIWidgets::Button("Deliver All", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
             for (auto& letter : letterList) {
-                if (PlayerHasKeyItem(letter.itemID)) {
-                    AddRemove_KeyItem(letter.itemID, true);
-                }
+                SetLetterState(letter, LETTER_DELIVERED);
             }
+            SetChainLetterProgress((int32_t) chainLetterList.size() + 1);
+        }
+        if (ImGui::IsItemHovered()) {
+            ImGui::SetTooltip("Marks every letter delivered. Delivery rewards are not granted.");
+        }
+        ImGui::SameLine();
+        if (UIWidgets::Button("Clear All", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
+            for (auto& letter : letterList) {
+                SetLetterState(letter, LETTER_NOT_FOUND);
+            }
+            SetChainLetterProgress(0);
         }
 
         ImGui::SeparatorText("Letters");
         if (ImGui::BeginTable("LettersTable", 4, ImGuiTableFlags_SizingStretchSame)) {
-            ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, padding);
-            ImGui::TableSetupColumn("icon1", ImGuiTableColumnFlags_WidthFixed, statImageSize.x);
-            ImGui::TableSetupColumn("name1", ImGuiTableColumnFlags_WidthStretch);
-            ImGui::TableSetupColumn("icon2", ImGuiTableColumnFlags_WidthFixed, statImageSize.x);
-            ImGui::TableSetupColumn("name2", ImGuiTableColumnFlags_WidthStretch);
-
-            SaveEditor_PushImageButtonStyle();
+            SaveEditor_SetupLetterTable(padding, statImageSize);
             for (int i = 0; i < (int) letterList.size(); i++) {
                 const LetterData& letter = letterList[i];
-                const char* rasterPath = reinterpret_cast<const char*>(gItemIconRasterOffsets[letter.itemID]);
-                bool hasLetter = PlayerHasKeyItem(letter.itemID);
+                LetterState state = GetLetterState(letter);
 
                 ImGui::PushID(i);
-                ImGui::TableNextColumn();
-                if (ImGui::ImageButton(
-                        letter.name, gui->GetTextureByName(rasterPath), statImageSize, ImVec2(0, 0), ImVec2(1, 1),
-                        ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, hasLetter ? 1.0f : 0.5f)
-                    ))
-                {
-                    AddRemove_KeyItem(letter.itemID, hasLetter);
+                if (SaveEditor_DrawLetterCell(gui, letter, state, statImageSize)) {
+                    SetLetterState(letter, NextLetterState(state));
                 }
-                ImGui::TableNextColumn();
-                TableCellCenteredText(letter.name, statImageSize);
                 ImGui::PopID();
             }
             SaveEditor_PopImageButtonStyle();
+            ImGui::PopStyleVar(1);
+            ImGui::EndTable();
+        }
 
+        ImGui::SeparatorText("Chain Letters");
+        ImGui::TextWrapped("Delivering a chain letter hands over the next one, so marking a letter here "
+                           "also updates the rest of the chain.");
+        if (ImGui::BeginTable("ChainLettersTable", 4, ImGuiTableFlags_SizingStretchSame)) {
+            SaveEditor_SetupLetterTable(padding, statImageSize);
+            for (int i = 0; i < (int) chainLetterList.size(); i++) {
+                const LetterData& letter = chainLetterList[i];
+                LetterState state = GetChainLetterState(i);
+
+                ImGui::PushID(i);
+                if (SaveEditor_DrawLetterCell(gui, letter, state, statImageSize)) {
+                    SetChainLetterState(i, NextLetterState(state));
+                }
+                ImGui::PopID();
+            }
+            SaveEditor_PopImageButtonStyle();
             ImGui::PopStyleVar(1);
             ImGui::EndTable();
         }
