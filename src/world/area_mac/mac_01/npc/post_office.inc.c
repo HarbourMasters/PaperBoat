@@ -36,7 +36,8 @@ PostOfficeEntry N(PostOfficeLetters)[] = {
 API_CALLABLE(N(func_80244E90_805710)) {
     PlayerData* playerData = &gPlayerData;
     s32 var_s2 = -1;
-    u32 i;
+//  u32 i;
+    s32 i;
 
     for (i = 0; i < ARRAY_COUNT(N(PostOfficeLetters)); i++) {
         if (playerData->partners[N(PostOfficeLetters)[i].partnerID].enabled &&
@@ -56,7 +57,8 @@ API_CALLABLE(N(func_80244E90_805710)) {
 
 s32 func_80244F5C_8057DC(s32 partner) {
     s32 ret = 0;
-    u32 i;
+//  u32 i;
+    s32 i;
 
     for (i = 0; i < ARRAY_COUNT(N(PostOfficeLetters)); i++) {
         if (N(PostOfficeLetters)[i].partnerID == partner &&
@@ -153,7 +155,8 @@ API_CALLABLE(N(func_8024522C_805AAC)) {
     s32 hasRead;
     s32 isUnlocked;
     s32 numEntries;
-    u32 i;
+//  u32 i;
+    s32 i;
 
     if (isInitialCall) {
         numEntries = 0;
