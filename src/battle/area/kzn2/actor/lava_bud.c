@@ -3,6 +3,7 @@
 #include "sprite/npc/PetitPiranha.h"
 #include "ld_addrs.h"
 #include "boss_common.h"
+#include "port/patches/Patches.h"
 
 #define NAMESPACE A(lava_bud)
 
@@ -41,14 +42,6 @@ enum N(ActorParams) {
 };
 
 static Bytecode N(unusedArray)[64];
-
-BSS u8 Vine3Base[0x2000];
-BSS u8 Vine2Base[0x3000];
-BSS u8 Vine1Base[0x3000];
-BSS u8 Vine0Base[0x4000];
-
-#define VINE_1_BASE (intptr_t) Vine1Base
-#define VINE_2_BASE (intptr_t) Vine2Base
 
 #define EVT_LOAD_BUD_ANIM(whichVine, anim) \
     IfEq(whichVine, VINE_1) \
