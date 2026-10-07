@@ -408,10 +408,7 @@ s32 popup_menu_update(void) {
                         break;
                 }
 #else
-                // Widescreen: world popup menus are right-edge anchored (each
-                // table entry preserves a per-menu right margin). At 4:3 this
-                // is exactly PopupWorldStartX[type] + 20.
-                PopupWinX = OTRGetRectDimensionFromRightEdge(SCREEN_WIDTH - (PopupWorldStartX[gPopupMenu->popupType] + 20));
+                PopupWinX = PopupWorldStartX[gPopupMenu->popupType] + 20;
 #endif
             }
             if (PopupMenu_MaxDisplayableEntryCount >= 7) {

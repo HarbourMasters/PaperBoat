@@ -50,7 +50,9 @@ int __printf_chk(int flag, const char* restrict fmt, ...) {
 
 #ifdef PAPERBOAT_OVERRIDE_LIBC_PRINT
 int puts(const char* s) {
-    printf("%s\n", s);
+//  printf("%s\n", s);
+    is_debug_print(nullptr, s, strlen(s));
+    is_debug_print(nullptr, "\n", 1);
     return 0;
 }
 #endif
