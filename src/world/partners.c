@@ -61,6 +61,8 @@ BSS s32 NextPartnerID;
 BSS s32 NextPartnerCommand;
 BSS WorldPartner* wPartner;
 
+extern f32 DefaultRunSpeed;
+
 extern HudScript HES_Partner0;
 extern HudScript HES_Goombario;
 extern HudScript HES_Kooper;
@@ -1228,6 +1230,13 @@ void partner_walking_update_motion(Npc* partner) {
     wSavedPartnerPosZ = partner->pos.z;
 }
 
+// Sprint scaling, capped at the partner's radius so a step can't skip its wall check
+static f32 partner_scale_follow_speed(Npc* partner, f32 speed) {
+    f32 scaled = speed * (gPlayerStatus.runSpeed / DefaultRunSpeed);
+
+    return MIN(scaled, MAX(speed, partner->collisionDiameter * 0.5f));
+}
+
 void partner_walking_follow_player(Npc* partner) {
     PlayerStatus* playerStatus = &gPlayerStatus;
     Camera* cameras = &gCameras[CAM_DEFAULT];
@@ -1257,6 +1266,7 @@ void partner_walking_follow_player(Npc* partner) {
             if (wPartnerTetherDistance < 20.0) {
                 partner->moveSpeed = 4.0f;
             }
+            partner->moveSpeed = partner_scale_follow_speed(partner, partner->moveSpeed);
             partner->curAnim = gPartnerAnimations[wCurrentPartnerId].run;
             if (!(partner->flags & NPC_FLAG_GROUNDED)) {
                 partner->curAnim = gPartnerAnimations[wCurrentPartnerId].fall;
@@ -1271,10 +1281,10 @@ void partner_walking_follow_player(Npc* partner) {
                     }
                     if (wPartnerTetherDistance < distance) {
                         partner->moveSpeed = distance - wPartnerTetherDistance;
-                        if (partner->moveSpeed > 3.0) {
-                            partner->moveSpeed = 3.0f;
+                        if (partner->moveSpeed > partner_scale_follow_speed(partner, 3.0f)) {
+                            partner->moveSpeed = partner_scale_follow_speed(partner, 3.0f);
                             if (wPartnerTetherDistance < 20.0f) {
-                                partner->moveSpeed = 4.0f;
+                                partner->moveSpeed = partner_scale_follow_speed(partner, 4.0f);
                             }
                         } else {
                             partner->moveSpeed += 1.0;
@@ -1882,18 +1892,18 @@ void partner_flying_follow_player(Npc* partner) {
                 var_f12 = (20.0f - wPartnerTetherDistance) * 0.5f;
             }
             partner->pos.y = y + (moveHistoryY + 20.0f + var_f12 - y) * 0.125f;
-            partner->moveSpeed = 3.0f;
+            partner->moveSpeed = partner_scale_follow_speed(partner, 3.0f);
             y = partner->pos.y;
             distance = dist2D(partner->pos.x, partner->pos.z, playerStatus->pos.x, playerStatus->pos.z);
             if (distance >= 50.0) {
                 if (partner->pos.y >= playerStatus->pos.y) {
                     partner->moveSpeed = distance * 0.25f;
                 } else {
-                    partner->moveSpeed = 8.0f;
+                    partner->moveSpeed = partner_scale_follow_speed(partner, 8.0f);
                 }
             }
             if (wPartnerTetherDistance < 20.0f) {
-                partner->moveSpeed = 4.0f;
+                partner->moveSpeed = partner_scale_follow_speed(partner, 4.0f);
             }
 
             while (true) {
@@ -1907,8 +1917,8 @@ void partner_flying_follow_player(Npc* partner) {
                             partner->moveSpeed += distance * 0.0625f;
                         }
                     } else {
-                        if (partner->moveSpeed > 6.0) {
-                            partner->moveSpeed = 6.0f;
+                        if (partner->moveSpeed > partner_scale_follow_speed(partner, 6.0f)) {
+                            partner->moveSpeed = partner_scale_follow_speed(partner, 6.0f);
                         } else {
                             partner->moveSpeed += 1.0;
                         }

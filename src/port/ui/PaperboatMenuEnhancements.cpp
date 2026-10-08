@@ -122,6 +122,138 @@ void PaperboatMenu::AddMenuEnhancements() {
     AddWidget(path, "Disable Mipmaps", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("Graphics.DisableMipmaps"))
         .Options(CheckboxOptions().Tooltip("Just like emulator!"));
+
+    // Enhancements > Status Bar
+    path = { "Enhancements", "Status Bar", SECTION_COLUMN_1 };
+    AddSidebarEntry("Enhancements", path.sidebarName, 2);
+
+    auto hideWithoutBackground = [](WidgetInfo& info) {
+        info.isHidden = !CVarGetInteger(CVAR_ENHANCEMENT("StatusBar.ShowBackground"), 1);
+    };
+    auto hideUnlessShaded = [](WidgetInfo& info) {
+        info.isHidden = !CVarGetInteger(CVAR_ENHANCEMENT("StatusBar.ShowBackground"), 1)
+            || CVarGetInteger(CVAR_ENHANCEMENT("StatusBar.FlatColor"), 0);
+    };
+    auto hideUnlessFlat = [](WidgetInfo& info) {
+        info.isHidden = !CVarGetInteger(CVAR_ENHANCEMENT("StatusBar.ShowBackground"), 1)
+            || !CVarGetInteger(CVAR_ENHANCEMENT("StatusBar.FlatColor"), 0);
+    };
+
+    AddWidget(path, "Layout", WIDGET_SEPARATOR_TEXT);
+
+    AddWidget(path, "Always Show Status Bar", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("StatusBar.AlwaysShow"))
+        .Options(
+            CheckboxOptions().Tooltip(
+                "Keeps the status bar on screen in the overworld instead of hiding it a few seconds after your stats "
+                "change. It still hides during cutscenes and conversations."
+            )
+        );
+
+    AddWidget(path, "Status Bar Scale", WIDGET_CVAR_SLIDER_INT)
+        .CVar(CVAR_ENHANCEMENT("StatusBar.Scale"))
+        .Options(
+            IntSliderOptions().Min(50).Max(200).Step(5).DefaultValue(100).Format("%d%%").Tooltip(
+                "Scales the whole status bar. HP, FP and Star Power grow from the left edge; the counters on the "
+                "right grow from the right edge."
+            )
+        );
+
+    AddWidget(path, "Background", WIDGET_SEPARATOR_TEXT);
+
+    AddWidget(path, "Show Background", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("StatusBar.ShowBackground"))
+        .Options(CheckboxOptions().DefaultValue(true).Tooltip("Draws the box behind the status bar."));
+
+    AddWidget(path, "Flat Bottom", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("StatusBar.FlatBottom"))
+        .PreFunc(hideWithoutBackground)
+        .Options(
+            CheckboxOptions().Tooltip(
+                "Makes the box one height all the way across, instead of stepping up after the Star Power gauge."
+            )
+        );
+
+    AddWidget(path, "Flat Color", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("StatusBar.FlatColor"))
+        .PreFunc(hideWithoutBackground)
+        .Options(
+            CheckboxOptions().Tooltip("Fills the box with one solid color, without its highlight, shadow and outline.")
+        );
+
+    AddWidget(path, "Highlight Color", WIDGET_CVAR_COLOR_PICKER)
+        .CVar(CVAR_ENHANCEMENT("StatusBar.HighlightColor"))
+        .PreFunc(hideUnlessShaded)
+        .Options(ColorPickerOptions().DefaultValue({ 235, 230, 119, 255 }).UseAlpha().ShowReset());
+
+    AddWidget(path, "Shadow Color", WIDGET_CVAR_COLOR_PICKER)
+        .CVar(CVAR_ENHANCEMENT("StatusBar.ShadowColor"))
+        .PreFunc(hideUnlessShaded)
+        .Options(ColorPickerOptions().DefaultValue({ 142, 90, 37, 255 }).ShowReset());
+
+    AddWidget(path, "Fill Color", WIDGET_CVAR_COLOR_PICKER)
+        .CVar(CVAR_ENHANCEMENT("StatusBar.FillColor"))
+        .PreFunc(hideUnlessFlat)
+        .Options(ColorPickerOptions().DefaultValue({ 185, 155, 75, 255 }).UseAlpha().ShowReset());
+
+    AddWidget(path, "Box Width", WIDGET_CVAR_SLIDER_INT)
+        .CVar(CVAR_ENHANCEMENT("StatusBar.BoxWidth"))
+        .PreFunc(hideWithoutBackground)
+        .Options(
+            IntSliderOptions().Min(20).Max(100).Step(5).DefaultValue(100).Format("%d%%").Tooltip(
+                "How far the box reaches across the screen. The icons and numbers stay where they are."
+            )
+        );
+
+    AddWidget(path, "Box Height", WIDGET_CVAR_SLIDER_INT)
+        .CVar(CVAR_ENHANCEMENT("StatusBar.BoxHeight"))
+        .PreFunc(hideWithoutBackground)
+        .Options(
+            IntSliderOptions().Min(50).Max(200).Step(5).DefaultValue(100).Format("%d%%").Tooltip(
+                "How tall the box is. The icons and numbers stay where they are."
+            )
+        );
+
+    path.column = SECTION_COLUMN_2;
+    AddWidget(path, "Elements", WIDGET_SEPARATOR_TEXT);
+
+    AddWidget(path, "Show HP", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("StatusBar.ShowHP"))
+        .Options(CheckboxOptions().DefaultValue(true));
+
+    AddWidget(path, "Show FP", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("StatusBar.ShowFP"))
+        .Options(CheckboxOptions().DefaultValue(true));
+
+    AddWidget(path, "Show Star Power", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("StatusBar.ShowStarPower"))
+        .Options(CheckboxOptions().DefaultValue(true));
+
+    AddWidget(path, "Show Star Points", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("StatusBar.ShowStarPoints"))
+        .Options(CheckboxOptions().DefaultValue(true));
+
+    AddWidget(path, "Show Coins", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("StatusBar.ShowCoins"))
+        .Options(CheckboxOptions().DefaultValue(true));
+
+    AddWidget(path, "Show Star Pieces", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("StatusBar.ShowStarPieces"))
+        .Options(CheckboxOptions());
+
+    AddWidget(path, "Show Badges", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("StatusBar.ShowBadges"))
+        .Options(CheckboxOptions());
+
+    AddWidget(path, "Reset", WIDGET_SEPARATOR_TEXT);
+
+    AddWidget(path, "Reset Status Bar", WIDGET_BUTTON)
+        .Callback([](WidgetInfo& info) {
+            // Clearing a block reloads every CVar from disk, so flush pending changes elsewhere first
+            CVarSave();
+            CVarClearBlock(CVAR_ENHANCEMENT("StatusBar"));
+        })
+        .Options(ButtonOptions().Tooltip("Puts every option on this page back to its default."));
 }
 
 } // namespace PaperboatGui

@@ -100,6 +100,28 @@ s32 port_hud_clip_bottom(void);
 s32 port_status_bar_y(void);
 s32 port_btl_menu_y(void);
 
+// Status bar options (StatusBarPatches.cpp)
+enum PortStatusBarElement {
+    PORT_STATUS_BAR_BACKGROUND,
+    PORT_STATUS_BAR_HP,
+    PORT_STATUS_BAR_FP,
+    PORT_STATUS_BAR_STAR_POWER,
+    PORT_STATUS_BAR_STAR_POINTS,
+    PORT_STATUS_BAR_COINS,
+    PORT_STATUS_BAR_STAR_PIECES,
+    PORT_STATUS_BAR_BADGES,
+};
+b32 port_status_bar_show(s32 element);
+b32 port_status_bar_always_show(void);
+b32 port_status_bar_flat_bottom(void);
+f32 port_status_bar_scale(void);
+f32 port_status_bar_box_width(void);
+f32 port_status_bar_box_height(void);
+s32 port_status_bar_retracted_y(void);
+void* port_status_bar_box_style(s32 styleID);
+void port_box_default_style(WindowStyleCustom* out, s32 styleID); // draw_box.c
+void port_hud_element_draw_next_scaled(s32 id, s32 originX, s32 originY, f32 scale); // hud_element.c
+
 // World-anchored screen overlays (ScreenAnchorPatches.cpp)
 void port_rect_anchor_begin(const void* key, uintptr_t index, s32 x, s32 y);
 void port_rect_anchor_end(void);
