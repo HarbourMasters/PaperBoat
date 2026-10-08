@@ -20,6 +20,7 @@ EvtScript N(EVS_PlayBeamFX) = {
 
 s32 N(SpiritsFlyDelay)[] = { 35, 0, 5, 10, 15, 20, 25, 30 };
 s32 N(SpiritsFlyAwayDelay)[] = { 35, 0, 5, 10, 15, 20, 25, 30 };
+const s32 N(SpiritsDelayInit)[] = { 35, 0, 5, 10, 15, 20, 25, 30 };
 
 f32 N(SpiritsScatterPos)[] = {
       89.0f, 180.0f,   0.0f,
@@ -76,6 +77,10 @@ API_CALLABLE(N(ProcessPeachStarBeam)) {
 
     if (isInitialCall) {
         N(StarBeamStage) = 0;
+        for (i = 0; i < ARRAY_COUNT(N(SpiritsDelayInit)); i++) {
+            N(SpiritsFlyDelay)[i] = N(SpiritsDelayInit)[i];
+            N(SpiritsFlyAwayDelay)[i] = N(SpiritsDelayInit)[i];
+        }
         script->functionTemp[FT_IS_PEACH_BEAM] = evt_get_variable(script, *args++);
         script->functionTemp[FT_STATE] = PEACH_STAR_BEAM_CREATE_EFFECT;
     }

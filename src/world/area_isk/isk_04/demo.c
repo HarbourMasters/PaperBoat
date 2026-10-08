@@ -113,6 +113,10 @@ s32 N(DemoInitState) = 0;
 API_CALLABLE(N(SetupDemoScene)) {
     PlayerStatus* playerStatus = &gPlayerStatus;
 
+    if (isInitialCall) {
+        N(DemoInitState) = 0;
+    }
+
     switch (N(DemoInitState)) {
         case 0:
             N(DemoInitState) = 1;

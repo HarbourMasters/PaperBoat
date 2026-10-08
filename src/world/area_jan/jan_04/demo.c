@@ -103,6 +103,10 @@ API_CALLABLE(N(SetupDemoScene)) {
     PlayerStatus* playerStatus = &gPlayerStatus;
     EvtScript* rideScriptSrc;
 
+    if (isInitialCall) {
+        N(DemoInitState) = 0;
+    }
+
     switch (N(DemoInitState)) {
         case 0:
             rideScriptSrc = partner_get_enter_map_script();
