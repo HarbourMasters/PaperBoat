@@ -420,11 +420,11 @@ s32 draw_box(s32 flags, void* windowStyleArg, s32 posX, s32 posY, s32 posZ, s32 
             return true;
         }
 
-        if (posX >= SCREEN_WIDTH || posY >= SCREEN_HEIGHT) {
+        if (posX >= MAX(SCREEN_WIDTH, OTRGetDimensionFromRightEdge(0)) || posY >= SCREEN_HEIGHT) {
             return true;
         }
 
-        if (posX + width >= 768 || posY + height >= 768 || posX + width <= 0 || posY + height <= 0) {
+        if (posX + width >= MAX(768, OTRGetDimensionFromRightEdge(-448)) || posY + height >= 768 || posX + width <= MIN(0, OTRGetDimensionFromLeftEdge(0)) || posY + height <= 0) {
             return true;
         }
 

@@ -282,7 +282,8 @@ void appendGfx_screen_transition_stencil(s32 arg0, s32 arg1, f32 progress, s32 p
     gDPSetPrimColor(gMainGfxPos++, 0, 0, primR, primG, primB, primA);
     texScale = (255.0f - progress) * 10.5f / 255.0f + 0.09; // range from
     gSPWideTextureRectangle(gMainGfxPos++, rectLeft * 4, y1 * 4, rectRight * 4, y2 * 4, G_TX_RENDERTILE,
-                        (t5 - arg0) * 32.0f / texScale + 16.0f + 1024.0f, (t6 - arg1) * 32.0f / texScale + 16.0f + 1024.0f,
-                        1024.0f / texScale, 1024.0f / texScale);
+                        (s32) ((t5 - arg0) * 32.0f / texScale + 16.0f + 1024.0f),
+                        (s32) ((t6 - arg1) * 32.0f / texScale + 16.0f + 1024.0f),
+                        (s32) (1024.0f / texScale), (s32) (1024.0f / texScale));
     gDPPipeSync(gMainGfxPos++);
 }
