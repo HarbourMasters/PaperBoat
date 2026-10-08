@@ -1357,6 +1357,10 @@ EvtScript N(EVS_Attack_FireBreath) = {
 extern s32 N(FakeoutMusicTime);
 
 API_CALLABLE(N(ManageFakeoutMusic)) {
+    if (isInitialCall) {
+        N(FakeoutMusicTime) = 0;
+    }
+
     N(FakeoutMusicTime)++;
 
     // play 'end battle' song
