@@ -29,7 +29,8 @@ jobs:
           test -n "$BUILD_NAME"
           prefix="Paperboat-${BUILD_NAME// /-}"
           (cd artifacts/Paperboat-windows && zip -qr "../../$prefix-Win64.zip" .)
-          (cd artifacts/Paperboat-linux && zip -qr "../../$prefix-Linux.zip" .)
+          (cd artifacts/Paperboat-linux-x86_64 && zip -qr "../../$prefix-Linux-x86_64.zip" .)
+          (cd artifacts/Paperboat-linux-aarch64 && zip -qr "../../$prefix-Linux-aarch64.zip" .)
           (cd artifacts/Paperboat-mac && zip -qr "../../$prefix-Mac.zip" .)
           url="https://github.com/${{ github.repository }}/releases/download/$TAG/$prefix"
           cat > notes.md <<EOF
@@ -40,11 +41,13 @@ jobs:
               <img alt="Windows" src="https://github.com/HarbourMasters/Shipwright/assets/70942617/57cdd3c0-ac25-4909-ac40-edaa68c2c698">
             </picture>
           </a>
-          <a href="$url-Linux.zip">
+          <a href="$url-Linux-x86_64.zip">
             <picture>
               <source media="(prefers-color-scheme: dark)" srcset="https://github.com/HarbourMasters/Shipwright/assets/70942617/32dad2f8-2669-406f-afb4-7264d7257f79">
               <img alt="Linux / Steam Deck" src="https://github.com/HarbourMasters/Shipwright/assets/70942617/74c2ec80-f769-4f54-a1b8-c9bc27e2473a">
             </picture>
+          </a>
+          <a href="$url-Linux-aarch64.zip">
           </a>
           <a href="$url-Mac.zip">
             <picture>
