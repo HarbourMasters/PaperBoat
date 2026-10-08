@@ -1988,6 +1988,8 @@ s32 get_defense(Actor* actor, s32* defenseTable, s32 elementFlags) {
         }
     }
 
+    CALL_EVENT(OnActorDefenseCheck, actor, defenseTable, elementFlags, &minDefense);
+
     if (elementFlags & DAMAGE_TYPE_IGNORE_DEFENSE) {
         if (minDefense == 99) {
             // Immune

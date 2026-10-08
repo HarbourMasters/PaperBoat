@@ -86,6 +86,13 @@ DEFINE_EVENT(OnPartnerAttackDamage,
     int32_t* damage;
 );
 
+DEFINE_EVENT(OnActorDefenseCheck,
+    Actor* target;
+    int32_t* defenseTable;
+    int32_t elementFlags;
+    int32_t* defense;
+);
+
 // World
 DEFINE_EVENT(OnMapLoad,
     const char* mapName;

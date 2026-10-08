@@ -33,6 +33,33 @@ struct FieldInfo {
     int32_t max;
 };
 
+enum DefenseElement : int32_t {
+    DEFENSE_NORMAL,
+    DEFENSE_FIRE,
+    DEFENSE_WATER,
+    DEFENSE_ICE,
+    DEFENSE_MAGIC,
+    DEFENSE_SMASH,
+    DEFENSE_JUMP,
+    DEFENSE_COSMIC,
+    DEFENSE_BLAST,
+    DEFENSE_SHOCK,
+    DEFENSE_QUAKE,
+    DEFENSE_THROW,
+    DEFENSE_ELEMENT_COUNT,
+};
+
+struct DefenseElementInfo {
+    const char* key;
+    const char* label;
+    int32_t element;
+    int32_t damageType;
+};
+
+#define DEFENSE_IMMUNE    99
+#define DEFENSE_MIN       -20
+#define DEFENSE_EDIT_MAX  30
+
 enum Chapter : int32_t {
     CHAPTER_PROLOGUE,
     CHAPTER_1,
@@ -52,6 +79,8 @@ enum Chapter : int32_t {
 struct Override {
     bool isSet[FIELD_COUNT] = {};
     int32_t value[FIELD_COUNT] = {};
+    bool defenseSet[DEFENSE_ELEMENT_COUNT] = {};
+    int32_t defenseDelta[DEFENSE_ELEMENT_COUNT] = {};
 
     bool Any() const;
 };
@@ -68,6 +97,10 @@ bool FieldApplies(const CatalogEntry& entry, Field field);
 const char* GetChapterName(Chapter chapter);
 int32_t GetDefault(const ActorBlueprint* blueprint, Field field);
 
+const DefenseElementInfo& GetDefenseElementInfo(DefenseElement element);
+int32_t GetElementDefense(const int32_t* defenseTable, DefenseElement element, const Override& ov);
+bool DefenseTableLists(const int32_t* defenseTable, DefenseElement element);
+
 bool IsEnabled();
 void SetEnabled(bool enabled);
 
@@ -75,6 +108,8 @@ std::vector<CatalogEntry> GetCatalog();
 Override GetOverride(int32_t actorType);
 void SetOverride(int32_t actorType, Field field, int32_t value);
 void ClearOverride(int32_t actorType, Field field);
+void SetDefenseDelta(int32_t actorType, DefenseElement element, int32_t delta);
+void ClearDefenseDelta(int32_t actorType, DefenseElement element);
 void ClearActor(int32_t actorType);
 void ClearAll();
 int32_t CountModifiedActors();

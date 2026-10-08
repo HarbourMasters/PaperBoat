@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <climits>
 #include <cstring>
+#include <initializer_list>
 #include <string>
 #include <unordered_map>
 #include <spdlog/fmt/fmt.h>
@@ -526,6 +527,103 @@ static void DrawActorList(const std::vector<CatalogEntry>& catalog, int32_t tab)
     }
 }
 
+static const s32* GetMainDefenseTable(const ActorBlueprint* blueprint) {
+    const ActorPartBlueprint* chosen = nullptr;
+    for (s32 i = 0; i < blueprint->partCount; i++) {
+        const ActorPartBlueprint* part = &blueprint->partsData[i];
+        if (part->defenseTable == nullptr) {
+            continue;
+        }
+        if (part->flags & ACTOR_PART_FLAG_PRIMARY_TARGET) {
+            return part->defenseTable;
+        }
+        if (chosen == nullptr && !(part->flags & ACTOR_PART_FLAG_NO_TARGET)) {
+            chosen = part;
+        }
+    }
+    return chosen != nullptr ? chosen->defenseTable : nullptr;
+}
+
+static void DrawDefenseSection(const CatalogEntry& entry, const Override& ov) {
+    ImGui::TextColored(
+        sDimColor,
+        "Defense is subtracted from each hit; a negative value is a weakness (extra damage).\n"
+        "Saved as a change from vanilla, so defenses a battle script swaps in (a flipped\n"
+        "Koopa, a new boss form) shift by the same amount. Elements an enemy doesn't\n"
+        "list use its Normal defense."
+    );
+    const s32* table = GetMainDefenseTable(entry.blueprint);
+    if (table == nullptr) {
+        ImGui::TextColored(sDimColor, "No defense data.");
+        return;
+    }
+
+    if (!ImGui::BeginTable("DefenseTable", 4, ImGuiTableFlags_SizingStretchProp)) {
+        return;
+    }
+    ImGui::TableSetupColumn("Element", ImGuiTableColumnFlags_WidthFixed, 80.0f);
+    ImGui::TableSetupColumn("Vanilla", ImGuiTableColumnFlags_WidthFixed, 70.0f);
+    ImGui::TableSetupColumn("Value", ImGuiTableColumnFlags_WidthStretch);
+    ImGui::TableSetupColumn("Reset", ImGuiTableColumnFlags_WidthFixed, 64.0f);
+
+    for (int32_t i = 0; i < DEFENSE_ELEMENT_COUNT; i++) {
+        DefenseElement element = (DefenseElement) i;
+        const DefenseElementInfo& info = GetDefenseElementInfo(element);
+        int32_t vanilla = lookup_defense((s32*) table, info.element);
+        bool listed = DefenseTableLists(table, element);
+        int32_t inherited = (element != DEFENSE_NORMAL && !listed && ov.defenseSet[DEFENSE_NORMAL])
+            ? ov.defenseDelta[DEFENSE_NORMAL]
+            : 0;
+        int32_t value = GetElementDefense(table, element, ov);
+
+        ImGui::PushID(i);
+        ImGui::TableNextRow();
+        ImGui::TableNextColumn();
+        ImGui::AlignTextToFramePadding();
+        if (ov.defenseSet[i]) {
+            ImGui::TextColored(sModifiedColor, "%s", info.label);
+        } else {
+            ImGui::TextUnformatted(info.label);
+        }
+        ImGui::TableNextColumn();
+        ImGui::AlignTextToFramePadding();
+        if (vanilla >= DEFENSE_IMMUNE) {
+            ImGui::TextColored(sDimColor, "Immune");
+        } else {
+            ImGui::TextColored(sDimColor, vanilla < 0 ? "%d (weak)" : "%d", vanilla);
+        }
+        ImGui::TableNextColumn();
+        if (vanilla >= DEFENSE_IMMUNE) {
+            ImGui::AlignTextToFramePadding();
+            ImGui::TextColored(sDimColor, "Immune");
+        } else if (UIWidgets::SliderInt(
+                       info.label, &value,
+                       UIWidgets::IntSliderOptions()
+                           .Min(DEFENSE_MIN)
+                           .Max(std::min<int32_t>(vanilla + DEFENSE_EDIT_MAX, DEFENSE_IMMUNE - 1))
+                           .DefaultValue(vanilla)
+                           .LabelPosition(UIWidgets::LabelPositions::None)
+                           .Color(WIDGET_COLOR)
+                   ))
+        {
+            int32_t delta = value - vanilla;
+            if (delta == inherited) {
+                ClearDefenseDelta(entry.actorType, element);
+            } else {
+                SetDefenseDelta(entry.actorType, element, delta);
+            }
+        }
+        ImGui::TableNextColumn();
+        if (ov.defenseSet[i]
+            && UIWidgets::Button("Reset", UIWidgets::ButtonOptions().Size(ImVec2(60.0f, 0)).Color(WIDGET_COLOR)))
+        {
+            ClearDefenseDelta(entry.actorType, element);
+        }
+        ImGui::PopID();
+    }
+    ImGui::EndTable();
+}
+
 static void DrawField(const CatalogEntry& entry, const Override& ov, Field field) {
     if (!FieldApplies(entry, field)) {
         return;
@@ -597,36 +695,63 @@ static void DrawActorDetails(const CatalogEntry& entry) {
     }
     ImGui::EndGroup();
 
-    ImGui::SeparatorText("Combat");
-    DrawField(entry, ov, FIELD_MAX_HP);
-    DrawField(entry, ov, FIELD_ATTACK_PERCENT);
-    DrawField(entry, ov, FIELD_ATTACK_BONUS);
-
-    if (entry.chapter == CHAPTER_PARTNERS) {
-        ImGui::Spacing();
-        ImGui::TextColored(
-            sDimColor,
-            "Applies to every move this partner uses, at any rank. Rank and upgrades come\n"
-            "from your save; change them in the Save Editor."
-        );
-        return;
-    }
-
-    ImGui::SeparatorText("Rewards");
-    DrawField(entry, ov, FIELD_LEVEL);
-    DrawField(entry, ov, FIELD_COIN_REWARD);
-
-    ImGui::SeparatorText("Susceptibility");
-    for (int32_t field = FIELD_ESCAPE_CHANCE; field <= FIELD_SPIN_SMASH_REQ; field++) {
-        DrawField(entry, ov, (Field) field);
-    }
+    bool isPartner = entry.chapter == CHAPTER_PARTNERS;
+    auto anySet = [&](std::initializer_list<Field> fields) {
+        return std::any_of(fields.begin(), fields.end(), [&](Field field) { return ov.isSet[field]; });
+    };
+    auto tabLabel = [](const char* name, bool modified) {
+        return fmt::format("{}{}###{}", name, modified ? " *" : "", name);
+    };
+    bool defenseModified =
+        std::any_of(std::begin(ov.defenseSet), std::end(ov.defenseSet), [](bool set) { return set; });
 
     ImGui::Spacing();
-    ImGui::TextColored(
-        sDimColor,
-        "Changes apply from the next battle. Move choice odds live in each enemy's script\n"
-        "and aren't editable here yet."
-    );
+    UIWidgets::PushStyleTabs(WIDGET_COLOR);
+    if (ImGui::BeginTabBar("ActorDetailTabs")) {
+        if (ImGui::BeginTabItem(
+                tabLabel("Combat", anySet({ FIELD_MAX_HP, FIELD_ATTACK_PERCENT, FIELD_ATTACK_BONUS })).c_str()
+            ))
+        {
+            DrawField(entry, ov, FIELD_MAX_HP);
+            DrawField(entry, ov, FIELD_ATTACK_PERCENT);
+            DrawField(entry, ov, FIELD_ATTACK_BONUS);
+            ImGui::Spacing();
+            ImGui::TextColored(
+                sDimColor,
+                isPartner ? "Applies to every move this partner uses, at any rank. Rank and\n"
+                            "upgrades come from your save; change them in the Save Editor."
+                          : "Move choice odds live in each enemy's script and aren't editable\n"
+                            "here yet."
+            );
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem(tabLabel("Defense", defenseModified).c_str())) {
+            DrawDefenseSection(entry, ov);
+            ImGui::EndTabItem();
+        }
+        if (!isPartner) {
+            if (ImGui::BeginTabItem(tabLabel("Rewards", anySet({ FIELD_LEVEL, FIELD_COIN_REWARD })).c_str())) {
+                DrawField(entry, ov, FIELD_LEVEL);
+                DrawField(entry, ov, FIELD_COIN_REWARD);
+                ImGui::EndTabItem();
+            }
+            bool susceptibilityModified = false;
+            for (int32_t field = FIELD_ESCAPE_CHANCE; field <= FIELD_SPIN_SMASH_REQ; field++) {
+                susceptibilityModified |= ov.isSet[field];
+            }
+            if (ImGui::BeginTabItem(tabLabel("Susceptibility", susceptibilityModified).c_str())) {
+                for (int32_t field = FIELD_ESCAPE_CHANCE; field <= FIELD_SPIN_SMASH_REQ; field++) {
+                    DrawField(entry, ov, (Field) field);
+                }
+                ImGui::EndTabItem();
+            }
+        }
+        ImGui::EndTabBar();
+    }
+    UIWidgets::PopStyleTabs();
+
+    ImGui::Spacing();
+    ImGui::TextColored(sDimColor, "Changes apply from the next battle.");
 }
 
 static void DrawTabContents(const std::vector<CatalogEntry>& catalog, int32_t tab) {

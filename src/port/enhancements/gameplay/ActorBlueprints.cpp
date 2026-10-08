@@ -99,6 +99,21 @@ static const FieldInfo sFieldInfo[FIELD_COUNT] = {
       0, SPIN_SMASH_IMMUNE_UI },
 };
 
+static const DefenseElementInfo sDefenseElements[DEFENSE_ELEMENT_COUNT] = {
+    { "normal", "Normal", ELEMENT_NORMAL, 0 },
+    { "fire", "Fire", ELEMENT_FIRE, DAMAGE_TYPE_FIRE },
+    { "water", "Water", ELEMENT_WATER, DAMAGE_TYPE_WATER },
+    { "ice", "Ice", ELEMENT_ICE, DAMAGE_TYPE_ICE },
+    { "magic", "Magic", ELEMENT_MAGIC, DAMAGE_TYPE_MAGIC },
+    { "smash", "Smash", ELEMENT_SMASH, DAMAGE_TYPE_SMASH },
+    { "jump", "Jump", ELEMENT_JUMP, DAMAGE_TYPE_JUMP },
+    { "cosmic", "Cosmic", ELEMENT_COSMIC, DAMAGE_TYPE_COSMIC },
+    { "blast", "Blast", ELEMENT_BLAST, DAMAGE_TYPE_BLAST },
+    { "shock", "Shock", ELEMENT_SHOCK, DAMAGE_TYPE_SHOCK },
+    { "quake", "Quake", ELEMENT_QUAKE, DAMAGE_TYPE_QUAKE },
+    { "throw", "Throw", ELEMENT_THROW, DAMAGE_TYPE_THROW },
+};
+
 static const char* sChapterNames[CHAPTER_COUNT] = {
     "Prologue", "Ch. 1", "Ch. 2", "Ch. 3",     "Ch. 4",    "Ch. 5",
     "Ch. 6",    "Ch. 7", "Ch. 8", "Toad Town", "Partners", "Other",
@@ -208,7 +223,9 @@ static bool sAutosavePending = false;
 static int32_t sAutosaveCountdown = 0;
 
 bool Override::Any() const {
-    return std::any_of(std::begin(isSet), std::end(isSet), [](bool set) { return set; });
+    auto set = [](bool isSet) { return isSet; };
+    return std::any_of(std::begin(isSet), std::end(isSet), set)
+        || std::any_of(std::begin(defenseSet), std::end(defenseSet), set);
 }
 
 const FieldInfo& GetFieldInfo(Field field) {
@@ -220,6 +237,44 @@ bool FieldApplies(const CatalogEntry& entry, Field field) {
         return field == FIELD_ATTACK_PERCENT || field == FIELD_ATTACK_BONUS;
     }
     return true;
+}
+
+const DefenseElementInfo& GetDefenseElementInfo(DefenseElement element) {
+    return sDefenseElements[element];
+}
+
+bool DefenseTableLists(const int32_t* defenseTable, DefenseElement element) {
+    if (defenseTable == nullptr) {
+        return false;
+    }
+    for (const int32_t* entry = defenseTable; entry[0] != ELEMENT_END; entry += 2) {
+        if (entry[0] == sDefenseElements[element].element) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Unlisted elements fall back to Normal in lookup_defense, so they follow Normal's edit too.
+int32_t GetElementDefense(const int32_t* defenseTable, DefenseElement element, const Override& ov) {
+    if (defenseTable == nullptr) {
+        return 0;
+    }
+    int32_t base = lookup_defense((s32*) defenseTable, sDefenseElements[element].element);
+    if (base >= DEFENSE_IMMUNE) {
+        return base;
+    }
+    int32_t delta = 0;
+    if (ov.defenseSet[element]) {
+        delta = ov.defenseDelta[element];
+    } else if (element != DEFENSE_NORMAL && ov.defenseSet[DEFENSE_NORMAL] && !DefenseTableLists(defenseTable, element))
+    {
+        delta = ov.defenseDelta[DEFENSE_NORMAL];
+    }
+    if (delta == 0) {
+        return base;
+    }
+    return std::clamp(base + delta, DEFENSE_MIN, DEFENSE_IMMUNE - 1);
 }
 
 const char* GetChapterName(Chapter chapter) {
@@ -435,6 +490,15 @@ static ordered_json SerializeOverrides() {
                 actor[sFieldInfo[i].key] = ov.value[i];
             }
         }
+        ordered_json defense = ordered_json::object();
+        for (int32_t i = 0; i < DEFENSE_ELEMENT_COUNT; i++) {
+            if (ov.defenseSet[i]) {
+                defense[sDefenseElements[i].key] = ov.defenseDelta[i];
+            }
+        }
+        if (!defense.empty()) {
+            actor["defenseChange"] = defense;
+        }
         actors.push_back(actor);
     }
     root["actors"] = actors;
@@ -469,6 +533,16 @@ static bool DeserializeOverrides(const ordered_json& root, std::map<int32_t, Ove
             if (actor.contains(info.key) && actor[info.key].is_number_integer()) {
                 ov.isSet[i] = true;
                 ov.value[i] = std::clamp(actor[info.key].get<int32_t>(), info.min, info.max);
+            }
+        }
+        if (actor.contains("defenseChange") && actor["defenseChange"].is_object()) {
+            const auto& defense = actor["defenseChange"];
+            for (int32_t i = 0; i < DEFENSE_ELEMENT_COUNT; i++) {
+                const char* key = sDefenseElements[i].key;
+                if (defense.contains(key) && defense[key].is_number_integer()) {
+                    ov.defenseSet[i] = true;
+                    ov.defenseDelta[i] = std::clamp(defense[key].get<int32_t>(), -DEFENSE_EDIT_MAX, DEFENSE_EDIT_MAX);
+                }
             }
         }
         if (ov.Any()) {
@@ -582,6 +656,27 @@ void ClearOverride(int32_t actorType, Field field) {
     ScheduleAutosave();
 }
 
+void SetDefenseDelta(int32_t actorType, DefenseElement element, int32_t delta) {
+    std::lock_guard<std::mutex> lock(sMutex);
+    Override& ov = sOverrides[actorType];
+    ov.defenseSet[element] = true;
+    ov.defenseDelta[element] = std::clamp(delta, -DEFENSE_EDIT_MAX, DEFENSE_EDIT_MAX);
+    ScheduleAutosave();
+}
+
+void ClearDefenseDelta(int32_t actorType, DefenseElement element) {
+    std::lock_guard<std::mutex> lock(sMutex);
+    auto it = sOverrides.find(actorType);
+    if (it == sOverrides.end()) {
+        return;
+    }
+    it->second.defenseSet[element] = false;
+    if (!it->second.Any()) {
+        sOverrides.erase(it);
+    }
+    ScheduleAutosave();
+}
+
 void ClearActor(int32_t actorType) {
     std::lock_guard<std::mutex> lock(sMutex);
     sOverrides.erase(actorType);
@@ -689,6 +784,43 @@ static void RegisterActorBlueprints_Init() {
     REGISTER_LISTENER(OnPartnerAttackDamage, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
         OnPartnerAttackDamage* ev = (OnPartnerAttackDamage*) event;
         ApplyAttackOverride(ev->partner->actorType, ev->damage);
+    });
+
+    REGISTER_LISTENER(OnActorDefenseCheck, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
+        OnActorDefenseCheck* ev = (OnActorDefenseCheck*) event;
+        if (!IsEnabled() || ev->defenseTable == nullptr || ev->target == nullptr
+            || ev->target->actorBlueprint == nullptr)
+        {
+            return;
+        }
+
+        Override ov;
+        {
+            std::lock_guard<std::mutex> lock(sMutex);
+            auto it = sOverrides.find(ev->target->actorBlueprint->type);
+            if (it == sOverrides.end()
+                || std::none_of(
+                    std::begin(it->second.defenseSet), std::end(it->second.defenseSet), [](bool set) { return set; }
+                ))
+            {
+                return;
+            }
+            ov = it->second;
+        }
+
+        int32_t defense = 255;
+        for (int32_t i = DEFENSE_FIRE; i < DEFENSE_ELEMENT_COUNT; i++) {
+            if (ev->elementFlags & sDefenseElements[i].damageType) {
+                defense = std::min<int32_t>(defense, GetElementDefense(ev->defenseTable, (DefenseElement) i, ov));
+            }
+        }
+        if (defense == 255) {
+            int32_t normal = GetElementDefense(ev->defenseTable, DEFENSE_NORMAL, ov);
+            if (normal < 255) {
+                defense = normal;
+            }
+        }
+        *ev->defense = defense;
     });
 
     REGISTER_LISTENER(GameFrameUpdate, EVENT_PRIORITY_NORMAL, [](IEvent*) { FlushAutosave(); });
