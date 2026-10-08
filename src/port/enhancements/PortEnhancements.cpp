@@ -82,6 +82,11 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnPowerBounceChance);
     REGISTER_EVENT(OnStarPointDrop);
     REGISTER_EVENT(OnCoinDrop);
+    REGISTER_EVENT(OnActorBlueprintLoad);
+    REGISTER_EVENT(OnActorCreated);
+    REGISTER_EVENT(OnEnemyAttackDamage);
+    REGISTER_EVENT(OnPartnerAttackDamage);
+    REGISTER_EVENT(OnActorDefenseCheck);
     REGISTER_EVENT(OnMapLoad);
     REGISTER_EVENT(OnPlayerSpeedUpdate);
     REGISTER_EVENT(OnMapReady);

@@ -371,6 +371,7 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
     // apply attacker damage modifiers
 
     damage = battleStatus->curAttackDamage;
+    CALL_EVENT(OnEnemyAttackDamage, attacker, &damage);
 
     switch (actorClass) {
         case ACTOR_CLASS_PLAYER:

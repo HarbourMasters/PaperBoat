@@ -2,6 +2,7 @@
 #include "spdlog/spdlog.h"
 
 #if PAPERBOAT_NATIVE_FILE_DIALOG
+#include <cstdlib>
 #include <string>
 #include <vector>
 #include "portable-file-dialogs.h"
@@ -33,8 +34,24 @@ static std::vector<std::string> ToPfdFilters(const std::vector<Ship::FileFilter>
 }
 #endif
 
+#if PAPERBOAT_NATIVE_FILE_DIALOG
+static bool NativeDialogUsable() {
+    if (std::getenv("GAMESCOPE_WAYLAND_DISPLAY") != nullptr) {
+        return false;
+    }
+    return pfd::settings::available();
+}
+#endif
+
 void PickFile(Ship::FileBrowserRequest request, std::function<void(std::optional<fs::path>)> onResult) {
 #if PAPERBOAT_NATIVE_FILE_DIALOG
+    if (!NativeDialogUsable()) {
+        SPDLOG_INFO("Native file dialog unavailable, using the in-game file browser.");
+        request.OnResult = std::move(onResult);
+        Ship::FileBrowserWindow::Open(std::move(request));
+        return;
+    }
+
     const std::string startDir = request.StartDir.empty() ? "." : request.StartDir.string();
     const std::vector<std::string> filters = ToPfdFilters(request.Filters);
 
