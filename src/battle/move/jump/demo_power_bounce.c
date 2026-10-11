@@ -36,11 +36,17 @@ API_CALLABLE(N(GetHitChance)) {
     return ApiStatus_DONE2;
 }
 
+API_CALLABLE(N(ResetHitChance)) {
+    N(BaseHitChance) = 200;
+    return ApiStatus_DONE2;
+}
+
 extern EvtScript N(EVS_UseMove_Basic);
 extern EvtScript N(EVS_UseMove_Super);
 extern EvtScript N(EVS_UseMove_Ultra);
 
 EvtScript N(EVS_UseMove) = {
+    Call(N(ResetHitChance))
     Set(LFlagA, false)
     Call(ShowActionHud, true)
     Call(SetBattleFlagBits, BS_FLAGS1_AUTO_SUCCEED_ACTION, true)
