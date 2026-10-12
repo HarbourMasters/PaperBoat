@@ -1,6 +1,21 @@
 #include "battle/battle.h"
 #include "hud_element.h"
 
+// Battle menu layout per language (EN/DE/FR/ES), from PAL.
+u8 D_PAL_802AB4C8[] = { 144, 158, 148, 144 };
+u8 D_PAL_802AB4CC[] = { 144, 160, 160, 160 };
+u8 D_PAL_802AB4D0[] = { 0, 20, 20, 20 };
+u8 D_PAL_802AB4D4[] = { 0, 16, 16, 16 };
+u8 D_PAL_802AB4D8[] = { 8, 24, 8, 16 };
+u8 D_PAL_802AB4DC[] = { 100, 81, 116, 98 };
+u8 D_PAL_802AB4E0[] = { 5, 16, 8, 16 };
+u8 D_PAL_802AB4E4[] = { 156, 158, 158, 158 };
+u8 D_PAL_802AB4E8[] = { 4, 6, 6, 6 };
+u8 D_PAL_802AB4EC[] = { 18, 14, 18, 14 };
+u8 D_PAL_802AB4F0[] = { 89, 101, 90, 101 };
+u8 D_PAL_802AB4F4[] = { 16, 10, 14, 10 };
+u8 D_PAL_802AB4F8[] = { 0, 2, 2, 2 };
+
 #define MENU_CAPACITY 24
 #define MENU_LINE_HEIGHT 13
 #define MENU_MAX_VISIBLE 6
@@ -372,13 +387,13 @@ s32 btl_submenu_moves_update(void) {
             x = MovesMenuPosX;
             y = MovesMenuPosY;
             if (!UsingSpiritsSubmenu) {
-                set_window_properties(WIN_BTL_MOVES_MENU, x, y, 150, (MovesMenuLines * MENU_LINE_HEIGHT) + 28, 0, btl_menu_moves_draw_content, nullptr, -1);
-                set_window_properties(WIN_BTL_MOVES_TITLE, x + 16, y - 6, 90, 16, 1, btl_menu_moves_show_title, nullptr, -1);
-                set_window_properties(WIN_BTL_MOVES_ICON, x + 114, y - 12, 32, 32, 1, btl_menu_moves_show_icon, nullptr, -1);
+                set_window_properties(WIN_BTL_MOVES_MENU, x, y, LANG_X(D_PAL_802AB4E4, 150), (MovesMenuLines * MENU_LINE_HEIGHT) + 28, 0, btl_menu_moves_draw_content, nullptr, -1);
+                set_window_properties(WIN_BTL_MOVES_TITLE, x + LANG_X(D_PAL_802AB4EC, 16), y - 6, LANG_X(D_PAL_802AB4F0, 90), 16, 1, btl_menu_moves_show_title, nullptr, -1);
+                set_window_properties(WIN_BTL_MOVES_ICON, x + (gGameLanguage == 0 ? 114 : 120 + D_PAL_802AB4F8[gGameLanguage]), y - 12, 32, 32, 1, btl_menu_moves_show_icon, nullptr, -1);
             } else {
-                set_window_properties(WIN_BTL_MOVES_MENU, x, y, 144, (MovesMenuLines * MENU_LINE_HEIGHT) + 28, 0, btl_menu_moves_draw_content, nullptr, -1);
-                set_window_properties(WIN_BTL_SPIRITS_TITLE, x + 10, y - 6, 100, 16, 1, btl_menu_moves_show_title, 0, -1);
-                set_window_properties(WIN_BTL_SPIRITS_ICON, x + 110, y - 12, 32, 35, 1, btl_menu_moves_show_icon, 0, -1);
+                set_window_properties(WIN_BTL_MOVES_MENU, x, y, LANG_X(D_PAL_802AB4CC, 144), (MovesMenuLines * MENU_LINE_HEIGHT) + 28, 0, btl_menu_moves_draw_content, nullptr, -1);
+                set_window_properties(WIN_BTL_SPIRITS_TITLE, x + LANG_X(D_PAL_802AB4D8, 10), y - 6, LANG_X(D_PAL_802AB4DC, 100), 16, 1, btl_menu_moves_show_title, 0, -1);
+                set_window_properties(WIN_BTL_SPIRITS_ICON, x + LANG_ADD(D_PAL_802AB4D4, 110), y - 12, 32, 35, 1, btl_menu_moves_show_icon, 0, -1);
             }
 
             set_window_properties(WIN_BTL_DESC_BOX, 20, 186, 280, 32, WINDOW_PRIORITY_20, btl_menu_moves_show_desc, nullptr, -1);
@@ -628,8 +643,8 @@ s32 btl_submenu_moves_update(void) {
 #define X_VAR2 89
 #else
 #define Y_VAR1 0
-#define X_VAR1 108
-#define X_VAR2 93
+#define X_VAR1 LANG_ADD(D_PAL_802AB4E8, 108)
+#define X_VAR2 LANG_ADD(D_PAL_802AB4D0, 93)
 #endif
 
 void btl_menu_moves_draw_content(void* data, s32 x, s32 y) {
@@ -657,7 +672,7 @@ void btl_menu_moves_draw_content(void* data, s32 x, s32 y) {
             MovesScrollOffset = (delta != 0) ? cur + delta : target;
 
             x1 = x + 2;
-            x2 = x + 153;
+            x2 = x + (gGameLanguage == 0 ? 153 : 169);
             y1 = y + 18;
             y2 = y + 19 + (MovesMenuLines * MENU_LINE_HEIGHT);
             gDPSetScissor(gMainGfxPos++, G_SC_NON_INTERLACE, x1, y1, x2, y2);
@@ -734,7 +749,7 @@ void btl_menu_moves_draw_content(void* data, s32 x, s32 y) {
                             if (MovesOptionEnabled[index] <= 0) {
                                 hud_element_set_script(hid, &HES_NotEnoughPOW);
                             }
-                            hud_element_set_render_pos(hid, xPos + 102, yPos + 7);
+                            hud_element_set_render_pos(hid, xPos + LANG_ADD(D_PAL_802AB4D0, 102), yPos + 7);
                         } else {
                             draw_number(
                                 cost, xPos + X_VAR1, yPos, DRAW_NUMBER_CHARSET_THIN, palette, MovesTextAlpha,
@@ -743,7 +758,7 @@ void btl_menu_moves_draw_content(void* data, s32 x, s32 y) {
                             if (MovesOptionEnabled[index] <= 0) {
                                 hud_element_set_script(hid, &HES_NotEnoughFP);
                             }
-                            hud_element_set_render_pos(hid, xPos + 116, yPos + 7);
+                            hud_element_set_render_pos(hid, xPos + LANG_ADD(D_PAL_802AB4E8, 116), yPos + 7);
                         }
                         hud_element_set_alpha(hid, MovesTextAlpha);
                         hud_element_draw_without_clipping(hid);
@@ -819,13 +834,13 @@ void btl_menu_moves_show_title(void* data, s32 x, s32 y) {
 
     if (!UsingSpiritsSubmenu) {
         msgID = MSG_Menus_Abilities;
-        posX = x + 16;
+        posX = x + LANG_X(D_PAL_802AB4F4, 16);
         posY = y + 2;
         opacity = MovesTextAlpha;
         palette = MSG_PAL_30;
     } else {
         msgID = MSG_Menus_StarSpirits;
-        posX = x + 6;
+        posX = x + LANG_X(D_PAL_802AB4E0, 6);
         posY = y + 2;
         opacity = MovesTextAlpha;
         palette = MSG_PAL_31;

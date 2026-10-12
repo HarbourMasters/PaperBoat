@@ -70,7 +70,7 @@ s32 filemenu_char_color = -1;
 u32 filemenu_glyphBufferIndex = 0;
 #endif
 
-#if VERSION_PAL
+// Layout offsets per language (EN/DE/FR/ES). Used at runtime on PC.
 u8 D_filemenu_802508D0[] = {0x21, 0x24, 0x26, 0x26};
 u8 D_filemenu_802508D4[] = {0x07, 0x07, 0x05, 0x05};
 u8 D_filemenu_802508D8[] = {0x22, 0x22, 0x1A, 0x26};
@@ -105,7 +105,6 @@ u8 D_filemenu_8025095C[] = {0x24, 0x24, 0x32, 0x24};
 u8 D_filemenu_80250960[] = {0xA4, 0xA4, 0xA4, 0xB4};
 u8 D_filemenu_80250964[] = {0xB8, 0xB4, 0xA0, 0xCC};
 u8 D_filemenu_80250968[] = {0x00, 0x00, 0x00, 0x10};
-#endif
 
 #if VERSION_IQUE
 u8 filemenu_msg_01[] = { 0xF7, 0xF7, 0xF7, 0xF7, 0xF7, 0x7A, 0x14, 0x7B, 0x14, 0x79, 0x19, 0x7F, 0x06, 0x79, 0x04, 0x7A, 0x04, 0xFD };
@@ -490,6 +489,8 @@ u8 **gFileMenuMessages_intl[] = {
 };
 #endif
 
+#include "filemenu_intl.inc.c"
+
 s32 filemenu_draw_char(s32 c, s32 x, s32 y, s32 flag1, s32 color, s32 flag2) {
     MessageCharset* charset;
     s32 texSizeX;
@@ -662,6 +663,17 @@ u8* filemenu_get_menu_message(s32 idx) {
 #if VERSION_PAL
     return gFileMenuMessages_intl[gCurrentLanguage][idx];
 #else
+    if (gGameLanguage != LANGUAGE_EN && idx >= 0 && idx < ARRAY_COUNT(sFileMenuIntl[0])
+        && sFileMenuIntl[gGameLanguage - 1][idx] != NULL)
+    {
+        return sFileMenuIntl[gGameLanguage - 1][idx];
+    }
+    switch (idx) { // PAL-only messages, English equivalents
+        case FILE_MESSAGE_INTL_FILE_LABEL: idx = FILE_MESSAGE_FILE_26; break;
+        case FILE_MESSAGE_INTL_QUESTION_24: idx = FILE_MESSAGE_QUESTION; break;
+        case FILE_MESSAGE_INTL_PERIOD_30: idx = FILE_MESSAGE_PERIOD_34; break;
+        case FILE_MESSAGE_INTL_ARTICLE: idx = FILE_MESSAGE_28; break;
+    }
     return (u8*)gFileMenuMessages[idx];
 #endif
 }

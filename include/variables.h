@@ -118,7 +118,25 @@ extern PlayerData gPlayerData;
 #if VERSION_PAL
 extern s32 gCurrentLanguage;
 #else
+// The US tables indexed by this only have an English entry, so it must stay 0
+// until the PAL tables are ported. The language chosen at runtime lives in
+// gGameLanguage (src/port/Language.cpp).
 #define gCurrentLanguage 0
+#endif
+extern s32 gGameLanguage;
+
+// Layout position for the current language. English keeps the original US
+// value; other languages read the PAL table (indexed EN/DE/FR/ES).
+#if VERSION_PAL
+#define LANG_X(table, usValue) ((s32) (table)[gCurrentLanguage])
+#else
+#define LANG_X(table, usValue) (gGameLanguage == 0 ? (s32) (usValue) : (s32) (table)[gGameLanguage])
+#endif
+// Same, for values PAL adds to a base position instead of replacing it.
+#if VERSION_PAL
+#define LANG_ADD(table, usValue) ((s32) (usValue) + (s32) (table)[gCurrentLanguage])
+#else
+#define LANG_ADD(table, usValue) ((s32) (usValue) + (gGameLanguage == 0 ? 0 : (s32) (table)[gGameLanguage]))
 #endif
 
 #ifdef _LANGUAGE_C_PLUS_PLUS

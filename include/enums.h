@@ -4963,6 +4963,13 @@ enum FileMenuMessages {
     /* 34 */ FILE_MESSAGE_PERIOD_34,                   // .[End]
 #if VERSION_PAL
     FILE_MESSAGE_PAL_UNK3,
+#else
+    // Messages only the PAL game has. filemenu_get_menu_message returns the
+    // US equivalent for English.
+    FILE_MESSAGE_INTL_FILE_LABEL,   // short "File" on title bars ("Fich." / "Dat.")
+    FILE_MESSAGE_INTL_QUESTION_24,  // trailing "?" of "start game with file N"
+    FILE_MESSAGE_INTL_PERIOD_30,    // trailing "." of "copy from file N to file M"
+    FILE_MESSAGE_INTL_ARTICLE,      // "El" / "Le" before "file N has been created"
 #endif
 };
 

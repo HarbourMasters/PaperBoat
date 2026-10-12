@@ -1,4 +1,6 @@
+#include <string_view>
 #include <fast/Fast3dWindow.h>
+#include "port/language/LanguagePackBuilder.h"
 #include <fast/interpreter.h>
 #include <libultraship.h>
 
@@ -128,6 +130,10 @@ extern "C"
     WebCache_Mount("/storage");
     WebCache_Load();
 #endif
+
+    if (argc > 1 && std::string_view(argv[1]) == "--build-language-packs") {
+        return Paperboat::RunBuildLanguagePacksCli(argc, argv);
+    }
 
     Graphics_EnableNusysThreads();
     GameEngine::Create(argc, argv);

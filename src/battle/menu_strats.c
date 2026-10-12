@@ -1,4 +1,6 @@
 #include "battle/battle.h"
+
+extern u8 D_PAL_802AB4C8[4];
 #include "hud_element.h"
 
 #define MENU_CAPACITY 6
@@ -209,8 +211,16 @@ s32 btl_submenu_strats_update(void) {
             StratsTextColor = MSG_PAL_STANDARD;
             x = StratsMenuPosX;
             y = StratsMenuPosY;
-            set_window_properties(WIN_BTL_STRATS_MENU, x, y, 144, (StratsMenuLines * MENU_LINE_HEIGHT) + 26, 0, btl_menu_strats_draw_content, nullptr, -1);
-            set_window_properties(WIN_BTL_STRATS_TITLE, x + 18, y - 6, 108, 16, 1, btl_menu_strats_show_title, nullptr, -1);
+            if (gGameLanguage == LANGUAGE_EN) {
+                set_window_properties(WIN_BTL_STRATS_MENU, x, y, 144, (StratsMenuLines * MENU_LINE_HEIGHT) + 26, 0, btl_menu_strats_draw_content, nullptr, -1);
+                set_window_properties(WIN_BTL_STRATS_TITLE, x + 18, y - 6, 108, 16, 1, btl_menu_strats_show_title, nullptr, -1);
+            } else {
+                // PAL sizes the title to the message, and the menu per language.
+                s32 titleWidth = get_msg_width(MSG_Menus_Strategies, 0) + 32;
+
+                set_window_properties(WIN_BTL_STRATS_MENU, x, y, D_PAL_802AB4C8[gGameLanguage], (StratsMenuLines * MENU_LINE_HEIGHT) + 26, 0, btl_menu_strats_draw_content, nullptr, -1);
+                set_window_properties(WIN_BTL_STRATS_TITLE, x + (D_PAL_802AB4C8[gGameLanguage] - titleWidth) / 2, y - 6, titleWidth, 16, 1, btl_menu_strats_show_title, nullptr, -1);
+            }
             x = 20;
             y = 186;
             set_window_properties(WIN_BTL_DESC_BOX, x, y, 280, 32, WINDOW_PRIORITY_20, btl_menu_strats_show_desc, nullptr, -1);

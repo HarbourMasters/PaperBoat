@@ -1,5 +1,6 @@
 #include "pause/pause_common.h"
 #include "message_ids.h"
+#include "port/Language.h"
 // Asset paths defined in assets/misc/pause.h, loaded via OTR
 #include "assets/misc/pause.h"
 
@@ -266,7 +267,7 @@ Gfx PauseGfxSpiritsBg[] = {
     gsSPEndDisplayList(),
 };
 
-#if VERSION_PAL
+// Pause menu layout per language (EN/DE/FR/ES), from PAL.
 u8 D_PAL_80271B10[] = { 0x71, 0x71, 0x78, 0x71 };
 u8 D_PAL_80271B14[] = { 0x6A, 0x6A, 0x72, 0x6A };
 u8 D_PAL_80271B18[] = { 0x10, 0x10, 0x0F, 0x10 };
@@ -284,7 +285,6 @@ u8 D_PAL_80271B44[] = { 0x7D, 0x87, 0x87, 0x87 };
 u8 D_PAL_80271B48[] = { 0x66, 0x70, 0x70, 0x70 };
 u8 D_PAL_80271B4C[] = { 0x0C, 0x0C, 0x12, 0x0C };
 u8 D_PAL_80271B50[] = { 0x50, 0x60, 0x52, 0x5F };
-#endif
 
 #if VERSION_IQUE
 u8 gPauseMsg_17[] = { 0x8F, 0x0C, 0x75, 0x12, 0xFD };
@@ -506,7 +506,57 @@ Gfx* PauseGfxLabels[] = {
     [PAUSE_LBL_ABILITIES] PauseGfxCheckAbilities,
 };
 
+#if !VERSION_PAL
+// PAL ships these labels as messages; the US build compiles them in as English
+// arrays. For other languages they are read from the language pack by name.
+static const char* const sPauseIntlMsgNames[] = {
+    [PAUSE_MSG_LBL_COINS]       "MSG_PAL_Menu_0039",
+    [PAUSE_MSG_LBL_STAR_POINTS] "MSG_PAL_Menu_003A",
+    [PAUSE_MSG_LBL_STAR_PIECES] "MSG_PAL_Menu_003B",
+    [PAUSE_MSG_LBL_TIME]        "MSG_PAL_Menu_003C",
+    [PAUSE_MSG_LBL_HP]          "MSG_PAL_Menu_003D",
+    [PAUSE_MSG_LBL_FP]          "MSG_PAL_Menu_003E",
+    [PAUSE_MSG_LBL_BP]          "MSG_PAL_Menu_003F",
+    [PAUSE_MSG_SLASH]           "MSG_PAL_Menu_0040",
+    [PAUSE_MSG_DOT]             "MSG_PAL_Menu_0041",
+    [PAUSE_MSG_3C]              "MSG_PAL_Menu_0042",
+    [PAUSE_MSG_3D]              "MSG_PAL_Menu_0043",
+    [PAUSE_MSG_3E]              "MSG_PAL_Menu_0044",
+    [PAUSE_MSG_40]              "MSG_PAL_Menu_0045",
+    [PAUSE_MSG_41]              "MSG_PAL_Menu_0046",
+    [PAUSE_MSG_42]              "MSG_PAL_Menu_0047",
+    [PAUSE_MSG_MARIO]           "MSG_PAL_Menu_0048",
+    [PAUSE_MSG_LEVEL]           "MSG_PAL_Menu_0049",
+    [PAUSE_MSG_BADGE_BP]        "MSG_PAL_Menu_003F",
+    [PAUSE_MSG_ALL_BADGES]      "MSG_PAL_Menu_004A",
+    [PAUSE_MSG_ACTIVE]          "MSG_PAL_Menu_004C",
+    [PAUSE_MSG_BADGES]          "MSG_PAL_Menu_004D",
+    [PAUSE_MSG_NOT_ENOUGH_BP]   "MSG_PAL_Menu_004E",
+    [PAUSE_MSG_DONT_WEAR_MORE]  "MSG_PAL_Menu_004F",
+    [PAUSE_MSG_KEY_ITEMS]       "MSG_PAL_Menu_0051",
+    [PAUSE_MSG_PAL_42]          "MSG_PAL_Menu_004B",
+    [PAUSE_MSG_PAL_4B]          "MSG_PAL_Menu_0052",
+    [PAUSE_MSG_CONSUMABLES]     "MSG_PAL_Menu_0050",
+    [PAUSE_MSG_PARTNER_HP]      "MSG_PAL_Menu_003D",
+    [PAUSE_MSG_PARTNER_FP]      "MSG_PAL_Menu_003E",
+    [PAUSE_MSG_PARTNER_ABILITIES] "MSG_PAL_Menu_0053",
+    [PAUSE_MSG_UNKNOWN_SPIRIT]  "MSG_PAL_Menu_0054",
+};
+#endif
+
 intptr_t pause_get_menu_msg(s32 index) {
+#if !VERSION_PAL
+    if (gGameLanguage != LANGUAGE_EN) {
+        if (index == PAUSE_MSG_3B || index == PAUSE_MSG_3F) {
+            index = PAUSE_MSG_NO_BADGE; // PAL shows "None" with the badge message
+        } else if (index >= 0 && index < ARRAY_COUNT(sPauseIntlMsgNames) && sPauseIntlMsgNames[index] != NULL) {
+            const unsigned char* msg = GameLanguage_GetMessage(sPauseIntlMsgNames[index]);
+            if (msg != NULL) {
+                return (intptr_t) msg;
+            }
+        }
+    }
+#endif
     return gPauseMessages[index];
 }
 
@@ -532,13 +582,11 @@ void pause_draw_menu_label(s32 index, s32 x, s32 y) {
     gSPDisplayList(gMainGfxPos++, PauseGfxLabels[index]);
     pause_draw_rect(x * 4, y * 4, (x + xOffset) * 4, (y + 16) * 4, 0, 0, 0, 0x400, 0x400);
 
-#if VERSION_PAL
-    if (gCurrentLanguage == LANGUAGE_DE && index == 5) {
+    if (gGameLanguage == LANGUAGE_DE && index == 5) {
         s16 xOffset2 = xOffset;
 
         pause_draw_rect((x + 30) * 4, (y * 4), (xOffset2 + x + 10) * 4, (y + 16) * 4, 0, 0x280, 0, 0x400, 0x400);
     }
-#endif
 }
 
 BSS s8 gPauseBufferPal1[512];

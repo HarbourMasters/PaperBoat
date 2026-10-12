@@ -41,6 +41,7 @@ static s32 gPausePartnersNumPartners;
 extern HudScript HES_FPCost_de;
 extern HudScript HES_FPCost_fr;
 extern HudScript HES_FPCost_es;
+#endif
 
 extern u8 D_PAL_80271B38[];
 extern u8 D_PAL_80271B3C[];
@@ -49,7 +50,6 @@ extern u8 D_PAL_80271B44[];
 extern u8 D_PAL_80271B48[];
 extern u8 D_PAL_80271B4C[];
 extern u8 D_PAL_80271B50[];
-#endif
 
 HudScript* gPausePartnersHudScripts[][8] = {
     [LANGUAGE_DEFAULT] = {
@@ -557,17 +557,17 @@ void pause_partners_draw_movelist(MenuPanel* menu, s32 baseX, s32 baseY, s32 wid
         if (costFP != 0) {
             s32 xOffset = 125;
 
-#if VERSION_PAL
-            xOffset = D_PAL_80271B44[gCurrentLanguage];
-#endif
+    if (gGameLanguage != LANGUAGE_EN) {
+            xOffset = D_PAL_80271B44[gGameLanguage];
+    }
 
             draw_number(costFP, baseX + xOffset, baseY + 22 + i * 13, style, MSG_PAL_STANDARD, 255, DRAW_NUMBER_STYLE_MONOSPACE | DRAW_NUMBER_STYLE_ALIGN_RIGHT);
             if (costFP > 0) {
-#if VERSION_PAL
-                hud_element_set_render_pos(gPausePartnersHIDs[0], baseX + D_PAL_80271B44[gCurrentLanguage] + 9, baseY + 29 + i * 13);
-#else
+                if (gGameLanguage != LANGUAGE_EN) {
+                hud_element_set_render_pos(gPausePartnersHIDs[0], baseX + D_PAL_80271B44[gGameLanguage] + 9, baseY + 29 + i * 13);
+                } else {
                 hud_element_set_render_pos(gPausePartnersHIDs[0], baseX + 134, baseY + 29 + i * 13);
-#endif
+                }
                 hud_element_draw_without_clipping(gPausePartnersHIDs[0]);
             }
         }
@@ -582,11 +582,11 @@ void pause_partners_draw_movelist_title(MenuPanel* menu, s32 baseX, s32 baseY, s
     intptr_t msgID = pause_get_menu_msg(PAUSE_MSG_PARTNER_ABILITIES);
     s32 xOffset;
 
-#if VERSION_PAL
-    xOffset = D_PAL_80271B38[gCurrentLanguage];
-#else
+    if (gGameLanguage != LANGUAGE_EN) {
+    xOffset = D_PAL_80271B38[gGameLanguage];
+    } else {
     xOffset = 12;
-#endif
+    }
 
     draw_msg(msgID, baseX + xOffset, baseY + 1, 255, -1, DRAW_MSG_STYLE_MENU);
 }
@@ -627,13 +627,13 @@ void pause_partners_init(MenuPanel* panel) {
     }
     setup_pause_menu_tab(gPausePartnersWindowBPs, ARRAY_COUNT(gPausePartnersWindowBPs));
 
-#if VERSION_PAL
-    gWindows[WIN_PAUSE_PARTNERS_MOVELIST_TITLE].width = D_PAL_80271B50[gCurrentLanguage];
-    gWindows[WIN_PAUSE_PARTNERS_MOVELIST_TITLE].pos.x = D_PAL_80271B4C[gCurrentLanguage];
-    gWindows[WIN_PAUSE_PARTNERS_MOVELIST].width = D_PAL_80271B40[gCurrentLanguage];
-    gWindows[WIN_PAUSE_PARTNERS_MOVELIST].pos.x = D_PAL_80271B3C[gCurrentLanguage];
-    gWindows[WIN_PAUSE_PARTNERS_MOVELIST_FLOWER].pos.x = D_PAL_80271B48[gCurrentLanguage];
-#endif
+    if (gGameLanguage != LANGUAGE_EN) {
+    gWindows[WIN_PAUSE_PARTNERS_MOVELIST_TITLE].width = D_PAL_80271B50[gGameLanguage];
+    gWindows[WIN_PAUSE_PARTNERS_MOVELIST_TITLE].pos.x = D_PAL_80271B4C[gGameLanguage];
+    gWindows[WIN_PAUSE_PARTNERS_MOVELIST].width = D_PAL_80271B40[gGameLanguage];
+    gWindows[WIN_PAUSE_PARTNERS_MOVELIST].pos.x = D_PAL_80271B3C[gGameLanguage];
+    gWindows[WIN_PAUSE_PARTNERS_MOVELIST_FLOWER].pos.x = D_PAL_80271B48[gGameLanguage];
+    }
 
     gPausePartnersCurrentPartnerIdx = 0;
     for (i = 0; i < gPausePartnersNumPartners; i++) {

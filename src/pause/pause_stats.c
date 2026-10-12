@@ -7,6 +7,14 @@ void pause_stats_cleanup(MenuPanel* panel);
 
 static s32 gPauseStatsIconIDs[12];
 
+extern u8 D_PAL_80271B10[4];
+extern u8 D_PAL_80271B14[4];
+extern u8 D_PAL_80271B18[4];
+extern u8 D_PAL_80271B1C[4];
+extern u8 D_PAL_80271B20[4];
+extern u8 D_PAL_80271B24[4];
+extern u8 D_PAL_80271B28[4];
+
 #if VERSION_IQUE
 #define NUMBER_OFFSET_Y 2
 #define ROW_1_Y 48
@@ -27,8 +35,15 @@ static s32 gPauseStatsIconIDs[12];
 #define COL_A_X 25
 #define COL_B_X 78
 #define COL_C_X 105
-#define POS_1_X 67
-#define POS_2_X 106
+#define POS_1_X LANG_X(D_PAL_80271B20, 67)
+#define POS_2_X LANG_X(D_PAL_80271B14, 106)
+#endif
+#if !VERSION_IQUE
+#define POS_3_X LANG_X(D_PAL_80271B1C, 61)
+#define POS_4_X LANG_X(D_PAL_80271B18, 16)
+#define PAUSE_BOX_WIDTH LANG_X(D_PAL_80271B10, 113)
+#define X_VAR1 LANG_X(D_PAL_80271B24, 143)
+#define X_VAR2 LANG_X(D_PAL_80271B28, 155)
 #endif
 
 // Probably only used here, but could theoretically be used in the main menu too
@@ -180,25 +195,25 @@ void pause_stats_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width,
     s32 powFullBars;
 
     // draw coin count
-    hud_element_set_render_pos(gPauseStatsIconIDs[STAT_ICON_COIN], baseX + 143, baseY + 109);
+    hud_element_set_render_pos(gPauseStatsIconIDs[STAT_ICON_COIN], baseX + X_VAR1, baseY + 109);
     hud_element_draw_without_clipping(gPauseStatsIconIDs[STAT_ICON_COIN]);
-    draw_msg(pause_get_menu_msg(PAUSE_MSG_LBL_COINS), baseX + 155, baseY + 101, 255, MSG_PAL_STANDARD, 1);
+    draw_msg(pause_get_menu_msg(PAUSE_MSG_LBL_COINS), baseX + X_VAR2, baseY + 101, 255, MSG_PAL_STANDARD, 1);
     draw_number(gPlayerData.coins, baseX + 281, baseY + 101 + NUMBER_OFFSET_Y, 1, MSG_PAL_STANDARD, 255, 3);
     hud_element_set_render_pos(gPauseStatsIconIDs[STAT_ICON_TIMES], baseX + 248, baseY + 108);
     hud_element_draw_without_clipping(gPauseStatsIconIDs[STAT_ICON_TIMES]);
 
     // draw star point count
-    hud_element_set_render_pos(gPauseStatsIconIDs[STAT_ICON_STAR_POINT], baseX + 143, baseY + 94);
+    hud_element_set_render_pos(gPauseStatsIconIDs[STAT_ICON_STAR_POINT], baseX + X_VAR1, baseY + 94);
     hud_element_draw_without_clipping(gPauseStatsIconIDs[STAT_ICON_STAR_POINT]);
-    draw_msg(pause_get_menu_msg(PAUSE_MSG_LBL_STAR_POINTS), baseX + 155, baseY + 86, 255, MSG_PAL_STANDARD, 1);
+    draw_msg(pause_get_menu_msg(PAUSE_MSG_LBL_STAR_POINTS), baseX + X_VAR2, baseY + 86, 255, MSG_PAL_STANDARD, 1);
     draw_number(gPlayerData.starPoints, baseX + 281, baseY + 86 + NUMBER_OFFSET_Y, 1, MSG_PAL_STANDARD, 255, 3);
     hud_element_set_render_pos(gPauseStatsIconIDs[STAT_ICON_TIMES], baseX + 248, baseY + 93);
     hud_element_draw_without_clipping(gPauseStatsIconIDs[STAT_ICON_TIMES]);
 
     // draw star piece count
-    hud_element_set_render_pos(gPauseStatsIconIDs[STAT_ICON_STAR_PIECE], baseX + 143, baseY + 123);
+    hud_element_set_render_pos(gPauseStatsIconIDs[STAT_ICON_STAR_PIECE], baseX + X_VAR1, baseY + 123);
     hud_element_draw_without_clipping(gPauseStatsIconIDs[STAT_ICON_STAR_PIECE]);
-    draw_msg(pause_get_menu_msg(PAUSE_MSG_LBL_STAR_PIECES), baseX + 155, baseY + 116, 255, MSG_PAL_STANDARD, 1);
+    draw_msg(pause_get_menu_msg(PAUSE_MSG_LBL_STAR_PIECES), baseX + X_VAR2, baseY + 116, 255, MSG_PAL_STANDARD, 1);
     draw_number(gPlayerData.starPieces, baseX + 281, baseY + 116 + NUMBER_OFFSET_Y, 1, MSG_PAL_STANDARD, 255, 3);
     hud_element_set_render_pos(gPauseStatsIconIDs[STAT_ICON_TIMES], baseX + 248, baseY + 123);
     hud_element_draw_without_clipping(gPauseStatsIconIDs[STAT_ICON_TIMES]);
@@ -232,9 +247,9 @@ void pause_stats_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width,
     #define HOUR   (MINUTE * 60)
 
     // draw play time
-    hud_element_set_render_pos(gPauseStatsIconIDs[STAT_ICON_CLOCK], baseX + 143, baseY + 140);
+    hud_element_set_render_pos(gPauseStatsIconIDs[STAT_ICON_CLOCK], baseX + X_VAR1, baseY + 140);
     hud_element_draw_without_clipping(gPauseStatsIconIDs[STAT_ICON_CLOCK]);
-    draw_msg(pause_get_menu_msg(PAUSE_MSG_LBL_TIME), baseX + 155, baseY + 133, 255, MSG_PAL_STANDARD, 1);
+    draw_msg(pause_get_menu_msg(PAUSE_MSG_LBL_TIME), baseX + X_VAR2, baseY + 133, 255, MSG_PAL_STANDARD, 1);
     frameCount = gPlayerData.frameCounter;
     if (frameCount >= (100 * HOUR)) {
         frameCount = (100 * HOUR) - 1;
@@ -251,14 +266,14 @@ void pause_stats_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width,
     bootsLevel = gPlayerData.bootsLevel;
     hammerLevel = gPlayerData.hammerLevel;
     level = gPlayerData.level;
-    draw_box(4, &gPauseWS_10, baseX + 7, baseY + 12, 0, level >= 10 ? 121 : 113, 17, 255, 0, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, nullptr, nullptr, nullptr, SCREEN_WIDTH, SCREEN_HEIGHT, nullptr);
+    draw_box(4, &gPauseWS_10, baseX + 7, baseY + 12, 0, PAUSE_BOX_WIDTH + (level >= 10 ? 8 : 0), 17, 255, 0, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, nullptr, nullptr, nullptr, SCREEN_WIDTH, SCREEN_HEIGHT, nullptr);
 
     // draw level
 #if !VERSION_IQUE
-    hud_element_set_render_pos(gPauseStatsIconIDs[STAT_ICON_MARIO], baseX + 61, baseY + 21);
+    hud_element_set_render_pos(gPauseStatsIconIDs[STAT_ICON_MARIO], baseX + POS_3_X, baseY + 21);
     hud_element_draw_without_clipping(gPauseStatsIconIDs[STAT_ICON_MARIO]);
 #endif
-    draw_msg(pause_get_menu_msg(PAUSE_MSG_MARIO), baseX + 16, baseY + 14, 255, MSG_PAL_WHITE, 1);
+    draw_msg(pause_get_menu_msg(PAUSE_MSG_MARIO), baseX + POS_4_X, baseY + 14, 255, MSG_PAL_WHITE, 1);
     draw_msg(pause_get_menu_msg(PAUSE_MSG_LEVEL), baseX + POS_1_X, baseY + 14, 255, MSG_PAL_WHITE, 1);
     draw_number(level, baseX + POS_2_X, baseY + 14 + NUMBER_OFFSET_Y, 1, MSG_PAL_WHITE, 255, 2);
 
@@ -589,8 +604,20 @@ void pause_stats_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width,
 
     if (gPauseMenuCurrentTab == 1) {
         StatsEntryData* entry = &gStatsMenuEntries[menu->selected];
+        s32 cursorX = entry->cursorX;
 
-        pause_set_cursor_pos(WIN_PAUSE_STATS, baseX + entry->cursorX, baseY + entry->cursorY);
+        if (gGameLanguage != LANGUAGE_EN) {
+            // PAL's star power / collectables cursor positions, then a per-language shift.
+            static const s32 sCursorShift[4] = { 0, -16, -7, -19 };
+
+            if (menu->selected == 6) {
+                cursorX += 122 - 132;
+            } else if (menu->selected >= 7) {
+                cursorX += (127 - 125) + sCursorShift[gGameLanguage];
+            }
+        }
+
+        pause_set_cursor_pos(WIN_PAUSE_STATS, baseX + cursorX, baseY + entry->cursorY);
     }
 }
 #endif

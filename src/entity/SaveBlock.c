@@ -52,9 +52,9 @@ void entity_SaveBlock_setupGfx(s32 index) {
     gDPSetCombineMode(gfxPos++, PM_CC_01, PM_CC_02);
     gDPSetPrimColor(gfxPos++, 0, 0, 0, 0, 0, alpha);
     // Static block: block edges + S letter
-#if VERSION_PAL
+    if (gGameLanguage != LANGUAGE_EN) {
     gSPDisplayList(gfxPos++, Entity_SaveBlock_RenderBlock);
-    switch (gCurrentLanguage) {
+    switch (gGameLanguage) {
         default:
             gSPDisplayList(gfxPos++, Entity_SaveBlock_RenderLetterS);
             break;
@@ -62,10 +62,10 @@ void entity_SaveBlock_setupGfx(s32 index) {
             gSPDisplayList(gfxPos++, Entity_SaveBlock_RenderStar);
             break;
     }
-#else
+    } else {
     gSPDisplayList(gfxPos++, Entity_SaveBlock_RenderBlock);
     gSPDisplayList(gfxPos++, Entity_SaveBlock_RenderLetterS);
-#endif
+    }
     gSPPopMatrix(gfxPos++, G_MTX_MODELVIEW);
 
     gMainGfxPos = gfxPos;

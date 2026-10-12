@@ -28,7 +28,6 @@ extern HudScript HES_OptionMonoOff;
 extern HudScript HES_OptionStereoOn;
 extern HudScript HES_OptionStereoOff;
 
-#if VERSION_PAL
 extern u8 D_filemenu_802508D0[4];
 extern u8 D_filemenu_802508D4[4];
 extern u8 D_filemenu_802508D8[4];
@@ -41,12 +40,9 @@ extern u8 D_filemenu_802508F0[4];
 extern u8 D_filemenu_802508F4[4];
 extern u8 D_filemenu_80250938[4];
 extern u8 D_filemenu_8025093C[4];
-#define COPY_OFFSET_X (D_filemenu_8025093C[gCurrentLanguage])
-#define SAVE_OFFSET_X (D_filemenu_80250938[gCurrentLanguage])
-#else
-#define SAVE_OFFSET_X 25
-#define COPY_OFFSET_X 16
-#endif
+
+#define COPY_OFFSET_X LANG_X(D_filemenu_8025093C, 16)
+#define SAVE_OFFSET_X LANG_X(D_filemenu_80250938, 25)
 
 BSS u8 filemenu_filename[8];
 
@@ -481,18 +477,18 @@ void filemenu_draw_contents_option_center(
         case FM_MAIN_SELECT_COPY_FROM:
         case FM_MAIN_SELECT_COPY_TO:
             msgIdx = FILE_MESSAGE_CANCEL;
-            xOffset = CENTER_CANCEL_X;
+            xOffset = LANG_X(D_filemenu_802508F4, CENTER_CANCEL_X);
             yOffset = 0;
             if (menu->col == 1 && menu->row == 2) {
-                filemenu_set_cursor_goal_pos(WIN_FILES_OPTION_CENTER, baseX + CENTER_CANCEL_X - 10, baseY + 8);
+                filemenu_set_cursor_goal_pos(WIN_FILES_OPTION_CENTER, baseX + xOffset - 10, baseY + 8);
             }
             break;
         default:
             msgIdx = FILE_MESSAGE_COPY_FILE;
-            xOffset = 14;
+            xOffset = LANG_X(D_filemenu_802508EC, 14);
             yOffset = 0;
             if (menu->col == 1 && menu->row == 2) {
-                filemenu_set_cursor_goal_pos(WIN_FILES_OPTION_CENTER, baseX + 4, baseY + 8);
+                filemenu_set_cursor_goal_pos(WIN_FILES_OPTION_CENTER, baseX + xOffset - 10, baseY + 8);
             }
             break;
     }
@@ -529,11 +525,7 @@ void filemenu_draw_contents_file_info(s32 fileIdx,
     const int MAX_DISPLAYED_TIME = 100*60*60*60 - 1; // 100 hours minus one frame at 60 fps
 
     if (!gSaveSlotMetadata[fileIdx].hasData) {
-#if VERSION_PAL
-        xOffset = D_filemenu_802508E0[gCurrentLanguage];
-#else
-        xOffset = 50;
-#endif
+        xOffset = LANG_X(D_filemenu_802508E0, 50);
         filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_NEW), baseX + xOffset, baseY + 20, 255, 0xA, 0);
         return;
     }
@@ -552,30 +544,18 @@ void filemenu_draw_contents_file_info(s32 fileIdx,
     }
 
     if (gSaveSlotSummary[fileIdx].timePlayed == 0) {
-#if VERSION_PAL
-        xOffset = D_filemenu_802508E4[gCurrentLanguage];
-#else
-        xOffset = 30;
-#endif
+        xOffset = LANG_X(D_filemenu_802508E4, 30);
         filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_FIRST_PLAY), baseX + xOffset, baseY + 20, 255, 0xA, 0);
         return;
     }
 
-#if VERSION_PAL
-    xOffset = D_filemenu_802508D8[gCurrentLanguage];
-#else
-    xOffset = 34;
-#endif
+    xOffset = LANG_X(D_filemenu_802508D8, 34);
     filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_LEVEL), baseX + xOffset, baseY + 10, 255, 0xA, 1);
     temp_s3_2 = gSaveSlotSummary[fileIdx].level;
     temp_s3 = temp_s3_2;
     draw_number(temp_s3 / 10, baseX + 79, baseY + 10 + NUMBER_OFFSET_Y, DRAW_NUMBER_CHARSET_THIN, MSG_PAL_STANDARD, 255, DRAW_NUMBER_STYLE_MONOSPACE);
     draw_number(temp_s3 % 10, baseX + 88, baseY + 10 + NUMBER_OFFSET_Y, DRAW_NUMBER_CHARSET_THIN, MSG_PAL_STANDARD, 255, DRAW_NUMBER_STYLE_MONOSPACE);
-#if VERSION_PAL
-    xOffset = D_filemenu_802508DC[gCurrentLanguage];
-#else
-    xOffset = 11;
-#endif
+    xOffset = LANG_X(D_filemenu_802508DC, 11);
     filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_PLAY_TIME), baseX + xOffset, baseY + 24, 255, 0xA, 1);
 
     temp_s3_2 = gSaveSlotSummary[fileIdx].timePlayed;
@@ -647,20 +627,29 @@ void filemenu_draw_contents_file_title(
     s32 width, s32 height,
     s32 opacity, s32 darkening)
 {
+    s32 fileNumberX;
+    s32 fileNameX;
+
     if (filemenu_currentMenu == FILE_MENU_MAIN && menu->selected == fileIdx) {
         filemenu_set_cursor_goal_pos(fileIdx + 60, baseX - 3, baseY + 8);
     }
 
-    filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_FILE_26), baseX + FILE_X, baseY + 1, 255, 0, 1);
+    filemenu_draw_message(
+        filemenu_get_menu_message(gGameLanguage == LANGUAGE_EN ? FILE_MESSAGE_FILE_26 : FILE_MESSAGE_INTL_FILE_LABEL),
+        baseX + FILE_X, baseY + 1, 255, 0, 1);
+
+    // "File" is wider or narrower in other languages, so the number and name shift with it.
+    fileNumberX = LANG_X(D_filemenu_802508D0, FILE_NUMBER_X);
+    fileNameX = gGameLanguage == LANGUAGE_EN ? FILE_NAME_X : fileNumberX + D_filemenu_802508D4[gGameLanguage] + 6;
 
     if (!gSaveSlotMetadata[fileIdx].hasData) {
-        draw_number(fileIdx + 1, baseX + FILE_NUMBER_X, baseY + 1 + NUMBER_OFFSET_Y, DRAW_NUMBER_CHARSET_THIN, MSG_PAL_WHITE, 255, DRAW_NUMBER_STYLE_MONOSPACE);
+        draw_number(fileIdx + 1, baseX + fileNumberX, baseY + 1 + NUMBER_OFFSET_Y, DRAW_NUMBER_CHARSET_THIN, MSG_PAL_WHITE, 255, DRAW_NUMBER_STYLE_MONOSPACE);
     } else {
-        draw_number(fileIdx + 1, baseX + FILE_NUMBER_X, baseY + 1 + NUMBER_OFFSET_Y, DRAW_NUMBER_CHARSET_THIN, MSG_PAL_WHITE, 255, DRAW_NUMBER_STYLE_MONOSPACE);
+        draw_number(fileIdx + 1, baseX + fileNumberX, baseY + 1 + NUMBER_OFFSET_Y, DRAW_NUMBER_CHARSET_THIN, MSG_PAL_WHITE, 255, DRAW_NUMBER_STYLE_MONOSPACE);
         filemenu_draw_file_name(
             gSaveSlotSummary[fileIdx].filename,
             ARRAY_COUNT(gSaveSlotSummary[fileIdx].filename),
-            baseX + FILE_NAME_X, baseY + 1, 255, 0, 1, 9);
+            baseX + fileNameX, baseY + 1, 255, 0, 1, 9);
     }
 }
 #endif

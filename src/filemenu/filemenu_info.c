@@ -2,14 +2,12 @@
 #include "filemenu.h"
 #include "hud_element.h"
 
-#if VERSION_PAL
 extern u8 D_filemenu_802508FC[];
 extern u8 D_filemenu_80250934[];
 extern u8 D_filemenu_80250948[];
 extern u8 D_filemenu_8025094C[];
 extern s8 D_filemenu_80250950[];
 extern u8 D_filemenu_80250968[];
-#endif
 
 #if VERSION_IQUE
 #define CREATE_SUCCESS_NUMBER_X 49
@@ -56,6 +54,52 @@ MenuPanel filemenu_info_menuBP = {
     .fpCleanup = &filemenu_info_cleanup
 };
 
+#if !VERSION_PAL
+#define INTL_NUMBER_STYLE (DRAW_NUMBER_STYLE_MONOSPACE | DRAW_NUMBER_STYLE_ALIGN_RIGHT)
+
+// The PAL layout of the deleted/copied/created messages: word order and widths
+// change with the language, so positions come from per-language tables.
+static void filemenu_info_draw_intl(MenuPanel* menu, s32 baseX, s32 baseY) {
+    s32 lang = gGameLanguage;
+    s32 xOffset;
+
+    switch (menu->state) {
+        case FM_MESSAGE_DELETED:
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_28), baseX + 10, baseY + 4, 255, 0, 0);
+            xOffset = D_filemenu_80250934[lang] + 10;
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_FILE_26), baseX + xOffset, baseY + 4, 255, 0, 0);
+            xOffset += D_filemenu_802508FC[lang];
+            draw_number(filemenu_menus[FILE_MENU_MAIN]->selected + 1, baseX + xOffset, baseY + 6, DRAW_NUMBER_CHARSET_NORMAL, MSG_PAL_WHITE, 255, INTL_NUMBER_STYLE);
+            xOffset++;
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_HAS_BEEN_DELETED), baseX + xOffset, baseY + 4, 255, 0, 0);
+            break;
+        case FM_MESSAGE_COPIED:
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_COPY_FROM), baseX + 10, baseY + 4, 255, 0, 0);
+            xOffset = D_filemenu_80250948[lang] + 10;
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_FILE_26), baseX + xOffset, baseY + 4, 255, 0, 0);
+            xOffset += D_filemenu_802508FC[lang];
+            draw_number(filemenu_CopyFromFileIdx + 1, baseX + xOffset, baseY + 6, DRAW_NUMBER_CHARSET_NORMAL, MSG_PAL_WHITE, 255, INTL_NUMBER_STYLE);
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_TO), baseX + 10, baseY + 18, 255, 0, 0);
+            xOffset = D_filemenu_8025094C[lang] + 10;
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_FILE_26), baseX + xOffset, baseY + 18, 255, 0, 0);
+            xOffset += D_filemenu_802508FC[lang];
+            draw_number(filemenu_CopyToFileIdx + 1, baseX + xOffset, baseY + 0x14, DRAW_NUMBER_CHARSET_NORMAL, MSG_PAL_WHITE, 255, INTL_NUMBER_STYLE);
+            xOffset += D_filemenu_80250950[lang];
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_INTL_PERIOD_30), baseX + xOffset, baseY + 18, 255, 0, 0);
+            break;
+        case FM_MESSAGE_CREATED:
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_INTL_ARTICLE), baseX + 10, baseY + 4, 255, 0, 0);
+            xOffset = D_filemenu_80250968[lang] + 10;
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_FILE_26), baseX + xOffset, baseY + 4, 255, 0, 0);
+            xOffset += D_filemenu_802508FC[lang];
+            draw_number(filemenu_menus[FILE_MENU_MAIN]->selected + 1, baseX + xOffset, baseY + 6, DRAW_NUMBER_CHARSET_NORMAL, MSG_PAL_WHITE, 255, INTL_NUMBER_STYLE);
+            xOffset++;
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_HAS_BEEN_CREATED), baseX + xOffset, baseY + 4, 255, 0, 0);
+            break;
+    }
+}
+#endif
+
 void filemenu_info_draw_message_contents(
     MenuPanel* menu,
     s32 baseX, s32 baseY,
@@ -100,6 +144,12 @@ void filemenu_info_draw_message_contents(
             break;
     }
 #else
+    if (gGameLanguage != LANGUAGE_EN) {
+        filemenu_info_draw_intl(menu, baseX, baseY);
+        filemenu_set_cursor_alpha(0);
+        return;
+    }
+
     switch (menu->state) {
         case FM_MESSAGE_DELETED:
             filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_FILE_26), baseX + 10, baseY + 4, 255, 0, 0);

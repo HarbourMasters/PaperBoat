@@ -1,3 +1,4 @@
+#include "port/Language.h"
 #include "Notification.h"
 #include "PaperboatInputEditorWindow.h"
 #include "PaperboatMenu.h"
@@ -48,6 +49,10 @@ static const std::unordered_map<int32_t, const char*> menuThemeOptions = {
     { UIWidgets::Colors::Brown, "Brown" },
     { UIWidgets::Colors::Gray, "Gray" },
     { UIWidgets::Colors::DarkGray, "Dark Gray" },
+};
+
+static const std::unordered_map<int32_t, const char*> gameLanguageOptions = {
+    { 0, "Automatic (system)" }, { 1, "English" }, { 2, "Deutsch" }, { 3, "Francais" }, { 4, "Espanol" },
 };
 
 static const std::unordered_map<int32_t, const char*> textureFilteringMap = {
@@ -103,6 +108,35 @@ void PaperboatMenu::AddMenuSettings() {
                 "Sets the opacity of the background of the port menu."
             )
         );
+
+    AddWidget(path, "Language", WIDGET_SEPARATOR_TEXT);
+    AddWidget(path, "Game Language (Needs restart)", WIDGET_CVAR_COMBOBOX)
+        .CVar(CVAR_SETTING("Language"))
+        .RaceDisable(false)
+        .Options(
+            ComboboxOptions()
+                .Tooltip(
+                    "Language of the game's text and menus. Requires the matching lang_xx.o2r pack in the "
+                    "langpacks folder. Takes effect after restarting the game."
+                )
+                .ComboMap(gameLanguageOptions)
+                .DefaultIndex(0)
+        );
+
+    AddWidget(path, "Add Languages from European ROM...", WIDGET_BUTTON)
+        .RaceDisable(false)
+        .Callback([](WidgetInfo& info) { GameLanguage_AddFromRomPrompt(); })
+        .Options(
+            ButtonOptions().Tooltip(
+                "German, French and Spanish are built from your own European (PAL) Paper Mario ROM. "
+                "Nothing changes until you pick a language and restart. English always stays the original text."
+            )
+        );
+    AddWidget(path, "Language status", WIDGET_TEXT).RaceDisable(false).PreFunc([](WidgetInfo& info) {
+        const std::string status = GameLanguage_GetStatusText();
+        info.name = status;
+        info.isHidden = status.empty();
+    });
 
     AddWidget(path, "General Settings", WIDGET_SEPARATOR_TEXT);
     AddWidget(path, "Cursor Always Visible", WIDGET_CVAR_CHECKBOX)

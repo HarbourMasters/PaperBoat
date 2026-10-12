@@ -99,6 +99,9 @@ s32 pause_items_scroll_offset_y(s32 beforeY) {
     return beforeY - gPauseItemsCurrentScrollPos;
 }
 
+extern u8 D_PAL_80271B30[4];
+extern u8 D_PAL_80271B34[4];
+
 s32 pause_items_scroll_offset_x(s32 beforeX) {
     return beforeX;
 }
@@ -299,26 +302,52 @@ void pause_items_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width,
          91, 34, 255, gPauseItemsCurrentTab == 1 ? 128 : 0, 0, 0,
          0, 0, 0, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
 
-    msg = pause_get_menu_msg(PAUSE_MSG_KEY_ITEMS);
-    msgX = baseX + 12;
-    if (gPauseItemsCurrentTab == 0) {
-        msgX = baseX + 21;
+    if (gGameLanguage == LANGUAGE_EN) {
+        msg = pause_get_menu_msg(PAUSE_MSG_KEY_ITEMS);
+        msgX = baseX + 12;
+        if (gPauseItemsCurrentTab == 0) {
+            msgX = baseX + 21;
+        }
+        opacity1 = 255;
+        msgY = baseY + 17;
+        if (gPauseItemsCurrentTab == 1) {
+            opacity1 = 191;
+        }
+        draw_msg(msg, msgX, msgY, opacity1, MSG_PAL_WHITE, DRAW_MSG_STYLE_MENU);
+    } else {
+        // PAL splits the key items label over two lines.
+        msg = pause_get_menu_msg(PAUSE_MSG_KEY_ITEMS);
+        msgX = baseX + 12;
+        if (gPauseItemsCurrentTab == 0) {
+            msgX = baseX + 21;
+        }
+        opacity1 = 255;
+        msgY = baseY + 12;
+        if (gPauseItemsCurrentTab == 1) {
+            opacity1 = 191;
+        }
+        draw_msg(msg, msgX, msgY, opacity1, MSG_PAL_WHITE, DRAW_MSG_STYLE_MENU);
+        msg = pause_get_menu_msg(PAUSE_MSG_PAL_4B);
+        msgX = baseX + D_PAL_80271B30[gGameLanguage];
+        if (gPauseItemsCurrentTab == 0) {
+            msgX = baseX + D_PAL_80271B30[gGameLanguage] + 9;
+        }
+        opacity1 = 255;
+        msgY = baseY + 22;
+        if (gPauseItemsCurrentTab == 1) {
+            opacity1 = 191;
+        }
+        draw_msg(msg, msgX, msgY, opacity1, MSG_PAL_WHITE, DRAW_MSG_STYLE_MENU);
     }
-    opacity1 = 255;
-    msgY = baseY + 17;
-    if (gPauseItemsCurrentTab == 1) {
-        opacity1 = 191;
-    }
-    draw_msg(msg, msgX, msgY, opacity1, MSG_PAL_WHITE, DRAW_MSG_STYLE_MENU);
 
     draw_box(DRAW_FLAG_NO_CLIP, &gPauseWS_17, gPauseItemsCurrentTab == 1 ? baseX + 9 : baseX, baseY + 39, 0,
          91, 34, 255, gPauseItemsCurrentTab == 0 ? 128 : 0, 0, 0,
          0, 0, 0, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
 
     msg = pause_get_menu_msg(PAUSE_MSG_CONSUMABLES);
-    msgX = baseX + 25;
+    msgX = baseX + LANG_X(D_PAL_80271B34, 25);
     if (gPauseItemsCurrentTab == 1) {
-        msgX = baseX + 34;
+        msgX = baseX + LANG_X(D_PAL_80271B34, 25) + 9;
     }
     opacity1 = 255;
     msgY = baseY + 49;

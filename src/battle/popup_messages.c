@@ -1165,6 +1165,34 @@ void btl_update_message_popup(void* data) {
     }
 }
 
+// Action command tip positions per language (EN/DE/FR/ES), from PAL.
+static const s16 D_PAL_802839CC[] = { 0, -8 };
+static const u16 TipAction_PressBeforeLanding_X[] = { 65, 71, 112, 67 };
+static const u16 TipAction_HoldLeftTimed_X1[] = { 55, 71, 92, 88 };
+static const u16 TipAction_HoldLeftTimed_X2[] = { 73, 86, 160, 224 };
+static const u16 TipAction_PressBeforeStrike_X[] = { 64, 71, 113, 67 };
+static const u16 TipAction_MashButton_X[] = { 67, 75, 114, 71 };
+static const u16 TipAction_MashLeft_X[] = { 56, 73, 70, 88 };
+static const u16 TipAction_HoldLeftAim_X1[] = { 65, 72, 93, 88 };
+static const u16 TipAction_HoldLeftAim_X2[] = { 146, 86, 137, 221 };
+static const u16 TipAction_PressButtonsShown_X2[] = { 64, 71, 112, 67 };
+static const u16 TipAction_PressButtonsShown_X1[] = { 86, 93, 134, 89 };
+static const u16 TipAction_PressButtonsShown_X3[] = { 108, 115, 156, 111 };
+static const u16 TipAction_PressWithTiming_X1[] = { 105, 129, 23, 140 };
+static const u16 TipAction_PressWithTiming_X2[] = { 65, 72, 112, 67 };
+static const u16 TipAction_PressWithTiming_Y1[] = { 13, 13, 31, 13 };
+static const u16 TipAction_MashBoth_X1[] = { 65, 73, 113, 68 };
+static const u16 TipAction_MashBoth_X2[] = { 86, 94, 134, 89 };
+static const u16 TipAction_HoldToTap_X[] = { 124, 64, 226, 87 };
+static const u16 TipAction_HoldToRelease_X2[] = { 53, 61, 93, 79 };
+static const u16 TipAction_HoldToRelease_X1[] = { 56, 56, 136, 72 };
+static const u16 TipAction_MoveToAim_X3[] = { 56, 73, 88, 90 };
+static const u16 TipAction_MoveToAim_X1[] = { 107, 118, 142, 134 };
+static const u16 TipAction_MoveToAim_X2[] = { 210, 48, 99, 47 };
+static const u16 TipAction_MoveToAim_Y2[] = { 15, 32, 32, 32 };
+static const u16 TipAction_BreakFree_X[] = { 64, 72, 112, 67 };
+static const u16 TipAction_ReduceDamage_X[] = { 64, 72, 185, 67 };
+
 #if VERSION_IQUE
 #define TIP_X_PRL 83
 #define TIP_X_HLT1 44
@@ -1236,37 +1264,37 @@ void btl_update_message_popup(void* data) {
 #define TIP_SCALE1 0.8f
 #define TIP_SCALE2 0.8f
 #else
-#define TIP_X_PRL 65
-#define TIP_X_HLT1 55
-#define TIP_X_HLT2 73
-#define TIP_X_PBST 64
-#define TIP_X_MB 67
-#define TIP_X_ML 56
-#define TIP_X_HLA1 65
-#define TIP_X_HLA2 146
-#define TIP_X_PBS1 86
-#define TIP_X_PBS2 64
-#define TIP_X_PBS3 108
-#define TIP_X_PWT1 105
-#define TIP_X_PWT2 65
-#define TIP_X_MB1 63
-#define TIP_X_MB2 84
-#define TIP_X_HTT 124
-#define TIP_X_HTR1 56
-#define TIP_X_HTR2 53
-#define TIP_X_MTA1 107
-#define TIP_X_MTA2 210
-#define TIP_X_MTA3 56
-#define TIP_X_BF_RD 64
+#define TIP_X_PRL LANG_X(TipAction_PressBeforeLanding_X, 65)
+#define TIP_X_HLT1 LANG_X(TipAction_HoldLeftTimed_X1, 55)
+#define TIP_X_HLT2 LANG_X(TipAction_HoldLeftTimed_X2, 73)
+#define TIP_X_PBST LANG_X(TipAction_PressBeforeStrike_X, 64)
+#define TIP_X_MB LANG_X(TipAction_MashButton_X, 67)
+#define TIP_X_ML LANG_X(TipAction_MashLeft_X, 56)
+#define TIP_X_HLA1 LANG_X(TipAction_HoldLeftAim_X1, 65)
+#define TIP_X_HLA2 LANG_X(TipAction_HoldLeftAim_X2, 146)
+#define TIP_X_PBS1 LANG_X(TipAction_PressButtonsShown_X1, 86)
+#define TIP_X_PBS2 LANG_X(TipAction_PressButtonsShown_X2, 64)
+#define TIP_X_PBS3 LANG_X(TipAction_PressButtonsShown_X3, 108)
+#define TIP_X_PWT1 LANG_X(TipAction_PressWithTiming_X1, 105)
+#define TIP_X_PWT2 LANG_X(TipAction_PressWithTiming_X2, 65)
+#define TIP_X_MB1 LANG_X(TipAction_MashBoth_X1, 63)
+#define TIP_X_MB2 LANG_X(TipAction_MashBoth_X2, 84)
+#define TIP_X_HTT LANG_X(TipAction_HoldToTap_X, 124)
+#define TIP_X_HTR1 LANG_X(TipAction_HoldToRelease_X1, 56)
+#define TIP_X_HTR2 LANG_X(TipAction_HoldToRelease_X2, 53)
+#define TIP_X_MTA1 LANG_X(TipAction_MoveToAim_X1, 107)
+#define TIP_X_MTA2 LANG_X(TipAction_MoveToAim_X2, 210)
+#define TIP_X_MTA3 LANG_X(TipAction_MoveToAim_X3, 56)
+#define TIP_X_BF_RD LANG_X(TipAction_ReduceDamage_X, 64)
 #define TIP_Y_HLT2 31
 #define TIP_Y_HLA2 32
 #define TIP_Y_PBS1 13
 #define TIP_Y_PBS2 13
 #define TIP_Y_PBS3 13
-#define TIP_Y_PWT1 13
+#define TIP_Y_PWT1 LANG_X(TipAction_PressWithTiming_Y1, 13)
 #define TIP_Y_HTR1 31
 #define TIP_Y_MTA1 13
-#define TIP_Y_MTA2 15
+#define TIP_Y_MTA2 LANG_X(TipAction_MoveToAim_Y2, 15)
 #define TIP_Y_BF_RD 13
 #define TIP_SCALE1 0.8f
 #define TIP_SCALE2 0.8f
@@ -1378,6 +1406,20 @@ void btl_message_popup_draw_content(void* data, s32 x, s32 y) {
         case BTL_MSG_JUMP_DISABLED_3:
         case BTL_MSG_ITEMS_DISABLED:
             messageID = BattleMessages[popup->messageIndex];
+            if (gGameLanguage != LANGUAGE_EN) {
+                // Longer text can wrap onto a second line; PAL moves it up to fit.
+                hud_element_set_render_pos(HID_BattleMessage1, x + 13, y + 14);
+                hud_element_draw_clipped(HID_BattleMessage1);
+                msgLinesIdx = get_msg_lines(messageID) - 1;
+                if (msgLinesIdx < 0) {
+                    msgLinesIdx = 0;
+                } else if (msgLinesIdx > 1) {
+                    msgLinesIdx = 1;
+                }
+                y += D_PAL_802839CC[msgLinesIdx];
+                draw_msg(messageID, x + 29, y + 6, 255, MSG_PAL_0F, 0);
+                break;
+            }
             draw_msg(messageID, x + 29, y + 6, 255, MSG_PAL_0F, 0);
             hud_element_set_render_pos(HID_BattleMessage1, x + 13, y + 14);
             hud_element_draw_clipped(HID_BattleMessage1);
@@ -1602,6 +1644,11 @@ void btl_message_popup_draw_content(void* data, s32 x, s32 y) {
                     break;
 #endif
                 case BTL_MSG_ACTION_TIP_BREAK_FREE:
+                    hud_element_set_render_pos(HID_BattleMessage1, x + LANG_X(TipAction_BreakFree_X, 64), y + TIP_Y_BF_RD);
+                    hud_element_set_scale(HID_BattleMessage1, 0.5f);
+                    hud_element_set_alpha(HID_BattleMessage1, opacity);
+                    hud_element_draw_clipped(HID_BattleMessage1);
+                    break;
                 case BTL_MSG_ACTION_TIP_REDUCE_DAMAGE:
                     hud_element_set_render_pos(HID_BattleMessage1, x + TIP_X_BF_RD, y + TIP_Y_BF_RD);
                     hud_element_set_scale(HID_BattleMessage1, 0.5f);

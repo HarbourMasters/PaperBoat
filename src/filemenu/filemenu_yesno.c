@@ -29,6 +29,19 @@
 #define NUMBER_OFFSET_Y                 0
 #endif
 
+extern u8 D_filemenu_80250908[4];
+extern u8 D_filemenu_802508F8[4];
+extern u8 D_filemenu_8025090C[4];
+extern u8 D_filemenu_80250924[4];
+extern u8 D_filemenu_80250928[4];
+extern u8 D_filemenu_8025092C[4];
+extern u8 D_filemenu_80250930[4];
+extern u8 D_filemenu_80250934[4];
+extern u8 D_filemenu_802508FC[4];
+extern u8 D_filemenu_80250954[4];
+extern u8 D_filemenu_80250960[4];
+extern u8 D_filemenu_80250964[4];
+
 u8 filemenu_yesno_gridData[] = {
     0, 1,
     0, 1,
@@ -138,6 +151,67 @@ void filemenu_yesno_draw_options_contents(
     }
 }
 
+#define INTL_NUMBER_STYLE (DRAW_NUMBER_STYLE_MONOSPACE | DRAW_NUMBER_STYLE_ALIGN_RIGHT)
+
+// PAL layout of the confirmation prompts. Word order and widths depend on the
+// language, so positions accumulate from per-language tables.
+static void filemenu_yesno_draw_prompt_intl(MenuPanel* menu, s32 baseX, s32 baseY) {
+    s32 lang = gGameLanguage;
+    s32 selected = filemenu_menus[FILE_MENU_MAIN]->selected;
+    s32 xOffset;
+    s32 i;
+
+    switch (menu->state) {
+        case FM_CONFIRM_DELETE:
+            xOffset = D_filemenu_80250924[lang];
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_DELETE), baseX + xOffset, baseY + 4, 0xFF, 0, 0);
+            xOffset = D_filemenu_80250928[lang];
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_FILE_22), baseX + xOffset, baseY + 4, 0xFF, 0, 0);
+            xOffset += D_filemenu_802508FC[lang];
+            draw_number(selected + 1, baseX + xOffset, baseY + 6, DRAW_NUMBER_CHARSET_NORMAL, MSG_PAL_WHITE, 0xFF, INTL_NUMBER_STYLE);
+            xOffset += D_filemenu_8025092C[lang];
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_QUESTION), baseX + xOffset, baseY + 4, 0xFF, 0, 0);
+            break;
+        case FM_CONFIRM_COPY:
+            xOffset = 10;
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_28), baseX + xOffset, baseY + 4, 0xFF, 0, 0);
+            xOffset += D_filemenu_80250934[lang];
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_FILE_22), baseX + xOffset, baseY + 4, 0xFF, 0, 0);
+            xOffset += D_filemenu_802508FC[lang];
+            draw_number(selected + 1, baseX + xOffset, baseY + 6, DRAW_NUMBER_CHARSET_NORMAL, MSG_PAL_WHITE, 0xFF, INTL_NUMBER_STYLE);
+            xOffset++;
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_WILL_BE_DELETED), baseX + xOffset, baseY + 4, 0xFF, 0, 0);
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_OK_TO_COPY_TO_THIS_FILE), baseX + 10, baseY + 18, 0xFF, 0, 0);
+            break;
+        case FM_CONFIRM_CREATE:
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_FILE_NAME_IS), baseX + 10, baseY + 6, 0xFF, 0, 0);
+            for (i = ARRAY_COUNT(filemenu_filename) - 1; i >= 0; i--) {
+                if (filemenu_filename[i] != MSG_CHAR_READ_SPACE) {
+                    break;
+                }
+            }
+            xOffset = ((D_filemenu_80250960[lang] - 17) - (i * 11)) / 2;
+            filemenu_draw_file_name(filemenu_filename, i + 1, baseX + xOffset, baseY + 22, 0xFF, 0, 8, 0xB);
+            xOffset += (i + 1) * 11;
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_PERIOD_20), baseX + xOffset, baseY + 22, 0xFF, 0, 0);
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_OK), baseX + 70, baseY + 38, 0xFF, 0, 0);
+            break;
+        case FM_CONFIRM_START:
+            xOffset = 10;
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_START_GAME_WITH), baseX + xOffset, baseY + 4, 0xFF, 0, 0);
+            if (lang == LANGUAGE_ES) {
+                break; // the Spanish prompt is a full sentence
+            }
+            xOffset += D_filemenu_80250908[lang];
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_FILE_22), baseX + xOffset, baseY + 4, 0xFF, 0, 0);
+            xOffset += D_filemenu_802508F8[lang];
+            draw_number(selected + 1, baseX + xOffset, baseY + 6, DRAW_NUMBER_CHARSET_NORMAL, MSG_PAL_WHITE, 0xFF, INTL_NUMBER_STYLE);
+            xOffset += (s8) D_filemenu_8025090C[lang];
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_INTL_QUESTION_24), baseX + xOffset, baseY + 4, 0xFF, 0, 0);
+            break;
+    }
+}
+
 void filemenu_yesno_draw_prompt_contents(
     MenuPanel* menu,
     s32 baseX, s32 baseY,
@@ -148,6 +222,11 @@ void filemenu_yesno_draw_prompt_contents(
     s32 msgColor;
     s32 xOffset;
     s32 i;
+
+    if (gGameLanguage != LANGUAGE_EN) {
+        filemenu_yesno_draw_prompt_intl(menu, baseX, baseY);
+        return;
+    }
 
     switch (menu->state) {
         case FM_CONFIRM_DELETE:
@@ -242,7 +321,7 @@ void filemenu_yesno_handle_input(MenuPanel* menu) {
                     case FM_CONFIRM_DELETE:
                         filemenu_currentMenu = FILE_MENU_MESSAGE;
                         filemenu_menus[FILE_MENU_MESSAGE]->state = FM_MESSAGE_DELETED;
-                        gWindows[WIN_FILES_MESSAGE].width = 182;
+                        gWindows[WIN_FILES_MESSAGE].width = LANG_X(D_filemenu_80250930, 182);
                         gWindows[WIN_FILES_MESSAGE].height = 25;
                         gWindows[WIN_FILES_MESSAGE].pos.x = CENTER_WINDOW_X(WIN_FILES_MESSAGE);
                         gWindows[WIN_FILES_MESSAGE].pos.y = CENTER_WINDOW_Y(WIN_FILES_MESSAGE);
@@ -263,7 +342,7 @@ void filemenu_yesno_handle_input(MenuPanel* menu) {
                     case FM_CONFIRM_COPY:
                         filemenu_currentMenu = FILE_MENU_MESSAGE;
                         filemenu_menus[FILE_MENU_MESSAGE]->state = FM_MESSAGE_COPIED;
-                        gWindows[WIN_FILES_MESSAGE].width = 154;
+                        gWindows[WIN_FILES_MESSAGE].width = LANG_X(D_filemenu_80250954, 154);
                         gWindows[WIN_FILES_MESSAGE].height = 39;
                         gWindows[WIN_FILES_MESSAGE].pos.x = CENTER_WINDOW_X(WIN_FILES_MESSAGE);
                         gWindows[WIN_FILES_MESSAGE].pos.y = CENTER_WINDOW_Y(WIN_FILES_MESSAGE);
@@ -306,7 +385,7 @@ void filemenu_yesno_handle_input(MenuPanel* menu) {
                         set_window_update(WIN_FILES_CONFIRM_OPTIONS, (intptr_t)filemenu_update_hidden_name_confirm);
                         filemenu_currentMenu = FILE_MENU_MESSAGE;
                         filemenu_menus[FILE_MENU_MESSAGE]->state = FM_MESSAGE_CREATED;
-                        gWindows[WIN_FILES_MESSAGE].width = 184;
+                        gWindows[WIN_FILES_MESSAGE].width = LANG_X(D_filemenu_80250964, 184);
                         gWindows[WIN_FILES_MESSAGE].height = 25;
                         gWindows[WIN_FILES_MESSAGE].pos.x = CENTER_WINDOW_X(WIN_FILES_MESSAGE);
                         gWindows[WIN_FILES_MESSAGE].pos.y = CENTER_WINDOW_Y(WIN_FILES_MESSAGE);

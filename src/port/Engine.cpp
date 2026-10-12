@@ -6,6 +6,7 @@
 #include "importer/Vec3sFactory.h"
 #include "nlohmann/json.hpp"
 #include "port/build.h"
+#include "port/Language.h"
 #include "port/enhancements/PortEnhancements.h"
 #include "port/interpolation/FrameInterpolation.h"
 #include "port/ui/cvar_prefixes.h"
@@ -265,6 +266,8 @@ void GameEngine::FinishInit() {
         SPDLOG_INFO("Loading HD asset archive: paperboat-hd.o2r");
         archiveManager->AddArchive(hd_path);
     }
+    // After the base archives, before user mods so mods can still override text.
+    GameLanguage_Init();
     UpdateModFiles(true);
 
 #ifdef _DEBUG

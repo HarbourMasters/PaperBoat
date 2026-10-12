@@ -222,9 +222,7 @@ enum PauseMenuMessages {
     /* 0x45 */ PAUSE_MSG_NO_BADGE,
     /* 0x46 */ PAUSE_MSG_BADGE_BP,
     /* 0x47 */ PAUSE_MSG_ALL_BADGES,
-#if VERSION_PAL
     /*      */ PAUSE_MSG_PAL_42,
-#endif
     /* 0x48 */ PAUSE_MSG_ACTIVE,
     /* 0x49 */ PAUSE_MSG_BADGES,
     /* 0x4A */ PAUSE_MSG_NOT_ENOUGH_BP,
@@ -233,9 +231,7 @@ enum PauseMenuMessages {
     /* 0x4D */ PAUSE_MSG_BAGDE_DESC_ACTIVE,
     /* 0x4E */ PAUSE_MSG_BAGDE_DESC_NONE,
     /* 0x4F */ PAUSE_MSG_KEY_ITEMS,
-#if VERSION_PAL
     /*      */ PAUSE_MSG_PAL_4B,
-#endif
     /* 0x50 */ PAUSE_MSG_CONSUMABLES,
     /* 0x51 */ PAUSE_MSG_DESC_CONSUMABLES,
     /* 0x52 */ PAUSE_MSG_DESC_KEY_ITEMS,

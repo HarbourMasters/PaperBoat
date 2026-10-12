@@ -109,3 +109,6 @@ CMakeSettings.json
 CMakeUserPresets.json
 *.exe
 /.vs
+
+# Language packs built from the user's own European ROM
+langpacks/
