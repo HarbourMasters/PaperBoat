@@ -555,7 +555,7 @@ void PaperboatRomhackMenuWindow::DrawElement() {
     ImGui::EndDisabled();
     if (sRomhackExtracting) {
         const size_t total = sRomhackExtractTotal;
-        const float progress = total > 0 ? std::min(1.0f, (float) sRomhackExtractCount / (float) total) : 0.0f;
+        const float progress = total > 0 ? std::min<float>(1.0f, (float) sRomhackExtractCount / (float) total) : 0.0f;
         ImGui::ProgressBar(progress, ImVec2(-1.0f, 0.0f), "Extracting romhack...");
     }
 
