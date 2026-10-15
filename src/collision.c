@@ -73,7 +73,7 @@ Vec3f gEntityColliderNormals[] = {
 
 s32 collision_heap_create(void);
 void* collision_heap_malloc(s32 size);
-void collision_heap_free(void*);
+s32 collision_heap_free(void*);
 
 void load_hit_data(s32 idx, HitFile* hit);
 void _add_hit_vert_to_buffer(Vec3f** buf, Vec3f* vert, s32* bufSize);

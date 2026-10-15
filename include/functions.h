@@ -982,6 +982,7 @@ void clear_entity_models(void);
 void bind_entity_model_setupGfx(s32 idx, void* setupGfxCallbackArg0, void (*fpSetupGfxCallback)(void*));
 void clear_animator_list(void);
 void clear_model_data(void);
+void iterate_models(void);
 void init_sprite_shading_data(void);
 void clear_sprite_shading_data(void);
 void clear_character_set(void);

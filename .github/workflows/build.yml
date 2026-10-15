@@ -365,3 +365,61 @@ jobs:
         with:
           name: Paperboat-android
           path: Paperboat-android
+
+  build-web:
+    name: Web
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build
+
+      - name: ccache
+        uses: hendrikmuhs/ccache-action@v1.2.24
+        with:
+          key: web-ccache-${{ github.ref }}
+          restore-keys: |
+            web-ccache-
+
+      - name: Setup Emscripten
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: 4.0.12
+          actions-cache-folder: emsdk-cache
+
+      - name: Build zlib port
+        # emcc only builds a port on first use, which is too late for the
+        # find_package(ZLIB) at configure time.
+        run: embuilder build zlib
+
+      - name: Build
+        run: |
+          emcmake cmake --preset ninja-release \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+          cmake --build build/ninja-release --parallel $(nproc)
+
+      - name: Create package
+        run: |
+          BUILD=build/ninja-release
+          mkdir Paperboat-web
+          for f in paperboat.js paperboat.wasm paperboat.data coi-serviceworker.js; do
+            test -s "$BUILD/$f" || { echo "::error::$BUILD/$f missing or empty"; exit 1; }
+            cp "$BUILD/$f" Paperboat-web/
+          done
+          # index.html for a static host; paperboat.html is the name the .js expects.
+          cp "$BUILD/paperboat.html" Paperboat-web/paperboat.html
+          cp "$BUILD/paperboat.html" Paperboat-web/index.html
+          cp README.md Paperboat-web/readme.txt
+
+      - name: Upload build
+        uses: actions/upload-artifact@v7
+        with:
+          name: Paperboat-web
+          path: Paperboat-web
