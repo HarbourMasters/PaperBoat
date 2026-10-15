@@ -6,6 +6,7 @@
 #include "game_modes.h"
 #include "dx/config.h"
 #include "dx/utils.h"
+#include "port/romhack/Romhack.h"
 
 extern HudScript HES_Spirit1;
 extern HudScript HES_Spirit2;
@@ -387,6 +388,18 @@ void filemenu_draw_contents_title(
     // dx_string_to_msg(msgBuf, strBuf);
     // msgWidth = get_msg_width((intptr_t)msgBuf, 0);
     // filemenu_draw_message(msgBuf, (SCREEN_WIDTH - msgWidth) / 2, 245 - baseY, 255, 0, 0);
+    if (Romhack_IsActive()) {
+        static char romhackNameStr[64];
+        static u8 romhackNameBuf[64];
+        if (Romhack_GetVersion() != NULL) {
+            snprintf(romhackNameStr, sizeof(romhackNameStr), "%s (v%s)", Romhack_GetModName(), Romhack_GetVersion());
+        } else {
+            snprintf(romhackNameStr, sizeof(romhackNameStr), "%s", Romhack_GetModName());
+        }
+        dx_string_to_msg(romhackNameBuf, romhackNameStr);
+        filemenu_draw_message(romhackNameBuf, (SCREEN_WIDTH - get_msg_width((intptr_t) romhackNameBuf, 0)) / 2,
+                              245 - baseY, 255, 0, 0);
+    }
 }
 
 void filemenu_draw_contents_stereo(

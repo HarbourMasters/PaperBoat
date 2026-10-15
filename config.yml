@@ -13,3 +13,21 @@
       binary: pm64.o2r
       headers: include
       code: code
+
+# Romhacks entries go here:
+#   <patched ROM SHA1>:
+#     name: <Name>                           # shown in menus, stamped into saves
+#     path: ./assets/yaml/romhacks/<stem>    # YAML holding only the changed assets
+#     romhack:
+#       id: <Id>                             # matches specific/<Id>.cpp
+#       version: "<version>"
+#       url: <download page>                 # linked from the Supported Romhacks tab
+#     config:
+#       gbi: F3DEX2_PM64
+#       gbi_floats: false
+#       sort: OFFSET
+#       logging: WARN
+#       output:
+#         binary: mods/~romhacks/<stem>.o2r
+#         headers: include
+#         code: code
