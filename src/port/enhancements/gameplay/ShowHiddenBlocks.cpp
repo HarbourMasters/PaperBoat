@@ -34,4 +34,4 @@ void RegisterHiddenBlock_Init() {
     });
 }
 
-static RegisterShipInitFunc initHiddenBlockFunc(RegisterHiddenBlock_Init, { CVAR_ENHANCEMENT("ShowHiddenBlocks") });
+static RegisterShipInitFunc initHiddenBlockFunc(RegisterHiddenBlock_Init);
