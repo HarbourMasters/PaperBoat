@@ -20,10 +20,7 @@ static const std::unordered_map<int32_t, const char*> actionCommandDifficultyOpt
 };
 
 static const std::unordered_map<int32_t, const char*> HiddenBlockOptions = {
-    { 0, "Original" },
-    { 1, "When Watt Current Partner" },
-    { 2, "When Watt Unlocked" },
-    { 3, "Always"}
+    { 0, "Original" }, { 1, "When Watt Current Partner" }, { 2, "When Watt Unlocked" }, { 3, "Always" }
 };
 
 void PaperboatMenu::AddMenuEnhancements() {
@@ -110,7 +107,7 @@ void PaperboatMenu::AddMenuEnhancements() {
                 .ComboMap(blockWindowOptions)
         );
 
-        AddWidget(path, "Show Hidden Blocks", WIDGET_CVAR_COMBOBOX)
+    AddWidget(path, "Show Hidden Blocks", WIDGET_CVAR_COMBOBOX)
         .CVar(CVAR_ENHANCEMENT("ShowHiddenBlocks"))
         .Options(
             ComboboxOptions()
