@@ -4,6 +4,7 @@
 #include <spdlog/spdlog.h>
 #include <libultraship/bridge/consolevariablebridge.h>
 #include "port/ShipUtils.h"
+#include "port/romhack/Romhack.h"
 #include <fstream>
 #include <filesystem>
 #include <regex>
@@ -267,6 +268,11 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
     jsonSave["majorVersion"] = saveData->majorVersion;
     jsonSave["minorVersion"] = saveData->minorVersion;
     jsonSave["patchVersion"] = saveData->patchVersion;
+    const char* romhackVersion = Romhack_GetVersion();
+    if (romhackVersion != nullptr
+        && strncmp(saveData->modName, Romhack_GetModName(), sizeof(saveData->modName) - 1) == 0) {
+        jsonSave["romhackVersion"] = romhackVersion;
+    }
 
     jsonSave["reserved"] = saveData->reserved;
     jsonSave["crc1"] = saveData->crc1;
@@ -470,8 +476,16 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
     return jsonSave;
 }
 
+static std::string SavesDir() {
+    std::string dir = "saves/";
+    if (Romhack::Active() != nullptr) {
+        dir += std::string(Romhack::kFolder) + "/" + Romhack::ActiveStem() + "/";
+    }
+    return Ship::Context::GetPathRelativeToAppDirectory(dir, "pm64");
+}
+
 static std::string GlobalsPath() {
-    return Ship::Context::GetPathRelativeToAppDirectory("saves/globals.json", "pm64");
+    return SavesDir() + "globals.json";
 }
 
 static void StampGlobals(SaveGlobals* globals) {
@@ -487,7 +501,7 @@ static void WriteGlobals(const SaveGlobals* globals) {
     j["useMonoSound"] = globals->useMonoSound;
     j["lastFileSelected"] = globals->lastFileSelected;
 
-    std::string dir = Ship::Context::GetPathRelativeToAppDirectory("saves/", "pm64");
+    std::string dir = SavesDir();
     if (!fs::exists(dir)) {
         fs::create_directories(dir);
     }
@@ -531,7 +545,7 @@ void SaveManager_Init() {
 
         if (!jsonSaveFile.empty()) {
             std::string fileName = fmt::format("file{}.json", saveData->saveSlot);
-            std::string filePath = Ship::Context::GetPathRelativeToAppDirectory("saves/", "pm64");
+            std::string filePath = SavesDir();
 
             if (!fs::exists(filePath)) {
                 fs::create_directories(filePath);
@@ -553,7 +567,7 @@ void SaveManager_Init() {
         event->Cancelled = true;
 
         std::string fileName = fmt::format("file{}.json", ev->saveSlot);
-        std::string filePath = Ship::Context::GetPathRelativeToAppDirectory("saves/" + fileName, "pm64");
+        std::string filePath = SavesDir() + fileName;
 
         if (fs::exists(filePath)) {
             std::ifstream inputFile(filePath);
@@ -573,7 +587,7 @@ void SaveManager_Init() {
         event->Cancelled = true;
 
         std::string fileName = fmt::format("file{}.json", ev->saveSlot);
-        std::string filePath = Ship::Context::GetPathRelativeToAppDirectory("saves/" + fileName, "pm64");
+        std::string filePath = SavesDir() + fileName;
 
         if (fs::exists(filePath)) {
             fs::remove(filePath);
