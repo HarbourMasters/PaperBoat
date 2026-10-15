@@ -49,6 +49,10 @@ abstract class PackGameData : DefaultTask() {
     @get:PathSensitive(PathSensitivity.RELATIVE)
     abstract val portData: DirectoryProperty
 
+    @get:InputDirectory
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    abstract val lusShaders: DirectoryProperty
+
     @get:InputFile
     @get:PathSensitive(PathSensitivity.RELATIVE)
     abstract val config: RegularFileProperty
@@ -67,7 +71,7 @@ abstract class PackGameData : DefaultTask() {
         // Built first, then added whole, so the bundled archive is byte-for-byte
         // the file the game opens.
         val engine = File(target, ENGINE_ARCHIVE)
-        zipTree(portRoot, engine)
+        zipTree(mapOf("" to portRoot, "shaders" to lusShaders.get().asFile), engine)
 
         val entries = buildList {
             add("config.yml" to config.get().asFile)
@@ -93,18 +97,20 @@ abstract class PackGameData : DefaultTask() {
         File(target, "gamedata.version").writeText(digest.joinToString("") { "%02x".format(it) })
     }
 
-    /** The same plain zip `cmake -E tar cf --format=zip` writes on desktop. */
-    private fun zipTree(root: File, destination: File) {
+    private fun zipTree(roots: Map<String, File>, destination: File) {
+        val entries = roots.flatMap { (prefix, root) ->
+            root.walkTopDown().filter(File::isFile).map { file ->
+                val relative = file.relativeTo(root).invariantSeparatorsPath
+                (if (prefix.isEmpty()) relative else "$prefix/$relative") to file
+            }
+        }.sortedBy { it.first }
+
         ZipOutputStream(destination.outputStream().buffered()).use { zip ->
-            root.walkTopDown()
-                .filter(File::isFile)
-                .sortedBy { it.relativeTo(root).invariantSeparatorsPath }
-                .forEach { file ->
-                    val name = file.relativeTo(root).invariantSeparatorsPath
-                    zip.putNextEntry(ZipEntry(name).apply { time = FIXED_ENTRY_TIME })
-                    file.inputStream().use { it.copyTo(zip) }
-                    zip.closeEntry()
-                }
+            entries.forEach { (name, file) ->
+                zip.putNextEntry(ZipEntry(name).apply { time = FIXED_ENTRY_TIME })
+                file.inputStream().use { it.copyTo(zip) }
+                zip.closeEntry()
+            }
         }
     }
 
@@ -127,6 +133,7 @@ androidComponents {
                 description = "Bundles the Torch recipes and the engine archive into the APK."
                 recipes.set(File(repositoryRoot, "assets"))
                 portData.set(File(repositoryRoot, "port"))
+                lusShaders.set(File(repositoryRoot, "external/libultraship/src/fast/shaders"))
                 config.set(File(repositoryRoot, "config.yml"))
             }
         variant.sources.assets?.addGeneratedSourceDirectory(packGameData, PackGameData::outputDir)

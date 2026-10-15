@@ -77,7 +77,6 @@ void nuGfxSetUcodeFifo(void* fifoBufPtr, s32 size) {
 // Controller Functions
 // ============================================================================
 
-OSPfs nuContPfs[NU_CONT_MAXCONTROLLERS];
 u8 nuContInit(void) {
     nuSiMgrInit();
     nuContMgrInit();
