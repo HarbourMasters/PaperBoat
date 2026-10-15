@@ -19,6 +19,13 @@ static const std::unordered_map<int32_t, const char*> actionCommandDifficultyOpt
     { 3, "Extremely Forgiving (-3 levels)" },
 };
 
+static const std::unordered_map<int32_t, const char*> HiddenBlockOptions = {
+    { 0, "Original" },
+    { 1, "When Watt Current Partner" },
+    { 2, "When Watt Unlocked" },
+    { 3, "Always"}
+};
+
 void PaperboatMenu::AddMenuEnhancements() {
     // Add Enhancements Menu
     AddMenuEntry("Enhancements", CVAR_SETTING("Menu.EnhancementsSidebarSection"));
@@ -103,6 +110,16 @@ void PaperboatMenu::AddMenuEnhancements() {
                 .ComboMap(blockWindowOptions)
         );
 
+        AddWidget(path, "Show Hidden Blocks", WIDGET_CVAR_COMBOBOX)
+        .CVar(CVAR_ENHANCEMENT("ShowHiddenBlocks"))
+        .Options(
+            ComboboxOptions()
+                .Tooltip(
+                    "Makes hidden blocks show based on the selected option. "
+                    "Default requires using Watt's ability."
+                )
+                .ComboMap(HiddenBlockOptions)
+        );
     // Enhancements > Graphics
     path = { "Enhancements", "Graphics", SECTION_COLUMN_1 };
     AddSidebarEntry("Enhancements", "Graphics", 1);

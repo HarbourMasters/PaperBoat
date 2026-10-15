@@ -90,6 +90,7 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnMapLoad);
     REGISTER_EVENT(OnPlayerSpeedUpdate);
     REGISTER_EVENT(OnMapReady);
+    REGISTER_EVENT(OnHiddenBlockAlphaChange);
 }
 
 void PortEnhancements_Exit() {

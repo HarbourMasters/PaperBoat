@@ -106,3 +106,7 @@ DEFINE_EVENT(OnPlayerSpeedUpdate,
 DEFINE_EVENT(OnMapReady,
     const char* mapName;
 );
+
+DEFINE_EVENT(OnHiddenBlockAlphaChange,
+    int32_t* alpha;
+    );
