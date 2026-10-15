@@ -377,7 +377,11 @@ static GameExtractor sRomhackExtractor;
 static std::atomic<bool> sRomhackExtracting = false;
 static std::atomic<size_t> sRomhackExtractCount { 0 }, sRomhackExtractTotal { 0 };
 static std::string sRomhackPending;
-enum class RomhackResult { None, Done, Failed };
+enum class RomhackResult {
+    None,
+    Done,
+    Failed
+};
 static std::atomic<RomhackResult> sRomhackResult = RomhackResult::None;
 
 static void RestartIntoRomhack(const std::string& stem) {
@@ -640,9 +644,7 @@ static void RegisterModMenuWidgets() {
         .Options(
             UIWidgets::ButtonOptions()
                 .Size(UIWidgets::Sizes::Inline)
-                .Tooltip(
-                    "Pick a patched romhack ROM and extract it as a slim overlay into the mods/~romhacks/ folder."
-                )
+                .Tooltip("Pick a patched romhack ROM and extract it as a slim overlay into the mods/~romhacks/ folder.")
         );
 }
 

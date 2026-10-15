@@ -49,12 +49,9 @@ Paper Mario keeps most of its data compiled into the game code (move and item ta
 ```
 
 
-1. **Base rom and romhack**: Paperboat distinguishes between the **base rom**, a US Paper Mario ROM
-   extracted into `pm64.o2r`, and a **romhack**, an o2r file in `mods/~romhacks/` that holds only what the
-   hack changed. A romhack can't be extracted, or picked at first boot, without the base game.
+1. **Base rom and romhack**: Paperboat distinguishes between the **base rom**, a US Paper Mario ROM extracted into `pm64.o2r`, and a **romhack**, an o2r file in `mods/~romhacks/` that holds only what the hack changed. A romhack can't be extracted, or picked at first boot, without the base game.
 
-2. **Curated romhacks**: every supported romhack has a hand-made entry/recipe in `config.yml`, keyed by the SHA1
-   of the patched ROM. A ROM without an entry is rejected.
+2. **Curated romhacks**: every supported romhack has a hand-made entry/recipe in `config.yml`, keyed by the SHA1 of the patched ROM. A ROM without an entry is rejected.
 
    ```yaml
    <patched ROM SHA1>:

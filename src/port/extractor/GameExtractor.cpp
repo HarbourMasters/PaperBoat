@@ -359,7 +359,9 @@ bool GameExtractor::GenerateOTRTo(
     });
     if (romhack.has_value()) {
         const std::string marker = Romhack::MarkerText(romhack->info);
-        Companion::Instance->RegisterCompanionFile(Romhack::kMarkerFile, std::vector<char>(marker.begin(), marker.end()));
+        Companion::Instance->RegisterCompanionFile(
+            Romhack::kMarkerFile, std::vector<char>(marker.begin(), marker.end())
+        );
     } else {
         this->WritePortVersion();
     }

@@ -9,16 +9,13 @@ This guide walks through playing a romhack in Paperboat, from downloading it, to
 
 You need:
 
-1. **Paperboat already set up with the base game.** The first time you started Paperboat, it asked for
-   your Paper Mario ROM and generated the game files. A romhack loads on top of those files, so this step
-   has to be done first.
+1. **Paperboat already set up with the base game.** The first time you started Paperboat, it asked for your Paper Mario ROM and generated the game files. A romhack loads on top of those files, so this step has to be done first.
 2. **A US Paper Mario ROM** (`.z64`). Romhacks are made for the US version of the game.
 3. **A supported romhack.** Open **Settings -> Romhack Menu -> Supported Romhacks** in Paperboat. Every romhack listed there has a link button that opens its download page.
 
 ## Step 1: Patch the romhack
 
-Romhacks are downloaded as a patch file (`.bps`), you apply the patch to
-your own ROM to get the romhack ROM.
+Romhacks are downloaded as a patch file (`.bps`), you apply the patch to your own ROM to get the romhack ROM.
 
 1. Download the romhack from its page.
 2. Open a ROM patching tool, for example [Rom Patcher JS](https://www.marcrobledo.com/RomPatcher.js/).

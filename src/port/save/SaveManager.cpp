@@ -270,7 +270,8 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
     jsonSave["patchVersion"] = saveData->patchVersion;
     const char* romhackVersion = Romhack_GetVersion();
     if (romhackVersion != nullptr
-        && strncmp(saveData->modName, Romhack_GetModName(), sizeof(saveData->modName) - 1) == 0) {
+        && strncmp(saveData->modName, Romhack_GetModName(), sizeof(saveData->modName) - 1) == 0)
+    {
         jsonSave["romhackVersion"] = romhackVersion;
     }
 
