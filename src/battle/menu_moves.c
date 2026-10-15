@@ -861,7 +861,6 @@ void btl_menu_moves_show_error(void* data, s32 posX, s32 posY) {
 
     posX += 11;
     posY += 6;
-    posY += ErrorMessageAdjustY[get_msg_lines(msgID) - 1];
 
     if (MovesErrorCode != 0) {
         msgID = MSG_Menus_Battle_CantSelectNow;
@@ -870,5 +869,6 @@ void btl_menu_moves_show_error(void* data, s32 posX, s32 posY) {
     } else {
         msgID = MSG_Menus_NotEnoughFP;
     }
+    posY += ErrorMessageAdjustY[get_msg_lines(msgID) - 1];
     draw_msg(msgID, posX, posY, 255, MSG_PAL_0F, 0);
 }
