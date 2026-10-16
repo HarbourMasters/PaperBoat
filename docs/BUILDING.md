@@ -49,6 +49,8 @@ cmake --preset windows-debug
 cmake --build --preset windows-debug -j
 ```
 
+For a native Windows on ARM build, use the `windows-arm64-debug` preset from an ARM64 (or x64-hosted ARM64 cross) Developer PowerShell.
+
 #### macOS / Linux
 
 ```
