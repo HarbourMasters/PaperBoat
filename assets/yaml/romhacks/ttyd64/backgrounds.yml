@@ -1,0 +1,2 @@
+title_bg:
+  { type: PM64:BACKGROUND, offset: 0x2951F00, symbol: title_bg }

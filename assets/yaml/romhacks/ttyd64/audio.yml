@@ -1,0 +1,2 @@
+audio_sbn:
+  { type: PM64:AUDIO, offset: 0xF00000, size: 0xA42310, symbol: gAudioSBN, sbn_layout: starrod }

@@ -15,3 +15,4 @@ A romhack is an overlay on top of the base vanilla game, the port extracts only 
 ## Supported romhacks
 
 * Paper Peach
+* Paper Mario: TTYD64

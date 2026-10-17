@@ -1,0 +1,80 @@
+status/text_slash:
+  { type: TEXTURE, format: CI4, offset: 0x993D0, width: 8, height: 16, symbol: ui_status_text_slash_png }
+status/text_slash.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x99410, colors: 16, symbol: ui_status_text_slash_pal }
+status/text_0:
+  { type: TEXTURE, format: CI4, offset: 0x99430, width: 16, height: 16, symbol: ui_status_text_0_png }
+status/text_0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x994B0, colors: 16, symbol: ui_status_text_0_pal }
+status/text_1:
+  { type: TEXTURE, format: CI4, offset: 0x994D0, width: 16, height: 16, symbol: ui_status_text_1_png }
+status/text_1.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x99550, colors: 16, symbol: ui_status_text_1_pal }
+status/text_2:
+  { type: TEXTURE, format: CI4, offset: 0x99570, width: 16, height: 16, symbol: ui_status_text_2_png }
+status/text_2.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x995F0, colors: 16, symbol: ui_status_text_2_pal }
+status/text_3:
+  { type: TEXTURE, format: CI4, offset: 0x99610, width: 16, height: 16, symbol: ui_status_text_3_png }
+status/text_3.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x99690, colors: 16, symbol: ui_status_text_3_pal }
+status/text_4:
+  { type: TEXTURE, format: CI4, offset: 0x996B0, width: 16, height: 16, symbol: ui_status_text_4_png }
+status/text_4.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x99730, colors: 16, symbol: ui_status_text_4_pal }
+status/text_5:
+  { type: TEXTURE, format: CI4, offset: 0x99750, width: 16, height: 16, symbol: ui_status_text_5_png }
+status/text_5.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x997D0, colors: 16, symbol: ui_status_text_5_pal }
+status/text_6:
+  { type: TEXTURE, format: CI4, offset: 0x997F0, width: 16, height: 16, symbol: ui_status_text_6_png }
+status/text_6.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x99870, colors: 16, symbol: ui_status_text_6_pal }
+status/text_7:
+  { type: TEXTURE, format: CI4, offset: 0x99890, width: 16, height: 16, symbol: ui_status_text_7_png }
+status/text_7.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x99910, colors: 16, symbol: ui_status_text_7_pal }
+status/text_8:
+  { type: TEXTURE, format: CI4, offset: 0x99930, width: 16, height: 16, symbol: ui_status_text_8_png }
+status/text_8.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x999B0, colors: 16, symbol: ui_status_text_8_pal }
+status/text_9:
+  { type: TEXTURE, format: CI4, offset: 0x999D0, width: 16, height: 16, symbol: ui_status_text_9_png }
+status/text_9.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x99A50, colors: 16, symbol: ui_status_text_9_pal }
+status/pow_star_1:
+  { type: TEXTURE, format: CI4, offset: 0x99DB0, width: 8, height: 8, symbol: ui_status_pow_star_1_png }
+status/pow_star_1.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x99DD0, colors: 16, symbol: ui_status_pow_star_1_pal }
+status/pow_star_2:
+  { type: TEXTURE, format: CI4, offset: 0x99DF0, width: 8, height: 8, symbol: ui_status_pow_star_2_png }
+status/pow_star_2.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x99E10, colors: 16, symbol: ui_status_pow_star_2_pal }
+status/pow_star_3:
+  { type: TEXTURE, format: CI4, offset: 0x99E30, width: 8, height: 8, symbol: ui_status_pow_star_3_png }
+status/pow_star_3.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x99E50, colors: 16, symbol: ui_status_pow_star_3_pal }
+status/pow_star_4:
+  { type: TEXTURE, format: CI4, offset: 0x99E70, width: 8, height: 8, symbol: ui_status_pow_star_4_png }
+status/pow_star_4.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x99E90, colors: 16, symbol: ui_status_pow_star_4_pal }
+status/pow_star_5:
+  { type: TEXTURE, format: CI4, offset: 0x99EB0, width: 8, height: 8, symbol: ui_status_pow_star_5_png }
+status/pow_star_5.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x99ED0, colors: 16, symbol: ui_status_pow_star_5_pal }
+status/pow_star_6:
+  { type: TEXTURE, format: CI4, offset: 0x99EF0, width: 8, height: 8, symbol: ui_status_pow_star_6_png }
+status/pow_star_6.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x99F10, colors: 16, symbol: ui_status_pow_star_6_pal }
+status/pow_star_7:
+  { type: TEXTURE, format: CI4, offset: 0x99F30, width: 8, height: 8, symbol: ui_status_pow_star_7_png }
+status/pow_star_7.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x99F50, colors: 16, symbol: ui_status_pow_star_7_pal }
+status/pow_star_empty:
+  { type: TEXTURE, format: CI4, offset: 0x99F70, width: 8, height: 8, symbol: ui_status_pow_star_empty_png }
+status/pow_star_empty.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x99F90, colors: 16, symbol: ui_status_pow_star_empty_pal }
+pause/label_map:
+  { type: TEXTURE, format: CI4, offset: 0x131FA0, width: 48, height: 16, symbol: ui_pause_label_map_png }
+pause/label_map.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x132120, colors: 16, symbol: ui_pause_label_map_pal }

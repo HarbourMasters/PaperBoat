@@ -1,0 +1,44 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+dokan02:
+  { type: TEXTURE, format: CI4, offset: 0x27F5D04, width: 32, height: 32, tlut: 0x27F5F04, symbol: dokan02 }
+dokan02_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27F5F04, colors: 16, symbol: dokan02_tlut }
+flo_naminami4tif:
+  { type: TEXTURE, format: IA16, offset: 0x27F5F54, width: 32, height: 64, symbol: flo_naminami4tif }
+flo_naminami4tif_aux:
+  { type: TEXTURE, format: IA16, offset: 0x27F6754, width: 32, height: 32, symbol: flo_naminami4tif_aux }
+tst_woody_plate_btif:
+  { type: TEXTURE, format: CI4, offset: 0x27F6F84, width: 64, height: 32, tlut: 0x27F7384, symbol: tst_woody_plate_btif }
+tst_woody_plate_btif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27F7384, colors: 16, symbol: tst_woody_plate_btif_tlut }
+muj_fa_01:
+  { type: TEXTURE, format: CI4, offset: 0x27F73D4, width: 64, height: 64, tlut: 0x27F7BD4, symbol: muj_fa_01 }
+muj_fa_01_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27F7BD4, colors: 16, symbol: muj_fa_01_tlut }
+muj_fa_02:
+  { type: TEXTURE, format: CI4, offset: 0x27F7C24, width: 32, height: 32, tlut: 0x27F7E24, symbol: muj_fa_02 }
+muj_fa_02_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27F7E24, colors: 16, symbol: muj_fa_02_tlut }
+mac_komonotif:
+  { type: TEXTURE, format: CI4, offset: 0x27F7E74, width: 64, height: 32, tlut: 0x27F8274, symbol: mac_komonotif }
+mac_komonotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27F8274, colors: 16, symbol: mac_komonotif_tlut }
+iwa_ropetif:
+  { type: TEXTURE, format: CI4, offset: 0x27F82C4, width: 16, height: 16, tlut: 0x27F8344, symbol: iwa_ropetif }
+iwa_ropetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27F8344, colors: 16, symbol: iwa_ropetif_tlut }
+trd_sakutif:
+  { type: TEXTURE, format: CI4, offset: 0x27F8394, width: 16, height: 32, tlut: 0x27F8494, symbol: trd_sakutif }
+trd_sakutif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27F8494, colors: 16, symbol: trd_sakutif_tlut }
+dgb_togetif:
+  { type: TEXTURE, format: CI4, offset: 0x27F84E4, width: 32, height: 32, tlut: 0x27F86E4, symbol: dgb_togetif }
+dgb_togetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27F86E4, colors: 16, symbol: dgb_togetif_tlut }
+dgb_d_anatif:
+  { type: TEXTURE, format: IA8, offset: 0x27F8734, width: 32, height: 64, symbol: dgb_d_anatif }
+kzn_iwayukatif_bw:
+  { type: TEXTURE, format: I8, offset: 0x27F8F64, width: 32, height: 32, symbol: kzn_iwayukatif_bw }

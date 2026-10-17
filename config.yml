@@ -56,3 +56,23 @@ c02972e81d5f05da7ed0e7b4f0efc30f05a01b18:
       headers: include
       code: code
 
+
+06661190b7a7e2bf1fef0c7fa64274516af84368:
+  name: "Paper Mario: TTYD64"
+  path: ./assets/yaml/romhacks/ttyd64
+  romhack:
+    id: TTYD64
+    version: "1.0.0"
+    author: eldexterr
+    description: The Thousand-Year Door remade in the Paper Mario 64 engine.
+    website: https://github.com/eldexterr/ttyd64/releases
+    disable: [enhancements.no_intro, graphics.status_bar.*]
+  config:
+    gbi: F3DEX2_PM64
+    gbi_floats: false
+    sort: OFFSET
+    logging: WARN
+    output:
+      binary: mods/~romhacks/ttyd64.o2r
+      headers: include
+      code: code
