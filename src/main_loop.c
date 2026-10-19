@@ -5,6 +5,7 @@
 #include "sprite.h"
 #include "overlay.h"
 #include "game_modes.h"
+#include "model.h"
 #include "audio/public.h"
 #include "dx/profiling.h"
 #include "port/interpolation/FrameInterpolation.h"
@@ -203,6 +204,8 @@ void gfx_draw_frame(void) {
         gCurrentDisplayContextIndex = gCurrentDisplayContextIndex ^ 1;
         return;
     }
+
+    free_expired_animator_buffers();
 
     gDPSetColorImage(gMainGfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, GFX_COLOR_IMAGE_SENTINEL);
     gDPSetDepthImage(gMainGfxPos++, GFX_DEPTH_IMAGE_SENTINEL);
