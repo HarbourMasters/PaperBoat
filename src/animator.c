@@ -11,7 +11,7 @@ typedef struct DisplayListBufferHandle {
     /* 0x4 */ void* addr;
 } DisplayListBufferHandle; // size = 0x8
 
-typedef DisplayListBufferHandle AnimatedMeshVertexCopyList[0x60];
+typedef DisplayListBufferHandle AnimatedMeshVertexCopyList[0x100];
 
 s32 gAnimCount;
 
@@ -79,7 +79,7 @@ Vtx* animator_copy_vertices_to_buffer(ModelAnimator* animator, AnimatorNode* nod
 
     ASSERT(bufferMem != nullptr);
 
-    handle->ttl = 3;
+    handle->ttl = 2;
     nodeVtxList = &node->fcData.vtxList[startIdx];
 
     if (animator->baseAddr != nullptr) {
@@ -487,7 +487,6 @@ AnimatorNode* add_anim_node(ModelAnimator* animator, s32 parentNodeID, AnimatorN
 void update_model_animator(s32 animatorID) {
     ModelAnimator* animator;
     s32 temp;
-    s32 i;
 
     if (gGameStatusPtr->context != CONTEXT_WORLD && !(animatorID & BATTLE_ID_BIT)) {
         return;
@@ -528,6 +527,10 @@ void update_model_animator(s32 animatorID) {
     FrameInterpolation_RecordOpenChild("animator", TAG_ANIMATOR(animatorID, animator));
     animator_update_model_transforms(animator, nullptr);
     FrameInterpolation_RecordCloseChild();
+}
+
+void free_expired_animator_buffers(void) {
+    s32 i;
 
     for (i = 0; i < ARRAY_COUNT(D_801533C0); i++) {
         if (D_801533C0[i].ttl >= 0) {
@@ -553,7 +556,6 @@ void update_model_animator(s32 animatorID) {
 void update_model_animator_with_transform(s32 animatorID, Mtx* mtx) {
     ModelAnimator* animator;
     s32 temp;
-    s32 i;
 
     if (gGameStatusPtr->context != CONTEXT_WORLD && !(animatorID & BATTLE_ID_BIT)) {
         return;
@@ -592,26 +594,6 @@ void update_model_animator_with_transform(s32 animatorID, Mtx* mtx) {
     }
 
     animator_update_model_transforms(animator, mtx);
-
-    for (i = 0; i < ARRAY_COUNT(D_801533C0); i++) {
-        if (D_801533C0[i].ttl >= 0) {
-            D_801533C0[i].ttl--;
-            if (D_801533C0[i].ttl == 0) {
-                D_801533C0[i].ttl = -1;
-                general_heap_free(D_801533C0[i].addr);
-            }
-        }
-    }
-
-    for (i = 0; i < ARRAY_COUNT(D_801536C0); i++) {
-        if (D_801536C0[i].ttl >= 0) {
-            D_801536C0[i].ttl--;
-            if (D_801536C0[i].ttl == 0) {
-                D_801536C0[i].ttl = -1;
-                general_heap_free(D_801536C0[i].addr);
-            }
-        }
-    }
 }
 
 s32 step_model_animator(ModelAnimator* animator) {
@@ -986,7 +968,7 @@ void appendGfx_animator_node(ModelAnimator* animator, AnimatorNode* node, Matrix
 
             bufferHandle->addr = gfxPos = general_heap_malloc(j * sizeof(Gfx));
             ASSERT(gfxPos != nullptr);
-            bufferHandle->ttl = 3;
+            bufferHandle->ttl = 2;
 
             vtxIdx = 0;
             dlIdx = 0;
