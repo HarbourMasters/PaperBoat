@@ -210,6 +210,7 @@ void mdl_get_remap_tint_params(u8* primR, u8* primG, u8* primB, u8* envR, u8* en
 void init_model_data(void);
 void update_model_animator(s32);
 void update_model_animator_with_transform(s32 animatorID, Mtx* mtx);
+void free_expired_animator_buffers(void);
 void set_mdl_custom_gfx_set(Model*, s32, u32);
 ModelNodeProperty* get_model_property(ModelNode* node, ModelPropertyKeys key);
 void load_texture_variants(u8* srcData, s32 textureID, u8* baseData, s32 size);

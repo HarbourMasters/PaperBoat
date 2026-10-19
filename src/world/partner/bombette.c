@@ -15,7 +15,7 @@ BSS b32 N(TriggeredEarlyDetonation);
 BSS b32 N(MovementBlocked);
 BSS s32 N(D_802BE93C); // unused (padding?)
 
-void entity_try_partner_interaction_trigger(s32 arg0);
+s32 entity_try_partner_interaction_trigger(s32 arg0);
 
 void N(blast_affect_entities)(Npc* npc) {
     f32 x, y, z;
