@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "port/audio/AudioVolume.h"
+#include "port/audio/ModSound.h"
 
 extern "C" {
 extern int32_t AlFrameSize;
@@ -66,6 +67,9 @@ extern "C" int32_t port_aiSetNextBuffer(void* buf, uint32_t size) {
     if (BackendGone()) {
         return 0;
     }
+
+    ModSound::Mix((int16_t*) buf, (int) (size / (2 * sizeof(int16_t))), AudioVolume_GetMusic(), AudioVolume_GetSfx());
+    AudioVolume_SetGameMusicMuted(ModSound::MusicActive());
 
     const float master = AudioVolume_GetMaster();
 

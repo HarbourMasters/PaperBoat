@@ -10,6 +10,11 @@ extern "C" {
 void AudioVolume_Update(void);
 
 float AudioVolume_GetMaster(void);
+float AudioVolume_GetMusic(void);
+float AudioVolume_GetSfx(void);
+
+// Silences the game's music, e.g. while a mod plays its own. Sound effects and ambience keep playing.
+void AudioVolume_SetGameMusicMuted(int32_t muted);
 
 // Applies the music/SFX volume to an FX bus gain (see FxBus in audio.h).
 uint16_t AudioVolume_ScaleBusGain(uint8_t busID, uint16_t gain);

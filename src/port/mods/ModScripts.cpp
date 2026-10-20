@@ -1,5 +1,10 @@
 #include "port/mods/ModScripts.h"
 
+std::recursive_mutex& ModScripts::Lock() {
+    static std::recursive_mutex lock;
+    return lock;
+}
+
 #ifdef ENABLE_SCRIPTING
 
 #include "port/api/ModOwner.hpp"
@@ -242,6 +247,7 @@ ModScripts::Compile(const std::function<void(const std::string&)>& onStart, cons
 }
 
 void ModScripts::Load() {
+    std::lock_guard<std::recursive_mutex> lock(Lock());
     auto scripts = Ship::Context::GetRawInstance()->GetScriptLoader();
     if (scripts == nullptr) {
         return;
@@ -277,12 +283,14 @@ void ModScripts::Load() {
 }
 
 void ModScripts::Unload() {
+    std::lock_guard<std::recursive_mutex> lock(Lock());
     if (auto scripts = Ship::Context::GetRawInstance()->GetScriptLoader()) {
         scripts->UnloadAll();
     }
 }
 
 void ModScripts::Reload() {
+    std::lock_guard<std::recursive_mutex> lock(Lock());
     Unload();
     for (const auto& error : Compile()) {
         Notification::Emit(

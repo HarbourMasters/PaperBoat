@@ -483,6 +483,7 @@ add_custom_target(GeneratePortO2R DEPENDS "${PAPERBOAT_PORT_O2R}")
 add_dependencies(${PROJECT_NAME} GeneratePortO2R)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE libultraship torch yaml-cpp)
+target_include_directories(${PROJECT_NAME} PRIVATE ${dr_libs_SOURCE_DIR})
 
 if(ENABLE_SCRIPTING)
     # Mods resolve the game's functions and globals from the running binary.

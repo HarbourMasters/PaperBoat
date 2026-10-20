@@ -3,6 +3,7 @@
 #ifdef __cplusplus
 #include <cstddef>
 #include <functional>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -43,6 +44,10 @@ void Reload();
 
 // Asks the game thread to Reload() before its next frame. Safe from any thread, e.g. a menu.
 void RequestReload();
+
+// Held while mod code is loaded, run or freed from more than one thread: by loading and unloading, by the port menu
+// while it draws mod widgets, and by the UI API. Recursive, so a mod's callback can call the API.
+std::recursive_mutex& Lock();
 
 // What happened to the mod archive at path, or nullptr when it ships no code.
 const Status* GetStatus(const std::string& archivePath);
