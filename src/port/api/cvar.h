@@ -21,3 +21,4 @@ PB_API void CVarRegisterString(const char* name, const char* defaultValue);
 PB_API void CVarClear(const char* name);
 PB_API bool CVarExists(const char* name);
 PB_API void CVarSave(void);
+PB_API uint32_t C_CVarGetColor(const char* cvar, uint32_t defaultValue);

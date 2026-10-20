@@ -551,6 +551,8 @@ def preprocess_embed(bytes_data: bytes, filename: str) -> bytes:
 # merged on one machine and compiled by TinyCC on another, so the platform's own macros stay unknown, and both sides of
 # a check on them keep their headers for TinyCC to choose from.
 DEFINES = {}
+# Every file the merge read, for --depfile.
+DEPENDENCIES = set()
 UNKNOWN = {'_WIN32', '_WIN64', '__CYGWIN__', '__APPLE__', '__MACH__', '__linux__', '__ANDROID__', '__unix__',
            '__FreeBSD__', '__EMSCRIPTEN__', '__IOS__', 'TARGET_OS_IPHONE', 'TARGET_OS_MAC', '__aarch64__',
            '__x86_64__', '__i386__', '__arm__', '_M_X64', '_M_ARM64', '_M_IX86', '_MSC_VER', '__clang__', '__GNUC__',
@@ -645,6 +647,7 @@ def amalgamate(file_path, include_dirs, processed, out_file, assets_dir, base_st
         out_file.write(f"#ifndef {guard}\n#define {guard}\n")
 
     try:
+        DEPENDENCIES.add(abs_path)
         with open(abs_path, 'r', encoding='utf-8') as f:
             content = f.read()
 
@@ -678,6 +681,7 @@ def amalgamate(file_path, include_dirs, processed, out_file, assets_dir, base_st
 
             if target_path:
                 try:
+                    DEPENDENCIES.add(os.path.abspath(target_path))
                     with open(target_path, 'rb') as bin_file:
                         raw_bytes = bin_file.read()
 
@@ -764,6 +768,7 @@ def amalgamate(file_path, include_dirs, processed, out_file, assets_dir, base_st
                 if target_path:
                     out_file.write(f"/* --- Start Embedded Bytes: {target_name} --- */\n")
                     try:
+                        DEPENDENCIES.add(os.path.abspath(target_path))
                         with open(target_path, 'rb') as bin_file:
                             raw_bytes = preprocess_embed(bin_file.read(), target_name)
                         hex_array = [f"0x{b:02x}" for b in raw_bytes]
@@ -811,6 +816,7 @@ if __name__ == "__main__":
     parser.add_argument('--includes', nargs='*', default=[], help="Include directories")
     parser.add_argument('--srcs', nargs='+', required=True, help="Input .c files")
     parser.add_argument('--defines', nargs='*', default=[], help="NAME or NAME=VALUE the mod is compiled with")
+    parser.add_argument('--depfile', default=None, help="Makefile-style list of the files the merge read")
 
     args = parser.parse_args()
     for define in args.defines:
@@ -826,3 +832,12 @@ if __name__ == "__main__":
             out_file.write(f"/* ========================================= */\n\n")
 
             amalgamate(src_file, args.includes, global_processed, out_file, args.assets_dir)
+
+    if args.depfile:
+        def escape(path):
+            return path.replace('\\', '/').replace(' ', '\\ ').replace('#', '\\#')
+        with open(args.depfile, 'w', encoding='utf-8') as dep_file:
+            dep_file.write(escape(os.path.abspath(args.out)) + ':')
+            for dependency in sorted(DEPENDENCIES):
+                dep_file.write(' \\\n  ' + escape(dependency))
+            dep_file.write('\n')

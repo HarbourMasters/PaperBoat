@@ -81,6 +81,7 @@ logs/
 default.sav
 imgui.ini
 paperboat.cfg.json
+satella.lock
 Paperboat.log
 *.sav
 *.lib

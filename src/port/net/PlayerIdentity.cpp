@@ -8,11 +8,22 @@
 #include <mbedtls/ctr_drbg.h>
 #include <mbedtls/entropy.h>
 #include <monocypher-ed25519.h>
+#include <spdlog/spdlog.h>
 
 #include <algorithm>
 #include <atomic>
 #include <cstring>
 #include <mutex>
+
+#ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#else
+#include <fcntl.h>
+#include <sys/file.h>
+#endif
 
 namespace PlayerIdentity {
 
@@ -39,6 +50,18 @@ static bool FillRandom(uint8_t* buf, size_t size) {
     return ok;
 }
 
+static bool HoldSavedKey() {
+    const std::string path = Ship::Context::GetPathRelativeToAppDirectory("satella.lock");
+#ifdef _WIN32
+    const HANDLE file = CreateFileA(path.c_str(), GENERIC_READ | GENERIC_WRITE, 0, nullptr, OPEN_ALWAYS,
+                                    FILE_ATTRIBUTE_NORMAL, nullptr);
+    return file != INVALID_HANDLE_VALUE || GetLastError() != ERROR_SHARING_VIOLATION;
+#else
+    const int fd = open(path.c_str(), O_RDWR | O_CREAT | O_CLOEXEC, 0644);
+    return fd < 0 || flock(fd, LOCK_EX | LOCK_NB) == 0;
+#endif
+}
+
 static void EnsureInitialized() {
     if (sInitialized.load(std::memory_order_acquire)) {
         return;
@@ -56,7 +79,13 @@ static void EnsureInitialized() {
 
     uint8_t seed[32] = {};
     const auto stored = StringHelper::HexToBytes(config->GetString("Satella.PlayerSeed"));
-    if (stored.size() == sizeof(seed)) {
+    if (!HoldSavedKey()) {
+        if (!FillRandom(seed, sizeof(seed))) {
+            return;
+        }
+        SPDLOG_WARN("Satella: another copy of the game in this folder has the player key; this one plays with a key "
+                    "of its own until it closes");
+    } else if (stored.size() == sizeof(seed)) {
         std::copy(stored.begin(), stored.end(), seed);
     } else {
         if (!FillRandom(seed, sizeof(seed))) {

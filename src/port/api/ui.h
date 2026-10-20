@@ -72,6 +72,8 @@ typedef struct {
 typedef struct {
     const char* tooltip;
     uint8_t default_r, default_g, default_b, default_a;
+    bool show_reset;  // a button that puts the default back
+    bool show_random; // a button that picks a random color
 } C_ColorPickerOpts;
 
 typedef struct {

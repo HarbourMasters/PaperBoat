@@ -1,6 +1,7 @@
 #ifdef ENABLE_SCRIPTING
 
 #include "port/api/ui.h"
+#include "port/api/cvar.h"
 
 #include "port/ShipInit.hpp"
 #include "port/api/ModOwner.hpp"
@@ -375,7 +376,7 @@ C_AddWidgetSized(const char* sidebar, int column, const char* label, C_WidgetCon
             auto options = UIWidgets::ColorPickerOptions().DefaultValue(
                 Color_RGBA8 { color.default_r, color.default_g, color.default_b, color.default_a }
             );
-            options.Tooltip(KeepTooltip(color.tooltip));
+            options.Tooltip(KeepTooltip(color.tooltip)).ShowReset(color.show_reset).ShowRandom(color.show_random);
             widget.Options(options);
             break;
         }
@@ -584,6 +585,16 @@ extern "C" int C_WorldToScreen(float x, float y, float z, float* screenX, float*
         *screenY = pixelY / (framebufferScale.y > 0.0f ? framebufferScale.y : 1.0f);
     }
     return 1;
+}
+
+extern "C" uint32_t C_CVarGetColor(const char* cvar, uint32_t defaultValue) {
+    if (cvar == nullptr) {
+        return defaultValue;
+    }
+    const Color_RGBA8 fallback = { static_cast<uint8_t>(defaultValue >> 24), static_cast<uint8_t>(defaultValue >> 16),
+                                   static_cast<uint8_t>(defaultValue >> 8), static_cast<uint8_t>(defaultValue) };
+    const Color_RGBA8 color = CVarGetColor((std::string(cvar) + ".Value").c_str(), fallback);
+    return (uint32_t(color.r) << 24) | (uint32_t(color.g) << 16) | (uint32_t(color.b) << 8) | color.a;
 }
 
 #endif
