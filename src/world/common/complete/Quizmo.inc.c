@@ -155,7 +155,13 @@ API_CALLABLE(N(Quizmo_ShouldAppear)) {
     u16 curMap = (enemy->varTable[0] & 0xFF) >> 0;
     s32 progress;
     s32 numAnswered;
-
+    bool shouldSetVar = false;
+    CALL_EVENT(OnChuckQuizmoMapSet,&locTown,&locMap,&curTown1,&curTown2,&hasLocation,&curMap,&changedLocation, &shouldSetVar);
+    if(shouldSetVar)
+    {
+        evt_set_variable(script, GB_ChuckQuizmo_Town, locTown);
+        evt_set_variable(script, GB_ChuckQuizmo_Map, locMap);
+    }
     if (curTown1 != locTown) {
         changedLocation = false;
         hasLocation = false;
