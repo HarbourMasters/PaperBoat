@@ -118,7 +118,7 @@ void PaperboatMenu::AddMenuEnhancements() {
                 .ComboMap(HiddenBlockOptions)
         );
 
-    AddWidget(path, "Mute ISpy sound", WIDGET_CVAR_CHECKBOX)
+    AddWidget(path, "Mute ISpy Sound", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("MuteISpySound"))
         .Options(CheckboxOptions().Tooltip("Mute the notification sound when ISpy is going off."));
 
