@@ -15,6 +15,16 @@ DEFINE_EVENT(OnSaveFileErase,
     int32_t saveSlot;
 );
 
+// A new save file is being created in the file menu, before it is first written.
+DEFINE_EVENT(OnSaveFileCreate,
+    int32_t saveSlot;
+);
+
+// The player starts playing the loaded save file, right after its data was unpacked into the game.
+DEFINE_EVENT(OnSaveFileStart,
+    int32_t saveSlot;
+);
+
 DEFINE_EVENT(OnSaveGlobalsSave,
     void* saveGlobals;
 );

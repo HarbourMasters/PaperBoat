@@ -70,6 +70,8 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnSaveFileSave);
     REGISTER_EVENT(OnSaveFileLoad);
     REGISTER_EVENT(OnSaveFileErase);
+    REGISTER_EVENT(OnSaveFileCreate);
+    REGISTER_EVENT(OnSaveFileStart);
     REGISTER_EVENT(OnSaveGlobalsSave);
     REGISTER_EVENT(OnSaveGlobalsLoad);
     REGISTER_EVENT(OnPlayerDamageReceived);

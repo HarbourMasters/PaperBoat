@@ -1,11 +1,12 @@
-#ifdef ENABLE_SCRIPTING
-
 #include "port/api/item.h"
+#include "port/api/ItemTables.hpp"
 
 #include "port/ShipInit.hpp"
-#include "port/api/ModOwner.hpp"
 #include "port/api/SizedDef.hpp"
 #include "port/api/StableIds.hpp"
+#ifdef ENABLE_SCRIPTING
+#include "port/api/ModOwner.hpp"
+#endif
 
 #include "common.h"
 
@@ -103,6 +104,15 @@ CustomMove* FindMove(int move) {
     return slot >= 0 && slot < kCustomMoves && sMoves[slot].used ? &sMoves[slot] : nullptr;
 }
 
+std::string CurrentOwner() {
+#ifdef ENABLE_SCRIPTING
+    return ModOwner::Current();
+#else
+    return {};
+#endif
+}
+
+#ifdef ENABLE_SCRIPTING
 void InitItemApi() {
     ModOwner::AddReleaser([](const std::string& mod) {
         for (int slot = 0; slot < kCustomItems; slot++) {
@@ -119,8 +129,26 @@ void InitItemApi() {
 }
 
 RegisterShipInitFunc sInitItemApi(InitItemApi);
+#endif
 
 } // namespace
+
+int ItemTables::Number(const std::string& id, int preferred, const std::string& owner) {
+    Grow();
+    return sItemNumbers.Get(id, preferred, owner);
+}
+
+const std::string* ItemTables::IdOf(int number) {
+    return sItemNumbers.IdOf(number);
+}
+
+std::string ItemTables::Owner(const std::string& id) {
+    return sItemNumbers.Owner(id);
+}
+
+bool ItemTables::IsRegistered(int number) {
+    return FindItem(number) != nullptr;
+}
 
 extern "C" int16_t C_RegisterItemSized(const C_ItemDef* itemDef, uint32_t size) {
     const SizedDef<C_ItemDef> sized(itemDef, size);
@@ -134,7 +162,7 @@ extern "C" int16_t C_RegisterItemSized(const C_ItemDef* itemDef, uint32_t size) 
     }
 
     Grow();
-    const std::string owner = ModOwner::Current();
+    const std::string owner = CurrentOwner();
     const int number = sItemNumbers.Register(def->id, owner);
     if (number < 0) {
         return ITEM_NONE;
@@ -217,7 +245,7 @@ extern "C" int16_t C_RegisterMoveSized(const C_MoveDef* moveDef, uint32_t size) 
     }
 
     Grow();
-    const std::string owner = ModOwner::Current();
+    const std::string owner = CurrentOwner();
     const int number = sMoveNumbers.Register(def->id, owner);
     if (number < 0) {
         return MOVE_NONE;
@@ -259,5 +287,3 @@ extern "C" int16_t C_FindMove(const char* id) {
     const int number = sMoveNumbers.Find(id);
     return FindMove(number) != nullptr ? (int16_t) number : MOVE_NONE;
 }
-
-#endif
