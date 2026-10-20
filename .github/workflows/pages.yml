@@ -46,6 +46,15 @@ jobs:
       - name: Trim the package down to the site
         run: rm -f site/readme.txt
 
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          path: source
+
+      # The modding wiki, generated from the mod API headers and src/port/hooks/EVENTS.md.
+      - name: Build the modding wiki
+        run: python3 source/tools/wiki/build_wiki.py source site/wiki/index.html
+
       - uses: actions/upload-pages-artifact@v5
         with:
           path: site

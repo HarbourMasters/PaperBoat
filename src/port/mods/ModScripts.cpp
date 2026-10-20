@@ -1,5 +1,31 @@
 #include "port/mods/ModScripts.h"
 
+namespace {
+std::mutex sGameWorkMutex;
+std::vector<std::function<void()>> sGameWork;
+} // namespace
+
+void ModScripts::RunOnGameThread(std::function<void()> work) {
+    std::lock_guard<std::mutex> lock(sGameWorkMutex);
+    sGameWork.push_back(std::move(work));
+}
+
+// Runs the queued game-thread work, under the mod lock as it may call into mod code.
+static void RunGameWork() {
+    std::vector<std::function<void()>> work;
+    {
+        std::lock_guard<std::mutex> lock(sGameWorkMutex);
+        work.swap(sGameWork);
+    }
+    if (work.empty()) {
+        return;
+    }
+    std::lock_guard<std::recursive_mutex> lock(ModScripts::Lock());
+    for (const auto& item : work) {
+        item();
+    }
+}
+
 std::recursive_mutex& ModScripts::Lock() {
     static std::recursive_mutex lock;
     return lock;
@@ -314,6 +340,7 @@ extern "C" void ModScripts_RunPending(void) {
     if (sReloadRequested.exchange(false)) {
         ModScripts::Reload();
     }
+    RunGameWork();
 }
 
 #else
@@ -351,6 +378,7 @@ const ModScripts::Status* ModScripts::GetStatus(const std::string&) {
 }
 
 extern "C" void ModScripts_RunPending(void) {
+    RunGameWork();
 }
 
 #endif

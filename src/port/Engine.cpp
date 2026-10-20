@@ -14,6 +14,9 @@
 #include "port/DevTools/ThreadWatchdog.h"
 #include "port/TextureCache.h"
 #include "port/mods/ModScripts.h"
+#ifdef USE_NETWORKING
+#include "port/net/SatellaClient.h"
+#endif
 #include "port/hooks/Events.h"
 #include "src/Companion.h"
 #include "ui/PaperboatGui.hpp"
@@ -840,6 +843,57 @@ void GameEngine::RunExtract(int argc, char* argv[]) {
     }
 }
 
+// Connects to Satella on a thread of its own and waits, behind a popup, until it has the keys trusted mods are signed
+// with. Satella goes on with the rest of its requests in the background.
+void GameEngine::ConnectSatella() {
+#ifdef USE_NETWORKING
+    if (!CVarGetInteger(CVAR_DEVELOPER_TOOLS("Satella"), 1)) {
+        return;
+    }
+    auto finished = std::make_shared<std::atomic<bool>>(false);
+    std::thread([finished] {
+        Satella::Client::Instance().Execute();
+        *finished = true;
+    }).detach();
+
+    auto& client = Satella::Client::Instance();
+    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(Ship::Context::GetRawInstance()->GetWindow());
+    auto gui = wnd->GetGui();
+    while (!*finished && client.GetPhase() != Satella::Phase::Done) {
+        if (!WindowIsRunning()) {
+            gsFast3dWindow = nullptr;
+            context = nullptr;
+            exit(0);
+        }
+        wnd->HandleEvents();
+        if (!wnd->IsFrameReady()) {
+            continue;
+        }
+        gui->StartDraw();
+        wnd->StartFrame();
+        wnd->RunGuiOnly();
+        if (!ImGui::IsPopupOpen("Satella")) {
+            ImGui::OpenPopup("Satella");
+        }
+        if (ImGui::BeginPopupModal(
+                "Satella", NULL,
+                ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove
+                    | ImGuiWindowFlags_NoSavedSettings
+            ))
+        {
+            ImGui::Text(
+                "%s",
+                client.GetPhase() == Satella::Phase::FetchingKeys ? "Fetching mod signing keys..."
+                                                                  : "Connecting to Satella..."
+            );
+            ImGui::EndPopup();
+        }
+        gui->EndDraw();
+        wnd->EndFrame();
+    }
+#endif
+}
+
 // Builds mod code on a worker thread while a progress popup keeps the window responsive. Mods that fail to build are
 // listed until the player continues.
 void GameEngine::BuildMods() {
@@ -960,6 +1014,8 @@ void GameEngine::BuildMods() {
 void GameEngine::Create(int argc, char* argv[]) {
     const auto instance = Instance = new GameEngine();
     instance->RunExtract(argc, argv);
+    // Before FinishInit mounts the mods, so the keys trusted mods are signed with are known.
+    instance->ConnectSatella();
     instance->FinishInit();
     instance->BuildMods();
     PaperboatGui::SetupGuiElements();

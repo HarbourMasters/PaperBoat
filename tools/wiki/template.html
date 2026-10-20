@@ -1,0 +1,566 @@
+<title>PaperBoat Modding Wiki</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky leaf-green sidebar with search on the left, a single reading column on the right. */
+:root {
+  --bg: #f2f5ee;
+  --surface: #ffffff;
+  --ink: #1c2a21;
+  --muted: #5a6a5f;
+  --line: #d6dfd1;
+  --leaf: #2d7a4c;
+  --leaf-soft: #e1eedf;
+  --sky: #24708f;
+  --bell: #9a6c06;
+  --bell-soft: #f6ecd2;
+  --code-bg: #eaf0e5;
+  --side: #1f3a2a;
+  --side-ink: #e6f0e8;
+  --side-muted: #9fb9a8;
+  --side-hover: #2b4b37;
+  --font-display: "Fredoka", "Nunito Sans", system-ui, sans-serif;
+  --font-body: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --step--1: 0.84rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.55rem;
+  --step-3: 2.1rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111914; --surface: #172119; --ink: #e3ece4; --muted: #98aa9d; --line: #2a3a2f;
+    --leaf: #6cc48f; --leaf-soft: #1f3326; --sky: #6db8d4; --bell: #e3b84d; --bell-soft: #3a2f14;
+    --code-bg: #1c2a20; --side: #0c1510; --side-ink: #dfeae2; --side-muted: #8aa595; --side-hover: #1a2a20;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111914; --surface: #172119; --ink: #e3ece4; --muted: #98aa9d; --line: #2a3a2f;
+  --leaf: #6cc48f; --leaf-soft: #1f3326; --sky: #6db8d4; --bell: #e3b84d; --bell-soft: #3a2f14;
+  --code-bg: #1c2a20; --side: #0c1510; --side-ink: #dfeae2; --side-muted: #8aa595; --side-hover: #1a2a20;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 16px); }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.6; }
+a { color: var(--sky); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--leaf); outline-offset: 2px; border-radius: 4px; }
+code, pre { font-family: var(--font-mono); font-size: 0.86em; }
+:not(pre) > code { background: var(--code-bg); padding: 0.08em 0.36em; border-radius: 4px; overflow-wrap: anywhere; }
+pre { background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; overflow-x: auto; line-height: 1.5; margin: 0; }
+
+.shell { display: grid; grid-template-columns: 290px minmax(0, 1fr); min-height: 100vh; }
+.side {
+  background: var(--side); color: var(--side-ink); position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  padding-block: calc(env(safe-area-inset-top, 0px) + 22px) 28px;
+  padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: 18px;
+  display: flex; flex-direction: column; gap: 18px;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand svg { flex: none; }
+.brand b { font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; letter-spacing: 0.01em; }
+.brand small { display: block; color: var(--side-muted); font-size: var(--step--1); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.search input {
+  width: 100%; border: 1px solid transparent; border-radius: 10px; padding: 9px 12px; font: inherit; font-size: 0.95rem;
+  background: var(--side-hover); color: var(--side-ink);
+}
+.search input::placeholder { color: var(--side-muted); }
+.search .hint { color: var(--side-muted); font-size: 0.78rem; margin-top: 6px; }
+.nav { display: flex; flex-direction: column; gap: 14px; }
+.nav h4 { margin: 0 0 4px; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--side-muted); }
+.nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+.nav a, .results a { display: block; color: var(--side-ink); text-decoration: none; padding: 4px 9px; border-radius: 7px; font-size: 0.93rem; }
+.nav a:hover, .results a:hover { background: var(--side-hover); }
+.nav a.on { background: var(--side-hover); box-shadow: inset 3px 0 0 var(--leaf); }
+.nav .file { color: var(--side-muted); font-family: var(--font-mono); font-size: 0.72rem; margin-left: 4px; }
+.results { display: flex; flex-direction: column; gap: 1px; }
+.results a { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.results a span:first-child { font-family: var(--font-mono); font-size: 0.82rem; overflow-wrap: anywhere; }
+.results .kind { color: var(--side-muted); font-size: 0.72rem; flex: none; }
+.results .none { color: var(--side-muted); font-size: 0.9rem; padding: 4px 9px; }
+.theme { margin-top: auto; display: flex; gap: 6px; }
+.theme button { flex: 1; font: inherit; font-size: 0.8rem; background: var(--side-hover); color: var(--side-ink); border: 1px solid transparent; border-radius: 8px; padding: 6px; cursor: pointer; }
+.theme button[aria-pressed="true"] { border-color: var(--leaf); }
+
+main {
+  padding-block: calc(env(safe-area-inset-top, 0px) + 40px) 80px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.col { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px; }
+.prose { max-width: 68ch; }
+section { display: flex; flex-direction: column; gap: 16px; }
+section > * { margin: 0; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-wrap: balance; line-height: 1.2; margin: 0; }
+h1 { font-size: var(--step-3); }
+h2 { font-size: var(--step-2); }
+h3 { font-size: var(--step-1); }
+.eyebrow { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--leaf); }
+.lede { font-size: 1.08rem; color: var(--muted); max-width: 64ch; }
+.head { display: flex; flex-direction: column; gap: 6px; padding-bottom: 10px; border-bottom: 2px solid var(--line); }
+.head .path { font-family: var(--font-mono); font-size: 0.82rem; color: var(--muted); }
+.part { display: flex; flex-direction: column; gap: 40px; }
+.part-title { display: flex; align-items: center; gap: 12px; }
+.part-title h2 { font-size: var(--step-3); }
+.part-title .leaf { color: var(--leaf); }
+
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.fact { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+.fact b { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; }
+.fact span { color: var(--muted); font-size: 0.9rem; }
+
+.steps { display: flex; flex-direction: column; gap: 14px; counter-reset: step; padding: 0; margin: 0; list-style: none; }
+.steps li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; align-items: start; }
+.steps li::before {
+  counter-increment: step; content: counter(step); width: 30px; height: 30px; border-radius: 50%;
+  background: var(--leaf-soft); color: var(--leaf); font-family: var(--font-display); font-weight: 600;
+  display: grid; place-items: center;
+}
+.steps li > div { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+th { font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); background: var(--code-bg); }
+td.decl { font-family: var(--font-mono); font-size: 0.82rem; white-space: nowrap; }
+td.num { font-variant-numeric: tabular-nums; font-family: var(--font-mono); font-size: 0.82rem; white-space: nowrap; }
+
+.note { border-left: 3px solid var(--bell); background: var(--bell-soft); padding: 10px 14px; border-radius: 0 8px 8px 0; max-width: 68ch; }
+.note b { color: var(--bell); }
+
+.api { display: flex; flex-direction: column; gap: 14px; }
+.sym { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.sym:target { border-color: var(--leaf); box-shadow: 0 0 0 3px var(--leaf-soft); }
+.sym .top { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.sym .name { font-family: var(--font-mono); font-weight: 500; font-size: 0.98rem; overflow-wrap: anywhere; }
+.sym .doc { max-width: 68ch; }
+.sym .doc:empty { display: none; }
+.sym pre { font-size: 0.82rem; }
+.badge { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 999px; padding: 2px 8px; }
+.b-func { background: var(--leaf-soft); color: var(--leaf); }
+.b-macro { background: var(--leaf-soft); color: var(--leaf); }
+.b-helper { background: var(--code-bg); color: var(--muted); }
+.b-struct, .b-enum, .b-typedef { background: var(--code-bg); color: var(--sky); }
+.b-cancellable { background: var(--bell-soft); color: var(--bell); }
+.b-polled { background: var(--code-bg); color: var(--sky); }
+.consts td:first-child { font-family: var(--font-mono); font-size: 0.82rem; }
+.sub { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+.event-group { display: flex; flex-direction: column; gap: 12px; }
+.cancel { font-size: 0.92rem; max-width: 68ch; }
+.cancel b { color: var(--bell); }
+
+.mobile-bar { display: none; }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .side { position: static; height: auto; padding-block: calc(env(safe-area-inset-top, 0px) + 16px) 16px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .side .nav { display: none; }
+  .side.open .nav { display: flex; }
+  .mobile-bar { display: flex; }
+  .mobile-bar button { font: inherit; font-size: 0.88rem; background: var(--side-hover); color: var(--side-ink); border: none; border-radius: 8px; padding: 7px 12px; cursor: pointer; }
+  .theme { margin-top: 0; }
+  main { padding-block: 28px 64px; }
+  .col { gap: 44px; }
+  h1 { font-size: 1.75rem; }
+  .part-title h2 { font-size: 1.6rem; }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+
+<div class="shell">
+  <aside class="side" id="side">
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><path d="M17 3c8 3 13 9 13 16 0 7-6 12-13 12S4 26 4 19C4 12 9 6 17 3z" fill="#4fae73"/><path d="M17 8v21M17 15l-5-4M17 21l6-5" stroke="#1f3a2a" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+      <div><b>PaperBoat</b><small>Modding wiki · API 1 · code 1</small></div>
+    </div>
+    <div class="search">
+      <input id="q" type="search" placeholder="Search functions, structs, events" autocomplete="off" aria-label="Search the API">
+      <div class="hint" id="qhint"></div>
+    </div>
+    <div class="mobile-bar"><button type="button" id="navtoggle" aria-expanded="false">Show contents</button></div>
+    <div class="results" id="results" hidden></div>
+    <nav class="nav" id="nav" aria-label="Contents"></nav>
+    <div class="theme" role="group" aria-label="Theme">
+      <button type="button" data-t="system">System</button><button type="button" data-t="light">Light</button><button type="button" data-t="dark">Dark</button>
+    </div>
+  </aside>
+
+  <main>
+    <div class="col" id="col">
+
+      <section id="intro">
+        <span class="eyebrow">PaperBoat mod API · version 1</span>
+        <h1>Writing code mods for PaperBoat</h1>
+        <p class="lede">PaperBoat mods are C source files packed into an <code>.o2r</code> archive. The game compiles them with TinyCC when it starts, so a mod is plain text you can read, and the same archive works on every platform that runs code mods. This wiki covers how to build one and every function, structure and event a mod can use.</p>
+        <div class="facts">
+          <div class="fact"><b id="nheaders"></b><span>under <code>port/api/</code></span></div>
+          <div class="fact"><b id="nevents"></b><span>to listen to and change the game</span></div>
+          <div class="fact"><b>C11</b><span>compiled at load time by TinyCC</span></div>
+          <div class="fact"><b>Desktop + Android</b><span>run code mods today</span></div>
+        </div>
+      </section>
+
+      <div class="part" id="guide">
+        <div class="part-title"><svg class="leaf" width="26" height="26" viewBox="0 0 34 34" aria-hidden="true"><path d="M17 3c8 3 13 9 13 16 0 7-6 12-13 12S4 26 4 19C4 12 9 6 17 3z" fill="currentColor"/></svg><h2>Guide</h2></div>
+
+        <section id="start">
+          <div class="head"><span class="eyebrow">Guide</span><h2>Your first mod</h2></div>
+          <p class="prose">Start from <code>workspace/template</code>, inside a PaperBoat checkout or the mod SDK zip. The SDK has the same layout and holds only what mods are built against: the headers, the mod tools, the template and the online example. A PaperBoat build writes it with <code>cmake --build build --target mod_sdk</code>.</p>
+          <ol class="steps">
+            <li><div><b>Copy the template</b><p class="prose" style="margin:0">Copy <code>workspace/template</code> to <code>workspace/my-mod</code> and change <code>project()</code> in its <code>CMakeLists.txt</code>; the archive is named after it. Fill in <code>manifest.json</code>.</p></div></li>
+            <li><div><b>Write the entry points</b>
+<pre>#include "mod.h"
+#include "port/hooks/Events.h"
+#include &lt;stdio.h&gt;
+
+static void LogCoins(IEvent* event) {
+    OnCoinsChanged* coins = (OnCoinsChanged*) event;
+    printf("Coins: %d -&gt; %d\n", coins-&gt;before, coins-&gt;after);
+}
+
+MOD_INIT() {
+    REGISTER_LISTENER(OnCoinsChanged, EVENT_PRIORITY_NORMAL, LogCoins);
+}
+
+MOD_EXIT() {
+}</pre></div></li>
+            <li><div><b>Build the archive</b><pre>cmake -B build -S .
+cmake --build build --target package_mod</pre><p class="prose" style="margin:0">You need CMake 3.10 or newer and Python 3. Pillow is only needed for <code>.png</code> files used with <code>#asset</code>.</p></div></li>
+            <li><div><b>Install it</b><p class="prose" style="margin:0">Copy the <code>.o2r</code> into PaperBoat's <code>mods/</code> folder and start the game. Compiler errors appear under <b>Settings › Mod Menu</b>. <b>Reload Scripts</b> there rebuilds every mod without restarting.</p></div></li>
+          </ol>
+          <h3>How the build packages a mod</h3>
+          <p class="prose">The build merges each <code>.c</code> file in <code>src/</code> with every game and libultraship header it includes into one self-contained file under <code>output/dist/</code>, and lists those files in <code>build.gen</code>. Conditionals are evaluated with the defines the game compiles mods with, so only the headers a mod uses are inlined; checks on the platform are left for TinyCC on the player's machine. A mod never depends on headers being present there. Everything from one source file ends up in one translation unit: mark helpers <code>static</code>, and avoid names the game already uses, such as <code>AddItem</code> or <code>Mark</code>.</p>
+          <p class="prose"><code>mod.h</code> defines <code>MOD_INIT</code> and <code>MOD_EXIT</code>, routes <code>malloc</code> and <code>free</code> through the engine's allocator, and provides <code>CALL_FUNC</code> for calling into another mod. Name event listeners after what they do: an event's name is already its struct type.</p>
+        </section>
+
+        <section id="manifest">
+          <div class="head"><span class="eyebrow">Guide</span><h2>manifest.json</h2></div>
+          <pre>{
+    "name": "Mega Mushrooms",
+    "main": "build.gen",
+    "version": "1.2.0",
+    "author": "Your Name",
+    "description": "Mushrooms that restore 25 HP.",
+    "website": "https://example.com",
+    "license": "MIT",
+    "dependencies": ["Other Mod", { "name": "Core Library", "version": "&gt;=1.2 &lt;2" }]
+}</pre>
+          <div class="tbl"><table>
+            <thead><tr><th>Key</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td class="decl">name</td><td>The mod's name. Other mods use it to depend on this one, and the Mods menu shows it.</td></tr>
+              <tr><td class="decl">main</td><td>The list of C files to compile, one archive path per line. The template writes <code>build.gen</code>.</td></tr>
+              <tr><td class="decl">version</td><td>Dotted version, compared against dependents' version ranges.</td></tr>
+              <tr><td class="decl">dependencies</td><td>Names, or <code>{ "name", "version" }</code> objects with a range. See <a href="#deps">Dependencies</a>.</td></tr>
+              <tr><td class="decl">code_version</td><td>Written by the build from <code>PB_CODE_VERSION</code>. The game only loads mods built with its own code version.</td></tr>
+              <tr><td class="decl">api_version</td><td>Written by the build from <code>PB_API_VERSION</code>. The game skips mods that need a newer API than it has.</td></tr>
+              <tr><td class="decl">binaries</td><td>Optional prebuilt libraries by platform (<code>windows_x64</code>, <code>darwin</code>, <code>linux_x64</code>, …), used instead of compiling <code>main</code> there.</td></tr>
+              <tr><td class="decl">author, description, website, license</td><td>Describe the mod to the people who install it.</td></tr>
+            </tbody>
+          </table></div>
+        </section>
+
+        <section id="lifecycle">
+          <div class="head"><span class="eyebrow">Guide</span><h2>Loading, reloading and cleanup</h2></div>
+          <p class="prose">At startup the game mounts every enabled mod archive in order, compiles each mod's sources behind a progress popup, then calls <code>ModInit</code> in dependency order, after every event is registered. When a mod unloads, on exit or on <b>Reload Scripts</b>, the game calls its <code>ModExit</code> and then releases everything the mod registered: items, moves, messages, maps, battles, sounds, puppets, scripts it started, event listeners, Mods menu pages and widgets, and GUI callbacks. Reloads happen between game frames, never in the middle of one.</p>
+          <p class="prose">So <code>MOD_EXIT</code> is optional. Use it only to undo what the mod set up some other way, such as a game variable it changed directly.</p>
+          <h3 id="modsmenu">The Mod Menu</h3>
+          <p class="prose"><b>Settings › Mod Menu</b> lists the installed mods, enabled and disabled, with a code icon before each code mod (one whose manifest names a <code>main</code> or <code>binaries</code>) and a brush before each shader mod (one with <code>shaders</code> passes or materials). Each enabled code mod also shows whether it is signed and whether its code loaded, with the compiler's message or the reason it was skipped on hover. After <b>Edit</b>, mods can be turned on and off and reordered: mods higher in the list are mounted later, so their files replace those of mods below them, and their code initializes later; dependencies always initialize first. Changes apply on <b>Apply &amp; Restart</b>. A mod's own pages go under the <b>Mods</b> header of the menu, next to <b>Satella</b>.</p>
+          <h3 id="deps">Dependencies</h3>
+          <p class="prose">A version range is a list of comparisons separated by spaces or commas: <code>&gt;=</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&lt;</code> and <code>=</code>. A version without an operator is a minimum. A mod whose dependency is missing, failed to build or falls outside the range is skipped with a notification, along with every mod that depends on it.</p>
+        </section>
+
+        <section id="versions">
+          <div class="head"><span class="eyebrow">Guide</span><h2>Versions and compatibility</h2></div>
+          <div class="tbl"><table>
+            <thead><tr><th>Number</th><th>Now</th><th>Goes up when</th><th>Effect on mods</th></tr></thead>
+            <tbody>
+              <tr><td class="decl">PB_API_VERSION</td><td class="num">1</td><td>Something is added to the headers</td><td>Older mods keep loading. A mod that needs a newer API is skipped.</td></tr>
+              <tr><td class="decl">PB_CODE_VERSION</td><td class="num">1</td><td>A change breaks mods built with older headers</td><td>Every mod must be rebuilt.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="prose">Definition structs only grow at the end. Each <code>C_Register*</code> macro passes <code>sizeof</code> the definition the mod was built with to the <code>*Sized</code> function behind it, so fields added later read as zero for older mods. Always call the macro.</p>
+        </section>
+
+        <section id="numbers">
+          <div class="head"><span class="eyebrow">Guide</span><h2>Content ids and saves</h2></div>
+          <p class="prose">Items, moves, messages and battles have an <code>id</code> string such as <code>"mymod.mega_mushroom"</code>. The game gives each a number for the session from the ranges below. Save files record the id of every mod item they hold, and the mod map they were saved in. When a save loads with different numbers, because mods were added, removed or loaded in another order, its items are renumbered to match. A save holding content from mods that aren't loaded shows a notification naming them; that content reads as nothing until the mods are back, and keeps its id when saved again.</p>
+          <div class="note"><b>Keep ids stable.</b> Never reuse an id for different content, and never change the id of content players may already own. Store ids, not numbers, in your own save data.</div>
+          <div class="tbl"><table>
+            <thead><tr><th>Content</th><th>Range</th><th>Header</th></tr></thead>
+            <tbody>
+              <tr><td>Items and badges</td><td class="num">C_ITEM_FIRST … C_ITEM_LAST</td><td><a href="#mod-item">item.h</a></td></tr>
+              <tr><td>Moves</td><td class="num">C_MOVE_FIRST … C_MOVE_LAST</td><td><a href="#mod-item">item.h</a></td></tr>
+              <tr><td>Messages</td><td class="num">C_MSG_FIRST … C_MSG_LAST (section 0x80)</td><td><a href="#mod-message">message.h</a></td></tr>
+              <tr><td>Battles</td><td class="num">0x2F00 … 0x2FFF</td><td><a href="#mod-world">world.h</a></td></tr>
+              <tr><td>Maps</td><td class="num">after an area's own maps</td><td><a href="#mod-world">world.h</a></td></tr>
+            </tbody>
+          </table></div>
+          <p class="prose">Values a mod keeps for a save file go through <a href="#mod-savedata">savedata.h</a>. Settings that belong to the player rather than the file go through <a href="#mod-cvar">cvar.h</a>.</p>
+        </section>
+
+        <section id="assets">
+          <div class="head"><span class="eyebrow">Guide</span><h2>Assets</h2></div>
+          <p class="prose"><code>C_ASSET(name, path)</code> declares one of the game's own assets by its path in the game archive. <a href="#mod-texture">texture.h</a> reads files and textures from any archive, the mod's included. <code>#asset</code> converts a file next to the source into the game's formats when the mod is built:</p>
+          <pre>static const u8 sIcon[] = { #asset "textures/icon.png" CI4 };
+static const u8 sIconPalette[] = { #asset "textures/icon.png" CI4_PAL };</pre>
+          <div class="tbl"><table>
+            <thead><tr><th>Format</th><th>Use</th></tr></thead>
+            <tbody>
+              <tr><td class="decl">(none), RGBA32</td><td>Full colour, decoded when the game loads it.</td></tr>
+              <tr><td class="decl">RGBA16</td><td>5 bits per channel and 1 bit of alpha.</td></tr>
+              <tr><td class="decl">CI4, CI8 and CI4_PAL, CI8_PAL</td><td>16 or 256 colours, and their palette. Item icons are CI4.</td></tr>
+              <tr><td class="decl">I4, I8, IA4, IA8, IA16</td><td>Greyscale, with or without alpha.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="prose">A map a mod adds with <a href="#mod-world">world.h</a> loads its shape, hit and texture assets under its own name, from the mod's archive, as the game's maps do. Sounds and music come from WAV, MP3 or FLAC files through <a href="#mod-sound">sound.h</a>.</p>
+        </section>
+
+        <section id="text">
+          <div class="head"><span class="eyebrow">Guide</span><h2>Text and messages</h2></div>
+          <p class="prose">Text is UTF-8, with <code>\n</code> for a new line and tags for the game's control codes:</p>
+          <pre>int32_t hello = C_RegisterMessage("mymod.hello", "Hi, Mario!&lt;&lt;NEXT&gt;&gt;Nice day for it.");</pre>
+          <p class="prose">The message ID works anywhere the game takes one: item and move names, EVT dialogue such as <code>SpeakToPlayer</code>, tattles. <a href="#sym-C_OverrideMessage"><code>C_OverrideMessage</code></a> replaces one of the game's own messages until the mod unloads.</p>
+        </section>
+
+        <section id="scripts">
+          <div class="head"><span class="eyebrow">Guide</span><h2>EVT scripts</h2></div>
+          <p class="prose">Mods write EVT scripts with the game's own <code>EVT_</code> macros, and their <code>API_CALLABLE</code> functions are called by address from those scripts. Start a script with <a href="#sym-C_StartScript"><code>C_StartScript</code></a> while the game runs, for example from an <a href="#ev-OnMapReady"><code>OnMapReady</code></a> listener: the game clears every script when a map loads. A mod's scripts stop before it unloads.</p>
+        </section>
+
+        <section id="platforms">
+          <div class="head"><span class="eyebrow">Guide</span><h2>Platforms</h2></div>
+          <div class="tbl"><table>
+            <thead><tr><th>Platform</th><th>Code mods</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Windows, macOS, Linux</td><td>Yes</td><td>Sources are compiled at startup; a mod may also ship prebuilt <code>binaries</code>.</td></tr>
+              <tr><td>Android</td><td>Yes</td><td>Sources only, compiled on the device against Android's C library headers, which ship with the app.</td></tr>
+              <tr><td>iOS, Web</td><td>No</td><td>A mod's files and assets load, its code doesn't. Saves made with mod items keep them.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="prose">On Windows a mod can only read or write a game variable declared <code>extern_s</code>, which becomes <code>__declspec(dllimport)</code> when TinyCC builds a mod. <code>gPlayerData</code>, <code>gPlayerStatus</code>, <code>gGameStatus</code>, <code>gItemTable</code>, <code>gMoveTable</code> and the other globals mods use most already are; functions don't need it. Unsigned mods load and are marked as such; archives can be signed with <code>external/libultraship/tools/sign.py</code>.</p>
+        </section>
+
+        <section id="online">
+          <div class="head"><span class="eyebrow">Guide</span><h2>Online features with Satella</h2></div>
+          <p class="prose">Satella is the online service PaperBoat connects to when it starts, at <code>wss://satella.net64.dev</code>. It gives the game the keys trusted mods are signed with. Each install has a player key it proves to Satella on every connection, so every message says which player sent it (<a href="#mod-online">online.h</a>). Mods go online through <a href="#mod-relay">relay channels</a> and <a href="#mod-room">rooms</a> for messages between players, the <a href="#mod-player_store">player store</a> for values kept for one player, and the <a href="#mod-channel_store">channel store</a> for values shared by everyone on a channel. <a href="#mod-puppet">Puppets</a> show other players in the map.</p>
+          <div class="tbl"><table>
+            <thead><tr><th>Feature</th><th>Who reads</th><th>Who writes</th><th>Limit</th></tr></thead>
+            <tbody>
+              <tr><td><a href="#mod-relay">Relay channel</a></td><td>Every player subscribed to the channel</td><td>Any of them</td><td class="num">64 KB per message</td></tr>
+              <tr><td><a href="#mod-room">Room</a></td><td>The players in the room, or one of them</td><td>Its members, 60 messages a second</td><td class="num">64 members, 64 KB per message</td></tr>
+              <tr><td><a href="#mod-player_store">Player store</a></td><td>The player, or anyone for public values</td><td>The player, signed with their key</td><td class="num">4 KB per value</td></tr>
+              <tr><td><a href="#mod-channel_store">Channel store</a></td><td>Anyone</td><td>Any player, signed with their key</td><td class="num">4 KB per value</td></tr>
+            </tbody>
+          </table></div>
+          <h3>Permission comes first</h3>
+          <p class="prose">A mod registers each channel or room group with a name and one sentence about what it is for. The player is asked once with an Allow / Deny prompt, and the answer is kept in <code>permissions.json</code>; <b>Mods › Satella</b> lists every answer and changes it. Until they allow it, sending and writing return FALSE. <a href="#mod-permissions">permissions.h</a> gives a mod the same prompt for its own needs.</p>
+          <h3>Other players in the same map</h3>
+<pre>static void OnMessage(const char* group, const char* room, const char* sender, const char* data,
+                      uint32_t size, int direct) {
+    if (size == sizeof(C_PlayerPose)) {
+        C_SetPuppetPose(PuppetFor(sender), (const C_PlayerPose*) data);
+    }
+}
+
+static void SendPose(IEvent* event) {
+    C_PlayerPose pose;
+    if (C_GetPlayerPose(&amp;pose) &amp;&amp; C_JoinRoom("paperboat.online", pose.map)) {
+        C_RoomSend("paperboat.online", pose.map, (const char*) &amp;pose, sizeof(pose));
+    }
+}</pre>
+          <p class="prose"><code>workspace/online</code> is the whole example: one room per map, about 15 poses a second, and a puppet for every other player in the room. Every callback runs on the game thread, as the mod that asked, and is skipped if the mod has unloaded by then.</p>
+          <h3>Where it works</h3>
+          <p class="prose">Satella is in every build that runs code mods, desktop and Android, and players can turn it off under <b>Mods › Satella</b>, which also takes the address of a server of their own. Without it, or on iOS and the web, these calls return FALSE and nothing arrives, so a mod should treat online features as optional.</p>
+        </section>
+
+        <section id="events-guide">
+          <div class="head"><span class="eyebrow">Guide</span><h2>Listening to events</h2></div>
+          <p class="prose">The game fires events at the points mods are likely to care about. A listener receives an <code>IEvent*</code> to cast to the event's own struct. Events fire on the game thread.</p>
+          <pre>static void SkipFpCost(IEvent* event) {
+    event-&gt;Cancelled = true;   // moves cost no FP
+}
+
+MOD_INIT() {
+    REGISTER_LISTENER(OnPlayerFPChange, EVENT_PRIORITY_NORMAL, SkipFpCost);
+}</pre>
+          <div class="tbl"><table>
+            <thead><tr><th>Kind</th><th>What a listener can do</th></tr></thead>
+            <tbody>
+              <tr><td><span class="badge b-cancellable">cancellable</span></td><td>Set <code>event-&gt;Cancelled = true</code>. Each event says what cancelling does: skip the game's code, use the listener's result, or skip one element.</td></tr>
+              <tr><td>Pointer fields</td><td>Fields typed as pointers, like <code>int32_t* damage</code>, let a listener change what the game uses by writing through them.</td></tr>
+              <tr><td><span class="badge b-polled">polled</span></td><td>Found by comparing the game with a snapshot once per frame while a file is in play: they fire on the frame after the change.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="prose">Listeners run from <code>EVENT_PRIORITY_LOW</code> to <code>EVENT_PRIORITY_HIGH</code>; among the same priority, the one registered last runs first. <code>UNREGISTER_LISTENER(Event, id)</code> removes a listener while the mod runs.</p>
+        </section>
+      </div>
+
+      <div class="part" id="reference">
+        <div class="part-title"><svg class="leaf" width="26" height="26" viewBox="0 0 34 34" aria-hidden="true"><path d="M17 3c8 3 13 9 13 16 0 7-6 12-13 12S4 26 4 19C4 12 9 6 17 3z" fill="currentColor"/></svg><h2>API reference</h2></div>
+        <p class="lede" style="margin-top:-24px">Generated from the headers in <code>src/port/api/</code>. Include a header as <code>#include "port/api/item.h"</code>.</p>
+        <div id="modules" class="part"></div>
+      </div>
+
+      <div class="part" id="events">
+        <div class="part-title"><svg class="leaf" width="26" height="26" viewBox="0 0 34 34" aria-hidden="true"><path d="M17 3c8 3 13 9 13 16 0 7-6 12-13 12S4 26 4 19C4 12 9 6 17 3z" fill="currentColor"/></svg><h2>Events</h2></div>
+        <p class="lede" style="margin-top:-24px">From <code>src/port/hooks/EVENTS.md</code>. Declared in <code>src/port/hooks/list/*.h</code>; include <code>port/hooks/Events.h</code>.</p>
+        <div id="eventlist" class="part"></div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+const DATA = /*DATA*/;
+
+const MODULES = [
+  { group: "Core", items: [
+    ["api", "Versions and assets", "The version numbers mods are built against and C_ASSET for using the game's own assets."],
+    ["cvar", "Settings", "Read and write console variables. Keep a mod's settings under gMods.<mod>.; C_MOD_CVAR spells the name out."],
+    ["ui", "Mods menu and GUI", "Add pages and widgets under the Mods menu, and draw ImGui windows of your own every frame."],
+    ["savedata", "Save file data", ""],
+  ]},
+  { group: "Content", items: [
+    ["item", "Items, badges and moves", "New items and badges built on one of the game's, and moves for badges to grant."],
+    ["message", "Text", "New messages, and changes to the game's own."],
+    ["script", "EVT scripts", ""],
+    ["world", "Maps and battles", "New maps in the game's areas, and new battles with their own enemies and stage."],
+    ["texture", "Files and textures", ""],
+    ["sound", "Sound and music", ""],
+  ]},
+  { group: "Online", items: [
+    ["permissions", "Permissions", ""],
+    ["online", "Player identity", ""],
+    ["relay", "Relay channels", ""],
+    ["room", "Rooms", ""],
+    ["player_store", "Player store", ""],
+    ["channel_store", "Channel store", ""],
+    ["puppet", "Puppets", ""],
+  ]},
+];
+
+const esc = s => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const inline = s => esc(s).replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+const index = [];
+
+function symCard(it, mod) {
+  let sig = "", badge = it.kind, doc = it.doc;
+  if (it.kind === "func") sig = `${it.ret} ${it.name}(${it.args});`;
+  else if (it.kind === "helper") { sig = `static inline ${it.ret} ${it.name}(${it.args});`; badge = "inline"; }
+  else if (it.kind === "macro") sig = `#define ${it.name}${it.args} ${it.value}`;
+  else if (it.kind === "typedef") sig = it.decl;
+  let body = "";
+  if (it.kind === "struct" || it.kind === "enum") {
+    const rows = it.fields.map(f => `<tr><td class="decl">${esc(f.decl)}</td><td>${inline(f.doc)}</td></tr>`).join("");
+    body = `<div class="tbl"><table><thead><tr><th>${it.kind === "enum" ? "Value" : "Field"}</th><th>Meaning</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  }
+  const label = it.kind === "typedef" ? (sig.match(/\(\*(\w+)\)/) || [0, it.name])[1] : it.name;
+  const id = "sym-" + label;
+  index.push({ name: label, kind: badge === "inline" ? "inline" : it.kind, href: "#" + id, where: mod });
+  return `<article class="sym" id="${id}"><div class="top"><span class="name">${esc(label)}</span><span class="badge b-${it.kind}">${badge}</span></div>`
+    + (sig ? `<pre>${esc(sig)}</pre>` : "") + `<div class="doc">${inline(doc)}</div>${body}</article>`;
+}
+
+function renderModule([key, title, blurb]) {
+  const h = DATA.headers[key];
+  const consts = h.items.filter(i => i.kind === "const");
+  const types = h.items.filter(i => i.kind === "struct" || i.kind === "enum" || i.kind === "typedef");
+  const funcs = h.items.filter(i => i.kind === "func" || i.kind === "macro");
+  const helpers = h.items.filter(i => i.kind === "helper");
+  const intro = [blurb, h.intro].filter(Boolean).join(" ");
+  let out = `<section id="mod-${key}"><div class="head"><span class="eyebrow">API</span><h2>${esc(title)}</h2><span class="path">#include "port/api/${key}.h"</span></div>`;
+  if (intro) out += `<p class="prose">${inline(intro)}</p>`;
+  if (funcs.length) out += `<div class="sub">Functions</div><div class="api">${funcs.map(i => symCard(i, key)).join("")}</div>`;
+  if (types.length) out += `<div class="sub">Types</div><div class="api">${types.map(i => symCard(i, key)).join("")}</div>`;
+  if (consts.length) {
+    out += `<div class="sub">Constants</div><div class="tbl consts"><table><thead><tr><th>Name</th><th>Value</th><th>Meaning</th></tr></thead><tbody>`
+      + consts.map(c => { index.push({ name: c.name, kind: "const", href: "#mod-" + key, where: key });
+        return `<tr><td>${esc(c.name)}</td><td class="num">${esc(c.value)}</td><td>${inline(c.doc)}</td></tr>`; }).join("")
+      + `</tbody></table></div>`;
+  }
+  if (helpers.length) out += `<div class="sub">Inline helpers</div><div class="api">${helpers.map(i => symCard(i, key)).join("")}</div>`;
+  return out + `</section>`;
+}
+
+function renderEvents() {
+  return DATA.events.map(g => {
+    const gid = "evg-" + g.title.toLowerCase().replace(/\W+/g, "-");
+    return `<section id="${gid}" class="event-group"><div class="head"><span class="eyebrow">Events</span><h2>${esc(g.title)}</h2></div>`
+      + `<div class="api">` + g.events.map(e => {
+        index.push({ name: e.name, kind: "event", href: "#ev-" + e.name, where: g.title });
+        return `<article class="sym" id="ev-${e.name}"><div class="top"><span class="name">${esc(e.name)}</span>${e.flag ? `<span class="badge b-${e.flag}">${e.flag}</span>` : ""}</div>`
+          + (e.fields ? `<pre>${esc(e.fields)}</pre>` : "")
+          + `<div class="doc">${inline(e.doc)}</div>`
+          + (e.cancel ? `<div class="cancel"><b>If cancelled:</b> ${inline(e.cancel)}</div>` : "")
+          + `</article>`;
+      }).join("") + `</div></section>`;
+  }).join("");
+}
+
+function renderNav() {
+  const guide = [["start", "Your first mod"], ["manifest", "manifest.json"], ["lifecycle", "Loading and cleanup"], ["versions", "Versions"],
+    ["numbers", "Content ids and saves"], ["assets", "Assets"], ["text", "Text and messages"], ["scripts", "EVT scripts"], ["platforms", "Platforms"], ["online", "Online with Satella"], ["events-guide", "Listening to events"]];
+  let html = `<div><h4>Guide</h4><ul>${guide.map(([id, t]) => `<li><a href="#${id}">${t}</a></li>`).join("")}</ul></div>`;
+  for (const g of MODULES) {
+    html += `<div><h4>${g.group} API</h4><ul>${g.items.map(([k, t]) => `<li><a href="#mod-${k}">${t}<span class="file">${k}.h</span></a></li>`).join("")}</ul></div>`;
+  }
+  html += `<div><h4>Events</h4><ul>${DATA.events.map(g => `<li><a href="#evg-${g.title.toLowerCase().replace(/\W+/g, "-")}">${esc(g.title.replace(/ Events$/, ""))}</a></li>`).join("")}</ul></div>`;
+  document.getElementById("nav").innerHTML = html;
+}
+
+document.getElementById("modules").innerHTML = MODULES.flatMap(g => g.items).map(renderModule).join("");
+document.getElementById("eventlist").innerHTML = renderEvents();
+renderNav();
+const nHeaders = Object.keys(DATA.headers).length, nEvents = DATA.events.reduce((n, g) => n + g.events.length, 0);
+document.getElementById("nheaders").textContent = nHeaders + " headers";
+document.getElementById("nevents").textContent = nEvents + " events";
+document.getElementById("qhint").textContent = index.length + " symbols and events";
+
+const q = document.getElementById("q"), results = document.getElementById("results"), nav = document.getElementById("nav");
+q.addEventListener("input", () => {
+  const term = q.value.trim().toLowerCase();
+  if (!term) { results.hidden = true; nav.style.display = ""; return; }
+  const hits = index.filter(e => e.name.toLowerCase().includes(term))
+    .sort((a, b) => (a.name.toLowerCase().indexOf(term) - b.name.toLowerCase().indexOf(term)) || a.name.length - b.name.length).slice(0, 40);
+  results.innerHTML = hits.length ? hits.map(h => `<a href="${h.href}"><span>${esc(h.name)}</span><span class="kind">${esc(h.kind)}</span></a>`).join("")
+    : `<div class="none">Nothing matches “${esc(q.value)}”.</div>`;
+  results.hidden = false; nav.style.display = "none";
+});
+results.addEventListener("click", e => { if (e.target.closest("a")) closeMobile(); });
+
+const side = document.getElementById("side"), toggle = document.getElementById("navtoggle");
+function closeMobile() { side.classList.remove("open"); toggle.setAttribute("aria-expanded", "false"); toggle.textContent = "Show contents"; }
+toggle.addEventListener("click", () => {
+  const open = side.classList.toggle("open");
+  toggle.setAttribute("aria-expanded", String(open)); toggle.textContent = open ? "Hide contents" : "Show contents";
+});
+nav.addEventListener("click", e => { if (e.target.closest("a")) closeMobile(); });
+
+const links = [...nav.querySelectorAll("a")];
+const targets = links.map(a => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  for (const en of entries) if (en.isIntersecting) {
+    links.forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + en.target.id));
+  }
+}, { rootMargin: "-10% 0px -80% 0px" });
+targets.forEach(t => spy.observe(t));
+
+const root = document.documentElement, themeButtons = document.querySelectorAll(".theme button");
+function setTheme(t) {
+  if (t === "system") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", t);
+  themeButtons.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.t === t)));
+  try { localStorage.setItem("pb-theme", t); } catch (e) {}
+}
+let saved = "system";
+try { saved = localStorage.getItem("pb-theme") || "system"; } catch (e) {}
+setTheme(saved);
+themeButtons.forEach(b => b.addEventListener("click", () => setTheme(b.dataset.t)));
+
+if (location.hash) { const t = document.querySelector(location.hash); if (t) t.scrollIntoView(); }
+</script>

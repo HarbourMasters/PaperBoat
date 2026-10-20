@@ -659,4 +659,12 @@ typedef s32 Difficulty2D[AC_DIFFICULTY_LEN][2];
 #define ALIGNED64
 #endif
 
+// [port] For the game variables mods use. TinyCC defines __DLL__ while it builds a mod, and on Windows a mod reaches the
+// game's data only through dllimport.
+#if defined(_WIN32) && defined(__DLL__)
+#define extern_s extern __declspec(dllimport)
+#else
+#define extern_s extern
+#endif
+
 #endif

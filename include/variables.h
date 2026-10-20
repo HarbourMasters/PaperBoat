@@ -11,14 +11,14 @@
 extern "C" {
 #endif
 
-extern PlayerStatus* gPlayerStatusPtr;
-extern CollisionStatus gCollisionStatus;
-extern GameStatus gGameStatus;
-extern GameStatus* gGameStatusPtr;
+extern_s PlayerStatus* gPlayerStatusPtr;
+extern_s CollisionStatus gCollisionStatus;
+extern_s GameStatus gGameStatus;
+extern_s GameStatus* gGameStatusPtr;
 extern u32 gRandSeed;
 
-extern ItemData* gItemTable;
-extern MoveData* gMoveTable;
+extern_s ItemData* gItemTable;
+extern_s MoveData* gMoveTable;
 extern const s32 gItemTableVanillaCount;
 extern const s32 gMoveTableVanillaCount;
 extern intptr_t** gItemEntityScripts;
@@ -28,7 +28,7 @@ extern intptr_t* gItemIconPaletteOffsets;
 extern const s32 gItemIconRasterOffsetsVanillaCount;
 
 extern s32 gBattleState;
-extern BattleStatus gBattleStatus;
+extern_s BattleStatus gBattleStatus;
 extern s32 gLastDrawBattleState;
 extern s32 gDefeatedBattleSubstate;
 extern s32 gBattleSubState;
@@ -37,8 +37,8 @@ extern s32 gCurrentBattleID;
 extern s32 gCurrentStageID;
 extern struct Battle* gOverrideBattlePtr;
 
-extern Camera gCameras[4];
-extern s32 gCurrentCameraID;
+extern_s Camera gCameras[4];
+extern_s s32 gCurrentCameraID;
 
 extern CollisionData gCollisionData;
 
@@ -97,7 +97,7 @@ extern EvtScript EVS_NpcDefeat;
 extern EvtScript ShakeCam1;
 extern EvtScript ShakeCamX;
 
-extern MusicControlData gMusicControlData[2];
+extern_s MusicControlData gMusicControlData[2];
 
 // gfx
 extern DisplayContext* gDisplayContext;
@@ -117,11 +117,11 @@ extern u32 bMarioIdleAnims[];
 extern s32 bMarioDefendAnims[];
 extern s32 bPeachIdleAnims[];
 
-extern PartnerStatus gPartnerStatus;
+extern_s PartnerStatus gPartnerStatus;
 extern StatusBar gStatusBar;
-extern PlayerStatus gPlayerStatus;
+extern_s PlayerStatus gPlayerStatus;
 extern PlayerSpinState gPlayerSpinState;
-extern PlayerData gPlayerData;
+extern_s PlayerData gPlayerData;
 
 #if VERSION_PAL
 extern s32 gCurrentLanguage;

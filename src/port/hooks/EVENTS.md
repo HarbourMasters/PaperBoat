@@ -5,7 +5,8 @@ The game fires events with `CALL_EVENT` and its cancellable variants, and mods a
 game thread, except `EngineReady`, which fires on the main thread before the game thread starts.
 
 **Order**: listeners run from `EVENT_PRIORITY_LOW` to `EVENT_PRIORITY_HIGH`, so a `HIGH` listener runs last and has
-the final say over pointer fields.
+the final say over pointer fields. Among listeners of the same priority, the one registered last runs first, so a mod's
+listener runs before the port's own.
 
 **Cancellable events**: a listener sets `event->Cancelled = true`. What that does depends on how the game fires the
 event, and is noted per event:

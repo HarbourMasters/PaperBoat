@@ -195,6 +195,12 @@ const char* Str(const char* s) {
     return s != nullptr ? s : "";
 }
 
+// The game window's top-left in ImGui's coordinates. With multi-viewports on they are the desktop's, so positions a
+// mod gives, relative to the game window, are moved by it.
+ImVec2 Origin() {
+    return ImGui::GetMainViewport()->Pos;
+}
+
 } // namespace
 
 extern "C" void C_AddGuiDraw(C_GuiDrawFunc callback) {
@@ -409,7 +415,7 @@ extern "C" void C_GuiEnd(void) {
 }
 
 extern "C" void C_GuiSetNextWindowPos(float x, float y, int always) {
-    ImGui::SetNextWindowPos(ImVec2(x, y), always ? ImGuiCond_Always : ImGuiCond_FirstUseEver);
+    ImGui::SetNextWindowPos(ImVec2(Origin().x + x, Origin().y + y), always ? ImGuiCond_Always : ImGuiCond_FirstUseEver);
 }
 
 extern "C" void C_GuiSetNextWindowSize(float width, float height, int always) {
@@ -499,15 +505,20 @@ extern "C" void C_GuiPopId(void) {
 }
 
 extern "C" void C_GuiDrawText(float x, float y, uint32_t color, const char* text) {
-    ImGui::GetForegroundDrawList()->AddText(ImVec2(x, y), ToImColor(color), Str(text));
+    const ImVec2 origin = Origin();
+    ImGui::GetForegroundDrawList(ImGui::GetMainViewport())
+        ->AddText(ImVec2(origin.x + x, origin.y + y), ToImColor(color), Str(text));
 }
 
 extern "C" void C_GuiDrawRect(float x0, float y0, float x1, float y1, uint32_t color, float rounding, int filled) {
-    ImDrawList* list = ImGui::GetForegroundDrawList();
+    ImDrawList* list = ImGui::GetForegroundDrawList(ImGui::GetMainViewport());
+    const ImVec2 origin = Origin();
+    const ImVec2 min(origin.x + x0, origin.y + y0);
+    const ImVec2 max(origin.x + x1, origin.y + y1);
     if (filled) {
-        list->AddRectFilled(ImVec2(x0, y0), ImVec2(x1, y1), ToImColor(color), rounding);
+        list->AddRectFilled(min, max, ToImColor(color), rounding);
     } else {
-        list->AddRect(ImVec2(x0, y0), ImVec2(x1, y1), ToImColor(color), rounding);
+        list->AddRect(min, max, ToImColor(color), rounding);
     }
 }
 
@@ -522,7 +533,7 @@ extern "C" void C_GuiTextSize(const char* text, float* width, float* height) {
 }
 
 extern "C" void C_GuiDisplaySize(float* width, float* height) {
-    const ImVec2 size = ImGui::GetIO().DisplaySize;
+    const ImVec2 size = ImGui::GetMainViewport()->Size;
     if (width != nullptr) {
         *width = size.x;
     }

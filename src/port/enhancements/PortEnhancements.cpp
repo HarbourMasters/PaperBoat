@@ -101,6 +101,10 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnPlayerSpeedUpdate);
     REGISTER_EVENT(OnMapReady);
     REGISTER_EVENT(OnHiddenBlockAlphaChange);
+
+    // Register network events
+    REGISTER_EVENT(SatellaConnected);
+    REGISTER_EVENT(SatellaDisconnected);
 }
 
 void PortEnhancements_Exit() {

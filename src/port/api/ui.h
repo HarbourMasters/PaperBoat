@@ -119,9 +119,9 @@ typedef void (*C_GuiDrawFunc)(void);
 PB_API void C_AddGuiDraw(C_GuiDrawFunc callback);
 PB_API void C_RemoveGuiDraw(C_GuiDrawFunc callback);
 
-// Drawing with Dear ImGui, from a C_AddGuiDraw callback only. Positions and sizes are in the window's pixels and
-// colors are 0xRRGGBBAA. Every C_GuiBegin needs a C_GuiEnd, whatever it returned; a callback that leaves one open
-// has it closed for it.
+// Drawing with Dear ImGui, from a C_AddGuiDraw callback only. Positions are from the game window's top-left, in the
+// units of C_GuiDisplaySize, also with multi-window mode on. Colors are 0xRRGGBBAA. Every C_GuiBegin needs a
+// C_GuiEnd, whatever it returned; a callback that leaves one open has it closed for it.
 
 enum {
     C_GUI_NO_TITLE = 1 << 0,

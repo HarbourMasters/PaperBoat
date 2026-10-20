@@ -24,6 +24,33 @@ jobs:
         with:
           path: artifacts
 
+      # For libultraship's tools/sign.py; only that submodule is needed.
+      - uses: actions/checkout@v6
+        with:
+          path: source
+      - name: Fetch libultraship
+        run: git -C source submodule update --init --depth 1 external/libultraship
+
+      # Official mods are signed so PaperBoat loads them without asking. Needs the MOD_SIGNING_KEY secret, a PEM
+      # private key whose public key Satella gives the game.
+      - name: Build and sign the online example mod
+        env:
+          MOD_SIGNING_KEY: ${{ secrets.MOD_SIGNING_KEY }}
+        run: |
+          if [ -z "$MOD_SIGNING_KEY" ]; then
+            echo "MOD_SIGNING_KEY is not set; skipping the signed example mod"
+            exit 0
+          fi
+          pip install --quiet cryptography
+          unzip -q artifacts/Paperboat-mod-sdk/paperboat-mod-sdk-*.zip -d sdk
+          root=$(ls -d sdk/paperboat-mod-sdk-*)
+          cmake -S "$root/workspace/online" -B online-build
+          cmake --build online-build --target package_mod
+          printf '%s' "$MOD_SIGNING_KEY" > signing.pem
+          python3 source/external/libultraship/tools/sign.py "$root/workspace/online/PaperBoatOnline.o2r" signing.pem
+          rm -f signing.pem
+          cp "$root/workspace/online/PaperBoatOnline.o2r" Paperboat-Online-Mod.o2r
+
       - name: Package and write notes
         run: |
           test -n "$BUILD_NAME"
@@ -62,7 +89,9 @@ jobs:
         with:
           name: ${{ env.BUILD_NAME }} ${{ env.TAG }}
           body_path: notes.md
-          files: Paperboat-*.zip
+          files: |
+            Paperboat-*.zip
+            Paperboat-Online-Mod.o2r
           draft: true
           generate_release_notes: true
           prerelease: ${{ contains(github.ref_name, '-') }}

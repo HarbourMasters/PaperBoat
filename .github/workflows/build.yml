@@ -40,7 +40,7 @@ jobs:
             libsdl2-dev libsdl2-net-dev libpng-dev libzip-dev zipcmp zipmerge ziptool \
             nlohmann-json3-dev libtinyxml2-dev libspdlog-dev libfmt-dev libboost-dev \
             libopengl-dev libgl1-mesa-dev libogg-dev libvorbis-dev zlib1g-dev libbz2-dev \
-            libvulkan-dev libshaderc-dev glslang-dev spirv-tools
+            libvulkan-dev libshaderc-dev glslang-dev spirv-tools libmbedtls-dev
 
       - name: ccache
         uses: hendrikmuhs/ccache-action@v1.2.24
@@ -126,6 +126,16 @@ jobs:
           name: Paperboat-linux
           path: Paperboat-linux
 
+      # The headers, mod tools and workspaces mods are built with, as paperboat-mod-sdk-code<N>-api<M>.zip.
+      - name: Build the mod SDK
+        run: cmake --build build/ninja-release --target mod_sdk
+
+      - name: Upload the mod SDK
+        uses: actions/upload-artifact@v7
+        with:
+          name: Paperboat-mod-sdk
+          path: build/ninja-release/paperboat-mod-sdk-*.zip
+
   build-windows:
     name: Windows
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
@@ -179,6 +189,10 @@ jobs:
           Move-Item build/x64/Release/config.yml Paperboat-windows/
           Move-Item build/x64/Release/assets Paperboat-windows/
           Get-ChildItem build/x64/Release/*.pdb | Move-Item -Destination Paperboat-windows/debug/
+          # TinyCC, which compiles code mods, and the import library mods link the game's functions through.
+          if (-not (Test-Path build/x64/Release/.tcc/lib/Paperboat.def)) { throw "TCC runtime was not staged; mods would not compile" }
+          Copy-Item build/x64/Release/.tcc Paperboat-windows/.tcc -Recurse
+          Get-ChildItem build/x64/Release/*.dll | Copy-Item -Destination Paperboat-windows/
           Copy-Item README.md Paperboat-windows/readme.txt
           $shaderc = Get-ChildItem "$env:VULKAN_SDK/Bin/shaderc_shared.dll" -ErrorAction SilentlyContinue
           if (-not $shaderc) { throw "shaderc_shared.dll not found in the Vulkan SDK; the Vulkan backend would not start" }

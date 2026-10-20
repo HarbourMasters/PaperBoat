@@ -28,3 +28,5 @@ ports:
     select: [ universal ]
   - name: shaderc
     select: [ universal ]
+  - name: mbedtls
+    select: [ universal ]
