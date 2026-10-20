@@ -31,6 +31,7 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(MessagePreDraw);
     REGISTER_EVENT(MessagePostDraw);
     REGISTER_EVENT(MessageTextFilterSet);
+    REGISTER_EVENT(MessageLookup);
     REGISTER_EVENT(HudElementUpdate);
     REGISTER_EVENT(HudElementPreDraw);
     REGISTER_EVENT(HudElementPostDraw);
@@ -72,6 +73,12 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnSaveFileErase);
     REGISTER_EVENT(OnSaveFileCreate);
     REGISTER_EVENT(OnSaveFileStart);
+    REGISTER_EVENT(OnCoinsChanged);
+    REGISTER_EVENT(OnStarPointsChanged);
+    REGISTER_EVENT(OnStarPiecesChanged);
+    REGISTER_EVENT(OnHPChanged);
+    REGISTER_EVENT(OnFPChanged);
+    REGISTER_EVENT(OnItemCountChanged);
     REGISTER_EVENT(OnSaveGlobalsSave);
     REGISTER_EVENT(OnSaveGlobalsLoad);
     REGISTER_EVENT(OnPlayerDamageReceived);

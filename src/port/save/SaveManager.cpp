@@ -544,7 +544,7 @@ void SaveManager_Init() {
 
         SaveData* saveData = (SaveData*) ev->saveData;
         ordered_json jsonSaveFile = ConvertSaveData_to_JSON(saveData);
-        SaveMods::Store(jsonSaveFile, &saveData->player);
+        SaveMods::Store(jsonSaveFile, saveData);
 
         if (!jsonSaveFile.empty()) {
             std::string fileName = fmt::format("file{}.json", saveData->saveSlot);
@@ -578,7 +578,7 @@ void SaveManager_Init() {
             inputFile >> jsonSave;
 
             gCurrentSaveFile = *ConvertJSON_to_SaveData(jsonSave);
-            SaveMods::Load(jsonSave, &gCurrentSaveFile.player);
+            SaveMods::Load(jsonSave, &gCurrentSaveFile);
         } else {
             SaveData* newSaveData = new SaveData();
             gCurrentSaveFile = *newSaveData;

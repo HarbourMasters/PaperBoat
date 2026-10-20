@@ -65,6 +65,11 @@ DEFINE_EVENT(MessagePostDraw,
 
 DEFINE_EVENT(MessageTextFilterSet);
 
+DEFINE_EVENT(MessageLookup,
+    int32_t msgID;
+    uint8_t* data;
+);
+
 DEFINE_EVENT(HudElementUpdate,
     HudElement* element;
     int32_t* result;

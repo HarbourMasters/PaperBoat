@@ -1374,8 +1374,18 @@ void initialize_printer(MessagePrintState* printer, s32 arg1, s32 arg2) {
 }
 
 static u8* load_msg_asset(u32 msgID) {
+    static u8 sEmptyMsg[] = { MSG_CHAR_READ_END };
     u32 section = msgID >> 16;
     u32 index = msgID & 0xFFFF;
+
+    // [port] Mods add text in sections past the game's, and can replace the game's own.
+    CALL_EVENT(MessageLookup, msgID, nullptr);
+    if (MessageLookup_.data != nullptr) {
+        return MessageLookup_.data;
+    }
+    if (section >= ARRAY_COUNT(gMsgSectionPaths)) {
+        return sEmptyMsg;
+    }
     return (u8*)LOAD_ASSET(gMsgSectionPaths[section][index]);
 }
 

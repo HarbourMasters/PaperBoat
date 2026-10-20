@@ -1,10 +1,15 @@
 #include "port/save/SaveMods.h"
 
 #include "port/api/ItemTables.hpp"
+#include "port/api/WorldTables.hpp"
 #include "port/api/item.h"
 #include "port/ui/Notification.h"
 
 #include "common.h"
+
+extern "C" {
+#include "dx/versioning.h"
+}
 
 #include <spdlog/spdlog.h>
 
@@ -21,6 +26,8 @@ namespace {
 json sData = json::object();
 // Mod that registered each mod item of the current file, by id.
 std::map<std::string, std::string> sItemMods;
+// Mod map the current file was saved in when it isn't loaded.
+std::string sMissingMap;
 
 // Every item number a file keeps: the inventory, stored items, key items and badges.
 template <typename F> void ForEachItem(PlayerData* player, F&& visit) {
@@ -51,7 +58,8 @@ const json* Find(const json& object, const char* key) {
 
 } // namespace
 
-void SaveMods::Load(const json& file, PlayerData* player) {
+void SaveMods::Load(const json& file, SaveData* save) {
+    PlayerData* player = &save->player;
     const json* mods = Find(file, "mods");
     const json* data = mods != nullptr ? Find(*mods, "data") : nullptr;
     const json* ids = mods != nullptr ? Find(*mods, "ids") : nullptr;
@@ -59,6 +67,28 @@ void SaveMods::Load(const json& file, PlayerData* player) {
 
     sData = data != nullptr && data->is_object() ? *data : json::object();
     sItemMods.clear();
+    sMissingMap.clear();
+
+    const json* map = mods != nullptr ? Find(*mods, "map") : nullptr;
+    const bool knownArea = save->areaID >= 0 && save->areaID < ARRAY_COUNT(gAreas) && gAreas[save->areaID].maps;
+    s16 areaID = -1;
+    s16 mapID = -1;
+    if (map != nullptr && map->is_string()
+        && get_map_IDs_by_name(map->get_ref<const std::string&>().c_str(), &areaID, &mapID))
+    {
+        save->areaID = areaID;
+        save->mapID = mapID;
+    } else if (map != nullptr || !knownArea || save->mapID >= gAreas[save->areaID].mapCount) {
+        sMissingMap = map != nullptr && map->is_string() ? map->get<std::string>() : "an unknown map";
+        SPDLOG_WARN(
+            "save: the file was saved in {}, which isn't loaded; it continues from the area's first map", sMissingMap
+        );
+        if (!knownArea) {
+            save->areaID = 0;
+        }
+        save->mapID = 0;
+        save->entryID = 0;
+    }
 
     std::unordered_map<int, int> numbers;
     if (items != nullptr && items->is_object()) {
@@ -103,11 +133,12 @@ void SaveMods::Load(const json& file, PlayerData* player) {
 void SaveMods::Reset() {
     sData = json::object();
     sItemMods.clear();
+    sMissingMap.clear();
 }
 
-void SaveMods::Store(ordered_json& file, const PlayerData* player) {
+void SaveMods::Store(ordered_json& file, const SaveData* save) {
     ordered_json items = ordered_json::object();
-    ForEachItem(const_cast<PlayerData*>(player), [&](s16& item) {
+    ForEachItem(const_cast<PlayerData*>(&save->player), [&](s16& item) {
         if (item < C_ITEM_FIRST) {
             return;
         }
@@ -119,6 +150,9 @@ void SaveMods::Store(ordered_json& file, const PlayerData* player) {
     ordered_json mods = ordered_json::object();
     if (!items.empty()) {
         mods["ids"]["items"] = std::move(items);
+    }
+    if (WorldTables::IsModMap(save->areaID, save->mapID)) {
+        mods["map"] = gAreas[save->areaID].maps[save->mapID].id;
     }
     if (!sData.empty()) {
         mods["data"] = ordered_json::parse(sData.dump());
@@ -135,6 +169,9 @@ void SaveMods::CheckMissing() {
         if (number < 0 || !ItemTables::IsRegistered(number)) {
             missing[mod].push_back(id);
         }
+    }
+    if (!sMissingMap.empty()) {
+        missing[""].push_back(sMissingMap);
     }
     if (missing.empty()) {
         return;
@@ -154,7 +191,7 @@ void SaveMods::CheckMissing() {
         { .prefix = "Missing mods:",
           .message = mods,
           .messageColor = ImVec4(1.0f, 0.5f, 0.5f, 1.0f),
-          .suffix = "Their items show as nothing until they are installed again.",
+          .suffix = "Their items show as nothing and their maps are skipped until they are back.",
           .suffixColor = ImVec4(0.7f, 0.7f, 0.7f, 1.0f),
           .remainingTime = 12.0f }
     );

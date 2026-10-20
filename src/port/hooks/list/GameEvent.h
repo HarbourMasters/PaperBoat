@@ -33,6 +33,37 @@ DEFINE_EVENT(OnSaveGlobalsLoad,
     void* saveGlobals;
 );
 
+DEFINE_EVENT(OnCoinsChanged,
+    int32_t before;
+    int32_t after;
+);
+
+DEFINE_EVENT(OnStarPointsChanged,
+    int32_t before;
+    int32_t after;
+);
+
+DEFINE_EVENT(OnStarPiecesChanged,
+    int32_t before;
+    int32_t after;
+);
+
+DEFINE_EVENT(OnHPChanged,
+    int32_t before;
+    int32_t after;
+);
+
+DEFINE_EVENT(OnFPChanged,
+    int32_t before;
+    int32_t after;
+);
+
+DEFINE_EVENT(OnItemCountChanged,
+    int16_t item;
+    int32_t before;
+    int32_t after;
+);
+
 // Cheats
 DEFINE_EVENT(OnPlayerDamageReceived,
     int32_t* damage;
