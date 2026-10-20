@@ -13,6 +13,8 @@
 #include "port/os/OS.h"
 #include "port/DevTools/ThreadWatchdog.h"
 #include "port/TextureCache.h"
+#include "port/mods/ModScripts.h"
+#include "port/hooks/Events.h"
 #include "src/Companion.h"
 #include "ui/PaperboatGui.hpp"
 #include "ui/PaperboatModMenuWindow.h"
@@ -209,6 +211,7 @@ GameEngine::GameEngine() {
     this->context->InitResourceManager(
         portArchiveExists ? std::vector<std::string> { assets_path } : std::vector<std::string> {}, {}, 3
     );
+    ModScripts::Setup();
     this->context->InitConsole();
     this->context->InitCrashHandler();
     this->context->InitEventSystem();
@@ -837,14 +840,135 @@ void GameEngine::RunExtract(int argc, char* argv[]) {
     }
 }
 
+// Builds mod code on a worker thread while a progress popup keeps the window responsive. Mods that fail to build are
+// listed until the player continues.
+void GameEngine::BuildMods() {
+    const size_t total = ModScripts::Count();
+    if (total == 0) {
+        return;
+    }
+
+    auto wnd = std::dynamic_pointer_cast<Fast::Fast3dWindow>(Ship::Context::GetRawInstance()->GetWindow());
+    auto gui = wnd->GetGui();
+    const bool menuWasVisible = gui->GetMenu()->IsVisible();
+    if (menuWasVisible) {
+        gui->GetMenu()->Hide();
+    }
+
+    std::atomic<bool> built = false;
+    std::atomic<size_t> builtCount { 0 };
+    std::mutex nameMutex;
+    std::string buildingName;
+    std::string buildErrors;
+    bool errorsDismissed = false;
+
+    auto threadPool = std::make_shared<BS::thread_pool>(1);
+    threadPool->submit_task([&]() -> void {
+        const auto errors = ModScripts::Compile(
+            [&](const std::string& name) {
+                std::lock_guard<std::mutex> lock(nameMutex);
+                buildingName = name;
+            },
+            [&]() { builtCount++; }
+        );
+        {
+            std::lock_guard<std::mutex> lock(nameMutex);
+            for (const auto& error : errors) {
+                buildErrors += (buildErrors.empty() ? "" : "\n\n") + error;
+            }
+        }
+        built = true;
+    });
+
+    while (true) {
+        std::string name;
+        std::string errors;
+        {
+            std::lock_guard<std::mutex> lock(nameMutex);
+            name = buildingName;
+            errors = buildErrors;
+        }
+        if (built && (errors.empty() || errorsDismissed)) {
+            break;
+        }
+
+        if (!WindowIsRunning()) {
+            threadPool = nullptr;
+            gsFast3dWindow = nullptr;
+            context = nullptr;
+            exit(0);
+        }
+
+        wnd->HandleEvents();
+        if (!wnd->IsFrameReady()) {
+            continue;
+        }
+
+        gui->StartDraw();
+        wnd->StartFrame();
+        wnd->RunGuiOnly();
+        if (!ImGui::IsPopupOpen("Loading Mods")) {
+            ImGui::OpenPopup("Loading Mods");
+        }
+        ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.0f);
+        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.0f, 8.0f));
+        auto color = UIWidgets::ColorValues.at(THEME_COLOR);
+        ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(color.x, color.y, color.z, 0.6f));
+        ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(color.x, color.y, color.z, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.0f, 0.0f, 0.0f, 0.3f));
+        if (ImGui::BeginPopupModal(
+                "Loading Mods", NULL,
+                ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove
+                    | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings
+            ))
+        {
+            const size_t count = builtCount;
+            if (errors.empty()) {
+                ImGui::Text("Building %s...", name.empty() ? "mods" : name.c_str());
+            } else {
+                ImGui::TextColored(ImVec4(1.0f, 0.4f, 0.4f, 1.0f), "Some mods failed to build:");
+            }
+            const std::string overlay = fmt::format("{}/{}", count, total);
+            ImGui::ProgressBar(std::min(1.0f, (float) count / (float) total), ImVec2(600.0f, 50.0f), overlay.c_str());
+            if (!errors.empty()) {
+                ImGui::Spacing();
+                ImGui::BeginChild("##modErrors", ImVec2(600.0f, 110.0f), ImGuiChildFlags_Borders);
+                ImGui::PushTextWrapPos(0.0f);
+                ImGui::TextUnformatted(errors.c_str());
+                ImGui::PopTextWrapPos();
+                ImGui::EndChild();
+                if (built && ImGui::Button("Continue", ImVec2(600.0f, 0.0f))) {
+                    errorsDismissed = true;
+                    ImGui::CloseCurrentPopup();
+                }
+            }
+            ImGui::EndPopup();
+        }
+        ImGui::PopStyleColor(3);
+        ImGui::PopStyleVar(2);
+        gui->EndDraw();
+        wnd->EndFrame();
+    }
+
+    threadPool = nullptr;
+
+    if (menuWasVisible) {
+        gui->GetMenu()->Show();
+    }
+}
+
 void GameEngine::Create(int argc, char* argv[]) {
     const auto instance = Instance = new GameEngine();
     instance->RunExtract(argc, argv);
     instance->FinishInit();
+    instance->BuildMods();
     PaperboatGui::SetupGuiElements();
     PortEnhancements_Init();
     ShipInit::InitAll();
     instance->AudioInit();
+    // After every event is registered, so mods can listen to any of them from ModInit.
+    ModScripts::Load();
+    CALL_EVENT(EngineReady);
 }
 
 bool GameEngine::sRelaunchRequested = false;
@@ -881,6 +1005,8 @@ void GameEngine::RelaunchIfRequested(int argc, char* argv[]) {
 }
 
 void GameEngine::Destroy() {
+    // While everything a mod's ModExit may touch is still alive.
+    ModScripts::Unload();
     PaperboatGui::Destroy();
 
     // Persist the window state (fullscreen, size, position) explicitly rather than

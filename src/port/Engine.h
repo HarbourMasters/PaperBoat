@@ -88,6 +88,7 @@ class GameEngine {
     static void AudioExit();
     void FinishInit();
     void RunExtract(int argc, char* argv[]);
+    void BuildMods();
     static bool sRelaunchRequested;
     static bool CanRelaunch();
     static void RequestRelaunch() {

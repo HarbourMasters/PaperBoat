@@ -18,6 +18,7 @@ void PortEnhancements_Init() {
 
 void PortEnhancements_Register() {
     // Register engine events
+    REGISTER_EVENT(EngineReady);
     REGISTER_EVENT(GameFrameUpdate);
     REGISTER_EVENT(WorkerUpdate);
     REGISTER_EVENT(WorkerDraw);

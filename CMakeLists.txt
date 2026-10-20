@@ -211,10 +211,16 @@ if(EMSCRIPTEN)
     FetchContent_MakeAvailable(tinyxml2 nlohmann_json spdlog libzip)
 endif()
 
-# None of these can dlopen a native mod, and TCC has no backend for them.
-if(ANDROID OR IOS OR EMSCRIPTEN)
+# Mods are C compiled at startup by TCC. iOS forbids writable executable memory
+# and TCC has no wasm backend, so neither loads them. Android only uses TCC.
+if(IOS OR EMSCRIPTEN)
     set(ENABLE_SCRIPTING OFF CACHE BOOL "" FORCE)
     set(DISABLE_DLL_LOADER ON CACHE BOOL "" FORCE)
+else()
+    set(ENABLE_SCRIPTING ON CACHE BOOL "" FORCE)
+    if(ANDROID)
+        set(DISABLE_DLL_LOADER ON CACHE BOOL "" FORCE)
+    endif()
 endif()
 
 # Add libultraship BEFORE setting include directories to avoid polluting its builds.
@@ -477,6 +483,25 @@ add_custom_target(GeneratePortO2R DEPENDS "${PAPERBOAT_PORT_O2R}")
 add_dependencies(${PROJECT_NAME} GeneratePortO2R)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE libultraship torch yaml-cpp)
+
+if(ENABLE_SCRIPTING)
+    # Mods resolve the game's functions and globals from the running binary.
+    set_target_properties(${PROJECT_NAME} PROPERTIES ENABLE_EXPORTS TRUE WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+    include(${CMAKE_SOURCE_DIR}/external/libultraship/cmake/SetupTccRuntime.cmake)
+    if(APPLE)
+        # libtcc is installed next to the binary in the bundle.
+        set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "@executable_path")
+        lus_setup_tcc_runtime(${PROJECT_NAME} RESOURCES_DIR "../Resources/.tcc")
+    elseif(ANDROID)
+        set(PAPERBOAT_TCC_RUNTIME_DIR "${CMAKE_BINARY_DIR}/.tcc" CACHE PATH "Where the TCC runtime is staged for the APK")
+        lus_setup_tcc_runtime(${PROJECT_NAME} STAGE_DIR "${PAPERBOAT_TCC_RUNTIME_DIR}")
+    else()
+        lus_setup_tcc_runtime(${PROJECT_NAME})
+    endif()
+    if(ANDROID)
+        target_link_options(${PROJECT_NAME} PRIVATE -Wl,-export-dynamic)
+    endif()
+endif()
 
 if(ANDROID)
     # libzip comes from libultraship's android.cmake, so its headers are in the
@@ -750,6 +775,9 @@ if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
         ${CMAKE_BINARY_DIR}/gamecontrollerdb.txt)
 
     install(TARGETS ${PROJECT_NAME} DESTINATION ../MacOS COMPONENT ${PROJECT_NAME})
+    if(ENABLE_SCRIPTING AND TARGET libtcc)
+        install(FILES "$<TARGET_FILE:libtcc>" DESTINATION ../MacOS COMPONENT ${PROJECT_NAME})
+    endif()
     install(FILES ${CMAKE_BINARY_DIR}/gamecontrollerdb.txt DESTINATION ../Resources COMPONENT ${PROJECT_NAME})
     install(FILES ${PAPERBOAT_PORT_O2R} DESTINATION ../Resources COMPONENT ${PROJECT_NAME})
     install(FILES ${CMAKE_SOURCE_DIR}/config.yml DESTINATION ../Resources COMPONENT ${PROJECT_NAME})

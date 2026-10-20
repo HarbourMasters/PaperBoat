@@ -23,6 +23,7 @@
 #include "MenuTypes.h"
 #include "UIWidgets.hpp"
 #include "port/Engine.h"
+#include "port/mods/ModScripts.h"
 
 static std::vector<std::string> enabledModFiles;
 static std::vector<std::string> disabledModFiles;
@@ -205,6 +206,35 @@ void DisableMod(std::string file) {
     SortDisabledMods();
 }
 
+// Whether a mounted mod's code is signed, and whether it built and loaded.
+static void DrawModStatus(const std::string& file) {
+    auto it = filePaths.find(file);
+    if (it == filePaths.end()) {
+        return;
+    }
+    const auto* status = ModScripts::GetStatus(std::filesystem::absolute(it->second).generic_string());
+    if (status == nullptr) {
+        return;
+    }
+    ImGui::SameLine();
+    ImGui::TextColored(
+        status->signedArchive ? UIWidgets::ColorValues.at(UIWidgets::Colors::Green)
+                              : UIWidgets::ColorValues.at(UIWidgets::Colors::Gray),
+        "%s", status->signedArchive ? "Signed" : "Unsigned"
+    );
+    if (!status->text.empty()) {
+        ImGui::SameLine();
+        ImGui::TextColored(
+            status->failed ? UIWidgets::ColorValues.at(UIWidgets::Colors::Red)
+                           : UIWidgets::ColorValues.at(UIWidgets::Colors::Green),
+            "%s", status->failed ? ICON_FA_EXCLAMATION_TRIANGLE : ICON_FA_CHECK
+        );
+        if (ImGui::IsItemHovered()) {
+            ImGui::SetTooltip("%s", status->text.c_str());
+        }
+    }
+}
+
 static void DrawMods(bool enabled) {
     std::vector<std::string>& selectedModFiles = GetModFiles(enabled);
     if (selectedModFiles.empty()) {
@@ -266,6 +296,7 @@ static void DrawMods(bool enabled) {
         ImGui::Text("%s", file.c_str());
 
         if (enabled) {
+            DrawModStatus(file);
             ImGui::EndGroup();
             ModsHandleDragAndDrop((int) i, file);
         }
@@ -372,10 +403,20 @@ void PaperboatModMenuWindow::DrawElement() {
 
     ImGui::TextColored(
         UIWidgets::ColorValues.at(UIWidgets::Colors::Yellow),
-        "Mods are not reloaded at runtime, so applying changes restarts Paperboat.\n"
+        "Changing the mod list restarts Paperboat.\n"
         "Priority runs top to bottom: a mod overrides everything listed below it.\n"
         "Drag an entry or use the arrows to reorder the enabled list."
     );
+
+    if (ModScripts::Count() > 0) {
+        auto reloadOpts = UIWidgets::ButtonOptions().Size(UIWidgets::Sizes::Inline).Color(THEME_COLOR);
+        reloadOpts.Tooltip("Rebuilds the code of the enabled mods and restarts it, without restarting Paperboat.");
+        reloadOpts.Disabled(editing);
+        reloadOpts.DisabledTooltip("Finish editing the mod list first.");
+        if (UIWidgets::Button("Reload Scripts", reloadOpts)) {
+            ModScripts::RequestReload();
+        }
+    }
 
     DrawModManager();
 }
