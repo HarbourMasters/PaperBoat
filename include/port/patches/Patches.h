@@ -33,6 +33,13 @@ IMG_PTR port_named_image(const char* asset, const char* suffix, void* fallback);
 // Sprite palettes carry asset paths, not colors (SpriteLoader.cpp)
 PAL_PTR port_sprite_palette_data(PAL_PTR palette);
 
+// Player sprites outside the loaded set (PlayerSprites.cpp)
+struct SpriteAnimData;
+struct SpriteAnimData* port_player_sprite(s32 spriteID);
+b32 port_is_player_anim(s32 animID);
+PAL_PTR* port_colored_player_palettes(PAL_PTR* palettes, u32 color);
+void port_reset_colored_palettes(void);
+
 // Sprite shading (SpritePatches.c)
 void port_set_shading_source_palette(PAL_PTR palette);
 void port_appendGfx_shading_palette(

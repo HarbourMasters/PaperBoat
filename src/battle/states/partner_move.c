@@ -67,6 +67,8 @@ void btl_state_update_partner_move(void) {
             reset_actor_turn_info();
             reset_all_actor_sounds(partner);
             battleStatus->battlePhase = PHASE_EXECUTE_ACTION;
+            CALL_EVENT(OnBattleMoveStart, partner, battleStatus->moveCategory, battleStatus->selectedMoveID,
+                       battleStatus->moveArgument, partner->targetActorID, partner->targetPartID); // [port]
             script = start_script(partner->takeTurnSource, EVT_PRIORITY_A, 0);
             partner->takeTurnScript = script;
             partner->takeTurnScriptID = script->id;
@@ -270,6 +272,7 @@ void btl_state_update_partner_move(void) {
             return;
         }
         partner->takeTurnScript = nullptr;
+        CALL_EVENT(OnBattleMoveEnd, partner); // [port]
         btl_set_state(BATTLE_STATE_END_PARTNER_TURN);
     }
 }

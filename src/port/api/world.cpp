@@ -10,8 +10,13 @@
 
 #include "common.h"
 #include "battle/battle.h"
+#include "dx/debug_menu.h"
+#include "game_modes.h"
+#include "npc.h"
+#include "sprite.h"
 
 #include <array>
+#include <cstring>
 #include <memory>
 #include <string>
 #include <vector>
@@ -85,6 +90,8 @@ void GrowBattles() {
         return;
     }
     sBattles.assign(kModBattles, EmptyBattle());
+    // Battle lists end with an entry that has neither a name nor a formation.
+    sBattles.push_back(Battle {});
     BattleArea& area = gBattleAreas[kModBattleArea];
     area = {};
     area.name = (char*) "Mods";
@@ -241,4 +248,113 @@ extern "C" int32_t C_FindBattle(const char* id) {
     }
     const int index = sBattleNumbers.Find(id);
     return index >= 0 && sBattleInfo[index].used ? kModBattleArea << 8 | index : -1;
+}
+
+extern "C" void* C_FindBattleStage(const char* map) {
+    if (map == nullptr) {
+        return nullptr;
+    }
+    for (int area = 0; area < kModBattleArea; area++) {
+        StageList* stages = gBattleAreas[area].stages;
+        for (StageListRow* row = stages != nullptr ? *stages : nullptr; row != nullptr && row->name != nullptr; row++) {
+            if (strcmp(row->name, map) == 0) {
+                return row->stage;
+            }
+        }
+    }
+    return nullptr;
+}
+
+extern "C" int C_StartBattle(int32_t battleID, int32_t songID, int canFlee, int32_t start) {
+#if DX_DEBUG_MENU
+    // The encounter code skips the NPC of an enemy with this ID, as the debug menu's battles have none.
+    static NpcSettings sSettings;
+    static EnemyDrops sNoDrops;
+    static Enemy sEnemy;
+    static Encounter sEncounter;
+    EncounterStatus* es = &gCurrentEncounter;
+
+    if (get_game_mode() != GAME_MODE_WORLD || gEncounterState != ENCOUNTER_STATE_NEUTRAL
+        || (gPlayerStatus.flags & PS_FLAG_INPUT_DISABLED)) {
+        return 0;
+    }
+    sNoDrops = {};
+    sNoDrops.dropFlags = NPC_DROP_FLAG_80;
+    sNoDrops.heartDrops[0] = { F16(100), F16(0), 0, F16(0) };
+    sNoDrops.flowerDrops[0] = { F16(100), F16(0), 0, F16(0) };
+    // Out of reach of First Attack, Bump Attack and Spin Attack, which would win the battle on contact.
+    sSettings = {};
+    sSettings.level = 0x7FFF;
+    sEnemy = {};
+    sEnemy.npcID = DX_DEBUG_DUMMY_ID;
+    sEnemy.npcSettings = &sSettings;
+    sEnemy.drops = &sNoDrops;
+    sEncounter = {};
+    sEncounter.encounterID = DX_DEBUG_DUMMY_ID;
+    sEncounter.enemy[0] = &sEnemy;
+    sEncounter.battle = battleID;
+    sEncounter.stage = -1;
+
+    es->curEncounter = &sEncounter;
+    es->curEnemy = &sEnemy;
+    es->hitType = ENCOUNTER_TRIGGER_NONE;
+    es->hitTier = 0;
+    es->firstStrikeType = FIRST_STRIKE_NONE;
+    switch (start) {
+        case C_BATTLE_START_JUMP:
+            es->hitType = ENCOUNTER_TRIGGER_JUMP;
+            es->firstStrikeType = FIRST_STRIKE_PLAYER;
+            switch (gPlayerStatus.actionState) {
+                case ACTION_STATE_SPIN_JUMP:
+                case ACTION_STATE_SPIN_POUND:
+                    es->hitTier = 1;
+                    break;
+                case ACTION_STATE_TORNADO_JUMP:
+                case ACTION_STATE_TORNADO_POUND:
+                    es->hitTier = 2;
+                    break;
+            }
+            break;
+        case C_BATTLE_START_HAMMER:
+            es->hitType = ENCOUNTER_TRIGGER_HAMMER;
+            es->hitTier = gPlayerData.hammerLevel;
+            es->firstStrikeType = FIRST_STRIKE_PLAYER;
+            break;
+        case C_BATTLE_START_STRUCK:
+            es->firstStrikeType = FIRST_STRIKE_ENEMY;
+            break;
+    }
+    if (es->firstStrikeType == FIRST_STRIKE_PLAYER) {
+        sfx_play_sound_at_position(SOUND_HIT_PLAYER_NORMAL, SOUND_SPACE_DEFAULT, gPlayerStatus.pos.x,
+                                   gPlayerStatus.pos.y, gPlayerStatus.pos.z);
+    }
+    es->forbidFleeing = !canFlee;
+    es->scriptedBattle = true;
+    es->songID = songID;
+    es->unk_18 = -1;
+    es->fadeOutAmount = 0;
+    es->substateDelay = 0;
+    es->flags |= ENCOUNTER_FLAG_SKIP_FLEE_DROPS;
+
+    disable_player_input();
+    partner_disable_input();
+
+    gEncounterState = ENCOUNTER_STATE_PRE_BATTLE;
+    gEncounterSubState = ENCOUNTER_SUBSTATE_PRE_BATTLE_INIT;
+    EncounterStateChanged = true;
+    return 1;
+#else
+    return 0;
+#endif
+}
+
+extern "C" void C_SetActorPartColor(int32_t actorID, int32_t partID, uint32_t color) {
+    if (gGameStatusPtr->context != CONTEXT_BATTLE) {
+        return;
+    }
+    Actor* actor = get_actor(actorID);
+    ActorPart* part = actor != nullptr ? get_actor_part(actor, partID) : nullptr;
+    if (part != nullptr && part->spriteInstanceID >= 0) {
+        spr_set_player_instance_color(part->spriteInstanceID, color);
+    }
 }

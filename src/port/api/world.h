@@ -30,10 +30,36 @@ typedef struct C_BattleDef_s {
 } C_BattleDef;
 
 // Registers a battle from ModInit. Returns its battle ID, usable wherever the game takes one, such as the battle of an
-// NPC_GROUP, or -1 when it can't.
+// NPC_GROUP, or -1 when it can't. Registering the same id again replaces it and keeps its battle ID.
 #define C_RegisterBattle(def) C_RegisterBattleSized((def), sizeof(*(def)))
 PB_API int32_t C_RegisterBattleSized(const C_BattleDef* def, uint32_t size);
 // Unregisters a battle. Starting it afterwards gives a battle with no enemies.
 PB_API void C_UnregisterBattle(int32_t battleID);
 // Battle ID of the registered battle with this id, or -1.
 PB_API int32_t C_FindBattle(const char* id);
+// The stage the game's battles in a map take place on, by the map's name, e.g. "kmr_02", or NULL when it has none.
+PB_API void* C_FindBattleStage(const char* map);
+
+// How a battle started with C_StartBattle begins, as when the player runs into an enemy.
+typedef enum {
+    C_BATTLE_START_NORMAL, // no one strikes first
+    C_BATTLE_START_JUMP,   // the player jumped on the enemy and strikes first, harder with a spin or tornado jump
+    C_BATTLE_START_HAMMER, // the player hammered the enemy and strikes first
+    C_BATTLE_START_STRUCK, // the enemy strikes first
+} C_BattleStart;
+
+// Starts a battle from the world, as touching an enemy would, while the player is free to move: not in a scene, a
+// menu or another battle. songID is the battle music, -1 for the usual one. With canFlee 0, Run Away is taken off the menu. start is
+// a C_BATTLE_START_*. No enemy is left defeated on the map, fleeing drops no coins, and badges that win battles on
+// contact don't. Losing ends the game unless the battle's start script sets BS_FLAGS1_NO_GAME_OVER. Returns 1 when
+// the battle starts.
+PB_API int C_StartBattle(int32_t battleID, int32_t songID, int canFlee, int32_t start);
+
+// An actor part's animation from the player's sprites, e.g. C_PLAYER_ANIM(ANIM_MarioB1_Jump), for an enemy that moves
+// as the player does. Use it for the part's idle animations and with SetAnimation. A part only becomes one when it is
+// created with such an animation, and at most 8 can be at once.
+#define C_PLAYER_ANIM(anim) ((anim) | 0x40000000)
+// Draws a part created with a C_PLAYER_ANIM animation with the player's reds in color, 0xRRGGBBAA; 0 for the player's
+// own colors. In battle only.
+PB_API void C_SetActorPartColor(int32_t actorID, int32_t partID, uint32_t color);
+

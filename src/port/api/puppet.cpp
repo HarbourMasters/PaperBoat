@@ -1,6 +1,7 @@
 #ifdef ENABLE_SCRIPTING
 
 #include "port/api/puppet.h"
+#include "port/api/world.h"
 
 #include "port/ShipInit.hpp"
 #include "port/api/ModOwner.hpp"
@@ -8,7 +9,6 @@
 #include "port/hooks/Events.h"
 #include "port/interpolation/FrameInterpolation.h"
 #include "port/patches/Patches.h"
-#include "port/sprite/SpriteLoader.h"
 
 #include "common.h"
 #include "game_modes.h"
@@ -21,13 +21,10 @@
 #include <cmath>
 #include <cstring>
 #include <deque>
-#include <map>
 #include <string>
 #include <vector>
 
 extern "C" {
-extern SpriteAnimData* PlayerSprites[13];
-extern s32 MaxPlayerSpriteComponents;
 extern PlayerCurrentAnimInfo CurPlayerAnimInfo[];
 s32 get_player_back_anim(s32 anim);
 }
@@ -65,22 +62,21 @@ struct Puppet {
     float camRelativeYaw = 0.0f;
     float flipYaw = 0.0f;
     float facingAngle = 0.0f;
-    s32 slotComponents = 0;
+    bool encounter = false;
+    bool touching = false;
 };
 
 std::array<Puppet, C_PUPPET_MAX> sPuppets;
 uint32_t sFrame = 0;
+// Frames in the world since the last battle or menu, so the player can walk away before a puppet counts again.
+int sWorldFrames = 0;
+constexpr int kEncounterCooldown = 60;
 std::vector<s32> sOrphanNpcs;
 
-// Player sprites the current set didn't load, e.g. the battle ones in the world. Kept outside the sprite heap.
-std::map<s32, std::vector<uint64_t>> sExtraPlayerSprites;
-
-struct ColoredPalettes {
-    std::vector<PAL_PTR> source;
-    std::vector<std::array<u16, SPR_PAL_SIZE>> data;
-    std::vector<PAL_PTR> list;
-};
-std::map<std::pair<PAL_PTR*, uint32_t>, ColoredPalettes> sColoredPalettes;
+// The puppet's NPC while it is in the map being played.
+Npc* PuppetNpc(const Puppet& puppet) {
+    return puppet.used && puppet.npcIndex >= 0 ? get_npc_by_index(puppet.npcIndex) : nullptr;
+}
 
 const char* CurrentMap() {
     const AreaConfig& area = gAreas[gGameStatusPtr->areaID];
@@ -102,102 +98,6 @@ AnimID MotionAnim(int32_t motion) {
         default:
             return ANIM_Mario1_Idle;
     }
-}
-
-SpriteAnimData* GetPlayerSprite(s32 sprite) {
-    if (sprite < SPR_Mario1 || sprite > SPR_Peach3) {
-        return nullptr;
-    }
-    SpriteAnimData*& loaded = PlayerSprites[sprite - 1];
-    if (loaded != nullptr) {
-        return loaded;
-    }
-    auto it = sExtraPlayerSprites.find(sprite);
-    if (it == sExtraPlayerSprites.end()) {
-        const size_t size = Sprite_GetPlayerSize(sprite - 1);
-        std::vector<uint64_t> data((size + sizeof(uint64_t) - 1) / sizeof(uint64_t));
-        if (size == 0 || Sprite_LoadPlayer(sprite - 1, data.data(), size) == nullptr) {
-            data.clear();
-        }
-        it = sExtraPlayerSprites.emplace(sprite, std::move(data)).first;
-    }
-    if (it->second.empty()) {
-        return nullptr;
-    }
-    loaded = reinterpret_cast<SpriteAnimData*>(it->second.data());
-    MaxPlayerSpriteComponents = std::max(MaxPlayerSpriteComponents, loaded->maxComponents);
-    return loaded;
-}
-
-// anim comes from another game, so it is checked before indexing animListStart.
-bool IsPlayableAnim(s32 anim) {
-    SpriteAnimData* sprite = GetPlayerSprite(SPR_UNPACK_SPR(anim));
-    if (sprite == nullptr) {
-        return false;
-    }
-    const s32 index = SPR_UNPACK_ANIM(anim);
-    for (s32 i = 0; i <= index; i++) {
-        if (sprite->animListStart[i] == PTR_LIST_END) {
-            return false;
-        }
-    }
-    return true;
-}
-
-PAL_PTR* GetColoredPalettes(PAL_PTR* palettes, uint32_t color) {
-    s32 count = 0;
-    while (palettes[count] != (PAL_PTR) -1) {
-        count++;
-    }
-    if (color == 0) {
-        color = C_PUPPET_DEFAULT_COLOR;
-    }
-    const float tint[3] = { ((color >> 24) & 0xFF) / 255.0f, ((color >> 16) & 0xFF) / 255.0f,
-                            ((color >> 8) & 0xFF) / 255.0f };
-    ColoredPalettes& colored = sColoredPalettes[{ palettes, color }];
-    if (colored.source.size() == (size_t) count && std::equal(colored.source.begin(), colored.source.end(), palettes)) {
-        return colored.list.data();
-    }
-    colored.source.assign(palettes, palettes + count);
-    colored.data.assign(count, {});
-    colored.list.clear();
-    for (s32 i = 0; i < count; i++) {
-        const PAL_PTR source = port_sprite_palette_data(palettes[i]);
-        if (source == nullptr || source == (PAL_PTR) -1) {
-            colored.list.push_back(palettes[i]);
-            continue;
-        }
-        // RGBA5551, high byte first. Strong reds only: the shoes and hair are brownish reds.
-        const u8* in = reinterpret_cast<const u8*>(source);
-        u8* out = reinterpret_cast<u8*>(colored.data[i].data());
-        auto isRed = [](u16 r, u16 g, u16 b) { return r >= 12 && g * 3 <= r && b * 3 <= r; };
-        u16 brightest = 0;
-        for (s32 c = 0; c < SPR_PAL_SIZE; c++) {
-            const u16 entry = (in[c * 2] << 8) | in[c * 2 + 1];
-            const u16 r = (entry >> 11) & 0x1F;
-            if (isRed(r, (entry >> 6) & 0x1F, (entry >> 1) & 0x1F)) {
-                brightest = std::max(brightest, r);
-            }
-        }
-        for (s32 c = 0; c < SPR_PAL_SIZE; c++) {
-            const u16 entry = (in[c * 2] << 8) | in[c * 2 + 1];
-            u16 r = (entry >> 11) & 0x1F;
-            u16 g = (entry >> 6) & 0x1F;
-            u16 b = (entry >> 1) & 0x1F;
-            if (isRed(r, g, b)) {
-                const float shade = 31.0f * r / brightest;
-                r = static_cast<u16>(std::lround(shade * tint[0]));
-                g = static_cast<u16>(std::lround(shade * tint[1]));
-                b = static_cast<u16>(std::lround(shade * tint[2]));
-            }
-            const u16 recolored = (r << 11) | (g << 6) | (b << 1) | (entry & 1);
-            out[c * 2] = recolored >> 8;
-            out[c * 2 + 1] = recolored & 0xFF;
-        }
-        colored.list.push_back(colored.data[i].data());
-    }
-    colored.list.push_back((PAL_PTR) -1);
-    return colored.list.data();
 }
 
 void FreeNpc(Puppet& puppet) {
@@ -265,7 +165,7 @@ s32 UpdateFacing(Puppet& puppet, s32 anim) {
     if ((sprite == SPR_Mario1 || sprite == SPR_MarioW1 || sprite == SPR_Peach1) && std::fabs(diff) < 60.0f) {
         const s32 back = get_player_back_anim(anim);
         // The back of these is drawn from the sprite after them.
-        if (!(back & SPRITE_ID_BACK_FACING) || GetPlayerSprite(sprite + 1) != nullptr) {
+        if (!(back & SPRITE_ID_BACK_FACING) || port_player_sprite(sprite + 1) != nullptr) {
             anim = back;
         }
     }
@@ -273,32 +173,23 @@ s32 UpdateFacing(Puppet& puppet, s32 anim) {
 }
 
 void UpdateSprite(Puppet& puppet, int slot) {
-    s32 anim = IsPlayableAnim(puppet.pose.anim) ? puppet.pose.anim : MotionAnim(puppet.pose.motion);
-    if (!IsPlayableAnim(anim)) {
+    s32 anim = port_is_player_anim(puppet.pose.anim) ? puppet.pose.anim : MotionAnim(puppet.pose.motion);
+    if (!port_is_player_anim(anim)) {
         return;
     }
     anim = UpdateFacing(puppet, anim);
-    PlayerCurrentAnimInfo& info = CurPlayerAnimInfo[PLAYER_SPRITE_PUPPET_FIRST + slot];
-    if (info.componentList != nullptr && puppet.slotComponents < MaxPlayerSpriteComponents) {
-        // Allocated before a player sprite with more components was loaded.
-        info.componentList = nullptr;
-        info.animID = -1;
-    }
-    if (info.componentList == nullptr) {
-        puppet.slotComponents = MaxPlayerSpriteComponents;
-    }
     spr_update_player_sprite(PLAYER_SPRITE_PUPPET_FIRST + slot, anim, 1.0f);
 }
 
 void AppendPuppetGfx(void* data) {
     Puppet& puppet = *static_cast<Puppet*>(data);
     const int slot = static_cast<int>(&puppet - sPuppets.data());
-    Npc* npc = puppet.npcIndex >= 0 ? get_npc_by_index(puppet.npcIndex) : nullptr;
+    Npc* npc = PuppetNpc(puppet);
     const s32 animID = CurPlayerAnimInfo[PLAYER_SPRITE_PUPPET_FIRST + slot].animID;
     if (npc == nullptr || animID == -1) {
         return;
     }
-    SpriteAnimData* sprite = GetPlayerSprite(SPR_UNPACK_SPR(animID));
+    SpriteAnimData* sprite = port_player_sprite(SPR_UNPACK_SPR(animID));
     if (sprite == nullptr) {
         return;
     }
@@ -312,12 +203,14 @@ void AppendPuppetGfx(void* data) {
     if (puppet.facingAngle >= 90.0f && puppet.facingAngle < 270.0f) {
         flags |= DRAW_SPRITE_UPSIDE_DOWN;
     }
-    spr_draw_player_sprite(flags, 0, 0, GetColoredPalettes(sprite->palettesOffset, puppet.pose.color), mtx);
+    spr_draw_player_sprite(flags, 0, 0, port_colored_player_palettes(
+                               sprite->palettesOffset, puppet.pose.color != 0 ? puppet.pose.color : C_PUPPET_DEFAULT_COLOR
+                           ), mtx);
 }
 
 void DrawPuppets() {
     for (Puppet& puppet : sPuppets) {
-        Npc* npc = puppet.used && puppet.npcIndex >= 0 ? get_npc_by_index(puppet.npcIndex) : nullptr;
+        Npc* npc = PuppetNpc(puppet);
         if (npc == nullptr) {
             continue;
         }
@@ -376,8 +269,82 @@ void Play(Puppet& puppet) {
     }
 }
 
+constexpr int32_t kNoEncounter = -1;
+
+// How the player is running into the puppet, as encounter.c works it out for enemies, or kNoEncounter. The puppet is
+// the player's size, and walls between them aren't checked.
+int32_t TestEncounter(const Npc* npc) {
+    const PlayerStatus& player = gPlayerStatus;
+    const float radius = player.colliderDiameter / 2.0f;
+    const float height = player.colliderHeight;
+    const float dx = npc->pos.x - player.pos.x;
+    const float dz = npc->pos.z - player.pos.z;
+    const float distance = std::sqrt(dx * dx + dz * dz);
+    const bool overlapsY = !(player.pos.y > npc->pos.y + height) && !(npc->pos.y > player.pos.y + height);
+
+    switch (player.actionState) {
+        case ACTION_STATE_HAMMER:
+            if (player.flags & PS_FLAG_HAMMER_CHECK) {
+                const float cameraYaw = gCameras[gCurrentCameraID].curYaw;
+                float hammerYaw = clamp_angle(player.spriteFacingAngle) < 180.0f ? clamp_angle(cameraYaw - 90.0f)
+                                                                                   : clamp_angle(cameraYaw + 90.0f);
+                float x = player.pos.x;
+                float z = player.pos.z;
+                add_vec2D_polar(&x, &z, 24.0f, hammerYaw);
+                const float hx = npc->pos.x - x;
+                const float hz = npc->pos.z - z;
+                if (std::sqrt(hx * hx + hz * hz) < radius * 2.0f && overlapsY) {
+                    return C_BATTLE_START_HAMMER;
+                }
+            }
+            break;
+        case ACTION_STATE_FALLING:
+        case ACTION_STATE_STEP_DOWN:
+        case ACTION_STATE_LAND:
+        case ACTION_STATE_STEP_DOWN_LAND:
+        case ACTION_STATE_SPIN_JUMP:
+        case ACTION_STATE_SPIN_POUND:
+        case ACTION_STATE_TORNADO_JUMP:
+        case ACTION_STATE_TORNADO_POUND:
+            if (distance < radius * 2.0f && overlapsY && npc->pos.y + height < player.pos.y + height * 0.5f) {
+                return C_BATTLE_START_JUMP;
+            }
+            break;
+    }
+    if (distance < radius * 2.0f * 0.8f && overlapsY) {
+        return C_BATTLE_START_NORMAL;
+    }
+    return kNoEncounter;
+}
+
+// Fires OnPuppetEncounter when the player runs into a puppet with encounters on, once each time they touch.
+void TestEncounters() {
+    if (gEncounterState != ENCOUNTER_STATE_NEUTRAL || (gPlayerStatus.flags & PS_FLAG_INPUT_DISABLED)) {
+        return;
+    }
+    // Only frames the player is free to move count towards the cooldown.
+    if (++sWorldFrames < kEncounterCooldown) {
+        return;
+    }
+    for (int slot = 0; slot < C_PUPPET_MAX; slot++) {
+        Puppet& puppet = sPuppets[slot];
+        Npc* npc = puppet.encounter ? PuppetNpc(puppet) : nullptr;
+        const int32_t start = npc != nullptr ? TestEncounter(npc) : kNoEncounter;
+        const bool touching = start != kNoEncounter;
+        if (touching && !puppet.touching) {
+            puppet.touching = true;
+            CALL_EVENT(OnPuppetEncounter, slot, start);
+            if (gEncounterState != ENCOUNTER_STATE_NEUTRAL) {
+                return; // a listener started a battle
+            }
+        }
+        puppet.touching = touching;
+    }
+}
+
 void Update() {
     if (get_game_mode() != GAME_MODE_WORLD) {
+        sWorldFrames = 0;
         return;
     }
     for (s32 index : sOrphanNpcs) {
@@ -410,6 +377,9 @@ void Update() {
     }
     if (shown) {
         EnsureDrawWorker();
+        TestEncounters();
+    } else {
+        sWorldFrames = 0;
     }
 }
 
@@ -424,7 +394,7 @@ void InitPuppetApi() {
             puppet.npcIndex = -1;
         }
         sOrphanNpcs.clear();
-        sColoredPalettes.clear();
+        port_reset_colored_palettes();
     });
     ModOwner::AddReleaser([](const std::string& mod) {
         for (int slot = 0; slot < C_PUPPET_MAX; slot++) {
@@ -544,7 +514,13 @@ extern "C" void C_RemovePuppet(int puppet) {
 
 extern "C" void* C_GetPuppetNpc(int puppet) {
     Puppet* found = Find(puppet);
-    return found != nullptr && found->npcIndex >= 0 ? get_npc_by_index(found->npcIndex) : nullptr;
+    return found != nullptr ? PuppetNpc(*found) : nullptr;
+}
+
+extern "C" void C_SetPuppetEncounter(int puppet, int enabled) {
+    if (Puppet* found = Find(puppet)) {
+        found->encounter = enabled != 0;
+    }
 }
 
 #endif

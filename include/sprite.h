@@ -15,6 +15,7 @@ enum SpriteIDFields {
     SPRITE_ID_PAL_MASK          = 0x0000FF00,
     SPRITE_ID_SPR_MASK          = 0x00FF0000,
     SPRITE_ID_BACK_FACING       = 0x01000000,
+    SPRITE_ID_PLAYER            = 0x40000000, // [port] a player sprite's animation on an NPC sprite instance
     SPRITE_ID_TAIL_ALLOCATE     = 0x80000000,
 };
 
@@ -34,6 +35,8 @@ enum {
 
 #define PLAYER_SPRITE_PUPPET_FIRST 3
 #define PLAYER_SPRITE_PUPPET_COUNT 16
+#define PLAYER_SPRITE_ACTOR_FIRST (PLAYER_SPRITE_PUPPET_FIRST + PLAYER_SPRITE_PUPPET_COUNT)
+#define PLAYER_SPRITE_ACTOR_COUNT 8
 
 //TODO this is just a boolean isNpcSprite, using a temp enum for documenting
 enum {
@@ -161,6 +164,9 @@ s32 spr_draw_npc_sprite(s32 spriteInstanceID, s32 yaw, s32 alphaIn, PAL_PTR* pal
 s32 spr_get_notify_value(s32 spriteInstanceID);
 
 s32 spr_free_sprite(s32 spriteInstanceID);
+
+// [port] Recolors an instance loaded with a SPRITE_ID_PLAYER animation; color is 0xRRGGBBAA, 0 for the player's own.
+void spr_set_player_instance_color(s32 spriteInstanceID, u32 color);
 
 s32 get_npc_comp_imgfx_idx(s32, s32);
 

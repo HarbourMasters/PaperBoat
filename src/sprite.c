@@ -16,10 +16,15 @@ BSS s32 CurSpriteImgFX;
 BSS SpriteAnimData* PlayerSprites[13];
 BSS s32 CurPlayerSpriteIndex;
 BSS s32 MaxPlayerSpriteComponents;
-BSS PlayerCurrentAnimInfo CurPlayerAnimInfo[PLAYER_SPRITE_PUPPET_FIRST + PLAYER_SPRITE_PUPPET_COUNT]; // [port] puppets
+BSS PlayerCurrentAnimInfo CurPlayerAnimInfo[PLAYER_SPRITE_ACTOR_FIRST + PLAYER_SPRITE_ACTOR_COUNT]; // [port] puppets, actors
+BSS s32 CurPlayerAnimInfoComponents[PLAYER_SPRITE_ACTOR_FIRST + PLAYER_SPRITE_ACTOR_COUNT]; // [port]
 BSS SpriteAnimData* NpcSpriteData[MAX_SPRITE_ID];
 BSS u8 NpcSpriteInstanceCount[MAX_SPRITE_ID];
 BSS SpriteInstance SpriteInstances[51];
+// [port] For an instance loaded with a SPRITE_ID_PLAYER animation: its player sprite slot after
+// PLAYER_SPRITE_ACTOR_FIRST, plus one (0 for an NPC sprite), and its color.
+BSS s8 SpriteInstancePlayerSlot[ARRAY_COUNT(SpriteInstances)];
+BSS u32 SpriteInstancePlayerColor[ARRAY_COUNT(SpriteInstances)];
 BSS Quad* SpriteQuadCache;
 BSS s32 SpriteQuadCacheInfo[22]; // upper bytes: width, height; lower 16 bits: time left
 BSS s32 SpriteCurBaseRot[3];
@@ -817,6 +822,7 @@ void spr_init_sprites(s32 playerSpriteSet) {
     }
 
     for (i = 0; i < ARRAY_COUNT(SpriteInstances); i++) {
+        SpriteInstancePlayerSlot[i] = 0; // [port]
         SpriteInstances[i].spriteIndex = 0;
         SpriteInstances[i].componentList = nullptr;
         SpriteInstances[i].spriteData = nullptr;
@@ -833,6 +839,23 @@ void spr_render_init(void) {
     spr_clear_quad_cache();
 }
 
+// [port] Frees a player sprite slot's components, for it to make them again on its next update.
+static void spr_release_player_slot(s32 instanceIdx) {
+    SpriteComponent** compList = CurPlayerAnimInfo[instanceIdx].componentList;
+
+    if (compList != nullptr) {
+        SpriteComponent** it = compList;
+        while (*it != PTR_LIST_END) {
+            imgfx_release_instance((*it)->imgfxIdx & 0xFF);
+            it++;
+        }
+        _heap_free(&heap_spriteHead, compList);
+    }
+    CurPlayerAnimInfo[instanceIdx].componentList = nullptr;
+    CurPlayerAnimInfo[instanceIdx].animID = -1;
+    CurPlayerAnimInfo[instanceIdx].notifyValue = 0;
+}
+
 s32 spr_update_player_sprite(s32 spriteInstanceID, s32 animID, f32 timeScale) {
     SpriteAnimData* spriteData;
     SpriteComponent** compList;
@@ -843,7 +866,14 @@ s32 spr_update_player_sprite(s32 spriteInstanceID, s32 animID, f32 timeScale) {
     s32 instanceIdx = spriteInstanceID & 0xFF;
     CurPlayerSpriteIndex = spriteID - 1;
 
+    // [port] The extra slots can play sprites loaded after their components were made, which may need more.
+    if (instanceIdx >= PLAYER_SPRITE_PUPPET_FIRST && CurPlayerAnimInfo[instanceIdx].componentList != nullptr
+        && CurPlayerAnimInfoComponents[instanceIdx] < MaxPlayerSpriteComponents) {
+        spr_release_player_slot(instanceIdx);
+    }
+
     if (CurPlayerAnimInfo[instanceIdx].componentList == nullptr) {
+        CurPlayerAnimInfoComponents[instanceIdx] = MaxPlayerSpriteComponents; // [port]
         compList = spr_allocate_components(MaxPlayerSpriteComponents);
         CurPlayerAnimInfo[instanceIdx].componentList = compList;
         while (*compList != PTR_LIST_END) {
@@ -1031,11 +1061,75 @@ PAL_PTR* spr_get_player_palettes(s32 spriteIndex) {
     }
 }
 
+// [port] An NPC sprite instance that plays player sprite animations from a player sprite slot of its own.
+static s32 spr_load_player_instance(void) {
+    s32 used[PLAYER_SPRITE_ACTOR_COUNT] = { 0 };
+    s32 slot;
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNT(SpriteInstances); i++) {
+        if (SpriteInstancePlayerSlot[i] != 0) {
+            used[SpriteInstancePlayerSlot[i] - 1] = true;
+        }
+    }
+    for (slot = 0; slot < PLAYER_SPRITE_ACTOR_COUNT; slot++) {
+        if (!used[slot]) {
+            break;
+        }
+    }
+    for (i = 0; i < ARRAY_COUNT(SpriteInstances); i++) {
+        if (SpriteInstances[i].spriteIndex == 0) {
+            break;
+        }
+    }
+    if (slot == PLAYER_SPRITE_ACTOR_COUNT || i == ARRAY_COUNT(SpriteInstances)) {
+        return -1;
+    }
+    if (MaxLoadedSpriteInstanceID < i) {
+        MaxLoadedSpriteInstanceID = i;
+    }
+    spr_release_player_slot(PLAYER_SPRITE_ACTOR_FIRST + slot);
+    SpriteInstancePlayerSlot[i] = slot + 1;
+    SpriteInstancePlayerColor[i] = 0;
+    SpriteInstances[i].spriteIndex = SPRITE_ID_PLAYER >> 16;
+    SpriteInstances[i].componentList = nullptr;
+    SpriteInstances[i].spriteData = nullptr;
+    SpriteInstances[i].curAnimID = -1;
+    SpriteInstances[i].notifyValue = 0;
+    return i;
+}
+
+// [port] The player sprite slot of an instance loaded with a SPRITE_ID_PLAYER animation, or -1.
+static s32 spr_player_slot(s32 spriteInstanceID) {
+    s32 i = spriteInstanceID & 0xFF;
+
+    if (i >= ARRAY_COUNT(SpriteInstances) || SpriteInstancePlayerSlot[i] == 0) {
+        return -1;
+    }
+    return PLAYER_SPRITE_ACTOR_FIRST + SpriteInstancePlayerSlot[i] - 1;
+}
+
+static SpriteComponent** spr_instance_components(s32 spriteInstanceID) {
+    s32 slot = spr_player_slot(spriteInstanceID);
+
+    return slot >= 0 ? CurPlayerAnimInfo[slot].componentList : SpriteInstances[spriteInstanceID & 0xFF].componentList;
+}
+
+void spr_set_player_instance_color(s32 spriteInstanceID, u32 color) {
+    if (spr_player_slot(spriteInstanceID) >= 0) {
+        SpriteInstancePlayerColor[spriteInstanceID & 0xFF] = color;
+    }
+}
+
 s32 spr_load_npc_sprite(s32 animID, u32* extraAnimList) {
     SpriteAnimData* header;
     SpriteComponent** compList;
     s32 listIndex;
     s32 i;
+
+    if (animID & SPRITE_ID_PLAYER) {
+        return spr_load_player_instance(); // [port]
+    }
 
     s32 spriteIndex = (animID >> 0x10) & 0x7FFF;
     s32 useTailAlloc = (u32)animID >> 0x1F;
@@ -1090,8 +1184,20 @@ s32 spr_update_sprite(s32 spriteInstanceID, s32 animID, f32 timeScale) {
     s32 palID;
     s32 i = spriteInstanceID & 0xFF;
     s32 animIndex = SPR_UNPACK_ANIM(animID);
+    s32 playerSlot = spr_player_slot(spriteInstanceID);
 
     ASSERT_MSG(i <= MaxLoadedSpriteInstanceID, "Invalid sprite instance ID %lx", spriteInstanceID);
+
+    // [port] Animations that aren't the player's, such as from another game, leave it as it was.
+    if (playerSlot >= 0) {
+        animID &= ~SPRITE_ID_PLAYER;
+        if (port_is_player_anim(animID)) {
+            SpriteInstances[i].notifyValue = spr_update_player_sprite(
+                playerSlot | (spriteInstanceID & (DRAW_SPRITE_OVERRIDE_ALPHA | DRAW_SPRITE_OVERRIDE_YAW)), animID, timeScale);
+            SpriteInstances[i].curAnimID = 0;
+        }
+        return SpriteInstances[i].notifyValue;
+    }
 
     compList = SpriteInstances[i].componentList;
     spriteData = SpriteInstances[i].spriteData;
@@ -1125,9 +1231,34 @@ s32 spr_draw_npc_sprite(s32 spriteInstanceID, s32 yaw, s32 alphaIn, PAL_PTR* pal
     u32 alpha;
     s32 instanceIdx = spriteInstanceID & 0xFF;
     s32 animID = SpriteInstances[instanceIdx].curAnimID;
+    s32 playerSlot = spr_player_slot(spriteInstanceID);
 
     if (animID == ANIM_LIST_END) {
         return false;
+    }
+
+    // [port] With the NPC sprites' yaw, which counts the camera the other way, and the instance's color.
+    if (playerSlot >= 0) {
+        s32 flags = (spriteInstanceID & DRAW_SPRITE_OVERRIDE_ALPHA) | DRAW_SPRITE_OVERRIDE_YAW;
+        u32 color = SpriteInstancePlayerColor[instanceIdx];
+
+        if (!(spriteInstanceID & DRAW_SPRITE_OVERRIDE_YAW)) {
+            yaw += gCameras[gCurrentCamID].curYaw;
+            if (yaw > 360) {
+                yaw -= 360;
+            }
+            if (yaw < -360) {
+                yaw += 360;
+            }
+        }
+        if (!(spriteInstanceID & DRAW_SPRITE_OVERRIDE_PALETTES) && color != 0) {
+            paletteList = port_colored_player_palettes(
+                spr_get_player_palettes(SPR_UNPACK_SPR(CurPlayerAnimInfo[playerSlot].animID)), color);
+        }
+        if ((spriteInstanceID & DRAW_SPRITE_OVERRIDE_PALETTES) || (color != 0 && paletteList != nullptr)) {
+            flags |= DRAW_SPRITE_OVERRIDE_PALETTES;
+        }
+        return spr_draw_player_sprite(playerSlot | flags, yaw, alphaIn, paletteList, mtx);
     }
 
     spriteData = SpriteInstances[instanceIdx].spriteData;
@@ -1190,6 +1321,15 @@ s32 spr_free_sprite(s32 spriteInstanceID) {
     SpriteAnimData* spriteData;
     SpriteComponent** compList;
     s32 spriteIndex = sprite->spriteIndex;
+    s32 playerSlot = spr_player_slot(spriteInstanceID);
+
+    if (playerSlot >= 0) { // [port]
+        spr_release_player_slot(playerSlot);
+        SpriteInstancePlayerSlot[spriteInstanceID] = 0;
+        sprite->spriteIndex = 0;
+        sprite->curAnimID = -1;
+        return 0;
+    }
 
     if (spriteIndex == 0 || spriteIndex >= ARRAY_COUNT(NpcSpriteData)) {
         return spriteInstanceID;
@@ -1226,7 +1366,7 @@ s32 spr_free_sprite(s32 spriteInstanceID) {
 }
 
 s32 get_npc_comp_imgfx_idx(s32 spriteIdx, s32 compIdx) {
-    SpriteComponent** componentList = SpriteInstances[spriteIdx].componentList;
+    SpriteComponent** componentList = spr_instance_components(spriteIdx); // [port]
 
     if (componentList == nullptr) {
         return -1;
@@ -1236,12 +1376,10 @@ s32 get_npc_comp_imgfx_idx(s32 spriteIdx, s32 compIdx) {
 }
 
 void set_npc_imgfx_comp(s32 spriteIdx, s32 compIdx, ImgFXType imgfx, intptr_t imgfxArg1, s32 imgfxArg2, s32 imgfxArg3, s32 imgfxArg4, s32 imgfxArg5) {
-    SpriteInstance* sprite = &SpriteInstances[spriteIdx];
-    SpriteComponent** componentList;
+    SpriteComponent** componentList = spr_instance_components(spriteIdx); // [port]
     s32 i;
 
-    if (sprite->componentList != nullptr) {
-        componentList = sprite->componentList;
+    if (componentList != nullptr) {
         i = 0;
 
         while (*componentList != PTR_LIST_END) {
@@ -1274,14 +1412,26 @@ s32 spr_get_comp_position(s32 spriteIdx, s32 compListIdx, s32* outX, s32* outY, 
     u8 animID;
     s32 i;
 
-    if (sprite->componentList == nullptr) {
+    s32 playerSlot = spr_player_slot(spriteIdx);
+    SpriteAnimData* spriteData = sprite->spriteData;
+
+    // [port] An instance playing a player sprite reads it from its slot.
+    if (playerSlot >= 0) {
+        if (CurPlayerAnimInfo[playerSlot].componentList == nullptr || CurPlayerAnimInfo[playerSlot].animID == -1) {
+            return -1;
+        }
+        spriteData = port_player_sprite(SPR_UNPACK_SPR(CurPlayerAnimInfo[playerSlot].animID));
+        if (spriteData == nullptr) {
+            return -1;
+        }
+    } else if (sprite->componentList == nullptr) {
         return -1;
     }
 
-    animID = sprite->curAnimID;
+    animID = playerSlot >= 0 ? SPR_UNPACK_ANIM(CurPlayerAnimInfo[playerSlot].animID) : sprite->curAnimID;
     if (animID != 255) {
-        animComps = sprite->spriteData->animListStart[animID];
-        compList = sprite->componentList;
+        animComps = spriteData->animListStart[animID];
+        compList = spr_instance_components(spriteIdx);
         i = 0;
         while (*compList != PTR_LIST_END) {
             if (i == compListIdx) {
@@ -1303,9 +1453,19 @@ s32 spr_get_comp_position(s32 spriteIdx, s32 compListIdx, s32* outX, s32* outY, 
 }
 
 s32 spr_get_npc_raster_info(SpriteRasterInfo* out, s32 npcSpriteID, s32 rasterIndex) {
-    SpriteAnimData* sprite = NpcSpriteData[npcSpriteID];
+    SpriteAnimData* sprite;
     SpriteRasterCacheEntry* cache;
     PAL_PTR* paletteOffsetCopy;
+
+    // [port] The sprite of a SPRITE_ID_PLAYER animation is a player sprite.
+    if (npcSpriteID & (SPRITE_ID_PLAYER >> 16)) {
+        if (port_player_sprite(npcSpriteID & 0xFF) == nullptr) {
+            return false;
+        }
+        spr_get_player_raster_info(out, npcSpriteID & 0xFF, rasterIndex);
+        return true;
+    }
+    sprite = NpcSpriteData[npcSpriteID];
 
     if (sprite != nullptr) {
         paletteOffsetCopy = sprite->palettesOffset;
@@ -1320,7 +1480,12 @@ s32 spr_get_npc_raster_info(SpriteRasterInfo* out, s32 npcSpriteID, s32 rasterIn
 }
 
 PAL_PTR* spr_get_npc_palettes(s32 npcSpriteID) {
-    SpriteAnimData* sprite = NpcSpriteData[npcSpriteID];
+    SpriteAnimData* sprite;
+
+    if (npcSpriteID & (SPRITE_ID_PLAYER >> 16)) { // [port]
+        return port_player_sprite(npcSpriteID & 0xFF) != nullptr ? spr_get_player_palettes(npcSpriteID & 0xFF) : nullptr;
+    }
+    sprite = NpcSpriteData[npcSpriteID];
 
     if (sprite != nullptr) {
         return sprite->palettesOffset;
@@ -1330,7 +1495,12 @@ PAL_PTR* spr_get_npc_palettes(s32 npcSpriteID) {
 }
 
 s32 spr_get_npc_color_variations(s32 npcSpriteID) {
-    SpriteAnimData* sprite = NpcSpriteData[npcSpriteID];
+    SpriteAnimData* sprite;
+
+    if (npcSpriteID & (SPRITE_ID_PLAYER >> 16)) { // [port]
+        return SPR_PLAYER_COLOR_VARIATIONS;
+    }
+    sprite = NpcSpriteData[npcSpriteID];
 
     if (sprite != nullptr) {
         return sprite->colorVariations;

@@ -55,3 +55,8 @@ PB_API void C_RemovePuppet(int puppet);
 // The Npc that holds the puppet's place and shadow, or NULL while it isn't in the map being played. The figure
 // itself is drawn apart from it, so the Npc's sprite and animation do nothing.
 PB_API void* C_GetPuppetNpc(int puppet);
+
+// Lets the player run into the puppet in the field as into an enemy: touching it, jumping on it or hammering it fires
+// OnPuppetEncounter with how, a C_BATTLE_START_* from world.h, for the mod to start a battle with C_StartBattle. It
+// fires again only after the player has stepped away, and not for a second after a battle or menu. Off by default.
+PB_API void C_SetPuppetEncounter(int puppet, int enabled);

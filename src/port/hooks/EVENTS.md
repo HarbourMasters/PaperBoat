@@ -417,6 +417,49 @@ Fires when a partner's attack works out its damage against an enemy.
 
 ---
 
+### `OnPlayerAttackDamage`
+```c
+Actor* target;
+int32_t targetPart;
+int32_t* damage;
+```
+Fires when the player's attack works out its damage against an enemy, after its defense and before its HP changes.
+Change `*damage` to deal something else.
+
+---
+
+### `OnBattleMoveStart`
+```c
+Actor* actor;       // the player's or the partner's actor
+int32_t category;   // BTL_MENU_TYPE_*, e.g. jump, smash, item, star power
+int32_t moveID;     // MOVE_*
+int32_t argument;   // the item, or the boots or hammer level
+int32_t targetID;   // ACTOR_* of the chosen target
+int32_t targetPart;
+```
+Fires when the player or the partner starts the move chosen in the battle menu, before its script runs.
+
+---
+
+### `OnBattleMoveEnd`
+```c
+Actor* actor;
+```
+Fires when that move's script has finished, as the turn ends. `gBattleStatus` holds how it went, such as
+`actionResult` for the action command and `lastAttackDamage` for the last hit.
+
+---
+
+### `OnPuppetEncounter`
+```c
+int32_t puppet; // from C_SpawnPuppet
+int32_t start;  // C_BATTLE_START_* from port/api/world.h
+```
+Fires when the player runs into a puppet that has encounters on (`C_SetPuppetEncounter`): touching it, jumping on it
+or hammering it. Start the battle from the listener with `C_StartBattle`.
+
+---
+
 ### `OnActorDefenseCheck`
 ```c
 Actor* target;
