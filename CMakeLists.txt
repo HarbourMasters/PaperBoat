@@ -131,7 +131,7 @@ if (WIN32)
     set(VCPKG_TRIPLET x64-windows-static)
     set(VCPKG_TARGET_TRIPLET x64-windows-static)
     vcpkg_bootstrap()
-    vcpkg_install_packages(zlib bzip2 sdl2 glew libzip nlohmann-json tinyxml2 spdlog)
+    vcpkg_install_packages(zlib bzip2 sdl2 glew libzip nlohmann-json tinyxml2 spdlog mbedtls)
 
     set_property(DIRECTORY ${CMAKE_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 endif()
@@ -211,10 +211,29 @@ if(EMSCRIPTEN)
     FetchContent_MakeAvailable(tinyxml2 nlohmann_json spdlog libzip)
 endif()
 
-# None of these can dlopen a native mod, and TCC has no backend for them.
-if(ANDROID OR IOS OR EMSCRIPTEN)
+# Satella, the online service: the keys trusted mods are signed with, and the online mod APIs. Not on iOS and the web,
+# where code mods don't run.
+option(USE_SATELLA "Connect to Satella at startup for mod signing keys and online features" ON)
+if(IOS OR EMSCRIPTEN OR NOT USE_SATELLA)
+    set(USE_NETWORKING_DEFAULT OFF)
+else()
+    set(USE_NETWORKING_DEFAULT ON)
+endif()
+option(USE_NETWORKING "Build the Satella client and the online mod APIs" ${USE_NETWORKING_DEFAULT})
+if(NOT USE_SATELLA AND USE_NETWORKING)
+    set(USE_NETWORKING OFF CACHE BOOL "Disabled because USE_SATELLA is OFF" FORCE)
+endif()
+
+# Mods are C compiled at startup by TCC. iOS forbids writable executable memory
+# and TCC has no wasm backend, so neither loads them. Android only uses TCC.
+if(IOS OR EMSCRIPTEN)
     set(ENABLE_SCRIPTING OFF CACHE BOOL "" FORCE)
     set(DISABLE_DLL_LOADER ON CACHE BOOL "" FORCE)
+else()
+    set(ENABLE_SCRIPTING ON CACHE BOOL "" FORCE)
+    if(ANDROID)
+        set(DISABLE_DLL_LOADER ON CACHE BOOL "" FORCE)
+    endif()
 endif()
 
 # Add libultraship BEFORE setting include directories to avoid polluting its builds.
@@ -477,6 +496,26 @@ add_custom_target(GeneratePortO2R DEPENDS "${PAPERBOAT_PORT_O2R}")
 add_dependencies(${PROJECT_NAME} GeneratePortO2R)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE libultraship torch yaml-cpp)
+target_include_directories(${PROJECT_NAME} PRIVATE ${dr_libs_SOURCE_DIR})
+
+if(ENABLE_SCRIPTING)
+    # Mods resolve the game's functions and globals from the running binary.
+    set_target_properties(${PROJECT_NAME} PROPERTIES ENABLE_EXPORTS TRUE WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+    include(${CMAKE_SOURCE_DIR}/external/libultraship/cmake/SetupTccRuntime.cmake)
+    if(APPLE)
+        # libtcc is installed next to the binary in the bundle.
+        set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "@executable_path")
+        lus_setup_tcc_runtime(${PROJECT_NAME} RESOURCES_DIR "../Resources/.tcc")
+    elseif(ANDROID)
+        set(PAPERBOAT_TCC_RUNTIME_DIR "${CMAKE_BINARY_DIR}/.tcc" CACHE PATH "Where the TCC runtime is staged for the APK")
+        lus_setup_tcc_runtime(${PROJECT_NAME} STAGE_DIR "${PAPERBOAT_TCC_RUNTIME_DIR}")
+    else()
+        lus_setup_tcc_runtime(${PROJECT_NAME})
+    endif()
+    if(ANDROID)
+        target_link_options(${PROJECT_NAME} PRIVATE -Wl,-export-dynamic)
+    endif()
+endif()
 
 if(ANDROID)
     # libzip comes from libultraship's android.cmake, so its headers are in the
@@ -750,6 +789,9 @@ if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
         ${CMAKE_BINARY_DIR}/gamecontrollerdb.txt)
 
     install(TARGETS ${PROJECT_NAME} DESTINATION ../MacOS COMPONENT ${PROJECT_NAME})
+    if(ENABLE_SCRIPTING AND TARGET libtcc)
+        install(FILES "$<TARGET_FILE:libtcc>" DESTINATION ../MacOS COMPONENT ${PROJECT_NAME})
+    endif()
     install(FILES ${CMAKE_BINARY_DIR}/gamecontrollerdb.txt DESTINATION ../Resources COMPONENT ${PROJECT_NAME})
     install(FILES ${PAPERBOAT_PORT_O2R} DESTINATION ../Resources COMPONENT ${PROJECT_NAME})
     install(FILES ${CMAKE_SOURCE_DIR}/config.yml DESTINATION ../Resources COMPONENT ${PROJECT_NAME})
@@ -763,6 +805,95 @@ if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
     set(CPACK_GENERATOR "Bundle")
     set(CPACK_PROJECT_CONFIG_FILE ${CMAKE_SOURCE_DIR}/cmake/configure-packaging.cmake)
     include(cmake/packaging.cmake)
+endif()
+
+if(USE_NETWORKING)
+    if(APPLE)
+        # Homebrew's mbedtls is 4.x by now; ixwebsocket needs 2.x or 3.x.
+        find_program(BREW_EXECUTABLE brew)
+        if(BREW_EXECUTABLE)
+            execute_process(COMMAND ${BREW_EXECUTABLE} --prefix mbedtls@3
+                            OUTPUT_VARIABLE MBEDTLS3_PREFIX OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
+            if(EXISTS "${MBEDTLS3_PREFIX}/lib")
+                list(APPEND CMAKE_PREFIX_PATH "${MBEDTLS3_PREFIX}")
+            else()
+                set(MBEDTLS3_PREFIX "")
+            endif()
+        endif()
+    endif()
+    if(ANDROID)
+        FetchContent_Declare(
+            mbedtls
+            URL https://github.com/Mbed-TLS/mbedtls/releases/download/mbedtls-3.6.7/mbedtls-3.6.7.tar.bz2
+            URL_HASH SHA256=a7e8bcbec0e6f761b4af24f25677626b35f762f68eef79c08677a363212d11f6
+        )
+        set(ENABLE_PROGRAMS OFF CACHE BOOL "" FORCE)
+        set(ENABLE_TESTING OFF CACHE BOOL "" FORCE)
+        set(GEN_FILES OFF CACHE BOOL "" FORCE)
+        set(MBEDTLS_FATAL_WARNINGS OFF CACHE BOOL "" FORCE)
+        set(USE_SHARED_MBEDTLS_LIBRARY OFF CACHE BOOL "" FORCE)
+        set(USE_STATIC_MBEDTLS_LIBRARY ON CACHE BOOL "" FORCE)
+        FetchContent_MakeAvailable(mbedtls)
+        set(MBEDTLS_FOUND TRUE)
+        set(MBEDTLS_VERSION_GREATER_THAN_3 TRUE)
+        set(MBEDTLS_INCLUDE_DIRS "${mbedtls_SOURCE_DIR}/include")
+        set(MBEDTLS_LIBRARIES mbedtls mbedx509 mbedcrypto)
+        target_link_libraries(${PROJECT_NAME} PRIVATE mbedtls mbedx509 mbedcrypto)
+    endif()
+    FetchContent_Declare(
+        ixwebsocket
+        GIT_REPOSITORY https://github.com/machinezone/IXWebSocket.git
+        GIT_TAG v11.4.5
+    )
+    set(USE_TLS ON CACHE BOOL "" FORCE)
+    set(USE_MBED_TLS ON CACHE BOOL "" FORCE)
+    # ixwebsocket links ZLIB::ZLIB for compressed messages; the zlib built here is zlibstatic.
+    if(TARGET zlibstatic AND NOT TARGET ZLIB::ZLIB)
+        add_library(ZLIB::ZLIB ALIAS zlibstatic)
+    endif()
+    if(NOT TARGET ZLIB::ZLIB)
+        set(USE_ZLIB OFF CACHE BOOL "" FORCE)
+    endif()
+    set(IXWEBSOCKET_INSTALL OFF CACHE BOOL "" FORCE)
+    FetchContent_MakeAvailable(ixwebsocket)
+    if(ANDROID)
+        target_compile_definitions(ixwebsocket PRIVATE IXWEBSOCKET_USE_MBED_TLS_MIN_VERSION_3)
+    endif()
+    target_link_libraries(${PROJECT_NAME} PRIVATE ixwebsocket)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE USE_NETWORKING
+                               PAPERBOAT_VERSION="${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
+    if(APPLE)
+        find_path(MBEDTLS_INCLUDE_DIR NAMES mbedtls/ctr_drbg.h HINTS "${MBEDTLS3_PREFIX}/include")
+        if(NOT MBEDTLS_INCLUDE_DIR)
+            message(FATAL_ERROR "mbedtls 2.x/3.x headers not found; install Homebrew's mbedtls@3 or MacPorts' mbedtls.")
+        endif()
+        get_filename_component(MBEDTLS_ROOT "${MBEDTLS_INCLUDE_DIR}" DIRECTORY)
+        find_library(MBEDTLS_LIB mbedtls PATHS "${MBEDTLS_ROOT}/lib" NO_DEFAULT_PATH)
+        find_library(MBEDX509_LIB mbedx509 PATHS "${MBEDTLS_ROOT}/lib" NO_DEFAULT_PATH)
+        find_library(MBEDCRYPTO_LIB mbedcrypto PATHS "${MBEDTLS_ROOT}/lib" NO_DEFAULT_PATH)
+        target_include_directories(${PROJECT_NAME} PRIVATE "${MBEDTLS_INCLUDE_DIR}")
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${MBEDTLS_LIB} ${MBEDX509_LIB} ${MBEDCRYPTO_LIB})
+    endif()
+else()
+    message(STATUS "Satella is off: mods signed with Satella's keys need trusting by hand, and the online APIs do "
+                   "nothing.")
+endif()
+
+# The mod SDK: headers, mod tools and workspaces in one zip. Not built by default: cmake --build <dir> --target mod_sdk
+if(NOT ANDROID AND NOT IOS AND NOT EMSCRIPTEN)
+    if(NOT TARGET libzip::zip)
+        find_package(libzip QUIET)
+    endif()
+    if(TARGET libzip::zip)
+        add_executable(make_mod_sdk EXCLUDE_FROM_ALL tools/make_mod_sdk.cpp)
+        target_compile_features(make_mod_sdk PRIVATE cxx_std_17)
+        target_link_libraries(make_mod_sdk PRIVATE libzip::zip)
+        add_custom_target(mod_sdk
+            COMMAND make_mod_sdk ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}
+            DEPENDS make_mod_sdk
+            VERBATIM
+        )
+    endif()
 endif()
 
 message(STATUS "Configuring ${PROJECT_NAME} v${PROJECT_VERSION}")

@@ -6,7 +6,7 @@ extern "C" {
 #include "common_structs.h"
 #include "enums.h"
 
-extern MoveData gMoveTable[];
+extern MoveData* gMoveTable;
 }
 
 static const s32 sFreeQoLBadgeMoves[] = { MOVE_SPEEDY_SPIN, MOVE_I_SPY, MOVE_PEEKABOO };

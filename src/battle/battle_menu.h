@@ -234,7 +234,7 @@ extern HudScript HES_SwapArrowRight;
 extern HudScript HES_SwapBackground;
 extern HudScript HES_SwapZ;
 
-extern IconHudScriptPair gItemHudScripts[];
+extern IconHudScriptPair* gItemHudScripts;
 
 extern s32 MenuIndexFromPartnerID[];
 

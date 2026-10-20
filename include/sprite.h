@@ -32,6 +32,9 @@ enum {
     PLAYER_SPRITE_AUX2      = 2,
 };
 
+#define PLAYER_SPRITE_PUPPET_FIRST 3
+#define PLAYER_SPRITE_PUPPET_COUNT 16
+
 //TODO this is just a boolean isNpcSprite, using a temp enum for documenting
 enum {
     SPRITE_MODE_PLAYER  = 0,

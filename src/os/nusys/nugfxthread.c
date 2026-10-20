@@ -1,6 +1,7 @@
 #include "common.h"
 #include "nu/nusys.h"
 #include "port/os/OS.h"
+#include "port/mods/ModScripts.h"
 
 void gfxThread(void*);
 
@@ -32,6 +33,7 @@ void gfxThread(void* data) {
 
         switch (*mesgType) {
             case NU_SC_RETRACE_MSG:
+                ModScripts_RunPending(); // [port] between frames, so mods can be reloaded safely
                 if (nuGfxFunc != nullptr) {
                     (*nuGfxFunc)(nuGfxTaskSpool);
                 }

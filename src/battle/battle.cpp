@@ -134,7 +134,8 @@ void load_battle_section(void) {
 
     gCurrentBattlePtr = &(*battleArea->battles)[battleIdx];
 
-    if (gCurrentStageID < 0) {
+    // [port] Mod battles have no stage list and use their own Battle::stage.
+    if (gCurrentStageID < 0 || battleArea->stages == nullptr) {
         gCurrentStagePtr = nullptr;
     } else {
         gCurrentStagePtr = &(*battleArea->stages)[gCurrentStageID];

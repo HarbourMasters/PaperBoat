@@ -2,6 +2,7 @@
 #include "PaperboatInputEditorWindow.h"
 
 #include "ShipInit.hpp"
+#include "port/mods/ModScripts.h"
 #include "port/ui/cvar_prefixes.h"
 
 #include <ship/utils/StringHelper.h>
@@ -88,6 +89,7 @@ void PaperboatMenu::InitElement() {
     AddMenuEnhancements();
     AddMenuShaderSettings();
     AddMenuDevTools();
+    AddMenuMods();
 
     if (CVarGetInteger(CVAR_SETTING("Menu.SidebarSearch"), 0)) {
         InsertSidebarSearch();
@@ -153,7 +155,42 @@ void PaperboatMenu::UpdateElement() {
     Ship::Menu::UpdateElement();
 }
 
+void PaperboatMenu::AddSection(std::string sectionName, const char* sidebarCvar) {
+    if (!menuEntries.contains(sectionName)) {
+        AddMenuEntry(sectionName, sidebarCvar);
+    }
+}
+
+void PaperboatMenu::RemoveSidebarEntry(std::string sectionName, std::string sidebarName) {
+    auto section = menuEntries.find(sectionName);
+    if (section == menuEntries.end()) {
+        return;
+    }
+    section->second.sidebars.erase(sidebarName);
+    std::erase(section->second.sidebarOrder, sidebarName);
+
+    if (section->second.sidebarOrder.empty()) {
+        menuEntries.erase(section);
+        std::erase(menuOrder, sectionName);
+    }
+}
+
+void PaperboatMenu::RemoveWidget(const WidgetPath& pathInfo, const std::string& widgetName) {
+    auto section = menuEntries.find(pathInfo.sectionName);
+    if (section == menuEntries.end()) {
+        return;
+    }
+    auto sidebar = section->second.sidebars.find(pathInfo.sidebarName);
+    if (sidebar == section->second.sidebars.end() || pathInfo.column >= sidebar->second.columnWidgets.size()) {
+        return;
+    }
+    std::erase_if(sidebar->second.columnWidgets[pathInfo.column], [&](const WidgetInfo& widget) {
+        return widget.name == widgetName;
+    });
+}
+
 void PaperboatMenu::Draw() {
+    std::lock_guard<std::recursive_mutex> lock(ModScripts::Lock());
     Ship::Menu::Draw();
 }
 

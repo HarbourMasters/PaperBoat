@@ -1,5 +1,6 @@
 #include "SaveManager.h"
 #include "SaveTypes.h"
+#include "SaveMods.h"
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 #include <libultraship/bridge/consolevariablebridge.h>
@@ -26,9 +27,24 @@ std::string CollapsedJSONArray(const nlohmann::ordered_json& jsonFile) {
     result.reserve(source.length());
 
     bool isCollapsed = false;
+    bool inString = false;
 
     for (size_t i = 0; i < source.length(); ++i) {
         char c = source[i];
+
+        // Strings, such as mod data, are copied as they are.
+        if (inString || c == '"') {
+            if (inString && c == '\\') {
+                result += c;
+                result += source[++i];
+                continue;
+            }
+            if (c == '"') {
+                inString = !inString;
+            }
+            result += c;
+            continue;
+        }
 
         if (c == '[') {
             size_t next = source.find_first_not_of(" \n\r\t", i + 1);
@@ -528,6 +544,7 @@ void SaveManager_Init() {
 
         SaveData* saveData = (SaveData*) ev->saveData;
         ordered_json jsonSaveFile = ConvertSaveData_to_JSON(saveData);
+        SaveMods::Store(jsonSaveFile, saveData);
 
         if (!jsonSaveFile.empty()) {
             std::string fileName = fmt::format("file{}.json", saveData->saveSlot);
@@ -561,12 +578,18 @@ void SaveManager_Init() {
             inputFile >> jsonSave;
 
             gCurrentSaveFile = *ConvertJSON_to_SaveData(jsonSave);
+            SaveMods::Load(jsonSave, &gCurrentSaveFile);
         } else {
             SaveData* newSaveData = new SaveData();
             gCurrentSaveFile = *newSaveData;
+            SaveMods::Reset();
         }
         CALL_EVENT(OnPostSaveFileLoad);
     })
+
+    REGISTER_LISTENER(OnSaveFileCreate, EVENT_PRIORITY_HIGH, [](IEvent* event) { SaveMods::Reset(); })
+
+    REGISTER_LISTENER(OnSaveFileStart, EVENT_PRIORITY_NORMAL, [](IEvent* event) { SaveMods::CheckMissing(); })
 
     REGISTER_LISTENER(OnSaveFileErase, EVENT_PRIORITY_HIGH, [](IEvent* event) {
         OnSaveFileErase* ev = (OnSaveFileErase*) event;

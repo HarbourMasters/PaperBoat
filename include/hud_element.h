@@ -160,6 +160,9 @@ typedef struct IconHudScriptPair {
     /* 0x04 */ HudScript* disabled;
 } IconHudScriptPair; // size = 0x08
 
+extern IconHudScriptPair* gItemHudScripts;
+extern const s32 gItemHudScriptsVanillaCount;
+
 typedef struct VtxRect {
     Vtx vtx[4];
 } VtxRect; // size = 0x40

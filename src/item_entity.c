@@ -288,7 +288,7 @@ void init_item_entity_list(void) {
     ItemEntityAlternatingSpawn = 0;
 }
 
-extern intptr_t* gItemEntityScripts[];
+extern intptr_t** gItemEntityScripts;
 
 void item_entity_load(ItemEntity* item) {
     intptr_t* pos;

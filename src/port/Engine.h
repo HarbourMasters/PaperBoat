@@ -88,6 +88,8 @@ class GameEngine {
     static void AudioExit();
     void FinishInit();
     void RunExtract(int argc, char* argv[]);
+    void BuildMods();
+    void ConnectSatella();
     static bool sRelaunchRequested;
     static bool CanRelaunch();
     static void RequestRelaunch() {

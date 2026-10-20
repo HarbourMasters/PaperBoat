@@ -16,6 +16,9 @@ typedef enum WorkerDrawMode {
     WORKER_DRAW_MODE_BACK_UI,
 } WorkerDrawMode;
 
+// Startup is done: the game's events are registered and every mod's ModInit has run.
+DEFINE_EVENT(EngineReady);
+
 DEFINE_EVENT(GameFrameUpdate);
 
 DEFINE_EVENT(WorkerUpdate,
@@ -61,6 +64,11 @@ DEFINE_EVENT(MessagePostDraw,
 );
 
 DEFINE_EVENT(MessageTextFilterSet);
+
+DEFINE_EVENT(MessageLookup,
+    int32_t msgID;
+    uint8_t* data;
+);
 
 DEFINE_EVENT(HudElementUpdate,
     HudElement* element;

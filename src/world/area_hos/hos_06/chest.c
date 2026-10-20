@@ -2,7 +2,7 @@
 #include "hud_element.h"
 #include "inventory.h"
 
-extern IconHudScriptPair gItemHudScripts[];
+extern IconHudScriptPair* gItemHudScripts;
 
 EvtScript N(EVS_Chest_ShowGotItem) = {
     SetGroup(EVT_GROUP_NEVER_PAUSE)

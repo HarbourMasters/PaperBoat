@@ -1,0 +1,5 @@
+build/
+output/*
+*.o2r
+.DS_Store
+*.exe

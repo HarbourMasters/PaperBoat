@@ -28,12 +28,18 @@
 
     <!-- Rumble -->
     <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- Satella: the keys trusted mods are signed with, and mods' online features. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- No storage permissions: the ROM comes through the document picker, and
          everything else lives in the app's own external files directory. -->
 
+    <!-- Mods are compiled by TCC into untagged heap memory, which pointer
+         tagging would reject. -->
     <application
         android:allowBackup="false"
+        android:allowNativeHeapPointerTagging="false"
         android:appCategory="game"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"

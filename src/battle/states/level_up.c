@@ -19,7 +19,7 @@
 #include "sprite/player.h"
 
 extern HudScript HES_ProjectorBeam;
-extern IconHudScriptPair gItemHudScripts[];
+extern IconHudScriptPair* gItemHudScripts;
 
 enum {
     // BTL_SUBSTATE_INIT                            = 0,

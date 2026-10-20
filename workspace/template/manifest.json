@@ -1,0 +1,9 @@
+{
+    "name": "Demo Mod",
+    "main": "build.gen",
+    "version": "1.0.0",
+    "website": "https://example.com",
+    "description": "A small mod showing the PaperBoat mod API: an item with its own name, a setting and an event.",
+    "author": "Your Name",
+    "license": "MIT"
+}

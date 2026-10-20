@@ -16,7 +16,7 @@ BSS s32 CurSpriteImgFX;
 BSS SpriteAnimData* PlayerSprites[13];
 BSS s32 CurPlayerSpriteIndex;
 BSS s32 MaxPlayerSpriteComponents;
-BSS PlayerCurrentAnimInfo CurPlayerAnimInfo[3];
+BSS PlayerCurrentAnimInfo CurPlayerAnimInfo[PLAYER_SPRITE_PUPPET_FIRST + PLAYER_SPRITE_PUPPET_COUNT]; // [port] puppets
 BSS SpriteAnimData* NpcSpriteData[MAX_SPRITE_ID];
 BSS u8 NpcSpriteInstanceCount[MAX_SPRITE_ID];
 BSS SpriteInstance SpriteInstances[51];

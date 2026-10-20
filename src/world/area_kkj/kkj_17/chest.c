@@ -3,7 +3,7 @@
 #include "sprite/player.h"
 #include "inventory.h"
 
-extern IconHudScriptPair gItemHudScripts[];
+extern IconHudScriptPair* gItemHudScripts;
 
 #include "world/common/todo/GetItemName.inc.c"
 

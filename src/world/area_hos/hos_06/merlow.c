@@ -1,7 +1,7 @@
 #include "hos_06.h"
 #include "hud_element.h"
 
-extern IconHudScriptPair gItemHudScripts[];
+extern IconHudScriptPair* gItemHudScripts;
 
 NpcSettings N(NpcSettings_Merluvlee) = {
     .height = 34,

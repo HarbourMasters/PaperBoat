@@ -91,7 +91,7 @@
 #define MAX_WORKERS 16
 #define MAX_TEX_PANNERS 16
 #define MAX_ITEM_ENTITIES 256
-#define MAX_IMGFX_INSTANCES 90
+#define MAX_IMGFX_INSTANCES 160
 
 #define MAX_STAR_PIECES 222
 
@@ -657,6 +657,14 @@ typedef s32 Difficulty2D[AC_DIFFICULTY_LEN][2];
 #define ALIGNED64 __attribute__((aligned(64)))
 #else
 #define ALIGNED64
+#endif
+
+// [port] For the game variables mods use. TinyCC defines __DLL__ while it builds a mod, and on Windows a mod reaches the
+// game's data only through dllimport.
+#if defined(_WIN32) && defined(__DLL__)
+#define extern_s extern __declspec(dllimport)
+#else
+#define extern_s extern
 #endif
 
 #endif

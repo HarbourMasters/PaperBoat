@@ -57,6 +57,11 @@ abstract class PackGameData : DefaultTask() {
     @get:PathSensitive(PathSensitivity.RELATIVE)
     abstract val config: RegularFileProperty
 
+    // TCC's headers and libtcc1.a, staged by the native build; mods compile against them.
+    @get:InputDirectory
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    abstract val tccRuntime: DirectoryProperty
+
     @get:OutputDirectory
     abstract val outputDir: DirectoryProperty
 
@@ -64,6 +69,7 @@ abstract class PackGameData : DefaultTask() {
     fun pack() {
         val recipesRoot = recipes.get().asFile
         val portRoot = portData.get().asFile
+        val tccRoot = tccRuntime.get().asFile
 
         val target = outputDir.get().asFile
         target.mkdirs()
@@ -78,6 +84,9 @@ abstract class PackGameData : DefaultTask() {
             add(ENGINE_ARCHIVE to engine)
             recipesRoot.walkTopDown().filter(File::isFile).forEach {
                 add("assets/${it.relativeTo(recipesRoot).invariantSeparatorsPath}" to it)
+            }
+            tccRoot.walkTopDown().filter(File::isFile).forEach {
+                add(".tcc/${it.relativeTo(tccRoot).invariantSeparatorsPath}" to it)
             }
         }.sortedBy { it.first }
 
@@ -123,18 +132,24 @@ abstract class PackGameData : DefaultTask() {
     }
 }
 
+// Outside the per-ABI CMake build tree, so this task can name it up front.
+val tccRuntimeDir: File = layout.buildDirectory.dir("generated/tccRuntime").get().asFile
+
 // Via the variant API, not a source-set srcDir: srcDir takes the path but not
 // the dependency on the task that fills it, so a clean checkout would silently
 // package an APK with none of this in it.
 androidComponents {
     onVariants { variant ->
+        val variantName = variant.name.replaceFirstChar(Char::titlecase)
         val packGameData =
-            tasks.register<PackGameData>("pack${variant.name.replaceFirstChar(Char::titlecase)}GameData") {
-                description = "Bundles the Torch recipes and the engine archive into the APK."
+            tasks.register<PackGameData>("pack${variantName}GameData") {
+                description = "Bundles the Torch recipes, the engine archive and the TCC runtime into the APK."
                 recipes.set(File(repositoryRoot, "assets"))
                 portData.set(File(repositoryRoot, "port"))
                 lusShaders.set(File(repositoryRoot, "external/libultraship/src/fast/shaders"))
                 config.set(File(repositoryRoot, "config.yml"))
+                tccRuntime.set(tccRuntimeDir)
+                dependsOn("externalNativeBuild$variantName")
             }
         variant.sources.assets?.addGeneratedSourceDirectory(packGameData, PackGameData::outputDir)
     }
@@ -166,6 +181,7 @@ android {
                     "-DSDL_SHARED=ON",
                     "-DSDL_STATIC=OFF",
                     "-DHAVE_LD_VERSION_SCRIPT=OFF",
+                    "-DPAPERBOAT_TCC_RUNTIME_DIR=${tccRuntimeDir.absolutePath}",
                     // Every variant, debug included. Only the Release flags
                     // carry -fno-strict-aliasing, and the game's C needs it:
                     // at -O2 aliasing miscompiles it into graphical glitches.

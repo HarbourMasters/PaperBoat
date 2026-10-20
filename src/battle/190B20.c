@@ -678,7 +678,7 @@ s32 count_power_plus(s32 damageType) {
 
     count = 0;
     for (i = 0; i < ARRAY_COUNT(gPlayerData.equippedBadges); i++) {
-        u8 moveID = gItemTable[gPlayerData.equippedBadges[i]].moveID;
+        s32 moveID = gItemTable[gPlayerData.equippedBadges[i]].moveID;
 
         if (gMoveTable[moveID].category == MOVE_TYPE_ATTACK_UP && moveID == MOVE_POWER_PLUS) {
             if (gBattleStatus.flags1 & BS_FLAGS1_INCLUDE_POWER_UPS || damageType & DAMAGE_TYPE_JUMP) {

@@ -1,0 +1,124 @@
+cmake_minimum_required(VERSION 3.10)
+project(DemoMod)
+
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+
+set(PARENT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../..)
+set(LOCAL_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+# The game's headers, as the game itself is built with them.
+set(INCLUDE_DIRS
+    ${LOCAL_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${PARENT_DIR}
+    ${PARENT_DIR}/include
+    ${PARENT_DIR}/include/libultra
+    ${PARENT_DIR}/include/PR
+    ${PARENT_DIR}/include/assets
+    ${PARENT_DIR}/src
+    ${PARENT_DIR}/src/port
+    ${PARENT_DIR}/external/libultraship/include
+    ${PARENT_DIR}/external/libultraship/include/libultraship
+)
+
+# The defines the game compiles mods with (ModScripts::Setup), so the merge keeps the same side of each #if.
+set(MOD_DEFINES PORT MODERN_COMPILER VERSION=us VERSION_US F3DEX_GBI_2 __CTX__ _LANGUAGE_C _USE_MATH_DEFINES
+    __DLL__ __TINYC__ __STDC__ __STDC_VERSION__=201112L)
+
+file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
+list(FILTER SRC_FILES EXCLUDE REGEX ".*.inc.c")
+file(GLOB_RECURSE TEXTURE_FILES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.png")
+
+set(BUILD_GEN ${CMAKE_CURRENT_SOURCE_DIR}/output/build.gen)
+get_filename_component(OUTPUT_DIR ${BUILD_GEN} DIRECTORY)
+file(MAKE_DIRECTORY ${OUTPUT_DIR})
+
+set(INTERMEDIATE_OUTPUTS "")
+set(COPY_OUTPUTS "")
+set(DIST_OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/output/dist)
+
+foreach(SOURCE_FILE ${SRC_FILES})
+    file(RELATIVE_PATH RELATIVE_FILE ${CMAKE_CURRENT_SOURCE_DIR}/src ${SOURCE_FILE})
+    set(OUTPUT_FILE ${DIST_OUTPUT}/${RELATIVE_FILE})
+    get_filename_component(INTERMEDIATE_DIR ${OUTPUT_FILE} DIRECTORY)
+
+    add_custom_command(
+        OUTPUT ${OUTPUT_FILE}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${INTERMEDIATE_DIR}
+        COMMAND Python3::Interpreter ${PARENT_DIR}/tools/merge.py
+                --out ${OUTPUT_FILE}
+                --includes ${INCLUDE_DIRS}
+                --assets-dir ${CMAKE_CURRENT_SOURCE_DIR}/output
+                --src ${SOURCE_FILE}
+                --defines ${MOD_DEFINES}
+        DEPENDS ${SOURCE_FILE} ${PARENT_DIR}/tools/merge.py ${TEXTURE_FILES}
+        VERBATIM
+    )
+
+    list(APPEND INTERMEDIATE_OUTPUTS ${OUTPUT_FILE})
+endforeach()
+
+foreach(INCLUDE_DIR ${LOCAL_INCLUDE_DIRS})
+    file(GLOB_RECURSE HEADER_FILES CONFIGURE_DEPENDS "${INCLUDE_DIR}/*.h")
+    foreach(HEADER_FILE ${HEADER_FILES})
+        file(RELATIVE_PATH RELATIVE_HEADER ${INCLUDE_DIR} ${HEADER_FILE})
+        set(OUTPUT_HEADER ${OUTPUT_DIR}/include/${RELATIVE_HEADER})
+        get_filename_component(HEADER_OUTPUT_DIR ${OUTPUT_HEADER} DIRECTORY)
+
+        add_custom_command(
+            OUTPUT ${OUTPUT_HEADER}
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${HEADER_OUTPUT_DIR}
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${HEADER_FILE} ${OUTPUT_HEADER}
+            DEPENDS ${HEADER_FILE}
+            VERBATIM
+        )
+
+        list(APPEND COPY_OUTPUTS ${OUTPUT_HEADER})
+    endforeach()
+endforeach()
+
+file(GLOB_RECURSE ASSET_FILES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/assets/*")
+foreach(ASSET_FILE ${ASSET_FILES})
+    file(RELATIVE_PATH RELATIVE_ASSET ${CMAKE_CURRENT_SOURCE_DIR}/assets ${ASSET_FILE})
+    set(OUTPUT_ASSET ${OUTPUT_DIR}/${RELATIVE_ASSET})
+    get_filename_component(ASSET_OUTPUT_DIR ${OUTPUT_ASSET} DIRECTORY)
+
+    add_custom_command(
+        OUTPUT ${OUTPUT_ASSET}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${ASSET_OUTPUT_DIR}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${ASSET_FILE} ${OUTPUT_ASSET}
+        DEPENDS ${ASSET_FILE}
+        VERBATIM
+    )
+
+    list(APPEND COPY_OUTPUTS ${OUTPUT_ASSET})
+endforeach()
+
+set(MANIFEST_FILE ${CMAKE_CURRENT_SOURCE_DIR}/manifest.json)
+set(OUTPUT_MANIFEST ${OUTPUT_DIR}/manifest.json)
+add_custom_command(
+    OUTPUT ${OUTPUT_MANIFEST}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_DIR}
+    COMMAND Python3::Interpreter ${PARENT_DIR}/tools/mod_manifest.py
+            --api ${PARENT_DIR}/src/port/api/api.h
+            --src ${MANIFEST_FILE}
+            --out ${OUTPUT_MANIFEST}
+    DEPENDS ${MANIFEST_FILE} ${PARENT_DIR}/src/port/api/api.h ${PARENT_DIR}/tools/mod_manifest.py
+    VERBATIM
+)
+list(APPEND COPY_OUTPUTS ${OUTPUT_MANIFEST})
+
+string(REPLACE ";" "\n" FORMATTED_FILE_LIST "${INTERMEDIATE_OUTPUTS}")
+string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/output/" "" FORMATTED_FILE_LIST "${FORMATTED_FILE_LIST}")
+file(WRITE ${BUILD_GEN} "${FORMATTED_FILE_LIST}\n")
+
+add_custom_target(generate_packaged_mod ALL DEPENDS ${INTERMEDIATE_OUTPUTS} ${COPY_OUTPUTS})
+
+set(PACKAGE_FILE ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.o2r)
+add_custom_target(package_mod
+    COMMAND ${CMAKE_COMMAND} -E rm -f ${PACKAGE_FILE}
+    COMMAND ${CMAKE_COMMAND} -E tar cf ${PACKAGE_FILE} --format=zip .
+    WORKING_DIRECTORY ${OUTPUT_DIR}
+    DEPENDS generate_packaged_mod
+    VERBATIM
+)

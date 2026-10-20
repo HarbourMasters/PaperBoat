@@ -11,6 +11,7 @@ std::atomic<int32_t> sMaster { 100 };
 std::atomic<int32_t> sMusic { 100 };
 std::atomic<int32_t> sSfx { 100 };
 std::atomic<int32_t> sAmbience { 100 };
+std::atomic<bool> sGameMusicMuted { false };
 
 // Last ambience percentage the MSEQ player has pushed to its voices.
 int32_t sAmbienceApplied = 100;
@@ -39,10 +40,25 @@ float AudioVolume_GetMaster(void) {
     return sMaster.load(std::memory_order_relaxed) / 100.0f;
 }
 
+float AudioVolume_GetMusic(void) {
+    return sMusic.load(std::memory_order_relaxed) / 100.0f;
+}
+
+float AudioVolume_GetSfx(void) {
+    return sSfx.load(std::memory_order_relaxed) / 100.0f;
+}
+
+void AudioVolume_SetGameMusicMuted(int32_t muted) {
+    sGameMusicMuted.store(muted != 0, std::memory_order_relaxed);
+}
+
 uint16_t AudioVolume_ScaleBusGain(uint8_t busID, uint16_t gain) {
     // FX_BUS_SOUND carries both sound effects and ambience; the ambience half
     // is attenuated separately in the MSEQ player.
     int32_t percent = (busID == 1) ? sSfx.load(std::memory_order_relaxed) : sMusic.load(std::memory_order_relaxed);
+    if (busID != 1 && sGameMusicMuted.load(std::memory_order_relaxed)) {
+        percent = 0;
+    }
     return (uint16_t) (((int32_t) gain * percent) / 100);
 }
 

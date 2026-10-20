@@ -15,12 +15,53 @@ DEFINE_EVENT(OnSaveFileErase,
     int32_t saveSlot;
 );
 
+// A new save file is being created in the file menu, before it is first written.
+DEFINE_EVENT(OnSaveFileCreate,
+    int32_t saveSlot;
+);
+
+// The player starts playing the loaded save file, right after its data was unpacked into the game.
+DEFINE_EVENT(OnSaveFileStart,
+    int32_t saveSlot;
+);
+
 DEFINE_EVENT(OnSaveGlobalsSave,
     void* saveGlobals;
 );
 
 DEFINE_EVENT(OnSaveGlobalsLoad,
     void* saveGlobals;
+);
+
+DEFINE_EVENT(OnCoinsChanged,
+    int32_t before;
+    int32_t after;
+);
+
+DEFINE_EVENT(OnStarPointsChanged,
+    int32_t before;
+    int32_t after;
+);
+
+DEFINE_EVENT(OnStarPiecesChanged,
+    int32_t before;
+    int32_t after;
+);
+
+DEFINE_EVENT(OnHPChanged,
+    int32_t before;
+    int32_t after;
+);
+
+DEFINE_EVENT(OnFPChanged,
+    int32_t before;
+    int32_t after;
+);
+
+DEFINE_EVENT(OnItemCountChanged,
+    int16_t item;
+    int32_t before;
+    int32_t after;
 );
 
 // Cheats

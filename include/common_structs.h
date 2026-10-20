@@ -970,7 +970,7 @@ typedef struct BattleStatus {
     /* 0x1AC */ s8 lastSelectedPartner; // partnerID of most recently selected partner
     /* 0x1AD */ char unk_1AD;
     /* 0x1AE */ s16 submenuIcons[24]; /* icon IDs */
-    /* 0x1DE */ u8 submenuMoves[24]; /* move IDs */
+    /* 0x1DE */ s16 submenuMoves[24]; /* move IDs */
     /* 0x1F6 */ s8 submenuStatus[24]; ///< See [`BattleSubmenuStatus`].
     /* 0x20E */ u8 submenuMoveCount;
     /* 0x20F */ char unk_20F;
@@ -1136,10 +1136,10 @@ typedef struct ItemData {
     /* 0x10 */ s32 fullDescMsg;
     /* 0x14 */ s32 shortDescMsg;
     /* 0x18 */ s16 typeFlags;
-    /* 0x1A */ u8 moveID;
-    /* 0x1B */ s8 potencyA;
-    /* 0x1C */ s8 potencyB;
-    /* 0x1D */ char unk_1D[3];
+    /* 0x1A */ s16 moveID; // [port] u8 on N64; wider so mods can add moves
+    /* 0x1C */ s8 potencyA;
+    /* 0x1D */ s8 potencyB;
+    /* 0x1E */ char unk_1E[2];
 } ItemData; // size = 0x20
 
 typedef struct ItemEntity {

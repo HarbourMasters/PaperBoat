@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cctype>
 #include <filesystem>
+#include <fstream>
 #include <map>
 #include <memory>
 #include <string>
@@ -23,6 +24,11 @@
 #include "MenuTypes.h"
 #include "UIWidgets.hpp"
 #include "port/Engine.h"
+#include "port/mods/ModScripts.h"
+
+#include <nlohmann/json.hpp>
+#include <ship/resource/File.h>
+#include <ship/resource/archive/O2rArchive.h>
 
 static std::vector<std::string> enabledModFiles;
 static std::vector<std::string> disabledModFiles;
@@ -205,6 +211,136 @@ void DisableMod(std::string file) {
     SortDisabledMods();
 }
 
+struct ModKinds {
+    bool code = false;    // main or binaries: C code, or libraries the game loads
+    bool shaders = false; // shaders.passes or shaders.materials: post-processing passes, or shaders for materials
+};
+
+static bool NonEmpty(const nlohmann::json& json, const char* key) {
+    if (!json.contains(key)) {
+        return false;
+    }
+    const auto& value = json[key];
+    return value.is_string() ? !value.get<std::string>().empty()
+                             : (value.is_object() || value.is_array()) && !value.empty();
+}
+
+static ModKinds GetModKinds(const std::string& file) {
+    static std::map<std::string, std::pair<std::filesystem::file_time_type, ModKinds>> sCache;
+    auto it = filePaths.find(file);
+    if (it == filePaths.end()) {
+        return {};
+    }
+    const std::filesystem::path& path = it->second;
+    std::error_code ec;
+    const auto modified = std::filesystem::last_write_time(path, ec);
+    auto cached = sCache.find(file);
+    if (cached != sCache.end() && cached->second.first == modified) {
+        return cached->second.second;
+    }
+
+    std::string manifest;
+    if (std::filesystem::is_directory(path, ec)) {
+        std::ifstream in(path / "manifest.json");
+        manifest.assign(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
+    } else {
+        Ship::O2rArchive archive(path.generic_string());
+        if (archive.Open()) {
+            if (auto entry = archive.LoadFile("manifest.json"); entry != nullptr && entry->Buffer != nullptr) {
+                manifest.assign(entry->Buffer->begin(), entry->Buffer->end());
+            }
+            archive.Close();
+        }
+    }
+    ModKinds kinds;
+    const auto json = nlohmann::json::parse(manifest, nullptr, false);
+    if (json.is_object()) {
+        kinds.code = NonEmpty(json, "main") || NonEmpty(json, "binaries");
+        kinds.shaders = json.contains("shaders") && json["shaders"].is_object() &&
+                        (NonEmpty(json["shaders"], "passes") || NonEmpty(json["shaders"], "materials"));
+    }
+    sCache[file] = { modified, kinds };
+    return kinds;
+}
+
+static void DrawModKindIndicators(const std::string& file) {
+    struct Icon {
+        bool shown;
+        const char* glyph;
+        UIWidgets::Colors color;
+        const char* tooltip;
+    };
+    const ModKinds kinds = GetModKinds(file);
+    const Icon icons[] = {
+        { kinds.code, ICON_FA_CODE, UIWidgets::Colors::Cyan,
+          ModScripts::Supported() ? "Code mod: runs C code the game compiles when it starts."
+                                  : "Code mod: its code doesn't run on this platform, only its files are used." },
+        { kinds.shaders, ICON_FA_PAINT_BRUSH, UIWidgets::Colors::Orange,
+          "Shader mod: adds post-processing passes or material shaders. Passes can be turned on and off in "
+          "Shaders > Shader Packs." },
+    };
+    float slot = 0.0f;
+    for (const Icon& icon : icons) {
+        slot = std::max(slot, ImGui::CalcTextSize(icon.glyph).x);
+    }
+    const float gap = ImGui::GetStyle().ItemInnerSpacing.x;
+    int slots = 0;
+    for (const auto& [name, path] : filePaths) {
+        const ModKinds other = GetModKinds(name);
+        slots = std::max(slots, (int) other.code + (int) other.shaders);
+    }
+    if (slots == 0) {
+        return;
+    }
+
+    ImGui::SameLine();
+    const float start = ImGui::GetCursorPosX();
+    int drawn = 0;
+    for (const Icon& icon : icons) {
+        if (!icon.shown) {
+            continue;
+        }
+        ImGui::SetCursorPosX(start + drawn * (slot + gap) + (slot - ImGui::CalcTextSize(icon.glyph).x) / 2.0f);
+        ImGui::TextColored(UIWidgets::ColorValues.at(icon.color), "%s", icon.glyph);
+        if (ImGui::IsItemHovered()) {
+            ImGui::SetTooltip("%s", icon.tooltip);
+        }
+        ImGui::SameLine(0.0f, 0.0f);
+        drawn++;
+    }
+    ImGui::SetCursorPosX(start + slots * slot + (slots - 1) * gap);
+    ImGui::Dummy(ImVec2(0.0f, ImGui::GetTextLineHeight()));
+}
+
+// Whether a mounted mod's code is signed, and whether it built and loaded.
+static void DrawModStatus(const std::string& file) {
+    auto it = filePaths.find(file);
+    if (it == filePaths.end()) {
+        return;
+    }
+    const auto* status = ModScripts::GetStatus(std::filesystem::absolute(it->second).generic_string());
+    if (status == nullptr) {
+        return;
+    }
+    ImGui::SameLine();
+    ImGui::TextColored(
+        status->signedArchive ? UIWidgets::ColorValues.at(UIWidgets::Colors::Green)
+                              : UIWidgets::ColorValues.at(UIWidgets::Colors::Gray),
+        "%s", status->signedArchive ? "Signed" : "Unsigned"
+    );
+    if (!status->text.empty()) {
+        ImGui::SameLine();
+        ImGui::TextColored(
+            status->failed ? UIWidgets::ColorValues.at(UIWidgets::Colors::Red)
+                           : UIWidgets::ColorValues.at(UIWidgets::Colors::Green),
+            "%s", status->failed ? ICON_FA_EXCLAMATION_TRIANGLE : ICON_FA_CHECK
+        );
+        if (ImGui::IsItemHovered()) {
+            ImGui::SetTooltip("%s", status->text.c_str());
+        }
+    }
+}
+
 static void DrawMods(bool enabled) {
     std::vector<std::string>& selectedModFiles = GetModFiles(enabled);
     if (selectedModFiles.empty()) {
@@ -262,10 +398,12 @@ static void DrawMods(bool enabled) {
             ImGui::EndDisabled();
         }
 
+        DrawModKindIndicators(file);
         ImGui::SameLine();
         ImGui::Text("%s", file.c_str());
 
         if (enabled) {
+            DrawModStatus(file);
             ImGui::EndGroup();
             ModsHandleDragAndDrop((int) i, file);
         }
@@ -372,10 +510,20 @@ void PaperboatModMenuWindow::DrawElement() {
 
     ImGui::TextColored(
         UIWidgets::ColorValues.at(UIWidgets::Colors::Yellow),
-        "Mods are not reloaded at runtime, so applying changes restarts Paperboat.\n"
+        "Changing the mod list restarts Paperboat.\n"
         "Priority runs top to bottom: a mod overrides everything listed below it.\n"
         "Drag an entry or use the arrows to reorder the enabled list."
     );
+
+    if (ModScripts::Count() > 0) {
+        auto reloadOpts = UIWidgets::ButtonOptions().Size(UIWidgets::Sizes::Inline).Color(THEME_COLOR);
+        reloadOpts.Tooltip("Rebuilds the code of the enabled mods and restarts it, without restarting Paperboat.");
+        reloadOpts.Disabled(editing);
+        reloadOpts.DisabledTooltip("Finish editing the mod list first.");
+        if (UIWidgets::Button("Reload Scripts", reloadOpts)) {
+            ModScripts::RequestReload();
+        }
+    }
 
     DrawModManager();
 }
