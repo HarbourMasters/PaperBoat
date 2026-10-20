@@ -1,8 +1,8 @@
 #include "kmr_06.h"
 #include "port/Engine.h"
 
-extern intptr_t gItemIconRasterOffsets[];
-extern intptr_t gItemIconPaletteOffsets[];
+extern intptr_t* gItemIconRasterOffsets;
+extern intptr_t* gItemIconPaletteOffsets;
 
 typedef struct StickerData {
     /* 0x00 */ s32 imgfxIdx;

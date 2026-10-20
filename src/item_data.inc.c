@@ -598,7 +598,7 @@ HudScript HES_Item_Unused_137_disabled = HES_TEMPLATE_ITEM(battle_item_137_disab
 
 s32 pad_after_item_hudscripts[] = { 0, 0 };
 
-ItemData gItemTable[] = {
+ItemData gItemTableVanilla[] = {
     {   // 0x000: None
         .nameMsg = MSG_NONE,
         .fullDescMsg = MSG_NONE,
@@ -5346,10 +5346,14 @@ ItemData gItemTable[] = {
     },
 };
 
+// [port] Read through a pointer, so mods can add entries (see src/port/api/item.cpp).
+ItemData* gItemTable = gItemTableVanilla;
+const s32 gItemTableVanillaCount = ARRAY_COUNT(gItemTableVanilla);
+
 extern HudScript HES_MoveDiamond;
 extern HudScript HES_MoveDiamond_disabled;
 
-IconHudScriptPair gItemHudScripts[] = {
+IconHudScriptPair gItemHudScriptsVanilla[] = {
     { .enabled = NULL, .disabled = NULL },
     { .enabled = &HES_Item_SpicySoup, .disabled = &HES_Item_SpicySoup_disabled },
     { .enabled = &HES_Item_ApplePie, .disabled = &HES_Item_ApplePie_disabled },
@@ -5689,6 +5693,10 @@ IconHudScriptPair gItemHudScripts[] = {
     { .enabled = &HES_Item_MenuItems, .disabled = &HES_Item_MenuItems },
 };
 
+// [port] Read through a pointer, so mods can add entries (see src/port/api/item.cpp).
+IconHudScriptPair* gItemHudScripts = gItemHudScriptsVanilla;
+const s32 gItemHudScriptsVanillaCount = ARRAY_COUNT(gItemHudScriptsVanilla);
+
 ItemScript IES_Placeholder = IES_TEMPLATE_BASIC(key_Gift);
 ItemScript IES_Present = IES_TEMPLATE_BASIC(key_Gift);
 ItemScript IES_CakeDone = IES_TEMPLATE_BASIC(key_CakeDone);
@@ -6027,7 +6035,7 @@ ItemScript IES_ITEM_136 = IES_TEMPLATE_STANDARD(battle_item_136);
 ItemScript IES_ITEM_137 = IES_TEMPLATE_STANDARD(battle_item_137);
 
 // indexed by itemID
-intptr_t* gItemEntityScripts[] = {
+intptr_t* gItemEntityScriptsVanilla[] = {
     IES_Placeholder,
     IES_GearBoots1,
     IES_GearBoots2,
@@ -6415,8 +6423,12 @@ intptr_t* gItemEntityScripts[] = {
     IES_Placeholder,
 };
 
+// [port] Read through a pointer, so mods can add entries (see src/port/api/item.cpp).
+intptr_t** gItemEntityScripts = gItemEntityScriptsVanilla;
+const s32 gItemEntityScriptsVanillaCount = ARRAY_COUNT(gItemEntityScriptsVanilla);
+
 // indexed by itemID
-intptr_t gItemIconRasterOffsets[] = {
+intptr_t gItemIconRasterOffsetsVanilla[] = {
     ICON_key_Gift_raster,
     ICON_gear_boots_1_raster,
     ICON_gear_boots_2_raster,
@@ -6768,8 +6780,11 @@ intptr_t gItemIconRasterOffsets[] = {
     ICON_anim_star_piece_0_raster,
 };
 
+intptr_t* gItemIconRasterOffsets = gItemIconRasterOffsetsVanilla;
+const s32 gItemIconRasterOffsetsVanillaCount = ARRAY_COUNT(gItemIconRasterOffsetsVanilla);
+
 // indexed by itemID
-intptr_t gItemIconPaletteOffsets[] = {
+intptr_t gItemIconPaletteOffsetsVanilla[] = {
     ICON_key_Gift_palette,
     ICON_gear_boots_1_palette,
     ICON_gear_boots_2_palette,
@@ -7120,4 +7135,8 @@ intptr_t gItemIconPaletteOffsets[] = {
     ICON_anim_fp_0_palette,
     ICON_anim_star_piece_0_palette,
 };
+
+// [port] Read through a pointer, so mods can add entries (see src/port/api/item.cpp).
+intptr_t* gItemIconPaletteOffsets = gItemIconPaletteOffsetsVanilla;
+const s32 gItemIconPaletteOffsetsVanillaCount = ARRAY_COUNT(gItemIconPaletteOffsetsVanilla);
 

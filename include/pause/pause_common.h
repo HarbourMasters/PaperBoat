@@ -66,7 +66,7 @@ extern HudScript HES_StatusSPIncrement5;
 extern HudScript HES_StatusSPIncrement6;
 extern HudScript HES_StatusSPIncrement7;
 extern HudScript HES_StatusSPEmptyIncrement;
-extern IconHudScriptPair gItemHudScripts[];
+extern IconHudScriptPair* gItemHudScripts;
 
 extern WindowStyleCustom gPauseWS_0;
 extern WindowStyleCustom gPauseWS_1;

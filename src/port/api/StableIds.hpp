@@ -60,6 +60,12 @@ public:
         return number;
     }
 
+    // Number the id was given this session, or -1. Unlike Get(), never hands out a number.
+    int Find(const std::string& id) const {
+        auto it = mIds.find(id);
+        return it != mIds.end() ? it->second.number : -1;
+    }
+
     // Id given the number, or nullptr.
     const std::string* IdOf(int number) {
         auto it = mById.find(number);

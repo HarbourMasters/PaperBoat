@@ -628,8 +628,8 @@ void msg_play_speech_sound(MessagePrintState* printer, u8 character) {
     }
 }
 
-extern intptr_t gItemIconRasterOffsets[];
-extern intptr_t gItemIconPaletteOffsets[];
+extern intptr_t* gItemIconRasterOffsets;
+extern intptr_t* gItemIconPaletteOffsets;
 // MsgLetterRasterOffsets/MsgLetterPaletteOffsets removed — letter content loaded from OTR
 extern MsgVoice MsgVoices[];
 

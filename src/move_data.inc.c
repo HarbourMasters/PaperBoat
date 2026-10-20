@@ -2,7 +2,7 @@
 #include "common.h"
 #include "message_ids.h"
 
-MoveData gMoveTable[] = {
+MoveData gMoveTableVanilla[] = {
     {   // 0x00: None
         .nameMsg = MSG_NONE,
         .fullDescMsg = MSG_NONE,
@@ -1854,4 +1854,8 @@ MoveData gMoveTable[] = {
         .costBP = 0,
     },
 };
+
+// [port] Read through a pointer, so mods can add moves (see src/port/api/item.cpp).
+MoveData* gMoveTable = gMoveTableVanilla;
+const s32 gMoveTableVanillaCount = ARRAY_COUNT(gMoveTableVanilla);
 

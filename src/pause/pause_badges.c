@@ -281,7 +281,7 @@ s32 pause_badges_try_equip(s16 badgeID) {
     totalEquippedBP = pause_get_total_equipped_bp_cost();
     if (badgeID != 0) {
         CALL_CANCELLABLE_EVENT(OnPlayerBPCostCheck) {
-            u8 moveID = gItemTable[badgeID].moveID;
+            s32 moveID = gItemTable[badgeID].moveID;
             s32 requiredBP = totalEquippedBP + gMoveTable[moveID].costBP;
 
             if (playerData->maxBP < requiredBP) {

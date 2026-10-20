@@ -140,7 +140,7 @@ void btl_init_menu_boots(void) {
 
         if (badge != ITEM_NONE) {
             MoveData* moveTable = gMoveTable;
-            u8 moveID = gItemTable[badge].moveID;
+            s32 moveID = gItemTable[badge].moveID;
 
             move = &moveTable[moveID];
             if (move->category == MOVE_TYPE_JUMP) {
@@ -233,7 +233,7 @@ void btl_init_menu_hammer(void) {
         s16 badge = playerData->equippedBadges[i];
         if (badge != MOVE_NONE) {
             MoveData* moveTable = gMoveTable;
-            u8 moveID = gItemTable[badge].moveID;
+            s32 moveID = gItemTable[badge].moveID;
             move = &moveTable[moveID];
             if (move->category == MOVE_TYPE_HAMMER) {
                 battleStatus->submenuMoves[moveCount] = moveID;

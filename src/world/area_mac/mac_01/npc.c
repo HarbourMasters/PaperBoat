@@ -3,7 +3,7 @@
 #include "hud_element.h"
 #include "sprite/player.h"
 
-extern IconHudScriptPair gItemHudScripts[];
+extern IconHudScriptPair* gItemHudScripts;
 extern EvtScript N(EVS_MerlonBargeOut);
 
 #include "world/common/npc/Toad_Wander.inc.c"

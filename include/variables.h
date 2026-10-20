@@ -16,8 +16,16 @@ extern CollisionStatus gCollisionStatus;
 extern GameStatus gGameStatus;
 extern GameStatus* gGameStatusPtr;
 extern u32 gRandSeed;
-extern ItemData gItemTable[];
-extern MoveData gMoveTable[];
+
+extern ItemData* gItemTable;
+extern MoveData* gMoveTable;
+extern const s32 gItemTableVanillaCount;
+extern const s32 gMoveTableVanillaCount;
+extern intptr_t** gItemEntityScripts;
+extern const s32 gItemEntityScriptsVanillaCount;
+extern intptr_t* gItemIconRasterOffsets;
+extern intptr_t* gItemIconPaletteOffsets;
+extern const s32 gItemIconRasterOffsetsVanillaCount;
 
 extern s32 gBattleState;
 extern BattleStatus gBattleStatus;

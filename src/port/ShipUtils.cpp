@@ -7,8 +7,8 @@
 #include "assets/ui.h"
 
 extern "C" {
-extern intptr_t gItemIconRasterOffsets[349];
-extern intptr_t gItemIconPaletteOffsets[349];
+extern intptr_t* gItemIconRasterOffsets;
+extern intptr_t* gItemIconPaletteOffsets;
 }
 
 typedef struct {
