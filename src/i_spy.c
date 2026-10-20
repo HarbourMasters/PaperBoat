@@ -152,6 +152,9 @@ void ispy_notification_update(void) {
         case I_SPY_OVERSHOOT:
             ISpyPtr->scale = 0.57f;
             ISpyPtr->state++;
+            bool shouldSoundPlay = false;
+            CALL_EVENT(OnISpySoundPlay, &shouldSoundPlay);
+            if(shouldSoundPlay)
             sfx_play_sound_at_player(SOUND_ISPY, SOUND_SPACE_DEFAULT);
             break;
         case I_SPY_ANIMATE:
