@@ -5,8 +5,6 @@
 extern "C" {
 #include "common_structs.h"
 #include "enums.h"
-
-
 }
 
 void RegisterAlwaysChuckQuizmo_Init() {
@@ -16,8 +14,7 @@ void RegisterAlwaysChuckQuizmo_Init() {
             return;
         }
 
-
-        //zeroing out the variables seems to cause quizmo to appear in every room he can appear in
+        // zeroing out the variables seems to cause quizmo to appear in every room he can appear in
         *ev->locTown = 0;
         *ev->curTown1 = *ev->locTown;
         *ev->curTown2 = 0;
