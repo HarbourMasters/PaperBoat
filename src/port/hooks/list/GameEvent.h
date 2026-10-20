@@ -110,3 +110,7 @@ DEFINE_EVENT(OnMapReady,
 DEFINE_EVENT(OnHiddenBlockAlphaChange,
     int32_t* alpha;
     );
+
+DEFINE_EVENT(OnISpySoundPlay,
+    bool* SoundPlay;
+);

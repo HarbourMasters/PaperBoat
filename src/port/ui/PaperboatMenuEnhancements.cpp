@@ -117,6 +117,11 @@ void PaperboatMenu::AddMenuEnhancements() {
                 )
                 .ComboMap(HiddenBlockOptions)
         );
+
+    AddWidget(path, "Mute ISpy Sound", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("MuteISpySound"))
+        .Options(CheckboxOptions().Tooltip("Mute the notification sound when ISpy is going off."));
+
     // Enhancements > Graphics
     path = { "Enhancements", "Graphics", SECTION_COLUMN_1 };
     AddSidebarEntry("Enhancements", "Graphics", 1);

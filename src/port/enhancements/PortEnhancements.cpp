@@ -91,6 +91,7 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnPlayerSpeedUpdate);
     REGISTER_EVENT(OnMapReady);
     REGISTER_EVENT(OnHiddenBlockAlphaChange);
+    REGISTER_EVENT(OnISpySoundPlay);
 }
 
 void PortEnhancements_Exit() {
