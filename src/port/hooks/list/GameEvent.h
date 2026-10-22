@@ -114,3 +114,7 @@ DEFINE_EVENT(OnHiddenBlockAlphaChange,
 DEFINE_EVENT(OnISpySoundPlay,
     bool* SoundPlay;
 );
+
+DEFINE_EVENT(OnQuizmoShouldAppear,
+    bool* forceAppear;
+);

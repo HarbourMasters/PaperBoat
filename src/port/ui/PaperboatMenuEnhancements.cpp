@@ -122,6 +122,14 @@ void PaperboatMenu::AddMenuEnhancements() {
         .CVar(CVAR_ENHANCEMENT("MuteISpySound"))
         .Options(CheckboxOptions().Tooltip("Mute the notification sound when ISpy is going off."));
 
+    AddWidget(path, "Always Chuck Quizmo", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("AlwaysChuckQuizmo"))
+        .Options(
+            CheckboxOptions().Tooltip(
+                "Chuck Quizmo normally relies on rng for the location. "
+                "Makes Chuck Quizmo Show up in the current map you are in if option is turned on. "
+            )
+        );
     // Enhancements > Graphics
     path = { "Enhancements", "Graphics", SECTION_COLUMN_1 };
     AddSidebarEntry("Enhancements", "Graphics", 1);
