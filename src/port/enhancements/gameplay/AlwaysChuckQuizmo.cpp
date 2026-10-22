@@ -8,21 +8,13 @@ extern "C" {
 }
 
 void RegisterAlwaysChuckQuizmo_Init() {
-    REGISTER_LISTENER(OnChuckQuizmoMapSet, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
-        OnChuckQuizmoMapSet* ev = (OnChuckQuizmoMapSet*) event;
+    REGISTER_LISTENER(OnQuizmoShouldAppear, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
+        OnQuizmoShouldAppear* ev = (OnQuizmoShouldAppear*) event;
         if (!CVarGetInteger(CVAR_ENHANCEMENT("AlwaysChuckQuizmo"), 0)) {
             return;
         }
 
-        // zeroing out the variables seems to cause quizmo to appear in every room he can appear in
-        *ev->locTown = 0;
-        *ev->curTown1 = *ev->locTown;
-        *ev->curTown2 = 0;
-        *ev->hasLocation = true;
-        *ev->curMap = 0;
-        *ev->locMap = 0;
-        *ev->shouldSetVar = true;
-        *ev->changedLocation = false;
+        *ev->forceAppear = true;
     });
 }
 

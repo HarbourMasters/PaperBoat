@@ -115,13 +115,6 @@ DEFINE_EVENT(OnISpySoundPlay,
     bool* SoundPlay;
 );
 
-DEFINE_EVENT(OnChuckQuizmoMapSet,
-    uint16_t* locTown;
-    uint16_t* locMap;
-    uint16_t* curTown1;
-    uint16_t* curTown2;
-    uint16_t* hasLocation;
-    uint16_t* curMap;
-    uint16_t* changedLocation;
-    bool* shouldSetVar;
+DEFINE_EVENT(OnQuizmoShouldAppear,
+    bool* forceAppear;
 );

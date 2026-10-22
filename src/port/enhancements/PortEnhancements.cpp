@@ -92,7 +92,7 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnMapReady);
     REGISTER_EVENT(OnHiddenBlockAlphaChange);
     REGISTER_EVENT(OnISpySoundPlay);
-    REGISTER_EVENT(OnChuckQuizmoMapSet);
+    REGISTER_EVENT(OnQuizmoShouldAppear);
 }
 
 void PortEnhancements_Exit() {
