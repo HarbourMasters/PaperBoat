@@ -7,6 +7,7 @@
 #include "UIWidgets.hpp"
 #include "cvar_prefixes.h"
 #include "port/Engine.h"
+#include "port/romhack/Romhack.h"
 #include <ship/window/gui/GuiElement.h>
 #include <ship/window/gui/GuiMenuBar.h>
 #include <spdlog/fmt/fmt.h>
@@ -738,13 +739,22 @@ void Menu::DrawElement() {
     std::unordered_map<std::string, SidebarEntry>* sidebar;
     float headerHeight = headerSizes.at(0).y + style.FramePadding.y * 2;
     ImVec2 buttonSize = ImGui::CalcTextSize(ICON_FA_TIMES_CIRCLE) + style.FramePadding * 2;
+    std::string romhackLabel;
+    if (const auto* romhack = Romhack::Active()) {
+        romhackLabel = "Romhack active: " + romhack->name;
+        if (!romhack->version.empty()) {
+            romhackLabel += " (v" + romhack->version + ")";
+        }
+    }
+    const float romhackWidth =
+        romhackLabel.empty() ? 0.0f : ImGui::CalcTextSize(romhackLabel.c_str()).x + style.ItemSpacing.x;
     bool scrollbar = false;
-    if (headerWidth > menuSize.x - buttonSize.x * 3 - style.ItemSpacing.x * 3) {
+    if (headerWidth > menuSize.x - buttonSize.x * 3 - style.ItemSpacing.x * 3 - romhackWidth) {
         headerHeight += style.ScrollbarSize;
         scrollbar = true;
     }
     ImGui::SetNextWindowSizeConstraints({ 0, headerHeight }, { headerWidth, headerHeight });
-    ImVec2 headerSelSize = { menuSize.x - buttonSize.x * 3 - style.ItemSpacing.x * 3, headerHeight };
+    ImVec2 headerSelSize = { menuSize.x - buttonSize.x * 3 - style.ItemSpacing.x * 3 - romhackWidth, headerHeight };
     if (scrollbar) {
         headerSelSize.y += style.ScrollbarSize;
     }
@@ -806,6 +816,11 @@ void Menu::DrawElement() {
         ImGui::PopStyleColor();
     }
     ImGui::EndChild();
+    if (!romhackLabel.empty()) {
+        ImGui::SameLine(menuSize.x - (buttonSize.x * 4.25f) - (style.ItemSpacing.x * 2) - romhackWidth);
+        ImGui::AlignTextToFramePadding();
+        ImGui::TextColored(UIWidgets::ColorValues.at(UIWidgets::Colors::Yellow), "%s", romhackLabel.c_str());
+    }
     ImGui::SameLine(menuSize.x - (buttonSize.x * 4.25f) - (style.ItemSpacing.x * 2));
     UIWidgets::ButtonOptions options4 = {};
     std::string option4Tooltip = fmt::format(

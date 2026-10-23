@@ -34,6 +34,7 @@ std::shared_ptr<ValueViewerWindow> mValueViewerWindow;
 std::shared_ptr<ValueViewerSettingsWindow> mValueViewerSettingsWindow;
 std::shared_ptr<SaveEditorWindow> mSaveEditorWindow;
 std::shared_ptr<ActorBlueprintEditorWindow> mActorBlueprintEditorWindow;
+std::shared_ptr<PaperboatRomhackMenuWindow> mRomhackMenuWindow;
 std::shared_ptr<PaperboatModMenuWindow> mModMenuWindow;
 std::shared_ptr<TouchControlsOverlay> mTouchControlsOverlay;
 
@@ -79,6 +80,9 @@ void SetupGuiElements() {
     mActorBlueprintEditorWindow =
         std::make_shared<ActorBlueprintEditorWindow>(CVAR_WINDOW("ActorBlueprintEditor"), "Blueprint Editor");
     gui->AddGuiWindow(mActorBlueprintEditorWindow);
+
+    mRomhackMenuWindow = std::make_shared<PaperboatRomhackMenuWindow>(CVAR_WINDOW("RomhackMenu"), "Romhack Menu");
+    gui->AddGuiWindow(mRomhackMenuWindow);
 
     mModMenuWindow = std::make_shared<PaperboatModMenuWindow>(CVAR_WINDOW("ModMenu"), "Mod Menu");
     gui->AddGuiWindow(mModMenuWindow);
@@ -126,6 +130,7 @@ void Destroy() {
     mValueViewerSettingsWindow = nullptr;
     mSaveEditorWindow = nullptr;
     mActorBlueprintEditorWindow = nullptr;
+    mRomhackMenuWindow = nullptr;
     mModMenuWindow = nullptr;
     mTouchControlsOverlay = nullptr;
 }

@@ -558,6 +558,17 @@ void PaperboatMenu::AddMenuSettings() {
         .Callback([](WidgetInfo& info) { Notification::EmitAchievement(nullptr, "Harbour Mastery", 0); })
         .Options(ButtonOptions().Tooltip("Displays a test notification."));
 
+    // Romhack Menu
+    path.sidebarName = "Romhack Menu";
+    path.column = SECTION_COLUMN_1;
+    AddSidebarEntry("Settings", path.sidebarName, 1);
+    AddWidget(path, "Popout Romhack Menu Window", WIDGET_WINDOW_BUTTON)
+        .CVar(CVAR_WINDOW("RomhackMenu"))
+        .RaceDisable(false)
+        .WindowName("Romhack Menu")
+        .HideInSearch(true)
+        .Options(WindowButtonOptions().Tooltip("Enables the separate Romhack Menu Window."));
+
     // Mod Menu
     path.sidebarName = "Mod Menu";
     path.column = SECTION_COLUMN_1;
