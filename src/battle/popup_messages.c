@@ -655,7 +655,13 @@ void btl_update_message_popup(void* data) {
 
     s32 actionCommandMode;
 
-    switch (popup->messageIndex) {
+    s32 layout = popup->messageIndex;
+    s32 popupMsgID = (popup->messageIndex < ARRAY_COUNT(BattleMessages)) ? BattleMessages[popup->messageIndex] : MSG_NONE;
+    CALL_EVENT(OnBattlePopupMessage, popup->messageIndex, &layout, &popupMsgID);
+    if (layout < 0 || layout >= ARRAY_COUNT(BattleMessages)) {
+        layout = popup->messageIndex;
+    }
+    switch (layout) {
         case BTL_MSG_MERLEE_ATK_UP:
         case BTL_MSG_MERLEE_DEF_UP:
         case BTL_MSG_MERLEE_EXP_UP:
@@ -1286,7 +1292,15 @@ void btl_message_popup_draw_content(void* data, s32 x, s32 y) {
     y += 6;
 #endif
 
-    switch (popup->messageIndex) {
+    s32 layout = popup->messageIndex;
+    s32 popupMsgID = (popup->messageIndex < ARRAY_COUNT(BattleMessages)) ? BattleMessages[popup->messageIndex] : MSG_NONE;
+    {
+        CALL_EVENT(OnBattlePopupMessage, popup->messageIndex, &layout, &popupMsgID);
+    }
+    if (layout < 0 || layout >= ARRAY_COUNT(BattleMessages)) {
+        layout = popup->messageIndex;
+    }
+    switch (layout) {
         case BTL_MSG_MERLEE_ATK_UP:
         case BTL_MSG_MERLEE_DEF_UP:
         case BTL_MSG_MERLEE_EXP_UP:
@@ -1336,7 +1350,7 @@ void btl_message_popup_draw_content(void* data, s32 x, s32 y) {
         case BTL_MSG_CANT_SWITCH_UNUSED:
         case BTL_MSG_CANT_MOVE_UNUSED:
         case BTL_MSG_CANT_SELECT_NOW_ALT:
-            messageID = BattleMessages[popup->messageIndex];
+            messageID = popupMsgID;
 #if !VERSION_JP
             msgLinesIdx = get_msg_lines(messageID) - 1;
             y += BattleMessage_TextOffsetsY[msgLinesIdx];
@@ -1828,7 +1842,15 @@ void btl_show_message_popup(void* data) {
             break;
     }
 #else
-    switch (popup->messageIndex) {
+    s32 layout = popup->messageIndex;
+    s32 popupMsgID = (popup->messageIndex < ARRAY_COUNT(BattleMessages)) ? BattleMessages[popup->messageIndex] : MSG_NONE;
+    {
+        CALL_EVENT(OnBattlePopupMessage, popup->messageIndex, &layout, &popupMsgID);
+    }
+    if (layout < 0 || layout >= ARRAY_COUNT(BattleMessages)) {
+        layout = popup->messageIndex;
+    }
+    switch (layout) {
         case BTL_MSG_MERLEE_ATK_UP:
         case BTL_MSG_MERLEE_DEF_UP:
         case BTL_MSG_MERLEE_EXP_UP:
@@ -1879,7 +1901,7 @@ void btl_show_message_popup(void* data) {
                 s32 messageID;
 
                 popup->needsInit = false;
-                messageID = BattleMessages[popup->messageIndex];
+                messageID = popupMsgID;
                 msgWidth = get_msg_width(messageID, 0) + 30;
                 posX = 160 - (msgWidth / 2);
                 width = msgWidth;

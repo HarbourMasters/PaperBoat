@@ -53,6 +53,17 @@ struct SpriteAnimData;
 void port_prefetch_npc_anim(struct SpriteAnimData* sprite, s32 prevAnimID, s32 animID);
 void port_prefetch_player_anim(struct SpriteAnimData* sprite, s32 prevAnimID, s32 animID);
 
+// Stat change arrows (BattlePatches.cpp)
+void port_stat_change_fx(s32 stat, s32 amount, f32 x, f32 y, f32 z);
+
+// Battle status icons (StatusIconPatches.cpp)
+typedef enum StatusIconSlot {
+    STATUS_ICON_SLOT_DEBUFF,
+    STATUS_ICON_SLOT_STATIC,
+    STATUS_ICON_SLOT_TRANSPARENT,
+} StatusIconSlot;
+void port_remove_status_icon_now(s32 iconID, s32 slot);
+
 // Message fonts (MessagePatches.c)
 void port_msg_font_loaded(s32 font);
 IMG_PTR port_msg_glyph_raster(IMG_PTR glyph);

@@ -270,6 +270,7 @@ void btl_state_update_partner_move(void) {
             return;
         }
         partner->takeTurnScript = nullptr;
+        CALL_EVENT(OnStatusTick, partner, STATUS_PHASE_ACTION_END);
         btl_set_state(BATTLE_STATE_END_PARTNER_TURN);
     }
 }

@@ -92,6 +92,7 @@ BSS ActionCommandStatus gActionCommandStatus;
 
 API_CALLABLE(LoadActionCommand) {
     // DMA loading not needed on port — action commands are compiled in
+    CALL_EVENT(OnActionCommandLoad, (int32_t) evt_get_variable(script, *script->ptrReadPos));
     return ApiStatus_DONE2;
 }
 
@@ -570,7 +571,8 @@ s32 check_block_input(s32 buttonMask) {
         blockWindow = 5;
     }
 
-    CALL_EVENT(OnBlockWindowCheck, &blockWindow, &mashWindow);
+    s32 consumeInput = true;
+    CALL_EVENT(OnBlockWindowCheck, &blockWindow, &mashWindow, buttonMask, &consumeInput);
 
     // Pre-window mashing check
     bufferPos = battleStatus->inputBufferPos;
@@ -627,7 +629,9 @@ s32 check_block_input(s32 buttonMask) {
             if (bufferPos >= ARRAY_COUNT(battleStatus->pushInputBuffer)) {
                 bufferPos -= ARRAY_COUNT(battleStatus->pushInputBuffer);
             }
-            battleStatus->pushInputBuffer[bufferPos] = 0;
+            if (consumeInput) {
+                battleStatus->pushInputBuffer[bufferPos] = 0;
+            }
             bufferPos++;
         }
     }

@@ -2,7 +2,9 @@
 #include "script_api/battle.h"
 #include "effects.h"
 
-HitResult calc_item_check_hit(void) {
+void dispatch_event_general(Actor* actor, s32 event);
+
+HitResult calc_item_check_hit(Actor* attacker) {
     BattleStatus* battleStatus = &gBattleStatus;
     ActorState* state = &battleStatus->playerActor->state;
     s32 actorID = battleStatus->curTargetID;
@@ -27,6 +29,14 @@ HitResult calc_item_check_hit(void) {
         return HIT_RESULT_MISS;
     }
 
+    {
+        s32 hitResult = HIT_RESULT_HIT;
+        CALL_EVENT(OnHitCheck, attacker, actor, ATTACK_SOURCE_ITEM, HIT_CHECK_TEST, &hitResult);
+        if (hitResult != HIT_RESULT_HIT) {
+            return hitResult;
+        }
+    }
+
     if (actor->transparentStatus == STATUS_KEY_TRANSPARENT) {
         return HIT_RESULT_MISS;
     }
@@ -46,9 +56,9 @@ HitResult calc_item_check_hit(void) {
     return HIT_RESULT_HIT;
 }
 
-HitResult calc_item_damage_enemy(void) {
+HitResult calc_item_damage_enemy(Actor* attacker) {
     BattleStatus* battleStatus = &gBattleStatus;
-    Actor* player = battleStatus->playerActor;
+    Actor* player = attacker;
     s32 currentTargetID = battleStatus->curTargetID;
     Actor* partner = battleStatus->partnerActor;
     s32 currentTargetPartID = battleStatus->curTargetPart;
@@ -68,6 +78,7 @@ HitResult calc_item_damage_enemy(void) {
     s32 dispatchEvent;
     s32 wasStatusInflicted;
     s32 hitResult;
+    b32 hpOwned = false;
 
     battleStatus->wasStatusInflicted = false;
     battleStatus->lastAttackDamage = 0;
@@ -112,10 +123,12 @@ HitResult calc_item_damage_enemy(void) {
     }
 
     if (!(battleStatus->curAttackElement & DAMAGE_TYPE_REMOVE_BUFFS)) {
-        if ((targetPart->eventFlags & ACTOR_EVENT_FLAG_ILLUSORY)
+        s32 strikeResult = ((targetPart->eventFlags & ACTOR_EVENT_FLAG_ILLUSORY)
             || (target->transparentStatus == STATUS_KEY_TRANSPARENT)
-            || (targetPart->eventFlags & ACTOR_EVENT_FLAG_BURIED && !(battleStatus->curAttackElement & DAMAGE_TYPE_QUAKE))
-        ) {
+            || (targetPart->eventFlags & ACTOR_EVENT_FLAG_BURIED && !(battleStatus->curAttackElement & DAMAGE_TYPE_QUAKE)))
+            ? HIT_RESULT_MISS : HIT_RESULT_HIT;
+        CALL_EVENT(OnHitCheck, player, target, ATTACK_SOURCE_ITEM, HIT_CHECK_STRIKE, &strikeResult);
+        if (strikeResult == HIT_RESULT_MISS) {
             return HIT_RESULT_MISS;
         }
     }
@@ -144,8 +157,14 @@ HitResult calc_item_damage_enemy(void) {
     if (!(battleStatus->curAttackElement & DAMAGE_TYPE_IGNORE_DEFENSE)) {
         temp += target->defenseBoost;
     }
+    {
+        CALL_EVENT(OnDamageDefense, player, target, ATTACK_SOURCE_ITEM, battleStatus->curAttackDamage, &temp);
+    }
 
     attackDamage = battleStatus->curAttackDamage;
+    {
+        CALL_EVENT(OnDamageCalc, player, target, ATTACK_SOURCE_ITEM, DAMAGE_STAGE_BASE, &attackDamage);
+    }
     if (attackDamage > 99) {
         attackDamage = 99;
     }
@@ -154,6 +173,9 @@ HitResult calc_item_damage_enemy(void) {
     }
 
     attackDamage -= temp;
+    {
+        CALL_EVENT(OnDamageCalc, player, target, ATTACK_SOURCE_ITEM, DAMAGE_STAGE_AFTER_DEFENSE, &attackDamage);
+    }
     target->hpChangeCounter = 0;
 
     if (attackDamage <= 0) {
@@ -169,6 +191,9 @@ HitResult calc_item_damage_enemy(void) {
             battleStatus->lastAttackDamage = 0;
         }
     } else {
+        {
+            CALL_EVENT(OnDamageCalc, player, target, ATTACK_SOURCE_ITEM, DAMAGE_STAGE_FINAL, &attackDamage);
+        }
         target->damageCounter += attackDamage;
         target->hpChangeCounter -= attackDamage;
         battleStatus->lastAttackDamage = 0;
@@ -179,7 +204,13 @@ HitResult calc_item_damage_enemy(void) {
             && !partImmuneToElement
             && !(targetPart->targetFlags & ACTOR_PART_TARGET_NO_DAMAGE)
         ) {
-            target->curHP -= attackDamage;
+            s32 delta = -attackDamage;
+            CALL_CANCELLABLE_EVENT(OnActorHpChange, target, HP_SOURCE_ITEM, &delta) {
+                target->curHP += delta;
+            } else {
+                hpOwned = true;
+            }
+            attackDamage = -delta;
             if (target->curHP <= 0) {
                 target->curHP = 0;
                 dispatchEvent = EVENT_DEATH;
@@ -210,7 +241,9 @@ HitResult calc_item_damage_enemy(void) {
         if (dispatchEvent == EVENT_ZERO_DAMAGE) {
             dispatchEvent = EVENT_IMMUNE;
         }
-        if (target->curHP <= 0 && dispatchEvent == EVENT_IMMUNE) {
+        s32 defeated = target->curHP <= 0;
+        CALL_EVENT(OnActorDefeatCheck, target, &defeated);
+        if (defeated && dispatchEvent == EVENT_IMMUNE) {
             dispatchEvent = EVENT_DEATH;
         }
     } else if (dispatchEvent == EVENT_DEATH) {
@@ -237,19 +270,29 @@ HitResult calc_item_damage_enemy(void) {
 
     if (battleStatus->curAttackElement & DAMAGE_TYPE_REMOVE_BUFFS) {
         if (gBattleStatus.flags1 & BS_FLAGS1_TRIGGER_EVENTS) {
-            if ((target->attackBoost > 0 || target->defenseBoost > 0) ||
-                ((target->staticStatus == 0 && target->transparentStatus != 0) || target->staticStatus != 0))
-            {
+            s32 buffMask = 0;
+
+            if (target->attackBoost > 0 || target->defenseBoost > 0) {
+                buffMask |= ACTOR_BUFF_BOOSTS;
+            }
+            if (target->staticStatus != 0) {
+                buffMask |= ACTOR_BUFF_STATIC;
+            }
+            if (target->transparentStatus != 0) {
+                buffMask |= ACTOR_BUFF_TRANSPARENT;
+            }
+            CALL_EVENT(OnBuffsClear, target, BUFFS_CLEAR_DISPEL, &buffMask);
+            if (buffMask != 0) {
                 target->attackBoost = 0;
                 target->defenseBoost = 0;
                 target->isGlowing = false;
                 dispatchEvent = EVENT_HIT;
-                if (target->staticStatus != 0) {
+                if ((buffMask & ACTOR_BUFF_STATIC) && target->staticStatus != 0) {
                     target->staticStatus = 0;
                     target->staticDuration = 0;
                     remove_status_static(target->hudElementDataIndex);
                 }
-                if (target->transparentStatus != 0) {
+                if ((buffMask & ACTOR_BUFF_TRANSPARENT) && target->transparentStatus != 0) {
                     target->transparentStatus = 0;
                     target->transparentDuration = 0;
                     remove_status_transparent(target->hudElementDataIndex);
@@ -421,10 +464,12 @@ HitResult calc_item_damage_enemy(void) {
         cancel_action_rating_combo(target);
     }
 
-    dispatch_event_actor(target, dispatchEvent);
+    CALL_CANCELLABLE_EVENT(OnDamageEventDispatch, target, HP_SOURCE_ITEM, &dispatchEvent) {
+        dispatch_event_general(target, dispatchEvent);
+    }
 
     if (actorClass == ACTOR_PARTNER) {
-        if ((battleStatus->lastAttackDamage > 0) && (gBattleStatus.flags1 & BS_FLAGS1_TRIGGER_EVENTS)) {
+        if ((battleStatus->lastAttackDamage > 0) && (gBattleStatus.flags1 & BS_FLAGS1_TRIGGER_EVENTS) && !hpOwned) {
             inflict_status(target, STATUS_KEY_KO, battleStatus->lastAttackDamage);
         }
     }
@@ -538,6 +583,7 @@ API_CALLABLE(ItemDamageEnemy) {
     s32 hitResultVarOut = *args++;
     s32 flags;
     Actor* actor;
+    Actor* attacker;
     HitResult hitResult;
 
     battleStatus->curAttackElement = *args++;
@@ -579,6 +625,20 @@ API_CALLABLE(ItemDamageEnemy) {
     }
 
     actor = get_actor(script->owner1.actorID);
+    attacker = battleStatus->playerActor;
+    {
+        CALL_EVENT(OnDamageAttackerResolve, ATTACK_SOURCE_ITEM, actor, &attacker);
+    }
+    {
+        s32 damage = battleStatus->curAttackDamage;
+        s32 status = battleStatus->curAttackStatus;
+        CALL_EVENT(OnAttackBegin, ATTACK_API_ITEM_DAMAGE_ENEMY, actor, &attacker, &damage, &status);
+        battleStatus->curAttackDamage = damage;
+        battleStatus->curAttackStatus = status;
+    }
+    if (attacker == nullptr) {
+        attacker = battleStatus->playerActor;
+    }
     battleStatus->curTargetID = actor->targetActorID;
     battleStatus->curTargetPart = actor->targetPartID;
     battleStatus->statusChance = battleStatus->curAttackStatus;
@@ -589,7 +649,7 @@ API_CALLABLE(ItemDamageEnemy) {
 
     battleStatus->statusDuration = (battleStatus->curAttackStatus & 0xF00) >> 8;
 
-    hitResult = calc_item_damage_enemy();
+    hitResult = calc_item_damage_enemy(attacker);
     if (hitResult < 0) {
         return ApiStatus_FINISH;
     }
@@ -607,6 +667,7 @@ API_CALLABLE(ItemSpookEnemy) {
     Bytecode* args = script->ptrReadPos;
     s32 hitResultVarOut = *args++;
     Actor* actor;
+    Actor* attacker;
     HitResult hitResult;
     s32 flags;
 
@@ -649,6 +710,20 @@ API_CALLABLE(ItemSpookEnemy) {
     }
 
     actor = get_actor(script->owner1.actorID);
+    attacker = battleStatus->playerActor;
+    {
+        CALL_EVENT(OnDamageAttackerResolve, ATTACK_SOURCE_ITEM, actor, &attacker);
+    }
+    {
+        s32 damage = battleStatus->curAttackDamage;
+        s32 status = battleStatus->curAttackStatus;
+        CALL_EVENT(OnAttackBegin, ATTACK_API_ITEM_SPOOK_ENEMY, actor, &attacker, &damage, &status);
+        battleStatus->curAttackDamage = damage;
+        battleStatus->curAttackStatus = status;
+    }
+    if (attacker == nullptr) {
+        attacker = battleStatus->playerActor;
+    }
     battleStatus->curTargetID = actor->targetActorID;
     battleStatus->curTargetPart = actor->targetPartID;
     battleStatus->statusChance = battleStatus->curAttackStatus;
@@ -659,7 +734,7 @@ API_CALLABLE(ItemSpookEnemy) {
 
     battleStatus->statusDuration = (battleStatus->curAttackStatus & 0xF00) >> 8;
 
-    hitResult = calc_item_damage_enemy();
+    hitResult = calc_item_damage_enemy(attacker);
     if (hitResult < 0) {
         return ApiStatus_FINISH;
     }
@@ -678,6 +753,7 @@ API_CALLABLE(ItemAfflictEnemy) {
     s32 hitResultVarOut = *args++;
     s32 flags;
     Actor* actor;
+    Actor* attacker;
     HitResult hitResult;
 
     battleStatus->curAttackElement = *args++;
@@ -718,6 +794,20 @@ API_CALLABLE(ItemAfflictEnemy) {
     }
 
     actor = get_actor(script->owner1.actorID);
+    attacker = battleStatus->playerActor;
+    {
+        CALL_EVENT(OnDamageAttackerResolve, ATTACK_SOURCE_ITEM, actor, &attacker);
+    }
+    {
+        s32 damage = battleStatus->curAttackDamage;
+        s32 status = battleStatus->curAttackStatus;
+        CALL_EVENT(OnAttackBegin, ATTACK_API_ITEM_AFFLICT_ENEMY, actor, &attacker, &damage, &status);
+        battleStatus->curAttackDamage = damage;
+        battleStatus->curAttackStatus = status;
+    }
+    if (attacker == nullptr) {
+        attacker = battleStatus->playerActor;
+    }
     battleStatus->curTargetID = actor->targetActorID;
     battleStatus->curTargetPart = actor->targetPartID;
     battleStatus->statusChance = battleStatus->curAttackStatus;
@@ -728,7 +818,7 @@ API_CALLABLE(ItemAfflictEnemy) {
 
     battleStatus->statusDuration = (battleStatus->curAttackStatus & 0xF00) >> 8;
 
-    hitResult = calc_item_damage_enemy();
+    hitResult = calc_item_damage_enemy(attacker);
     if (hitResult < 0) {
         return ApiStatus_FINISH;
     }
@@ -747,6 +837,7 @@ API_CALLABLE(ItemCheckHit) {
     s32 hitResultVarOut = *args++;
     s32 flags;
     Actor* actor;
+    Actor* attacker;
     HitResult hitResult;
 
     battleStatus->curAttackElement = *args++;
@@ -788,6 +879,20 @@ API_CALLABLE(ItemCheckHit) {
     }
 
     actor = get_actor(script->owner1.actorID);
+    attacker = battleStatus->playerActor;
+    {
+        CALL_EVENT(OnDamageAttackerResolve, ATTACK_SOURCE_ITEM, actor, &attacker);
+    }
+    {
+        s32 damage = battleStatus->curAttackDamage;
+        s32 status = battleStatus->curAttackStatus;
+        CALL_EVENT(OnAttackBegin, ATTACK_API_ITEM_CHECK_HIT, actor, &attacker, &damage, &status);
+        battleStatus->curAttackDamage = damage;
+        battleStatus->curAttackStatus = status;
+    }
+    if (attacker == nullptr) {
+        attacker = battleStatus->playerActor;
+    }
     battleStatus->curTargetID = actor->targetActorID;
     battleStatus->curTargetPart = actor->targetPartID;
     battleStatus->statusChance = battleStatus->curAttackStatus;
@@ -798,7 +903,7 @@ API_CALLABLE(ItemCheckHit) {
 
     battleStatus->statusDuration = (battleStatus->curAttackStatus & 0xF00) >> 8;
 
-    hitResult = calc_item_check_hit();
+    hitResult = calc_item_check_hit(attacker);
     if (hitResult < 0) {
         return ApiStatus_FINISH;
     }

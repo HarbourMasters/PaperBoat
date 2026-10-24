@@ -1,18 +1,11 @@
 #include "common.h"
 #include "nu/nusys.h"
 #include "assets/ui.h"
+#include "draw_box.h"
 #include "port/Engine.h"
 #include "port/patches/Patches.h"
 
 #define INTEGER_LOG2(x) ((x) <= 1 ? 0 : (x) <= 2 ? 1 : (x) <= 4 ? 2 : (x) <= 8 ? 3 : (x) <= 16 ? 4 : (x) <= 32 ? 5 : (x) <= 64 ? 6 : (x) <= 128 ? 7 : (x) <= 256 ? 8 : (x) <= 512 ? 9 : 10)
-
-typedef struct DefaultWindowStyle {
-    /* 0x00 */ u8 bgIndex;
-    /* 0x01 */ u8 cornersIndex;
-    /* 0x02 */ u8 combineModeIndex;
-    /* 0x03 */ Color_RGBA8 color1;
-    /* 0x07 */ Color_RGBA8 color2;
-} DefaultWindowStyle; // size = 0x0B
 
 #define BOX_QUAD_BUFFER_NUM 21
 BSS Vtx gBoxQuadBuffer[BOX_QUAD_BUFFER_NUM][16];
@@ -358,9 +351,16 @@ s32 draw_box(s32 flags, void* windowStyleArg, s32 posX, s32 posY, s32 posZ, s32 
 
     s32 foo;
 
-    if (style.defaultStyleID <= WINDOW_STYLE_MAX && style.defaultStyleID >= 0) {
+    if ((uintptr_t)windowStyleArg > WINDOW_STYLE_MAX && (uintptr_t)windowStyleArg <= WINDOW_STYLE_REGISTERED_MAX) {
+        CALL_EVENT(OnWindowStyle, (s32)(uintptr_t)windowStyleArg, &defaultStyle);
+        if (defaultStyle == nullptr) {
+            defaultStyle = &gBoxDefaultStyles[WINDOW_STYLE_0];
+        }
+    } else if (style.defaultStyleID <= WINDOW_STYLE_MAX && style.defaultStyleID >= 0) {
         defaultStyle = &gBoxDefaultStyles[style.defaultStyleID];
+    }
 
+    if (defaultStyle != nullptr) {
         primR = defaultStyle->color1.r;
         primG = defaultStyle->color1.g;
         primB = defaultStyle->color1.b;

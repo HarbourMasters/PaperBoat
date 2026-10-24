@@ -308,6 +308,8 @@ typedef struct PartnerData {
     /* 0x02 */ s16 unk_02[3];
 } PartnerData; // size = 0x08
 
+#define INV_ITEMS_MAX 32
+
 typedef struct PlayerData {
     /* 0x000 */ s8 bootsLevel;
     /* 0x001 */ s8 hammerLevel;
@@ -331,8 +333,8 @@ typedef struct PlayerData {
     /* 0x014 */ PartnerData partners[12];
     /* 0x074 */ s16 keyItems[32];
     /* 0x0B4 */ s16 badges[128];
-    /* 0x1B4 */ s16 invItems[10];
-    /* 0x1C8 */ s16 storedItems[32];
+    /* 0x1B4 */ s16 invItems[INV_ITEMS_MAX];
+    /* 0x1F4 */ s16 storedItems[32];
     /* 0x208 */ s16 equippedBadges[64];
     /* 0x288 */ s8 unused_288;
     /* 0x289 */ s8 merleeSpellType;
@@ -1692,68 +1694,69 @@ typedef union DecorationData {
 
 #define MAX_ACTOR_DECORATIONS 2
 #define ACTOR_BLUR_FRAMES 16
+#define ACTOR_MAX_PALETTES 40
 
 typedef struct DecorationTable {
-    /* 0x000 */ PAL_BIN copiedPalettes[2][27][SPR_PAL_SIZE];
-    /* 0x6C0 */ s8 paletteAdjustment;
-    /* 0x6C1 */ b8 resetPalAdjust;
-    /* 0x6C2 */ s8 palAnimState;
-    /* 0x6C3 */ char unk_6C3[5];
-    /* 0x6C8 */ s16 nextPalTime;
-    /* 0x6CA */ s16 palBlendAlpha;
-    /* 0x6CC */ s8 spriteColorVariations;
-    /* 0x6CD */ s8 originalPalettesCount;
-    /* 0x6CE */ char unk_6CE[2];
-    /* 0x6D0 */ PAL_PTR* originalPalettesList;
-    /* 0x6D4 */ PAL_PTR adjustedPalettes[27];
-    /* 0x740 */ s16 blendPalA; // can be either palette or palset index
-    /* 0x742 */ s16 blendPalB; // can be either palette or palset index
-    /* 0x744 */ s16 palswapTimeHoldA;
-    /* 0x746 */ s16 palswapTimeAtoB;
-    /* 0x748 */ s16 palswapTimeHoldB;
-    /* 0x74A */ s16 palswapTimeBtoA;
-    /* 0x74C */ s16 palswapUnused1; // presumably palswapTimeHoldC for unimplemented triple cycling (A->B->C->A)
-    /* 0x74E */ s16 palswapUnused2; // presumably palswapTimeCtoA  for unimplemented triple cycling (A->B->C->A)
-    /* 0x750 */ s8 glowState;
-    /* 0x751 */ b8 glowStateChanged;
-    /* 0x752 */ s8 glowUnk1;
-    /* 0x753 */ char pad753[5];
-    /* 0x758 */ s16 glowUnk2;
-    /* 0x75A */ s16 glowUnk3;
-    /* 0x75C */ s16 glowPhase;
-    /* 0x75E */ char pad75E[6];
-    /* 0x764 */ s8 flashState;
-    /* 0x765 */ s8 flashStateChanged;
-    /* 0x766 */ s8 flashMode;
-    /* 0x767 */ s8 flashFramesLeft;
-    /* 0x768 */ u8 flashEnabled;
-    /* 0x769 */ char unk_769[3];
-    /* 0x76C */ PAL_PTR flashPalettes[27]; // [port]
-    /* 0x78C */ char unk_7AC[0x2C];
-    /* 0x7D8 */ s8 blurUnused;
-    /* 0x7D9 */ s8 blurBufferPos;
-    /* 0x7DA */ s8 blurDrawCount;
-    /* 0x7DB */ s8 blurEnableCount;
-    /* 0x7DC */ s16 yaw[ACTOR_BLUR_FRAMES];
-    /* 0x7FC */ s16 posX[ACTOR_BLUR_FRAMES];
-    /* 0x81C */ s16 posY[ACTOR_BLUR_FRAMES];
-    /* 0x83C */ s16 posZ[ACTOR_BLUR_FRAMES];
-    /* 0x85C */ s8 rotPivotOffsetX[ACTOR_BLUR_FRAMES];
-    /* 0x86C */ s8 rotPivotOffsetY[ACTOR_BLUR_FRAMES];
-    /* 0x87C */ u8 rotX[ACTOR_BLUR_FRAMES];
-    /* 0x88C */ u8 rotY[ACTOR_BLUR_FRAMES];
-    /* 0x89C */ u8 rotZ[ACTOR_BLUR_FRAMES];
-    /* 0x8AC */ s8 blurDisableDelay; // infinite when zero
-    /* 0x8AD */ char unk_8AD[3];
+    /* 0x000 */ PAL_BIN copiedPalettes[2][ACTOR_MAX_PALETTES][SPR_PAL_SIZE];
+    /* 0xA00 */ s8 paletteAdjustment;
+    /* 0xA01 */ b8 resetPalAdjust;
+    /* 0xA02 */ s8 palAnimState;
+    /* 0xA03 */ char unk_6C3[5];
+    /* 0xA08 */ s16 nextPalTime;
+    /* 0xA0A */ s16 palBlendAlpha;
+    /* 0xA0C */ s8 spriteColorVariations;
+    /* 0xA0D */ s8 originalPalettesCount;
+    /* 0xA0E */ char unk_6CE[2];
+    /* 0xA10 */ PAL_PTR* originalPalettesList;
+    /* 0xA14 */ PAL_PTR adjustedPalettes[ACTOR_MAX_PALETTES];
+    /* 0xAB4 */ s16 blendPalA; // can be either palette or palset index
+    /* 0xAB6 */ s16 blendPalB; // can be either palette or palset index
+    /* 0xAB8 */ s16 palswapTimeHoldA;
+    /* 0xABA */ s16 palswapTimeAtoB;
+    /* 0xABC */ s16 palswapTimeHoldB;
+    /* 0xABE */ s16 palswapTimeBtoA;
+    /* 0xAC0 */ s16 palswapUnused1; // presumably palswapTimeHoldC for unimplemented triple cycling (A->B->C->A)
+    /* 0xAC2 */ s16 palswapUnused2; // presumably palswapTimeCtoA  for unimplemented triple cycling (A->B->C->A)
+    /* 0xAC4 */ s8 glowState;
+    /* 0xAC5 */ b8 glowStateChanged;
+    /* 0xAC6 */ s8 glowUnk1;
+    /* 0xAC7 */ char pad753[5];
+    /* 0xACC */ s16 glowUnk2;
+    /* 0xACE */ s16 glowUnk3;
+    /* 0xAD0 */ s16 glowPhase;
+    /* 0xAD2 */ char pad75E[6];
+    /* 0xAD8 */ s8 flashState;
+    /* 0xAD9 */ s8 flashStateChanged;
+    /* 0xADA */ s8 flashMode;
+    /* 0xADB */ s8 flashFramesLeft;
+    /* 0xADC */ u8 flashEnabled;
+    /* 0xADD */ char unk_769[3];
+    /* 0xAE0 */ PAL_PTR flashPalettes[ACTOR_MAX_PALETTES]; // [port]
+    /* 0xB80 */ char unk_7AC[0x2C];
+    /* 0xBAC */ s8 blurUnused;
+    /* 0xBAD */ s8 blurBufferPos;
+    /* 0xBAE */ s8 blurDrawCount;
+    /* 0xBAF */ s8 blurEnableCount;
+    /* 0xBB0 */ s16 yaw[ACTOR_BLUR_FRAMES];
+    /* 0xBD0 */ s16 posX[ACTOR_BLUR_FRAMES];
+    /* 0xBF0 */ s16 posY[ACTOR_BLUR_FRAMES];
+    /* 0xC10 */ s16 posZ[ACTOR_BLUR_FRAMES];
+    /* 0xC30 */ s8 rotPivotOffsetX[ACTOR_BLUR_FRAMES];
+    /* 0xC40 */ s8 rotPivotOffsetY[ACTOR_BLUR_FRAMES];
+    /* 0xC50 */ u8 rotX[ACTOR_BLUR_FRAMES];
+    /* 0xC60 */ u8 rotY[ACTOR_BLUR_FRAMES];
+    /* 0xC70 */ u8 rotZ[ACTOR_BLUR_FRAMES];
+    /* 0xC80 */ s8 blurDisableDelay; // infinite when zero
+    /* 0xC81 */ char unk_8AD[3];
     /* substruct for decorations? */
-    /* 0x8B0 */ struct EffectInstance* effect[MAX_ACTOR_DECORATIONS];
-    /* 0x8B8 */ s8 type[MAX_ACTOR_DECORATIONS];
-    /* 0x8BA */ u8 changed[MAX_ACTOR_DECORATIONS];
-    /* 0x8BC */ s8 state[MAX_ACTOR_DECORATIONS];
-    /* 0x8BE */ s16 stateResetTimer[MAX_ACTOR_DECORATIONS];
-    /* 0x8C2 */ char unk_8C0[4];
-    /* 0x8C6 */ DecorationData decorData[MAX_ACTOR_DECORATIONS];
-} DecorationTable; // size = 0x8E8
+    /* 0xC84 */ struct EffectInstance* effect[MAX_ACTOR_DECORATIONS];
+    /* 0xC8C */ s8 type[MAX_ACTOR_DECORATIONS];
+    /* 0xC8E */ u8 changed[MAX_ACTOR_DECORATIONS];
+    /* 0xC90 */ s8 state[MAX_ACTOR_DECORATIONS];
+    /* 0xC92 */ s16 stateResetTimer[MAX_ACTOR_DECORATIONS];
+    /* 0xC96 */ char unk_8C0[4];
+    /* 0xC9A */ DecorationData decorData[MAX_ACTOR_DECORATIONS];
+} DecorationTable; // size = 0xCBC
 
 typedef struct PlayerPathElement {
     /* 0x00 */ b8 isJumping;

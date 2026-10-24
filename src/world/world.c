@@ -103,7 +103,7 @@ void load_map_by_IDs(s16 areaID, s16 mapID, s16 loadType) {
 
     gGameStatusPtr->mapShop = nullptr;
 
-    ASSERT_MSG(areaID < ARRAY_COUNT(gAreas) - 1, "Invalid area ID %d", areaID);
+    ASSERT_MSG(areaID < ARRAY_COUNT(gAreas) && gAreas[areaID].maps != nullptr, "Invalid area ID %d", areaID);
     ASSERT_MSG(mapID < gAreas[areaID].mapCount, "Invalid map ID %d in %s", mapID, gAreas[areaID].id);
     mapConfig = &gAreas[areaID].maps[mapID];
 
@@ -883,7 +883,7 @@ MapConfig gv_maps[] = {
     { MAP(gv_01) },
 };
 
-AreaConfig gAreas[] = {
+AreaConfig gAreas[AREA_TABLE_CAPACITY] = {
     AREA(kmr, "クリむら"),  // kuri mura [kuribou village, Goomba Village]
     AREA(mac, "まち"),  // machi [town, Toad Town]
     AREA(tik, "まちのちか"),  // machi no chika [under the town, Toad Town Tunnels]

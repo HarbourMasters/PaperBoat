@@ -261,7 +261,10 @@ API_CALLABLE(ConsumeLifeShroom) {
     PlayerData* playerData = &gPlayerData;
     ItemData* item = &gItemTable[ITEM_LIFE_SHROOM];
 
-    playerData->curHP += item->potencyA;
+    s32 delta = item->potencyA;
+    CALL_CANCELLABLE_EVENT(OnActorHpChange, gBattleStatus.playerActor, HP_SOURCE_HEAL, &delta) {
+        playerData->curHP += delta;
+    }
     if (playerData->curMaxHP < playerData->curHP) {
         playerData->curHP = playerData->curMaxHP;
     }
@@ -532,7 +535,10 @@ API_CALLABLE(SpawnRecoverFlowerFX) {
 API_CALLABLE(IncrementPlayerHP) {
     PlayerData* playerData = &gPlayerData;
 
-    playerData->curHP++;
+    s32 delta = 1;
+    CALL_CANCELLABLE_EVENT(OnActorHpChange, gBattleStatus.playerActor, HP_SOURCE_HEAL, &delta) {
+        playerData->curHP += delta;
+    }
     if (playerData->curHP > playerData->curMaxHP) {
         playerData->curHP = playerData->curMaxHP;
     }
@@ -550,7 +556,10 @@ API_CALLABLE(IncrementPlayerFP) {
 }
 
 API_CALLABLE(InflictDizzyAttackStatus) {
-    inflict_status_set_duration(get_actor(script->owner1.actorID), STATUS_KEY_DIZZY, 0, 1);
+    Actor* actor = get_actor(script->owner1.actorID);
+    s32 duration = 1;
+    CALL_EVENT(OnAbilityEffect, gBattleStatus.playerActor, ABILITY_DIZZY_ATTACK, &duration);
+    inflict_status_set_duration(actor, STATUS_KEY_DIZZY, 0, duration);
     btl_update_ko_status();
     return ApiStatus_DONE2;
 }

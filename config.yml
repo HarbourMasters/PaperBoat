@@ -31,3 +31,22 @@
 #         binary: mods/~romhacks/<stem>.o2r
 #         headers: include
 #         code: code
+
+# Paper Peach (gamebanana.com/mods/576687), "Paper Peach Patch.bps" applied to the US ROM
+c02972e81d5f05da7ed0e7b4f0efc30f05a01b18:
+  name: Paper Peach
+  path: ./assets/yaml/romhacks/paper_peach
+  romhack:
+    id: PaperPeach
+    version: "1.2"
+    url: https://gamebanana.com/mods/576687
+  config:
+    gbi: F3DEX2_PM64
+    gbi_floats: false
+    sort: OFFSET
+    logging: WARN
+    output:
+      binary: mods/~romhacks/paper_peach.o2r
+      headers: include
+      code: code
+

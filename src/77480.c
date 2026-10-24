@@ -1428,6 +1428,7 @@ void player_update_sprite(void) {
             playerStatus->curYaw = playerStatus->targetYaw;
         }
     }
+    CALL_EVENT(OnPlayerSpriteAnim, &trueAnim);
     playerStatus->trueAnimation = trueAnim;
 
     timescale = 1.0f;

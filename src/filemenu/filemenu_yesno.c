@@ -3,7 +3,7 @@
 #include "fio.h"
 #include "game_modes.h"
 #include "dx/config.h"
-#include "port/romhack/Romhack.h"
+#include "port/Engine.h"
 #include <string.h>
 
 #if VERSION_IQUE
@@ -289,9 +289,7 @@ void filemenu_yesno_handle_input(MenuPanel* menu) {
                         fio_save_game(selected);
                         gSaveSlotMetadata[selected].hasData = true;
                         gSaveSlotMetadata[selected].validData = true;
-                        strncpy(gSaveSlotMetadata[selected].modName, Romhack_GetModName(),
-                                ARRAY_COUNT(gSaveSlotMetadata[selected].modName) - 1);
-                        gSaveSlotMetadata[selected].modName[ARRAY_COUNT(gSaveSlotMetadata[selected].modName) - 1] = '\0';
+                        Port_CopyModName(gSaveSlotMetadata[selected].modName);
 
                         set_window_update(WIN_FILES_INPUT_FIELD, (intptr_t)filemenu_update_hidden_name_input);
                         set_window_update(WIN_FILES_INPUT_KEYBOARD, (intptr_t)filemenu_update_hidden_name_input);

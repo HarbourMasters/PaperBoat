@@ -20,6 +20,9 @@ void btl_state_update_defend(void) {
             player->takeTurnScriptID = script->id;
             script->owner1.actorID = ACTOR_PLAYER;
             gBattleSubState = BTL_SUBSTATE_AWAIT;
+            {
+                CALL_EVENT(OnBattleDefendBegin, script);
+            }
             break;
         case BTL_SUBSTATE_AWAIT:
             // wait for PHASE_USE_DEFEND event to complete
@@ -28,7 +31,9 @@ void btl_state_update_defend(void) {
             }
 
             // done waiting for the script
-            btl_set_state(BATTLE_STATE_END_PLAYER_TURN);
+            CALL_CANCELLABLE_EVENT(OnBattleDefendEnd) {
+                btl_set_state(BATTLE_STATE_END_PLAYER_TURN);
+            }
             break;
     }
 }

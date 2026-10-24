@@ -12,6 +12,8 @@
 #include <ship/Context.h>
 
 #include "port/FilePicker.h"
+#include "port/modding/ModSaveData.h"
+#include "port/save/SaveManager.h"
 
 #include "common.h"
 #include "dx/config.h"
@@ -34,6 +36,11 @@ namespace {
     constexpr size_t kRegionStride = 0x4000; // one save per 16 KB region
     constexpr size_t kSaveRegions = 6;       // six physical saves, then two globals pages
     constexpr size_t kVanillaSize = 0x1380;  // sizeof(VanillaSaveData)
+    constexpr size_t kExtBytesOffset = 0x2000;
+    constexpr size_t kExtFlagsOffset = 0x3000;
+    constexpr size_t kExtGlobalBase = 0x1000;
+    constexpr size_t kExtByteCount = 0x1000;
+    constexpr size_t kExtFlagWords = 0x400;
 
     struct SwapRun {
         size_t offset;
@@ -135,12 +142,38 @@ namespace {
         }
     }
 
-    bool WriteSave(SaveData* saveData, int slotIndex) {
-        const nlohmann::ordered_json json = ConvertSaveData_to_JSON(saveData);
+    static_assert(kVanillaSize == MOD_N64_SAVE_SIZE);
+    static_assert(kExtGlobalBase + kExtByteCount <= SAVE_GLOBAL_BYTE_COUNT);
+    static_assert(kExtGlobalBase / 32 + kExtFlagWords <= SAVE_GLOBAL_FLAG_WORDS);
+
+    void ImportExtGlobals(const uint8_t* region, SaveData* saveData) {
+        const uint8_t* bytes = region + kExtBytesOffset;
+        const uint8_t* flags = region + kExtFlagsOffset;
+        bool erased = true;
+        for (size_t i = 0; i < kExtByteCount && erased; i++) {
+            erased = bytes[i] == 0xFF;
+        }
+        for (size_t i = 0; i < kExtFlagWords * 4 && erased; i++) {
+            erased = flags[i] == 0xFF;
+        }
+        if (erased) {
+            return;
+        }
+        std::memcpy(&saveData->globalBytes[kExtGlobalBase], bytes, kExtByteCount);
+        for (size_t w = 0; w < kExtFlagWords; w++) {
+            saveData->globalFlags[kExtGlobalBase / 32 + w] = (s32) ReadBE32(flags + w * 4);
+        }
+    }
+
+    bool WriteSave(SaveData* saveData, int slotIndex, bool withModData) {
+        nlohmann::ordered_json json = ConvertSaveData_to_JSON(saveData);
         if (json.empty()) {
             return false;
         }
-        const std::string dir = Ship::Context::GetPathRelativeToAppDirectory("saves/", "pm64");
+        if (withModData) {
+            Mod::WriteSaveData(json);
+        }
+        const std::string dir = SaveManager_GetSavesDir();
         std::error_code ec;
         if (!fs::exists(dir)) {
             fs::create_directories(dir, ec);
@@ -212,6 +245,14 @@ Result ImportFromFlash(const std::string& srcPath, int srcSlot, int destSlot) {
     s32 savedDefeatFlags[60][12];
     std::memcpy(savedDefeatFlags, gCurrentEncounter.defeatFlags, sizeof(savedDefeatFlags));
 
+    const bool runImports = Mod::HasSaveImports();
+    nlohmann::json liveModData = nlohmann::json::object();
+    if (runImports) {
+        nlohmann::ordered_json live = nlohmann::ordered_json::object();
+        Mod::WriteSaveData(live);
+        liveModData = nlohmann::json::parse(live.dump());
+    }
+
     std::vector<int> failed;
     for (auto [from, to] : wanted) {
         if (newest[from] == nullptr) {
@@ -229,7 +270,16 @@ Result ImportFromFlash(const std::string& srcPath, int srcSlot, int destSlot) {
         saveData->minorVersion = DX_MOD_VER_MINOR;
         saveData->patchVersion = DX_MOD_VER_PATCH;
 
-        if (WriteSave(saveData, to)) {
+        if (newest[from] + kRegionStride <= bytes.data() + bytes.size()) {
+            ImportExtGlobals(newest[from], saveData);
+        }
+
+        if (runImports) {
+            Mod::ClearSaveData();
+            Mod::RunSaveImports(saveData, newest[from]);
+        }
+
+        if (WriteSave(saveData, to, runImports)) {
             res.slotsImported++;
         } else {
             failed.push_back(to + 1);
@@ -237,6 +287,9 @@ Result ImportFromFlash(const std::string& srcPath, int srcSlot, int destSlot) {
     }
 
     std::memcpy(gCurrentEncounter.defeatFlags, savedDefeatFlags, sizeof(gCurrentEncounter.defeatFlags));
+    if (runImports) {
+        Mod::ReadSaveData(liveModData);
+    }
 
     if (!failed.empty()) {
         res.message = fmt::format("Couldn't write slot {}.", failed[0]);

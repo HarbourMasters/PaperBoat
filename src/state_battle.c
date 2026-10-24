@@ -96,6 +96,7 @@ void state_step_battle(void) {
         initialize_battle();
         btl_save_world_cameras();
         load_battle_section();
+        CALL_EVENT(OnBattleInit, BATTLE_INIT_SECTION_LOADED);
         SavedWorldAnimFlags = gPlayerStatusPtr->animFlags;
         gPlayerStatusPtr->animFlags &= ~PA_FLAG_PULSE_STONE_VISIBLE;
         SavedWorldFreezeMode = get_time_freeze_mode();

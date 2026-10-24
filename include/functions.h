@@ -270,6 +270,8 @@ Bytecode evt_set_variable(Evt* script, Bytecode var, Bytecode value);
 f32 evt_get_float_variable(Evt* script, Bytecode var);
 f32 evt_set_float_variable(Evt* script, Bytecode var, f32 value);
 s32 evt_get_variable_index(Evt* script, s32 var);
+Bytecode evt_buffer_next(Evt* script);
+Bytecode evt_buffer_at(Evt* script, s32 index);
 void set_script_timescale(Evt* script, f32 timescale);
 f32 sin_deg(f32 x);
 f32 cos_deg(f32 x);

@@ -341,6 +341,7 @@ void render_entities(void) {
             }
 
             if (!(entity->flags & ENTITY_FLAG_HIDDEN)) {
+                CALL_EVENT(EntityPreDraw, entity);
                 FrameInterpolation_RecordOpenChild("entity", (uintptr_t)entity);
                 if (entity->flags & ENTITY_FLAG_HAS_ANIMATED_MODEL) {
                     if (D_8014AFB0 == 255) {

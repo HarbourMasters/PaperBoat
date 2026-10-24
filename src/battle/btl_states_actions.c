@@ -125,6 +125,9 @@ void btl_merlee_on_first_strike(void) {
 }
 
 void btl_set_state(s32 battleState) {
+    static b32 sNotifyingStateChanged = false;
+    s32 prevState = gBattleState;
+
     gBattleState = battleState;
     gBattleSubState = BTL_SUBSTATE_INIT;
 
@@ -144,5 +147,11 @@ void btl_set_state(s32 battleState) {
                 break;
         }
         gBattleState = battleState;
+    }
+
+    if (!sNotifyingStateChanged) {
+        sNotifyingStateChanged = true;
+        CALL_EVENT(OnBattleStateChanged, prevState, gBattleState);
+        sNotifyingStateChanged = false;
     }
 }

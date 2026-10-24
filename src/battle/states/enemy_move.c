@@ -140,14 +140,17 @@ void btl_state_update_enemy_move(void) {
                 btl_set_state(BATTLE_STATE_END_DEMO_BATTLE);
             } else {
                 btl_update_ko_status();
-                if (player->statusAfflicted != 0) {
+                s32 afflictedStatus = player->statusAfflicted;
+                s32 camPreset = BTL_CAM_PLAYER_STATUS_AFFLICTED;
+                CALL_EVENT(OnStatusAfflictedNotice, player, partner, &afflictedStatus, &camPreset);
+                if (afflictedStatus != 0) {
                     player->flags |= ACTOR_FLAG_SHOW_STATUS_ICONS | ACTOR_FLAG_USING_IDLE_ANIM;
                     if (partner != nullptr) {
                         partner->flags |= ACTOR_FLAG_SHOW_STATUS_ICONS | ACTOR_FLAG_USING_IDLE_ANIM;
                     }
-                    btl_cam_use_preset(BTL_CAM_PLAYER_STATUS_AFFLICTED);
+                    btl_cam_use_preset(camPreset);
 
-                    switch (player->statusAfflicted) {
+                    switch (afflictedStatus) {
                         case STATUS_KEY_DIZZY:
                             messageIndex = BTL_MSG_PLAYER_DAZED;
                             break;
@@ -234,6 +237,10 @@ void btl_state_update_enemy_move(void) {
     }
 
     if (gBattleSubState == BTL_SUBSTATE_DONE) {
+        enemy = get_actor(battleStatus->activeEnemyActorID);
+        if (enemy != nullptr) {
+            CALL_EVENT(OnStatusTick, enemy, STATUS_PHASE_ACTION_END);
+        }
         btl_set_state(BATTLE_STATE_NEXT_ENEMY);
     }
 }

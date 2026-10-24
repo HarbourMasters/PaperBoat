@@ -5,7 +5,7 @@
 #include "ld_addrs.h"
 #include "game_modes.h"
 #include "dx/config.h"
-#include "port/romhack/Romhack.h"
+#include "port/Engine.h"
 #include <memory.h>
 #include <string.h>
 
@@ -905,8 +905,7 @@ void filemenu_init(s32 mode) {
             if (fio_load_game(i)) {
                 gSaveSlotSummary[i] = gCurrentSaveFile.summary;
                 gSaveSlotMetadata[i].hasData = true;
-                gSaveSlotMetadata[i].validData =
-                    strncmp(gCurrentSaveFile.modName, Romhack_GetModName(), ARRAY_COUNT(gCurrentSaveFile.modName) - 1) == 0;
+                gSaveSlotMetadata[i].validData = Port_ModNameMatches(gCurrentSaveFile.modName);
                 memcpy(gSaveSlotMetadata[i].modName, gCurrentSaveFile.modName, ARRAY_COUNT(gSaveSlotMetadata[i].modName));
             } else {
                 gSaveSlotMetadata[i].hasData = false;

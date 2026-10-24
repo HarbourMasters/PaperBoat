@@ -120,13 +120,14 @@ EvtScript N(EVS_Toybox_SetupTrainPrompt) = {
 s32 N(get_total_equipped_bp_cost)(void) {
     s32 bpCost = 0;
     s32 i = 0;
-    ItemData* itemTable = gItemTable;
 
     for (; i < ARRAY_COUNT(gPlayerData.equippedBadges); i++) {
         s16 badge = gPlayerData.equippedBadges[i];
 
         if (badge != 0) {
-            bpCost += gMoveTable[itemTable[badge].moveID].costBP;
+            s32 cost = gMoveTable[gItemTable[badge].moveID].costBP;
+            CALL_EVENT(OnBadgeBPCost, badge, &cost);
+            bpCost += cost;
         }
     }
     return bpCost;

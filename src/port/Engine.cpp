@@ -1357,6 +1357,28 @@ extern "C" void GameEngine_LogInfo(const char* fmt, ...) {
     SPDLOG_INFO("{}", buffer);
 }
 
+extern "C" void GameEngine_LogWarn(const char* fmt, ...) {
+    char buffer[512];
+    va_list args;
+    va_start(args, fmt);
+    vsnprintf(buffer, sizeof(buffer), fmt, args);
+    va_end(args);
+    SPDLOG_WARN("{}", buffer);
+}
+
+extern "C" const char* Port_GetModName(void) {
+    return Romhack_GetModName();
+}
+
+extern "C" bool Port_ModNameMatches(const char* modName) {
+    return strncmp(modName, Port_GetModName(), PORT_MOD_NAME_SIZE - 1) == 0;
+}
+
+extern "C" void Port_CopyModName(char* dest) {
+    strncpy(dest, Port_GetModName(), PORT_MOD_NAME_SIZE - 1);
+    dest[PORT_MOD_NAME_SIZE - 1] = '\0';
+}
+
 // C-callable stack trace logging using spdlog.
 // Android defines __linux__ but Bionic has no backtrace().
 #if (defined(__APPLE__) || defined(__linux__)) && !defined(__ANDROID__)

@@ -3,7 +3,7 @@
 #include <string.h>
 #include "dx/versioning.h"
 #include "dx/config.h"
-#include "port/romhack/Romhack.h"
+#include "port/Engine.h"
 
 typedef struct SaveInfo {
     /* 0x08 */ s32 slot;
@@ -202,8 +202,7 @@ void fio_save_game(s32 saveSlot) {
 
     strcpy(gCurrentSaveFile.magicString, MagicSaveString);
 
-    strncpy(gCurrentSaveFile.modName, Romhack_GetModName(), ARRAY_COUNT(gCurrentSaveFile.modName) - 1);
-    gCurrentSaveFile.modName[ARRAY_COUNT(gCurrentSaveFile.modName) - 1] = '\0';
+    Port_CopyModName(gCurrentSaveFile.modName);
     gCurrentSaveFile.majorVersion = DX_MOD_VER_MAJOR;
     gCurrentSaveFile.minorVersion = DX_MOD_VER_MINOR;
     gCurrentSaveFile.patchVersion = DX_MOD_VER_PATCH;

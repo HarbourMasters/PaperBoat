@@ -5,6 +5,8 @@
 #include <libultraship/bridge/consolevariablebridge.h>
 #include "port/ShipUtils.h"
 #include "port/romhack/Romhack.h"
+#include "port/Engine.h"
+#include "port/modding/ModSaveData.h"
 #include <fstream>
 #include <filesystem>
 #include <regex>
@@ -121,12 +123,12 @@ SaveData* ConvertJSON_to_SaveData(nlohmann::json jsonSaveFile) {
     }
 
     ordered_json jsonInvItems = jsonPlayer["invItems"];
-    for (int ii = 0; ii < MAX_INVITEMS; ii++) {
+    for (int ii = 0; ii < MAX_INVITEMS && ii < (int) jsonInvItems.size(); ii++) {
         saveData->player.invItems[ii] = jsonInvItems[ii];
     }
 
     ordered_json jsonStoredItems = jsonPlayer["storedItems"];
-    for (int si = 0; si < MAX_STOREDITEMS; si++) {
+    for (int si = 0; si < MAX_STOREDITEMS && si < (int) jsonStoredItems.size(); si++) {
         saveData->player.storedItems[si] = jsonStoredItems[si];
     }
 
@@ -197,12 +199,12 @@ SaveData* ConvertJSON_to_SaveData(nlohmann::json jsonSaveFile) {
     }
 
     ordered_json jsonGlobalFlags = jsonSaveFile["globalFlags"];
-    for (int gf = 0; gf < MAX_GLOBALFLAGS; gf++) {
+    for (int gf = 0; gf < MAX_GLOBALFLAGS && gf < (int) jsonGlobalFlags.size(); gf++) {
         saveData->globalFlags[gf] = jsonGlobalFlags[gf];
     }
 
     ordered_json jsonGlobalBytes = jsonSaveFile["globalBytes"];
-    for (int gb = 0; gb < MAX_GLOBALBYTES; gb++) {
+    for (int gb = 0; gb < MAX_GLOBALBYTES && gb < (int) jsonGlobalBytes.size(); gb++) {
         saveData->globalBytes[gb] = jsonGlobalBytes[gb];
     }
 
@@ -269,9 +271,7 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
     jsonSave["minorVersion"] = saveData->minorVersion;
     jsonSave["patchVersion"] = saveData->patchVersion;
     const char* romhackVersion = Romhack_GetVersion();
-    if (romhackVersion != nullptr
-        && strncmp(saveData->modName, Romhack_GetModName(), sizeof(saveData->modName) - 1) == 0)
-    {
+    if (romhackVersion != nullptr && Port_ModNameMatches(saveData->modName)) {
         jsonSave["romhackVersion"] = romhackVersion;
     }
 
@@ -413,14 +413,22 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
     }
     jsonSave["enemyDefeatFlags"] = jsonEnemyDefeatFlags;
 
+    int globalFlagCount = MAX_GLOBALFLAGS;
+    while (globalFlagCount > VANILLA_GLOBALFLAGS && saveData->globalFlags[globalFlagCount - 1] == 0) {
+        globalFlagCount--;
+    }
     ordered_json jsonGlobalFlags = ordered_json::array();
-    for (int gf = 0; gf < MAX_GLOBALFLAGS; gf++) {
+    for (int gf = 0; gf < globalFlagCount; gf++) {
         jsonGlobalFlags.push_back(saveData->globalFlags[gf]);
     }
     jsonSave["globalFlags"] = jsonGlobalFlags;
 
+    int globalByteCount = MAX_GLOBALBYTES;
+    while (globalByteCount > VANILLA_GLOBALBYTES && saveData->globalBytes[globalByteCount - 1] == 0) {
+        globalByteCount--;
+    }
     ordered_json jsonGlobalBytes = ordered_json::array();
-    for (int gb = 0; gb < MAX_GLOBALBYTES; gb++) {
+    for (int gb = 0; gb < globalByteCount; gb++) {
         jsonGlobalBytes.push_back(saveData->globalBytes[gb]);
     }
     jsonSave["globalBytes"] = jsonGlobalBytes;
@@ -477,7 +485,7 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
     return jsonSave;
 }
 
-static std::string SavesDir() {
+std::string SaveManager_GetSavesDir() {
     std::string dir = "saves/";
     if (Romhack::Active() != nullptr) {
         dir += std::string(Romhack::kFolder) + "/" + Romhack::ActiveStem() + "/";
@@ -486,7 +494,7 @@ static std::string SavesDir() {
 }
 
 static std::string GlobalsPath() {
-    return SavesDir() + "globals.json";
+    return SaveManager_GetSavesDir() + "globals.json";
 }
 
 static void StampGlobals(SaveGlobals* globals) {
@@ -502,7 +510,7 @@ static void WriteGlobals(const SaveGlobals* globals) {
     j["useMonoSound"] = globals->useMonoSound;
     j["lastFileSelected"] = globals->lastFileSelected;
 
-    std::string dir = SavesDir();
+    std::string dir = SaveManager_GetSavesDir();
     if (!fs::exists(dir)) {
         fs::create_directories(dir);
     }
@@ -513,6 +521,8 @@ static void WriteGlobals(const SaveGlobals* globals) {
 }
 
 void SaveManager_Init() {
+    REGISTER_LISTENER(OnPlayerDataClear, EVENT_PRIORITY_HIGH, [](IEvent* event) { Mod::ClearSaveData(); })
+
     REGISTER_LISTENER(OnSaveGlobalsSave, EVENT_PRIORITY_HIGH, [](IEvent* event) {
         OnSaveGlobalsSave* ev = (OnSaveGlobalsSave*) event;
         event->Cancelled = true;
@@ -543,10 +553,13 @@ void SaveManager_Init() {
 
         SaveData* saveData = (SaveData*) ev->saveData;
         ordered_json jsonSaveFile = ConvertSaveData_to_JSON(saveData);
+        if (!jsonSaveFile.empty() && saveData == &gCurrentSaveFile) {
+            Mod::WriteSaveData(jsonSaveFile);
+        }
 
         if (!jsonSaveFile.empty()) {
             std::string fileName = fmt::format("file{}.json", saveData->saveSlot);
-            std::string filePath = SavesDir();
+            std::string filePath = SaveManager_GetSavesDir();
 
             if (!fs::exists(filePath)) {
                 fs::create_directories(filePath);
@@ -568,7 +581,7 @@ void SaveManager_Init() {
         event->Cancelled = true;
 
         std::string fileName = fmt::format("file{}.json", ev->saveSlot);
-        std::string filePath = SavesDir() + fileName;
+        std::string filePath = SaveManager_GetSavesDir() + fileName;
 
         if (fs::exists(filePath)) {
             std::ifstream inputFile(filePath);
@@ -576,9 +589,11 @@ void SaveManager_Init() {
             inputFile >> jsonSave;
 
             gCurrentSaveFile = *ConvertJSON_to_SaveData(jsonSave);
+            Mod::ReadSaveData(jsonSave);
         } else {
             SaveData* newSaveData = new SaveData();
             gCurrentSaveFile = *newSaveData;
+            Mod::ClearSaveData();
         }
         CALL_EVENT(OnPostSaveFileLoad);
     })
@@ -588,7 +603,7 @@ void SaveManager_Init() {
         event->Cancelled = true;
 
         std::string fileName = fmt::format("file{}.json", ev->saveSlot);
-        std::string filePath = SavesDir() + fileName;
+        std::string filePath = SaveManager_GetSavesDir() + fileName;
 
         if (fs::exists(filePath)) {
             fs::remove(filePath);

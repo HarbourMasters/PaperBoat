@@ -8,7 +8,7 @@
 
 // To port a hack: add its config.yml entry (romhack.id), subclass Romhack::Port in specific/<Id>.cpp
 // exposing Create<Id>Port(), and list <Id> here. Hacks without an entry still get their assets.
-#define ROMHACK_PORT_LIST(PORT)
+#define ROMHACK_PORT_LIST(PORT) PORT(PaperPeach)
 
 #define ROMHACK_PORT_DECL(id) std::unique_ptr<Romhack::Port> Create##id##Port();
 ROMHACK_PORT_LIST(ROMHACK_PORT_DECL)

@@ -67,16 +67,22 @@ void entity_ItemBlock_spawn_item(Entity* entity) {
     angle = player_get_camera_facing_angle();
     entity->flags |= ENTITY_FLAG_USED;
 
-    if (data->item == ITEM_COIN) {
-        make_item_entity(ITEM_COIN, entity->pos.x, entity->pos.y + 28.0, entity->pos.z,
+    s32 itemID = data->item;
+    s32 itemEntityIndex;
+    CALL_EVENT(OnItemSpawnPick, ITEM_SPAWN_SOURCE_ITEM_BLOCK, entity, nullptr, &itemID);
+    if (itemID < 0 || itemID >= NUM_ITEMS) {
+        itemID = data->item;
+    }
+    if (itemID == ITEM_COIN) {
+        itemEntityIndex = make_item_entity(ITEM_COIN, entity->pos.x, entity->pos.y + 28.0, entity->pos.z,
             ITEM_SPAWN_MODE_ITEM_BLOCK_COIN, 0, angle, data->gameFlagIndex);
     } else {
         angle += 360;
-        make_item_entity(data->item, entity->pos.x, entity->pos.y + 20.0, entity->pos.z,
-            (gItemTable[data->item].typeFlags & ITEM_TYPE_FLAG_BADGE) ? ITEM_SPAWN_MODE_ITEM_BLOCK_BADGE : ITEM_SPAWN_MODE_ITEM_BLOCK_ITEM,
+        itemEntityIndex = make_item_entity(itemID, entity->pos.x, entity->pos.y + 20.0, entity->pos.z,
+            (gItemTable[itemID].typeFlags & ITEM_TYPE_FLAG_BADGE) ? ITEM_SPAWN_MODE_ITEM_BLOCK_BADGE : ITEM_SPAWN_MODE_ITEM_BLOCK_ITEM,
             0, angle, data->gameFlagIndex);
     }
-
+    CALL_EVENT(OnItemSpawned, ITEM_SPAWN_SOURCE_ITEM_BLOCK, entity, nullptr, itemID, itemEntityIndex);
 }
 
 void entity_TriggerBlock_start_bound_script_2(Entity* entity) {

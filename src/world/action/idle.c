@@ -45,6 +45,11 @@ void action_update_idle(void) {
         return;
     }
 
+    {
+        s32 idleAnim = playerStatus->anim;
+        CALL_EVENT(OnPlayerIdleTick, playerStatus->curStateTime, &idleAnim);
+        playerStatus->anim = idleAnim;
+    }
     playerStatus->curStateTime++;
 
     if (playerStatus->flags & PS_FLAG_ACTION_STATE_CHANGED) {
@@ -60,7 +65,9 @@ void action_update_idle(void) {
         if (playerStatus->animFlags & PA_FLAG_8BIT_MARIO) {
             anim = ANIM_MarioW3_8bit_Still;
         } else if (!(playerStatus->animFlags & PA_FLAG_USING_WATT)) {
-            anim = ANIM_Mario1_Idle;
+            s32 idleAnim = ANIM_Mario1_Idle;
+            CALL_EVENT(OnPlayerIdleAnim, &idleAnim);
+            anim = idleAnim;
         } else if (playerStatus->prevActionState == ACTION_STATE_IDLE) {
             anim = ANIM_MarioW1_TakeItem;
         } else {

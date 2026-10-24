@@ -373,6 +373,7 @@ void btl_state_update_player_move(void) {
     if (gBattleSubState == BTL_SUBSTATE_AWAIT_DONE) {
         if (player->takeTurnScript == nullptr || !does_script_exist(player->takeTurnScriptID)) {
             player->takeTurnScript = nullptr;
+            CALL_EVENT(OnStatusTick, player, STATUS_PHASE_ACTION_END);
             btl_set_state(BATTLE_STATE_END_PLAYER_TURN);
         }
     }

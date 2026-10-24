@@ -1,4 +1,5 @@
 #include "states.h"
+#include "inventory.h"
 #include "battle/battle.h"
 #include "battle/battle_menu.h"
 #include "battle/action_cmd.h"
@@ -139,13 +140,18 @@ void btl_init_menu_boots(void) {
         s16 badge = playerData->equippedBadges[i];
 
         if (badge != ITEM_NONE) {
+            s32 badgeID = badge;
+            CALL_EVENT(OnBattleBadgeMenuEntry, BTL_MENU_TYPE_JUMP, moveCount, &badgeID);
+            badge = badgeID;
+        }
+        if (badge != ITEM_NONE) {
             MoveData* moveTable = gMoveTable;
             u8 moveID = gItemTable[badge].moveID;
 
             move = &moveTable[moveID];
             if (move->category == MOVE_TYPE_JUMP) {
                 battleStatus->submenuMoves[moveCount] = moveID;
-                battleStatus->submenuIcons[moveCount] = playerData->equippedBadges[i];
+                battleStatus->submenuIcons[moveCount] = badge;
                 moveCount++;
             }
         }
@@ -165,6 +171,9 @@ void btl_init_menu_boots(void) {
             if (fpCost < 1) {
                 fpCost = 1;
             }
+        }
+        {
+            CALL_EVENT(OnMoveFPCost, player, battleStatus->submenuMoves[i], i, MOVE_FP_ENABLE, &fpCost);
         }
 
         // See if there are any targets for this move
@@ -232,12 +241,17 @@ void btl_init_menu_hammer(void) {
     for (i = 0; i < ARRAY_COUNT(playerData->equippedBadges); i++) {
         s16 badge = playerData->equippedBadges[i];
         if (badge != MOVE_NONE) {
+            s32 badgeID = badge;
+            CALL_EVENT(OnBattleBadgeMenuEntry, BTL_MENU_TYPE_SMASH, moveCount, &badgeID);
+            badge = badgeID;
+        }
+        if (badge != MOVE_NONE) {
             MoveData* moveTable = gMoveTable;
             u8 moveID = gItemTable[badge].moveID;
             move = &moveTable[moveID];
             if (move->category == MOVE_TYPE_HAMMER) {
                 battleStatus->submenuMoves[moveCount] = moveID;
-                battleStatus->submenuIcons[moveCount] = playerData->equippedBadges[i];
+                battleStatus->submenuIcons[moveCount] = badge;
                 moveCount++;
             }
         }
@@ -257,6 +271,9 @@ void btl_init_menu_hammer(void) {
             if (fpCost < 1) {
                 fpCost = 1;
             }
+        }
+        {
+            CALL_EVENT(OnMoveFPCost, player, battleStatus->submenuMoves[i], i, MOVE_FP_ENABLE, &fpCost);
         }
 
         // See if there are any targets for this move
@@ -312,9 +329,13 @@ void btl_state_update_player_menu(void) {
     s32 currentSubmenu2;
     IconHudScriptPair* hudScriptPair;
     PartnerPopupProperties* prop;
+    s32 invCapacity;
 
     switch (gBattleSubState) {
         case BTL_SUBSTATE_INIT:
+            {
+                CALL_EVENT(OnBattleMenuOpen, ACTOR_PLAYER);
+            }
             battleStatus->moveCategory = BTL_MENU_TYPE_INVALID;
             battleStatus->selectedMoveID = 0;
             battleStatus->curAttackElement = 0;
@@ -327,13 +348,19 @@ void btl_state_update_player_menu(void) {
             if (!(battleStatus->flags1 & BS_FLAGS1_PLAYER_IN_BACK)) {
                 gBattleSubState = BTL_SUBSTATE_CREATE_MAIN_MENU;
             } else {
-                gBattleSubState = BTL_SUBSTATE_PERFORM_SWAP;
-                partnerActor->state.curPos.x = partnerActor->homePos.x;
-                partnerActor->state.curPos.z = partnerActor->homePos.z;
-                partnerActor->state.goalPos.x = playerActor->homePos.x;
-                partnerActor->state.goalPos.z = playerActor->homePos.z;
-                partnerActor->state.moveTime = 4;
-                partnerActor->state.angle = 0.0f;
+                s32 inFront = true;
+                CALL_EVENT(OnTurnOrder, TURN_ORDER_PLAYER_IN_FRONT, &inFront);
+                if (!inFront) {
+                    gBattleSubState = BTL_SUBSTATE_CREATE_MAIN_MENU;
+                } else {
+                    gBattleSubState = BTL_SUBSTATE_PERFORM_SWAP;
+                    partnerActor->state.curPos.x = partnerActor->homePos.x;
+                    partnerActor->state.curPos.z = partnerActor->homePos.z;
+                    partnerActor->state.goalPos.x = playerActor->homePos.x;
+                    partnerActor->state.goalPos.z = playerActor->homePos.z;
+                    partnerActor->state.moveTime = 4;
+                    partnerActor->state.angle = 0.0f;
+                }
             }
             break;
         case BTL_SUBSTATE_PERFORM_SWAP:
@@ -511,6 +538,12 @@ void btl_state_update_player_menu(void) {
                 entryIdx++;
             }
 
+            {
+                CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_WHEEL, ACTOR_PLAYER, -1, &entryIdx, &initialPos);
+                if (entryIdx > ARRAY_COUNT(WheelOptionSubmenu)) {
+                    entryIdx = ARRAY_COUNT(WheelOptionSubmenu);
+                }
+            }
             WheelOptionCount = entryIdx;
             BattleMenu_PrevSelected = initialPos;
             BattleMenu_WheelBase = 2 - initialPos;
@@ -534,7 +567,12 @@ void btl_state_update_player_menu(void) {
             if (BattleMenu_SwapDelay != 0) {
                 BattleMenu_SwapDelay--;
             } else if (!(gBattleStatus.flags1 & BS_FLAGS1_TUTORIAL_BATTLE) && (gGameStatusPtr->pressedButtons[0] & BUTTON_Z)) {
-                if (btl_partner_can_act() && battleStatus->hustleTurns != 1) {
+                s32 swapAllowed = false;
+                if (btl_partner_can_act()) {
+                    swapAllowed = battleStatus->hustleTurns != 1;
+                    CALL_EVENT(OnTurnOrder, TURN_ORDER_CAN_SWAP, &swapAllowed);
+                }
+                if (swapAllowed) {
                     sfx_play_sound(SOUND_PARTNER_SWAP_BATTLE_POS);
                     battleStatus->lastPlayerMenuSelection[BTL_MENU_IDX_MAIN] = WheelOptionSubmenu[BattleMenu_CurPos + BattleMenu_HomePos];
                     btl_main_menu_destroy();
@@ -557,6 +595,9 @@ void btl_state_update_player_menu(void) {
 
             set_actor_anim(ACTOR_PLAYER, 0, ANIM_Mario1_Walk);
             battleStatus->lastPlayerMenuSelection[BTL_MENU_IDX_MAIN] = battleStatus->curSubmenu = WheelOptionSubmenu[submenuResult - 1];
+            {
+                CALL_EVENT(OnBattleMenuSelect, BATTLE_MENU_WHEEL, ACTOR_PLAYER, submenuResult - 1);
+            }
             for (i = 0; i < ARRAY_COUNT(battleStatus->submenuMoves); i++) {
                 battleStatus->submenuMoves[i] = MOVE_NONE;
                 battleStatus->submenuIcons[i] = ITEM_NONE;
@@ -568,7 +609,8 @@ void btl_state_update_player_menu(void) {
                     battleStatus->submenuMoves[0] = MOVE_ITEMS;
                     battleStatus->submenuIcons[0] = ITEM_PARTNER_ATTACK;
                     battleStatus->submenuStatus[0] = 1;
-                    for (i = 0; i < ARRAY_COUNT(playerData->invItems); i++) {
+                    invCapacity = get_consumables_capacity();
+                    for (i = 0; i < invCapacity; i++) {
                         if (playerData->invItems[i] == ITEM_NONE) {
                             continue;
                         }
@@ -581,18 +623,25 @@ void btl_state_update_player_menu(void) {
                     }
                     entryIdx = 1;
                     for (i = 0; i < ARRAY_COUNT(playerData->equippedBadges); i++) {
-                        if (playerData->equippedBadges[i] != 0) {
-                            s32 moveID = gItemTable[playerData->equippedBadges[i]].moveID;
+                        s32 badgeID = playerData->equippedBadges[i];
+                        if (badgeID != 0) {
+                            CALL_EVENT(OnBattleBadgeMenuEntry, BTL_MENU_TYPE_ITEMS, entryIdx, &badgeID);
+                        }
+                        if (badgeID != 0) {
+                            s32 moveID = gItemTable[badgeID].moveID;
                             moveData = &gMoveTable[moveID];
                             if (moveData->category == BattleMenu_CategoryForSubmenu[battleStatus->curSubmenu]) {
                                 s32 cost = moveData->costFP;
                                 battleStatus->submenuMoves[entryIdx] = moveID;
-                                battleStatus->submenuIcons[entryIdx] = playerData->equippedBadges[i];
+                                battleStatus->submenuIcons[entryIdx] = badgeID;
                                 battleStatus->submenuStatus[entryIdx] = 1;
 
                                 cost -= player_team_is_ability_active(playerActor, ABILITY_FLOWER_SAVER);
                                 cost -= 2 * player_team_is_ability_active(playerActor, ABILITY_FLOWER_FANATIC);
 
+                                {
+                                    CALL_EVENT(OnMoveFPCost, playerActor, moveID, entryIdx, MOVE_FP_ENABLE, &cost);
+                                }
                                 if (playerData->curFP < cost) {
                                     battleStatus->submenuStatus[entryIdx] = 0;
                                 }
@@ -790,6 +839,10 @@ void btl_state_update_player_menu(void) {
                     MovesOptionDiscounts[i] += 2 * player_team_is_ability_active(playerActor, ABILITY_FLOWER_FANATIC);
                     MovesOptionDiscountColors[i] = 2;
                 }
+                {
+                    CALL_EVENT(OnMoveCostDisplay, playerActor, battleStatus->submenuMoves[i], i, &MovesOptionDisplayCosts[i],
+                               &MovesOptionDiscounts[i], &MovesOptionDiscountColors[i]);
+                }
 
                 MovesOptionIndices[i] = i;
                 MovesOptionEnabled[i] = battleStatus->submenuStatus[i];
@@ -799,6 +852,12 @@ void btl_state_update_player_menu(void) {
             }
             UsingSpiritsSubmenu = false;
             MovesOptionCount = battleStatus->submenuMoveCount;
+            {
+                CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_MOVES, ACTOR_PLAYER, battleStatus->curSubmenu, &MovesOptionCount, &initialPos);
+                if (MovesOptionCount > ARRAY_COUNT(MovesOptionIndices)) {
+                    MovesOptionCount = ARRAY_COUNT(MovesOptionIndices);
+                }
+            }
             MovesPrevSelected = initialPos;
             btl_submenu_moves_init();
             gBattleSubState = BTL_SUBSTATE_ABILITIES_CHOOSING;
@@ -901,15 +960,22 @@ void btl_state_update_player_menu(void) {
                 gBattleSubState = BTL_SUBSTATE_ABILITIES_CHOOSING;
             }
             break;
-        case BTL_SUBSTATE_MAIN_SHOW_CANT_SWAP:
+        case BTL_SUBSTATE_MAIN_SHOW_CANT_SWAP: {
+            s32 msgIndex;
+            s32 msgArg;
             if (gBattleStatus.flags2 & BS_FLAGS2_PARTNER_TURN_USED) {
-                btl_show_variable_battle_message(BTL_MSG_CANT_SWITCH, 60, 0);
+                msgIndex = BTL_MSG_CANT_SWITCH;
+                msgArg = 0;
             } else {
-                btl_show_variable_battle_message(BTL_MSG_CANT_MOVE, 60, playerData->curPartner);
+                msgIndex = BTL_MSG_CANT_MOVE;
+                msgArg = playerData->curPartner;
             }
+            CALL_EVENT(OnSwapRefused, &msgIndex, &msgArg);
+            btl_show_variable_battle_message(msgIndex, 60, msgArg);
             ShowingErrorMessage = true;
             gBattleSubState = BTL_SUBSTATE_MAIN_AWAIT_CANT_SWAP;
             break;
+        }
         case BTL_SUBSTATE_MAIN_AWAIT_CANT_SWAP:
             if (btl_is_popup_displayed()) {
                 break;
@@ -979,7 +1045,8 @@ void btl_state_update_player_menu(void) {
                 battleStatus->itemUsesLeft = 3;
             }
             entryIdx = 0;
-            for (i = 0; i < ARRAY_COUNT(playerData->invItems); i++) {
+            invCapacity = get_consumables_capacity();
+            for (i = 0; i < invCapacity; i++) {
                 if (playerData->invItems[i] == ITEM_NONE) {
                     continue;
                 }
@@ -1087,7 +1154,8 @@ void btl_state_update_player_menu(void) {
             break;
         case BTL_SUBSTATE_ITEMS_BUILD_MENU:
             entryIdx = 0;
-            for (i = 0; i < ARRAY_COUNT(playerData->invItems); i++) {
+            invCapacity = get_consumables_capacity();
+            for (i = 0; i < invCapacity; i++) {
                 if (playerData->invItems[i] == ITEM_NONE) {
                     continue;
                 }
@@ -1221,6 +1289,12 @@ void btl_state_update_player_menu(void) {
             UsingSpiritsSubmenu = true;
             MovesOptionCount = battleStatus->submenuMoveCount;
             initialPos = battleStatus->lastPlayerMenuSelection[BTL_MENU_IDX_STAR_POWER];
+            {
+                CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_MOVES, ACTOR_PLAYER, BTL_MENU_TYPE_STAR_POWERS, &MovesOptionCount, &initialPos);
+                if (MovesOptionCount > ARRAY_COUNT(MovesOptionIndices)) {
+                    MovesOptionCount = ARRAY_COUNT(MovesOptionIndices);
+                }
+            }
             MovesPrevSelected = initialPos;
             btl_submenu_moves_init();
             gBattleSubState = BTL_SUBSTATE_STAR_SPIRITS_CHOOSING;
@@ -1296,7 +1370,8 @@ void btl_state_update_player_menu(void) {
                 btl_set_state(BATTLE_STATE_END_PLAYER_TURN);
             } else {
                 entryIdx = 0;
-                for (i = 0; i < ARRAY_COUNT(playerData->invItems); i++) {
+                invCapacity = get_consumables_capacity();
+                for (i = 0; i < invCapacity; i++) {
                     if (playerData->invItems[i] == ITEM_NONE) {
                         continue;
                     }
@@ -1483,6 +1558,12 @@ void btl_state_update_player_menu(void) {
                 battleStatus->lastPlayerMenuSelection[BTL_MENU_IDX_STRATEGY] = 0;
             }
             initialPos = battleStatus->lastPlayerMenuSelection[BTL_MENU_IDX_STRATEGY];
+            {
+                CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_STRATEGIES, ACTOR_PLAYER, -1, &entryIdx, &initialPos);
+                if (entryIdx > ARRAY_COUNT(StratsOptionMenuTypes)) {
+                    entryIdx = ARRAY_COUNT(StratsOptionMenuTypes);
+                }
+            }
             StratsOptionCount = entryIdx;
             StratsPrevSelected = initialPos;
             btl_menu_strats_init();
@@ -1556,6 +1637,14 @@ void btl_state_update_player_menu(void) {
                         btl_state_update_player_menu();
                         btl_set_state(BATTLE_STATE_SWITCH_TO_PARTNER);
                         break;
+                    default:
+                        gBattleSubState = BTL_SUBSTATE_STRATEGIES_TARGET_CHOSEN;
+                        btl_state_update_player_menu();
+                        {
+                            CALL_EVENT(OnBattleMenuSelect, BATTLE_MENU_STRATEGIES, ACTOR_PLAYER,
+                                       battleStatus->lastPlayerMenuSelection[BTL_MENU_IDX_STRATEGY]);
+                        }
+                        break;
                 }
             }
             break;
@@ -1603,9 +1692,16 @@ void btl_state_update_player_menu(void) {
             if (battleStatus->lastPlayerMenuSelection[BTL_MENU_IDX_PARTNER] < 0) {
                 battleStatus->lastPlayerMenuSelection[BTL_MENU_IDX_PARTNER] = 0;
             }
+            initialPos = MenuIndexFromPartnerID[playerData->curPartner] - 1;
+            {
+                CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_PARTNER_LIST, ACTOR_PLAYER, -1, &entryIdx, &initialPos);
+                if (entryIdx > ARRAY_COUNT(popup->ptrIcon)) {
+                    entryIdx = ARRAY_COUNT(popup->ptrIcon);
+                }
+            }
             popup->popupType = POPUP_MENU_SWITCH_PARTNER;
             popup->numEntries = entryIdx;
-            popup->initialPos = MenuIndexFromPartnerID[playerData->curPartner] - 1;
+            popup->initialPos = initialPos;
             popup->dipMode = 0;
             popup->titleNumber = 0;
             create_battle_popup_menu(popup);

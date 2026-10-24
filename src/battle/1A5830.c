@@ -184,20 +184,44 @@ HitResult calc_enemy_test_target(Actor* actor) {
                 }
             } else {
                 if (player_team_is_ability_active(target2, ABILITY_PRETTY_LUCKY)) {
-                    if (rand_int(100) < 10) {
-                        hitResult = HIT_RESULT_LUCKY;
+                    s32 rolls = 1;
+                    s32 roll;
+                    CALL_EVENT(OnAbilityEffect, target2, ABILITY_PRETTY_LUCKY, &rolls);
+                    for (roll = 0; roll < rolls; roll++) {
+                        if (rand_int(100) < 10) {
+                            hitResult = HIT_RESULT_LUCKY;
+                            break;
+                        }
+                    }
+                    if (hitResult == HIT_RESULT_LUCKY) {
                         break;
                     }
                 }
                 if (player_team_is_ability_active(target2, ABILITY_CLOSE_CALL) && (target2->curHP < 6)) {
-                    if (rand_int(100) < 30) {
-                        hitResult = HIT_RESULT_LUCKY;
+                    s32 rolls = 1;
+                    s32 roll;
+                    CALL_EVENT(OnAbilityEffect, target2, ABILITY_CLOSE_CALL, &rolls);
+                    for (roll = 0; roll < rolls; roll++) {
+                        if (rand_int(100) < 30) {
+                            hitResult = HIT_RESULT_LUCKY;
+                            break;
+                        }
+                    }
+                    if (hitResult == HIT_RESULT_LUCKY) {
                         break;
                     }
                 }
                 if (player_team_is_ability_active(target2, ABILITY_LUCKY_DAY)) {
-                    if (rand_int(100) < 20) {
-                        hitResult = HIT_RESULT_LUCKY;
+                    s32 rolls = 1;
+                    s32 roll;
+                    CALL_EVENT(OnAbilityEffect, target2, ABILITY_LUCKY_DAY, &rolls);
+                    for (roll = 0; roll < rolls; roll++) {
+                        if (rand_int(100) < 20) {
+                            hitResult = HIT_RESULT_LUCKY;
+                            break;
+                        }
+                    }
+                    if (hitResult == HIT_RESULT_LUCKY) {
                         break;
                     }
                 }
@@ -249,6 +273,7 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
     s32 event;
     s32 damage;
     Evt* script;
+    b32 hpOwned = false;
 
     battleStatus->wasStatusInflicted = false;
     battleStatus->lastAttackDamage = 0;
@@ -285,10 +310,14 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
         return HIT_RESULT_MISS;
     }
 
-    if (target->transparentStatus == STATUS_KEY_TRANSPARENT
-        || ((targetPart->eventFlags & ACTOR_EVENT_FLAG_BURIED) && !(battleStatus->curAttackElement & DAMAGE_TYPE_QUAKE))
-    ) {
-        return HIT_RESULT_MISS;
+    {
+        s32 strikeResult = (target->transparentStatus == STATUS_KEY_TRANSPARENT
+            || ((targetPart->eventFlags & ACTOR_EVENT_FLAG_BURIED) && !(battleStatus->curAttackElement & DAMAGE_TYPE_QUAKE)))
+            ? HIT_RESULT_MISS : HIT_RESULT_HIT;
+        CALL_EVENT(OnHitCheck, attacker, target, ATTACK_SOURCE_ENEMY, HIT_CHECK_STRIKE, &strikeResult);
+        if (strikeResult == HIT_RESULT_MISS) {
+            return HIT_RESULT_MISS;
+        }
     }
 
     if (target->stoneStatus == STATUS_KEY_STONE) {
@@ -367,11 +396,17 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
             }
         }
     }
+    {
+        CALL_EVENT(OnDamageDefense, attacker, target, ATTACK_SOURCE_ENEMY, battleStatus->curAttackDamage, &defense);
+    }
 
     // apply attacker damage modifiers
 
     damage = battleStatus->curAttackDamage;
     CALL_EVENT(OnEnemyAttackDamage, attacker, &damage);
+    {
+        CALL_EVENT(OnDamageCalc, attacker, target, ATTACK_SOURCE_ENEMY, DAMAGE_STAGE_BASE, &damage);
+    }
 
     switch (actorClass) {
         case ACTOR_CLASS_PLAYER:
@@ -382,10 +417,18 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
             break;
     }
 
-    damage += attacker->attackBoost;
+    {
+        s32 attackBoost = attacker->attackBoost;
+        CALL_EVENT(OnActorStat, attacker, ACTOR_STAT_ATTACK_BOOST, &attackBoost);
+        damage += attackBoost;
+    }
 
     if (attacker->chillOutTurns != 0) {
         damage -= attacker->chillOutAmount;
+    }
+
+    {
+        CALL_EVENT(OnDamageCalc, attacker, target, ATTACK_SOURCE_ENEMY, DAMAGE_STAGE_AFTER_BOOSTS, &damage);
     }
 
     if (attacker->debuff == STATUS_KEY_SHRINK) {
@@ -404,13 +447,19 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
     target->hpChangeCounter = 0;
     damage -= defense;
 
+    {
+        CALL_EVENT(OnDamageCalc, attacker, target, ATTACK_SOURCE_ENEMY, DAMAGE_STAGE_AFTER_DEFENSE, &damage);
+    }
+
     // apply damage mitigation from defensive badges
 
     isPlayer = actorClass == ACTOR_CLASS_PLAYER;
     if (isPlayer) {
         if (player_team_is_ability_active(target, ABILITY_FIRE_SHIELD)) {
+            s32 reduction = 1;
+            CALL_EVENT(OnAbilityEffect, target, ABILITY_FIRE_SHIELD, &reduction);
             if (battleStatus->curAttackElement & DAMAGE_TYPE_FIRE) {
-                damage--;
+                damage -= reduction;
             }
         }
 
@@ -420,20 +469,30 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
 
         if (target->curHP <= 5) {
             if (player_team_is_ability_active(target, ABILITY_LAST_STAND)) {
-                damage /= 2;
+                s32 divisor = 2;
+                CALL_EVENT(OnAbilityEffect, target, ABILITY_LAST_STAND, &divisor);
+                if (divisor < 1) {
+                    divisor = 1;
+                }
+                damage /= divisor;
             }
         }
+    }
+
+    {
+        CALL_EVENT(OnDamageCalc, attacker, target, ATTACK_SOURCE_ENEMY, DAMAGE_STAGE_AFTER_BADGES, &damage);
     }
 
     // apply damage mitigation from blocking
 
     switch (actorClass) {
-        case ACTOR_CLASS_PLAYER:
+        case ACTOR_CLASS_PLAYER: {
             // TODO figure out how to better write target->debuff >= STATUS_KEY_POISON
-            if ((target->debuff == 0 || target->debuff >= STATUS_KEY_POISON)
+            s32 canGuard = (target->debuff == 0 || target->debuff >= STATUS_KEY_POISON)
                 && (target->stoneStatus == 0)
-                && !(battleStatus->curAttackElement & DAMAGE_TYPE_UNBLOCKABLE)
-            ) {
+                && !(battleStatus->curAttackElement & DAMAGE_TYPE_UNBLOCKABLE);
+            CALL_EVENT(OnGuardCheck, attacker, target, &canGuard);
+            if (canGuard) {
                 s32 blocked;
 
                 if (player_team_is_ability_active(target, ABILITY_BERSERKER)) {
@@ -442,7 +501,9 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
                     blocked = check_block_input(BUTTON_A);
                 }
 
-                if (blocked) {
+                s32 guard = blocked ? GUARD_RESULT_GUARD : GUARD_RESULT_NONE;
+                CALL_EVENT(OnGuardInput, target, &guard);
+                if (guard == GUARD_RESULT_GUARD) {
                     damage--;
                     damage -= player_team_is_ability_active(target, ABILITY_DAMAGE_DODGE);
                     sfx_play_sound_at_position(SOUND_DAMAGE_STARS, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
@@ -450,23 +511,40 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
                     gBattleStatus.flags1 |= BS_FLAGS1_ATK_BLOCKED;
                     break;
                 }
+                if (guard == GUARD_RESULT_SUPERGUARD) {
+                    damage = 0;
+                    gBattleStatus.flags1 |= BS_FLAGS1_ATK_BLOCKED;
+                }
                 cancel_action_rating_combo(target);
             }
             break;
-        case ACTOR_CLASS_PARTNER:
-            if (target->stoneStatus == 0) {
-                if (target->koStatus == 0 && !(battleStatus->curAttackElement & DAMAGE_TYPE_UNBLOCKABLE)) {
-                    if (check_block_input(BUTTON_A)) {
-                        damage = 0;
-                        sfx_play_sound_at_position(SOUND_DAMAGE_STARS, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
-                        show_action_rating(ACTION_RATING_NICE, target, state->goalPos.x, state->goalPos.y, state->goalPos.z);
-                        gBattleStatus.flags1 |= BS_FLAGS1_ATK_BLOCKED;
-                        break;
-                    }
-                    cancel_action_rating_combo(target);
+        }
+        case ACTOR_CLASS_PARTNER: {
+            s32 canGuard = target->stoneStatus == 0 && target->koStatus == 0
+                && !(battleStatus->curAttackElement & DAMAGE_TYPE_UNBLOCKABLE);
+            CALL_EVENT(OnGuardCheck, attacker, target, &canGuard);
+            if (canGuard) {
+                s32 guard = check_block_input(BUTTON_A) ? GUARD_RESULT_GUARD : GUARD_RESULT_NONE;
+                CALL_EVENT(OnGuardInput, target, &guard);
+                if (guard == GUARD_RESULT_GUARD) {
+                    damage = 0;
+                    sfx_play_sound_at_position(SOUND_DAMAGE_STARS, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
+                    show_action_rating(ACTION_RATING_NICE, target, state->goalPos.x, state->goalPos.y, state->goalPos.z);
+                    gBattleStatus.flags1 |= BS_FLAGS1_ATK_BLOCKED;
+                    break;
                 }
+                if (guard == GUARD_RESULT_SUPERGUARD) {
+                    damage = 0;
+                    gBattleStatus.flags1 |= BS_FLAGS1_ATK_BLOCKED;
+                }
+                cancel_action_rating_combo(target);
             }
             break;
+        }
+    }
+
+    {
+        CALL_EVENT(OnDamageCalc, attacker, target, ATTACK_SOURCE_ENEMY, DAMAGE_STAGE_GUARD, &damage);
     }
 
     if (gBattleStatus.flags1 & BS_FLAGS1_TRIGGER_EVENTS) {
@@ -501,7 +579,14 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
             && !(gBattleStatus.flags1 & BS_FLAGS1_TUTORIAL_BATTLE)
         ) {
             if (!(target->flags & ACTOR_FLAG_NO_DMG_APPLY)) {
-                target->curHP -= damage;
+                CALL_EVENT(OnDamageCalc, attacker, target, ATTACK_SOURCE_ENEMY, DAMAGE_STAGE_FINAL, &damage);
+                s32 delta = -damage;
+                CALL_CANCELLABLE_EVENT(OnActorHpChange, target, HP_SOURCE_ENEMY_ATTACK, &delta) {
+                    target->curHP += delta;
+                } else {
+                    hpOwned = true;
+                }
+                damage = -delta;
             }
 
             if (target->curHP < 1) {
@@ -657,22 +742,25 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
 
     battleStatus->wasStatusInflicted = statusInflicted;
 
-    switch (actorClass) {
-        case ACTOR_CLASS_PLAYER:
-            dispatch_event_player(event);
-            break;
-        case ACTOR_CLASS_PARTNER:
-            dispatch_event_partner(event);
-            break;
-        case ACTOR_CLASS_ENEMY:
-            dispatch_event_actor(target, event);
-            break;
+    CALL_CANCELLABLE_EVENT(OnDamageEventDispatch, target, HP_SOURCE_ENEMY_ATTACK, &event) {
+        switch (actorClass) {
+            case ACTOR_CLASS_PLAYER:
+                dispatch_event_player(event);
+                break;
+            case ACTOR_CLASS_PARTNER:
+                dispatch_event_partner(event);
+                break;
+            case ACTOR_CLASS_ENEMY:
+                dispatch_event_actor(target, event);
+                break;
+        }
     }
 
     if (actorClass == ACTOR_CLASS_PARTNER
         && battleStatus->lastAttackDamage > 0
         && gBattleStatus.flags1 & BS_FLAGS1_TRIGGER_EVENTS
-        && !(target->flags & ACTOR_FLAG_NO_DMG_APPLY))
+        && !(target->flags & ACTOR_FLAG_NO_DMG_APPLY)
+        && !hpOwned)
     {
         inflict_partner_ko(target, STATUS_KEY_KO, battleStatus->lastAttackDamage);
     }
@@ -689,7 +777,13 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
                     show_next_damage_popup(state->goalPos.x, state->goalPos.y, state->goalPos.z, battleStatus->lastAttackDamage, 1);
                     show_damage_fx(target, state->goalPos.x, state->goalPos.y, state->goalPos.z, battleStatus->lastAttackDamage);
                 } else {
-                    show_primary_damage_popup(state->goalPos.x, state->goalPos.y, state->goalPos.z, battleStatus->lastAttackDamage, 1);
+                    s32 popupKind = DAMAGE_POPUP_PRIMARY;
+                    CALL_EVENT(OnDamagePopupKind, target, &popupKind);
+                    if (popupKind == DAMAGE_POPUP_NEXT) {
+                        show_next_damage_popup(state->goalPos.x, state->goalPos.y, state->goalPos.z, battleStatus->lastAttackDamage, 1);
+                    } else {
+                        show_primary_damage_popup(state->goalPos.x, state->goalPos.y, state->goalPos.z, battleStatus->lastAttackDamage, 1);
+                    }
                     show_damage_fx(target, state->goalPos.x, state->goalPos.y, state->goalPos.z, battleStatus->lastAttackDamage);
                     break;
                 }
@@ -703,7 +797,13 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
                     show_next_damage_popup(state->goalPos.x, state->goalPos.y, state->goalPos.z, battleStatus->lastAttackDamage, 0);
                     show_damage_fx(target, state->goalPos.x, state->goalPos.y, state->goalPos.z, battleStatus->lastAttackDamage);
                 } else {
-                    show_primary_damage_popup(state->goalPos.x, state->goalPos.y, state->goalPos.z, battleStatus->lastAttackDamage, 0);
+                    s32 popupKind = DAMAGE_POPUP_PRIMARY;
+                    CALL_EVENT(OnDamagePopupKind, target, &popupKind);
+                    if (popupKind == DAMAGE_POPUP_NEXT) {
+                        show_next_damage_popup(state->goalPos.x, state->goalPos.y, state->goalPos.z, battleStatus->lastAttackDamage, 0);
+                    } else {
+                        show_primary_damage_popup(state->goalPos.x, state->goalPos.y, state->goalPos.z, battleStatus->lastAttackDamage, 0);
+                    }
                     show_damage_fx(target, state->goalPos.x, state->goalPos.y, state->goalPos.z, battleStatus->lastAttackDamage);
                 }
                 break;
@@ -792,17 +892,25 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
 
     show_actor_health_bar(target);
 
-    if (attacker->staticStatus != STATUS_KEY_STATIC
-        && (target->staticStatus == STATUS_KEY_STATIC || targetPart->eventFlags & ACTOR_EVENT_FLAG_ELECTRIFIED)
-        && !(battleStatus->curAttackElement & DAMAGE_TYPE_NO_CONTACT)
-        && !(battleStatus->curAttackEventSuppression & SUPPRESS_EVENT_SHOCK_CONTACT)
-        && (attacker->transparentStatus != STATUS_KEY_TRANSPARENT)
-        && !has_enchanted_part(attacker))
-    {
-        sfx_play_sound_at_position(SOUND_HIT_SHOCK, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
-        apply_shock_effect(attacker);
-        dispatch_damage_event_actor_1(attacker, 1, EVENT_SHOCK_HIT);
-        return HIT_RESULT_BACKFIRE;
+    if (attacker->staticStatus != STATUS_KEY_STATIC) {
+        s32 counter = (target->staticStatus == STATUS_KEY_STATIC || targetPart->eventFlags & ACTOR_EVENT_FLAG_ELECTRIFIED)
+            ? CONTACT_COUNTER_SHOCK : CONTACT_COUNTER_NONE;
+        CALL_EVENT(OnContactCounter, attacker, target, &counter);
+        if (counter != CONTACT_COUNTER_NONE
+            && !(battleStatus->curAttackElement & DAMAGE_TYPE_NO_CONTACT)
+            && !(battleStatus->curAttackEventSuppression & SUPPRESS_EVENT_SHOCK_CONTACT)
+            && (attacker->transparentStatus != STATUS_KEY_TRANSPARENT)
+            && !has_enchanted_part(attacker))
+        {
+            s32 hazardDamage = 1;
+            if (counter == CONTACT_COUNTER_SHOCK) {
+                sfx_play_sound_at_position(SOUND_HIT_SHOCK, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
+                apply_shock_effect(attacker);
+            }
+            CALL_EVENT(OnContactHazard, target, attacker, counter == CONTACT_COUNTER_SHOCK ? CONTACT_HAZARD_SHOCK : CONTACT_HAZARD_COUNTER, &hazardDamage);
+            dispatch_damage_event_actor_1(attacker, hazardDamage, EVENT_SHOCK_HIT);
+            return HIT_RESULT_BACKFIRE;
+        }
     }
 
     return hitResult;
@@ -823,7 +931,13 @@ s32 dispatch_damage_event_actor(Actor* actor, s32 damageAmount, s32 originalEven
     actor->damageCounter += hpChange;
     actor->hpChangeCounter -= hpChange;
     battleStatus->lastAttackDamage = 0;
-    actor->curHP -= hpChange;
+    {
+        s32 delta = -hpChange;
+        CALL_CANCELLABLE_EVENT(OnActorHpChange, actor, HP_SOURCE_DIRECT, &delta) {
+            actor->curHP += delta;
+        }
+        hpChange = -delta;
+    }
 
     if (actor->curHP <= 0) {
         dispatchEvent = EVENT_DEATH;
@@ -869,7 +983,9 @@ s32 dispatch_damage_event_actor(Actor* actor, s32 damageAmount, s32 originalEven
         set_actor_flash_mode(actor, 1);
     }
     actor->flags |= ACTOR_FLAG_HEALTH_BAR_HIDDEN;
-    dispatch_event_actor(actor, dispatchEvent);
+    CALL_CANCELLABLE_EVENT(OnDamageEventDispatch, actor, HP_SOURCE_DIRECT, &dispatchEvent) {
+        dispatch_event_actor(actor, dispatchEvent);
+    }
     return 0;
 }
 
@@ -2587,7 +2703,7 @@ API_CALLABLE(SetTargetActor) {
 API_CALLABLE(SetEnemyHP) {
     Bytecode* args = script->ptrReadPos;
     s32 actorID = evt_get_variable(script, *args++);
-    s8 newHP;
+    s32 newHP;
     Actor* actor;
 
     if (actorID == ACTOR_SELF) {
@@ -2597,8 +2713,14 @@ API_CALLABLE(SetEnemyHP) {
     newHP = evt_get_variable(script, *args++);
     actor = get_actor(actorID);
 
-    actor->curHP = newHP;
-    if (newHP > actor->maxHP) {
+    if (newHP < 0) {
+        newHP = 0;
+    }
+    s32 delta = newHP - actor->curHP;
+    CALL_CANCELLABLE_EVENT(OnActorHpChange, actor, HP_SOURCE_SCRIPT_SET, &delta) {
+        actor->curHP += delta;
+    }
+    if (actor->curHP > actor->maxHP) {
         actor->curHP = actor->maxHP;
     }
 
@@ -2727,7 +2849,13 @@ API_CALLABLE(DropStarPoints) {
     }
     numToDrop = ntd;
 
-    if (playerData->level < 27) {
+    s32 numToSpawn = numToDrop;
+    s32 dropLevel = playerData->level;
+
+    // Double rewards cheat
+    CALL_EVENT(OnStarPointDrop, &numToDrop, &dropLevel);
+
+    if (dropLevel < 27) {
         s32 spawnMode;
         s32 i;
 
@@ -2737,16 +2865,12 @@ API_CALLABLE(DropStarPoints) {
             spawnMode = ITEM_SPAWN_MODE_TOSS_FADE1;
         }
 
-        for (i = 0; i < numToDrop; i++) {
+        for (i = 0; i < numToSpawn; i++) {
             make_item_entity_delayed(ITEM_STAR_POINT,
                 dropper->curPos.x, dropper->curPos.y, dropper->curPos.z, spawnMode, i, 0);
         }
 
         battleStatus->incrementStarPointDelay = 40;
-
-        // Double rewards cheat
-        CALL_EVENT(OnStarPointDrop, &numToDrop);
-
         battleStatus->pendingStarPoints += numToDrop;
     }
 
@@ -2824,6 +2948,7 @@ API_CALLABLE(EnemyDamageTarget) {
     BattleStatus* battleStatus = &gBattleStatus;
     s32 actorID = evt_get_variable(script, *args++);
     Actor* actor;
+    Actor* attacker;
     s32 outVar;
     s32 hitResult;
     s32 battleFlagsModifier;
@@ -2839,6 +2964,17 @@ API_CALLABLE(EnemyDamageTarget) {
     battleStatus->curAttackStatus = *args++;
     battleStatus->curAttackDamage = evt_get_variable(script, *args++);
     battleFlagsModifier = *args++;
+    attacker = actor;
+    {
+        s32 damage = battleStatus->curAttackDamage;
+        s32 status = battleStatus->curAttackStatus;
+        CALL_EVENT(OnAttackBegin, ATTACK_API_ENEMY_DAMAGE_TARGET, actor, &attacker, &damage, &status);
+        battleStatus->curAttackDamage = damage;
+        battleStatus->curAttackStatus = status;
+    }
+    if (attacker == nullptr) {
+        attacker = actor;
+    }
 
     #if DX_DEBUG_MENU
     if (dx_debug_is_cheat_enabled(DEBUG_CHEAT_GOD_MODE)) {
@@ -2886,7 +3022,7 @@ API_CALLABLE(EnemyDamageTarget) {
     }
     battleStatus->statusDuration = (battleStatus->curAttackStatus & 0xF00) >> 8;
 
-    hitResult = calc_enemy_damage_target(actor);
+    hitResult = calc_enemy_damage_target(attacker);
     if (hitResult < 0) {
         return ApiStatus_FINISH;
     }
@@ -2998,6 +3134,7 @@ API_CALLABLE(EnemyTestTarget) {
 
     battleStatus->statusDuration = (battleStatus->curAttackStatus & 0xF00) >> 8;
     hitResult = calc_enemy_test_target(actor);
+    CALL_EVENT(OnHitCheck, actor, get_actor(battleStatus->curTargetID), ATTACK_SOURCE_ENEMY, HIT_CHECK_TEST, &hitResult);
 
     if (hitResult < 0) {
         return ApiStatus_FINISH;
@@ -3023,7 +3160,9 @@ API_CALLABLE(DispatchDamageEvent) {
     damageAmount = evt_get_variable(script, *args++);
     eventID = evt_get_variable(script, *args++);
 
-    if (dispatch_damage_event_actor_0(actor, damageAmount, eventID) < 0) {
+    if ((actor->actorID & ACTOR_CLASS_MASK) == ACTOR_CLASS_PARTNER) {
+        dispatch_damage_event_partner(damageAmount, eventID, false);
+    } else if (dispatch_damage_event_actor_0(actor, damageAmount, eventID) < 0) {
         return ApiStatus_BLOCK;
     }
 
@@ -3042,7 +3181,13 @@ API_CALLABLE(DispatchEvent) {
         actorID = script->owner1.actorID;
     }
 
-    dispatch_event_actor(get_actor(actorID), evt_get_variable(script, *args++));
+    {
+        Actor* actor = get_actor(actorID);
+        s32 event = evt_get_variable(script, *args++);
+        CALL_CANCELLABLE_EVENT(OnDamageEventDispatch, actor, HP_SOURCE_SCRIPT_EVENT, &event) {
+            dispatch_event_actor(actor, event);
+        }
+    }
     return ApiStatus_DONE2;
 }
 
@@ -3426,19 +3571,22 @@ API_CALLABLE(ClearStatusEffects) {
 
     actor = get_actor(actorID);
 
+    s32 buffMask = ACTOR_BUFF_BOOSTS | ACTOR_BUFF_STATIC | ACTOR_BUFF_TRANSPARENT;
+    CALL_EVENT(OnBuffsClear, actor, BUFFS_CLEAR_ALL_STATUS, &buffMask);
+
     if (actor->debuff != 0) {
         actor->debuffDuration = 0;
         actor->debuff = 0;
         remove_status_debuff(actor->hudElementDataIndex);
     }
 
-    if (actor->staticStatus != 0) {
+    if ((buffMask & ACTOR_BUFF_STATIC) && actor->staticStatus != 0) {
         actor->staticDuration = 0;
         actor->staticStatus = 0;
         remove_status_static(actor->hudElementDataIndex);
     }
 
-    if (actor->transparentStatus != 0) {
+    if ((buffMask & ACTOR_BUFF_TRANSPARENT) && actor->transparentStatus != 0) {
         actor->transparentDuration = 0;
         actor->transparentStatus = 0;
         remove_status_transparent(actor->hudElementDataIndex);
@@ -3452,9 +3600,11 @@ API_CALLABLE(ClearStatusEffects) {
     actor->koStatus = 0;
     actor->koDuration = 0;
     actor->disableEffect->data.disableX->koDuration = 0;
-    actor->attackBoost = 0;
-    actor->defenseBoost = 0;
-    actor->isGlowing = false;
+    if (buffMask & ACTOR_BUFF_BOOSTS) {
+        actor->attackBoost = 0;
+        actor->defenseBoost = 0;
+        actor->isGlowing = false;
+    }
 
     return ApiStatus_DONE2;
 }

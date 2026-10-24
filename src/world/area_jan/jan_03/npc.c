@@ -1,5 +1,6 @@
 #include "jan_03.h"
 #include "sprite/player.h"
+#include "inventory.h"
 
 #include "world/common/npc/Toad_Stationary.inc.c"
 
@@ -113,10 +114,11 @@ API_CALLABLE(N(CountFoodItems)) {
     PlayerData* playerData = &gPlayerData;
     s32 outVar = *args++;
     s32 foodCount = 0;
+    s32 capacity = get_consumables_capacity();
     s32* it;
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(playerData->invItems); i++) {
+    for (i = 0; i < capacity; i++) {
         it = N(FoodItemList);
         while (*it != 0) {
             if (playerData->invItems[i] == *it++) {

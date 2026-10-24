@@ -1,4 +1,5 @@
 #include "states.h"
+#include "inventory.h"
 #include "battle/battle.h"
 #include "battle/battle_menu.h"
 
@@ -80,6 +81,7 @@ enum {
     BTL_SUBSTATE_STRATEGIES_REOPEN_MENU                 = 203,
     BTL_SUBSTATE_STRATEGIES_TARGET_CANCEL               = 204,
     BTL_SUBSTATE_STRATEGIES_TARGET_CHOSEN               = 205,
+    BTL_SUBSTATE_STRATEGIES_SHOW_ERROR                  = 207,
     // initialize
     BTL_SUBSTATE_PERFORM_SWAP                           = 301,
     BTL_SUBSTATE_CREATE_MAIN_MENU                       = 302,
@@ -248,6 +250,9 @@ void btl_init_menu_partner(void) {
                 fpCost = 1;
             }
         }
+        {
+            CALL_EVENT(OnMoveFPCost, partner, battleStatus->submenuMoves[i], i, MOVE_FP_ENABLE, &fpCost);
+        }
 
         battleStatus->moveCategory = BTL_MENU_TYPE_CHANGE_PARTNER;
         battleStatus->moveArgument = partner->actorBlueprint->level;
@@ -290,8 +295,10 @@ void btl_state_update_partner_menu(void) {
     s32 initialPos;
     MoveData* moveData;
     PartnerPopupProperties* popupProps;
+    s32 invCapacity;
 
     if (gBattleSubState == BTL_SUBSTATE_INIT) {
+        CALL_EVENT(OnBattleMenuOpen, ACTOR_PARTNER);
         battleStatus->moveCategory = BTL_MENU_TYPE_INVALID;
         battleStatus->selectedMoveID = MOVE_NONE;
         battleStatus->curAttackElement = 0;
@@ -305,13 +312,19 @@ void btl_state_update_partner_menu(void) {
             if (battleStatus->flags1 & BS_FLAGS1_PLAYER_IN_BACK) {
                 gBattleSubState = BTL_SUBSTATE_CREATE_MAIN_MENU;
             } else {
-                gBattleSubState = BTL_SUBSTATE_PERFORM_SWAP;
-                partnerActor->state.curPos.x = partnerActor->homePos.x;
-                partnerActor->state.curPos.z = partnerActor->homePos.z;
-                partnerActor->state.goalPos.x = playerActor->homePos.x;
-                partnerActor->state.goalPos.z = playerActor->homePos.z;
-                partnerActor->state.moveTime = 4;
-                partnerActor->state.angle = 0.0f;
+                s32 inFront = false;
+                CALL_EVENT(OnTurnOrder, TURN_ORDER_PLAYER_IN_FRONT, &inFront);
+                if (inFront) {
+                    gBattleSubState = BTL_SUBSTATE_CREATE_MAIN_MENU;
+                } else {
+                    gBattleSubState = BTL_SUBSTATE_PERFORM_SWAP;
+                    partnerActor->state.curPos.x = partnerActor->homePos.x;
+                    partnerActor->state.curPos.z = partnerActor->homePos.z;
+                    partnerActor->state.goalPos.x = playerActor->homePos.x;
+                    partnerActor->state.goalPos.z = playerActor->homePos.z;
+                    partnerActor->state.moveTime = 4;
+                    partnerActor->state.angle = 0.0f;
+                }
             }
         }
     }
@@ -417,6 +430,12 @@ void btl_state_update_partner_menu(void) {
                 }
                 entryIdx++;
             }
+            {
+                CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_WHEEL, ACTOR_PARTNER, -1, &entryIdx, &initialPos);
+                if (entryIdx > ARRAY_COUNT(WheelOptionSubmenu)) {
+                    entryIdx = ARRAY_COUNT(WheelOptionSubmenu);
+                }
+            }
 
             WheelOptionCount = entryIdx;
             BattleMenu_PrevSelected = initialPos;
@@ -431,9 +450,12 @@ void btl_state_update_partner_menu(void) {
             BattleMenu_SwapDelay = 0;
             gBattleSubState = BTL_SUBSTATE_MAIN_BEGIN;
             return;
-        case BTL_SUBSTATE_MAIN_BEGIN:
-            set_actor_anim(ACTOR_PARTNER, 0, PartnerThinkAnims[playerData->curPartner]);
+        case BTL_SUBSTATE_MAIN_BEGIN: {
+            s32 anim = PartnerThinkAnims[playerData->curPartner];
+            CALL_EVENT(OnPartnerAnim, PARTNER_ANIM_CONTEXT_BATTLE_MENU_THINK, playerData->curPartner, &anim);
+            set_actor_anim(ACTOR_PARTNER, 0, anim);
             gBattleSubState = BTL_SUBSTATE_MAIN_CHOOSING;
+        }
             // fall through
         case BTL_SUBSTATE_MAIN_CHOOSING:
             entryIdx = btl_main_menu_update();
@@ -459,8 +481,13 @@ void btl_state_update_partner_menu(void) {
             }
 
             if (entryIdx != 0) {
-                set_actor_anim(ACTOR_PARTNER, 0, PartnerIdleAnims[playerData->curPartner]);
+                s32 anim = PartnerIdleAnims[playerData->curPartner];
+                CALL_EVENT(OnPartnerAnim, PARTNER_ANIM_CONTEXT_BATTLE_MENU_CHOSEN, playerData->curPartner, &anim);
+                set_actor_anim(ACTOR_PARTNER, 0, anim);
                 battleStatus->lastPartnerMenuSelection[BTL_MENU_IDX_MAIN] = battleStatus->curPartnerSubmenu = WheelOptionSubmenu[entryIdx - 1];
+                {
+                    CALL_EVENT(OnBattleMenuSelect, BATTLE_MENU_WHEEL, ACTOR_PARTNER, entryIdx - 1);
+                }
                 switch (battleStatus->curPartnerSubmenu) {
                     case BTL_MENU_TYPE_STRATEGIES:
                         gBattleSubState = BTL_SUBSTATE_STRATEGIES_BUILD_MENU;
@@ -582,6 +609,10 @@ void btl_state_update_partner_menu(void) {
                 MovesOptionDiscounts[i] += player_team_is_ability_active(playerActor, ABILITY_FLOWER_FANATIC) * 2;
                 MovesOptionDiscountColors[i] = 2;
             }
+            {
+                CALL_EVENT(OnMoveCostDisplay, partnerActor, battleStatus->submenuMoves[i], i, &MovesOptionDisplayCosts[i],
+                           &MovesOptionDiscounts[i], &MovesOptionDiscountColors[i]);
+            }
         }
         if (battleStatus->lastPartnerMenuSelection[BTL_MENU_IDX_ABILITY] < 0) {
             battleStatus->lastPartnerMenuSelection[BTL_MENU_IDX_ABILITY] = 0;
@@ -589,6 +620,12 @@ void btl_state_update_partner_menu(void) {
         UsingSpiritsSubmenu = false;
         MovesOptionCount = battleStatus->submenuMoveCount;
         initialPos = battleStatus->lastPartnerMenuSelection[BTL_MENU_IDX_ABILITY];
+        {
+            CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_MOVES, ACTOR_PARTNER, BTL_MENU_TYPE_ABILITY, &MovesOptionCount, &initialPos);
+            if (MovesOptionCount > ARRAY_COUNT(MovesOptionIndices)) {
+                MovesOptionCount = ARRAY_COUNT(MovesOptionIndices);
+            }
+        }
         MovesPrevSelected = initialPos;
         btl_submenu_moves_init();
         gBattleSubState = BTL_SUBSTATE_ABILITIES_CHOOSING;
@@ -656,7 +693,8 @@ void btl_state_update_partner_menu(void) {
         break;
     case BTL_SUBSTATE_ITEMS_BUILD_MENU:
         popupIndex = 0;
-        for (i = 0; i < ARRAY_COUNT(playerData->invItems); i++) {
+        invCapacity = get_consumables_capacity();
+        for (i = 0; i < invCapacity; i++) {
             ItemData* item;
             HudScript** hudScript;
             if (playerData->invItems[i] == ITEM_NONE) {
@@ -859,6 +897,12 @@ void btl_state_update_partner_menu(void) {
         UsingSpiritsSubmenu = true;
         MovesOptionCount = battleStatus->submenuMoveCount;
         initialPos = battleStatus->lastPartnerMenuSelection[BTL_MENU_IDX_STAR_POWER];
+        {
+            CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_MOVES, ACTOR_PARTNER, BTL_MENU_TYPE_PARTNER_FOCUS, &MovesOptionCount, &initialPos);
+            if (MovesOptionCount > ARRAY_COUNT(MovesOptionIndices)) {
+                MovesOptionCount = ARRAY_COUNT(MovesOptionIndices);
+            }
+        }
         MovesPrevSelected = initialPos;
         btl_submenu_moves_init();
         gBattleSubState = BTL_SUBSTATE_FOCUS_CHOOSING;
@@ -947,8 +991,14 @@ void btl_state_update_partner_menu(void) {
         if (battleStatus->lastPartnerMenuSelection[BTL_MENU_IDX_STRATEGY] < 0) {
             battleStatus->lastPartnerMenuSelection[BTL_MENU_IDX_STRATEGY] = 0;
         }
-        StratsOptionCount = popupIndex;
         initialPos = battleStatus->lastPartnerMenuSelection[BTL_MENU_IDX_STRATEGY];
+        {
+            CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_STRATEGIES, ACTOR_PARTNER, -1, &popupIndex, &initialPos);
+            if (popupIndex > ARRAY_COUNT(StratsOptionMenuTypes)) {
+                popupIndex = ARRAY_COUNT(StratsOptionMenuTypes);
+            }
+        }
+        StratsOptionCount = popupIndex;
         StratsPrevSelected = initialPos;
         btl_menu_strats_init();
         gBattleSubState = BTL_SUBSTATE_STRATEGIES_CHOOSING;
@@ -958,6 +1008,9 @@ void btl_state_update_partner_menu(void) {
         switch (entryIdx) {
             case POPUP_RESULT_CHOOSING:
                 // do nothing while player is selecting an entry
+                break;
+            case POPUP_RESULT_INVALID:
+                gBattleSubState = BTL_SUBSTATE_STRATEGIES_SHOW_ERROR;
                 break;
             case POPUP_RESULT_CANCEL:
                 btl_main_menu_resume_choose();
@@ -1009,6 +1062,14 @@ void btl_state_update_partner_menu(void) {
                     btl_state_update_partner_menu();
                     btl_set_state(BATTLE_STATE_SWITCH_TO_PLAYER);
                     break;
+                default:
+                    gBattleSubState = BTL_SUBSTATE_STRATEGIES_TARGET_CHOSEN;
+                    btl_state_update_partner_menu();
+                    {
+                        CALL_EVENT(OnBattleMenuSelect, BATTLE_MENU_STRATEGIES, ACTOR_PARTNER,
+                                   battleStatus->lastPartnerMenuSelection[BTL_MENU_IDX_STRATEGY]);
+                    }
+                    break;
             }
         }
         break;
@@ -1028,6 +1089,11 @@ void btl_state_update_partner_menu(void) {
     case BTL_SUBSTATE_STRATEGIES_TARGET_CHOSEN:
         btl_submenu_strats_destroy();
         btl_main_menu_destroy();
+        break;
+    case BTL_SUBSTATE_STRATEGIES_SHOW_ERROR:
+        if (btl_submenu_strats_update() != POPUP_RESULT_INVALID) {
+            gBattleSubState = BTL_SUBSTATE_STRATEGIES_CHOOSING;
+        }
         break;
     case BTL_SUBSTATE_CHANGE_PARTNER_BUILD_MENU:
         popupIndex = 0;
@@ -1051,9 +1117,16 @@ void btl_state_update_partner_menu(void) {
         if (battleStatus->lastPartnerMenuSelection[BTL_MENU_IDX_PARTNER] < 0) {
             battleStatus->lastPartnerMenuSelection[BTL_MENU_IDX_PARTNER] = 0;
         }
+        initialPos = MenuIndexFromPartnerID[playerData->curPartner] - 1;
+        {
+            CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_PARTNER_LIST, ACTOR_PARTNER, -1, &popupIndex, &initialPos);
+            if (popupIndex > ARRAY_COUNT(popupMenu->ptrIcon)) {
+                popupIndex = ARRAY_COUNT(popupMenu->ptrIcon);
+            }
+        }
         popupMenu->popupType = POPUP_MENU_SWITCH_PARTNER;
         popupMenu->numEntries = popupIndex;
-        popupMenu->initialPos = MenuIndexFromPartnerID[playerData->curPartner] - 1;
+        popupMenu->initialPos = initialPos;
         popupMenu->dipMode = 0;
         popupMenu->titleNumber = 0;
         create_battle_popup_menu(popupMenu);

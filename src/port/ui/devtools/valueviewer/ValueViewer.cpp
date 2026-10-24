@@ -34,7 +34,6 @@ extern "C" {
 extern PlayerStatus gPlayerStatus;
 extern PlayerData gPlayerData;
 extern GameStatus* gGameStatusPtr;
-extern AreaConfig gAreas[29];
 extern StageListRow* gCurrentStagePtr;
 extern s32 gCurrentBattleID;
 extern s32 gCurrentStageID;

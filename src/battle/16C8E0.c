@@ -114,6 +114,8 @@ void initialize_battle(void) {
     HudElemID hid;
     s32 i;
 
+    CALL_EVENT(OnBattleInit, BATTLE_INIT_BEGIN);
+
     gBattleStatus.flags1 = 0;
     gBattleStatus.flags2 = 0;
     gBattleStatus.flags1 = 0;
@@ -176,6 +178,10 @@ void initialize_battle(void) {
         hid = BtlStarPointOnesHIDs[i] = hud_element_create(&HES_SmallStarPoint);
         hud_element_set_flags(hid, HUD_ELEMENT_FLAG_MANUAL_RENDER | HUD_ELEMENT_FLAG_DISABLED);
         hud_element_set_render_depth(hid, 20);
+    }
+
+    {
+        CALL_EVENT(OnBattleInit, BATTLE_INIT_END);
     }
 
     tattleCam->fpDoPreRender = tattle_cam_pre_render;

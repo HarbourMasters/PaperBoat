@@ -266,16 +266,18 @@ API_CALLABLE(CheckPlayerActionState) {
 API_CALLABLE(IsEventForSourceRunning) {
     Bytecode* args = script->ptrReadPos;
     Bytecode outVar = *args++;
-    Bytecode* sourceToFind = (Bytecode*)evt_get_variable(script, *args++);
+    EvtScript* sourceToFind = (EvtScript*)evt_get_variable(script, *args++);
 
     s32 foundScript = false;
     s32 i;
+
+    CALL_EVENT(OnScriptResolve, &sourceToFind);
 
     for (i = 0; i < MAX_SCRIPTS; i++) {
         Evt* iterScript = get_script_by_index(i);
 
         if (iterScript != nullptr) {
-            if (iterScript->ptrFirstLine == sourceToFind) {
+            if (iterScript->ptrFirstLine == (Bytecode*)sourceToFind) {
                 foundScript = true;
                 break;
             }

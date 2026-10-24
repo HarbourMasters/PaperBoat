@@ -1,4 +1,5 @@
 #include "common.h"
+#include "inventory.h"
 #include "nu/nusys.h"
 #include "effects.h"
 #include "battle/battle.h"
@@ -583,9 +584,9 @@ void btl_check_can_change_partner(void) {
         }
 
         if (partnersEnabled >= 2) {
-            if (partner->koStatus == STATUS_KEY_KO) {
-                battleStatus->changePartnerAllowed = 0;
-            } else if (partner->debuff == STATUS_KEY_FROZEN) {
+            s32 allowed = !(partner->koStatus == STATUS_KEY_KO || partner->debuff == STATUS_KEY_FROZEN);
+            CALL_EVENT(OnTurnOrder, TURN_ORDER_CAN_CHANGE_PARTNER, &allowed);
+            if (!allowed) {
                 battleStatus->changePartnerAllowed = 0;
             } else if (playerData->curPartner == PARTNER_GOOMPA) {
                 battleStatus->changePartnerAllowed = -1;
@@ -602,13 +603,15 @@ void btl_init_menu_items(void) {
     BattleStatus* battleStatus = &gBattleStatus;
     Actor* player = battleStatus->playerActor;
     PlayerData* playerData = &gPlayerData;
+    s32 capacity;
     s32 hasValidItem;
     s32 i;
 
     battleStatus->menuStatus[0] = 0;
     hasValidItem = false;
 
-    for (i = 0; i < ARRAY_COUNT(playerData->invItems); i++) {
+    capacity = get_consumables_capacity();
+    for (i = 0; i < capacity; i++) {
         s16 itemID = playerData->invItems[i];
 
         if (itemID != ITEM_NONE) {
@@ -659,7 +662,14 @@ s32 btl_check_enemies_defeated(void) {
 }
 
 s32 btl_check_player_defeated(void) {
-    if (gPlayerData.curHP > 0) {
+    s32 defeated = gPlayerData.curHP <= 0;
+    {
+        CALL_EVENT(OnActorDefeatCheck, gBattleStatus.playerActor, &defeated);
+    }
+    if (!defeated && gBattleStatus.partnerActor != nullptr) {
+        CALL_EVENT(OnActorDefeatCheck, gBattleStatus.partnerActor, &defeated);
+    }
+    if (!defeated) {
         return false;
     }
     gDefeatedBattleState = gBattleState;
@@ -681,13 +691,18 @@ s32 count_power_plus(s32 damageType) {
         u8 moveID = gItemTable[gPlayerData.equippedBadges[i]].moveID;
 
         if (gMoveTable[moveID].category == MOVE_TYPE_ATTACK_UP && moveID == MOVE_POWER_PLUS) {
-            if (gBattleStatus.flags1 & BS_FLAGS1_INCLUDE_POWER_UPS || damageType & DAMAGE_TYPE_JUMP) {
-                count++;
-            }
+            count++;
         }
     }
+    CALL_EVENT(OnAbilityCount, nullptr, ABILITY_POWER_PLUS, &count);
+    if (count < 0) {
+        count = 0;
+    }
 
-    return count;
+    if (gBattleStatus.flags1 & BS_FLAGS1_INCLUDE_POWER_UPS || damageType & DAMAGE_TYPE_JUMP) {
+        return count;
+    }
+    return 0;
 }
 
 void deduct_current_move_fp(void) {
@@ -702,6 +717,10 @@ void deduct_current_move_fp(void) {
         if (fpCost < 1) {
             fpCost = 1;
         }
+    }
+    {
+        Actor* user = (battleStatus->flags1 & BS_FLAGS1_PARTNER_ACTING) ? battleStatus->partnerActor : actor;
+        CALL_EVENT(OnMoveFPCost, user, battleStatus->selectedMoveID, battleStatus->lastSelectedAbility, MOVE_FP_DEDUCT, &fpCost);
     }
 
     CALL_CANCELLABLE_EVENT(OnPlayerFPChange, fpCost) {
@@ -1711,7 +1730,10 @@ s32 get_player_anim_for_status(s32 statusKey) {
 
     if (!(battleStatus->flags2 & BS_FLAGS2_PEACH_BATTLE)) {
         // switch to danger override animations
-        if (playerData->curHP <= DANGER_THRESHOLD) {
+        s32 peril = playerData->curHP <= PERIL_THRESHOLD ? PERIL_STATE_PERIL
+                  : playerData->curHP <= DANGER_THRESHOLD ? PERIL_STATE_DANGER : PERIL_STATE_NONE;
+        CALL_EVENT(OnPerilState, player, &peril);
+        if (peril != PERIL_STATE_NONE) {
             if (statusKey == STATUS_KEY_NORMAL) {
                 statusKey = STATUS_KEY_DANGER;
             }
@@ -1756,6 +1778,7 @@ s32 get_player_anim_for_status(s32 statusKey) {
         anim += 2;
     }
 
+    CALL_EVENT(OnActorAnim, player, player->partsTable, statusKey, &ret);
     return ret;
 }
 
@@ -1819,6 +1842,13 @@ s32 lookup_status_duration_mod(s32* statusTable, s32 statusKey) {
 s32 inflict_status(Actor* target, s32 statusTypeKey, s32 duration) {
     BattleStatus* battleStatus = &gBattleStatus;
     EffectInstance* effect;
+    s32 immune = target->actorID == ACTOR_PARTNER && statusTypeKey != STATUS_KEY_KO;
+
+    if (target->actorID == ACTOR_PLAYER && statusTypeKey >= STATUS_KEY_UNUSED && statusTypeKey <= STATUS_KEY_SHRINK) {
+        immune = is_ability_active(ABILITY_FEELING_FINE) || is_ability_active(ABILITY_BERSERKER)
+            || battleStatus->hustleTurns != 0;
+    }
+    CALL_EVENT(OnInflictStatus, target, statusTypeKey, &duration, &immune);
 
     switch (statusTypeKey) {
         case STATUS_KEY_UNUSED:
@@ -1829,10 +1859,9 @@ s32 inflict_status(Actor* target, s32 statusTypeKey, s32 duration) {
         case STATUS_KEY_STOP:
         case STATUS_KEY_POISON:
         case STATUS_KEY_SHRINK:
-            if (target->actorID != ACTOR_PLAYER || (!is_ability_active(ABILITY_FEELING_FINE) &&
-                !is_ability_active(ABILITY_BERSERKER) && battleStatus->hustleTurns == 0)) {
+            if (target->actorID != ACTOR_PLAYER || !immune) {
 
-                if (target->actorID != ACTOR_PARTNER) {
+                if (!immune) {
                     if (target->debuff != statusTypeKey) {
                         target->statusAfflicted = statusTypeKey;
                     }
@@ -1845,7 +1874,7 @@ s32 inflict_status(Actor* target, s32 statusTypeKey, s32 duration) {
 
                     switch (statusTypeKey) {
                         case STATUS_KEY_FROZEN:
-                            if (target->actorID != ACTOR_PARTNER) {
+                            if (!immune) {
                                 effect = target->icePillarEffect;
                                 if (effect != nullptr) {
                                     effect->flags |= FX_INSTANCE_FLAG_DISMISS;
@@ -1885,7 +1914,7 @@ s32 inflict_status(Actor* target, s32 statusTypeKey, s32 duration) {
             }
             break;
         case STATUS_KEY_STATIC:
-            if (target->actorID != ACTOR_PARTNER) {
+            if (!immune) {
                 target->staticStatus = statusTypeKey;
                 target->staticDuration = duration;
                 if ((s8)duration > 9) {
@@ -1897,7 +1926,7 @@ s32 inflict_status(Actor* target, s32 statusTypeKey, s32 duration) {
             }
             return true;
         case STATUS_KEY_STONE:
-            if (target->actorID != ACTOR_PARTNER) {
+            if (!immune) {
                 target->stoneStatus = STATUS_KEY_STONE;
                 target->stoneDuration = duration;
                 if ((s8)duration > 9) {
@@ -1907,7 +1936,7 @@ s32 inflict_status(Actor* target, s32 statusTypeKey, s32 duration) {
             }
             return true;
         case STATUS_KEY_KO:
-            if (target->koStatus < statusTypeKey) {
+            if (!immune && target->koStatus < statusTypeKey) {
                 target->koStatus = STATUS_KEY_KO;
                 target->koDuration = duration;
                 if ((s8)duration > 9) {
@@ -1917,7 +1946,7 @@ s32 inflict_status(Actor* target, s32 statusTypeKey, s32 duration) {
             }
             return true;
         case STATUS_KEY_TRANSPARENT:
-            if (target->actorID != ACTOR_PARTNER) {
+            if (!immune) {
                 target->transparentStatus = STATUS_KEY_TRANSPARENT;
                 target->transparentDuration = duration;
                 if ((s8)duration > 9) {
@@ -2270,8 +2299,10 @@ s32 try_inflict_status(Actor* actor, s32 statusTypeKey, s32 statusTurnsKey) {
     BattleStatus* battleStatus = &gBattleStatus;
     s32 chance;
     s32 duration;
+    s32 statusChance = battleStatus->statusChance;
 
-    if (battleStatus->statusChance == STATUS_KEY_IGNORE_RES) {
+    CALL_EVENT(OnStatusChance, actor, statusTypeKey, &statusChance);
+    if (statusChance == STATUS_KEY_IGNORE_RES) {
         duration = battleStatus->statusDuration;
         duration += lookup_status_duration_mod(actor->statusTable, statusTurnsKey);
         return inflict_status_set_duration(actor, statusTypeKey, statusTurnsKey, duration);
@@ -2290,7 +2321,7 @@ s32 try_inflict_status(Actor* actor, s32 statusTypeKey, s32 statusTurnsKey) {
         }
 
         if (chance > 0) {
-            chance = (chance * battleStatus->statusChance) / 100;
+            chance = (chance * statusChance) / 100;
             if (chance > 0 && chance >= rand_int(100)) {
                 duration = 3;
                 duration += lookup_status_duration_mod(actor->statusTable, statusTurnsKey);
@@ -2512,8 +2543,13 @@ s32 player_team_is_ability_active(Actor* actor, s32 ability) {
         case ACTOR_CLASS_PARTNER:
             hasAbility = is_partner_ability_active(ability);
             break;
-        case ACTOR_CLASS_ENEMY:
+        case ACTOR_CLASS_ENEMY: {
+            CALL_EVENT(OnAbilityCount, actor, ability, &hasAbility);
+            if (hasAbility < 0) {
+                hasAbility = 0;
+            }
             break;
+        }
     }
 
     return hasAbility;
@@ -2546,6 +2582,7 @@ void remove_player_buffs(s32 buffs) {
     Actor* partner = battleStatus->partnerActor;
     ActorPart* playerActorParts = player->partsTable;
 
+    CALL_EVENT(OnBuffsClear, player, BUFFS_CLEAR_SCRIPT, &buffs);
     if (buffs & PLAYER_BUFF_JUMP_CHARGE) {
         battleStatus->jumpCharge = 0;
         battleStatus->flags1 &= ~BS_FLAGS1_JUMP_CHARGED;
@@ -2598,7 +2635,11 @@ void remove_player_buffs(s32 buffs) {
     }
 
     if (partner != nullptr && (buffs & PLAYER_BUFF_PARTNER_GLOWING)) {
-        partner->isGlowing = false;
+        s32 partnerBuffs = PLAYER_BUFF_PARTNER_GLOWING;
+        CALL_EVENT(OnBuffsClear, partner, BUFFS_CLEAR_SCRIPT, &partnerBuffs);
+        if (partnerBuffs & PLAYER_BUFF_PARTNER_GLOWING) {
+            partner->isGlowing = false;
+        }
         gBattleStatus.flags1 &= ~BS_FLAGS1_GOOMBARIO_CHARGED;
     }
 }
@@ -2621,9 +2662,11 @@ void btl_update_ko_status(void) {
     }
 
     if (partner != nullptr) {
-        if (partner->koDuration < partner->debuffDuration) {
+        s32 koTurns = partner->debuffDuration;
+        CALL_EVENT(OnActorStat, partner, ACTOR_STAT_KO_TURNS, &koTurns);
+        if (partner->koDuration < koTurns) {
             partner->koStatus = STATUS_KEY_KO;
-            partner->koDuration = partner->debuffDuration;
+            partner->koDuration = koTurns;
         }
 
         if (partner->koDuration > 0) {

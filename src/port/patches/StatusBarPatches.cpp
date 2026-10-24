@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "common.h"
+#include "port/modding/Panels.h"
 #include "port/patches/Patches.h"
 
 struct StatusBarElementOption {
@@ -39,7 +40,14 @@ struct FlatBottomCorners {
     u8 siz;
 };
 
+static bool status_bar_replaced() {
+    return Mod_PanelReplaced(MOD_PANEL_STATUS_BAR);
+}
+
 static f32 status_bar_percent(const char* cvar, s32 min, s32 max) {
+    if (status_bar_replaced()) {
+        return 1.0f;
+    }
     return std::clamp(CVarGetInteger(cvar, 100), min, max) / 100.0f;
 }
 
@@ -115,10 +123,16 @@ extern "C" b32 port_status_bar_show(s32 element) {
 }
 
 extern "C" b32 port_status_bar_always_show(void) {
+    if (status_bar_replaced()) {
+        return false;
+    }
     return CVarGetInteger(CVAR_ENHANCEMENT("StatusBar.AlwaysShow"), 0) && gGameStatusPtr->context == CONTEXT_WORLD;
 }
 
 extern "C" b32 port_status_bar_flat_bottom(void) {
+    if (status_bar_replaced()) {
+        return false;
+    }
     return CVarGetInteger(CVAR_ENHANCEMENT("StatusBar.FlatBottom"), 0) && status_bar_flat_bottom_corners() != nullptr;
 }
 

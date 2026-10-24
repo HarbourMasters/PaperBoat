@@ -357,13 +357,12 @@ bool GameExtractor::GenerateOTRTo(
             assetCount++;
         }
     });
+    this->WritePortVersion();
     if (romhack.has_value()) {
         const std::string marker = Romhack::MarkerText(romhack->info);
         Companion::Instance->RegisterCompanionFile(
             Romhack::kMarkerFile, std::vector<char>(marker.begin(), marker.end())
         );
-    } else {
-        this->WritePortVersion();
     }
     std::atomic<size_t> unusedCounter { 0 };
     try {

@@ -78,6 +78,7 @@ void action_update_spin(void) {
             playerSpinState->frictionScale = 0.9f;
             spinFlags |= SPIN_TYPE_SPEEDY;
         }
+        CALL_EVENT(OnPlayerSpinStart, &playerSpinState->speedScale);
 
         effectType = -1;
         anim = ANIM_Mario1_Spin;

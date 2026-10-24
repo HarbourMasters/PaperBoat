@@ -2,20 +2,21 @@
 #include "RomhackPort.h"
 
 #include <algorithm>
+#include <cstdio>
 #include <cstring>
 #include <filesystem>
-#include <map>
 
 #include <libultraship/libultraship.h>
 #include <libultraship/bridge/consolevariablebridge.h>
 #include <ship/Context.h>
-#include <ship/resource/ResourceManager.h>
 #include <ship/resource/archive/ArchiveManager.h>
-#include <ship/resource/type/Blob.h>
 #include <spdlog/spdlog.h>
 #include <yaml-cpp/yaml.h>
 
 #include "dx/config.h"
+#include "port/ShipInit.hpp"
+#include "port/hooks/Events.h"
+#include "port/modding/MapTextures.h"
 #include "port/ui/cvar_prefixes.h"
 
 #define CVAR_ROMHACK_SELECTED CVAR_SETTING("Romhack.Selected")
@@ -124,15 +125,6 @@ void SetSelected(const std::string& stem) {
     Ship::Context::GetRawInstance()->GetConsoleVariables()->Save();
 }
 
-std::shared_ptr<Ship::Blob> Port::LoadTable(const char* name) {
-    auto resource = Ship::Context::GetRawInstance()->GetResourceManager()->LoadResource(std::string("romhack/") + name);
-    return std::dynamic_pointer_cast<Ship::Blob>(resource);
-}
-
-int32_t Port::ReadBE32(const uint8_t* p) {
-    return (int32_t) (((uint32_t) p[0] << 24) | ((uint32_t) p[1] << 16) | ((uint32_t) p[2] << 8) | p[3]);
-}
-
 void ApplyDataTables() {
     if (Port* port = ActivePort()) {
         port->ApplyDataTables();
@@ -165,6 +157,14 @@ void Mount(const std::shared_ptr<Ship::ArchiveManager>& archives) {
     }
     sActive = info;
     sActiveStem = stem;
+
+    const std::string mapTexPrefix = "romhack/maptex_";
+    const auto mapTexFiles = archives->ListFiles(mapTexPrefix + "*");
+    for (const std::string& file : *mapTexFiles) {
+        if (file.rfind(mapTexPrefix, 0) == 0) {
+            Mod_RegisterMapTexArchive(info->id.c_str(), file.substr(mapTexPrefix.size()).c_str(), file.c_str());
+        }
+    }
 }
 
 const Info* Active() {
@@ -176,8 +176,6 @@ const std::string& ActiveStem() {
 }
 
 } // namespace Romhack
-
-static std::map<std::string, std::pair<uint16_t, uint16_t>> sMapTextureSizes;
 
 extern "C" bool Romhack_IsActive(void) {
     return Romhack::Active() != nullptr;
@@ -198,19 +196,20 @@ extern "C" const char* Romhack_GetId(void) {
     return info != nullptr ? info->id.c_str() : nullptr;
 }
 
-extern "C" void Romhack_OverrideMapTextureSize(const char* archive, const char* name, uint16_t width, uint16_t height) {
-    sMapTextureSizes[std::string(archive) + "/" + name] = { width, height };
+static void OnFileMenuModLabelRomhack(IEvent* event) {
+    auto* ev = (OnFileMenuModLabel*) event;
+    if (!Romhack_IsActive() || ev->size <= 0) {
+        return;
+    }
+    if (Romhack_GetVersion() != nullptr) {
+        snprintf(ev->label, ev->size, "%s (v%s)", Romhack_GetModName(), Romhack_GetVersion());
+    } else {
+        snprintf(ev->label, ev->size, "%s", Romhack_GetModName());
+    }
 }
 
-extern "C" bool Romhack_GetMapTextureSize(const char* archive, const char* name, uint16_t* width, uint16_t* height) {
-    if (sMapTextureSizes.empty()) {
-        return false;
-    }
-    auto it = sMapTextureSizes.find(std::string(archive) + "/" + name);
-    if (it == sMapTextureSizes.end()) {
-        return false;
-    }
-    *width = it->second.first;
-    *height = it->second.second;
-    return true;
+static void ListenRomhackLabel() {
+    REGISTER_LISTENER(OnFileMenuModLabel, EVENT_PRIORITY_NORMAL, OnFileMenuModLabelRomhack);
 }
+
+static RegisterShipInitFunc sRomhackLabelInit(ListenRomhackLabel);

@@ -97,6 +97,7 @@ API_CALLABLE(ShowConsumableChoicePopup) {
     PlayerData* playerData = &gPlayerData;
     PopupMenu* menu = &gItemChoicePopupMenu;
     Trigger* trigger = script->owner2.trigger;
+    s32 capacity;
     s32 numEntries;
     s32 i;
 
@@ -114,7 +115,8 @@ API_CALLABLE(ShowConsumableChoicePopup) {
 
             gOverrideFlags |= GLOBAL_OVERRIDES_40;
 
-            for (i = 0; i < ARRAY_COUNT(playerData->invItems); i++) {
+            capacity = get_consumables_capacity();
+            for (i = 0; i < capacity; i++) {
                 s16 invItem = playerData->invItems[i];
 
                 if (invItem != ITEM_NONE) {
@@ -129,7 +131,7 @@ API_CALLABLE(ShowConsumableChoicePopup) {
                         itemIt++;
                     }
 
-                    if (found) {
+                    if (found && numEntries < ARRAY_COUNT(menu->ptrIcon)) {
                         ItemData* item = &gItemTable[playerData->invItems[i]];
 
                         menu->ptrIcon[numEntries] = gItemHudScripts[item->hudElemID].enabled;

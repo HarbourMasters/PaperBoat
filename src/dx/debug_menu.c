@@ -697,8 +697,12 @@ const s32 MapSizeX = 50;
 void dx_debug_update_select_area() {
     s32 i, j, idx;
     s32 nrows, ncols;
-    s32 numAreas = ARRAY_COUNT(gAreas) - 1;
+    s32 numAreas = 0;
     s32 prev = SelectAreaMenuPos;
+
+    while (numAreas < ARRAY_COUNT(gAreas) && gAreas[numAreas].maps != nullptr) {
+        numAreas++;
+    }
 
     // select optimal shape for the menu based on numAreas
     // maximum supported size is 9 x 5 (45 areas)
@@ -1277,7 +1281,7 @@ void dx_debug_update_edit_items() {
         case DBM_INV_EDIT_ITEMS:
             menu = &DebugItems;
             invItems = gPlayerData.invItems;
-            invSize = ARRAY_COUNT(gPlayerData.invItems);
+            invSize = get_consumables_capacity();
             break;
         case DBM_INV_EDIT_KEYS:
             menu = &DebugKeys;

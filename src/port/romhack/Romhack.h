@@ -71,10 +71,6 @@ const char* Romhack_GetVersion(void);
 // The active hack's identifier (its config.yml romhack.id), or NULL on vanilla.
 const char* Romhack_GetId(void);
 
-// Lets a hack whose map textures changed size keep using the compiled MapTexMeta table.
-void Romhack_OverrideMapTextureSize(const char* archive, const char* name, uint16_t width, uint16_t height);
-bool Romhack_GetMapTextureSize(const char* archive, const char* name, uint16_t* width, uint16_t* height);
-
 #ifdef __cplusplus
 }
 #endif
