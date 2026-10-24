@@ -37,6 +37,8 @@ Requires Android Studio (or the command-line SDK) with:
   ```
 
 ```bash
+git submodule update --init --recursive   # first checkout only, or after a reset
+python3 android/patches/patch_libultraship_android_tbi.py   # required — CI runs it too
 cd android
 ./gradlew assembleDebug          # app/build/outputs/apk/debug/
 ./gradlew installDebug           # straight onto a connected device
@@ -46,6 +48,28 @@ Gradle drives CMake itself; there is no separate CMake step. It also builds
 `paperboat.o2r` from `port/` and bundles it with `config.yml` and `assets/` into
 a single `gamedata.zip` inside the APK — so a clean checkout builds without a
 desktop build having run first.
+
+The patch script is **required, not optional**. Android arm64 heap pointers
+carry an allocation tag in their top byte, and libultraship compares those
+pointers numerically: its OTR filepath guard rejects tagged addresses outright,
+and `gfx_check_image_signature()` only masks the tag for its range check without
+canonicalizing the pointer it hands to the resource lookup. A build without the
+patch compiles and boots, but every asset reached through a heap-allocated path
+string — the title backdrop, HUD glyphs and fonts, skybox tiles — is silently
+drawn as raw texture data, so 2D paletted and IA textures show vertical rainbow
+stripes while 3D geometry renders normally (issue #274).
+
+The script is idempotent, uses exact-match anchors so it fails loudly when
+libultraship changes, and compiles to a no-op outside `__ANDROID__`, so desktop
+builds are unaffected. Two consequences worth knowing:
+
+* `git submodule update` or a `git checkout` inside `external/libultraship`
+  reverts the patch — re-run the script afterwards.
+* Gradle and CMake cache native objects, so use `./gradlew clean assembleDebug`
+  when switching between patched and unpatched source.
+
+CI runs the same script in `.github/workflows/build.yml` before Gradle and fails
+if the marker is missing from `external/libultraship/src/fast/interpreter.cpp`.
 
 The build is **arm64-v8a only**. Add `"armeabi-v7a"` to `abiFilters` if you need
 a 32-bit device; it roughly doubles an already long native build.
