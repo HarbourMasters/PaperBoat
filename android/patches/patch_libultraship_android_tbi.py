@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
-"""Patch libultraship Fast3D for Android arm64 tagged heap pointers."""
+"""Patch libultraship Fast3D for Android arm64 tagged heap pointers.
+
+Taken verbatim from the PaperBoat Android port by Jude (YlPorts):
+https://github.com/YlPorts/PaperBoat-android
+
+Originally developed in that fork on the 1.0.2-android-updates branch across
+55bf11e72, cf36accbb, ac1073436 and c26902a4b. See
+docs/android-ios-web.md for why the patch is required.
+"""
 
 from pathlib import Path
 

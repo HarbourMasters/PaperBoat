@@ -49,7 +49,9 @@ Gradle drives CMake itself; there is no separate CMake step. It also builds
 a single `gamedata.zip` inside the APK — so a clean checkout builds without a
 desktop build having run first.
 
-The patch script is **required, not optional**. Android arm64 heap pointers
+The patch script is **required, not optional**. It comes from the PaperBoat
+Android port by [Jude (YlPorts)](https://github.com/YlPorts/PaperBoat-android),
+where this bug was found and fixed. Android arm64 heap pointers
 carry an allocation tag in their top byte, and libultraship compares those
 pointers numerically: its OTR filepath guard rejects tagged addresses outright,
 and `gfx_check_image_signature()` only masks the tag for its range check without
