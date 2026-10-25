@@ -5,3 +5,17 @@
 
 maptex_hos_tex:
   { type: BLOB, offset: 0x2609DEE, size: 0x1EAD0, symbol: romhack_maptex_hos_tex }
+pause_heels:
+  { type: BLOB, offset: 0x2809EC0, size: 0x7, symbol: romhack_pause_heels }
+pause_super_heels:
+  { type: BLOB, offset: 0x2809EE0, size: 0xD, symbol: romhack_pause_super_heels }
+pause_ultra_heels:
+  { type: BLOB, offset: 0x2809E90, size: 0xD, symbol: romhack_pause_ultra_heels }
+pause_parasol:
+  { type: BLOB, offset: 0x2809ED0, size: 0x9, symbol: romhack_pause_parasol }
+pause_super_parasol:
+  { type: BLOB, offset: 0x2809EB0, size: 0xF, symbol: romhack_pause_super_parasol }
+pause_ultra_parasol:
+  { type: BLOB, offset: 0x2809EA0, size: 0xF, symbol: romhack_pause_ultra_parasol }
+pause_peach:
+  { type: BLOB, offset: 0x2809EF0, size: 0xB, symbol: romhack_pause_peach }

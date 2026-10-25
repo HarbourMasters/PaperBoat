@@ -1,11 +1,13 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <utility>
 
 #include <libultraship/libultraship.h>
 #include <ship/resource/type/Blob.h>
 #include <spdlog/spdlog.h>
 
+#include "port/Engine.h"
 #include "port/modding/DataTables.h"
 #include "port/romhack/RomhackPort.h"
 
@@ -21,15 +23,12 @@ extern PlayerSpriteSet PlayerSpriteSets[];
 }
 
 // Pause menu labels the hack keeps in expansion RAM rather than the message bank.
-static uint8_t sPauseHeels[] = { 0xF7, 0x28, 0x45, 0x45, 0x4C, 0x53, 0xFD };
-static uint8_t sPauseSuperHeels[] = { 0xF7, 0x33, 0x55, 0x50, 0x45, 0x52, 0xF7, 0x28, 0x45, 0x45, 0x4C, 0x53, 0xFD };
-static uint8_t sPauseUltraHeels[] = { 0xF7, 0x35, 0x4C, 0x54, 0x52, 0x41, 0xF7, 0x28, 0x45, 0x45, 0x4C, 0x53, 0xFD };
-static uint8_t sPauseParasol[] = { 0xF7, 0x30, 0x41, 0x52, 0x41, 0x53, 0x4F, 0x4C, 0xFD };
-static uint8_t sPauseSuperParasol[] = { 0xF7, 0x33, 0x55, 0x50, 0x45, 0x52, 0xF7, 0x30,
-                                        0x41, 0x52, 0x41, 0x53, 0x4F, 0x4C, 0xFD };
-static uint8_t sPauseUltraParasol[] = { 0xF7, 0x35, 0x4C, 0x54, 0x52, 0x41, 0xF7, 0x30,
-                                        0x41, 0x52, 0x41, 0x53, 0x4F, 0x4C, 0xFD };
-static uint8_t sPausePeach[] = { 0xF7, 0xFF, 0x10, 0x00, 0x00, 0x30, 0x45, 0x41, 0x43, 0x48, 0xFD };
+static const std::pair<int32_t, const char*> sPauseMessageAssets[] = {
+    { PAUSE_MSG_3C, "__OTR__romhack/pause_heels" },         { PAUSE_MSG_3D, "__OTR__romhack/pause_super_heels" },
+    { PAUSE_MSG_3E, "__OTR__romhack/pause_ultra_heels" },   { PAUSE_MSG_40, "__OTR__romhack/pause_parasol" },
+    { PAUSE_MSG_41, "__OTR__romhack/pause_super_parasol" }, { PAUSE_MSG_42, "__OTR__romhack/pause_ultra_parasol" },
+    { PAUSE_MSG_MARIO, "__OTR__romhack/pause_peach" },
+};
 
 constexpr size_t kItemStride = 0x20;
 constexpr size_t kPlayerSpriteSetStride = 0xC;
@@ -68,13 +67,11 @@ public:
     }
 
     void Init() override {
-        gPauseMessages[PAUSE_MSG_3C] = (intptr_t) sPauseHeels;
-        gPauseMessages[PAUSE_MSG_3D] = (intptr_t) sPauseSuperHeels;
-        gPauseMessages[PAUSE_MSG_3E] = (intptr_t) sPauseUltraHeels;
-        gPauseMessages[PAUSE_MSG_40] = (intptr_t) sPauseParasol;
-        gPauseMessages[PAUSE_MSG_41] = (intptr_t) sPauseSuperParasol;
-        gPauseMessages[PAUSE_MSG_42] = (intptr_t) sPauseUltraParasol;
-        gPauseMessages[PAUSE_MSG_MARIO] = (intptr_t) sPausePeach;
+        for (const auto& [index, path] : sPauseMessageAssets) {
+            if (void* data = LOAD_ASSET(path)) {
+                gPauseMessages[index] = (intptr_t) data;
+            }
+        }
     }
 };
 
