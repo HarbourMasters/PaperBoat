@@ -20,6 +20,10 @@ static const std::unordered_map<int32_t, const char*> actionCommandDifficultyOpt
     { 3, "Extremely Forgiving (-3 levels)" },
 };
 
+static const std::unordered_map<int32_t, const char*> HiddenBlockOptions = {
+    { 0, "Original" }, { 1, "When Watt Current Partner" }, { 2, "When Watt Unlocked" }, { 3, "Always" }
+};
+
 void PaperboatMenu::AddMenuEnhancements() {
     // Add Enhancements Menu
     AddMenuEntry("Enhancements", CVAR_SETTING("Menu.EnhancementsSidebarSection"));
@@ -104,6 +108,29 @@ void PaperboatMenu::AddMenuEnhancements() {
                 .ComboMap(blockWindowOptions)
         );
 
+    AddWidget(path, "Show Hidden Blocks", WIDGET_CVAR_COMBOBOX)
+        .CVar(CVAR_ENHANCEMENT("ShowHiddenBlocks"))
+        .Options(
+            ComboboxOptions()
+                .Tooltip(
+                    "Makes hidden blocks show based on the selected option. "
+                    "Default requires using Watt's ability."
+                )
+                .ComboMap(HiddenBlockOptions)
+        );
+
+    AddWidget(path, "Mute ISpy Sound", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("MuteISpySound"))
+        .Options(CheckboxOptions().Tooltip("Mute the notification sound when ISpy is going off."));
+
+    AddWidget(path, "Always Chuck Quizmo", WIDGET_CVAR_CHECKBOX)
+        .CVar(CVAR_ENHANCEMENT("AlwaysChuckQuizmo"))
+        .Options(
+            CheckboxOptions().Tooltip(
+                "Chuck Quizmo normally relies on rng for the location. "
+                "Makes Chuck Quizmo Show up in the current map you are in if option is turned on. "
+            )
+        );
     // Enhancements > Graphics
     path = { "Enhancements", "Graphics", SECTION_COLUMN_1 };
     AddSidebarEntry("Enhancements", "Graphics", 1);

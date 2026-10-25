@@ -46,6 +46,7 @@ void entity_HiddenItemBlock_idle(Entity* entity) {
         if (alpha <= 0) {
             alpha = 0;
         }
+        CALL_EVENT(OnHiddenBlockAlphaChange, &alpha);
         entity->alpha = alpha;
     }
 }

@@ -505,13 +505,15 @@ if(EMSCRIPTEN)
         -sALLOW_MEMORY_GROWTH=1
         -sEXIT_RUNTIME=1
         -sSTACK_SIZE=5242880
-        -sPTHREAD_POOL_SIZE=8
+        "-sPTHREAD_POOL_SIZE=navigator.hardwareConcurrency+20"
         # The frame loop blocks; Asyncify lets it yield to the browser. Torch
         # is excluded — see src/port/web/asyncify-remove.txt.
         -sASYNCIFY=1
         "-sASYNCIFY_REMOVE=@${CMAKE_SOURCE_DIR}/src/port/web/asyncify-remove.txt"
         -sASYNCIFY_STACK_SIZE=8388608
         -sASSERTIONS=1
+        -sEMULATE_FUNCTION_POINTER_CASTS=1
+        -sBINARYEN_EXTRA_PASSES=--pass-arg=max-func-params@32
         -sFORCE_FILESYSTEM=1
         -sEXPORTED_FUNCTIONS=_main,_malloc,_free
         -sEXPORTED_RUNTIME_METHODS=FS,ccall,cwrap,UTF8ToString,stringToUTF8

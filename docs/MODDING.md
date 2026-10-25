@@ -79,6 +79,9 @@ The menu greys a locked widget in `Menu::MenuDrawItem` (a third disable source a
 | `enhancements.block_window` | `gEnhancements.BlockWindowMode` | 0 (original) |
 | `enhancements.no_intro` | `gEnhancements.NoIntro` | 0 |
 | `enhancements.actor_blueprints` | `gEnhancements.ActorBlueprints.Enabled` | 0 |
+| `enhancements.show_hidden_blocks` | `gEnhancements.ShowHiddenBlocks` | 0 (vanilla) |
+| `enhancements.mute_i_spy_sound` | `gEnhancements.MuteISpySound` | 0 |
+| `enhancements.always_chuck_quizmo` | `gEnhancements.AlwaysChuckQuizmo` | 0 |
 | `graphics.full_height_view` | `gEnhancements.Graphics.FullHeightView` | 0 |
 | `graphics.rounded_reel` | `gEnhancements.Graphics.RoundedReel` | 0 |
 | `graphics.disable_mipmaps` | `gEnhancements.Graphics.DisableMipmaps` | 0 |

@@ -187,8 +187,10 @@ API_CALLABLE(N(Quizmo_ShouldAppear)) {
     progress = numAnswered < N(Quizmo_Requirements)[i].numQuestionsUnlocked;
     test2 = var = progress;
 
+    bool forceAppear = false;
+    CALL_EVENT(OnQuizmoShouldAppear,&forceAppear);
     if ((((curTown2 == locTown) && (curMap == locMap) && (changedLocation == 0) && test2)) ||
-        (gGameStatusPtr->debugQuizmo && var)) {
+        ((gGameStatusPtr->debugQuizmo || forceAppear) && var)) {
         script->varTable[0] = true;
     } else {
         kill_enemy(enemy);

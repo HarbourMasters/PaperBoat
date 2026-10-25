@@ -65,6 +65,9 @@ static const Def sDefs[] = {
     FEATURE_INT("enhancements.block_window", CVAR_ENHANCEMENT("BlockWindowMode"), 0),
     FEATURE_TOGGLE("enhancements.no_intro", CVAR_ENHANCEMENT("NoIntro"), 0),
     FEATURE_TOGGLE("enhancements.actor_blueprints", CVAR_ENHANCEMENT("ActorBlueprints.Enabled"), 0),
+    FEATURE_INT("enhancements.show_hidden_blocks", CVAR_ENHANCEMENT("ShowHiddenBlocks"), 0),
+    FEATURE_TOGGLE("enhancements.mute_i_spy_sound", CVAR_ENHANCEMENT("MuteISpySound"), 0),
+    FEATURE_TOGGLE("enhancements.always_chuck_quizmo", CVAR_ENHANCEMENT("AlwaysChuckQuizmo"), 0),
 
     FEATURE_TOGGLE("graphics.full_height_view", CVAR_ENHANCEMENT("Graphics.FullHeightView"), 0),
     FEATURE_TOGGLE("graphics.rounded_reel", CVAR_ENHANCEMENT("Graphics.RoundedReel"), 0),

@@ -983,3 +983,15 @@ DEFINE_EVENT(OnChangeMapInit);
 DEFINE_EVENT(OnChangeMapStep,
     int32_t state;
 );
+
+DEFINE_EVENT(OnHiddenBlockAlphaChange,
+    int32_t* alpha;
+    );
+
+DEFINE_EVENT(OnISpySoundPlay,
+    bool* SoundPlay;
+);
+
+DEFINE_EVENT(OnQuizmoShouldAppear,
+    bool* forceAppear;
+);

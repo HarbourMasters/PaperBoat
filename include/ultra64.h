@@ -74,6 +74,17 @@ extern s32 osTvType; // 0 = PAL, 1 = NTSC, 2 = MPAL
 extern OSViMode osViModeNtscLan1;
 extern OSViMode osViModeMpalLan1;
 
+void osInitialize(void);
+void osCreateThread(OSThread* thread, OSId id, void (*entry)(void*), void* arg, void* sp, OSPri pri);
+void osStartThread(OSThread* thread);
+void osStopThread(OSThread* thread);
+void osSetThreadPri(OSThread* thread, OSPri pri);
+void osContGetQuery(OSContStatus* data);
+void osSpTaskLoad(OSTask* task);
+void osSpTaskStartGo(OSTask* task);
+void osSpTaskYield(void);
+void guMtxF2L_NoInterp(float mf[4][4], Mtx* m);
+
 #ifdef __cplusplus
 }
 #endif

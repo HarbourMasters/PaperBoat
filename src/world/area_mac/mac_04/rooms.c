@@ -1,6 +1,6 @@
 #include "mac_04.h"
 
-s32 mdl_set_shroud_tint_params(s32, s32, s32, s32);
+void mdl_set_shroud_tint_params(u8, u8, u8, u8);
 
 API_CALLABLE(N(InitEntryFromToybox)) {
     mdl_group_set_custom_gfx(MODEL_heiho_house, CUSTOM_GFX_NONE, ENV_TINT_SHROUD, true);
