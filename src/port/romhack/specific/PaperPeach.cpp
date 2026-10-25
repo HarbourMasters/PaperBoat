@@ -68,7 +68,7 @@ public:
 
     void Init() override {
         for (const auto& [index, path] : sPauseMessageAssets) {
-            if (void* data = LOAD_ASSET(path)) {
+            if (const void* data = LOAD_ASSET(path)) {
                 gPauseMessages[index] = (intptr_t) data;
             }
         }

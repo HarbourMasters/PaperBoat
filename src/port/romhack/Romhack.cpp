@@ -259,12 +259,16 @@ void Mount(const std::shared_ptr<Ship::ArchiveManager>& archives) {
         if (file != nullptr && file->Buffer != nullptr) {
             marker = ParseMarker(std::string(file->Buffer->begin() + file->BufferOffset, file->Buffer->end()));
         }
-        config = FindConfigHack(marker.has_value() ? marker->romSha1 : "", marker.has_value() ? marker->id : "",
-                                manifest.has_value() ? manifest->name : "");
+        config = FindConfigHack(
+            marker.has_value() ? marker->romSha1 : "", marker.has_value() ? marker->id : "",
+            manifest.has_value() ? manifest->name : ""
+        );
         manifest.reset();
         if (config.has_value()) {
-            SPDLOG_INFO("Romhack: {} predates the current {}; using its config.yml entry, re-extract to embed it",
-                        stem, Mod::kManifestFile);
+            SPDLOG_INFO(
+                "Romhack: {} predates the current {}; using its config.yml entry, re-extract to embed it", stem,
+                Mod::kManifestFile
+            );
             manifest = config->manifest;
         }
     }

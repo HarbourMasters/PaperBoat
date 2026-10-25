@@ -593,7 +593,10 @@ static void DrawSupportedRomhacks() {
         ImGui::BeginDisabled(hack.website.empty());
         if (UIWidgets::Button(
                 ICON_FA_EXTERNAL_LINK,
-                UIWidgets::ButtonOptions().Size(UIWidgets::Sizes::Inline).Color(THEME_COLOR).Tooltip(hack.website.c_str())
+                UIWidgets::ButtonOptions()
+                    .Size(UIWidgets::Sizes::Inline)
+                    .Color(THEME_COLOR)
+                    .Tooltip(hack.website.c_str())
             ))
         {
             SDL_OpenURL(hack.website.c_str());
