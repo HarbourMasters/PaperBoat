@@ -3,13 +3,13 @@
 #include <memory>
 
 #include "port/romhack/RomhackPort.h"
-#include "TTYD64.h"
-#include "include/ttyd64_api.h"
-#include "include/ttyd64_drop_tables.h"
-#include "include/ttyd64_flags.h"
-#include "include/ttyd64_items.h"
-#include "include/ttyd64_rawmem.h"
-#include "include/ttyd64_symbols.h"
+#include "port/romhack/specific/TTYD64/TTYD64.h"
+#include "port/romhack/specific/TTYD64/include/ttyd64_api.h"
+#include "port/romhack/specific/TTYD64/include/ttyd64_drop_tables.h"
+#include "port/romhack/specific/TTYD64/include/ttyd64_flags.h"
+#include "port/romhack/specific/TTYD64/include/ttyd64_items.h"
+#include "port/romhack/specific/TTYD64/include/ttyd64_rawmem.h"
+#include "port/romhack/specific/TTYD64/include/ttyd64_symbols.h"
 #include "port/hooks/Events.h"
 #include "port/modding/ModSaveData.h"
 
