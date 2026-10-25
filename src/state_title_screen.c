@@ -119,6 +119,7 @@ void state_init_title_screen(void) {
     void* titleDataDst;
     void* titleData;
 
+    CALL_EVENT(OnTitleScreenInit);
     gOverrideFlags = 0;
     gTimeFreezeMode = TIME_FREEZE_NONE;
     general_heap_create();

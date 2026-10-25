@@ -365,6 +365,8 @@ void btl_update(void) {
     btl_popup_messages_update();
     update_nonplayer_actor_shadows();
 
+    CALL_EVENT(OnBattleDarknessCheck, &battleStatus->darknessMode);
+
     if (battleStatus->darknessMode != BTL_DARKNESS_STATE_LOCKED) {
         u8 paramType;
         f32 paramAmount;
@@ -1065,6 +1067,8 @@ void btl_delete_actor(Actor* actor) {
     ActorPart* actorPartTemp;
     BattleStatus* battleStatus;
     s32 i;
+
+    CALL_EVENT(OnActorDeleted, actor);
 
     // TODO hard-coded
     for (i = 0; i < 2; i++) {

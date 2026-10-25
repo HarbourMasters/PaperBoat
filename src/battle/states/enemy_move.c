@@ -66,7 +66,9 @@ void btl_state_update_enemy_move(void) {
             if (!(enemy->flags & ACTOR_FLAG_NO_ATTACK)) {
                 reset_all_actor_sounds(enemy);
                 battleStatus->battlePhase = PHASE_EXECUTE_ACTION;
-                script = start_script(enemy->takeTurnSource, EVT_PRIORITY_A, 0);
+                EvtScript* takeTurnSource = enemy->takeTurnSource;
+                CALL_EVENT(OnEnemyTakeTurnScript, enemy, &takeTurnSource);
+                script = start_script(takeTurnSource, EVT_PRIORITY_A, 0);
                 enemy->takeTurnScript = script;
                 enemy->takeTurnScriptID = script->id;
                 script->owner1.actorID = battleStatus->activeEnemyActorID;

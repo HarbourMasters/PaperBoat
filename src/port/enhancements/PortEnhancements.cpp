@@ -204,6 +204,34 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnHiddenBlockAlphaChange);
     REGISTER_EVENT(OnISpySoundPlay);
     REGISTER_EVENT(OnQuizmoShouldAppear);
+    REGISTER_EVENT(OnSetTargetActor);
+    REGISTER_EVENT(OnTargetListAppend);
+    REGISTER_EVENT(OnTargetListCursor);
+    REGISTER_EVENT(OnStarPointDropCheck);
+    REGISTER_EVENT(OnStatChangeEffectGlyph);
+    REGISTER_EVENT(OnBattleStep);
+    REGISTER_EVENT(OnEnemyTakeTurnScript);
+    REGISTER_EVENT(OnActorDeleted);
+    REGISTER_EVENT(OnMysteryItemTarget);
+    REGISTER_EVENT(OnPlayerActorLoaded);
+    REGISTER_EVENT(OnBattleDarknessCheck);
+    REGISTER_EVENT(OnActionCommandHudInit);
+    REGISTER_EVENT(OnActionCommandNextState);
+    REGISTER_EVENT(OnTurnEndLabels);
+    REGISTER_EVENT(OnBadgeInventoryFull);
+    REGISTER_EVENT(OnShopPurchaseItem);
+    REGISTER_EVENT(OnRemoveBadge);
+    REGISTER_EVENT(OnConsumableChoiceMatch);
+    REGISTER_EVENT(OnTitleScreenInit);
+    REGISTER_EVENT(OnPlayerInputEnabled);
+    REGISTER_EVENT(OnEffectColor);
+    REGISTER_EVENT(OnEffectSpawnParams);
+    REGISTER_EVENT(OnEntityCreated);
+    REGISTER_EVENT(OnChestOpening);
+    REGISTER_EVENT(OnQuizmoSpawnCheck);
+    REGISTER_EVENT(OnNewGameStart);
+    REGISTER_EVENT(OnBootLogos);
+    REGISTER_EVENT(OnIntroStorySkip);
 }
 
 void PortEnhancements_Exit() {

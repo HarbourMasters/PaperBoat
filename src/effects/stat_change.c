@@ -265,11 +265,12 @@ void func_E00AC2A4(EffectInstance* effect) {
         gSPDisplayList(gMainGfxPos++, D_E00AC7C8[idx % 10]);
         gSPDisplayList(gMainGfxPos++, D_090028C0_3B1FC0);
 
-        if (arrowValue >= 0) {
-            gSPDisplayList(gMainGfxPos++, D_E00AC7C8[11]);
-        } else {
-            gSPDisplayList(gMainGfxPos++, D_E00AC7C8[10]);
+        s32 glyph = (arrowValue >= 0) ? 11 : 10;
+        CALL_EVENT(OnStatChangeEffectGlyph, effect, arrowValue, &glyph);
+        if (glyph < 0 || glyph >= ARRAY_COUNT(D_E00AC7C8)) {
+            glyph = (arrowValue >= 0) ? 11 : 10;
         }
+        gSPDisplayList(gMainGfxPos++, D_E00AC7C8[glyph]);
 
         gSPDisplayList(gMainGfxPos++, D_090028A0_3B1FA0);
         gSPPopMatrix(gMainGfxPos++, G_MTX_MODELVIEW);

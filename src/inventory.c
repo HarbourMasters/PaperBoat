@@ -193,7 +193,9 @@ s32 add_item(s32 itemID) {
         }
 
         if (idx >= ARRAY_COUNT(gPlayerData.badges)) {
-            return -1;
+            s32 result = -1;
+            CALL_EVENT(OnBadgeInventoryFull, itemID, &result);
+            return result;
         }
 
         gPlayerData.badges[idx] = itemID;
@@ -240,25 +242,29 @@ s32 remove_item(s32 itemID) {
 
     // handle badges
     if (item_is_badge(itemID)) {
-        // unequip
-        for (idx = 0; idx < ARRAY_COUNT(gPlayerData.equippedBadges); idx++) {
-            if (gPlayerData.equippedBadges[idx] == itemID) {
-                gPlayerData.equippedBadges[idx] = ITEM_NONE;
+        s32 slot = -1;
+        CALL_CANCELLABLE_EVENT(OnRemoveBadge, itemID, &slot) {
+            // unequip
+            for (idx = 0; idx < ARRAY_COUNT(gPlayerData.equippedBadges); idx++) {
+                if (gPlayerData.equippedBadges[idx] == itemID) {
+                    gPlayerData.equippedBadges[idx] = ITEM_NONE;
+                }
             }
-        }
 
-        for (idx = 0; idx < ARRAY_COUNT(gPlayerData.badges); idx++) {
-            if (gPlayerData.badges[idx] == itemID) {
-                break;
+            for (idx = 0; idx < ARRAY_COUNT(gPlayerData.badges); idx++) {
+                if (gPlayerData.badges[idx] == itemID) {
+                    break;
+                }
             }
-        }
 
-        if (idx >= ARRAY_COUNT(gPlayerData.badges)) {
-            return -1;
-        }
+            if (idx >= ARRAY_COUNT(gPlayerData.badges)) {
+                return -1;
+            }
 
-        gPlayerData.badges[idx] = ITEM_NONE;
-        return idx;
+            gPlayerData.badges[idx] = ITEM_NONE;
+            return idx;
+        }
+        return slot;
     }
 
     // handle consumables

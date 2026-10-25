@@ -171,6 +171,7 @@ API_CALLABLE(LoadMysteryItemScript) {
     s32* itemPtr;
     s32 i;
 
+    CALL_EVENT(OnMysteryItemTarget, &actor);
     battleStatus->curTargetListFlags = item->targetFlags | TARGET_FLAG_PRIMARY_ONLY;
     battleStatus->curAttackElement = 0;
 

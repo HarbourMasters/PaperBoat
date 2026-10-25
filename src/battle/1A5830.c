@@ -2698,6 +2698,14 @@ API_CALLABLE(SetTargetActor) {
 
     targetActorID = evt_get_variable(script, *args++);
     actor = get_actor(actorID);
+    s32 scriptTargetID = targetActorID;
+    CALL_EVENT(OnSetTargetActor, actor, &targetActorID);
+    if (targetActorID != scriptTargetID
+        && (((targetActorID & ACTOR_CLASS_MASK) == ACTOR_CLASS_ENEMY
+             && (u8) targetActorID >= ARRAY_COUNT(gBattleStatus.enemyActors))
+            || get_actor(targetActorID) == nullptr)) {
+        targetActorID = scriptTargetID;
+    }
     actor->targetActorID = targetActorID;
     actor->targetPartID = 1;
     return ApiStatus_DONE2;
@@ -2834,6 +2842,10 @@ API_CALLABLE(DropStarPoints) {
         actorID = script->owner1.enemyID;
     }
     dropper = get_actor(actorID);
+
+    CALL_CANCELLABLE_EVENT_INV(OnStarPointDropCheck, dropper) {
+        return ApiStatus_DONE2;
+    }
 
     enemyLevel = dropper->actorBlueprint->level;
     if (dropper->actorBlueprint->level == 0.0f) {

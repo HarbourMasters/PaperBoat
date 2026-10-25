@@ -56,7 +56,12 @@ void state_init_logos(void) {
     s8* romEnd;
 
     general_heap_create();
-    gGameStatusPtr->startupState = LOGOS_STATE_N64_FADE_IN;
+    s32 firstState = LOGOS_STATE_N64_FADE_IN;
+    CALL_EVENT(OnBootLogos, &firstState);
+    if (firstState < LOGOS_STATE_N64_FADE_IN || firstState > LOGOS_STATE_CLEANUP) {
+        firstState = LOGOS_STATE_N64_FADE_IN;
+    }
+    gGameStatusPtr->startupState = firstState;
     gGameStatusPtr->logoTime = 0;
     gGameStatusPtr->skipLogos = false;
     startup_set_fade_screen_alpha(255);

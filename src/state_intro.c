@@ -100,7 +100,9 @@ void state_step_intro(void) {
     #endif
 
     if (gGameStatusPtr->introPart != INTRO_PART_NONE) {
-        if (D_800A0964 == 0 && pressedButtons & (BUTTON_A | BUTTON_B | BUTTON_START | BUTTON_Z)) {
+        bool skipStory = false;
+        CALL_EVENT(OnIntroStorySkip, &skipStory);
+        if (D_800A0964 == 0 && (skipStory || pressedButtons & (BUTTON_A | BUTTON_B | BUTTON_START | BUTTON_Z))) {
             D_800A0964 = 1;
         }
 

@@ -995,3 +995,157 @@ DEFINE_EVENT(OnISpySoundPlay,
 DEFINE_EVENT(OnQuizmoShouldAppear,
     bool* forceAppear;
 );
+
+typedef enum BattleStepStage {
+    BATTLE_STEP_BEGIN,
+    BATTLE_STEP_AFTER_EFFECTS,
+} BattleStepStage;
+
+typedef enum TurnEndLabelsStage {
+    TURN_END_LABELS_CREATE,
+    TURN_END_LABELS_REMOVE,
+} TurnEndLabelsStage;
+
+typedef enum EffectSpawnParam {
+    EFFECT_PARAM_FIRE_FLOWER_SPEED_X,
+} EffectSpawnParam;
+
+DEFINE_EVENT(OnSetTargetActor,
+    Actor* actor;
+    int32_t* targetActorID;
+);
+
+DEFINE_EVENT(OnTargetListAppend,
+    Actor* owner;
+    SelectableTarget* list;
+    int32_t* count;
+    int32_t capacity;
+);
+
+DEFINE_EVENT(OnTargetListCursor,
+    Actor* owner;
+    int32_t* index;
+);
+
+DEFINE_EVENT(OnStarPointDropCheck,
+    Actor* dropper;
+);
+
+DEFINE_EVENT(OnStatChangeEffectGlyph,
+    struct EffectInstance* effect;
+    int32_t amount;
+    int32_t* glyph;
+);
+
+DEFINE_EVENT(OnBattleStep,
+    int32_t stage;
+);
+
+DEFINE_EVENT(OnEnemyTakeTurnScript,
+    Actor* enemy;
+    EvtScript** takeTurnSource;
+);
+
+DEFINE_EVENT(OnActorDeleted,
+    Actor* actor;
+);
+
+DEFINE_EVENT(OnMysteryItemTarget,
+    Actor** actor;
+);
+
+DEFINE_EVENT(OnPlayerActorLoaded,
+    Actor* player;
+);
+
+DEFINE_EVENT(OnBattleDarknessCheck,
+    int8_t* darknessMode;
+);
+
+DEFINE_EVENT(OnActionCommandHudInit,
+    int32_t actionCommandID;
+    struct ActionCommandStatus* acs;
+);
+
+DEFINE_EVENT(OnActionCommandNextState,
+    int32_t actionCommandID;
+    struct ActionCommandStatus* acs;
+    int32_t* state;
+);
+
+DEFINE_EVENT(OnTurnEndLabels,
+    Evt* script;
+    int32_t stage;
+);
+
+DEFINE_EVENT(OnBadgeInventoryFull,
+    int32_t badgeID;
+    int32_t* result;
+);
+
+DEFINE_EVENT(OnShopPurchaseItem,
+    int32_t itemID;
+    int32_t badgeSlot;
+    int32_t* refusalMsg;
+);
+
+DEFINE_EVENT(OnRemoveBadge,
+    int32_t badgeID;
+    int32_t* slot;
+);
+
+DEFINE_EVENT(OnConsumableChoiceMatch,
+    int32_t itemID;
+    const int32_t* itemList;
+    int32_t* found;
+);
+
+DEFINE_EVENT(OnTitleScreenInit);
+
+DEFINE_EVENT(OnPlayerInputEnabled);
+
+typedef struct EffectColor {
+    int32_t r;
+    int32_t g;
+    int32_t b;
+    int32_t a;
+} EffectColor;
+
+DEFINE_EVENT(OnEffectColor,
+    int32_t effectID;
+    struct EffectInstance* effect;
+    int32_t slot;
+    EffectColor* color;
+);
+
+DEFINE_EVENT(OnEffectSpawnParams,
+    int32_t effectID;
+    int32_t param;
+    float* value;
+);
+
+DEFINE_EVENT(OnEntityCreated,
+    Entity* entity;
+);
+
+DEFINE_EVENT(OnChestOpening,
+    Entity* chest;
+    EvtScript** script;
+);
+
+DEFINE_EVENT(OnQuizmoSpawnCheck,
+    struct Enemy* quizmo;
+);
+
+DEFINE_EVENT(OnNewGameStart,
+    const char** mapName;
+    int32_t* entryID;
+);
+
+DEFINE_EVENT(OnBootLogos,
+    int32_t* firstState;
+);
+
+DEFINE_EVENT(OnIntroStorySkip,
+    bool* skip;
+);

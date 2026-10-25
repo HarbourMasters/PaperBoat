@@ -1044,6 +1044,7 @@ s32 create_entity(EntityBlueprint* bp, ...) {
     if (bp->fpInit != nullptr) {
         bp->fpInit(entity);
     }
+    CALL_EVENT(OnEntityCreated, entity);
 
     update_entity_transform_matrix(entity);
     return entity->listIndex;

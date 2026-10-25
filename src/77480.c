@@ -1004,6 +1004,7 @@ s32 enable_player_input(void) {
     if (playerStatus->inputDisabledCount == 0) {
         playerStatus->flags &= ~PS_FLAG_INPUT_DISABLED;
     }
+    CALL_EVENT(OnPlayerInputEnabled);
     return playerStatus->inputDisabledCount;
 }
 

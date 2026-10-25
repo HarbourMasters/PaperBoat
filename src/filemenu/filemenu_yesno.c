@@ -278,8 +278,16 @@ void filemenu_yesno_handle_input(MenuPanel* menu) {
                     case FM_CONFIRM_CREATE:
                         clear_player_data();
                         clear_saved_variables();
-                        get_map_IDs_by_name_checked(NEW_GAME_MAP_ID, &gGameStatusPtr->areaID, &gGameStatusPtr->mapID);
-                        gGameStatusPtr->entryID = NEW_GAME_ENTRY_ID;
+                        {
+                            const char* newGameMap = NEW_GAME_MAP_ID;
+                            s32 newGameEntry = NEW_GAME_ENTRY_ID;
+                            CALL_EVENT(OnNewGameStart, &newGameMap, &newGameEntry);
+                            if (newGameMap == nullptr || !get_map_IDs_by_name(newGameMap, &gGameStatusPtr->areaID, &gGameStatusPtr->mapID)) {
+                                get_map_IDs_by_name_checked(NEW_GAME_MAP_ID, &gGameStatusPtr->areaID, &gGameStatusPtr->mapID);
+                                newGameEntry = NEW_GAME_ENTRY_ID;
+                            }
+                            gGameStatusPtr->entryID = newGameEntry;
+                        }
                         evt_set_variable(nullptr, GB_StoryProgress, NEW_GAME_STORY_PROGRESS);
 
                         selected = filemenu_menus[FILE_MENU_MAIN]->selected;

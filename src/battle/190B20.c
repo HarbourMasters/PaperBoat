@@ -101,11 +101,20 @@ void create_target_list(Actor* actor, b32 targetHomePos) {
         targetDataList->priorityOffset = -100;
         numTargets++;
         targetDataList++;
+        {
+            CALL_EVENT(OnTargetListAppend, actor, actor->targetData, &numTargets, ARRAY_COUNT(actor->targetData));
+            if (numTargets < 0) {
+                numTargets = 0;
+            } else if (numTargets > ARRAY_COUNT(actor->targetData)) {
+                numTargets = ARRAY_COUNT(actor->targetData);
+            }
+            targetDataList = &actor->targetData[numTargets];
+        }
     }
 
     // try adding the partner
     if (battleStatus->curTargetListFlags & TARGET_FLAG_PARTNER) {
-        if (partnerActor != nullptr) {
+        if (partnerActor != nullptr && numTargets < ARRAY_COUNT(actor->targetData)) {
             targetDataList->actorID = ACTOR_PARTNER;
             targetDataList->partID = 1;
             if (!targetHomePos) {
@@ -231,6 +240,13 @@ void create_target_list(Actor* actor, b32 targetHomePos) {
 
     actor->selectedTargetIndex = 0;
     actor->targetListLength = numTargets;
+    {
+        s32 cursor = actor->selectedTargetIndex;
+        CALL_EVENT(OnTargetListCursor, actor, &cursor);
+        if (cursor >= 0 && cursor < numTargets) {
+            actor->selectedTargetIndex = cursor;
+        }
+    }
 
     sampleCol = battleStatus->sampleTargetHomeIndex % 4;
     sampleRow = battleStatus->sampleTargetHomeIndex / 4;
@@ -439,6 +455,9 @@ void create_target_list(Actor* actor, b32 targetHomePos) {
     }
 
     actor->targetListLength = numTargets;
+    if (actor->selectedTargetIndex >= numTargets) {
+        actor->selectedTargetIndex = 0;
+    }
     if (numTargets == 0 && hiddenByDarkness) {
         gBattleStatus.flags2 |= BS_FLAGS2_NO_TARGET_AVAILABLE;
     } else {
@@ -1172,6 +1191,7 @@ void load_player_actor(void) {
         player->staticStatus = STATUS_KEY_STATIC;
         player->staticDuration = 127;
     }
+    CALL_EVENT(OnPlayerActorLoaded, player);
 }
 
 void load_partner_actor(void) {
@@ -1196,6 +1216,7 @@ void load_partner_actor(void) {
     if (currentPartner != PARTNER_NONE) {
         partnerData = &bPartnerDmaTable[currentPartner];
         actorBP = partnerData->ActorBlueprint;
+        CALL_EVENT(OnActorBlueprintLoad, &actorBP);
 
         ASSERT(actorBP != nullptr);
 

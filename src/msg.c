@@ -2319,3 +2319,10 @@ void draw_number(s32 value, s32 x, s32 y, s32 charset, s32 palette, s32 opacity,
     }
     gDPPipeSync(gMainGfxPos++);
 }
+
+MessagePrintState* msg_get_printer_by_index(s32 index) {
+    if (index < 0 || index >= ARRAY_COUNT(gMessagePrinters)) {
+        return nullptr;
+    }
+    return &gMessagePrinters[index];
+}

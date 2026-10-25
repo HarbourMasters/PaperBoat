@@ -130,6 +130,7 @@ API_CALLABLE(ShowConsumableChoicePopup) {
                         }
                         itemIt++;
                     }
+                    CALL_EVENT(OnConsumableChoiceMatch, invItem, trigger->itemList, &found);
 
                     if (found && numEntries < ARRAY_COUNT(menu->ptrIcon)) {
                         ItemData* item = &gItemTable[playerData->invItems[i]];

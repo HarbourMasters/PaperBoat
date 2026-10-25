@@ -497,6 +497,7 @@ API_CALLABLE(SpawnTurnEndFX) {
         HID_Happy = hud_element_create(&HES_Happy);
         hud_element_set_render_pos(HID_Happy, screenX, screenY);
     }
+    CALL_EVENT(OnTurnEndLabels, script, TURN_END_LABELS_CREATE);
     return ApiStatus_DONE2;
 }
 
@@ -507,6 +508,7 @@ API_CALLABLE(RemoveTurnEndFX) {
     if (script->varTable[11] > 0 || script->varTable[12] > 0) {
         hud_element_free(HID_Happy);
     }
+    CALL_EVENT(OnTurnEndLabels, script, TURN_END_LABELS_REMOVE);
     return ApiStatus_DONE2;
 }
 
