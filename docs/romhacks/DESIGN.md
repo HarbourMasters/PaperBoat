@@ -281,8 +281,12 @@ and with no listener the site behaves exactly as before. Most events are familie
 | `OnTitleScreenTimeout` | the title screen timing out (cancellable = stay on the title screen; fires every frame once the timer has run out; `nextState` pre-filled with vanilla's demo/intro choice, only `NEXT_STATE_DEMO`/`INTRO`/`FILE_SELECT` from `game_modes.h` are taken) |
 | `OnStarPointDrop`, `OnStarPowerRegen` | battle: the star points an enemy drops and the level compared against `StatLimits.levelCap` (the pending total is clamped to 0-127), and the end-of-turn star power regeneration (cancellable; star power is clamped to 0..max) |
 | `OnChangeMapInit`, `OnChangeMapStep` | field: the map change starting and each step (`state` is `enum ChangeMapStates` in `game_modes.h`) |
+| `OnSaveFileCreate`, `OnSaveFileStart` | a new file in the file menu just before its first write, and a loaded file starting to play (right after `fio_deserialize_state`) |
+| `OnPlayerAttackDamage`, `OnBattleMoveStart`, `OnBattleMoveEnd` | Mario's damage against a target part after every `OnDamageCalc` stage and Power Bounce, and a player or partner move starting to execute (category, move, argument, target) and finishing, right before the end-of-turn state |
+| `OnCoinsChanged`, `OnStarPointsChanged`, `OnStarPiecesChanged`, `OnHPChanged`, `OnFPChanged`, `OnItemCountChanged` | notifications with the before and after values, from a once-per-frame comparison of `gPlayerData` while a file is in play (`src/port/hooks/EventWatch.cpp`), so they fire on the frame after the change; items count the inventory, key items, badges and storage |
 
 The engine event `EntityPreDraw` fires in `render_entities` for every entity drawn this frame, before its render callback is bound.
+`EngineReady` fires once at the end of startup, after `ShipInit` and the audio init.
 
 One port flag needs no event: a HUD element with `HUD_ELEMENT_FLAG_FIXED_SIZE` (`0x80000000`) keeps its size through a
 `SetSizesFixedScale` tween (no per-frame size step, no reset when the image changes), so a mod that sizes its own

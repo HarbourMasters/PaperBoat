@@ -286,6 +286,7 @@ void filemenu_yesno_handle_input(MenuPanel* menu) {
                         for (i = 0; i < ARRAY_COUNT(gSaveSlotSummary->filename); i++) {
                             gSaveSlotSummary[selected].filename[i] = filemenu_filename[i];
                         }
+                        CALL_EVENT(OnSaveFileCreate, selected);
                         fio_save_game(selected);
                         gSaveSlotMetadata[selected].hasData = true;
                         gSaveSlotMetadata[selected].validData = true;

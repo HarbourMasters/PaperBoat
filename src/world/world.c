@@ -94,6 +94,7 @@ void load_map_by_IDs(s16 areaID, s16 mapID, s16 loadType) {
             break;
         case LOAD_FROM_FILE_SELECT:
             fio_deserialize_state();
+            CALL_EVENT(OnSaveFileStart, gGameStatusPtr->saveSlot);
             areaID = gGameStatusPtr->areaID;
             mapID = gGameStatusPtr->mapID;
             gGameStatusPtr->prevArea = areaID;

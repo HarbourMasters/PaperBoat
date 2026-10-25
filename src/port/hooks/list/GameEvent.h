@@ -28,12 +28,51 @@ DEFINE_EVENT(OnSaveFileErase,
     int32_t saveSlot;
 );
 
+DEFINE_EVENT(OnSaveFileCreate,
+    int32_t saveSlot;
+);
+
+DEFINE_EVENT(OnSaveFileStart,
+    int32_t saveSlot;
+);
+
 DEFINE_EVENT(OnSaveGlobalsSave,
     void* saveGlobals;
 );
 
 DEFINE_EVENT(OnSaveGlobalsLoad,
     void* saveGlobals;
+);
+
+DEFINE_EVENT(OnCoinsChanged,
+    int32_t before;
+    int32_t after;
+);
+
+DEFINE_EVENT(OnStarPointsChanged,
+    int32_t before;
+    int32_t after;
+);
+
+DEFINE_EVENT(OnStarPiecesChanged,
+    int32_t before;
+    int32_t after;
+);
+
+DEFINE_EVENT(OnHPChanged,
+    int32_t before;
+    int32_t after;
+);
+
+DEFINE_EVENT(OnFPChanged,
+    int32_t before;
+    int32_t after;
+);
+
+DEFINE_EVENT(OnItemCountChanged,
+    int16_t item;
+    int32_t before;
+    int32_t after;
 );
 
 DEFINE_EVENT(OnPlayerDataClear);
@@ -106,6 +145,25 @@ DEFINE_EVENT(OnPartnerAttackDamage,
     Actor* partner;
     Actor* target;
     int32_t* damage;
+);
+
+DEFINE_EVENT(OnPlayerAttackDamage,
+    Actor* target;
+    int32_t targetPart;
+    int32_t* damage;
+);
+
+DEFINE_EVENT(OnBattleMoveStart,
+    Actor* actor;
+    int32_t category;
+    int32_t moveID;
+    int32_t argument;
+    int32_t targetID;
+    int32_t targetPart;
+);
+
+DEFINE_EVENT(OnBattleMoveEnd,
+    Actor* actor;
 );
 
 DEFINE_EVENT(OnActorDefenseCheck,

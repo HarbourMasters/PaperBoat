@@ -661,6 +661,8 @@ HitResult calc_player_damage_enemy(void) {
             }
         }
 
+        CALL_EVENT(OnPlayerAttackDamage, target, currentTargetPartID, &currentAttackDamage);
+
         battleStatus->lastAttackDamage = 0;
 
         if (currentAttackDamage < 1) {

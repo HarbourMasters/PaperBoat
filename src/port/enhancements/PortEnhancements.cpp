@@ -18,6 +18,7 @@ void PortEnhancements_Init() {
 
 void PortEnhancements_Register() {
     // Register engine events
+    REGISTER_EVENT(EngineReady);
     REGISTER_EVENT(GameFrameUpdate);
     REGISTER_EVENT(WorkerUpdate);
     REGISTER_EVENT(WorkerDraw);
@@ -69,8 +70,16 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnSaveFileSave);
     REGISTER_EVENT(OnSaveFileLoad);
     REGISTER_EVENT(OnSaveFileErase);
+    REGISTER_EVENT(OnSaveFileCreate);
+    REGISTER_EVENT(OnSaveFileStart);
     REGISTER_EVENT(OnSaveGlobalsSave);
     REGISTER_EVENT(OnSaveGlobalsLoad);
+    REGISTER_EVENT(OnCoinsChanged);
+    REGISTER_EVENT(OnStarPointsChanged);
+    REGISTER_EVENT(OnStarPiecesChanged);
+    REGISTER_EVENT(OnHPChanged);
+    REGISTER_EVENT(OnFPChanged);
+    REGISTER_EVENT(OnItemCountChanged);
     REGISTER_EVENT(OnPlayerDamageReceived);
     REGISTER_EVENT(OnPlayerFPChange);
     REGISTER_EVENT(OnPlayerSPChange);
@@ -88,6 +97,9 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnActorCreated);
     REGISTER_EVENT(OnEnemyAttackDamage);
     REGISTER_EVENT(OnPartnerAttackDamage);
+    REGISTER_EVENT(OnPlayerAttackDamage);
+    REGISTER_EVENT(OnBattleMoveStart);
+    REGISTER_EVENT(OnBattleMoveEnd);
     REGISTER_EVENT(OnActorDefenseCheck);
     REGISTER_EVENT(OnMapLoad);
     REGISTER_EVENT(OnPlayerSpeedUpdate);

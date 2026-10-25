@@ -117,6 +117,8 @@ void btl_state_update_player_move(void) {
             gBattleStatus.flags1 |= BS_FLAGS1_EXECUTING_MOVE;
             reset_all_actor_sounds(player);
             battleStatus->battlePhase = PHASE_EXECUTE_ACTION;
+            CALL_EVENT(OnBattleMoveStart, player, battleStatus->moveCategory, battleStatus->selectedMoveID,
+                       battleStatus->moveArgument, player->targetActorID, player->targetPartID);
             if (gBattleStatus.flags2 & BS_FLAGS2_PEACH_BATTLE) {
                 script = start_script(&EVS_Peach_HandlePhase, EVT_PRIORITY_A, 0);
             } else {
@@ -374,6 +376,7 @@ void btl_state_update_player_move(void) {
         if (player->takeTurnScript == nullptr || !does_script_exist(player->takeTurnScriptID)) {
             player->takeTurnScript = nullptr;
             CALL_EVENT(OnStatusTick, player, STATUS_PHASE_ACTION_END);
+            CALL_EVENT(OnBattleMoveEnd, player);
             btl_set_state(BATTLE_STATE_END_PLAYER_TURN);
         }
     }

@@ -7,6 +7,7 @@
 #include "nlohmann/json.hpp"
 #include "port/build.h"
 #include "port/enhancements/PortEnhancements.h"
+#include "port/hooks/Events.h"
 #include "port/interpolation/FrameInterpolation.h"
 #include "port/modding/Features.h"
 #include "port/modding/ModInternal.h"
@@ -864,6 +865,7 @@ void GameEngine::Create(int argc, char* argv[]) {
     ShipInit::InitAll();
     Mod::ListenServices();
     instance->AudioInit();
+    CALL_EVENT(EngineReady);
 }
 
 bool GameEngine::sRelaunchRequested = false;
