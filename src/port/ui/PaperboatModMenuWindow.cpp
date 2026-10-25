@@ -622,19 +622,25 @@ void PaperboatRomhackMenuWindow::DrawElement() {
         ImGui::ProgressBar(progress, ImVec2(-1.0f, 0.0f), "Extracting romhack...");
     }
 
-    UIWidgets::PushStyleTabs(THEME_COLOR);
-    if (ImGui::BeginTabBar("RomhackTabs")) {
-        if (ImGui::BeginTabItem("Installed Romhacks")) {
-            DrawRomhackManager();
-            ImGui::EndTabItem();
-        }
-        if (ImGui::BeginTabItem("Supported Romhacks")) {
+    if (ImGui::BeginTable("tableRomhackMenu", 2, ImGuiTableFlags_BordersInnerV)) {
+        ImGui::TableSetupColumn("Installed Romhacks", ImGuiTableColumnFlags_WidthStretch, 2.0f);
+        ImGui::TableSetupColumn("Supported Romhacks", ImGuiTableColumnFlags_WidthStretch, 1.0f);
+        ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+        ImGui::TableHeadersRow();
+        ImGui::PopItemFlag();
+        ImGui::TableNextRow();
+
+        ImGui::TableNextColumn();
+        DrawRomhackManager();
+
+        ImGui::TableNextColumn();
+        if (ImGui::BeginChild("Supported Romhacks", ImVec2(0, -8))) {
             DrawSupportedRomhacks();
-            ImGui::EndTabItem();
         }
-        ImGui::EndTabBar();
+        ImGui::EndChild();
+
+        ImGui::EndTable();
     }
-    UIWidgets::PopStyleTabs();
 }
 
 void PaperboatRomhackMenuWindow::InitElement() {
