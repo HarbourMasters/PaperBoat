@@ -1,6 +1,6 @@
 #include "ActorBlueprintEditor.h"
 #include "port/Engine.h"
-#include "port/modding/Features.h"
+#include "port/features/Features.h"
 #include "port/ui/UIWidgets.hpp"
 #include "port/ui/Notification.h"
 #include "port/ui/cvar_prefixes.h"

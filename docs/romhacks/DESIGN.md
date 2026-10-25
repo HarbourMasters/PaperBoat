@@ -119,11 +119,11 @@ A romhack's code id (the `specific/<Id>.cpp` it runs, the owner of what it regis
 The manifest is read per archive (`Mod::ReadManifest`, `src/port/modding/ModManifest.h`), never through the merged VFS: every archive ships `manifest.json` at the same path, so the shared index only returns the top archive's copy.
 
 - **Mount loop** (`UpdateModFiles`): each enabled mod is opened, its manifest read, and it is only mounted if `works_with` includes the active base (`vanilla`, or the active romhack's name and version). An incompatible mod stays in `EnabledMods`, so switching back to its base loads it again; the Mod Menu shows it greyed with the reason.
-- **Rule resolution** (`Features::ResolveMounted()`, called from `FinishInit` right after `UpdateModFiles(true)`, before the data tables, events and `ShipInit`): sources in load order are the built-in rules, the romhack, then each mounted mod.
+- **Rule resolution** (`Mod::ResolveFeatureRules()` in `ModManifest.cpp`, called from `FinishInit` right after `UpdateModFiles(true)`, before the data tables, events and `ShipInit`): sources in load order are the built-in rules, the romhack, then each mounted mod.
 
 ### Feature rules
 
-`src/port/modding/Features.h` is the registry of port features a mod can lock. Rules are boot-time constants; changing the mod set or the romhack needs a restart (already true).
+`src/port/features/Features.h` is the registry of port features a mod can lock. It knows nothing about mods: modding hands it the rule sources through `Features::Resolve`. Rules are boot-time constants; changing the mod set or the romhack needs a restart (already true).
 
 - `disable` is the union over every source: reads return the feature's registered default and actions refuse.
 - `force` pins a value; when two sources force different values, the later in load order wins, the conflict is logged and listed in the Mod Menu. A forced value wins over a disable.

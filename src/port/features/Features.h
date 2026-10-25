@@ -23,7 +23,6 @@ struct Conflict {
 };
 
 void Resolve(const std::vector<RuleSource>& sources);
-void ResolveMounted();
 
 bool IsLocked(const char* id);
 std::string LockReason(const char* id);

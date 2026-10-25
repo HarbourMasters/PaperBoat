@@ -13,8 +13,6 @@
 #include <spdlog/fmt/fmt.h>
 #include <spdlog/spdlog.h>
 
-#include "port/modding/ModManifest.h"
-#include "port/romhack/Romhack.h"
 #include "port/ui/cvar_prefixes.h"
 
 namespace Features {
@@ -346,22 +344,6 @@ void Resolve(const std::vector<RuleSource>& sources) {
             SPDLOG_INFO("Features: {} locked: {}", def.id, LockReason(def.id));
         }
     }
-}
-
-void ResolveMounted() {
-    std::vector<RuleSource> sources;
-    if (const Romhack::Info* info = Romhack::Active()) {
-        sources.push_back({ info->name, { "save.import_n64" }, {} });
-        if (const Mod::Manifest* manifest = Romhack::ActiveManifest()) {
-            sources.push_back({ info->name, manifest->disable, manifest->force });
-        }
-    }
-    for (const Mod::ModRecord& record : Mod::ModRecords()) {
-        if (record.mounted && record.manifest.has_value()) {
-            sources.push_back({ record.displayName, record.manifest->disable, record.manifest->force });
-        }
-    }
-    Resolve(sources);
 }
 
 bool IsLocked(const char* id) {

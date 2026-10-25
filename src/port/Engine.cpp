@@ -7,10 +7,11 @@
 #include "nlohmann/json.hpp"
 #include "port/build.h"
 #include "port/enhancements/PortEnhancements.h"
+#include "port/features/Features.h"
 #include "port/hooks/Events.h"
 #include "port/interpolation/FrameInterpolation.h"
-#include "port/modding/Features.h"
 #include "port/modding/ModInternal.h"
+#include "port/modding/ModManifest.h"
 #include "port/ui/cvar_prefixes.h"
 #include "port/audio/AudioVolume.h"
 #include "port/os/OS.h"
@@ -271,7 +272,7 @@ void GameEngine::FinishInit() {
         archiveManager->AddArchive(hd_path);
     }
     UpdateModFiles(true);
-    Features::ResolveMounted();
+    Mod::ResolveFeatureRules();
 
 #ifdef _DEBUG
     spdlog::set_level(spdlog::level::trace);

@@ -26,7 +26,7 @@
 #include "UIWidgets.hpp"
 #include "port/Engine.h"
 #include "port/extractor/GameExtractor.h"
-#include "port/modding/Features.h"
+#include "port/features/Features.h"
 #include "port/modding/ModManifest.h"
 #include "port/romhack/Romhack.h"
 

@@ -13,7 +13,7 @@
 
 #include "port/Engine.h"
 #include "port/FilePicker.h"
-#include "port/modding/Features.h"
+#include "port/features/Features.h"
 #include "port/save/SaveManager.h"
 
 #include "common.h"

@@ -70,4 +70,6 @@ const ModRecord* FindModRecord(const std::string& file);
 
 const std::optional<Manifest>& CachedManifest(const std::string& file, const std::filesystem::path& path);
 
+void ResolveFeatureRules();
+
 } // namespace Mod

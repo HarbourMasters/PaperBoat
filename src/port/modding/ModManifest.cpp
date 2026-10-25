@@ -11,6 +11,7 @@
 #include <spdlog/fmt/fmt.h>
 #include <spdlog/spdlog.h>
 
+#include "port/features/Features.h"
 #include "port/romhack/Romhack.h"
 
 namespace fs = std::filesystem;
@@ -285,6 +286,22 @@ const std::optional<Manifest>& CachedManifest(const std::string& file, const fs:
         it = sManifestCache.emplace(file, std::move(manifest)).first;
     }
     return it->second;
+}
+
+void ResolveFeatureRules() {
+    std::vector<Features::RuleSource> sources;
+    if (const Romhack::Info* info = Romhack::Active()) {
+        sources.push_back({ info->name, { "save.import_n64" }, {} });
+        if (const Manifest* manifest = Romhack::ActiveManifest()) {
+            sources.push_back({ info->name, manifest->disable, manifest->force });
+        }
+    }
+    for (const ModRecord& record : ModRecords()) {
+        if (record.mounted && record.manifest.has_value()) {
+            sources.push_back({ record.displayName, record.manifest->disable, record.manifest->force });
+        }
+    }
+    Features::Resolve(sources);
 }
 
 } // namespace Mod

@@ -7,7 +7,7 @@
 #include "UIWidgets.hpp"
 #include "cvar_prefixes.h"
 #include "port/Engine.h"
-#include "port/modding/Features.h"
+#include "port/features/Features.h"
 #include "port/romhack/Romhack.h"
 #include <ship/window/gui/GuiElement.h>
 #include <ship/window/gui/GuiMenuBar.h>

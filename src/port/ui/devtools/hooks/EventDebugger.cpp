@@ -4,7 +4,7 @@
 #include <version>
 
 #include "port/Engine.h"
-#include "port/modding/Features.h"
+#include "port/features/Features.h"
 #include "port/hooks/impl/EventSystem.h"
 #include "port/ui/UIWidgets.hpp"
 #include "port/ui/cvar_prefixes.h"
