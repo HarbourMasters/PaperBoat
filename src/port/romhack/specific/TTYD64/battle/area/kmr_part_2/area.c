@@ -2626,4 +2626,5 @@ ActorPartBlueprint TTYD64_kmr_part_2_blue_goomba_2_ActorParts_80224494[] = {
 
 void TTYD64_InstallBattles_kmr_part_2(void) {
     Mod_SetBattleList("TTYD64", 1, TTYD64_kmr_part_2_Formations);
+    Mod_RegisterWideEvtBuffer("TTYD64", (const intptr_t*) b_area_kmr_part_2_goomnut_tree_Tree, 5);
 }
