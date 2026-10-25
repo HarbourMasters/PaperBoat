@@ -28,9 +28,11 @@ API_CALLABLE(action_command_unused_flee_init);
 API_CALLABLE(action_command_unused_mash_a_init);
 API_CALLABLE(action_command_whirlwind_init);
 
+typedef ApiStatus (*ActionCommandApi)(Evt*, bool);
+
 static s32 sLoadedActionCommand = -1;
 
-static ApiFunc sActionCommand_802A9000[] = {
+static ActionCommandApi sActionCommand_802A9000[] = {
     NULL,
     action_command_jump_init,
     action_command_hammer_init,
@@ -57,7 +59,7 @@ static ApiFunc sActionCommand_802A9000[] = {
     action_command_tidal_wave_init,
 };
 
-static ApiFunc sActionCommand_802A9120[] = {
+static ActionCommandApi sActionCommand_802A9120[] = {
     NULL, action_command_jump_start,
     NULL, NULL,
     NULL, NULL,
@@ -72,7 +74,7 @@ static ApiFunc sActionCommand_802A9120[] = {
     NULL, NULL,
 };
 
-static ApiStatus call_loaded(ApiFunc* table, Evt* script, b32 isInitialCall) {
+static ApiStatus call_loaded(ActionCommandApi* table, Evt* script, bool isInitialCall) {
     if (sLoadedActionCommand < 0 || sLoadedActionCommand >= 24 || table[sLoadedActionCommand] == NULL) {
         GameEngine_LogWarn("TTYD64: no action command routine for loaded command %d", sLoadedActionCommand);
         return ApiStatus_DONE2;
