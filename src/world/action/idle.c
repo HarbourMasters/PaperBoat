@@ -46,8 +46,10 @@ void action_update_idle(void) {
     }
 
     {
+        s32 idleTimer = playerStatus->curStateTime;
         s32 idleAnim = playerStatus->anim;
-        CALL_EVENT(OnPlayerIdleTick, playerStatus->curStateTime, &idleAnim);
+        CALL_EVENT(OnPlayerIdleTick, &idleTimer, &idleAnim);
+        playerStatus->curStateTime = idleTimer;
         playerStatus->anim = idleAnim;
     }
     playerStatus->curStateTime++;

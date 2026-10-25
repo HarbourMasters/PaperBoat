@@ -165,6 +165,7 @@ void PaperboatMenu::AddMenuSettings() {
     AddWidget(path, "Save Conversion", WIDGET_SEPARATOR_TEXT);
     AddWidget(path, "Import From", WIDGET_CVAR_COMBOBOX)
         .CVar(CVAR_SETTING("SaveImportFromSlot"))
+        .Feature("save.import_n64")
         .RaceDisable(false)
         .Options(
             ComboboxOptions()
@@ -174,6 +175,7 @@ void PaperboatMenu::AddMenuSettings() {
         );
     AddWidget(path, "Import To", WIDGET_CVAR_COMBOBOX)
         .CVar(CVAR_SETTING("SaveImportToSlot"))
+        .Feature("save.import_n64")
         .RaceDisable(false)
         .Options(
             ComboboxOptions()
@@ -183,6 +185,7 @@ void PaperboatMenu::AddMenuSettings() {
         );
     AddWidget(path, "Import N64 Save", WIDGET_BUTTON)
         .RaceDisable(false)
+        .Feature("save.import_n64")
         .Callback([](WidgetInfo& info) {
             int from = CVarGetInteger(CVAR_SETTING("SaveImportFromSlot"), SaveConverter::kSlotAll);
             int to = CVarGetInteger(CVAR_SETTING("SaveImportToSlot"), 1);

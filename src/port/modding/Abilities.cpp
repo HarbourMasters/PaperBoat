@@ -58,8 +58,11 @@ void OnAbilityCountListener(IEvent* event) {
 
 } // namespace
 
+void Mod::ListenAbilities() {
+    REGISTER_LISTENER(OnAbilityCount, EVENT_PRIORITY_LOW, OnAbilityCountListener);
+}
+
 extern "C" int32_t Mod_RegisterAbility(const char* owner, int32_t moveID, int32_t holder) {
-    static bool sListening = false;
     const std::string name = Mod::OwnerName(owner);
     auto& abilities = RegisteredAbilities();
     int32_t freeIndex = -1;
@@ -71,10 +74,6 @@ extern "C" int32_t Mod_RegisterAbility(const char* owner, int32_t moveID, int32_
     if (holder != MOD_ABILITY_HOLDER_PLAYER && holder != MOD_ABILITY_HOLDER_PARTNER) {
         SPDLOG_ERROR("Mod: {} registered an ability with holder {}", name, holder);
         return -1;
-    }
-    if (!sListening) {
-        sListening = true;
-        REGISTER_LISTENER(OnAbilityCount, EVENT_PRIORITY_LOW, OnAbilityCountListener);
     }
     for (size_t i = 0; i < abilities.size(); i++) {
         const Ability& ability = abilities[i];

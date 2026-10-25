@@ -14,7 +14,7 @@ void RegisterSpriteTextureFilter_Init() {
     sComponentListener = -1;
     sShadingListener = -1;
 
-    if (!CVarGetInteger(CVAR_2D_TEXTURE_FILTER, 0)) {
+    if (!Port_FeatureInt("graphics.sprite_filter", 0)) {
         return;
     }
 

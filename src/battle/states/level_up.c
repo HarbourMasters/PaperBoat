@@ -536,6 +536,11 @@ void btl_state_update_celebration(void) {
                 BattleCelebration celebration = { battleStatus->totalStarPoints, ANIM_MarioB1_AdjustCap, 4.0f, 4.0f };
                 {
                     CALL_EVENT(OnBattleCelebration, BATTLE_CELEBRATION_AWARD, &celebration);
+                    if (celebration.starPoints > 127) {
+                        celebration.starPoints = 127;
+                    } else if (celebration.starPoints < 0) {
+                        celebration.starPoints = 0;
+                    }
                     battleStatus->totalStarPoints = celebration.starPoints;
                 }
                 EndBattleRewardTotal = battleStatus->totalStarPoints * 100;

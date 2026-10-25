@@ -48,12 +48,9 @@ void ClearActorSlot(int32_t slot) {
     }
 }
 
-void Listen() {
-    static bool sListening = false;
-    if (sListening) {
-        return;
-    }
-    sListening = true;
+} // namespace
+
+void Mod::ListenActorExt() {
     REGISTER_LISTENER(OnBattleInit, EVENT_PRIORITY_LOW, [](IEvent* event) {
         if (((OnBattleInit*) event)->stage != BATTLE_INIT_BEGIN) {
             return;
@@ -65,13 +62,11 @@ void Listen() {
     });
     REGISTER_LISTENER(OnActorCreated, EVENT_PRIORITY_LOW, [](IEvent* event) {
         const int32_t slot = ActorSlot(((OnActorCreated*) event)->actor->actorID);
-        if (slot >= 0) {
+        if (slot >= 2) {
             ClearActorSlot(slot);
         }
     });
 }
-
-} // namespace
 
 extern "C" int32_t Mod_RegisterActorExt(const char* owner, int32_t size) {
     const std::string name = Mod::OwnerName(owner);
@@ -79,7 +74,6 @@ extern "C" int32_t Mod_RegisterActorExt(const char* owner, int32_t size) {
         SPDLOG_ERROR("Mod: {} registered an empty actor extension", name);
         return -1;
     }
-    Listen();
     auto& stores = Stores();
     for (size_t i = 0; i < stores.size(); i++) {
         if (stores[i].owner == name) {

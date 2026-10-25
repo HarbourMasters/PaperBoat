@@ -1,6 +1,7 @@
 #include "ModSaveData.h"
 
 #include <algorithm>
+#include <exception>
 #include <map>
 #include <string>
 #include <utility>
@@ -23,16 +24,6 @@ struct Entry {
 std::vector<Entry>& Entries() {
     static std::vector<Entry> sEntries;
     return sEntries;
-}
-
-struct ImportEntry {
-    std::string owner;
-    ModSaveImportFn fixup;
-};
-
-std::vector<ImportEntry>& ImportEntries() {
-    static std::vector<ImportEntry> sImports;
-    return sImports;
 }
 
 nlohmann::json& UnclaimedData() {
@@ -59,18 +50,6 @@ void Mod_RegisterSaveData(const char* owner, const char* key, ModSaveDataHandler
     entries.back().handlers.clear();
 }
 
-extern "C" void Mod_RegisterSaveImport(const char* owner, ModSaveImportFn fixup) {
-    const std::string name = Mod::OwnerName(owner);
-    auto& imports = ImportEntries();
-    imports.erase(
-        std::remove_if(imports.begin(), imports.end(), [&](const ImportEntry& entry) { return entry.owner == name; }),
-        imports.end()
-    );
-    if (fixup != nullptr) {
-        imports.push_back({ name, fixup });
-    }
-}
-
 namespace Mod {
 
 void WriteSaveData(nlohmann::ordered_json& jsonSave) {
@@ -95,7 +74,14 @@ void ReadSaveData(const nlohmann::json& jsonSave) {
     for (const Entry& entry : Entries()) {
         const auto owner = modData.find(entry.owner);
         if (owner != modData.end() && owner->is_object() && owner->contains(entry.key)) {
-            entry.handlers.load((*owner)[entry.key]);
+            try {
+                entry.handlers.load((*owner)[entry.key]);
+            } catch (const std::exception& e) {
+                SPDLOG_ERROR(
+                    "Mod: {} save data '{}' could not be loaded, clearing it: {}", entry.owner, entry.key, e.what()
+                );
+                entry.handlers.clear();
+            }
             owner->erase(entry.key);
             if (owner->empty()) {
                 modData.erase(owner);
@@ -112,20 +98,6 @@ void ClearSaveData() {
         entry.handlers.clear();
     }
     UnclaimedData() = nlohmann::json::object();
-}
-
-bool HasSaveImports() {
-    return !ImportEntries().empty();
-}
-
-void RunSaveImports(SaveData* save, const uint8_t* n64Save) {
-    for (const ImportEntry& entry : ImportEntries()) {
-        entry.fixup(save, n64Save);
-    }
-}
-
-void UnregisterSaveImports(const std::string& owner) {
-    Mod_RegisterSaveImport(owner.c_str(), nullptr);
 }
 
 void UnregisterSaveData(const std::string& owner) {

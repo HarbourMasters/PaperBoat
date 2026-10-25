@@ -721,6 +721,9 @@ void deduct_current_move_fp(void) {
     {
         Actor* user = (battleStatus->flags1 & BS_FLAGS1_PARTNER_ACTING) ? battleStatus->partnerActor : actor;
         CALL_EVENT(OnMoveFPCost, user, battleStatus->selectedMoveID, battleStatus->lastSelectedAbility, MOVE_FP_DEDUCT, &fpCost);
+        if (fpCost < 0) {
+            fpCost = 0;
+        }
     }
 
     CALL_CANCELLABLE_EVENT(OnPlayerFPChange, fpCost) {

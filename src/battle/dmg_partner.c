@@ -93,6 +93,9 @@ HitResult calc_partner_test_enemy(void) {
         {
             s32 hazardDamage = 1;
             CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SPIKE, &hazardDamage);
+            if (hazardDamage < 0) {
+                hazardDamage = 0;
+            }
             dispatch_damage_event_partner_1(hazardDamage, EVENT_SPIKE_CONTACT);
         }
         dispatch_event_actor(target, EVENT_SPIKE_TAUNT);
@@ -108,6 +111,9 @@ HitResult calc_partner_test_enemy(void) {
         {
             s32 hazardDamage = 1;
             CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_FIRE, &hazardDamage);
+            if (hazardDamage < 0) {
+                hazardDamage = 0;
+            }
             dispatch_damage_event_partner_1(hazardDamage, EVENT_BURN_CONTACT);
         }
         dispatch_event_actor(target, EVENT_BURN_TAUNT);
@@ -126,6 +132,9 @@ HitResult calc_partner_test_enemy(void) {
                 {
                     s32 hazardDamage = 1;
                     CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SPIKE_TOP, &hazardDamage);
+                    if (hazardDamage < 0) {
+                        hazardDamage = 0;
+                    }
                     dispatch_damage_event_partner_1(hazardDamage, EVENT_SPIKE_CONTACT);
                 }
                 dispatch_event_actor(target, EVENT_SPIKE_TAUNT);
@@ -141,6 +150,9 @@ HitResult calc_partner_test_enemy(void) {
                 {
                     s32 hazardDamage = 1;
                     CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SPIKE, &hazardDamage);
+                    if (hazardDamage < 0) {
+                        hazardDamage = 0;
+                    }
                     dispatch_damage_event_partner_1(hazardDamage, EVENT_SPIKE_CONTACT);
                 }
                 dispatch_event_actor(target, EVENT_SPIKE_TAUNT);
@@ -159,6 +171,9 @@ HitResult calc_partner_test_enemy(void) {
             {
                 s32 hazardDamage = 1;
                 CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SHOCK, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
                 dispatch_damage_event_partner_1(hazardDamage, EVENT_SHOCK_HIT);
             }
             return HIT_RESULT_BACKFIRE;
@@ -173,6 +188,9 @@ HitResult calc_partner_test_enemy(void) {
             {
                 s32 hazardDamage = 1;
                 CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_FIRE, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
                 dispatch_damage_event_partner_1(hazardDamage, EVENT_BURN_CONTACT);
             }
             dispatch_event_actor(target, EVENT_BURN_TAUNT);
@@ -262,6 +280,9 @@ HitResult calc_partner_damage_enemy(void) {
             {
                 s32 hazardDamage = 1;
                 CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SPIKE_TOP, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
                 dispatch_damage_event_partner_1(hazardDamage, EVENT_SPIKE_CONTACT);
             }
             dispatch_event_actor(target, EVENT_SPIKE_TAUNT);
@@ -279,6 +300,9 @@ HitResult calc_partner_damage_enemy(void) {
                 {
                     s32 hazardDamage = 1;
                     CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_EXPLODE, &hazardDamage);
+                    if (hazardDamage < 0) {
+                        hazardDamage = 0;
+                    }
                     dispatch_damage_event_partner_1(hazardDamage, EVENT_BURN_CONTACT);
                 }
                 return HIT_RESULT_BACKFIRE;
@@ -302,6 +326,9 @@ HitResult calc_partner_damage_enemy(void) {
             {
                 s32 hazardDamage = 1;
                 CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_FIRE, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
                 dispatch_damage_event_partner_1(hazardDamage, EVENT_BURN_CONTACT);
             }
             dispatch_event_actor(target, EVENT_BURN_TAUNT);
@@ -317,6 +344,9 @@ HitResult calc_partner_damage_enemy(void) {
             {
                 s32 hazardDamage = 1;
                 CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SPIKE, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
                 dispatch_damage_event_partner_1(hazardDamage, EVENT_SPIKE_CONTACT);
             }
             dispatch_event_actor(target, EVENT_SPIKE_TAUNT);
@@ -348,6 +378,9 @@ HitResult calc_partner_damage_enemy(void) {
             {
                 s32 hazardDamage = 1;
                 CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SPIKE, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
                 dispatch_damage_event_partner_1(hazardDamage, EVENT_SPIKE_CONTACT);
             }
             dispatch_event_actor(target, EVENT_SPIKE_TAUNT);
@@ -364,6 +397,9 @@ HitResult calc_partner_damage_enemy(void) {
             {
                 s32 hazardDamage = 1;
                 CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SPIKE_TOP, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
                 dispatch_damage_event_partner_1(hazardDamage, EVENT_SPIKE_CONTACT);
             }
             dispatch_event_actor(target, EVENT_SPIKE_TAUNT);
@@ -397,6 +433,9 @@ HitResult calc_partner_damage_enemy(void) {
                 {
                     s32 hazardDamage = 1;
                     CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SHOCK, &hazardDamage);
+                    if (hazardDamage < 0) {
+                        hazardDamage = 0;
+                    }
                     dispatch_damage_event_partner_1(hazardDamage, EVENT_SHOCK_HIT);
                 }
                 return HIT_RESULT_BACKFIRE;
@@ -589,6 +628,9 @@ HitResult calc_partner_damage_enemy(void) {
             {
                 s32 hazardDamage = 1;
                 CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SHOCK, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
                 dispatch_damage_event_partner_1(hazardDamage, EVENT_SHOCK_HIT);
             }
             return HIT_RESULT_BACKFIRE;
@@ -1000,6 +1042,9 @@ HitResult calc_partner_damage_enemy(void) {
         {
             s32 hazardDamage = 1;
             CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SHOCK, &hazardDamage);
+            if (hazardDamage < 0) {
+                hazardDamage = 0;
+            }
             dispatch_damage_event_partner_1(hazardDamage, EVENT_SHOCK_HIT);
         }
         return HIT_RESULT_BACKFIRE;

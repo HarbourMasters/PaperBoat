@@ -272,20 +272,22 @@ HitResult calc_item_damage_enemy(Actor* attacker) {
         if (gBattleStatus.flags1 & BS_FLAGS1_TRIGGER_EVENTS) {
             s32 buffMask = 0;
 
-            if (target->attackBoost > 0 || target->defenseBoost > 0) {
-                buffMask |= ACTOR_BUFF_BOOSTS;
-            }
             if (target->staticStatus != 0) {
                 buffMask |= ACTOR_BUFF_STATIC;
             }
             if (target->transparentStatus != 0) {
                 buffMask |= ACTOR_BUFF_TRANSPARENT;
             }
+            if (buffMask != 0 || target->attackBoost > 0 || target->defenseBoost > 0) {
+                buffMask |= ACTOR_BUFF_BOOSTS;
+            }
             CALL_EVENT(OnBuffsClear, target, BUFFS_CLEAR_DISPEL, &buffMask);
             if (buffMask != 0) {
-                target->attackBoost = 0;
-                target->defenseBoost = 0;
-                target->isGlowing = false;
+                if (buffMask & ACTOR_BUFF_BOOSTS) {
+                    target->attackBoost = 0;
+                    target->defenseBoost = 0;
+                    target->isGlowing = false;
+                }
                 dispatchEvent = EVENT_HIT;
                 if ((buffMask & ACTOR_BUFF_STATIC) && target->staticStatus != 0) {
                     target->staticStatus = 0;

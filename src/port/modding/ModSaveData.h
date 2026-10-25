@@ -3,22 +3,6 @@
 #include <stdint.h>
 
 #ifdef __cplusplus
-extern "C" {
-#endif
-
-struct SaveData;
-
-#define MOD_N64_SAVE_SIZE 0x1380
-
-typedef void (*ModSaveImportFn)(struct SaveData* save, const uint8_t* n64Save);
-
-void Mod_RegisterSaveImport(const char* owner, ModSaveImportFn fixup);
-
-#ifdef __cplusplus
-}
-#endif
-
-#ifdef __cplusplus
 
 #include <functional>
 
@@ -37,8 +21,6 @@ namespace Mod {
 void WriteSaveData(nlohmann::ordered_json& jsonSave);
 void ReadSaveData(const nlohmann::json& jsonSave);
 void ClearSaveData();
-bool HasSaveImports();
-void RunSaveImports(SaveData* save, const uint8_t* n64Save);
 
 } // namespace Mod
 

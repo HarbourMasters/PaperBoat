@@ -92,22 +92,21 @@ static std::unordered_map<const ActorBlueprint*, Mod::OwnerStack<ActorBlueprint*
     return sReplacements;
 }
 
+void Mod::ListenBattleOverrides() {
+    REGISTER_LISTENER(OnActorBlueprintLoad, EVENT_PRIORITY_LOW, [](IEvent* event) {
+        OnActorBlueprintLoad* ev = (OnActorBlueprintLoad*) event;
+        auto& map = BlueprintReplacements();
+        auto it = map.find(*ev->blueprint);
+        if (it != map.end()) {
+            *ev->blueprint = it->second.Top();
+        }
+    });
+}
+
 extern "C" void
 Mod_ReplaceActorBlueprint(const char* owner, const ActorBlueprint* original, ActorBlueprint* replacement) {
     if (original == nullptr || replacement == nullptr || original == replacement) {
         return;
-    }
-    static bool sListening = false;
-    if (!sListening) {
-        sListening = true;
-        REGISTER_LISTENER(OnActorBlueprintLoad, EVENT_PRIORITY_LOW, [](IEvent* event) {
-            OnActorBlueprintLoad* ev = (OnActorBlueprintLoad*) event;
-            auto& map = BlueprintReplacements();
-            auto it = map.find(*ev->blueprint);
-            if (it != map.end()) {
-                *ev->blueprint = it->second.Top();
-            }
-        });
     }
     const std::string name = Mod::OwnerName(owner);
     if (const std::string* previous = BlueprintReplacements()[original].Push(name, replacement)) {

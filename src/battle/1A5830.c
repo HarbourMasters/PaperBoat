@@ -908,6 +908,9 @@ HitResult calc_enemy_damage_target(Actor* attacker) {
                 apply_shock_effect(attacker);
             }
             CALL_EVENT(OnContactHazard, target, attacker, counter == CONTACT_COUNTER_SHOCK ? CONTACT_HAZARD_SHOCK : CONTACT_HAZARD_COUNTER, &hazardDamage);
+            if (hazardDamage < 0) {
+                hazardDamage = 0;
+            }
             dispatch_damage_event_actor_1(attacker, hazardDamage, EVENT_SHOCK_HIT);
             return HIT_RESULT_BACKFIRE;
         }
@@ -2854,8 +2857,10 @@ API_CALLABLE(DropStarPoints) {
 
     // Double rewards cheat
     CALL_EVENT(OnStarPointDrop, &numToDrop, &dropLevel);
+    StatLimits dropLimits = STAT_LIMITS_VANILLA;
+    CALL_EVENT(OnStatLimits, &dropLimits);
 
-    if (dropLevel < 27) {
+    if (dropLevel < dropLimits.levelCap) {
         s32 spawnMode;
         s32 i;
 
@@ -2871,7 +2876,13 @@ API_CALLABLE(DropStarPoints) {
         }
 
         battleStatus->incrementStarPointDelay = 40;
-        battleStatus->pendingStarPoints += numToDrop;
+        s32 pending = battleStatus->pendingStarPoints + numToDrop;
+        if (pending > 127) {
+            pending = 127;
+        } else if (pending < 0) {
+            pending = 0;
+        }
+        battleStatus->pendingStarPoints = pending;
     }
 
     gBattleStatus.flags1 |= BS_FLAGS1_STAR_POINTS_DROPPED;

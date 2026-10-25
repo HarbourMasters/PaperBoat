@@ -711,7 +711,7 @@ void btl_menu_moves_draw_content(void* data, s32 x, s32 y) {
                         case 0:
                             palette = MSG_PAL_STANDARD;
                             {
-                                CALL_EVENT(OnBattleMenuCostStyle, i, &palette);
+                                CALL_EVENT(OnBattleMenuCostStyle, index, &palette);
                             }
                             break;
                         case 1:

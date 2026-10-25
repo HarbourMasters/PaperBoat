@@ -29,24 +29,29 @@ Vtx* ResolveVertex(const ModVertexRef& ref) {
     auto& assets = Assets();
     auto it = assets.find(ref.vtxAsset);
     if (it == assets.end()) {
-        VertexAsset asset = { static_cast<Vtx*>(ResourceGetDataByName(ref.vtxAsset)), 0, false };
-        if (asset.vertices != nullptr) {
-            asset.count = ResourceGetSizeByName(ref.vtxAsset) / sizeof(Vtx);
-        } else {
-            asset.warned = true;
-            SPDLOG_WARN("Mod: vertex asset {} not found", ref.vtxAsset);
-        }
-        it = assets.emplace(ref.vtxAsset, asset).first;
+        it = assets.emplace(ref.vtxAsset, VertexAsset { nullptr, 0, false }).first;
+    } else if (it->second.vertices == nullptr) {
+        return nullptr;
     }
-    VertexAsset& asset = it->second;
-    if (ref.index < 0 || static_cast<size_t>(ref.index) >= asset.count) {
-        if (!asset.warned) {
-            asset.warned = true;
-            SPDLOG_WARN("Mod: vertex {} out of range for {} ({} vertices)", ref.index, ref.vtxAsset, asset.count);
+    VertexAsset& current = it->second;
+    Vtx* vertices = static_cast<Vtx*>(ResourceGetDataByName(ref.vtxAsset));
+    if (vertices == nullptr) {
+        current = { nullptr, 0, true };
+        SPDLOG_WARN("Mod: vertex asset {} not found", ref.vtxAsset);
+        return nullptr;
+    }
+    if (vertices != current.vertices) {
+        current.vertices = vertices;
+        current.count = ResourceGetSizeByName(ref.vtxAsset) / sizeof(Vtx);
+    }
+    if (ref.index < 0 || static_cast<size_t>(ref.index) >= current.count) {
+        if (!current.warned) {
+            current.warned = true;
+            SPDLOG_WARN("Mod: vertex {} out of range for {} ({} vertices)", ref.index, ref.vtxAsset, current.count);
         }
         return nullptr;
     }
-    return &asset.vertices[ref.index];
+    return &current.vertices[ref.index];
 }
 
 } // namespace

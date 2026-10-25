@@ -9,6 +9,8 @@
 #include <string.h>
 #include "dx/utils.h"
 #include "port/ui/cvar_prefixes.h"
+#include "port/Engine.h"
+#include "port/patches/Patches.h"
 #include <libultraship/bridge/consolevariablebridge.h>
 #include "msg.h"
 #include "fio.h"
@@ -501,11 +503,11 @@ void dx_debug_menu_main() {
 
     // check input for menu open/close
     if (DebugMenuState == DBM_NONE) {
-        if (CVarGetInteger(CVAR_DEVELOPER_TOOLS("DebugMenu"), 0)) {
+        if (Port_FeatureInt("devtools.debug_menu", 0)) {
             if (PRESSED(BUTTON_D_LEFT)) {
                 DebugMenuState = DBM_MAIN_MENU;
             }
-            if (PRESSED(BUTTON_D_RIGHT)) {
+            if (PRESSED(BUTTON_D_RIGHT) && Port_FeatureAllowed("devtools.debug_menu.evt_debugger")) {
                 DebugMenuState = DBM_EVT_MAIN;
             }
         }
@@ -610,7 +612,7 @@ void dx_debug_menu_main() {
 
 void dx_debug_update_main_menu() {
     MainMenuPos = dx_debug_menu_nav_1D_vertical(MainMenuPos, 0, ARRAY_COUNT(DebugMainMenu) - 1, false);
-    if (RELEASED(BUTTON_R | BUTTON_D_RIGHT)) {
+    if (RELEASED(BUTTON_R | BUTTON_D_RIGHT) && port_debug_menu_entry_allowed(DebugMainMenu[MainMenuPos].text)) {
         if (DebugMainMenu[MainMenuPos].onSelect != nullptr) {
             DebugMainMenu[MainMenuPos].onSelect();
         } else {
@@ -628,6 +630,9 @@ void dx_debug_draw_main_menu() {
         s32 color = DefaultColor;
         if (MainMenuPos == idx) {
             color = (DebugMenuState == DBM_MAIN_MENU) ? HighlightColor : HoverColor;
+        }
+        if (!port_debug_menu_entry_allowed(DebugMainMenu[idx].text)) {
+            color = MSG_PAL_RED;
         }
         dx_debug_draw_ascii(DebugMainMenu[idx].text, color, MainMenuPosX, MainMenuPosY + idx * RowHeight);
     }
@@ -1980,7 +1985,7 @@ void dx_debug_update_cheat_menu() {
 }
 
 b32 dx_debug_is_cheat_enabled(DebugCheat cheat) {
-    return DebugCheatMenu[cheat].enabled;
+    return DebugCheatMenu[cheat].enabled && Port_FeatureAllowed("devtools.debug_menu.cheats");
 }
 
 // ----------------------------------------------------------------------------

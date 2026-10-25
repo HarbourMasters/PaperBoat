@@ -9,13 +9,18 @@
 #include <string>
 #include <vector>
 
+#include "port/modding/ModManifest.h"
+
 namespace Ship {
 class ArchiveManager;
 }
 
+namespace YAML {
+class Node;
+}
+
 namespace Romhack {
 
-// Marker file Torch writes into every romhack o2r; its presence is what makes an archive a romhack.
 constexpr const char* kMarkerFile = "romhack/info";
 constexpr const char* kFolder = "~romhacks";
 
@@ -35,8 +40,10 @@ struct Supported {
 };
 std::vector<Supported> ListSupported();
 
-std::string MarkerText(const Info& info);
 std::optional<Info> ParseMarker(const std::string& text);
+
+Mod::Manifest ConfigManifest(const YAML::Node& rom, const std::string& romSha1);
+std::optional<Mod::Manifest> FindConfigManifest(const Info& info);
 
 // Absolute mods/~romhacks directory.
 std::string Directory();
@@ -56,6 +63,7 @@ void Mount(const std::shared_ptr<Ship::ArchiveManager>& archives);
 void ApplyDataTables();
 
 const Info* Active();
+const Mod::Manifest* ActiveManifest();
 const std::string& ActiveStem();
 
 } // namespace Romhack

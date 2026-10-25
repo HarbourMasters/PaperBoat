@@ -1,4 +1,6 @@
 #include "ValueViewer.h"
+#include "port/Engine.h"
+#include "port/modding/Features.h"
 #include "port/ui/UIWidgets.hpp"
 #include <string>
 #include <spdlog/fmt/fmt.h>
@@ -179,6 +181,9 @@ void ValueViewerSettings_DrawTabBar(void) {
 }
 
 void ValueViewerWindow::Draw() {
+    if (!Port_FeatureAllowed("devtools.value_viewer")) {
+        return;
+    }
     if (!CVAR_SHOW_VALUE_VIEWER) {
         return;
     }
@@ -223,6 +228,9 @@ void ValueViewerWindow::InitElement() {
 }
 
 void ValueViewerSettingsWindow::DrawElement() {
+    if (Features::DrawLockedNotice("devtools.value_viewer")) {
+        return;
+    }
     if (UIWidgets::Button(
             "Toggle Value Viewer",
             UIWidgets::ButtonOptions().Color(

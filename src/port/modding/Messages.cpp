@@ -63,19 +63,23 @@ static void OnMessageLoadServe(IEvent* event) {
     }
 }
 
-static void OnMessageLoadWarn(IEvent* event) {
+static void OnMessageLoadFallback(IEvent* event) {
     static bool sWarnedMissingMsg = false;
     auto* ev = (OnMessageLoad*) event;
 
-    if (*ev->data == nullptr && !sWarnedMissingMsg) {
+    if (*ev->data != nullptr) {
+        return;
+    }
+    if (!sWarnedMissingMsg) {
         sWarnedMissingMsg = true;
         GameEngine_LogWarn("Message 0x%08X not found, falling back to message 0/0", ev->msgID);
     }
+    *ev->data = (uint8_t*) GameEngine_GetDataExact("__OTR__messages/MSG_NONE");
 }
 
 static void ListenMessages() {
     REGISTER_LISTENER(OnMessageLoad, EVENT_PRIORITY_NORMAL, OnMessageLoadServe);
-    REGISTER_LISTENER(OnMessageLoad, EVENT_PRIORITY_HIGH, OnMessageLoadWarn);
+    REGISTER_LISTENER(OnMessageLoad, EVENT_PRIORITY_HIGH, OnMessageLoadFallback);
 }
 
 static RegisterShipInitFunc sMessagesInit(ListenMessages);

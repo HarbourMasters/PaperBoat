@@ -15,6 +15,7 @@
 // A config.yml entry with a romhack: block. It extracts to a delta o2r under mods/~romhacks.
 struct RomhackRecipe {
     Romhack::Info info;
+    Mod::Manifest manifest;
     std::string yamlPath;
     std::string output;
 };

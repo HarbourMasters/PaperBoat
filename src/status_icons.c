@@ -210,7 +210,13 @@ void draw_merlee_message_string(PopupMessage* popup, s32 posX, s32 posY) {
     posY += 6;
     posX += 15;
 
-    posY += D_80078164[get_msg_lines(messageID) - 1];
+    s32 lineIdx = get_msg_lines(messageID) - 1;
+    if (lineIdx < 0) {
+        lineIdx = 0;
+    } else if (lineIdx >= ARRAY_COUNT(D_80078164)) {
+        lineIdx = ARRAY_COUNT(D_80078164) - 1;
+    }
+    posY += D_80078164[lineIdx];
 
     draw_msg(messageID, posX, posY, 255, MSG_PAL_0F, 0);
 #endif
@@ -260,9 +266,15 @@ void draw_merlee_message(void* data) {
         messageID = (popup->messageIndex < ARRAY_COUNT(D_80078168)) ? D_80078168[popup->messageIndex] : MSG_NONE;
         s32 layout = popup->messageIndex;
         CALL_EVENT(OnBattlePopupMessage, popup->messageIndex, &layout, &messageID);
+        s32 lineIdx = get_msg_lines(messageID) - 1;
+        if (lineIdx < 0) {
+            lineIdx = 0;
+        } else if (lineIdx >= ARRAY_COUNT(D_80078160)) {
+            lineIdx = ARRAY_COUNT(D_80078160) - 1;
+        }
         width = get_msg_width(messageID, 0) + 30;
         xPos = 160 - (width / 2);
-        set_window_properties(WIN_BTL_POPUP, xPos, 80, width, D_80078160[get_msg_lines(messageID) - 1], 0, draw_merlee_message_string, popup, -1);
+        set_window_properties(WIN_BTL_POPUP, xPos, 80, width, D_80078160[lineIdx], 0, draw_merlee_message_string, popup, -1);
         set_window_update(WIN_BTL_POPUP, WINDOW_UPDATE_SHOW);
     }
 #endif

@@ -16,6 +16,7 @@
 #include "spdlog/spdlog.h"
 
 #include "port/FilePicker.h"
+#include "port/modding/ModManifest.h"
 
 #ifdef __EMSCRIPTEN__
 #include "port/web/WebUtils.h"
@@ -70,6 +71,8 @@ std::optional<RomhackRecipe> RomhackRecipeFor(const YAML::Node& rom, const std::
     recipe.info.name = rom["name"] ? rom["name"].as<std::string>() : recipe.info.id;
     recipe.info.version = rom["romhack"]["version"] ? rom["romhack"]["version"].as<std::string>() : "";
     recipe.info.romSha1 = Companion::CalculateHash(romData);
+
+    recipe.manifest = Romhack::ConfigManifest(rom, recipe.info.romSha1);
     recipe.yamlPath = rom["path"].as<std::string>();
     recipe.output = rom["config"]["output"]["binary"].as<std::string>();
     return recipe;
@@ -359,9 +362,9 @@ bool GameExtractor::GenerateOTRTo(
     });
     this->WritePortVersion();
     if (romhack.has_value()) {
-        const std::string marker = Romhack::MarkerText(romhack->info);
+        const std::string manifest = Mod::ManifestText(romhack->manifest);
         Companion::Instance->RegisterCompanionFile(
-            Romhack::kMarkerFile, std::vector<char>(marker.begin(), marker.end())
+            Mod::kManifestFile, std::vector<char>(manifest.begin(), manifest.end())
         );
     }
     std::atomic<size_t> unusedCounter { 0 };

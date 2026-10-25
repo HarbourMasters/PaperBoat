@@ -980,6 +980,9 @@ void au_bgm_load_phrase(BGMPlayer* player, u32 cmd) {
                     }
                 } else {
                     count = player->polyphonyCounts[track->polyphonicIdx];
+                    if (count > (s32) ARRAY_COUNT(player->globals->voices) - curVoice) {
+                        count = (s32) ARRAY_COUNT(player->globals->voices) - curVoice;
+                    }
                     track->polyVoiceCount = count;
                     track->firstVoice = curVoice;
                     curVoice += count;
@@ -1233,7 +1236,7 @@ void au_bgm_player_update_playing(BGMPlayer *player) {
                                             }
                                         }
 
-                                    } else {
+                                    } else if (track->firstVoice < ARRAY_COUNT(player->globals->voices)) {
                                         voiceIdx = track->firstVoice;
                                         voice = &player->globals->voices[voiceIdx];
                                         note = &player->notes[voiceIdx];

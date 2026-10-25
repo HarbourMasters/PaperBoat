@@ -26,6 +26,8 @@
 #include "UIWidgets.hpp"
 #include "port/Engine.h"
 #include "port/extractor/GameExtractor.h"
+#include "port/modding/Features.h"
+#include "port/modding/ModManifest.h"
 #include "port/romhack/Romhack.h"
 
 static std::vector<std::string> enabledModFiles;
@@ -178,13 +180,38 @@ void UpdateModFiles(bool init, bool reset) {
     SortDisabledMods();
 
     if (init) {
+        const std::string base = Mod::ActiveBase();
         for (const std::string& mod : enabledModFiles) {
             auto it = filePaths.find(mod);
             if (it == filePaths.end()) {
                 continue;
             }
             SPDLOG_INFO("Loading mod archive: {}", it->second.generic_string());
-            GetArchiveManager()->AddArchive(std::filesystem::absolute(it->second).generic_string());
+            Mod::ModRecord record;
+            record.file = mod;
+            auto archive = Mod::OpenArchive(it->second);
+            if (archive == nullptr) {
+                record.owner = record.displayName = mod;
+                record.skipReason = "The archive could not be opened.";
+                Mod::RecordMod(std::move(record));
+                continue;
+            }
+            record.manifest = Mod::ReadManifest(*archive);
+            record.owner = record.manifest.has_value() && !record.manifest->id.empty() ? record.manifest->id : mod;
+            record.displayName =
+                record.manifest.has_value() && !record.manifest->name.empty() ? record.manifest->name : mod;
+            const auto reason =
+                record.manifest.has_value() ? Mod::IncompatibleReason(*record.manifest, base) : std::nullopt;
+            if (reason.has_value()) {
+                SPDLOG_WARN("Not loading mod {}: {}", mod, *reason);
+                record.skipReason = *reason;
+            } else {
+                record.mounted = GetArchiveManager()->AddArchive(archive) != nullptr;
+                if (!record.mounted) {
+                    record.skipReason = "The archive could not be added.";
+                }
+            }
+            Mod::RecordMod(std::move(record));
         }
     }
 
@@ -210,6 +237,35 @@ void DisableMod(std::string file) {
     enabledModFiles.erase(it);
     disabledModFiles.push_back(file);
     SortDisabledMods();
+}
+
+static std::string ModSkipReason(const std::string& file) {
+    if (const Mod::ModRecord* record = Mod::FindModRecord(file)) {
+        return record->mounted ? "" : "Not loaded. " + record->skipReason;
+    }
+    const auto path = filePaths.find(file);
+    if (path == filePaths.end()) {
+        return "";
+    }
+    const auto& manifest = Mod::CachedManifest(file, path->second);
+    if (!manifest.has_value()) {
+        return "";
+    }
+    return Mod::IncompatibleReason(*manifest, Mod::ActiveBase()).value_or("");
+}
+
+static void DrawRuleConflicts() {
+    const auto& conflicts = Features::Conflicts();
+    if (conflicts.empty()) {
+        return;
+    }
+    ImGui::TextColored(UIWidgets::ColorValues.at(UIWidgets::Colors::Orange), "Mods disagree on these settings:");
+    for (const Features::Conflict& conflict : conflicts) {
+        ImGui::BulletText(
+            "%s: %s overrides %s (%s)", conflict.id.c_str(), conflict.winner.c_str(), conflict.loser.c_str(),
+            Features::LockReason(conflict.id.c_str()).c_str()
+        );
+    }
 }
 
 static void DrawMods(bool enabled) {
@@ -270,7 +326,15 @@ static void DrawMods(bool enabled) {
         }
 
         ImGui::SameLine();
-        ImGui::Text("%s", file.c_str());
+        const std::string reason = ModSkipReason(file);
+        if (reason.empty()) {
+            ImGui::Text("%s", file.c_str());
+        } else {
+            ImGui::TextDisabled("%s " ICON_FA_EXCLAMATION_TRIANGLE, file.c_str());
+            if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) {
+                ImGui::SetTooltip("%s", reason.c_str());
+            }
+        }
 
         if (enabled) {
             ImGui::EndGroup();
@@ -589,6 +653,7 @@ void PaperboatModMenuWindow::DrawElement() {
         "Priority runs top to bottom: a mod overrides everything listed below it.\n"
         "Drag an entry or use the arrows to reorder the enabled list."
     );
+    DrawRuleConflicts();
 
     DrawModManager();
 }
@@ -627,7 +692,7 @@ static void RegisterModMenuWidgets() {
         )
         .PreFunc([](WidgetInfo& info) {
             std::static_pointer_cast<UIWidgets::CheckboxOptions>(info.options)->disabled =
-                CVarGetInteger(CVAR_ENHANCEMENT("Graphics.DisableMipmaps"), 0) != 0;
+                Port_FeatureInt("graphics.disable_mipmaps", 0) != 0;
         });
 
     generateRomhackWidget = { .name = "Generate Romhack from ROM", .type = WidgetType::WIDGET_BUTTON };

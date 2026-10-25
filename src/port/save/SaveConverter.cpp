@@ -11,8 +11,9 @@
 #include <nlohmann/json.hpp>
 #include <ship/Context.h>
 
+#include "port/Engine.h"
 #include "port/FilePicker.h"
-#include "port/modding/ModSaveData.h"
+#include "port/modding/Features.h"
 #include "port/save/SaveManager.h"
 
 #include "common.h"
@@ -142,7 +143,6 @@ namespace {
         }
     }
 
-    static_assert(kVanillaSize == MOD_N64_SAVE_SIZE);
     static_assert(kExtGlobalBase + kExtByteCount <= SAVE_GLOBAL_BYTE_COUNT);
     static_assert(kExtGlobalBase / 32 + kExtFlagWords <= SAVE_GLOBAL_FLAG_WORDS);
 
@@ -165,13 +165,10 @@ namespace {
         }
     }
 
-    bool WriteSave(SaveData* saveData, int slotIndex, bool withModData) {
+    bool WriteSave(SaveData* saveData, int slotIndex) {
         nlohmann::ordered_json json = ConvertSaveData_to_JSON(saveData);
         if (json.empty()) {
             return false;
-        }
-        if (withModData) {
-            Mod::WriteSaveData(json);
         }
         const std::string dir = SaveManager_GetSavesDir();
         std::error_code ec;
@@ -190,6 +187,10 @@ namespace {
 
 Result ImportFromFlash(const std::string& srcPath, int srcSlot, int destSlot) {
     Result res;
+    if (!Port_FeatureAllowed("save.import_n64")) {
+        res.message = Features::LockReason("save.import_n64") + ".";
+        return res;
+    }
 
     std::ifstream in(srcPath, std::ios::binary);
     if (!in) {
@@ -245,14 +246,6 @@ Result ImportFromFlash(const std::string& srcPath, int srcSlot, int destSlot) {
     s32 savedDefeatFlags[60][12];
     std::memcpy(savedDefeatFlags, gCurrentEncounter.defeatFlags, sizeof(savedDefeatFlags));
 
-    const bool runImports = Mod::HasSaveImports();
-    nlohmann::json liveModData = nlohmann::json::object();
-    if (runImports) {
-        nlohmann::ordered_json live = nlohmann::ordered_json::object();
-        Mod::WriteSaveData(live);
-        liveModData = nlohmann::json::parse(live.dump());
-    }
-
     std::vector<int> failed;
     for (auto [from, to] : wanted) {
         if (newest[from] == nullptr) {
@@ -265,7 +258,7 @@ Result ImportFromFlash(const std::string& srcPath, int srcSlot, int destSlot) {
         SaveData* saveData = (SaveData*) buffer.data();
         ver_deserialize_vanilla_save(saveData);
         saveData->saveSlot = to;
-        strcpy(saveData->modName, DX_MOD_NAME);
+        Port_CopyModName(saveData->modName);
         saveData->majorVersion = DX_MOD_VER_MAJOR;
         saveData->minorVersion = DX_MOD_VER_MINOR;
         saveData->patchVersion = DX_MOD_VER_PATCH;
@@ -274,12 +267,7 @@ Result ImportFromFlash(const std::string& srcPath, int srcSlot, int destSlot) {
             ImportExtGlobals(newest[from], saveData);
         }
 
-        if (runImports) {
-            Mod::ClearSaveData();
-            Mod::RunSaveImports(saveData, newest[from]);
-        }
-
-        if (WriteSave(saveData, to, runImports)) {
+        if (WriteSave(saveData, to)) {
             res.slotsImported++;
         } else {
             failed.push_back(to + 1);
@@ -287,9 +275,6 @@ Result ImportFromFlash(const std::string& srcPath, int srcSlot, int destSlot) {
     }
 
     std::memcpy(gCurrentEncounter.defeatFlags, savedDefeatFlags, sizeof(gCurrentEncounter.defeatFlags));
-    if (runImports) {
-        Mod::ReadSaveData(liveModData);
-    }
 
     if (!failed.empty()) {
         res.message = fmt::format("Couldn't write slot {}.", failed[0]);
@@ -309,6 +294,12 @@ Result ImportFromFlash(const std::string& srcPath, int srcSlot, int destSlot) {
 }
 
 void PickAndImport(int srcSlot, int destSlot, std::function<void(Result)> onComplete) {
+    if (!Port_FeatureAllowed("save.import_n64")) {
+        if (onComplete) {
+            onComplete(ImportFromFlash("", srcSlot, destSlot));
+        }
+        return;
+    }
     Ship::FileBrowserRequest req;
     req.Title = "Select a save to import";
     req.Filters = { { "All Files", { "*" } } };

@@ -106,6 +106,7 @@ BattleArea gBattleAreas[0x50] = {
     BTL_AREA_C(kpa4, "エリア ＫＰＡ４"),
     BTL_AREA_C(kkj, "エリア ＫＫＪ"),
     BTL_AREA_C(dig, "エリア ＤＩＧ"),
+    {},
     BTL_AREA_AUX(omo2_1, "エリア ＯＭＯ２＿１"),
     BTL_AREA_AUX(omo2_2, "エリア ＯＭＯ２＿２"),
     BTL_AREA_AUX(omo2_3, "エリア ＯＭＯ２＿３"),

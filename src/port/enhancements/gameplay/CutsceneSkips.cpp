@@ -1,3 +1,4 @@
+#include "port/Engine.h"
 #include "port/hooks/Events.h"
 #include "port/ui/cvar_prefixes.h"
 #include "port/ShipInit.hpp"
@@ -13,7 +14,7 @@ void RegisterCutsceneSkips_Init() {
     REGISTER_LISTENER(OnPostSaveFileLoad, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
         OnPostSaveFileLoad* ev = (OnPostSaveFileLoad*) event;
 
-        if (!CVarGetInteger(CVAR_ENHANCEMENT("NoIntro"), 0)) {
+        if (!Port_FeatureInt("enhancements.no_intro", 0)) {
             return;
         }
 

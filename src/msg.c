@@ -1417,9 +1417,6 @@ static u8* load_msg_asset(u32 msgID) {
         data = (u8*)LOAD_ASSET(gMsgSectionPaths[section][index]);
     }
     CALL_EVENT(OnMessageLoad, msgID, &data);
-    if (data == nullptr) {
-        data = (u8*)LOAD_ASSET(gMsgSectionPaths[0][0]);
-    }
     return data;
 }
 

@@ -128,6 +128,8 @@ void btl_state_update_end_turn(void) {
             playerData->starPower += starPowerRegen;
             if (playerData->starPower > playerData->maxStarPower * SP_PER_BAR) {
                 playerData->starPower = playerData->maxStarPower * SP_PER_BAR;
+            } else if (playerData->starPower < 0) {
+                playerData->starPower = 0;
             }
         }
 

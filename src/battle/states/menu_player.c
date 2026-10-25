@@ -142,6 +142,9 @@ void btl_init_menu_boots(void) {
         if (badge != ITEM_NONE) {
             s32 badgeID = badge;
             CALL_EVENT(OnBattleBadgeMenuEntry, BTL_MENU_TYPE_JUMP, moveCount, &badgeID);
+            if (badgeID < 0 || badgeID >= NUM_ITEMS) {
+                badgeID = ITEM_NONE;
+            }
             badge = badgeID;
         }
         if (badge != ITEM_NONE) {
@@ -243,6 +246,9 @@ void btl_init_menu_hammer(void) {
         if (badge != MOVE_NONE) {
             s32 badgeID = badge;
             CALL_EVENT(OnBattleBadgeMenuEntry, BTL_MENU_TYPE_SMASH, moveCount, &badgeID);
+            if (badgeID < 0 || badgeID >= NUM_ITEMS) {
+                badgeID = ITEM_NONE;
+            }
             badge = badgeID;
         }
         if (badge != MOVE_NONE) {
@@ -542,6 +548,13 @@ void btl_state_update_player_menu(void) {
                 CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_WHEEL, ACTOR_PLAYER, -1, &entryIdx, &initialPos);
                 if (entryIdx > ARRAY_COUNT(WheelOptionSubmenu)) {
                     entryIdx = ARRAY_COUNT(WheelOptionSubmenu);
+                } else if (entryIdx < 0) {
+                    entryIdx = 0;
+                }
+                if (initialPos < 0) {
+                    initialPos = 0;
+                } else if (entryIdx > 0 && initialPos >= entryIdx) {
+                    initialPos = entryIdx - 1;
                 }
             }
             WheelOptionCount = entryIdx;
@@ -626,6 +639,9 @@ void btl_state_update_player_menu(void) {
                         s32 badgeID = playerData->equippedBadges[i];
                         if (badgeID != 0) {
                             CALL_EVENT(OnBattleBadgeMenuEntry, BTL_MENU_TYPE_ITEMS, entryIdx, &badgeID);
+                            if (badgeID < 0 || badgeID >= NUM_ITEMS) {
+                                badgeID = ITEM_NONE;
+                            }
                         }
                         if (badgeID != 0) {
                             s32 moveID = gItemTable[badgeID].moveID;
@@ -856,6 +872,11 @@ void btl_state_update_player_menu(void) {
                 CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_MOVES, ACTOR_PLAYER, battleStatus->curSubmenu, &MovesOptionCount, &initialPos);
                 if (MovesOptionCount > ARRAY_COUNT(MovesOptionIndices)) {
                     MovesOptionCount = ARRAY_COUNT(MovesOptionIndices);
+                } else if (MovesOptionCount < 0) {
+                    MovesOptionCount = 0;
+                }
+                if (initialPos < 0) {
+                    initialPos = 0;
                 }
             }
             MovesPrevSelected = initialPos;
@@ -1293,6 +1314,11 @@ void btl_state_update_player_menu(void) {
                 CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_MOVES, ACTOR_PLAYER, BTL_MENU_TYPE_STAR_POWERS, &MovesOptionCount, &initialPos);
                 if (MovesOptionCount > ARRAY_COUNT(MovesOptionIndices)) {
                     MovesOptionCount = ARRAY_COUNT(MovesOptionIndices);
+                } else if (MovesOptionCount < 0) {
+                    MovesOptionCount = 0;
+                }
+                if (initialPos < 0) {
+                    initialPos = 0;
                 }
             }
             MovesPrevSelected = initialPos;
@@ -1562,6 +1588,13 @@ void btl_state_update_player_menu(void) {
                 CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_STRATEGIES, ACTOR_PLAYER, -1, &entryIdx, &initialPos);
                 if (entryIdx > ARRAY_COUNT(StratsOptionMenuTypes)) {
                     entryIdx = ARRAY_COUNT(StratsOptionMenuTypes);
+                } else if (entryIdx < 0) {
+                    entryIdx = 0;
+                }
+                if (initialPos < 0) {
+                    initialPos = 0;
+                } else if (entryIdx > 0 && initialPos >= entryIdx) {
+                    initialPos = entryIdx - 1;
                 }
             }
             StratsOptionCount = entryIdx;
@@ -1641,8 +1674,10 @@ void btl_state_update_player_menu(void) {
                         gBattleSubState = BTL_SUBSTATE_STRATEGIES_TARGET_CHOSEN;
                         btl_state_update_player_menu();
                         {
-                            CALL_EVENT(OnBattleMenuSelect, BATTLE_MENU_STRATEGIES, ACTOR_PLAYER,
-                                       battleStatus->lastPlayerMenuSelection[BTL_MENU_IDX_STRATEGY]);
+                            CALL_CANCELLABLE_EVENT(OnBattleMenuSelect, BATTLE_MENU_STRATEGIES, ACTOR_PLAYER,
+                                                   battleStatus->lastPlayerMenuSelection[BTL_MENU_IDX_STRATEGY]) {
+                                btl_set_state(BATTLE_STATE_PLAYER_MENU);
+                            }
                         }
                         break;
                 }
@@ -1697,6 +1732,11 @@ void btl_state_update_player_menu(void) {
                 CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_PARTNER_LIST, ACTOR_PLAYER, -1, &entryIdx, &initialPos);
                 if (entryIdx > ARRAY_COUNT(popup->ptrIcon)) {
                     entryIdx = ARRAY_COUNT(popup->ptrIcon);
+                } else if (entryIdx < 0) {
+                    entryIdx = 0;
+                }
+                if (initialPos < 0) {
+                    initialPos = 0;
                 }
             }
             popup->popupType = POPUP_MENU_SWITCH_PARTNER;

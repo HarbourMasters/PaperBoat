@@ -146,6 +146,11 @@ const char* Port_GetModName(void);
 bool Port_ModNameMatches(const char* modName);
 void Port_CopyModName(char* dest);
 
+bool Port_FeatureAllowed(const char* id);
+int32_t Port_FeatureInt(const char* id, int32_t fallback);
+float Port_FeatureFloat(const char* id, float fallback);
+const char* Port_FeatureDisabledBy(const char* id);
+
 // Invalidate GPU texture cache entry for a specific RAM address.
 // Call when player raster cache overwrites a buffer with new image data,
 // since the Fast3D interpreter caches textures by pointer address.

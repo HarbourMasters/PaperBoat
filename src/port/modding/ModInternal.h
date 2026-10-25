@@ -49,6 +49,13 @@ private:
     std::string mConflictOwner;
 };
 
+void ListenServices();
+void ListenAbilities();
+void ListenActorExt();
+void ListenBattleMenus();
+void ListenBattleOverrides();
+void ListenMapResetData();
+
 void UnregisterScriptOverrides(const std::string& owner);
 void UnregisterBattleOverrides(const std::string& owner);
 void UnregisterMessages(const std::string& owner);
@@ -63,7 +70,6 @@ void UnregisterPopups(const std::string& owner);
 void UnregisterWindowStyles(const std::string& owner);
 void UnregisterPanels(const std::string& owner);
 void UnregisterItemCapacity(const std::string& owner);
-void UnregisterSaveImports(const std::string& owner);
 void UnregisterInputFrameListeners(const std::string& owner);
 
 } // namespace Mod

@@ -22,6 +22,9 @@
 #       id: <Id>                             # matches specific/<Id>.cpp
 #       version: "<version>"
 #       url: <download page>                 # linked from the Supported Romhacks tab
+#       works_with: [vanilla]                # optional; what the hack is built on (default vanilla)
+#       disable: [<feature id or group.*>]   # optional; port features the hack turns off
+#       force: { <feature id>: <value> }     # optional; port features the hack pins to a value
 #     config:
 #       gbi: F3DEX2_PM64
 #       gbi_floats: false

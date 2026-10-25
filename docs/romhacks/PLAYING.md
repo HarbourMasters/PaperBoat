@@ -54,6 +54,8 @@ Each romhack keeps its own save files, separate from the base game and from othe
 
 The HD pack and mods from the **Mod Menu** still work while a romhack is active. They load on top of the romhack, so a mod that changes something the romhack also changed wins.
 
+A romhack or mod can turn off PaperBoat options that would break it. Those options are greyed out, and hovering one says which romhack or mod turned it off; your own setting comes back when you play without it. Importing an N64 save is turned off while any romhack is loaded. A romhack o2r extracted with an older Paperboat still gets these rules; extracting it again stores them in the o2r. The Blueprint Editor keeps separate presets per romhack, saved next to that romhack's saves. A mod that says it only works with another base (vanilla or a different romhack) isn't loaded, and the Mod Menu shows it greyed with a warning icon that explains why.
+
 ## Common errors
 
 | Message | What it means | What to do |

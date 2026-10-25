@@ -4,6 +4,7 @@
 #include <version>
 
 #include "port/Engine.h"
+#include "port/modding/Features.h"
 #include "port/hooks/impl/EventSystem.h"
 #include "port/ui/UIWidgets.hpp"
 #include "port/ui/cvar_prefixes.h"
@@ -95,6 +96,9 @@ void DrawEventListenerInfo(std::string& name, EventRegistration& registry) {
 }
 
 void EventDebuggerWindow::DrawElement() {
+    if (Features::DrawLockedNotice("devtools.event_debugger")) {
+        return;
+    }
     bool collapseLogic = false;
     auto& events = Ship::Context::GetRawInstance()->GetEventSystem()->GetEventRegistrations();
     bool doingCollapseOrExpand = hookOptExpandAll || hookOptCollapseAll;

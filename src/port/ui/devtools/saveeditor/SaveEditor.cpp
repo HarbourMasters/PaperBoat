@@ -1,4 +1,6 @@
 #include "SaveEditor.h"
+#include "port/Engine.h"
+#include "port/modding/Features.h"
 #include "port/ui/UIWidgets.hpp"
 #include "port/ActorTypeNames.h"
 #include <string>
@@ -1437,6 +1439,9 @@ void SaveEditor_DrawTattlesMenu() {
 }
 
 void SaveEditor_DrawTabBar() {
+    if (Features::DrawLockedNotice("devtools.save_editor")) {
+        return;
+    }
     UIWidgets::PushStyleTabs(WIDGET_COLOR);
     if (ImGui::BeginTabBar("SaveEditorTabBar")) {
         if (ImGui::BeginTabItem("Player")) {

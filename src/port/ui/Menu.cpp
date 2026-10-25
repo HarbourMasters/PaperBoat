@@ -7,6 +7,7 @@
 #include "UIWidgets.hpp"
 #include "cvar_prefixes.h"
 #include "port/Engine.h"
+#include "port/modding/Features.h"
 #include "port/romhack/Romhack.h"
 #include <ship/window/gui/GuiElement.h>
 #include <ship/window/gui/GuiMenuBar.h>
@@ -311,6 +312,12 @@ void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors me
     disabledValue = false;
     disabledTooltip = " ";
 
+    if (widget.featureLocked) {
+        widget.featureLocked = false;
+        widget.options->disabled = false;
+        widget.options->disabledTooltip = "";
+    }
+
     if (widget.preFunc != nullptr) {
         widget.ResetDisables();
         widget.preFunc(widget);
@@ -328,6 +335,13 @@ void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors me
     if (widget.raceDisable && raceDisableActive) {
         widget.options->disabled = true;
         disabledTempTooltip += std::string("\n- Race Lockout Active");
+        widget.options->disabledTooltip = disabledTempTooltip.c_str();
+    }
+    const char* feature = widget.feature != nullptr ? widget.feature : Features::ForCVar(widget.cVar);
+    if (feature != nullptr && widget.options != nullptr && Features::IsLocked(feature)) {
+        widget.featureLocked = true;
+        widget.options->disabled = true;
+        disabledTempTooltip += "\n- " + Features::LockReason(feature);
         widget.options->disabledTooltip = disabledTempTooltip.c_str();
     }
 

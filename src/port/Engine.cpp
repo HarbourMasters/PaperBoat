@@ -8,6 +8,8 @@
 #include "port/build.h"
 #include "port/enhancements/PortEnhancements.h"
 #include "port/interpolation/FrameInterpolation.h"
+#include "port/modding/Features.h"
+#include "port/modding/ModInternal.h"
 #include "port/ui/cvar_prefixes.h"
 #include "port/audio/AudioVolume.h"
 #include "port/os/OS.h"
@@ -268,6 +270,7 @@ void GameEngine::FinishInit() {
         archiveManager->AddArchive(hd_path);
     }
     UpdateModFiles(true);
+    Features::ResolveMounted();
 
 #ifdef _DEBUG
     spdlog::set_level(spdlog::level::trace);
@@ -859,6 +862,7 @@ void GameEngine::Create(int argc, char* argv[]) {
     PaperboatGui::SetupGuiElements();
     PortEnhancements_Init();
     ShipInit::InitAll();
+    Mod::ListenServices();
     instance->AudioInit();
 }
 
@@ -963,7 +967,7 @@ static void ApplyDPadAsLeftStick(bool enabled) {
 void GameEngine::StartFrame() const {
     Ship::Context::GetRawInstance()->GetWindow()->HandleEvents();
 
-    const bool altAssets = CVarGetInteger("gEnhancements.Mods.AlternateAssets", 0) != 0;
+    const bool altAssets = Port_FeatureInt("graphics.alt_assets", 0) != 0;
     if (altAssets != mPrevAltAssets) {
         mPrevAltAssets = altAssets;
         Ship::Context::GetRawInstance()->GetResourceManager()->SetAltAssetsEnabled(altAssets);
@@ -987,7 +991,7 @@ void GameEngine::StartFrame() const {
 
     // HD replacements upload with generated mip chains, and drawing with those hangs the GPU
     // on Adreno through zink. The devices that hit it ship with this turned off.
-    const bool autoMipmaps = CVarGetInteger("gEnhancements.Mods.AutoMipmaps", 1) != 0;
+    const bool autoMipmaps = Port_FeatureInt("graphics.hd_mipmaps", 1) != 0;
     if (autoMipmaps != mPrevAutoMipmaps) {
         mPrevAutoMipmaps = autoMipmaps;
         if (gsFast3dWindow != nullptr) {
@@ -998,7 +1002,7 @@ void GameEngine::StartFrame() const {
         SPDLOG_INFO("HD auto-mipmaps {}", autoMipmaps ? "enabled" : "disabled");
     }
 
-    const bool mipmaps = CVarGetInteger("gEnhancements.Graphics.DisableMipmaps", 0) == 0;
+    const bool mipmaps = Port_FeatureInt("graphics.disable_mipmaps", 0) == 0;
     if (mipmaps != mPrevMipmaps) {
         mPrevMipmaps = mipmaps;
         if (gsFast3dWindow != nullptr) {
@@ -1015,6 +1019,9 @@ void GameEngine::StartFrame() const {
 
     switch (dwScancode) {
         case KbScancode::LUS_KB_TAB: {
+            if (Features::IsLocked("graphics.alt_assets")) {
+                break;
+            }
             CVarSetInteger(
                 "gEnhancements.Mods.AlternateAssets", !CVarGetInteger("gEnhancements.Mods.AlternateAssets", 0)
             );
@@ -1030,7 +1037,7 @@ void GameEngine::StartFrame() const {
 }
 
 uint32_t GameEngine::GetInterpolationFPS() {
-    if (CVarGetInteger(CVAR_SETTING("MatchRefreshRate"), 0)) {
+    if (Port_FeatureInt("graphics.match_refresh_rate", 0)) {
         return Ship::Context::GetRawInstance()->GetWindow()->GetCurrentRefreshRate();
     }
 
@@ -1039,10 +1046,10 @@ uint32_t GameEngine::GetInterpolationFPS() {
     {
         return std::min<uint32_t>(
             Ship::Context::GetRawInstance()->GetWindow()->GetCurrentRefreshRate(),
-            CVarGetInteger(CVAR_SETTING("InterpolationFPS"), 30)
+            Port_FeatureInt("graphics.interpolation_fps", 30)
         );
     }
-    return CVarGetInteger(CVAR_SETTING("InterpolationFPS"), 30);
+    return Port_FeatureInt("graphics.interpolation_fps", 30);
 }
 
 // Audio

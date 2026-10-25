@@ -351,13 +351,13 @@ s32 draw_box(s32 flags, void* windowStyleArg, s32 posX, s32 posY, s32 posZ, s32 
 
     s32 foo;
 
-    if ((uintptr_t)windowStyleArg > WINDOW_STYLE_MAX && (uintptr_t)windowStyleArg <= WINDOW_STYLE_REGISTERED_MAX) {
+    if ((uintptr_t)windowStyleArg <= WINDOW_STYLE_MAX) {
+        defaultStyle = &gBoxDefaultStyles[(uintptr_t)windowStyleArg];
+    } else if ((uintptr_t)windowStyleArg <= WINDOW_STYLE_REGISTERED_MAX) {
         CALL_EVENT(OnWindowStyle, (s32)(uintptr_t)windowStyleArg, &defaultStyle);
         if (defaultStyle == nullptr) {
             defaultStyle = &gBoxDefaultStyles[WINDOW_STYLE_0];
         }
-    } else if (style.defaultStyleID <= WINDOW_STYLE_MAX && style.defaultStyleID >= 0) {
-        defaultStyle = &gBoxDefaultStyles[style.defaultStyleID];
     }
 
     if (defaultStyle != nullptr) {

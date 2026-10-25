@@ -1,3 +1,4 @@
+#include "port/Engine.h"
 #include "port/hooks/Events.h"
 #include "port/ui/cvar_prefixes.h"
 #include "port/ShipInit.hpp"
@@ -16,7 +17,7 @@ void RegisterFreeQoLBadges_Init() {
     UNREGISTER_LISTENER(OnBadgeBPCost, sBadgeBPCostListener);
     sBadgeBPCostListener = -1;
 
-    if (!CVarGetInteger(CVAR_ENHANCEMENT("FreeQoLBadges"), 0)) {
+    if (!Port_FeatureInt("enhancements.free_qol_badges", 0)) {
         return;
     }
 

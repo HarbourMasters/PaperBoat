@@ -143,6 +143,9 @@ void btl_state_update_enemy_move(void) {
                 s32 afflictedStatus = player->statusAfflicted;
                 s32 camPreset = BTL_CAM_PLAYER_STATUS_AFFLICTED;
                 CALL_EVENT(OnStatusAfflictedNotice, player, partner, &afflictedStatus, &camPreset);
+                if (camPreset < BTL_CAM_RESET || camPreset > BTL_CAM_STAR_SPIRIT) {
+                    camPreset = BTL_CAM_PLAYER_STATUS_AFFLICTED;
+                }
                 if (afflictedStatus != 0) {
                     player->flags |= ACTOR_FLAG_SHOW_STATUS_ICONS | ACTOR_FLAG_USING_IDLE_ANIM;
                     if (partner != nullptr) {

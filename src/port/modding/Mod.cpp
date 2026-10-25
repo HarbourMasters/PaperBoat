@@ -4,6 +4,14 @@
 
 #include "ModInternal.h"
 
+void Mod::ListenServices() {
+    Mod::ListenAbilities();
+    Mod::ListenActorExt();
+    Mod::ListenBattleMenus();
+    Mod::ListenBattleOverrides();
+    Mod::ListenMapResetData();
+}
+
 extern "C" void Mod_UnregisterOwner(const char* owner) {
     const std::string name = Mod::OwnerName(owner);
     Mod::UnregisterScriptOverrides(name);
@@ -20,7 +28,6 @@ extern "C" void Mod_UnregisterOwner(const char* owner) {
     Mod::UnregisterWindowStyles(name);
     Mod::UnregisterPanels(name);
     Mod::UnregisterItemCapacity(name);
-    Mod::UnregisterSaveImports(name);
     Mod::UnregisterInputFrameListeners(name);
     SPDLOG_INFO("Mod: unregistered everything {} registered", name);
 }

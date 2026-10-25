@@ -225,6 +225,7 @@ s32 pause_badges_try_remove(s16 badgeID) {
 
     // handle negative bp cost badges
     bpCost = gMoveTable[gItemTable[badgeID].moveID].costBP;
+    CALL_EVENT(OnBadgeBPCost, badgeID, &bpCost);
     if (bpCost < 0 && gPlayerData.maxBP < pause_get_total_equipped_bp_cost() - bpCost) {
         return TRY_REMOVE_NOT_ENOUGH_BP_RESULT;
     }

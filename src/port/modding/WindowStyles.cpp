@@ -58,7 +58,7 @@ extern "C" int32_t Mod_RegisterWindowStyles(const char* owner, const DefaultWind
     for (int32_t first = 0; first + count <= kStyleCount; first++) {
         bool free = true;
         for (int32_t i = 0; i < count && free; i++) {
-            free = slots[first + i].owner.empty() || slots[first + i].owner == name;
+            free = slots[first + i].owner.empty();
         }
         if (!free) {
             continue;

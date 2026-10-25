@@ -721,7 +721,7 @@ DEFINE_EVENT(OnBattleMenuErrorText,
 );
 
 DEFINE_EVENT(OnBattleMenuCostStyle,
-    int32_t row;
+    int32_t index;
     int32_t* palette;
 );
 
@@ -900,7 +900,7 @@ DEFINE_EVENT(OnPlayerLandAnim,
 );
 
 DEFINE_EVENT(OnPlayerIdleTick,
-    int32_t idleTimer;
+    int32_t* idleTimer;
     int32_t* anim;
 );
 

@@ -182,27 +182,26 @@ static std::unordered_map<std::string, std::vector<MapResetData>>& MapResetDataL
     return sData;
 }
 
+void Mod::ListenMapResetData() {
+    REGISTER_LISTENER(OnMapLoad, EVENT_PRIORITY_HIGH, [](IEvent* event) {
+        const char* mapName = ((OnMapLoad*) event)->mapName;
+        if (mapName == nullptr) {
+            return;
+        }
+        auto& list = MapResetDataList();
+        auto it = list.find(mapName);
+        if (it == list.end()) {
+            return;
+        }
+        for (const MapResetData& entry : it->second) {
+            memcpy(entry.ptr, entry.bytes.data(), entry.bytes.size());
+        }
+    });
+}
+
 extern "C" void Mod_RegisterMapResetData(const char* owner, const char* map, void* ptr, size_t size) {
     if (map == nullptr || ptr == nullptr || size == 0) {
         return;
-    }
-    static bool sListening = false;
-    if (!sListening) {
-        sListening = true;
-        REGISTER_LISTENER(OnMapLoad, EVENT_PRIORITY_HIGH, [](IEvent* event) {
-            const char* mapName = ((OnMapLoad*) event)->mapName;
-            if (mapName == nullptr) {
-                return;
-            }
-            auto& list = MapResetDataList();
-            auto it = list.find(mapName);
-            if (it == list.end()) {
-                return;
-            }
-            for (const MapResetData& entry : it->second) {
-                memcpy(entry.ptr, entry.bytes.data(), entry.bytes.size());
-            }
-        });
     }
     const std::string name = Mod::OwnerName(owner);
     auto& entries = MapResetDataList()[map];

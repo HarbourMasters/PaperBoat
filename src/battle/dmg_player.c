@@ -227,6 +227,9 @@ HitResult calc_player_test_enemy(void) {
         sfx_play_sound_at_position(SOUND_HIT_SPIKE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
         s32 hazardDamage = 1;
         CALL_EVENT(OnContactHazard, target, player, CONTACT_HAZARD_SPIKE, &hazardDamage);
+        if (hazardDamage < 0) {
+            hazardDamage = 0;
+        }
         dispatch_hazard_event_player(hazardDamage, EVENT_SPIKE_CONTACT);
         dispatch_event_actor(target, EVENT_SPIKE_TAUNT);
         return HIT_RESULT_BACKFIRE;
@@ -335,6 +338,9 @@ HitResult calc_player_damage_enemy(void) {
             sfx_play_sound_at_position(SOUND_HIT_SPIKE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
             s32 hazardDamage = 1;
             CALL_EVENT(OnContactHazard, target, player, CONTACT_HAZARD_SPIKE_TOP, &hazardDamage);
+            if (hazardDamage < 0) {
+                hazardDamage = 0;
+            }
             dispatch_hazard_event_player(hazardDamage, EVENT_SPIKE_CONTACT);
             dispatch_event_actor(target, EVENT_SPIKE_TAUNT);
             return HIT_RESULT_BACKFIRE;
@@ -346,6 +352,9 @@ HitResult calc_player_damage_enemy(void) {
                 sfx_play_sound_at_position(SOUND_HIT_PLAYER_FIRE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
                 s32 hazardDamage = 1;
                 CALL_EVENT(OnContactHazard, target, player, CONTACT_HAZARD_EXPLODE, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
                 dispatch_hazard_event_player(hazardDamage, EVENT_BURN_CONTACT);
                 dispatch_event_actor(target, EVENT_EXPLODE_TRIGGER);
                 return HIT_RESULT_BACKFIRE;
@@ -359,6 +368,9 @@ HitResult calc_player_damage_enemy(void) {
                 sfx_play_sound_at_position(SOUND_HIT_PLAYER_FIRE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
                 s32 hazardDamage = 1;
                 CALL_EVENT(OnContactHazard, target, player, CONTACT_HAZARD_FIRE, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
                 dispatch_hazard_event_player(hazardDamage, EVENT_BURN_CONTACT);
                 dispatch_event_actor(target, EVENT_BURN_TAUNT);
                 return HIT_RESULT_BACKFIRE;
@@ -388,6 +400,9 @@ HitResult calc_player_damage_enemy(void) {
             sfx_play_sound_at_position(SOUND_HIT_SPIKE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
             s32 hazardDamage = 1;
             CALL_EVENT(OnContactHazard, target, player, CONTACT_HAZARD_SPIKE, &hazardDamage);
+            if (hazardDamage < 0) {
+                hazardDamage = 0;
+            }
             dispatch_hazard_event_player(hazardDamage, EVENT_SPIKE_CONTACT);
             dispatch_event_actor(target, EVENT_SPIKE_TAUNT);
             return HIT_RESULT_BACKFIRE;
@@ -707,6 +722,9 @@ HitResult calc_player_damage_enemy(void) {
                 apply_shock_effect(player);
                 s32 hazardDamage = 1;
                 CALL_EVENT(OnContactHazard, target, player, CONTACT_HAZARD_SHOCK, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
                 dispatch_hazard_event_player(hazardDamage, EVENT_SHOCK_HIT);
                 return HIT_RESULT_BACKFIRE;
             } else {
@@ -1118,6 +1136,9 @@ HitResult calc_player_damage_enemy(void) {
         apply_shock_effect(player);
         s32 hazardDamage = 1;
         CALL_EVENT(OnContactHazard, target, player, CONTACT_HAZARD_SHOCK, &hazardDamage);
+        if (hazardDamage < 0) {
+            hazardDamage = 0;
+        }
         dispatch_hazard_event_player(hazardDamage, EVENT_SHOCK_HIT);
         return HIT_RESULT_BACKFIRE;
     }

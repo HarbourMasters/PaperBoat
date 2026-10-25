@@ -434,6 +434,13 @@ void btl_state_update_partner_menu(void) {
                 CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_WHEEL, ACTOR_PARTNER, -1, &entryIdx, &initialPos);
                 if (entryIdx > ARRAY_COUNT(WheelOptionSubmenu)) {
                     entryIdx = ARRAY_COUNT(WheelOptionSubmenu);
+                } else if (entryIdx < 0) {
+                    entryIdx = 0;
+                }
+                if (initialPos < 0) {
+                    initialPos = 0;
+                } else if (entryIdx > 0 && initialPos >= entryIdx) {
+                    initialPos = entryIdx - 1;
                 }
             }
 
@@ -624,6 +631,11 @@ void btl_state_update_partner_menu(void) {
             CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_MOVES, ACTOR_PARTNER, BTL_MENU_TYPE_ABILITY, &MovesOptionCount, &initialPos);
             if (MovesOptionCount > ARRAY_COUNT(MovesOptionIndices)) {
                 MovesOptionCount = ARRAY_COUNT(MovesOptionIndices);
+            } else if (MovesOptionCount < 0) {
+                MovesOptionCount = 0;
+            }
+            if (initialPos < 0) {
+                initialPos = 0;
             }
         }
         MovesPrevSelected = initialPos;
@@ -901,6 +913,11 @@ void btl_state_update_partner_menu(void) {
             CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_MOVES, ACTOR_PARTNER, BTL_MENU_TYPE_PARTNER_FOCUS, &MovesOptionCount, &initialPos);
             if (MovesOptionCount > ARRAY_COUNT(MovesOptionIndices)) {
                 MovesOptionCount = ARRAY_COUNT(MovesOptionIndices);
+            } else if (MovesOptionCount < 0) {
+                MovesOptionCount = 0;
+            }
+            if (initialPos < 0) {
+                initialPos = 0;
             }
         }
         MovesPrevSelected = initialPos;
@@ -996,6 +1013,13 @@ void btl_state_update_partner_menu(void) {
             CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_STRATEGIES, ACTOR_PARTNER, -1, &popupIndex, &initialPos);
             if (popupIndex > ARRAY_COUNT(StratsOptionMenuTypes)) {
                 popupIndex = ARRAY_COUNT(StratsOptionMenuTypes);
+            } else if (popupIndex < 0) {
+                popupIndex = 0;
+            }
+            if (initialPos < 0) {
+                initialPos = 0;
+            } else if (popupIndex > 0 && initialPos >= popupIndex) {
+                initialPos = popupIndex - 1;
             }
         }
         StratsOptionCount = popupIndex;
@@ -1066,8 +1090,10 @@ void btl_state_update_partner_menu(void) {
                     gBattleSubState = BTL_SUBSTATE_STRATEGIES_TARGET_CHOSEN;
                     btl_state_update_partner_menu();
                     {
-                        CALL_EVENT(OnBattleMenuSelect, BATTLE_MENU_STRATEGIES, ACTOR_PARTNER,
-                                   battleStatus->lastPartnerMenuSelection[BTL_MENU_IDX_STRATEGY]);
+                        CALL_CANCELLABLE_EVENT(OnBattleMenuSelect, BATTLE_MENU_STRATEGIES, ACTOR_PARTNER,
+                                               battleStatus->lastPartnerMenuSelection[BTL_MENU_IDX_STRATEGY]) {
+                            btl_set_state(BATTLE_STATE_PARTNER_MENU);
+                        }
                     }
                     break;
             }
@@ -1122,6 +1148,11 @@ void btl_state_update_partner_menu(void) {
             CALL_EVENT(OnBattleMenuBuilt, BATTLE_MENU_PARTNER_LIST, ACTOR_PARTNER, -1, &popupIndex, &initialPos);
             if (popupIndex > ARRAY_COUNT(popupMenu->ptrIcon)) {
                 popupIndex = ARRAY_COUNT(popupMenu->ptrIcon);
+            } else if (popupIndex < 0) {
+                popupIndex = 0;
+            }
+            if (initialPos < 0) {
+                initialPos = 0;
             }
         }
         popupMenu->popupType = POPUP_MENU_SWITCH_PARTNER;

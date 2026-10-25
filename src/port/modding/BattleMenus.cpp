@@ -272,6 +272,7 @@ void OnSelect(IEvent* event) {
         const BattleMenuEntry copy = *entry;
         const BattleMenuContext ctx = ContextFor(ev->menu);
         copy.onSelect(&ctx, &copy);
+        event->Cancelled = true;
     } else if (ev->menu == BATTLE_MENU_STRATEGIES) {
         SPDLOG_ERROR("Mod: battle menu type {} was chosen but has no onSelect", entry->menuType);
     }
@@ -306,7 +307,7 @@ void OnErrorText(IEvent* event) {
 
 void OnCostStyle(IEvent* event) {
     OnBattleMenuCostStyle* ev = (OnBattleMenuCostStyle*) event;
-    const BattleMenuEntry* entry = EntryAt(BATTLE_MENU_MOVES, ev->row);
+    const BattleMenuEntry* entry = EntryAt(BATTLE_MENU_MOVES, ev->index);
 
     if (entry != nullptr) {
         *ev->palette = entry->costPalette;
@@ -348,12 +349,9 @@ void OnOpen(IEvent*) {
     }
 }
 
-void Listen() {
-    static bool sListening = false;
-    if (sListening) {
-        return;
-    }
-    sListening = true;
+} // namespace
+
+void Mod::ListenBattleMenus() {
     REGISTER_LISTENER(OnBattleMenuBuilt, EVENT_PRIORITY_NORMAL, OnBuilt);
     REGISTER_LISTENER(OnBattleMenuSelect, EVENT_PRIORITY_NORMAL, OnSelect);
     REGISTER_LISTENER(OnBattleMenuDrawEntry, EVENT_PRIORITY_NORMAL, OnDrawEntry);
@@ -364,15 +362,12 @@ void Listen() {
     REGISTER_LISTENER(OnBattleMenuOpen, EVENT_PRIORITY_NORMAL, OnOpen);
 }
 
-} // namespace
-
 extern "C" int32_t Mod_AddBattleMenuEntries(const char* owner, int32_t menu, BattleMenuProvider provider) {
     const std::string name = Mod::OwnerName(owner);
     if (!ValidMenu(menu) || provider == nullptr) {
         SPDLOG_ERROR("Mod: {} registered an invalid battle menu provider (menu {})", name, menu);
         return -1;
     }
-    Listen();
     Providers().push_back({ name, menu, provider });
     return 0;
 }
@@ -383,7 +378,6 @@ extern "C" int32_t Mod_AddBattleMenuHud(const char* owner, int32_t menu, const B
         SPDLOG_ERROR("Mod: {} registered an invalid battle menu HUD (menu {})", name, menu);
         return -1;
     }
-    Listen();
     Huds().push_back({ name, menu, *hud });
     return 0;
 }
@@ -391,6 +385,12 @@ extern "C" int32_t Mod_AddBattleMenuHud(const char* owner, int32_t menu, const B
 extern "C" int32_t Mod_AllocBattleMenuType(const char* owner) {
     const std::string name = Mod::OwnerName(owner);
     auto& owners = TypeOwners();
+    for (size_t i = 0; i < owners.size(); i++) {
+        if (owners[i].empty()) {
+            owners[i] = name;
+            return MOD_BATTLE_MENU_TYPE_FIRST + (int32_t) i;
+        }
+    }
     if ((int32_t) owners.size() > MOD_BATTLE_MENU_TYPE_LAST - MOD_BATTLE_MENU_TYPE_FIRST) {
         SPDLOG_ERROR(
             "Mod: {} asked for a battle menu type, but all {} are taken", name,
@@ -475,6 +475,11 @@ void UnregisterBattleMenus(const std::string& owner) {
     huds.erase(
         std::remove_if(huds.begin(), huds.end(), [&](const Hud& hud) { return hud.owner == owner; }), huds.end()
     );
+    for (std::string& typeOwner : TypeOwners()) {
+        if (typeOwner == owner) {
+            typeOwner.clear();
+        }
+    }
 }
 
 } // namespace Mod

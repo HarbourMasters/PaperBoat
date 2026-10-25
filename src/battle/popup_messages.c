@@ -1353,6 +1353,11 @@ void btl_message_popup_draw_content(void* data, s32 x, s32 y) {
             messageID = popupMsgID;
 #if !VERSION_JP
             msgLinesIdx = get_msg_lines(messageID) - 1;
+            if (msgLinesIdx < 0) {
+                msgLinesIdx = 0;
+            } else if (msgLinesIdx >= ARRAY_COUNT(BattleMessage_TextOffsetsY)) {
+                msgLinesIdx = ARRAY_COUNT(BattleMessage_TextOffsetsY) - 1;
+            }
             y += BattleMessage_TextOffsetsY[msgLinesIdx];
 #endif
             draw_msg(messageID, x, y, 255, MSG_PAL_0F, 0);
@@ -1906,6 +1911,11 @@ void btl_show_message_popup(void* data) {
                 posX = 160 - (msgWidth / 2);
                 width = msgWidth;
                 numLines = get_msg_lines(messageID) - 1;
+                if (numLines < 0) {
+                    numLines = 0;
+                } else if (numLines >= ARRAY_COUNT(BattleMessage_BoxSizesY)) {
+                    numLines = ARRAY_COUNT(BattleMessage_BoxSizesY) - 1;
+                }
                 height = BattleMessage_BoxSizesY[numLines];
                 set_window_properties(WIN_BTL_POPUP, posX, posY, width, height, WINDOW_PRIORITY_0, btl_message_popup_draw_content, popup, -1);
                 set_window_update(WIN_BTL_POPUP, WINDOW_UPDATE_SHOW);

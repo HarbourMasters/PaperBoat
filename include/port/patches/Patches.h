@@ -130,6 +130,9 @@ f32 port_status_bar_box_width(void);
 f32 port_status_bar_box_height(void);
 s32 port_status_bar_retracted_y(void);
 void* port_status_bar_box_style(s32 styleID);
+
+// DX debug menu (DebugMenuPatches.cpp)
+b32 port_debug_menu_entry_allowed(const char* text);
 void port_box_default_style(WindowStyleCustom* out, s32 styleID); // draw_box.c
 void port_hud_element_draw_next_scaled(s32 id, s32 originX, s32 originY, f32 scale); // hud_element.c
 

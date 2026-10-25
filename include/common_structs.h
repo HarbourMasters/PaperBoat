@@ -2191,7 +2191,7 @@ typedef struct {
 #elif VERSION_IQUE || VERSION_PAL
 #define DISPLAYCONTEXT_GFX_COUNT 0x2200
 #else
-#define DISPLAYCONTEXT_GFX_COUNT 0x2080
+#define DISPLAYCONTEXT_GFX_COUNT 0x4100
 #endif
 
 typedef struct {
