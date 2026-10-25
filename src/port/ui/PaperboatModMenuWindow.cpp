@@ -180,7 +180,7 @@ void UpdateModFiles(bool init, bool reset) {
     SortDisabledMods();
 
     if (init) {
-        const std::string base = Mod::ActiveBase();
+        const Mod::Base base = Mod::ActiveBase();
         for (const std::string& mod : enabledModFiles) {
             auto it = filePaths.find(mod);
             if (it == filePaths.end()) {
@@ -191,13 +191,12 @@ void UpdateModFiles(bool init, bool reset) {
             record.file = mod;
             auto archive = Mod::OpenArchive(it->second);
             if (archive == nullptr) {
-                record.owner = record.displayName = mod;
+                record.displayName = mod;
                 record.skipReason = "The archive could not be opened.";
                 Mod::RecordMod(std::move(record));
                 continue;
             }
             record.manifest = Mod::ReadManifest(*archive);
-            record.owner = record.manifest.has_value() && !record.manifest->id.empty() ? record.manifest->id : mod;
             record.displayName =
                 record.manifest.has_value() && !record.manifest->name.empty() ? record.manifest->name : mod;
             const auto reason =
@@ -591,13 +590,13 @@ static std::vector<Romhack::Supported> sSupportedRomhacks;
 static void DrawSupportedRomhacks() {
     for (const auto& hack : sSupportedRomhacks) {
         ImGui::PushID(hack.id.c_str());
-        ImGui::BeginDisabled(hack.url.empty());
+        ImGui::BeginDisabled(hack.website.empty());
         if (UIWidgets::Button(
                 ICON_FA_EXTERNAL_LINK,
-                UIWidgets::ButtonOptions().Size(UIWidgets::Sizes::Inline).Color(THEME_COLOR).Tooltip(hack.url.c_str())
+                UIWidgets::ButtonOptions().Size(UIWidgets::Sizes::Inline).Color(THEME_COLOR).Tooltip(hack.website.c_str())
             ))
         {
-            SDL_OpenURL(hack.url.c_str());
+            SDL_OpenURL(hack.website.c_str());
         }
         ImGui::EndDisabled();
         ImGui::SameLine();

@@ -11,7 +11,6 @@
 namespace Features {
 
 struct RuleSource {
-    std::string owner;
     std::string name;
     std::vector<std::string> disable;
     std::vector<std::pair<std::string, nlohmann::json>> force;

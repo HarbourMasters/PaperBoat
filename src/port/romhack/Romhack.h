@@ -36,14 +36,19 @@ struct Supported {
     std::string id;
     std::string name;
     std::string version;
-    std::string url;
+    std::string website;
 };
 std::vector<Supported> ListSupported();
 
 std::optional<Info> ParseMarker(const std::string& text);
 
+struct ConfigHack {
+    std::string id;
+    Mod::Manifest manifest;
+};
+
 Mod::Manifest ConfigManifest(const YAML::Node& rom, const std::string& romSha1);
-std::optional<Mod::Manifest> FindConfigManifest(const Info& info);
+std::optional<ConfigHack> FindConfigHack(const std::string& romSha1, const std::string& id, const std::string& name);
 
 // Absolute mods/~romhacks directory.
 std::string Directory();

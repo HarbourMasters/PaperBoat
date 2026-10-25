@@ -1,6 +1,7 @@
 #include "ModManifest.h"
 
 #include <algorithm>
+#include <cctype>
 #include <map>
 
 #include <ship/resource/File.h>
@@ -30,6 +31,35 @@ static std::vector<std::string> StringList(const nlohmann::json& node) {
     return out;
 }
 
+static std::optional<BaseRef> ParseBaseRef(const nlohmann::json& node) {
+    if (node.is_string()) {
+        return BaseRef { node.get<std::string>(), "" };
+    }
+    if (node.is_object() && node.contains("name") && node["name"].is_string()) {
+        return BaseRef { node["name"].get<std::string>(), node.value("version", "") };
+    }
+    return std::nullopt;
+}
+
+std::vector<BaseRef> ParseWorksWith(const nlohmann::json& node) {
+    std::vector<BaseRef> out;
+    if (node.is_array()) {
+        for (const auto& item : node) {
+            if (auto ref = ParseBaseRef(item)) {
+                out.push_back(std::move(*ref));
+            }
+        }
+    } else if (auto ref = ParseBaseRef(node)) {
+        out.push_back(std::move(*ref));
+    }
+    return out;
+}
+
+static std::string StringField(const nlohmann::json& root, const char* key) {
+    const auto it = root.find(key);
+    return it != root.end() && it->is_string() ? it->get<std::string>() : "";
+}
+
 std::optional<Manifest> ParseManifest(const std::string& text) {
     try {
         const nlohmann::json root = nlohmann::json::parse(text);
@@ -37,23 +67,21 @@ std::optional<Manifest> ParseManifest(const std::string& text) {
             return std::nullopt;
         }
         Manifest manifest;
-        manifest.name = root.value("name", "");
-        manifest.version = root.value("version", "");
-        const auto pb = root.find("paperboat");
-        if (pb != root.end() && pb->is_object()) {
-            manifest.id = pb->value("id", "");
-            manifest.kind = pb->value("kind", kKindMod);
-            manifest.romSha1 = pb->value("rom_sha1", "");
-            if (const auto it = pb->find("works_with"); it != pb->end()) {
-                manifest.worksWith = StringList(*it);
-            }
-            if (const auto it = pb->find("disable"); it != pb->end()) {
-                manifest.disable = StringList(*it);
-            }
-            if (const auto it = pb->find("force"); it != pb->end() && it->is_object()) {
-                for (const auto& [key, value] : it->items()) {
-                    manifest.force.emplace_back(key, value);
-                }
+        manifest.name = StringField(root, "name");
+        manifest.version = StringField(root, "version");
+        manifest.author = StringField(root, "author");
+        manifest.description = StringField(root, "description");
+        manifest.website = StringField(root, "website");
+        manifest.romSha1 = StringField(root, "rom_sha1");
+        if (const auto it = root.find("works_with"); it != root.end()) {
+            manifest.worksWith = ParseWorksWith(*it);
+        }
+        if (const auto it = root.find("disable"); it != root.end()) {
+            manifest.disable = StringList(*it);
+        }
+        if (const auto it = root.find("force"); it != root.end() && it->is_object()) {
+            for (const auto& [key, value] : it->items()) {
+                manifest.force.emplace_back(key, value);
             }
         }
         return manifest;
@@ -64,27 +92,37 @@ std::optional<Manifest> ParseManifest(const std::string& text) {
 }
 
 std::string ManifestText(const Manifest& manifest) {
-    nlohmann::ordered_json pb;
-    pb["id"] = manifest.id;
-    pb["kind"] = manifest.kind;
-    if (!manifest.romSha1.empty()) {
-        pb["rom_sha1"] = manifest.romSha1;
-    }
-    if (manifest.worksWith.has_value()) {
-        pb["works_with"] = *manifest.worksWith;
-    }
-    pb["disable"] = manifest.disable;
-    pb["force"] = nlohmann::ordered_json::object();
-    for (const auto& [key, value] : manifest.force) {
-        pb["force"][key] = value;
-    }
-
     nlohmann::ordered_json root;
     root["name"] = manifest.name;
-    if (!manifest.version.empty()) {
-        root["version"] = manifest.version;
+    const std::pair<const char*, const std::string*> strings[] = {
+        { "version", &manifest.version }, { "author", &manifest.author },    { "description", &manifest.description },
+        { "website", &manifest.website }, { "rom_sha1", &manifest.romSha1 },
+    };
+    for (const auto& [key, value] : strings) {
+        if (!value->empty()) {
+            root[key] = *value;
+        }
     }
-    root["paperboat"] = pb;
+    if (manifest.worksWith.has_value()) {
+        nlohmann::ordered_json bases = nlohmann::ordered_json::array();
+        for (const BaseRef& ref : *manifest.worksWith) {
+            if (ref.versions.empty()) {
+                bases.push_back(ref.name);
+            } else {
+                bases.push_back({ { "name", ref.name }, { "version", ref.versions } });
+            }
+        }
+        root["works_with"] = bases;
+    }
+    if (!manifest.disable.empty()) {
+        root["disable"] = manifest.disable;
+    }
+    if (!manifest.force.empty()) {
+        root["force"] = nlohmann::ordered_json::object();
+        for (const auto& [key, value] : manifest.force) {
+            root["force"][key] = value;
+        }
+    }
     return root.dump(2);
 }
 
@@ -113,36 +151,110 @@ std::shared_ptr<Ship::Archive> OpenArchive(const fs::path& path) {
     return archive;
 }
 
-std::string ActiveBase() {
-    const Romhack::Info* info = Romhack::Active();
-    return info != nullptr ? info->id : kBaseVanilla;
-}
-
-static std::string BaseLabel(const std::string& base) {
-    if (base == kBaseVanilla) {
-        return "Paper Mario";
+static std::vector<int64_t> VersionParts(const std::string& version) {
+    std::vector<int64_t> parts;
+    size_t pos = 0;
+    while (pos <= version.size()) {
+        const size_t dot = std::min(version.find('.', pos), version.size());
+        int64_t value = 0;
+        for (size_t i = pos; i < dot && std::isdigit(static_cast<unsigned char>(version[i])); i++) {
+            value = value * 10 + (version[i] - '0');
+        }
+        parts.push_back(value);
+        pos = dot + 1;
     }
-    const Romhack::Info* info = Romhack::Active();
-    return info != nullptr && info->id == base ? info->name : base;
+    return parts;
 }
 
-std::optional<std::string> IncompatibleReason(const Manifest& manifest, const std::string& base) {
-    if (manifest.kind == kKindRomhack) {
+static int CompareVersions(const std::string& a, const std::string& b) {
+    const auto pa = VersionParts(a);
+    const auto pb = VersionParts(b);
+    for (size_t i = 0; i < std::max(pa.size(), pb.size()); i++) {
+        const int64_t x = i < pa.size() ? pa[i] : 0;
+        const int64_t y = i < pb.size() ? pb[i] : 0;
+        if (x != y) {
+            return x < y ? -1 : 1;
+        }
+    }
+    return 0;
+}
+
+bool VersionInRange(const std::string& version, const std::string& range) {
+    std::vector<std::string> tokens;
+    std::string current;
+    for (const char c : range) {
+        if (c == ' ' || c == ',') {
+            if (!current.empty()) {
+                tokens.push_back(std::move(current));
+                current.clear();
+            }
+        } else {
+            current += c;
+        }
+    }
+    if (!current.empty()) {
+        tokens.push_back(std::move(current));
+    }
+
+    for (size_t i = 0; i < tokens.size(); i++) {
+        std::string token = tokens[i];
+        size_t opLength = 0;
+        while (opLength < token.size() && (token[opLength] == '<' || token[opLength] == '>' || token[opLength] == '='))
+        {
+            opLength++;
+        }
+        std::string op = token.substr(0, opLength);
+        std::string target = token.substr(opLength);
+        if (target.empty() && i + 1 < tokens.size()) {
+            target = tokens[++i];
+        }
+        if (op.empty()) {
+            op = ">=";
+        }
+        const int cmp = CompareVersions(version, target);
+        const bool ok = op == ">=" ? cmp >= 0
+            : op == ">"            ? cmp > 0
+            : op == "<="           ? cmp <= 0
+            : op == "<"            ? cmp < 0
+                                   : cmp == 0;
+        if (!ok) {
+            return false;
+        }
+    }
+    return true;
+}
+
+Base ActiveBase() {
+    const Romhack::Info* info = Romhack::Active();
+    return info != nullptr ? Base { info->name, info->version } : Base { kBaseVanilla, "" };
+}
+
+static std::string BaseLabel(const std::string& name) {
+    return name == kBaseVanilla ? "Paper Mario" : name;
+}
+
+std::optional<std::string> IncompatibleReason(const Manifest& manifest, const Base& base) {
+    if (manifest.IsRomhack()) {
         return std::string("This is a romhack; install it in mods/~romhacks and pick it in the Romhack Menu.");
     }
     if (!manifest.worksWith.has_value() || manifest.worksWith->empty()) {
         return std::nullopt;
     }
-    for (const std::string& target : *manifest.worksWith) {
-        if (target == "*" || target == base) {
+    for (const BaseRef& ref : *manifest.worksWith) {
+        if (ref.name == "*") {
+            return std::nullopt;
+        }
+        if (ref.name == base.name && (ref.versions.empty() || VersionInRange(base.version, ref.versions))) {
             return std::nullopt;
         }
     }
     std::string targets;
-    for (const std::string& target : *manifest.worksWith) {
-        targets += (targets.empty() ? "" : ", ") + BaseLabel(target);
+    for (const BaseRef& ref : *manifest.worksWith) {
+        targets +=
+            (targets.empty() ? "" : ", ") + BaseLabel(ref.name) + (ref.versions.empty() ? "" : " " + ref.versions);
     }
-    return fmt::format("Made for {}, not {}.", targets, BaseLabel(base));
+    const std::string current = BaseLabel(base.name) + (base.version.empty() ? "" : " " + base.version);
+    return fmt::format("Made for {}, not {}.", targets, current);
 }
 
 static std::vector<ModRecord> sRecords;

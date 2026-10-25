@@ -21,7 +21,9 @@
 #     romhack:
 #       id: <Id>                             # matches specific/<Id>.cpp
 #       version: "<version>"
-#       url: <download page>                 # linked from the Supported Romhacks tab
+#       author: <Author>                     # optional; written to the manifest
+#       description: <one line>              # optional; written to the manifest
+#       website: <download page>             # linked from the Supported Romhacks tab
 #       works_with: [vanilla]                # optional; what the hack is built on (default vanilla)
 #       disable: [<feature id or group.*>]   # optional; port features the hack turns off
 #       force: { <feature id>: <value> }     # optional; port features the hack pins to a value
@@ -35,14 +37,15 @@
 #         headers: include
 #         code: code
 
-# Paper Peach (gamebanana.com/mods/576687), "Paper Peach Patch.bps" applied to the US ROM
 c02972e81d5f05da7ed0e7b4f0efc30f05a01b18:
   name: Paper Peach
   path: ./assets/yaml/romhacks/paper_peach
   romhack:
     id: PaperPeach
     version: "1.2"
-    url: https://gamebanana.com/mods/576687
+    author: AgateTrevalyn
+    description:  Peach embarks on an adventure instead of Mario.
+    website: https://gamebanana.com/mods/576687
   config:
     gbi: F3DEX2_PM64
     gbi_floats: false

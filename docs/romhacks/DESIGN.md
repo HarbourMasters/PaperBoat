@@ -60,7 +60,9 @@ Paper Mario keeps most of its data compiled into the game code (move and item ta
      romhack:
        id: <Id>                             # matches specific/<Id>.cpp
        version: "<version>"
-       url: <download page>                 # linked from the Supported Romhacks tab
+       author: <Author>                     # optional
+       description: <one line>              # optional
+       website: <download page>             # linked from the Supported Romhacks tab
        works_with: [vanilla]                # optional, default vanilla
        disable: [<feature id or group.*>]   # optional, see Feature rules
        force: { <feature id>: <value> }     # optional, see Feature rules
@@ -92,29 +94,31 @@ Paper Mario keeps most of its data compiled into the game code (move and item ta
 
 ### Manifest
 
-Every mounted archive is a mod; a romhack is a mod with `kind: romhack`. A mod may carry the LUS root `manifest.json`, with the PaperBoat keys in a `paperboat` object. Without a manifest (or without the `paperboat` object) it is a plain asset mod: no rules, works with everything.
+Every mounted archive is a mod; a romhack is a mod with a `rom_sha1`. A mod may carry the LUS root `manifest.json`: the LUS keys (`name`, `version`, `author`, `description`, `website`, and for code mods `main`, `binaries`, `dependencies`, `code_version`) plus the PaperBoat keys below, all at the top level. LUS ignores keys it does not know. Without a manifest it is a plain asset mod: no rules, works with everything.
 
 ```json
-{ "name": "<Name>", "version": "<version>",
-  "paperboat": { "id": "<Id>", "kind": "romhack", "rom_sha1": "...",
-                 "works_with": ["vanilla"],
-                 "disable": ["enhancements.no_intro", "graphics.status_bar.*"],
-                 "force": {} } }
+{ "name": "<Name>", "version": "<version>", "author": "<Author>", "website": "<url>",
+  "rom_sha1": "...",
+  "works_with": ["vanilla", { "name": "TTYD64", "version": ">=1.0" }],
+  "disable": ["enhancements.no_intro", "graphics.status_bar.*"],
+  "force": {} }
 ```
 
 | Key | Meaning |
 |---|---|
-| `name`, `version` | LUS manifest fields. `name` is what menus and "Disabled by" tooltips show (the file name when missing); LUS needs it to parse the rest of its own fields |
-| `paperboat.id` | stable owner id (romhack id for romhacks; the file name when missing) |
-| `paperboat.kind` | `mod` (default) or `romhack`. A `romhack` archive in `mods/` is not loaded; romhacks go in `mods/~romhacks/` |
-| `paperboat.rom_sha1` | romhacks: SHA1 of the patched ROM |
-| `paperboat.works_with` | list of bases: `vanilla`, romhack ids, or `*`. Missing = works with everything. For a romhack it is what the hack is built on (always `vanilla` today) |
-| `paperboat.disable` | feature ids or `group.*` wildcards the mod turns off |
-| `paperboat.force` | `{ feature id or group.*: value }`: toggles and ints take a number or bool, colours `[r, g, b(, a)]` or `"#RRGGBB(AA)"` |
+| `name` | the mod's identity: what `works_with` and LUS `dependencies` refer to, what menus and "Disabled by" tooltips show (the file name when missing). LUS needs it to parse the rest of its own fields |
+| `version` | dotted version; a romhack's is checked against `works_with` ranges and stamped into its saves |
+| `author`, `description`, `website` | LUS fields; a romhack's come from its `config.yml` entry |
+| `rom_sha1` | romhacks only: SHA1 of the patched ROM. An archive with it in `mods/` is not loaded; romhacks go in `mods/~romhacks/` |
+| `works_with` | bases the mod runs on: `vanilla`, a romhack's `name`, or `*`; each entry is a name or `{ "name", "version" }` with a range in the LUS dependency syntax (`>=`, `>`, `<=`, `<`, `=`, separated by spaces or commas; a bare version is a minimum). Missing = works with everything. For a romhack it is what the hack is built on (`vanilla` today) |
+| `disable` | feature ids or `group.*` wildcards the mod turns off |
+| `force` | `{ feature id or group.*: value }`: toggles and ints take a number or bool, colours `[r, g, b(, a)]` or `"#RRGGBB(AA)"` |
+
+A romhack's code id (the `specific/<Id>.cpp` it runs, the owner of what it registers) is not in the manifest: `Romhack::Mount` finds the hack's `config.yml` entry by `rom_sha1` and takes `romhack.id` from it. Archives extracted before the manifest carried `rom_sha1` are matched by their marker or `name` and their rules come from `config.yml`; re-extract to embed them.
 
 The manifest is read per archive (`Mod::ReadManifest`, `src/port/modding/ModManifest.h`), never through the merged VFS: every archive ships `manifest.json` at the same path, so the shared index only returns the top archive's copy.
 
-- **Mount loop** (`UpdateModFiles`): each enabled mod is opened, its manifest read, and it is only mounted if `works_with` includes the active base (`vanilla` or the active romhack id). An incompatible mod stays in `EnabledMods`, so switching back to its base loads it again; the Mod Menu shows it greyed with the reason.
+- **Mount loop** (`UpdateModFiles`): each enabled mod is opened, its manifest read, and it is only mounted if `works_with` includes the active base (`vanilla`, or the active romhack's name and version). An incompatible mod stays in `EnabledMods`, so switching back to its base loads it again; the Mod Menu shows it greyed with the reason.
 - **Rule resolution** (`Features::ResolveMounted()`, called from `FinishInit` right after `UpdateModFiles(true)`, before the data tables, events and `ShipInit`): sources in load order are the built-in rules, the romhack, then each mounted mod.
 
 ### Feature rules

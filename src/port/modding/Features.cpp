@@ -351,14 +351,14 @@ void Resolve(const std::vector<RuleSource>& sources) {
 void ResolveMounted() {
     std::vector<RuleSource> sources;
     if (const Romhack::Info* info = Romhack::Active()) {
-        sources.push_back({ "paperboat", info->name, { "save.import_n64" }, {} });
+        sources.push_back({ info->name, { "save.import_n64" }, {} });
         if (const Mod::Manifest* manifest = Romhack::ActiveManifest()) {
-            sources.push_back({ info->id, info->name, manifest->disable, manifest->force });
+            sources.push_back({ info->name, manifest->disable, manifest->force });
         }
     }
     for (const Mod::ModRecord& record : Mod::ModRecords()) {
         if (record.mounted && record.manifest.has_value()) {
-            sources.push_back({ record.owner, record.displayName, record.manifest->disable, record.manifest->force });
+            sources.push_back({ record.displayName, record.manifest->disable, record.manifest->force });
         }
     }
     Resolve(sources);

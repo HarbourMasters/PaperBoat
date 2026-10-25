@@ -90,13 +90,14 @@ static std::vector<std::string> YamlStringList(const YAML::Node& node) {
 Mod::Manifest ConfigManifest(const YAML::Node& rom, const std::string& romSha1) {
     const YAML::Node hack = rom["romhack"];
     Mod::Manifest manifest;
-    manifest.id = hack["id"].as<std::string>("");
-    manifest.name = rom["name"].as<std::string>(manifest.id);
+    manifest.name = rom["name"].as<std::string>(hack["id"].as<std::string>(""));
     manifest.version = hack["version"].as<std::string>("");
-    manifest.kind = Mod::kKindRomhack;
+    manifest.author = hack["author"].as<std::string>("");
+    manifest.description = hack["description"].as<std::string>("");
+    manifest.website = hack["website"].as<std::string>("");
     manifest.romSha1 = romSha1;
-    manifest.worksWith =
-        hack["works_with"] ? YamlStringList(hack["works_with"]) : std::vector<std::string> { Mod::kBaseVanilla };
+    manifest.worksWith = hack["works_with"] ? Mod::ParseWorksWith(YamlToJson(hack["works_with"]))
+                                            : std::vector<Mod::BaseRef> { { Mod::kBaseVanilla, "" } };
     if (hack["disable"]) {
         manifest.disable = YamlStringList(hack["disable"]);
     }
@@ -108,24 +109,29 @@ Mod::Manifest ConfigManifest(const YAML::Node& rom, const std::string& romSha1) 
     return manifest;
 }
 
-std::optional<Mod::Manifest> FindConfigManifest(const Info& info) {
+std::optional<ConfigHack> FindConfigHack(const std::string& romSha1, const std::string& id, const std::string& name) {
     try {
         const YAML::Node config = YAML::LoadFile(ConfigPath().generic_string());
-        std::optional<Mod::Manifest> byId;
+        std::optional<ConfigHack> byId;
+        std::optional<ConfigHack> byName;
         for (const auto& entry : config) {
             const YAML::Node rom = entry.second;
             if (!rom.IsMap() || !rom["romhack"]) {
                 continue;
             }
             const std::string sha1 = entry.first.as<std::string>("");
-            if (!info.romSha1.empty() && sha1 == info.romSha1) {
-                return ConfigManifest(rom, sha1);
+            const std::string hackId = rom["romhack"]["id"].as<std::string>("");
+            if (!romSha1.empty() && sha1 == romSha1) {
+                return ConfigHack { hackId, ConfigManifest(rom, sha1) };
             }
-            if (!byId.has_value() && rom["romhack"]["id"].as<std::string>("") == info.id) {
-                byId = ConfigManifest(rom, sha1);
+            if (!byId.has_value() && !id.empty() && hackId == id) {
+                byId = ConfigHack { hackId, ConfigManifest(rom, sha1) };
+            }
+            if (!byName.has_value() && !name.empty() && rom["name"].as<std::string>("") == name) {
+                byName = ConfigHack { hackId, ConfigManifest(rom, sha1) };
             }
         }
-        return byId;
+        return byId.has_value() ? byId : byName;
     } catch (const YAML::Exception& e) {
         SPDLOG_WARN("Romhack: could not read {}: {}", ConfigPath().generic_string(), e.what());
     }
@@ -147,7 +153,7 @@ std::vector<Supported> ListSupported() {
             info.id = hack["id"].as<std::string>("");
             info.name = rom["name"].as<std::string>(info.id);
             info.version = hack["version"].as<std::string>("");
-            info.url = hack["url"].as<std::string>("");
+            info.website = hack["website"].as<std::string>("");
             hacks.push_back(std::move(info));
         }
     } catch (const YAML::Exception& e) {
@@ -243,29 +249,31 @@ void Mount(const std::shared_ptr<Ship::ArchiveManager>& archives) {
     }
 
     std::optional<Info> info;
+    std::optional<ConfigHack> config;
     auto manifest = Mod::ReadManifest(*archive);
-    if (manifest.has_value() && manifest->kind == Mod::kKindRomhack && !manifest->id.empty()) {
-        info = Info { manifest->id, manifest->name.empty() ? manifest->id : manifest->name, manifest->version,
-                      manifest->romSha1 };
+    if (manifest.has_value() && manifest->IsRomhack()) {
+        config = FindConfigHack(manifest->romSha1, "", "");
     } else {
+        std::optional<Info> marker;
+        auto file = archive->LoadFile(kMarkerFile);
+        if (file != nullptr && file->Buffer != nullptr) {
+            marker = ParseMarker(std::string(file->Buffer->begin() + file->BufferOffset, file->Buffer->end()));
+        }
+        config = FindConfigHack(marker.has_value() ? marker->romSha1 : "", marker.has_value() ? marker->id : "",
+                                manifest.has_value() ? manifest->name : "");
         manifest.reset();
-        auto marker = archive->LoadFile(kMarkerFile);
-        if (marker != nullptr && marker->Buffer != nullptr) {
-            info = ParseMarker(std::string(marker->Buffer->begin() + marker->BufferOffset, marker->Buffer->end()));
+        if (config.has_value()) {
+            SPDLOG_INFO("Romhack: {} predates the current {}; using its config.yml entry, re-extract to embed it",
+                        stem, Mod::kManifestFile);
+            manifest = config->manifest;
         }
     }
-    if (!info.has_value()) {
+    if (manifest.has_value()) {
+        const std::string name = manifest->name.empty() ? stem : manifest->name;
+        info = Info { config.has_value() ? config->id : stem, name, manifest->version, manifest->romSha1 };
+    } else {
         SPDLOG_WARN("Romhack: {} has no manifest; treating it as an asset-only hack", stem);
         info = Info { stem, stem, "" };
-    }
-    if (!manifest.has_value()) {
-        manifest = FindConfigManifest(*info);
-        if (manifest.has_value()) {
-            SPDLOG_INFO(
-                "Romhack: {} predates {}; using its config.yml rules, re-extract to embed them", stem,
-                Mod::kManifestFile
-            );
-        }
     }
     archives->AddArchive(archive);
     sActive = info;
