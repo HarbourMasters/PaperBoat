@@ -1369,7 +1369,7 @@ void dx_debug_update_edit_items() {
         }
 
         s32 itemMsg = MSG_NONE;
-        if (itemID > 0 && itemID < NUM_ITEMS) {
+        if (itemID > 0 && itemID < gItemCount) {
             itemMsg = gItemTable[itemID].nameMsg;
         }
         if (itemMsg != MSG_NONE) {

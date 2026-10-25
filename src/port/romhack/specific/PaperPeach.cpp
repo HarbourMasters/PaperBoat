@@ -7,7 +7,6 @@
 #include <spdlog/spdlog.h>
 
 #include "port/modding/DataTables.h"
-#include "port/modding/MapTextures.h"
 #include "port/romhack/RomhackPort.h"
 
 extern "C" {
@@ -70,8 +69,6 @@ public:
     }
 
     void Init() override {
-        Mod_OverrideMapTextureSize("PaperPeach", "hos_tex", "hos_ochi_mariotif", 64, 44);
-
         gPauseMessages[PAUSE_MSG_3C] = (intptr_t) sPauseHeels;
         gPauseMessages[PAUSE_MSG_3D] = (intptr_t) sPauseSuperHeels;
         gPauseMessages[PAUSE_MSG_3E] = (intptr_t) sPauseUltraHeels;

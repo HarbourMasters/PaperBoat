@@ -8,6 +8,7 @@
 #include "EvtBuffers.h"
 #include "InputHistory.h"
 #include "Inventory.h"
+#include "Items.h"
 #include "MapRegistry.h"
 #include "MapTextures.h"
 #include "Messages.h"

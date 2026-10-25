@@ -90,7 +90,7 @@ void spawn_drops(Enemy* enemy) {
             }
         }
     }
-    if (itemToDrop < 0 || itemToDrop >= NUM_ITEMS) {
+    if (itemToDrop < 0 || itemToDrop >= gItemCount) {
         itemToDrop = ITEM_NONE;
     }
 

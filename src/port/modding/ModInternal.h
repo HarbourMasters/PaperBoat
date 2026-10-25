@@ -62,6 +62,7 @@ void UnregisterMessages(const std::string& owner);
 void UnregisterMaps(const std::string& owner);
 void UnregisterEvtBuffers(const std::string& owner);
 void UnregisterMapTextures(const std::string& owner);
+void UnregisterItems(const std::string& owner);
 void UnregisterAbilities(const std::string& owner);
 void UnregisterSaveData(const std::string& owner);
 void UnregisterActorExt(const std::string& owner);

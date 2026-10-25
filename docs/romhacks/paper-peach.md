@@ -24,7 +24,7 @@ built with Star Rod and targets the US ROM.
 | Moves | FP/BP costs lowered on 53 of 185 moves | `romhack/move_table` |
 | Pause menu | Boots → Heels, Hammer → Parasol (each with its Super and Ultra tiers), Mario → Peach | `PaperPeachPort::Init` overrides `gPauseMessages` with the hack's strings |
 | Icons / UI | Gear (heels and parasol), badges, the Mario head, the swapped partner icons, the pause and file menus, battle menu icons | asset delta |
-| Map files | `hos_tex` (`hos_ochi_mariotif` is now 64×44) and `trd_03_hit` collision | asset delta + `Mod_OverrideMapTextureSize` |
+| Map files | `hos_tex`: `hos_ochi_mariotif` (the `hos_10` falling cutscene) redrawn as Peach, now 64×44; the other 94 textures and every `hos` shape and collision are unchanged. `trd_03_hit` is only re-saved by Star Rod (same colliders and triangles, rounded bounds) and is not carried | asset delta; the texture's new size comes from the hack's archive headers (`romhack/maptex_hos_tex`) |
 | Effects / shading | Ending decals, Peach star beam texture, 18 sprite shading profiles | asset delta |
 
 ## Star Rod engine changes (nothing to port)

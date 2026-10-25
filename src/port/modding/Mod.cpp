@@ -20,6 +20,7 @@ extern "C" void Mod_UnregisterOwner(const char* owner) {
     Mod::UnregisterMaps(name);
     Mod::UnregisterEvtBuffers(name);
     Mod::UnregisterMapTextures(name);
+    Mod::UnregisterItems(name);
     Mod::UnregisterAbilities(name);
     Mod::UnregisterSaveData(name);
     Mod::UnregisterActorExt(name);

@@ -67,7 +67,7 @@ extern "C" int32_t Mod_RegisterAbility(const char* owner, int32_t moveID, int32_
     auto& abilities = RegisteredAbilities();
     int32_t freeIndex = -1;
 
-    if (moveID <= MOVE_NONE || moveID >= NUM_MOVES) {
+    if (moveID <= MOVE_NONE || moveID >= MOVE_TABLE_CAPACITY) {
         SPDLOG_ERROR("Mod: {} registered an ability for move {}, out of range", name, moveID);
         return -1;
     }

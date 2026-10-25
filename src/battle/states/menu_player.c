@@ -142,7 +142,7 @@ void btl_init_menu_boots(void) {
         if (badge != ITEM_NONE) {
             s32 badgeID = badge;
             CALL_EVENT(OnBattleBadgeMenuEntry, BTL_MENU_TYPE_JUMP, moveCount, &badgeID);
-            if (badgeID < 0 || badgeID >= NUM_ITEMS) {
+            if (badgeID < 0 || badgeID >= gItemCount) {
                 badgeID = ITEM_NONE;
             }
             badge = badgeID;
@@ -246,7 +246,7 @@ void btl_init_menu_hammer(void) {
         if (badge != MOVE_NONE) {
             s32 badgeID = badge;
             CALL_EVENT(OnBattleBadgeMenuEntry, BTL_MENU_TYPE_SMASH, moveCount, &badgeID);
-            if (badgeID < 0 || badgeID >= NUM_ITEMS) {
+            if (badgeID < 0 || badgeID >= gItemCount) {
                 badgeID = ITEM_NONE;
             }
             badge = badgeID;
@@ -639,7 +639,7 @@ void btl_state_update_player_menu(void) {
                         s32 badgeID = playerData->equippedBadges[i];
                         if (badgeID != 0) {
                             CALL_EVENT(OnBattleBadgeMenuEntry, BTL_MENU_TYPE_ITEMS, entryIdx, &badgeID);
-                            if (badgeID < 0 || badgeID >= NUM_ITEMS) {
+                            if (badgeID < 0 || badgeID >= gItemCount) {
                                 badgeID = ITEM_NONE;
                             }
                         }

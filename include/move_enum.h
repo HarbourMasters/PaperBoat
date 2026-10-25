@@ -192,6 +192,7 @@ enum MoveIDs {
 };
 
 #define NUM_MOVES 185
+#define MOVE_TABLE_CAPACITY 0x100
 
 #define STAR_POWER_INDEX(x) (x - MOVE_FOCUS)
 

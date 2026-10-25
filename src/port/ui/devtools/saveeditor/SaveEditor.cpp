@@ -33,8 +33,8 @@ extern const s32 CookableDiscoveredFlags[];
 
 extern SaveData gCurrentSaveFile;
 extern s32 gPausePartnersPartnerIDs[8];
-extern intptr_t gItemIconRasterOffsets[349];
-extern intptr_t gItemIconPaletteOffsets[349];
+extern intptr_t gItemIconRasterOffsets[];
+extern intptr_t gItemIconPaletteOffsets[];
 }
 
 #pragma push_macro("End")

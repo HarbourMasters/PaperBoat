@@ -70,7 +70,7 @@ void entity_ItemBlock_spawn_item(Entity* entity) {
     s32 itemID = data->item;
     s32 itemEntityIndex;
     CALL_EVENT(OnItemSpawnPick, ITEM_SPAWN_SOURCE_ITEM_BLOCK, entity, nullptr, &itemID);
-    if (itemID < 0 || itemID >= NUM_ITEMS) {
+    if (itemID < 0 || itemID >= gItemCount) {
         itemID = data->item;
     }
     if (itemID == ITEM_COIN) {
