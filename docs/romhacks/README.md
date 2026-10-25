@@ -10,6 +10,7 @@ A romhack is an overlay on top of the base vanilla game, the port extracts only 
 
 * [Playing a romhack](PLAYING.md): Patching a romhack, adding it to Paperboat, switching between romhacks and the base game, saves, and common errors
 * [Romhacks design](DESIGN.md): How romhack support works in the port, and how to port a new romhack
+* [Modding](../MODDING.md): The manifest, feature rules, `Mod_` services and game events that romhacks build on
 
 ## Supported romhacks
 
