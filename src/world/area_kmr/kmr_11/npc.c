@@ -118,9 +118,12 @@ EvtScript N(EVS_Scene_BossDefeated) = {
     Exec(N(EVS_SetupMusic))
     Call(AdjustCam, CAM_DEFAULT, Float(4.0 / DT), 0, Float(250.0), Float(15.0), Float(-7.5))
     Wait(10 * DT)
-    Call(DisablePartnerAI, 0)
-    Call(SpeakToPlayer, NPC_PARTNER, ANIM_WorldGoombario_Talk, ANIM_WorldGoombario_Idle, 0, MSG_CH0_00D2)
-    Call(EnablePartnerAI)
+    Call(GetCurrentPartnerID, LVar0)
+    IfNe(LVar0, PARTNER_NONE)
+        Call(DisablePartnerAI, 0)
+        Call(SpeakToPlayer, NPC_PARTNER, ANIM_WorldGoombario_Talk, ANIM_WorldGoombario_Idle, 0, MSG_CH0_00D2)
+        Call(EnablePartnerAI)
+    EndIf
     Wait(10 * DT)
     Call(DisablePlayerInput, true)
     Thread

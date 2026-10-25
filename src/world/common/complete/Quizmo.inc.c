@@ -42,6 +42,21 @@ BSS EffectInstance* N(Quizmo_StageEffect);
 BSS EffectInstance* N(Quizmo_AudienceEffect);
 BSS EffectInstance* N(Quizmo_VannaTEffect);
 
+API_CALLABLE(N(Quizmo_HasPartners)) {
+    PlayerData* playerData = &gPlayerData;
+    s32 i;
+
+    script->varTable[0] = false;
+    for (i = 1; i < ARRAY_COUNT(playerData->partners); i++) {
+        if (playerData->partners[i].enabled) {
+            script->varTable[0] = true;
+            break;
+        }
+    }
+
+    return ApiStatus_DONE2;
+}
+
 enum {
     QUIZ_ARRAY_SAVED_FOV        = ArrayVar(0),
     QUIZ_ARRAY_ORIGIN_X         = ArrayVar(1),
@@ -1180,6 +1195,10 @@ EvtScript N(EVS_Quizmo_NPC_OtherAI) = {
 
 EvtScript N(EVS_Quizmo_NPC_Interact) = {
     UseArray(Ref(N(Quizmo_ScriptArray)))
+    Call(N(Quizmo_HasPartners), LVar0)
+    IfEq(LVar0, 0)
+        Return
+    EndIf
     Set(GF_Quizmo_ChangedLocation, true)
     Call(DisablePlayerPhysics, true)
     Call(SetPlayerFlagBits, PS_FLAG_MOVEMENT_LOCKED, 1)

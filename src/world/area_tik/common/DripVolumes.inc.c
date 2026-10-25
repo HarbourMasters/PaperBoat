@@ -11,7 +11,7 @@ API_CALLABLE(N(CheckDripCollisionWithNPC)) {
     PlayerStatus* playerStatus = &gPlayerStatus;
     Bytecode* args = script->ptrReadPos;
     s32 treeIndex = evt_get_variable(script, *args++);
-    Npc* partner = get_npc_unsafe(NPC_PARTNER);
+    Npc* partner = get_npc_safe(NPC_PARTNER);
     Model* model = get_model_from_list_index(get_model_list_index_from_tree_index(treeIndex));
     f32 xDiff, zDiff, yVal;
     f32 sqrtTemp;
@@ -27,13 +27,15 @@ API_CALLABLE(N(CheckDripCollisionWithNPC)) {
         script->varTable[2] = 1;
     }
 
-    xDiff = partner->pos.x - model->center.x;
-    zDiff = partner->pos.z - model->center.z;
-    yVal = partner->pos.y + partner->collisionHeight - 1.5f - model->center.y;
-    sqrtTemp = sqrtf(SQ(xDiff) + SQ(zDiff));
+    if (partner != nullptr) {
+        xDiff = partner->pos.x - model->center.x;
+        zDiff = partner->pos.z - model->center.z;
+        yVal = partner->pos.y + partner->collisionHeight - 1.5f - model->center.y;
+        sqrtTemp = sqrtf(SQ(xDiff) + SQ(zDiff));
 
-    if (yVal > 0.0f && yVal < partner->collisionHeight && sqrtTemp < partner->collisionDiameter * 0.5f) {
-        script->varTable[2] = 1;
+        if (yVal > 0.0f && yVal < partner->collisionHeight && sqrtTemp < partner->collisionDiameter * 0.5f) {
+            script->varTable[2] = 1;
+        }
     }
 
     for (i = 0; i < MAX_NPCS; i++) {
