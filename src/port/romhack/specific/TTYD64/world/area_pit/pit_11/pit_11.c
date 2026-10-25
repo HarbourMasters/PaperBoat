@@ -10,7 +10,7 @@
 #include "port/romhack/specific/TTYD64/include/ttyd64_api.h"
 #include "port/romhack/specific/TTYD64/include/ttyd64_rawmem.h"
 #include "port/romhack/specific/TTYD64/include/ttyd64_symbols.h"
-#include "port/romhack/specific/TTYD64/world/tp.h"
+#include "port/romhack/specific/TTYD64/world/tyd_pit.h"
 
 extern NpcSettings TTYD64_imp_Mover_NpcSettings_Mover;
 extern u8 TTYD64_imp_Mover_String_Choice_Mover[];

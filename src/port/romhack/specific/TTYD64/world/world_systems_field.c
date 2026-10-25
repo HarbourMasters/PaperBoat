@@ -1,4 +1,4 @@
-#include "port/romhack/specific/TTYD64/ws_internal.h"
+#include "port/romhack/specific/TTYD64/world_systems_internal.h"
 #include "entity.h"
 #include "effects.h"
 #include "filemenu.h"

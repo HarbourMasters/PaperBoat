@@ -1,4 +1,4 @@
-#include "port/romhack/specific/TTYD64/battle/bi_internal.h"
+#include "port/romhack/specific/TTYD64/battle/battle_items_internal.h"
 
 static const ALIGN_ASSET(2) char sTex_CoconutBomb[] = "__OTR__romhack/res/battle_items/coconutbomb";
 static const ALIGN_ASSET(2) char sPal_CoconutBomb[] = "__OTR__romhack/res/battle_items/coconutbomb.pal";

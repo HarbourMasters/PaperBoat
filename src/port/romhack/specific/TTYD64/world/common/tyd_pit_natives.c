@@ -6,7 +6,7 @@
 #include "port/modding/Mod.h"
 #include "script_api/macros.h"
 #include "port/romhack/specific/TTYD64/include/ttyd64_api.h"
-#include "port/romhack/specific/TTYD64/world/tp.h"
+#include "port/romhack/specific/TTYD64/world/tyd_pit.h"
 
 #define TTYD64_TP_NPCS_TABLE_MAX 16
 

@@ -1,5 +1,5 @@
-#include "port/romhack/specific/TTYD64/battle/bc_internal.h"
-#include "port/romhack/specific/TTYD64/battle/bc_natives.h"
+#include "port/romhack/specific/TTYD64/battle/battle_core_internal.h"
+#include "port/romhack/specific/TTYD64/battle/battle_core_natives.h"
 
 API_CALLABLE(ForceDisablePlayerBlurImmediately);
 API_CALLABLE(PlayParalyzeHitFX);

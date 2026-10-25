@@ -10,7 +10,7 @@
 #include "port/romhack/specific/TTYD64/include/ttyd64_api.h"
 #include "port/romhack/specific/TTYD64/include/ttyd64_rawmem.h"
 #include "port/romhack/specific/TTYD64/include/ttyd64_symbols.h"
-#include "port/romhack/specific/TTYD64/world/nm.h"
+#include "port/romhack/specific/TTYD64/world/newmaps.h"
 
 API_CALLABLE(AssignScript);
 API_CALLABLE(DisablePlayerInput);

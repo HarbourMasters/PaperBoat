@@ -1,4 +1,4 @@
-#include "port/romhack/specific/TTYD64/battle/bc_internal.h"
+#include "port/romhack/specific/TTYD64/battle/battle_core_internal.h"
 #include <math.h>
 
 s32 TTYD64_Data_ActorsWithHPFPBuffs;

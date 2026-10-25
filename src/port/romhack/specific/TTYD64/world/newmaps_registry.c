@@ -3,7 +3,7 @@
 #include "port/Engine.h"
 #include "port/hooks/Events.h"
 #include "port/modding/Mod.h"
-#include "port/romhack/specific/TTYD64/world/nm.h"
+#include "port/romhack/specific/TTYD64/world/newmaps.h"
 #include <string.h>
 
 extern MapConfig TTYD64_mapcfg_kmr_31;

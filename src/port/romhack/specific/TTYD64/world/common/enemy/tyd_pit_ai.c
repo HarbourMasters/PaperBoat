@@ -1,7 +1,7 @@
 #include "common.h"
 #include "effects.h"
 #include "npc.h"
-#include "port/romhack/specific/TTYD64/world/tp.h"
+#include "port/romhack/specific/TTYD64/world/tyd_pit.h"
 
 #define NAMESPACE TTYD64_tp_kzn_03
 // visual enemy

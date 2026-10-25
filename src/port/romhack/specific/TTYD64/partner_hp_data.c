@@ -1,4 +1,4 @@
-#include "port/romhack/specific/TTYD64/ph_internal.h"
+#include "port/romhack/specific/TTYD64/partner_hp_internal.h"
 #include "assets/ui.h"
 
 const u8 TTYD64_String_Slash_W[] = { 0xFF, 0x05, 0x0A, 0x0F, 0xFD };

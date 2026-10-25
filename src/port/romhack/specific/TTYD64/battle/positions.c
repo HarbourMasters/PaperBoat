@@ -1,4 +1,4 @@
-#include "port/romhack/specific/TTYD64/battle/bc_internal.h"
+#include "port/romhack/specific/TTYD64/battle/battle_core_internal.h"
 
 b8 TTYD64_MarioInFront;
 u8 TTYD64_EnemiesTurnEnded[4];

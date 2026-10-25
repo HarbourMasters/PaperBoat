@@ -10,7 +10,7 @@
 #include "port/romhack/specific/TTYD64/include/ttyd64_api.h"
 #include "port/romhack/specific/TTYD64/include/ttyd64_rawmem.h"
 #include "port/romhack/specific/TTYD64/include/ttyd64_symbols.h"
-#include "port/romhack/specific/TTYD64/world/tp.h"
+#include "port/romhack/specific/TTYD64/world/tyd_pit.h"
 
 API_CALLABLE(kpa_09_GetEncounterEnemyIsOwner);
 API_CALLABLE(kpa_09_ProjectileAI_Main);

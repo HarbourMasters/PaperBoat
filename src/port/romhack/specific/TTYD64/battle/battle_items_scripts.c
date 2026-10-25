@@ -1,4 +1,4 @@
-#include "port/romhack/specific/TTYD64/battle/bi_internal.h"
+#include "port/romhack/specific/TTYD64/battle/battle_items_internal.h"
 
 API_CALLABLE(PlayFreezeHitParticleFX);
 API_CALLABLE(PlayParalyzeHitFX);

@@ -10,7 +10,7 @@
 #include "port/romhack/specific/TTYD64/include/ttyd64_api.h"
 #include "port/romhack/specific/TTYD64/include/ttyd64_rawmem.h"
 #include "port/romhack/specific/TTYD64/include/ttyd64_symbols.h"
-#include "port/romhack/specific/TTYD64/world/tp.h"
+#include "port/romhack/specific/TTYD64/world/tyd_pit.h"
 
 extern NpcData TTYD64_imp_Bobomb_Npc_Bobomb[];
 extern MobileAISettings TTYD64_imp_Bobomb_AISettings_80242AD0_trd_02;

@@ -1,4 +1,4 @@
-#include "port/romhack/specific/TTYD64/battle/bc_internal.h"
+#include "port/romhack/specific/TTYD64/battle/battle_core_internal.h"
 
 void TTYD64_InstallBattleCore(void) {
     TTYD64_InstallBattleCoreActorData();

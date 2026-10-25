@@ -1,4 +1,4 @@
-#include "port/romhack/specific/TTYD64/hp_internal.h"
+#include "port/romhack/specific/TTYD64/hud_pause_internal.h"
 #include "port/modding/Messages.h"
 #include "port/romhack/specific/TTYD64/include/ttyd64_rawmem.h"
 

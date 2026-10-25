@@ -1,4 +1,4 @@
-#include "port/romhack/specific/TTYD64/ph_internal.h"
+#include "port/romhack/specific/TTYD64/partner_hp_internal.h"
 #include "port/modding/Mod.h"
 
 u8 TTYD64_HealingItem_Bool[1];

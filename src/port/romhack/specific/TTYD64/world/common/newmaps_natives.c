@@ -8,7 +8,7 @@
 #include "port/romhack/specific/TTYD64/include/ttyd64_api.h"
 #include "port/romhack/specific/TTYD64/include/ttyd64_rawmem.h"
 #include "port/romhack/specific/TTYD64/include/ttyd64_symbols.h"
-#include "port/romhack/specific/TTYD64/world/nm.h"
+#include "port/romhack/specific/TTYD64/world/newmaps.h"
 
 #define TTYD64_NM_ROCKS_TABLE_SIZE 0x80
 #define TTYD64_NM_ROCKS_TABLE_END  0x0123
