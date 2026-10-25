@@ -128,7 +128,7 @@ The manifest is read per archive (`Mod::ReadManifest`, `src/port/modding/ModMani
 - `disable` is the union over every source: reads return the feature's registered default and actions refuse.
 - `force` pins a value; when two sources force different values, the later in load order wins, the conflict is logged and listed in the Mod Menu. A forced value wins over a disable.
 - The built-in rule: `save.import_n64` is disabled whenever a romhack is the base. There is no per-hack import fixup; an imported save is stamped with the active mod name (`Port_CopyModName`).
-- Per-hack rules live in each hack's `config.yml` `romhack:` block and are listed in its page; Paper Peach has none.
+- Per-hack rules live in each hack's `config.yml` `romhack:` block.
 - `settings.*` (audio, controls, menu, renderer, mod/romhack selection) is never lockable; unknown ids are logged and ignored.
 - Nothing writes CVars: the user's own value is kept and comes back once the rule is gone.
 

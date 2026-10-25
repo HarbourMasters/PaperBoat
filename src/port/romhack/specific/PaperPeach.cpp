@@ -34,7 +34,6 @@ static uint8_t sPausePeach[] = { 0xF7, 0xFF, 0x10, 0x00, 0x00, 0x30, 0x45, 0x41,
 constexpr size_t kItemStride = 0x20;
 constexpr size_t kPlayerSpriteSetStride = 0xC;
 
-// Paper Peach by AgateTrevalyn (gamebanana.com/mods/576687); see docs/romhacks/paper-peach.md.
 class PaperPeachPort final : public Romhack::Port {
 public:
     void ApplyDataTables() override {
