@@ -689,7 +689,13 @@ EvtScript N(EVS_HandlePhase) = {
                 Call(BattleCamTargetActor, ACTOR_PLAYER)
                 Call(MoveBattleCamOver, 10)
                 Wait(10)
+                Call(IsPartnerlessCrashProtectionEnabled, LVar1)
                 Call(GetCurrentPartnerID, LVar0)
+                IfEq(LVar0, PARTNER_NONE)
+                    IfEq(LVar1, false)
+                        Set(LVar0, PARTNER_GOOMBARIO)
+                    EndIf
+                EndIf
                 IfNe(LVar0, PARTNER_NONE)
                     Call(UseIdleAnimation, ACTOR_PARTNER, false)
                     Call(UseIdleAnimation, ACTOR_PLAYER, false)

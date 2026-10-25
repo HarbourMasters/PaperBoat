@@ -2,6 +2,7 @@
 #include "npc.h"
 #include "effects.h"
 #include "hud_element.h"
+#include "port/hooks/Events.h"
 
 // ----------------------------------------------------------------
 // Requirements
@@ -122,6 +123,13 @@ API_CALLABLE(N(SuperBlock_CountEligiblePartners)) {
 API_CALLABLE(N(SuperBlock_HasPartners)) {
     PlayerData* playerData = &gPlayerData;
     s32 i;
+    bool partnerlessCrashProtectionEnabled = true;
+
+    CALL_EVENT(OnPartnerlessCrashProtectionCheck, &partnerlessCrashProtectionEnabled);
+    if (!partnerlessCrashProtectionEnabled) {
+        script->varTable[0] = true;
+        return ApiStatus_DONE2;
+    }
 
     script->varTable[0] = false;
     if (playerData->curPartner == PARTNER_NONE || get_npc_safe(NPC_PARTNER) == nullptr) {

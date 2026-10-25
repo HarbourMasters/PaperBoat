@@ -147,7 +147,13 @@ EvtScript N(EVS_Scene_LuigiWaitingAround) = {
         Call(DisablePlayerPhysics, false)
         Call(PlayerMoveTo, 556, -158, 30)
     EndThread
+    Call(IsPartnerlessCrashProtectionEnabled, LVar1)
     Call(GetCurrentPartnerID, LVar0)
+    IfEq(LVar0, PARTNER_NONE)
+        IfEq(LVar1, false)
+            Set(LVar0, PARTNER_GOOMBARIO)
+        EndIf
+    EndIf
     IfNe(LVar0, PARTNER_NONE)
         Thread
             Call(DisablePartnerAI, 0)
@@ -183,7 +189,13 @@ EvtScript N(EVS_Scene_LuigiWaitingAround) = {
     Call(NpcMoveTo, NPC_Luigi_1, 524, -152, 10)
     Call(SetNpcAnimation, NPC_Luigi_1, ANIM_Luigi_Idle)
     Wait(15)
+    Call(IsPartnerlessCrashProtectionEnabled, LVar1)
     Call(GetCurrentPartnerID, LVar0)
+    IfEq(LVar0, PARTNER_NONE)
+        IfEq(LVar1, false)
+            Set(LVar0, PARTNER_GOOMBARIO)
+        EndIf
+    EndIf
     IfNe(LVar0, PARTNER_NONE)
         Thread
             Wait(20)
@@ -194,14 +206,26 @@ EvtScript N(EVS_Scene_LuigiWaitingAround) = {
     EndIf
     Call(ShowEmote, NPC_Luigi_1, EMOTE_ELLIPSIS, 20, 85, EMOTER_NPC, 0, 0, 0, 0)
     Wait(15)
+    Call(IsPartnerlessCrashProtectionEnabled, LVar1)
     Call(GetCurrentPartnerID, LVar0)
+    IfEq(LVar0, PARTNER_NONE)
+        IfEq(LVar1, false)
+            Set(LVar0, PARTNER_GOOMBARIO)
+        EndIf
+    EndIf
     IfNe(LVar0, PARTNER_NONE)
         Call(PlaySoundAtNpc, NPC_PARTNER, SOUND_EMOTE_QUESTION, SOUND_SPACE_DEFAULT)
         Call(ShowEmote, NPC_PARTNER, EMOTE_QUESTION, -20, 70, EMOTER_NPC, 0, 0, 0, 0)
     EndIf
     Wait(110)
     Call(SpeakToPlayer, NPC_Luigi_1, ANIM_Luigi_Talk, ANIM_Luigi_Idle, 5, MSG_CH0_00DE)
+    Call(IsPartnerlessCrashProtectionEnabled, LVar1)
     Call(GetCurrentPartnerID, LVar0)
+    IfEq(LVar0, PARTNER_NONE)
+        IfEq(LVar1, false)
+            Set(LVar0, PARTNER_GOOMBARIO)
+        EndIf
+    EndIf
     IfNe(LVar0, PARTNER_NONE)
         Switch(LVar0)
             CaseEq(PARTNER_GOOMBARIO)
@@ -219,7 +243,13 @@ EvtScript N(EVS_Scene_LuigiWaitingAround) = {
     Call(SpeakToPlayer, NPC_Luigi_1, ANIM_Luigi_Talk, ANIM_Luigi_Idle, 5, MSG_CH0_00E3)
     Call(SetNpcFlagBits, NPC_Luigi_1, NPC_FLAG_GRAVITY, false)
     Call(SetNpcFlagBits, NPC_Luigi_1, NPC_FLAG_FLYING, true)
+    Call(IsPartnerlessCrashProtectionEnabled, LVar1)
     Call(GetCurrentPartnerID, LVar0)
+    IfEq(LVar0, PARTNER_NONE)
+        IfEq(LVar1, false)
+            Set(LVar0, PARTNER_GOOMBARIO)
+        EndIf
+    EndIf
     IfNe(LVar0, PARTNER_NONE)
         Call(EnablePartnerAI)
     EndIf

@@ -4,6 +4,7 @@
 #include "model.h"
 #include "sprite/npc/ChuckQuizmo.h"
 #include "sprite/player.h"
+#include "port/hooks/Events.h"
 
 #ifndef CHUCK_QUIZMO_NPC_ID
     #error CHUCK_QUIZMO_NPC_ID must be defined for Quizmo.inc.c
@@ -45,8 +46,19 @@ BSS EffectInstance* N(Quizmo_VannaTEffect);
 API_CALLABLE(N(Quizmo_HasPartners)) {
     PlayerData* playerData = &gPlayerData;
     s32 i;
+    bool partnerlessCrashProtectionEnabled = true;
+
+    CALL_EVENT(OnPartnerlessCrashProtectionCheck, &partnerlessCrashProtectionEnabled);
+    if (!partnerlessCrashProtectionEnabled) {
+        script->varTable[0] = true;
+        return ApiStatus_DONE2;
+    }
 
     script->varTable[0] = false;
+    if (playerData->curPartner == PARTNER_NONE || get_npc_safe(NPC_PARTNER) == nullptr) {
+        return ApiStatus_DONE2;
+    }
+
     for (i = 1; i < ARRAY_COUNT(playerData->partners); i++) {
         if (playerData->partners[i].enabled) {
             script->varTable[0] = true;
