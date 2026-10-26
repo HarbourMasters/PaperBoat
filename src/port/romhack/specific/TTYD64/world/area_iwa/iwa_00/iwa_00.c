@@ -32,6 +32,7 @@ API_CALLABLE(SetCamEnabled);
 API_CALLABLE(SetCamPerspective);
 API_CALLABLE(SetMusic);
 API_CALLABLE(SetSpriteShading);
+API_CALLABLE(iwa_00_SetupSlidingCheck);
 API_CALLABLE(SetTexPanOffset);
 
 extern EvtScript TTYD64_iwa_00_Script_80240408;
@@ -64,6 +65,7 @@ EvtScript TTYD64_iwa_00_Script_Entity_Shine1 = {
 EvtScript TTYD64_iwa_00_Script_Main_EnterWalk = {
     Set(GameByte(425), 8)
     Call(SetSpriteShading, -1)
+    Call(iwa_00_SetupSlidingCheck)
     Call(SetCamPerspective, 0, 3, 25, 16, 4096)
     Call(SetCamBGColor, 0, 0, 0, 0)
     Call(SetCamEnabled, 0, 1)
