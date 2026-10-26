@@ -14,6 +14,7 @@
 
 API_CALLABLE(CloseMessage);
 API_CALLABLE(DisablePlayerInput);
+API_CALLABLE(EnableNpcShadow);
 API_CALLABLE(GotoMapSpecial);
 API_CALLABLE(MakeLerp);
 API_CALLABLE(MakeNpcs);
@@ -73,7 +74,7 @@ extern u8 TTYD64_kmr_31_String_Difficulty[];
 extern NpcGroupList TTYD64_kmr_31_NpcGroupList;
 extern EntryList TTYD64_kmr_31_EntryList;
 extern u8 TTYD64_kmr_31_String_Difficulty_MQ_Title[];
-extern EvtScript TTYD64_kmr_31_ScriptNull;
+extern EvtScript TTYD64_kmr_31_Script_Init_NoShadow;
 extern u8 TTYD64_kmr_31_String_Difficulty_Normal_Title[];
 extern u8 TTYD64_kmr_31_String_Difficulty_Hard_Title[];
 extern u8 TTYD64_kmr_31_String_Difficulty_Easy_Title[];
@@ -86,7 +87,7 @@ NpcData TTYD64_kmr_31_NpcGroup_InitPlaythrough[] = {
         .settings = &TTYD64_kmr_31_NpcSettings_Generic,
         .pos = { 104.0f, 30.0f, -21.0f },
         .flags = 0x00A40D20,
-        .init = &TTYD64_kmr_31_ScriptNull,
+        .init = &TTYD64_kmr_31_Script_Init_NoShadow,
         .initVarCount = 0,
         .initVar = { .value = 0 },
         .yaw = 0,
@@ -106,7 +107,7 @@ NpcData TTYD64_kmr_31_NpcGroup_InitPlaythrough[] = {
         .settings = &TTYD64_kmr_31_NpcSettings_Generic,
         .pos = { 181.0f, 32.0f, -117.0f },
         .flags = 0x00A40D20,
-        .init = &TTYD64_kmr_31_ScriptNull,
+        .init = &TTYD64_kmr_31_Script_Init_NoShadow,
         .initVarCount = 0,
         .initVar = { .value = 0 },
         .yaw = 270,
@@ -126,7 +127,7 @@ NpcData TTYD64_kmr_31_NpcGroup_InitPlaythrough[] = {
         .settings = &TTYD64_kmr_31_NpcSettings_Generic,
         .pos = { 181.0f, 32.0f, -117.0f },
         .flags = 0x00A40D20,
-        .init = &TTYD64_kmr_31_ScriptNull,
+        .init = &TTYD64_kmr_31_Script_Init_NoShadow,
         .initVarCount = 0,
         .initVar = { .value = 0 },
         .yaw = 270,
@@ -146,7 +147,7 @@ NpcData TTYD64_kmr_31_NpcGroup_InitPlaythrough[] = {
         .settings = &TTYD64_kmr_31_NpcSettings_Generic,
         .pos = { 181.0f, 32.0f, -117.0f },
         .flags = 0x00A40D20,
-        .init = &TTYD64_kmr_31_ScriptNull,
+        .init = &TTYD64_kmr_31_Script_Init_NoShadow,
         .initVarCount = 0,
         .initVar = { .value = 0 },
         .yaw = 270,
@@ -166,7 +167,7 @@ NpcData TTYD64_kmr_31_NpcGroup_InitPlaythrough[] = {
         .settings = &TTYD64_kmr_31_NpcSettings_Generic,
         .pos = { 242.0f, 60.0f, -119.0f },
         .flags = 0x00A40D20,
-        .init = &TTYD64_kmr_31_ScriptNull,
+        .init = &TTYD64_kmr_31_Script_Init_NoShadow,
         .initVarCount = 0,
         .initVar = { .value = 0 },
         .yaw = 270,
@@ -186,7 +187,7 @@ NpcData TTYD64_kmr_31_NpcGroup_InitPlaythrough[] = {
         .settings = &TTYD64_kmr_31_NpcSettings_Generic,
         .pos = { 244.0f, 22.0f, -117.0f },
         .flags = 0x00A40D20,
-        .init = &TTYD64_kmr_31_ScriptNull,
+        .init = &TTYD64_kmr_31_Script_Init_NoShadow,
         .initVarCount = 0,
         .initVar = { .value = 0 },
         .yaw = 270,
@@ -892,7 +893,8 @@ u8 TTYD64_kmr_31_String_Difficulty_MQ_Title[] = {
     0xFD
 };
 
-EvtScript TTYD64_kmr_31_ScriptNull = {
+EvtScript TTYD64_kmr_31_Script_Init_NoShadow = {
+    Call(EnableNpcShadow, NPC_SELF, false)
     Return
     End
 };
