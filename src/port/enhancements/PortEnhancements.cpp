@@ -182,6 +182,7 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnStatLimits);
     REGISTER_EVENT(OnMaxStatsRecalculated);
     REGISTER_EVENT(OnSpriteComponentPalette);
+    REGISTER_EVENT(OnPlayerRasterPalette);
     REGISTER_EVENT(OnWindowStyle);
     REGISTER_EVENT(OnFileSlotHighlightStyle);
     REGISTER_EVENT(OnFileMenuModLabel);
