@@ -894,6 +894,12 @@ DEFINE_EVENT(OnSpriteComponentPalette,
     int32_t* palette;
 );
 
+DEFINE_EVENT(OnPlayerRasterPalette,
+    int32_t playerSpriteID;
+    int32_t rasterIndex;
+    int32_t* palette;
+);
+
 DEFINE_EVENT(OnWindowStyle,
     int32_t styleID;
     struct DefaultWindowStyle** style;

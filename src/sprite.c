@@ -1019,7 +1019,9 @@ void spr_get_player_raster_info(SpriteRasterInfo* out, s32 playerSpriteID, s32 r
         cache = sprite->rastersOffset[rasterIndex];
         out->width = cache->width;
         out->height = cache->height;
-        out->defaultPal = paletteOffsetCopy[cache->palette];
+        s32 palette = cache->palette;
+        CALL_EVENT(OnPlayerRasterPalette, playerSpriteID + 1, rasterIndex, &palette);
+        out->defaultPal = paletteOffsetCopy[palette];
         out->raster = spr_get_player_raster(rasterIndex, playerSpriteID);
     }
 }
