@@ -80,6 +80,18 @@ API_CALLABLE(TTYD64_mac_04_AdjustStatMaxima) {
     return ApiStatus_DONE2;
 }
 
+API_CALLABLE(TTYD64_mac_05_Function_Bartender_PlayEmote) {
+    Bytecode* args = script->ptrReadPos;
+    f32 x = evt_get_float_variable(script, *args++);
+    f32 y = evt_get_float_variable(script, *args++);
+    f32 z = evt_get_float_variable(script, *args++);
+    EffectInstance* effect;
+
+    fx_emote(EMOTE_FRUSTRATION, NULL, x, y, z, 16.0f, 20.0f, 100, &effect);
+    evt_set_variable(script, *args++, (Bytecode) effect);
+    return ApiStatus_DONE2;
+}
+
 API_CALLABLE(TTYD64_mac_05_Function_Bartender_FreezeEmoteFX) {
     EffectInstance* effect = (EffectInstance*) evt_get_variable(script, MapVar(0));
 

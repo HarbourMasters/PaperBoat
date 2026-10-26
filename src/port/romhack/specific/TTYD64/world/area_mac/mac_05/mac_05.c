@@ -1155,9 +1155,7 @@ EvtScript TTYD64_mac_05_Script_ShowEmote_Bartender = {
         IfGe(GameByte(0), -92)
             Call(GetNpcPos, 7, LVar0, LVar1, LVar2)
             Add(LVar1, 23)
-            Call(PlayEffect_impl, 16, 3, 0, LVar0, LVar1, LVar2, 16, 20, 100, 0, 0, 0, 0, 0)
-            Call(TTYD64_GetEffect, LVarF, LVar0)
-            Set(MapVar(0), LVar0)
+            Call(TTYD64_mac_05_Function_Bartender_PlayEmote, LVar0, LVar1, LVar2, MapVar(0))
             Set(MapVar(1), MapVar(0))
             Thread
                 Call(TTYD64_mac_05_Function_Bartender_FreezeEmoteFX)

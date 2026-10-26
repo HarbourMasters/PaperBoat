@@ -33,6 +33,7 @@ API_CALLABLE(TTYD64_mac_02_SetRecipeDiscovered);
 API_CALLABLE(TTYD64_mac_02_TayceT_MakeItemList);
 API_CALLABLE(TTYD64_mac_04_AdjustStatMaxima);
 API_CALLABLE(TTYD64_mac_05_Function_Bartender_FreezeEmoteFX);
+API_CALLABLE(TTYD64_mac_05_Function_Bartender_PlayEmote);
 API_CALLABLE(TTYD64_maps_AddBadge);
 API_CALLABLE(TTYD64_maps_AddKeyItem);
 API_CALLABLE(TTYD64_maps_FindKeyItem);
