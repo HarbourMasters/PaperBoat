@@ -89,6 +89,7 @@ s32 TTYD64_bs_FPDrainRecovery(void);
 s32 TTYD64_bs_PartnerTurnEnd(void);
 void TTYD64_bs_HPPlusP(void);
 s32 TTYD64_bs_SkinPalette(struct SpriteComponent** compList, s32 compIndex, s32 palette);
+s32 TTYD64_bs_RasterSkinPalette(s32 playerSpriteID, s32 palette);
 void TTYD64_bs_LuckyStart(Actor* player);
 s32 TTYD64_bs_PityFlowerRolls(void);
 void TTYD64_bs_ReturnPostage(Actor* attacker);

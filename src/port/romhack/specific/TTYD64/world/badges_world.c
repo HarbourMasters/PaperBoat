@@ -86,6 +86,12 @@ static void bs_on_sprite_component_palette(IEvent* event) {
     *ev->palette = TTYD64_bs_SkinPalette(ev->compList, ev->compIndex, *ev->palette);
 }
 
+static void bs_on_player_raster_palette(IEvent* event) {
+    OnPlayerRasterPalette* ev = (OnPlayerRasterPalette*) event;
+
+    *ev->palette = TTYD64_bs_RasterSkinPalette(ev->playerSpriteID, *ev->palette);
+}
+
 void TTYD64_InstallBadgesWorld(void) {
     gPauseMessages[PAUSE_MSG_DONT_WEAR_MORE] = (intptr_t) TTYD64_String_TooManyBadges;
     REGISTER_LISTENER(OnPauseBadgesView, EVENT_PRIORITY_NORMAL, bs_on_pause_badges_view);
@@ -95,4 +101,5 @@ void TTYD64_InstallBadgesWorld(void) {
     REGISTER_LISTENER(OnShopPurchaseItem, EVENT_PRIORITY_NORMAL, bs_on_shop_purchase_item);
     REGISTER_LISTENER(OnRemoveBadge, EVENT_PRIORITY_NORMAL, bs_on_remove_badge);
     REGISTER_LISTENER(OnSpriteComponentPalette, EVENT_PRIORITY_NORMAL, bs_on_sprite_component_palette);
+    REGISTER_LISTENER(OnPlayerRasterPalette, EVENT_PRIORITY_NORMAL, bs_on_player_raster_palette);
 }

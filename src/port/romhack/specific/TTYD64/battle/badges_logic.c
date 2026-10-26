@@ -226,10 +226,37 @@ void TTYD64_bs_HPPlusP(void) {
     evt_set_variable(nullptr, GameByte(0x1007), count);
 }
 
-s32 TTYD64_bs_SkinPalette(SpriteComponent** compList, s32 compIndex, s32 palette) {
+static s32 bs_skin_palette(void) {
     s32 skin;
-    s32 lEmblem;
-    s32 wEmblem;
+    s32 lEmblem = TTYD64_IsBadgeEquipped(0x173);
+    s32 wEmblem = TTYD64_IsBadgeEquipped(0x174);
+
+    if (wEmblem + lEmblem == 0) {
+        skin = 0;
+    } else if (!((u32) (wEmblem + lEmblem) < 2)) {
+        skin = 3;
+    } else if (lEmblem == 0) {
+        skin = 2;
+    } else {
+        skin = 1;
+    }
+    if (!(gPlayerStatus.animFlags & 0x4000)) {
+        return skin != 0 ? 0x20 + skin : 0;
+    }
+    return 0x18 + skin;
+}
+
+s32 TTYD64_bs_RasterSkinPalette(s32 playerSpriteID, s32 palette) {
+    s32 skinPalette;
+
+    if (playerSpriteID >= SPR_Peach1) {
+        return palette;
+    }
+    skinPalette = bs_skin_palette();
+    return skinPalette != 0 ? skinPalette : palette;
+}
+
+s32 TTYD64_bs_SkinPalette(SpriteComponent** compList, s32 compIndex, s32 palette) {
     s32 skinPalette;
 
     if (compList == nullptr || compList != CurPlayerAnimInfo[0].componentList) {
@@ -244,22 +271,7 @@ s32 TTYD64_bs_SkinPalette(SpriteComponent** compList, s32 compIndex, s32 palette
     if (SPR_UNPACK_SPR(CurPlayerAnimInfo[0].animID) >= SPR_Peach1) {
         return palette;
     }
-    lEmblem = TTYD64_IsBadgeEquipped(0x173);
-    wEmblem = TTYD64_IsBadgeEquipped(0x174);
-    if (wEmblem + lEmblem == 0) {
-        skin = 0;
-    } else if (!((u32) (wEmblem + lEmblem) < 2)) {
-        skin = 3;
-    } else if (lEmblem == 0) {
-        skin = 2;
-    } else {
-        skin = 1;
-    }
-    if (!(gPlayerStatus.animFlags & 0x4000)) {
-        skinPalette = skin != 0 ? 0x20 + skin : 0;
-    } else {
-        skinPalette = 0x18 + skin;
-    }
+    skinPalette = bs_skin_palette();
 
     if ((u8) gGameStatus.context == 0) {
         u8 initByte = 0;
