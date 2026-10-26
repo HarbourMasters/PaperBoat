@@ -429,7 +429,7 @@ EvtScript TTYD64_mac_07_Script_BuyItem = {
     EndIf
     Call(AddCoin, 0)
     IfLt(LVar0, LVarB)
-        Call(ContinueSpeech, LVarC, LVarD, LVarE, 0, (Bytecode) TTYD64_mac_07_String_ShopKeeper_NotEnoughMoney)
+        Call(ContinueSpeech, LVar2, LVarD, LVarE, 0, (Bytecode) TTYD64_mac_07_String_ShopKeeper_NotEnoughMoney)
         Call(ShowCoinCounter, 0)
         Call(DisablePlayerInput, 0)
         Return
@@ -492,7 +492,7 @@ EvtScript TTYD64_mac_07_Script_BuyItem = {
     Else
         Call(AddStarPieces, 1)
     EndIf
-    Call(SpeakToPlayer, LVarC, LVarD, LVarE, 0, (Bytecode) TTYD64_mac_07_String_ShopKeeper_ThankYou)
+    Call(SpeakToPlayer, LVar2, LVarD, LVarE, 0, (Bytecode) TTYD64_mac_07_String_ShopKeeper_ThankYou)
     Unbind
     Call(DisablePlayerInput, 0)
     Return
