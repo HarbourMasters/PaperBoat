@@ -1,6 +1,7 @@
 #include "common.h"
 #include "battle/battle.h"
 #include "sprite.h"
+#include "sprite/player.h"
 #include "script_api/battle.h"
 #include "port/romhack/specific/TTYD64/badges_internal.h"
 #include "port/romhack/specific/TTYD64/include/ttyd64_api.h"
@@ -238,6 +239,9 @@ s32 TTYD64_bs_SkinPalette(SpriteComponent** compList, s32 compIndex, s32 palette
         return palette;
     }
     if (CurPlayerAnimInfo[0].animID == 0x1002F) {
+        return palette;
+    }
+    if (SPR_UNPACK_SPR(CurPlayerAnimInfo[0].animID) >= SPR_Peach1) {
         return palette;
     }
     lEmblem = TTYD64_IsBadgeEquipped(0x173);
