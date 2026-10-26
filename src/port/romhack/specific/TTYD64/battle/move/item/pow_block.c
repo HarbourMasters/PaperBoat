@@ -155,7 +155,7 @@ EvtScript TTYD64_battle_item_pow_block_EVS_802A1978 = {
     EndSwitch
     Set(LVar5, LVar2)
     Set(LVar6, LVar3)
-    Call(MakeEntity, Ref(Entity_PowBlock), LVar2, LVar3, 0, 0, (Bytecode) (s32) 0x80000000)
+    Call(MakeEntity, Ref(Entity_PowBlock), LVar2, LVar3, 0, 0, MAKE_ENTITY_END)
     Set(LVarA, LVar0)
     Call(battle_item_pow_block_AdjustPOWBlockEntityScale)
     Call(PlayEffect_impl, 7, 2, LVar2, LVar3, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0)
