@@ -244,6 +244,8 @@ EvtScript TTYD64_arn_22_Script_GoBack = {
         Call(GotoMap, (Bytecode) "arn_23", 2)
     CaseEq(5)
         Call(GotoMap, (Bytecode) "arn_23", 3)
+    CaseDefault
+        Call(GotoMap, (Bytecode) "arn_21", 2)
     EndSwitch
     Wait(100)
     Return
