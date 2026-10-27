@@ -202,16 +202,7 @@ EvtScript N(EVS_FortressCollapse_PlayerReactions) = {
     Call(PlayerMoveTo, -547, 147, 0)
     Call(InterpPlayerYaw, 90, 0)
     Call(SetPlayerAnimation, ANIM_Mario1_Idle)
-    Call(IsPartnerlessCrashProtectionEnabled, LVar1)
-    Call(GetCurrentPartnerID, LVar0)
-    IfEq(LVar0, PARTNER_NONE)
-        IfEq(LVar1, false)
-            Set(LVar0, PARTNER_GOOMBARIO)
-        EndIf
-    EndIf
-    IfNe(LVar0, PARTNER_NONE)
-        Call(EnablePartnerAI)
-    EndIf
+    Call(EnablePartnerAI)
     Wait(100)
     Return
     End
@@ -329,16 +320,7 @@ EvtScript N(EVS_Scene_SelfDestruct) = {
     Call(ModifyColliderFlags, MODIFY_COLLIDER_FLAGS_SET_BITS, COLLIDER_tt, COLLIDER_FLAGS_UPPER_MASK)
     Set(GB_StoryProgress, STORY_CH0_OPENED_BRIDGE_TO_TOAD_TOWN)
     Call(DisablePlayerInput, false)
-    Call(IsPartnerlessCrashProtectionEnabled, LVar1)
-    Call(GetCurrentPartnerID, LVar0)
-    IfEq(LVar0, PARTNER_NONE)
-        IfEq(LVar1, false)
-            Set(LVar0, PARTNER_GOOMBARIO)
-        EndIf
-    EndIf
-    IfNe(LVar0, PARTNER_NONE)
-        Call(EnablePartnerAI)
-    EndIf
+    Call(EnablePartnerAI)
     Unbind
     Return
     End
@@ -499,19 +481,10 @@ EvtScript N(EVS_Scene_MeetGoombaKing_Impl) = {
     ExecWait(N(EVS_FocusCam_BesidePlayer))
     Call(SetCamSpeed, CAM_DEFAULT, Float(90.0))
     Call(PanToTarget, CAM_DEFAULT, 0, true)
-    Call(IsPartnerlessCrashProtectionEnabled, LVar1)
-    Call(GetCurrentPartnerID, LVar0)
-    IfEq(LVar0, PARTNER_NONE)
-        IfEq(LVar1, false)
-            Set(LVar0, PARTNER_GOOMBARIO)
-        EndIf
-    EndIf
-    IfNe(LVar0, PARTNER_NONE)
-        Call(DisablePartnerAI, 0)
-        Wait(5 * DT)
-        Call(SpeakToPlayer, NPC_PARTNER, ANIM_WorldGoombario_Talk, ANIM_WorldGoombario_Idle, 0, MSG_CH0_00C9)
-        Call(EnablePartnerAI)
-    EndIf
+    Call(DisablePartnerAI, 0)
+    Wait(5 * DT)
+    Call(SpeakToPlayer, NPC_PARTNER, ANIM_WorldGoombario_Talk, ANIM_WorldGoombario_Idle, 0, MSG_CH0_00C9)
+    Call(EnablePartnerAI)
     ExecWait(N(EVS_FocusCam_Battlement))
     Call(SetCamSpeed, CAM_DEFAULT, Float(90.0))
     Call(PanToTarget, CAM_DEFAULT, 0, true)

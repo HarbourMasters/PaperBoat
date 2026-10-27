@@ -226,33 +226,22 @@ EvtScript N(EVS_Scene_LuigiWaitingAround) = {
             Set(LVar0, PARTNER_GOOMBARIO)
         EndIf
     EndIf
-    IfNe(LVar0, PARTNER_NONE)
-        Switch(LVar0)
-            CaseEq(PARTNER_GOOMBARIO)
-                Call(SpeakToPlayer, NPC_PARTNER, PARTNER_ANIM_TALK, PARTNER_ANIM_IDLE, 5, MSG_CH0_00DF)
-            CaseEq(PARTNER_KOOPER)
-                Call(SpeakToPlayer, NPC_PARTNER, PARTNER_ANIM_TALK, PARTNER_ANIM_IDLE, 5, MSG_CH0_00E0)
-            CaseEq(PARTNER_BOMBETTE)
-                Call(SpeakToPlayer, NPC_PARTNER, PARTNER_ANIM_TALK, PARTNER_ANIM_IDLE, 5, MSG_CH0_00E1)
-            CaseEq(PARTNER_PARAKARRY)
-                Call(SpeakToPlayer, NPC_PARTNER, PARTNER_ANIM_TALK, PARTNER_ANIM_IDLE, 5, MSG_CH0_00E2)
-            CaseDefault
-                Call(SpeakToPlayer, NPC_PARTNER, PARTNER_ANIM_STILL, PARTNER_ANIM_HURT, 5, MSG_CH0_00DB)
-        EndSwitch
-    EndIf
+    Switch(LVar0)
+        CaseEq(PARTNER_GOOMBARIO)
+            Call(SpeakToPlayer, NPC_PARTNER, PARTNER_ANIM_TALK, PARTNER_ANIM_IDLE, 5, MSG_CH0_00DF)
+        CaseEq(PARTNER_KOOPER)
+            Call(SpeakToPlayer, NPC_PARTNER, PARTNER_ANIM_TALK, PARTNER_ANIM_IDLE, 5, MSG_CH0_00E0)
+        CaseEq(PARTNER_BOMBETTE)
+            Call(SpeakToPlayer, NPC_PARTNER, PARTNER_ANIM_TALK, PARTNER_ANIM_IDLE, 5, MSG_CH0_00E1)
+        CaseEq(PARTNER_PARAKARRY)
+            Call(SpeakToPlayer, NPC_PARTNER, PARTNER_ANIM_TALK, PARTNER_ANIM_IDLE, 5, MSG_CH0_00E2)
+        CaseDefault
+            Call(SpeakToPlayer, NPC_PARTNER, PARTNER_ANIM_STILL, PARTNER_ANIM_HURT, 5, MSG_CH0_00DB)
+    EndSwitch
     Call(SpeakToPlayer, NPC_Luigi_1, ANIM_Luigi_Talk, ANIM_Luigi_Idle, 5, MSG_CH0_00E3)
     Call(SetNpcFlagBits, NPC_Luigi_1, NPC_FLAG_GRAVITY, false)
     Call(SetNpcFlagBits, NPC_Luigi_1, NPC_FLAG_FLYING, true)
-    Call(IsPartnerlessCrashProtectionEnabled, LVar1)
-    Call(GetCurrentPartnerID, LVar0)
-    IfEq(LVar0, PARTNER_NONE)
-        IfEq(LVar1, false)
-            Set(LVar0, PARTNER_GOOMBARIO)
-        EndIf
-    EndIf
-    IfNe(LVar0, PARTNER_NONE)
-        Call(EnablePartnerAI)
-    EndIf
+    Call(EnablePartnerAI)
     Call(SetCamSpeed, CAM_DEFAULT, Float(3.5))
     Call(PanToTarget, CAM_DEFAULT, 0, false)
     Wait(15)
