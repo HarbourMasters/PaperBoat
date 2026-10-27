@@ -298,7 +298,7 @@ API_CALLABLE(N(UpdateLerp)) {
 }
 
 // first N words are actorIDs, next N are scriptIDs
-s32 N(RuffPuffDataBuffer)[32] = {};
+Bytecode N(RuffPuffDataBuffer)[32] = {};
 
 s32 N(BodyAnims)[] = {
     STATUS_KEY_NORMAL,    ANIM_HuffNPuff_Anim01,

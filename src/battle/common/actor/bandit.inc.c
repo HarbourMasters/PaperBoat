@@ -12,7 +12,7 @@ extern EvtScript N(EVS_Init_Coin);
 extern EvtScript N(EVS_TakeTurn);
 extern EvtScript N(EVS_HandleEvent);
 
-BSS s32 N(DropCoinScript)[1];
+BSS Bytecode N(DropCoinScript)[1];
 
 enum N(ActorPartIDs) {
     PRT_MAIN            = 1,

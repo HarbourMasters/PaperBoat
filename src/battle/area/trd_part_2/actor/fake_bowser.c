@@ -29,7 +29,7 @@ extern EvtScript N(EVS_TryFormingTower);
 extern EvtScript N(EVS_BroadcastToKoopaBros);
 
 // only the first element is actually used
-BSS s32 FakeBowserAnimState[31];
+BSS Bytecode FakeBowserAnimState[31];
 
 enum N(ActorPartIDs) {
     // the targetable bowser in part 1
