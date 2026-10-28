@@ -1,4 +1,6 @@
 #include "ActorBlueprintEditor.h"
+#include "port/Engine.h"
+#include "port/features/Features.h"
 #include "port/ui/UIWidgets.hpp"
 #include "port/ui/Notification.h"
 #include "port/ui/cvar_prefixes.h"
@@ -456,7 +458,10 @@ static bool PassesFilters(const CatalogEntry& entry, int32_t tab) {
 
 static void DrawToolbar() {
     bool enabled = IsEnabled();
-    if (UIWidgets::Checkbox("Apply blueprint overrides", &enabled, UIWidgets::CheckboxOptions().Color(WIDGET_COLOR))) {
+    const std::string lockReason = Features::LockReason("enhancements.actor_blueprints");
+    auto applyOptions = UIWidgets::CheckboxOptions().Color(WIDGET_COLOR).DisabledTooltip(lockReason.c_str());
+    applyOptions.disabled = !lockReason.empty();
+    if (UIWidgets::Checkbox("Apply blueprint overrides", &enabled, applyOptions)) {
         SetEnabled(enabled);
     }
     UIWidgets::Tooltip("When off, every enemy uses its vanilla stats. Edits are kept either way.");
@@ -781,6 +786,9 @@ static void DrawTabContents(const std::vector<CatalogEntry>& catalog, int32_t ta
 }
 
 static void DrawEditor() {
+    if (Features::DrawLockedNotice("devtools.blueprint_editor")) {
+        return;
+    }
     std::vector<CatalogEntry> catalog = GetCatalog();
 
     DrawToolbar();

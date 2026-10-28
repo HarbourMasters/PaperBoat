@@ -937,10 +937,10 @@ void appendGfx_npc_actor(b32 isPartner, s32 actorIndex) {
              actor->size.x * actor->scalingFactor);
     }
 
-    if (actor->debuff == STATUS_KEY_SHRINK) {
-        actor->scalingFactor += ((0.4 - actor->scalingFactor) / 6.0);
-    } else {
-        actor->scalingFactor += ((1.0 - actor->scalingFactor) / 6.0);
+    {
+        s32 targetScale = actor->debuff == STATUS_KEY_SHRINK ? 40 : 100;
+        CALL_EVENT(OnActorStat, actor, ACTOR_STAT_SCALE, &targetScale);
+        actor->scalingFactor += ((targetScale / 100.0 - actor->scalingFactor) / 6.0);
     }
 
     if (!(actor->flags & ACTOR_FLAG_UPSIDE_DOWN)) {
@@ -1028,7 +1028,9 @@ void appendGfx_npc_actor(b32 isPartner, s32 actorIndex) {
                 && (gBattleStatus.flags2 & BS_FLAGS2_PARTNER_TURN_USED)
             ) {
                 if (actor->koStatus == 0) {
-                    part->curAnimation = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_INACTIVE);
+                    s32 anim = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_INACTIVE);
+                    CALL_EVENT(OnActorAnim, actor, part, STATUS_KEY_INACTIVE, &anim);
+                    part->curAnimation = anim;
                     spr_update_sprite(part->spriteInstanceID, part->curAnimation, part->animationRate);
                     animChanged = true;
                 }
@@ -1037,14 +1039,18 @@ void appendGfx_npc_actor(b32 isPartner, s32 actorIndex) {
                 set_actor_glow_pal(actor, GLOW_PAL_OFF);
                 decorChanged = true;
             }
-            if (isPartner && (gPlayerData.curPartner == PARTNER_WATT)) {
+            s32 idlePalette = gPlayerData.curPartner == PARTNER_WATT ? ACTOR_PAL_ADJUST_WATT_IDLE : ACTOR_PAL_ADJUST_NONE;
+            CALL_EVENT(OnActorStat, actor, ACTOR_STAT_IDLE_PALETTE, &idlePalette);
+            if (isPartner && idlePalette != ACTOR_PAL_ADJUST_NONE) {
                 if (!palChanged) {
-                    set_actor_pal_adjustment(actor, ACTOR_PAL_ADJUST_WATT_IDLE);
+                    set_actor_pal_adjustment(actor, idlePalette);
                 }
                 palChanged = true;
             }
         }
-        if (actor->isGlowing) {
+        s32 glowing = actor->isGlowing;
+        CALL_EVENT(OnActorStat, actor, ACTOR_STAT_GLOW, &glowing);
+        if (glowing) {
             if (!decorChanged) {
                 set_actor_glow_pal(actor, GLOW_PAL_ON);
             }
@@ -1086,33 +1092,45 @@ void appendGfx_npc_actor(b32 isPartner, s32 actorIndex) {
             if (!(part->flags & ACTOR_PART_FLAG_NO_STATUS_ANIMS)) {
                 if (actor->debuff == STATUS_KEY_FROZEN) {
                     if (!animChanged) {
-                        part->curAnimation = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_FROZEN);
+                        s32 anim = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_FROZEN);
+                        CALL_EVENT(OnActorAnim, actor, part, STATUS_KEY_FROZEN, &anim);
+                        part->curAnimation = anim;
                         animChanged = true;
                     }
                 } else if (actor->debuff != STATUS_KEY_SHRINK) {
                     if (actor->debuff == STATUS_KEY_POISON) {
                         if (!animChanged) {
-                            part->curAnimation = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_POISON);
+                            s32 anim = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_POISON);
+                            CALL_EVENT(OnActorAnim, actor, part, STATUS_KEY_POISON, &anim);
+                            part->curAnimation = anim;
                             animChanged = true;
                         }
                     } else if (actor->debuff == STATUS_KEY_DIZZY) {
                         if (!animChanged) {
-                            part->curAnimation = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_DIZZY);
+                            s32 anim = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_DIZZY);
+                            CALL_EVENT(OnActorAnim, actor, part, STATUS_KEY_DIZZY, &anim);
+                            part->curAnimation = anim;
                             animChanged = true;
                         }
                     } else if (actor->debuff == STATUS_KEY_UNUSED) {
                         if (!animChanged) {
-                            part->curAnimation = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_UNUSED);
+                            s32 anim = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_UNUSED);
+                            CALL_EVENT(OnActorAnim, actor, part, STATUS_KEY_UNUSED, &anim);
+                            part->curAnimation = anim;
                             animChanged = true;
                         }
                     } else if (actor->debuff == STATUS_KEY_SLEEP) {
                         if (!animChanged) {
-                            part->curAnimation = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_SLEEP);
+                            s32 anim = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_SLEEP);
+                            CALL_EVENT(OnActorAnim, actor, part, STATUS_KEY_SLEEP, &anim);
+                            part->curAnimation = anim;
                             animChanged = true;
                         }
                     } else if (actor->debuff == STATUS_KEY_PARALYZE) {
                         if (!animChanged) {
-                            part->curAnimation = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_PARALYZE);
+                            s32 anim = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_PARALYZE);
+                            CALL_EVENT(OnActorAnim, actor, part, STATUS_KEY_PARALYZE, &anim);
+                            part->curAnimation = anim;
                             animChanged = true;
                         }
                     }
@@ -1120,17 +1138,23 @@ void appendGfx_npc_actor(b32 isPartner, s32 actorIndex) {
 
                 if (actor->staticStatus == STATUS_KEY_STATIC) {
                     if (!animChanged) {
-                        part->curAnimation = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_STATIC);
+                        s32 anim = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_STATIC);
+                        CALL_EVENT(OnActorAnim, actor, part, STATUS_KEY_STATIC, &anim);
+                        part->curAnimation = anim;
                         animChanged = true;
                     }
                 }
                 if (!animChanged) {
-                    part->curAnimation = get_npc_anim_for_status(part->idleAnimations, 1);
+                    s32 anim = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_NORMAL);
+                    CALL_EVENT(OnActorAnim, actor, part, STATUS_KEY_NORMAL, &anim);
+                    part->curAnimation = anim;
                 }
 
                 if (isPartner) {
                     if (actor->koStatus == STATUS_KEY_KO) {
-                        part->curAnimation = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_KO);
+                        s32 anim = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_KO);
+                        CALL_EVENT(OnActorAnim, actor, part, STATUS_KEY_KO, &anim);
+                        part->curAnimation = anim;
                         animChanged = true;
                     } else {
                         s32 temp = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_NORMAL);
@@ -1140,12 +1164,16 @@ void appendGfx_npc_actor(b32 isPartner, s32 actorIndex) {
                     }
                 }
                 if (actor->debuff == STATUS_KEY_STOP) {
-                    part->curAnimation = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_STOP);
+                    s32 anim = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_STOP);
+                    CALL_EVENT(OnActorAnim, actor, part, STATUS_KEY_STOP, &anim);
+                    part->curAnimation = anim;
                     create_status_debuff(actor->hudElementDataIndex, STATUS_KEY_STOP);
                 } else if (!animChanged) {
                     s32 temp = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_NORMAL);
                     if (temp == get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_STOP)) {
-                        part->curAnimation = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_NORMAL);
+                        s32 anim = get_npc_anim_for_status(part->idleAnimations, STATUS_KEY_NORMAL);
+                        CALL_EVENT(OnActorAnim, actor, part, STATUS_KEY_NORMAL, &anim);
+                        part->curAnimation = anim;
                     }
                 }
             }
@@ -1569,10 +1597,10 @@ void appendGfx_player_actor(void* arg0) {
         battleStatus->buffEffect->data.partnerBuff->visible = false;
     }
 
-    if (player->debuff == STATUS_KEY_SHRINK) {
-        player->scalingFactor += (0.4 - player->scalingFactor) / 6.0;
-    } else {
-        player->scalingFactor += (1.0 - player->scalingFactor) / 6.0;
+    {
+        s32 targetScale = player->debuff == STATUS_KEY_SHRINK ? 40 : 100;
+        CALL_EVENT(OnActorStat, player, ACTOR_STAT_SCALE, &targetScale);
+        player->scalingFactor += (targetScale / 100.0 - player->scalingFactor) / 6.0;
     }
 
     if (player->flags & ACTOR_FLAG_SHOW_STATUS_ICONS) {
@@ -1594,10 +1622,22 @@ void appendGfx_player_actor(void* arg0) {
     }
 
     if ((player->flags & ACTOR_FLAG_SHOW_STATUS_ICONS) && !(gBattleStatus.flags2 & BS_FLAGS2_PEACH_BATTLE)) {
-        if (playerData->curHP <= PERIL_THRESHOLD) {
+        s32 peril = playerData->curHP <= PERIL_THRESHOLD ? PERIL_STATE_PERIL
+                  : playerData->curHP <= DANGER_THRESHOLD ? PERIL_STATE_DANGER : PERIL_STATE_NONE;
+        {
+            CALL_EVENT(OnPerilState, player, &peril);
+        }
+        if (battleStatus->partnerActor != nullptr) {
+            s32 partnerPeril = PERIL_STATE_NONE;
+            CALL_EVENT(OnPerilState, battleStatus->partnerActor, &partnerPeril);
+            if (partnerPeril > peril) {
+                peril = partnerPeril;
+            }
+        }
+        if (peril == PERIL_STATE_PERIL) {
             create_status_icon_peril(player->hudElementDataIndex);
             remove_status_icon_danger(player->hudElementDataIndex);
-        } else if (playerData->curHP <= DANGER_THRESHOLD) {
+        } else if (peril == PERIL_STATE_DANGER) {
             remove_status_icon_peril(player->hudElementDataIndex);
             create_status_icon_danger(player->hudElementDataIndex);
         } else {
@@ -1714,7 +1754,9 @@ void appendGfx_player_actor(void* arg0) {
         }
         palChanged = true;
     }
-    if (battleStatus->turboChargeTurnsLeft != 0) {
+    s32 glowing = battleStatus->turboChargeTurnsLeft;
+    CALL_EVENT(OnActorStat, player, ACTOR_STAT_GLOW, &glowing);
+    if (glowing != 0) {
         if (!decorChanged) {
             set_actor_glow_pal(player, GLOW_PAL_ON);
         }
@@ -2065,7 +2107,7 @@ void func_unkA_draw_npc(ActorPart* part, s32 yaw, Matrix4f mtx) {
     if (decorations->flashEnabled != FLASH_PAL_OFF) {
         decorations->originalPalettesList = spr_get_npc_palettes(part->curAnimation >> 0x10);
         decorations->originalPalettesCount = 0;
-        while (decorations->originalPalettesList[decorations->originalPalettesCount] != (PAL_PTR) -1) {
+        while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && decorations->originalPalettesList[decorations->originalPalettesCount] != (PAL_PTR) -1) {
             decorations->originalPalettesCount++;
         }
 
@@ -2135,7 +2177,7 @@ void func_unkA_draw_player(ActorPart* part, s32 yaw, Matrix4f mtx) {
         decorations->originalPalettesList = spr_get_player_palettes(part->curAnimation >> 16);
         decorations->originalPalettesCount = 0;
 
-        while (decorations->originalPalettesList[decorations->originalPalettesCount] != (PAL_PTR) -1) {
+        while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && decorations->originalPalettesList[decorations->originalPalettesCount] != (PAL_PTR) -1) {
             decorations->originalPalettesCount++;
         }
 
@@ -2207,13 +2249,13 @@ void render_with_sleep_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Matri
         if (isNpcSprite == SPRITE_MODE_PLAYER) {
             decorations->originalPalettesList = spr_get_player_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
         } else {
             decorations->originalPalettesList = spr_get_npc_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
         }
@@ -2267,14 +2309,14 @@ void render_with_static_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Matr
         if (isNpcSprite == SPRITE_MODE_PLAYER) {
             decorations->originalPalettesList = spr_get_player_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
             decorations->spriteColorVariations = SPR_PLAYER_COLOR_VARIATIONS;
         } else {
             decorations->originalPalettesList = spr_get_npc_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
             decorations->spriteColorVariations = spr_get_npc_color_variations(part->curAnimation >> 16);
@@ -2387,13 +2429,13 @@ void render_with_fear_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Matrix
         if (isNpcSprite == SPRITE_MODE_PLAYER) {
             decorations->originalPalettesList = spr_get_player_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 2;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
         } else {
             decorations->originalPalettesList = spr_get_npc_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
         }
@@ -2457,14 +2499,14 @@ void render_with_poison_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Matr
         if (isNpcSprite == SPRITE_MODE_PLAYER) {
             decorations->originalPalettesList = spr_get_player_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
             decorations->spriteColorVariations = SPR_PLAYER_COLOR_VARIATIONS;
         } else {
             decorations->originalPalettesList = spr_get_npc_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
             decorations->spriteColorVariations = spr_get_npc_color_variations(part->curAnimation >> 16);
@@ -2513,13 +2555,13 @@ void render_with_paralyze_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Ma
         if (isNpcSprite == SPRITE_MODE_PLAYER) {
             decorations->originalPalettesList = spr_get_player_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
         } else {
             decorations->originalPalettesList = spr_get_npc_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
         }
@@ -2614,14 +2656,14 @@ void render_with_berserk_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, Mat
         if (isNpcSprite == SPRITE_MODE_PLAYER) {
             decorations->originalPalettesList = spr_get_player_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
             decorations->palAnimState = 0;
         } else {
             decorations->originalPalettesList = spr_get_npc_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
             decorations->palAnimState = 0;
@@ -2677,14 +2719,14 @@ void render_with_watt_idle_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw, M
         if (isNpcSprite == SPRITE_MODE_PLAYER) {
             decorations->originalPalettesList = spr_get_player_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
             decorations->spriteColorVariations = SPR_PLAYER_COLOR_VARIATIONS;
         } else {
             decorations->originalPalettesList = spr_get_npc_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
             decorations->spriteColorVariations = spr_get_npc_color_variations(part->curAnimation >> 16);
@@ -2796,14 +2838,14 @@ void render_with_watt_attack_palettes(b32 isNpcSprite, ActorPart* part, s32 yaw,
         if (isNpcSprite == SPRITE_MODE_PLAYER) {
             decorations->originalPalettesList = spr_get_player_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
             decorations->spriteColorVariations = SPR_PLAYER_COLOR_VARIATIONS;
         } else {
             decorations->originalPalettesList = spr_get_npc_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
             decorations->spriteColorVariations = spr_get_npc_color_variations(part->curAnimation >> 16);
@@ -2914,7 +2956,7 @@ void render_with_player_debuff_palettes(b32 isNpcSprite, ActorPart* part, s32 ya
         if (isNpcSprite == SPRITE_MODE_PLAYER) {
             decorations->originalPalettesList = spr_get_player_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
 
@@ -2926,7 +2968,7 @@ void render_with_player_debuff_palettes(b32 isNpcSprite, ActorPart* part, s32 ya
         } else {
             decorations->originalPalettesList = spr_get_npc_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
             decorations->spriteColorVariations = spr_get_npc_color_variations(part->curAnimation >> 16);
@@ -3049,13 +3091,13 @@ void render_with_pal_blending(b32 isNpcSprite, ActorPart* part, s32 yaw, b32 has
         if (isNpcSprite == SPRITE_MODE_PLAYER) {
             decorations->originalPalettesList = spr_get_player_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
         } else {
             decorations->originalPalettesList = spr_get_npc_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while ((s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && (s32)decorations->originalPalettesList[decorations->originalPalettesCount] != -1) {
                 decorations->originalPalettesCount++;
             }
         }
@@ -3244,13 +3286,13 @@ void render_with_palset_blending(b32 isNpcSprite, ActorPart* part, s32 yaw, Matr
         if (isNpcSprite == SPRITE_MODE_PLAYER) {
             decorations->originalPalettesList = spr_get_player_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while (decorations->originalPalettesList[decorations->originalPalettesCount] != (PAL_PTR) -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && decorations->originalPalettesList[decorations->originalPalettesCount] != (PAL_PTR) -1) {
                 decorations->originalPalettesCount++;
             }
         } else {
             decorations->originalPalettesList = spr_get_npc_palettes(part->curAnimation >> 16);
             decorations->originalPalettesCount = 0;
-            while (decorations->originalPalettesList[decorations->originalPalettesCount] != (PAL_PTR) -1) {
+            while (decorations->originalPalettesCount < ACTOR_MAX_PALETTES && decorations->originalPalettesList[decorations->originalPalettesCount] != (PAL_PTR) -1) {
                 decorations->originalPalettesCount++;
             }
             decorations->spriteColorVariations = spr_get_npc_color_variations(part->curAnimation >> 16);

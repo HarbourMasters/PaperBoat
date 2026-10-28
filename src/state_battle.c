@@ -40,6 +40,8 @@ void state_step_battle(void) {
     u32 currentBattleArea;
     u32 currentBattleIndex;
 
+    CALL_EVENT(OnBattleStep, BATTLE_STEP_BEGIN);
+
     if (BattleTransitionDelay == 5) {
         // PORT: Skip N64 frame buffer sync check (nuGfxCfb_ptr never cycles on port)
         BattleTransitionDelay--;
@@ -96,6 +98,7 @@ void state_step_battle(void) {
         initialize_battle();
         btl_save_world_cameras();
         load_battle_section();
+        CALL_EVENT(OnBattleInit, BATTLE_INIT_SECTION_LOADED);
         SavedWorldAnimFlags = gPlayerStatusPtr->animFlags;
         gPlayerStatusPtr->animFlags &= ~PA_FLAG_PULSE_STONE_VISIBLE;
         SavedWorldFreezeMode = get_time_freeze_mode();
@@ -112,6 +115,9 @@ void state_step_battle(void) {
     update_npcs();
     update_item_entities();
     update_effects();
+    {
+        CALL_EVENT(OnBattleStep, BATTLE_STEP_AFTER_EFFECTS);
+    }
     iterate_models();
     update_cameras();
 }

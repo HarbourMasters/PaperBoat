@@ -1,0 +1,8 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+hos_ochi_mariotif:
+  { type: TEXTURE, format: CI4, offset: 0x26208FE, width: 64, height: 44, tlut: 0x2620E7E, symbol: hos_ochi_mariotif }
+hos_ochi_mariotif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2620E7E, colors: 16, symbol: hos_ochi_mariotif_tlut }

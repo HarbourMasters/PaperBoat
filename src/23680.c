@@ -49,54 +49,62 @@ void spawn_drops(Enemy* enemy) {
     // try dropping items
 
     dropCount = drops->itemDropChance;
-    if (drops->itemDropChance > rand_int(100)) {
-        totalWeight = 0;
+    s32 itemDropRoll = rand_int(100);
+    itemToDrop = ITEM_NONE;
+    CALL_CANCELLABLE_EVENT(OnItemSpawnPick, ITEM_SPAWN_SOURCE_ENEMY_DROP, nullptr, enemy, &itemToDrop) {
+        if (drops->itemDropChance > itemDropRoll) {
+            totalWeight = 0;
 
-        for (i = 0; i < ARRAY_COUNT(drops->itemDrops); i++) {
-            if (drops->itemDrops[i].item != ITEM_NONE) {
-                totalWeight += drops->itemDrops[i].weight;
-            } else {
-                break;
-            }
-        }
-
-        curWeight = 0;
-        dropCount = rand_int(totalWeight);
-        itemToDrop = ITEM_NONE;
-
-        for (i = 0; i < ARRAY_COUNT(drops->itemDrops); i++) {
-            if (drops->itemDrops[i].item == ITEM_NONE) {
-                break;
-            }
-
-            curWeight += drops->itemDrops[i].weight;
-            if (drops->itemDrops[i].flagIdx > 0) {
-                if (get_global_flag(EVT_INDEX_OF_GAME_FLAG(GF_SpawnedItemDrop_00) + drops->itemDrops[i].flagIdx)) {
-                    continue;
+            for (i = 0; i < ARRAY_COUNT(drops->itemDrops); i++) {
+                if (drops->itemDrops[i].item != ITEM_NONE) {
+                    totalWeight += drops->itemDrops[i].weight;
+                } else {
+                    break;
                 }
             }
 
-            if (curWeight >= dropCount) {
-                itemToDrop = drops->itemDrops[i].item;
-                break;
-            }
-        }
+            curWeight = 0;
+            dropCount = rand_int(totalWeight);
+            itemToDrop = ITEM_NONE;
 
-        if (itemToDrop != ITEM_NONE) {
-            make_item_entity(itemToDrop, x, y, z, ITEM_SPAWN_MODE_BATTLE_REWARD, pickupDelay, angle + angleMult * 360, 0);
-            spawnCounter++;
-            pickupDelay += 2;
-            angle += 30.0;
-            if (spawnCounter >= 12) {
-                angleMult++;
-                angle = angleMult * 8;
-                spawnCounter = 0;
+            for (i = 0; i < ARRAY_COUNT(drops->itemDrops); i++) {
+                if (drops->itemDrops[i].item == ITEM_NONE) {
+                    break;
+                }
+
+                curWeight += drops->itemDrops[i].weight;
+                if (drops->itemDrops[i].flagIdx > 0) {
+                    if (get_global_flag(EVT_INDEX_OF_GAME_FLAG(GF_SpawnedItemDrop_00) + drops->itemDrops[i].flagIdx)) {
+                        continue;
+                    }
+                }
+
+                if (curWeight >= dropCount) {
+                    itemToDrop = drops->itemDrops[i].item;
+                    break;
+                }
             }
 
-            if (drops->itemDrops[i].flagIdx >= 0) {
+            if (itemToDrop != ITEM_NONE && drops->itemDrops[i].flagIdx >= 0) {
                 set_global_flag(EVT_INDEX_OF_GAME_FLAG(GF_SpawnedItemDrop_00) + drops->itemDrops[i].flagIdx);
             }
         }
+    }
+    if (itemToDrop < 0 || itemToDrop >= gItemCount) {
+        itemToDrop = ITEM_NONE;
+    }
+
+    if (itemToDrop != ITEM_NONE) {
+        s32 itemEntityIndex = make_item_entity(itemToDrop, x, y, z, ITEM_SPAWN_MODE_BATTLE_REWARD, pickupDelay, angle + angleMult * 360, 0);
+        spawnCounter++;
+        pickupDelay += 2;
+        angle += 30.0;
+        if (spawnCounter >= 12) {
+            angleMult++;
+            angle = angleMult * 8;
+            spawnCounter = 0;
+        }
+        CALL_EVENT(OnItemSpawned, ITEM_SPAWN_SOURCE_ENEMY_DROP, nullptr, enemy, itemToDrop, itemEntityIndex);
     }
 
     if (encounter->dropWhackaBump) {
@@ -138,7 +146,9 @@ void spawn_drops(Enemy* enemy) {
     }
 
     if (is_ability_active(ABILITY_HEART_FINDER)) {
-        dropCount += 1 + rand_int(2);
+        s32 range = 2;
+        CALL_EVENT(OnAbilityEffect, nullptr, ABILITY_HEART_FINDER, &range);
+        dropCount += 1 + rand_int(range);
     }
     if (enemy->flags & ENEMY_FLAG_NO_DROPS) {
         dropCount = 0;
@@ -203,7 +213,9 @@ void spawn_drops(Enemy* enemy) {
     }
 
     if (is_ability_active(ABILITY_FLOWER_FINDER)) {
-        dropCount += 1 + rand_int(2);
+        s32 range = 2;
+        CALL_EVENT(OnAbilityEffect, nullptr, ABILITY_FLOWER_FINDER, &range);
+        dropCount += 1 + rand_int(range);
     }
     if (enemy->flags & ENEMY_FLAG_NO_DROPS) {
         dropCount = 0;
@@ -268,7 +280,9 @@ void spawn_drops(Enemy* enemy) {
     dropCount = dropCount + encounter->coinsEarned;
 
     if (is_ability_active(ABILITY_PAY_OFF)) {
-        dropCount += encounter->damageTaken / 2;
+        s32 bonus = encounter->damageTaken / 2;
+        CALL_EVENT(OnAbilityEffect, nullptr, ABILITY_PAY_OFF, &bonus);
+        dropCount += bonus;
         encounter->damageTaken = 0;
     }
     if (encounter->hasMerleeCoinBonus) {
@@ -276,7 +290,9 @@ void spawn_drops(Enemy* enemy) {
         dropCount *= 3;
     }
     if (is_ability_active(ABILITY_MONEY_MONEY)) {
-        dropCount *= 2;
+        s32 multiplier = 2;
+        CALL_EVENT(OnAbilityEffect, nullptr, ABILITY_MONEY_MONEY, &multiplier);
+        dropCount *= multiplier;
     }
 
     // Double rewards cheat

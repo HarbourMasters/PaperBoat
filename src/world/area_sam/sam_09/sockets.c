@@ -48,10 +48,16 @@ API_CALLABLE(N(CreateConsumableItemList)) {
     s32 itemID;
     s32* array;
     s32 pos = 0;
+    s32 numConsumables = 0;
 
-    script->varTablePtr[0].p = array = heap_malloc((ITEM_NUM_CONSUMABLES + 1) * sizeof(*array));
+    for (itemID = 0; itemID < gItemCount; itemID++) {
+        if (item_is_consumable(itemID)) {
+            numConsumables++;
+        }
+    }
+    script->varTablePtr[0].p = array = heap_malloc((MAX(numConsumables, ITEM_NUM_CONSUMABLES) + 1) * sizeof(*array));
 
-    for (itemID = 0; itemID < NUM_ITEMS; itemID++) {
+    for (itemID = 0; itemID < gItemCount; itemID++) {
         if (item_is_consumable(itemID)) {
            array[pos++] = itemID;
         }

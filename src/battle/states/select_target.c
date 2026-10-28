@@ -360,9 +360,13 @@ void btl_state_draw_select_target(void) {
         target = &choosingActor->targetData[targetIndexList[selectedTargetIndex]];
         actorID = target->actorID;
         if (actorID == ACTOR_PLAYER) {
-            nameWidth = get_msg_width(MSG_Menus_Battle_TargetMario, 0) + 10;
+            msgID = MSG_Menus_Battle_TargetMario;
+            CALL_EVENT(OnTargetName, actorID, &msgID);
+            nameWidth = get_msg_width(msgID, 0) + 10;
         } else if (actorID == ACTOR_PARTNER) {
-            nameWidth = get_msg_width(PartnerNameMessages[currentPartner], 0) + 10;
+            msgID = PartnerNameMessages[currentPartner];
+            CALL_EVENT(OnTargetName, actorID, &msgID);
+            nameWidth = get_msg_width(msgID, 0) + 10;
         } else {
             nameWidth = get_msg_width(MSG_Menus_Battle_TargetAllEnemies, 0) + 10;
         }
@@ -394,9 +398,13 @@ void btl_state_draw_select_target(void) {
         target = &choosingActor->targetData[targetIndexList[selectedTargetIndex]];
         actorID = target->actorID;
         if (actorID == ACTOR_PLAYER) {
-            draw_msg(MSG_Menus_Battle_TargetMario, screenX + BattleMenu_TargetNameOffsetX, screenY, 255, MSG_PAL_36, 0);
+            msgID = MSG_Menus_Battle_TargetMario;
+            CALL_EVENT(OnTargetName, actorID, &msgID);
+            draw_msg(msgID, screenX + BattleMenu_TargetNameOffsetX, screenY, 255, MSG_PAL_36, 0);
         } else if (actorID == ACTOR_PARTNER) {
-            draw_msg(PartnerNameMessages[currentPartner], screenX + BattleMenu_TargetNameOffsetX, screenY, 255, MSG_PAL_36, 0);
+            msgID = PartnerNameMessages[currentPartner];
+            CALL_EVENT(OnTargetName, actorID, &msgID);
+            draw_msg(msgID, screenX + BattleMenu_TargetNameOffsetX, screenY, 255, MSG_PAL_36, 0);
         } else {
             draw_msg(MSG_Menus_Battle_TargetAllEnemies, screenX + BattleMenu_TargetNameOffsetX, screenY, 255, MSG_PAL_36, 0);
         }

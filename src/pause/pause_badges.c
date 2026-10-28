@@ -225,6 +225,7 @@ s32 pause_badges_try_remove(s16 badgeID) {
 
     // handle negative bp cost badges
     bpCost = gMoveTable[gItemTable[badgeID].moveID].costBP;
+    CALL_EVENT(OnBadgeBPCost, badgeID, &bpCost);
     if (bpCost < 0 && gPlayerData.maxBP < pause_get_total_equipped_bp_cost() - bpCost) {
         return TRY_REMOVE_NOT_ENOUGH_BP_RESULT;
     }
@@ -272,17 +273,24 @@ s32 pause_badges_try_equip(s16 badgeID) {
         return EQUIP_RESULT_NOT_ENOUGH_BP;
     }
 
+    s32 equipped = false;
     for (i = 0; i < ARRAY_COUNT(playerData->equippedBadges); i++, badgeSlot++) {
         if (*badgeSlot == badgeID) {
-            return EQUIP_RESULT_ALREADY_EQUIPPED;
+            equipped = true;
+            break;
         }
+    }
+    CALL_EVENT(OnPauseBadgeEquipped, gPauseBadgesSelectedIndex, badgeID, &equipped);
+    if (equipped) {
+        return EQUIP_RESULT_ALREADY_EQUIPPED;
     }
 
     totalEquippedBP = pause_get_total_equipped_bp_cost();
     if (badgeID != 0) {
         CALL_CANCELLABLE_EVENT(OnPlayerBPCostCheck) {
-            u8 moveID = gItemTable[badgeID].moveID;
-            s32 requiredBP = totalEquippedBP + gMoveTable[moveID].costBP;
+            s32 badgeCost = gMoveTable[gItemTable[badgeID].moveID].costBP;
+            CALL_EVENT(OnBadgeBPCost, badgeID, &badgeCost);
+            s32 requiredBP = totalEquippedBP + badgeCost;
 
             if (playerData->maxBP < requiredBP) {
                 return EQUIP_RESULT_NOT_ENOUGH_BP;
@@ -444,14 +452,19 @@ void pause_badges_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width
                     isSelected = true;
                     if (!isNone) {
                         costBP = gMoveTable[gItemTable[itemID].moveID].costBP;
+                        CALL_EVENT(OnBadgeBPCost, itemID, &costBP);
                         if (!isEquipped && bpAvailable >= costBP) {
                             canBeEquipped = true;
                         }
                     }
                 }
 
-                if (!isNone && bpAvailable < gMoveTable[gItemTable[badgeID].moveID].costBP) {
-                    cannotBeEquipped = true;
+                if (!isNone) {
+                    s32 badgeCost = gMoveTable[gItemTable[badgeID].moveID].costBP;
+                    CALL_EVENT(OnBadgeBPCost, badgeID, &badgeCost);
+                    if (bpAvailable < badgeCost) {
+                        cannotBeEquipped = true;
+                    }
                 }
 
                 badgeEntryOffsetX = 0;
@@ -492,7 +505,9 @@ void pause_badges_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width
                                         badgeListY + pause_badges_scroll_offset_y(posY) + badgeEntryOffsetY, 255, palette, style);
                             }
                         }
-                        draw_number(gMoveTable[gItemTable[badgeID].moveID].costBP, baseX + 235 + pause_badges_scroll_offset_x(posX),
+                        s32 badgeCost = gMoveTable[gItemTable[badgeID].moveID].costBP;
+                        CALL_EVENT(OnBadgeBPCost, badgeID, &badgeCost);
+                        draw_number(badgeCost, baseX + 235 + pause_badges_scroll_offset_x(posX),
                                     baseY + 17 + pause_badges_scroll_offset_y(posY), DRAW_NUMBER_CHARSET_THIN, palette, 255, DRAW_NUMBER_STYLE_ALIGN_RIGHT | DRAW_NUMBER_STYLE_MONOSPACE);
                     }
                 }
@@ -531,6 +546,7 @@ void pause_badges_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width
 
                 if (i == 2 && !isNone) {
                     numOrbs = gMoveTable[gItemTable[badgeID].moveID].costBP;
+                    CALL_EVENT(OnBadgeBPCost, badgeID, &numOrbs);
                     orbOffsetY = 1;
                     if (numOrbs < 11) {
                         orbOffsetY = 4;
@@ -633,7 +649,9 @@ void pause_badges_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width
     if (bpAmount < 10) {
         bpAvailOffsetX = -4;
     }
-    pause_draw_menu_label(PAUSE_LBL_AVAILABLE, baseX + 12, baseY + 100 + bpAvailOffsetY);
+    CALL_CANCELLABLE_EVENT(OnPauseMenuDrawElement, PAUSE_MENU_ELEMENT_BADGES_AVAILABLE_BP) {
+        pause_draw_menu_label(PAUSE_LBL_AVAILABLE, baseX + 12, baseY + 100 + bpAvailOffsetY);
+    }
 
 #if VERSION_PAL
     bpAmountX = baseX + (73 + bpAvailOffsetX);
@@ -644,8 +662,10 @@ void pause_badges_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width
     bpAmountX = baseX + 73 + bpAvailOffsetX;
 #endif
 
-    draw_number(bpAmount, bpAmountX, baseY + 100 + bpAvailOffsetY, DRAW_NUMBER_CHARSET_THIN, MSG_PAL_STANDARD, 255,
-                DRAW_NUMBER_STYLE_MONOSPACE | DRAW_NUMBER_STYLE_ALIGN_RIGHT);
+    CHECK_IF_NOT_CANCELLED(OnPauseMenuDrawElement) {
+        draw_number(bpAmount, bpAmountX, baseY + 100 + bpAvailOffsetY, DRAW_NUMBER_CHARSET_THIN, MSG_PAL_STANDARD, 255,
+                    DRAW_NUMBER_STYLE_MONOSPACE | DRAW_NUMBER_STYLE_ALIGN_RIGHT);
+    }
 
     orbColorR = 0;
     orbColorG = 255;
@@ -831,6 +851,10 @@ void pause_badges_load_badges(s32 onlyEquipped) {
     PauseItemPage* page;
     s32 i;
 
+    {
+        PauseBadgeList list = { gPauseBadgesItemIds, gPauseBadgesNumItems, ARRAY_COUNT(gPauseBadgesItemIds), onlyEquipped };
+        CALL_EVENT(OnPauseBadgeList, PAUSE_BADGE_LIST_REBUILD, &list);
+    }
     D_80270388 = 0;
     if (!onlyEquipped) {
         for (i = 0; i < ARRAY_COUNT(playerData->badges); i++) {
@@ -910,6 +934,17 @@ void pause_badges_load_badges(s32 onlyEquipped) {
 void pause_badges_init(MenuPanel* panel) {
     s32 i;
 
+    {
+        PauseBadgesView view = {
+            gPauseBadgesItemIds, ARRAY_COUNT(gPauseBadgesItemIds), gPauseBadgesPages, ARRAY_COUNT(gPauseBadgesPages),
+            gPauseBadgesIconIDs, ARRAY_COUNT(gPauseBadgesIconIDs), &gPauseBadgesCurrentPage, &gPauseBadgesSelectedIndex,
+            &gPauseBadgesLevel, &gPauseBadgesCurrentTab, &gPauseBadgesCurrentScrollPos, &gPauseBadgesTargetScrollPos,
+            &gPauseBadgesShowNotEnoughBP,
+        };
+        PauseBadgeList list = { gPauseBadgesItemIds, gPauseBadgesNumItems, ARRAY_COUNT(gPauseBadgesItemIds), gPauseBadgesCurrentTab };
+        CALL_EVENT(OnPauseBadgesView, &view);
+        CALL_EVENT(OnPauseBadgeList, PAUSE_BADGE_LIST_OPEN, &list);
+    }
     // This sorts the badge list and then discards the count
     pause_badges_count_all();
 
@@ -991,13 +1026,19 @@ void pause_badges_handle_input(MenuPanel* panel) {
     if (gPauseBadgesNumItems != 0) {
         if (gPauseBadgesLevel == 0) {
             s32 oldTab = gPauseBadgesCurrentTab;
+            s32 tabButtons = BUTTON_STICK_UP | BUTTON_STICK_DOWN;
 
-            if (gPauseHeldButtons & (BUTTON_STICK_UP | BUTTON_STICK_DOWN)) {
+            CALL_EVENT(OnPauseBadgeTabButtons, &tabButtons);
+            if (gPauseHeldButtons & tabButtons) {
                 gPauseBadgesCurrentTab ^= 1;
             }
             if (oldTab != gPauseBadgesCurrentTab) {
                 sfx_play_sound(SOUND_MENU_CHANGE_TAB);
                 pause_badges_load_badges(gPauseBadgesCurrentTab);
+                {
+                    PauseBadgeList list = { gPauseBadgesItemIds, gPauseBadgesNumItems, ARRAY_COUNT(gPauseBadgesItemIds), gPauseBadgesCurrentTab };
+                    CALL_EVENT(OnPauseBadgeList, PAUSE_BADGE_LIST_TAB_SWITCHED, &list);
+                }
             }
         } else {
             s32 heldButtons = gPauseHeldButtons;

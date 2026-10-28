@@ -2,7 +2,7 @@
 #include "common.h"
 #include "message_ids.h"
 
-s32 bActorNames[] = {
+s32 bActorNames[0x100] = {
     [ACTOR_TYPE_RED_GOOMBA]                 MSG_EnemyName_RedGoomba,
     [ACTOR_TYPE_RED_PARAGOOMBA]             MSG_EnemyName_RedParagoomba,
     [ACTOR_TYPE_GLOOMBA]                    MSG_EnemyName_Gloomba,
@@ -226,7 +226,7 @@ s32 bActorsIgnoreDuringCount[] = {
     -1
 };
 
-ActorSounds bActorSoundTable[] = {
+ActorSounds bActorSoundTable[0x100] = {
     [ACTOR_TYPE_RED_GOOMBA] = {
         .walk = { SOUND_GOOMBA_STEP, SOUND_GOOMBA_STEP },
         .fly = { SOUND_GOOMBA_STEP, SOUND_GOOMBA_STEP },
@@ -1713,7 +1713,7 @@ ActorSounds bActorSoundTable[] = {
     },
 };
 
-s32 bActorTattles[] = {
+s32 bActorTattles[0x100] = {
     [ACTOR_TYPE_RED_GOOMBA]                 MSG_NONE,
     [ACTOR_TYPE_RED_PARAGOOMBA]             MSG_NONE,
     [ACTOR_TYPE_GLOOMBA]                    MSG_EnemyTattle_Gloomba,
@@ -1928,7 +1928,7 @@ s32 bActorTattles[] = {
     [ACTOR_TYPE_SLOT_MACHINE_START_DUP3]    MSG_EnemyTattle_SlotMachineStart,
 };
 
-ActorOffsets bActorOffsets[] = {
+ActorOffsets bActorOffsets[0x100] = {
     [ACTOR_TYPE_RED_GOOMBA] = {
         .tattleCam = { 0, 0, 0 },
         .shadow = 0,

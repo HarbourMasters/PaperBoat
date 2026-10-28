@@ -102,7 +102,8 @@ enum CommonActorVars {
     AVAR_JungleFuzzy_Generation         = 0,
 };
 
-EXTERN_C s32 bActorNames[];
+EXTERN_C s32 bActorNames[0x100];
+EXTERN_C s32 bActorTattles[0x100];
 
 typedef struct BattleMoveEntry {
     /* 0x00 */ u8* romStart;
@@ -221,7 +222,7 @@ typedef struct BattleArea {
     /* 0x1C */ DmaTable* dmaTable;
 } BattleArea; // size = 0x20
 
-EXTERN_C BattleArea gBattleAreas[0x30];
+EXTERN_C BattleArea gBattleAreas[0x50];
 
 #define BATTLE(formation, stage, name) { name, ARRAY_COUNT(formation), (Formation*) formation, &stage }
 #define BATTLE_WITH_SCRIPT(formation, stage, script, name) { name, ARRAY_COUNT(formation), (Formation*) formation, &stage, &script }
@@ -239,7 +240,7 @@ typedef struct ActorSounds {
     /* 0x18 */ s16 delay[2]; ///< Number of frames to wait between walk/fly sounds. Negative values are in distance.
 } ActorSounds; // size = 0x1C
 
-EXTERN_C ActorSounds bActorSoundTable[];
+EXTERN_C ActorSounds bActorSoundTable[0x100];
 
 typedef struct ActorOffsets {
     /* 0x00 */ Vec3b tattleCam;
@@ -265,7 +266,7 @@ extern "C" {
 
 extern Battle* gCurrentBattlePtr;
 
-extern ActorOffsets bActorOffsets[];
+extern ActorOffsets bActorOffsets[0x100];
 
 void load_demo_battle(u32 index);
 Actor* create_actor(Formation formation);

@@ -1,4 +1,6 @@
 #include "SaveEditor.h"
+#include "port/Engine.h"
+#include "port/features/Features.h"
 #include "port/ui/UIWidgets.hpp"
 #include "port/ActorTypeNames.h"
 #include <string>
@@ -24,21 +26,21 @@ extern s32 set_global_flag(s32 index);
 extern s32 clear_global_flag(s32 index);
 extern s32 get_global_flag(s32 index);
 extern void enforce_hpfp_limits(void);
+extern s32 get_consumables_capacity(void);
 
 extern const s32 CookableItemIDs[];
 extern const s32 CookableDiscoveredFlags[];
 
 extern SaveData gCurrentSaveFile;
 extern s32 gPausePartnersPartnerIDs[8];
-extern intptr_t gItemIconRasterOffsets[349];
-extern intptr_t gItemIconPaletteOffsets[349];
+extern intptr_t gItemIconRasterOffsets[];
+extern intptr_t gItemIconPaletteOffsets[];
 }
 
 #pragma push_macro("End")
 #undef End
 
 #define MAX_ICON_RASTER_SIZE 349
-#define MAX_INVENTORY_SIZE   10
 #define MAX_KEY_ITEM_SIZE    32
 #define NUM_COOKABLE_RECIPES 52
 #define TOTAL_STAR_PIECES    160
@@ -261,7 +263,8 @@ TextureData GetRankTexture(int32_t currentRank) {
 }
 
 bool PlayerHasItem(int16_t itemId) {
-    for (int i = 0; i < 10; i++) {
+    const int capacity = get_consumables_capacity();
+    for (int i = 0; i < capacity; i++) {
         if (gPlayerData.invItems[i] == itemId) {
             return true;
         }
@@ -297,15 +300,16 @@ void AddRemove_Badge(int badgeId, bool currentState) {
 }
 
 void AddRemove_Item(int itemId, bool currentState) {
+    const int capacity = get_consumables_capacity();
     if (currentState) {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < capacity; i++) {
             if (gPlayerData.invItems[i] == itemId) {
                 gPlayerData.invItems[i] = 0;
                 break;
             }
         }
     } else {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < capacity; i++) {
             if (gPlayerData.invItems[i] == 0) {
                 gPlayerData.invItems[i] = itemId;
                 break;
@@ -938,7 +942,8 @@ void SaveEditor_DrawPlayerMenu() {
 void SaveEditor_DrawItemsMenu() {
     auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
     if (ImGui::BeginChild("ItemChild")) {
-        for (int i = 0; i < MAX_INVENTORY_SIZE; i++) {
+        const int capacity = get_consumables_capacity();
+        for (int i = 0; i < capacity; i++) {
 
             ImGui::PushID(i);
             if (gPlayerData.invItems[i] == 0) {
@@ -949,7 +954,7 @@ void SaveEditor_DrawItemsMenu() {
                 SaveEditor_DrawImageButton(gPlayerData.invItems[i], "inventory");
             }
             ImGui::PopID();
-            if (i != MAX_INVENTORY_SIZE - 1) {
+            if (i != capacity - 1 && i % 10 != 9) {
                 ImGui::SameLine();
             }
         }
@@ -1434,6 +1439,9 @@ void SaveEditor_DrawTattlesMenu() {
 }
 
 void SaveEditor_DrawTabBar() {
+    if (Features::DrawLockedNotice("devtools.save_editor")) {
+        return;
+    }
     UIWidgets::PushStyleTabs(WIDGET_COLOR);
     if (ImGui::BeginTabBar("SaveEditorTabBar")) {
         if (ImGui::BeginTabItem("Player")) {

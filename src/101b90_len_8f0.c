@@ -25,7 +25,8 @@ BSS s32 spr_asset_entry[2];
 BSS s32 PlayerRasterLoadDescBuffer[101]; //NOTE: maximum rasters supported for a single player sprite is 101
 BSS s32 PlayerRasterLoadDescNumLoaded;
 BSS s32 PlayerRasterLoadDescBeginSpriteIndex[SPR_Peach3]; //TODO size linked to number of player sprites
-BSS s32 PlayerRasterLoadDesc[0x2E0]; // correct length?
+BSS s32 PlayerRasterLoadDesc[0x400];
+BSS s32 PlayerRasterOffsetScale;
 
 BSS PlayerRastersHeader PlayerRasterHeader;
 BSS s32 PlayerSpriteRasterSets[SPR_Peach3 + 1]; //TODO size linked to number of player sprites
@@ -147,6 +148,8 @@ void spr_init_player_raster_cache(s32 cacheSize, s32 maxRasterSize) {
     PlayerRasterHeader.loadDescriptors = tempHeader[1];
     PlayerRasterHeader.imageData = tempHeader[2];
 
+    PlayerRasterOffsetScale = Sprite_GetPlayerRasterOffsetScale();
+
     // Load player sprite raster sets from assets
     Sprite_GetPlayerRasterSets(PlayerSpriteRasterSets, ARRAY_COUNT(PlayerSpriteRasterSets));
 }
@@ -187,7 +190,7 @@ IMG_PTR spr_get_player_raster(s32 rasterIndex, s32 playerSpriteID) {
     // upper three nibbles give size / 16, lower 5 give offset
     playerRasterInfo = PlayerRasterLoadDesc[PlayerRasterLoadDescBeginSpriteIndex[playerSpriteID] + rasterIndex];
 
-    s32 rawOffset = playerRasterInfo & 0xFFFFF;
+    s32 rawOffset = (playerRasterInfo & 0xFFFFF) * PlayerRasterOffsetScale;
     s32 adjustedOffset = rawOffset - PlayerRasterHeader.imageData;
     s32 rasterSize = (playerRasterInfo >> 0x10) & 0xFFF0;
 

@@ -16,6 +16,7 @@
 #include "spdlog/spdlog.h"
 
 #include "port/FilePicker.h"
+#include "port/modding/ModManifest.h"
 
 #ifdef __EMSCRIPTEN__
 #include "port/web/WebUtils.h"
@@ -59,6 +60,22 @@ std::optional<YAML::Node> GetSupportedRomNode(const std::vector<uint8_t>& romDat
     }
 
     return config[hash];
+}
+
+std::optional<RomhackRecipe> RomhackRecipeFor(const YAML::Node& rom, const std::vector<uint8_t>& romData) {
+    if (!rom["romhack"]) {
+        return std::nullopt;
+    }
+    RomhackRecipe recipe;
+    recipe.info.id = rom["romhack"]["id"].as<std::string>();
+    recipe.info.name = rom["name"] ? rom["name"].as<std::string>() : recipe.info.id;
+    recipe.info.version = rom["romhack"]["version"] ? rom["romhack"]["version"].as<std::string>() : "";
+    recipe.info.romSha1 = Companion::CalculateHash(romData);
+
+    recipe.manifest = Romhack::ConfigManifest(rom, recipe.info.romSha1);
+    recipe.yamlPath = rom["path"].as<std::string>();
+    recipe.output = rom["config"]["output"]["binary"].as<std::string>();
+    return recipe;
 }
 
 std::vector<uint8_t> ReadWholeFile(const std::filesystem::path& path) {
@@ -205,6 +222,23 @@ std::optional<std::string> GameExtractor::ValidateChecksum() const {
     return cart->GetGameTitle();
 }
 
+std::optional<RomhackRecipe> GameExtractor::GetRomhack() const {
+    auto rom = GetSupportedRomNode(this->mGameData);
+    if (!rom.has_value()) {
+        return std::nullopt;
+    }
+    return RomhackRecipeFor(*rom, this->mGameData);
+}
+
+bool GameExtractor::IsRomhack(const std::string& romPath, const std::string& configDir) {
+    const std::vector<uint8_t> data = ReadWholeFile(romPath);
+    if (data.empty()) {
+        return false;
+    }
+    auto rom = GetSupportedRomNode(data, configDir);
+    return rom.has_value() && (*rom)["romhack"];
+}
+
 std::optional<std::string> GameExtractor::DetectVersion(const std::string& romPath, const std::string& configDir) {
     std::error_code ec;
     if (!std::filesystem::exists(romPath, ec)) {
@@ -246,8 +280,8 @@ GameExtractor::FindSupportedRoms(const std::vector<std::string>& searchPaths) {
             }
             const std::string full = entry.path().generic_string();
             const auto version = DetectVersion(full);
-            if (!version.has_value()) {
-                continue; // Only offer ROMs the recipes actually cover.
+            if (!version.has_value() || IsRomhack(full)) {
+                continue; // Only offer base-game ROMs the recipes actually cover.
             }
             // One entry per version, so duplicate copies aren't offered twice.
             if (std::find(seenVersions.begin(), seenVersions.end(), *version) != seenVersions.end()) {
@@ -305,6 +339,18 @@ bool GameExtractor::GenerateOTRTo(
     totalAssets = PAPERBOAT_ASSET_YAML_COUNT;
     assetCount = 0;
 
+    const auto romhack = GetRomhack();
+    if (romhack.has_value()) {
+        size_t yamls = 0;
+        std::error_code ec;
+        for (const auto& entry : fs::recursive_directory_iterator(fs::path(assetsPath) / romhack->yamlPath, ec)) {
+            const auto ext = entry.path().extension();
+            yamls += entry.is_regular_file() && (ext == ".yml" || ext == ".yaml");
+        }
+        totalAssets = yamls;
+        fs::create_directories((fs::path(gamePath) / romhack->output).parent_path(), ec);
+    }
+
     sLastError.clear();
     sPhase = 1;
     delete Companion::Instance;
@@ -315,6 +361,12 @@ bool GameExtractor::GenerateOTRTo(
         }
     });
     this->WritePortVersion();
+    if (romhack.has_value()) {
+        const std::string manifest = Mod::ManifestText(romhack->manifest);
+        Companion::Instance->RegisterCompanionFile(
+            Mod::kManifestFile, std::vector<char>(manifest.begin(), manifest.end())
+        );
+    }
     std::atomic<size_t> unusedCounter { 0 };
     try {
         Companion::Instance->Init(ExportType::Binary, unusedCounter, true);

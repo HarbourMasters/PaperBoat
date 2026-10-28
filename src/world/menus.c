@@ -3,6 +3,7 @@
 #include "world/partners.h"
 #include "macros.h"
 #include "common.h"
+#include "inventory.h"
 #include "sprite.h"
 #include "game_modes.h"
 #include "pause/pause_common.h"
@@ -160,10 +161,11 @@ s32 setup_partner_popup(PopupMenu* menu) {
 
 s32 setup_item_popup(PopupMenu* menu) {
     PlayerData* playerData = &gPlayerData;
+    s32 capacity = get_consumables_capacity();
     s32 optionCount = 0;
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(playerData->invItems); i++) {
+    for (i = 0; i < capacity; i++) {
         s32 itemIdx = playerData->invItems[i];
 
         if (itemIdx != 0) {

@@ -144,6 +144,9 @@ typedef struct ShipSaveData {
     u8 hasDiedOnce;
 } ShipSaveData;
 
+#define SAVE_GLOBAL_FLAG_WORDS 0x480
+#define SAVE_GLOBAL_BYTE_COUNT 0x2000
+
 typedef struct SaveData {
     /* 0x0000 */ char magicString[16]; /* "Mario Story 006" string */
     /* 0x0010 */ char modName[28]; /* always non-null for DX saves */
@@ -161,20 +164,20 @@ typedef struct SaveData {
     /* 0x046C */ s16 entryID;
     /* 0x046E */ unsigned char unk_46E[2];
     /* 0x0470 */ s32 enemyDefeatFlags[60][12];
-    /* 0x0FB0 */ s32 globalFlags[64];
-    /* 0x10B0 */ s8 globalBytes[512];
-    /* 0x12B0 */ s32 areaFlags[8];
-    /* 0x12D0 */ s8 areaBytes[16];
-    /* 0x12E0 */ s8 debugEnemyContact;
-    /* 0x12E0 */ b8 debugUnused1;
-    /* 0x12E0 */ b8 debugUnused2;
-    /* 0x12E0 */ b8 musicEnabled;
-    /* 0x12E4 */ unsigned char unk_12E4[0x2];
-    /* 0x12E6 */ Vec3s savePos;
-    /* 0x12EC */ SaveFileSummary summary;
-    /* 0x1304 */ unsigned char unk_1304[0x7C];
+    /* 0x0FB0 */ s32 globalFlags[SAVE_GLOBAL_FLAG_WORDS];
+    /* 0x21B0 */ s8 globalBytes[SAVE_GLOBAL_BYTE_COUNT];
+    /* 0x41B0 */ s32 areaFlags[8];
+    /* 0x41D0 */ s8 areaBytes[16];
+    /* 0x41E0 */ s8 debugEnemyContact;
+    /* 0x41E1 */ b8 debugUnused1;
+    /* 0x41E2 */ b8 debugUnused2;
+    /* 0x41E3 */ b8 musicEnabled;
+    /* 0x41E4 */ unsigned char unk_12E4[0x2];
+    /* 0x41E6 */ Vec3s savePos;
+    /* 0x41EC */ SaveFileSummary summary;
+    /* 0x4204 */ unsigned char unk_1304[0x7C];
     ShipSaveData shipSaveData;
-} SaveData; // size = 0x1380
+} SaveData; // size = 0x4280
 
 extern SaveData gCurrentSaveFile;
 

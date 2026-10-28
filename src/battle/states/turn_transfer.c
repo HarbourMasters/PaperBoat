@@ -48,7 +48,13 @@ void btl_state_update_transfer_turn(void) {
         gBattleSubState = BTL_SUBSTATE_RESET_ENEMIES;
         BattleStatusUpdateDelay = 0;
         gBattleStatus.flags2 &= ~BS_FLAGS2_PLAYER_TURN_USED;
-        gBattleStatus.flags2 &= ~BS_FLAGS2_PARTNER_TURN_USED;
+        {
+            s32 skipPartner = false;
+            CALL_EVENT(OnTurnOrder, TURN_ORDER_SKIP_PARTNER_TURN, &skipPartner);
+            if (!skipPartner) {
+                gBattleStatus.flags2 &= ~BS_FLAGS2_PARTNER_TURN_USED;
+            }
+        }
         gBattleStatus.flags2 &= ~BS_FLAGS2_OVERRIDE_INACTIVE_PLAYER;
         gBattleStatus.flags2 &= ~BS_FLAGS2_OVERRIDE_INACTIVE_PARTNER;
     }
@@ -80,67 +86,69 @@ void btl_state_update_transfer_turn(void) {
                 continue;
             }
 
-            actor->flags |= ACTOR_FLAG_USING_IDLE_ANIM | ACTOR_FLAG_SHOW_STATUS_ICONS;
-            actor->flags &= ~ACTOR_FLAG_SKIP_TURN;
+            CALL_CANCELLABLE_EVENT(OnStatusTick, actor, STATUS_PHASE_ENEMY_TURN) {
+                actor->flags |= ACTOR_FLAG_USING_IDLE_ANIM | ACTOR_FLAG_SHOW_STATUS_ICONS;
+                actor->flags &= ~ACTOR_FLAG_SKIP_TURN;
 
-            if (actor->debuff != 0) {
-                if (actor->debuff == STATUS_KEY_UNUSED
-                    || actor->debuff == STATUS_KEY_DIZZY
-                    || actor->debuff == STATUS_KEY_PARALYZE
-                    || actor->debuff == STATUS_KEY_SLEEP
-                    || actor->debuff == STATUS_KEY_FROZEN
-                    || actor->debuff == STATUS_KEY_STOP
-                ) {
-                    actor->flags |= ACTOR_FLAG_SKIP_TURN;
+                if (actor->debuff != 0) {
+                    if (actor->debuff == STATUS_KEY_UNUSED
+                        || actor->debuff == STATUS_KEY_DIZZY
+                        || actor->debuff == STATUS_KEY_PARALYZE
+                        || actor->debuff == STATUS_KEY_SLEEP
+                        || actor->debuff == STATUS_KEY_FROZEN
+                        || actor->debuff == STATUS_KEY_STOP
+                    ) {
+                        actor->flags |= ACTOR_FLAG_SKIP_TURN;
+                    }
+                    actor->debuffDuration--;
+                    if (actor->debuffDuration <= 0) {
+                        actor->debuff = 0;
+                        remove_status_debuff(actor->hudElementDataIndex);
+                        dispatch_event_actor(actor, EVENT_RECOVER_STATUS);
+                        BattleStatusUpdateDelay = 20;
+                    }
                 }
-                actor->debuffDuration--;
-                if (actor->debuffDuration <= 0) {
-                    actor->debuff = 0;
-                    remove_status_debuff(actor->hudElementDataIndex);
-                    dispatch_event_actor(actor, EVENT_RECOVER_STATUS);
+
+                if (actor->staticStatus != 0) {
+                    actor->staticDuration--;
+                    if (actor->staticDuration <= 0) {
+                        actor->staticStatus = 0;
+                        remove_status_static(actor->hudElementDataIndex);
+                        BattleStatusUpdateDelay = 20;
+                    }
+                }
+
+                if (actor->transparentStatus != 0) {
+                    actor->transparentDuration--;
+                    if (actor->transparentDuration <= 0) {
+                        actor->transparentStatus = 0;
+                        remove_status_transparent(actor->hudElementDataIndex);
+                        BattleStatusUpdateDelay = 20;
+                    }
+                }
+
+                if (actor->stoneStatus != 0) {
+                    actor->stoneDuration--;
+                    if (actor->stoneDuration <= 0) {
+                        actor->stoneStatus = 0;
+                        BattleStatusUpdateDelay = 20;
+                    }
+                }
+
+                oldKoDuration = actor->koDuration;
+                actor->koDuration = actor->debuffDuration;
+                if (actor->koDuration > 0) {
+                    actor->koStatus = STATUS_KEY_KO;
+                    actor->disableEffect->data.disableX->koDuration = actor->koDuration;
+                } else if (oldKoDuration != actor->koDuration) {
+                    actor->koStatus = 0;
+                    actor->disableEffect->data.disableX->koDuration = 0;
+                }
+                if (actor->debuff == STATUS_KEY_POISON) {
+                    gBattleStatus.flags1 |= BS_FLAGS1_TRIGGER_EVENTS;
+                    dispatch_damage_event_actor_0(actor, 1, EVENT_HIT);
                     BattleStatusUpdateDelay = 20;
                 }
-            }
-
-            if (actor->staticStatus != 0) {
-                actor->staticDuration--;
-                if (actor->staticDuration <= 0) {
-                    actor->staticStatus = 0;
-                    remove_status_static(actor->hudElementDataIndex);
-                    BattleStatusUpdateDelay = 20;
-                }
-            }
-
-            if (actor->transparentStatus != 0) {
-                actor->transparentDuration--;
-                if (actor->transparentDuration <= 0) {
-                    actor->transparentStatus = 0;
-                    remove_status_transparent(actor->hudElementDataIndex);
-                    BattleStatusUpdateDelay = 20;
-                }
-            }
-
-            if (actor->stoneStatus != 0) {
-                actor->stoneDuration--;
-                if (actor->stoneDuration <= 0) {
-                    actor->stoneStatus = 0;
-                    BattleStatusUpdateDelay = 20;
-                }
-            }
-
-            oldKoDuration = actor->koDuration;
-            actor->koDuration = actor->debuffDuration;
-            if (actor->koDuration > 0) {
-                actor->koStatus = STATUS_KEY_KO;
-                actor->disableEffect->data.disableX->koDuration = actor->koDuration;
-            } else if (oldKoDuration != actor->koDuration) {
-                actor->koStatus = 0;
-                actor->disableEffect->data.disableX->koDuration = 0;
-            }
-            if (actor->debuff == STATUS_KEY_POISON) {
-                gBattleStatus.flags1 |= BS_FLAGS1_TRIGGER_EVENTS;
-                dispatch_damage_event_actor_0(actor, 1, EVENT_HIT);
-                BattleStatusUpdateDelay = 20;
             }
         }
         gBattleSubState = BTL_SUBSTATE_AWAIT_ALL;
@@ -189,9 +197,12 @@ void btl_state_update_transfer_turn(void) {
 
         btl_cam_use_preset(BTL_CAM_DEFAULT);
 
-        if (partner == nullptr || !(gBattleStatus.flags1 & BS_FLAGS1_PLAYER_IN_BACK)) {
-            gBattleSubState = BTL_SUBSTATE_TRY_MERLEE_DEF;
-        } else if (gBattleStatus.flags2 & BS_FLAGS2_PEACH_BATTLE) {
+        s32 swapToFront = partner != nullptr && (gBattleStatus.flags1 & BS_FLAGS1_PLAYER_IN_BACK)
+            && !(gBattleStatus.flags2 & BS_FLAGS2_PEACH_BATTLE);
+        if (swapToFront) {
+            CALL_EVENT(OnTurnOrder, TURN_ORDER_PLAYER_IN_FRONT, &swapToFront);
+        }
+        if (!swapToFront) {
             gBattleSubState = BTL_SUBSTATE_TRY_MERLEE_DEF;
         } else {
             player->flags &= ~ACTOR_FLAG_SHOW_STATUS_ICONS;
@@ -276,7 +287,13 @@ void btl_state_update_transfer_turn(void) {
         }
         gBattleSubState = BTL_SUBSTATE_NOTIFY_ENEMY_PHASE;
         gBattleStatus.flags2 &= ~BS_FLAGS2_PLAYER_TURN_USED;
-        gBattleStatus.flags2 &= ~BS_FLAGS2_PARTNER_TURN_USED;
+        {
+            s32 skipPartner = false;
+            CALL_EVENT(OnTurnOrder, TURN_ORDER_SKIP_PARTNER_TURN, &skipPartner);
+            if (!skipPartner) {
+                gBattleStatus.flags2 &= ~BS_FLAGS2_PARTNER_TURN_USED;
+            }
+        }
         gBattleStatus.flags2 &= ~BS_FLAGS2_OVERRIDE_INACTIVE_PLAYER;
         gBattleStatus.flags2 &= ~BS_FLAGS2_OVERRIDE_INACTIVE_PARTNER;
     }

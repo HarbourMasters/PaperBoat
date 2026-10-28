@@ -65,7 +65,7 @@ BSS Battle* gCurrentBattlePtr;
 /// - BattleAreaIDs in battle_names.h
 /// - FormationNames in battle_names.h
 /// - battle_tables.h
-BattleArea gBattleAreas[] = {
+BattleArea gBattleAreas[0x50] = {
     BTL_AREA_C(kmr_part_1, "KMR Part 1"),
     BTL_AREA_C(kmr_part_2, "エリア ＫＭＲ その２"),
     BTL_AREA_C(kmr_part_3, "エリア ＫＭＲ その３"),
@@ -106,6 +106,7 @@ BattleArea gBattleAreas[] = {
     BTL_AREA_C(kpa4, "エリア ＫＰＡ４"),
     BTL_AREA_C(kkj, "エリア ＫＫＪ"),
     BTL_AREA_C(dig, "エリア ＤＩＧ"),
+    {},
     BTL_AREA_AUX(omo2_1, "エリア ＯＭＯ２＿１"),
     BTL_AREA_AUX(omo2_2, "エリア ＯＭＯ２＿２"),
     BTL_AREA_AUX(omo2_3, "エリア ＯＭＯ２＿３"),

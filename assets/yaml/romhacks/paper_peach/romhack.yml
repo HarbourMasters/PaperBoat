@@ -1,0 +1,6 @@
+move_table:
+  { type: BLOB, offset: 0x6A460, size: 0xE74, symbol: romhack_move_table }
+item_table:
+  { type: BLOB, offset: 0x62CE0, size: 0x2DA0, symbol: romhack_item_table }
+player_sprite_sets:
+  { type: BLOB, offset: 0x1025B4, size: 0x54, symbol: romhack_player_sprite_sets }

@@ -16,6 +16,8 @@ typedef enum WorkerDrawMode {
     WORKER_DRAW_MODE_BACK_UI,
 } WorkerDrawMode;
 
+DEFINE_EVENT(EngineReady);
+
 DEFINE_EVENT(GameFrameUpdate);
 
 DEFINE_EVENT(WorkerUpdate,

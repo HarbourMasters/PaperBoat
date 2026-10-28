@@ -627,6 +627,7 @@ void pause_init(void) {
     gPauseCurrentDescIconScript = 0;
     gPauseMenuCurrentTab = 0;
 
+    CALL_EVENT(OnPauseMenu, PAUSE_MENU_OPEN, gPausePanels, ARRAY_COUNT(gPausePanels));
     menuPanels = gPausePanels;
     for (i = 0; i < ARRAY_COUNT(gPausePanels); menuPanels++, i++) {
         if ((*menuPanels)->fpInit) {
@@ -811,6 +812,7 @@ void pause_cleanup(void) {
             }
         }
     }
+    CALL_EVENT(OnPauseMenu, PAUSE_MENU_CLOSE, gPausePanels, ARRAY_COUNT(gPausePanels));
 
     for (i = WIN_PAUSE_MAIN; i < WIN_PAUSE_CURSOR; i++)
         set_window_update(i, WINDOW_UPDATE_HIDE);
@@ -826,9 +828,9 @@ s32 pause_get_total_equipped_bp_cost(void) {
         s16 itemID = gPlayerData.equippedBadges[i];
 
         if (itemID != ITEM_NONE) {
-            s32 moveID = gItemTable[itemID].moveID;
-
-            totalCost += gMoveTable[moveID].costBP;
+            s32 cost = gMoveTable[gItemTable[itemID].moveID].costBP;
+            CALL_EVENT(OnBadgeBPCost, itemID, &cost);
+            totalCost += cost;
         }
     }
     return totalCost;

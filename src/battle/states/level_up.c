@@ -533,13 +533,27 @@ void btl_state_update_celebration(void) {
         case BTL_SUBSTATE_INIT:
             if (battleStatus->pendingStarPoints <= 0) {
                 player->flags &= ~ACTOR_FLAG_SHOW_STATUS_ICONS;
+                BattleCelebration celebration = { battleStatus->totalStarPoints, ANIM_MarioB1_AdjustCap, 4.0f, 4.0f };
+                {
+                    CALL_EVENT(OnBattleCelebration, BATTLE_CELEBRATION_AWARD, &celebration);
+                    if (celebration.starPoints > 127) {
+                        celebration.starPoints = 127;
+                    } else if (celebration.starPoints < 0) {
+                        celebration.starPoints = 0;
+                    }
+                    battleStatus->totalStarPoints = celebration.starPoints;
+                }
                 EndBattleRewardTotal = battleStatus->totalStarPoints * 100;
                 pendingLevelUps = 0;
                 D_8029FB50 = 0;
                 bFadeToBlackAmt = 0;
                 LevelUpSelectTextOffsetX = 0;
                 LevelUpSelectTextVelX = 0;
-                sfx_play_sound(SOUND_JINGLE_WON_BATTLE);
+                {
+                    CALL_CANCELLABLE_EVENT(OnBattleCelebration, BATTLE_CELEBRATION_JINGLE, &celebration) {
+                        sfx_play_sound(SOUND_JINGLE_WON_BATTLE);
+                    }
+                }
 
                 prevSP = playerData->starPoints + battleStatus->totalStarPoints;
                 if (prevSP > 99) {
@@ -591,14 +605,16 @@ void btl_state_update_celebration(void) {
                         playerData->starPoints++;
                     }
                 }
-                if (playerData->level >= 27) {
+                StatLimits spLimits = STAT_LIMITS_VANILLA;
+                CALL_EVENT(OnStatLimits, &spLimits);
+                if (playerData->level >= spLimits.levelCap) {
                     playerData->starPoints = 0;
                 }
                 if (playerData->starPoints >= 100) {
                     pendingLevelUps = 1;
                     playerData->starPoints -= 100;
                 }
-                if (playerData->level + pendingLevelUps == 27) {
+                if (playerData->level + pendingLevelUps == spLimits.levelCap) {
                     playerData->starPoints = 0;
                 }
                 if (battleStatus->totalStarPoints == 0) {
@@ -662,7 +678,12 @@ void btl_state_update_celebration(void) {
             break;
         case BTL_SUBSTATE_LEVEL_UP_CREATE_HUD:
             if (CelebrateSubstateTime == 18) {
-                playerData->curHP = playerData->curMaxHP;
+                {
+                    s32 delta = playerData->curMaxHP - playerData->curHP;
+                    CALL_CANCELLABLE_EVENT(OnActorHpChange, player, HP_SOURCE_LEVEL_UP, &delta) {
+                        playerData->curHP += delta;
+                    }
+                }
                 playerData->curFP = playerData->curMaxFP;
                 x = player->curPos.x + 0.0f;
                 y = player->curPos.y + 35.0f;
@@ -741,7 +762,9 @@ void btl_state_update_celebration(void) {
                 CantLevelUpStat[MENU_FP] = false;
                 CantLevelUpStat[MENU_BP] = false;
 
-                if (playerData->hardMaxFP != 50) {
+                StatLimits menuLimits = STAT_LIMITS_VANILLA;
+                CALL_EVENT(OnStatLimits, &menuLimits);
+                if (playerData->hardMaxFP != menuLimits.levelUpHpFpCap) {
                     // current FP
                     tensDigit = playerData->curMaxFP / 10;
                     onesDigit = playerData->curMaxFP % 10;
@@ -766,8 +789,12 @@ void btl_state_update_celebration(void) {
                     hud_element_set_render_pos(hid, x - 3, y + 46);
 
                     // upgraded FP
-                    tensDigit = (playerData->curMaxFP + 5) / 10;
-                    onesDigit = (playerData->curMaxFP + 5) % 10;
+                    s32 nextFP = playerData->curMaxFP + 5;
+                    if (nextFP > 99) {
+                        nextFP = 99;
+                    }
+                    tensDigit = nextFP / 10;
+                    onesDigit = nextFP % 10;
                     hid = LevelUpStatTextIDs[LVL_UP_FP][LVL_UP_NEXT_TENS];
                     hud_element_set_script(hid, HES_LevelUpDigits[LVL_UP_FP][tensDigit]);
                     if (tensDigit != 0) {
@@ -811,7 +838,7 @@ void btl_state_update_celebration(void) {
                     hud_element_set_render_pos(hid, x + 17, y + 46);
                 }
 
-                if (playerData->hardMaxHP != 50) {
+                if (playerData->hardMaxHP != menuLimits.levelUpHpFpCap) {
                     // current HP
                     tensDigit = playerData->curMaxHP / 10;
                     onesDigit = playerData->curMaxHP % 10;
@@ -836,8 +863,12 @@ void btl_state_update_celebration(void) {
                     hud_element_get_render_pos(hid, &x, &y);
                     hud_element_set_render_pos(hid, x - 3, y + 46);
 
-                    tensDigit = (playerData->curMaxHP + 5) / 10;
-                    onesDigit = (playerData->curMaxHP + 5) % 10;
+                    s32 nextHP = playerData->curMaxHP + 5;
+                    if (nextHP > 99) {
+                        nextHP = 99;
+                    }
+                    tensDigit = nextHP / 10;
+                    onesDigit = nextHP % 10;
 
                     hid = LevelUpStatTextIDs[LVL_UP_HP][LVL_UP_NEXT_TENS];
                     hud_element_set_script(hid, HES_LevelUpDigits[LVL_UP_HP][tensDigit]);
@@ -882,7 +913,7 @@ void btl_state_update_celebration(void) {
                     hud_element_set_render_pos(hid, x + 17, y + 46);
                 }
 
-                if (playerData->maxBP != 30) {
+                if (playerData->maxBP != menuLimits.bpCap) {
                     tensDigit = playerData->maxBP / 10;
                     onesDigit = playerData->maxBP % 10;
 
@@ -923,14 +954,18 @@ void btl_state_update_celebration(void) {
                     hud_element_get_render_pos(hid, &x, &y);
                     hud_element_set_render_pos(hid, x + 10, y + 46);
                 } else {
+                    s32 cappedValue = menuLimits.bpCap;
+                    if (cappedValue > 99) {
+                        cappedValue = 99;
+                    }
                     hid = LevelUpStatTextIDs[LVL_UP_BP][LVL_UP_NEXT_TENS];
-                    hud_element_set_script(hid, HES_LevelUpDigits[LVL_UP_BP][3]);
+                    hud_element_set_script(hid, HES_LevelUpDigits[LVL_UP_BP][cappedValue / 10]);
                     hud_element_clear_flags(hid, HUD_ELEMENT_FLAG_DISABLED);
                     hud_element_get_render_pos(hid, &x, &y);
                     hud_element_set_render_pos(hid, x - 6, y + 46);
 
                     hid = LevelUpStatTextIDs[LVL_UP_BP][LVL_UP_NEXT_ONES];
-                    hud_element_set_script(hid, HES_LevelUpDigits[LVL_UP_BP][0]);
+                    hud_element_set_script(hid, HES_LevelUpDigits[LVL_UP_BP][cappedValue % 10]);
                     hud_element_clear_flags(hid, HUD_ELEMENT_FLAG_DISABLED);
                     hud_element_get_render_pos(hid, &x, &y);
                     hud_element_set_render_pos(hid, x + 2, y + 46);
@@ -1055,13 +1090,15 @@ void btl_state_update_celebration(void) {
             hud_element_free(LevelUpSpotlightID);
             set_window_update(WIN_BTL_DESC_BOX, WINDOW_UPDATE_HIDE);
 
+            StatLimits upgradeLimits = STAT_LIMITS_VANILLA;
+            CALL_EVENT(OnStatLimits, &upgradeLimits);
             switch (battleStatus->curSubmenu) {
                 case 0:
                     playerData->hardMaxHP += 5;
                     playerData->curMaxHP += 5;
                     playerData->curHP += 5;
-                    if (playerData->curMaxHP > 75) {
-                        playerData->curMaxHP = 75;
+                    if (playerData->curMaxHP > upgradeLimits.levelUpHpFpClamp) {
+                        playerData->curMaxHP = upgradeLimits.levelUpHpFpClamp;
                     }
                     if (playerData->curHP > playerData->curMaxHP) {
                         playerData->curHP = playerData->curMaxHP;
@@ -1073,8 +1110,8 @@ void btl_state_update_celebration(void) {
                     playerData->hardMaxFP += 5;
                     playerData->curMaxFP += 5;
                     playerData->curFP += 5;
-                    if (playerData->curMaxFP > 75) {
-                        playerData->curMaxFP = 75;
+                    if (playerData->curMaxFP > upgradeLimits.levelUpHpFpClamp) {
+                        playerData->curMaxFP = upgradeLimits.levelUpHpFpClamp;
                     }
                     if (playerData->curFP > playerData->curMaxFP) {
                         playerData->curFP = playerData->curMaxFP;
@@ -1082,8 +1119,8 @@ void btl_state_update_celebration(void) {
                     break;
                 case 2:
                     playerData->maxBP += 3;
-                    if (playerData->maxBP > 30) {
-                        playerData->maxBP = 30;
+                    if (playerData->maxBP > upgradeLimits.bpCap) {
+                        playerData->maxBP = upgradeLimits.bpCap;
                     }
                     break;
             }
@@ -1189,7 +1226,9 @@ void btl_state_update_celebration(void) {
                 }
                 bFadeToBlackAmt = 0;
                 btl_cam_set_params(true, 270, 100, 8, 0, 0x2400, 100);
-                set_actor_anim(0, 0, ANIM_MarioB1_AdjustCap);
+                BattleCelebration walkOff = { battleStatus->totalStarPoints, ANIM_MarioB1_AdjustCap, 4.0f, 4.0f };
+                CALL_EVENT(OnBattleCelebration, BATTLE_CELEBRATION_WALK_OFF_BEGIN, &walkOff);
+                set_actor_anim(0, 0, walkOff.walkOffAnim);
                 if (partner != nullptr) {
                     set_actor_anim(ACTOR_PARTNER, 0, D_80284154[playerData->curPartner]);
                 }
@@ -1210,9 +1249,11 @@ void btl_state_update_celebration(void) {
                     partner->yaw = 0.0f;
                 }
 
-                player->curPos.x += 4.0f;
+                BattleCelebration walkStep = { battleStatus->totalStarPoints, ANIM_MarioB1_AdjustCap, 4.0f, 4.0f };
+                CALL_EVENT(OnBattleCelebration, BATTLE_CELEBRATION_WALK_OFF_STEP, &walkStep);
+                player->curPos.x += walkStep.playerStepX;
                 if (partner != nullptr) {
-                    partner->curPos.x += 4.0f;
+                    partner->curPos.x += walkStep.partnerStepX;
                 }
             }
             if (bFadeToBlackAmt == 255) {

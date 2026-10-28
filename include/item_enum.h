@@ -372,6 +372,7 @@ enum ItemIDs {
 };
 
 #define NUM_ITEMS 365
+#define ITEM_TABLE_CAPACITY 0x200
 #define ITEM_NUM_CONSUMABLES 96
 #define ITEM_NUM_BADGES 118
 #define ITEM_NUM_KEYS 119

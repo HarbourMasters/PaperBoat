@@ -209,7 +209,15 @@ void entity_HeartBlockContent__anim_heal(Entity* entity, s32 arg1) {
                 data->state++;
                 data->sparkleTrailPosY = playerStatus->colliderHeight + 5;
                 data->sparkleTrailTimer = 0;
-                recover_hp(-1);
+                {
+                    s32 delta = gPlayerData.curMaxHP - gPlayerData.curHP;
+                    CALL_CANCELLABLE_EVENT(OnActorHpChange, nullptr, HP_SOURCE_HEART_BLOCK, &delta) {
+                        if (delta < 0) {
+                            delta = 0;
+                        }
+                        recover_hp(delta);
+                    }
+                }
                 recover_fp(-1);
                 sfx_play_sound(SOUND_HEART_BLOCK);
             }

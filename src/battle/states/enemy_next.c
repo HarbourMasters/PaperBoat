@@ -102,7 +102,13 @@ void btl_state_update_next_enemy(void) {
             }
 
             gBattleStatus.flags2 &= ~BS_FLAGS2_PLAYER_TURN_USED;
-            gBattleStatus.flags2 &= ~BS_FLAGS2_PARTNER_TURN_USED;
+            {
+                s32 skipPartner = false;
+                CALL_EVENT(OnTurnOrder, TURN_ORDER_SKIP_PARTNER_TURN, &skipPartner);
+                if (!skipPartner) {
+                    gBattleStatus.flags2 &= ~BS_FLAGS2_PARTNER_TURN_USED;
+                }
+            }
             gBattleStatus.flags2 |= BS_FLAGS2_HIDE_BUFF_COUNTERS;
 
             NextEnemyWaitingOrdinal = enemy->ordinal;

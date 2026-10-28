@@ -766,8 +766,10 @@ void update_hud_elements(void) {
                     while (hud_element_update(elem) != 0);
                 }
                 if (elem->flags & HUD_ELEMENT_FLAG_RESIZING) {
-                    elem->dynamicSize.x += elem->deltaSize.x;
-                    elem->dynamicSize.y += elem->deltaSize.y;
+                    if (!(elem->flags & HUD_ELEMENT_FLAG_FIXED_SIZE)) {
+                        elem->dynamicSize.x += elem->deltaSize.x;
+                        elem->dynamicSize.y += elem->deltaSize.y;
+                    }
                 }
                 i++;
             } else {
@@ -976,8 +978,10 @@ s32 hud_element_update(HudElement* hudElement) {
 
                 if (!(hudElement->flags & HUD_ELEMENT_FLAG_RESIZE_DIR)) {
                     hudElement->flags |= HUD_ELEMENT_FLAG_RESIZE_DIR;
-                    hudElement->dynamicSize.x = imageWidth;
-                    hudElement->dynamicSize.y = imageHeight;
+                    if (!(hudElement->flags & HUD_ELEMENT_FLAG_FIXED_SIZE)) {
+                        hudElement->dynamicSize.x = imageWidth;
+                        hudElement->dynamicSize.y = imageHeight;
+                    }
                     hudElement->deltaSize.x = ((f32)drawWidth - (f32)imageWidth) / (f32)hudElement->updateTimer;
                     hudElement->deltaSize.y = ((f32)drawHeight - (f32)imageHeight) / (f32)hudElement->updateTimer;
                 } else {

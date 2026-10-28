@@ -1,5 +1,6 @@
 #include "dx/versioning.h"
 #include "dx/config.h"
+#include "port/Engine.h"
 #include <string.h>
 
 void ver_deserialize_standard();
@@ -39,7 +40,7 @@ void fio_deserialize_state() {
     if (saveData->modName[0] == '\0') {
         // handle loading vanilla saves here
         ver_deserialize_vanilla_save(saveData);
-    } else if (strcmp(saveData->modName, DX_MOD_NAME) != 0) {
+    } else if (!Port_ModNameMatches(saveData->modName)) {
         // handle loading saves from other mods here
         // by default, dx assumes other mod save data format is vanilla
         ver_deserialize_vanilla_save(saveData);

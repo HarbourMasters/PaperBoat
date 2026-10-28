@@ -333,6 +333,7 @@ s32 btl_submenu_strats_update(void) {
                     msgID = MSG_Menus_Battle_CantRunAway;
                     break;
             }
+            CALL_EVENT(OnBattleMenuErrorText, BATTLE_MENU_STRATEGIES, StratsCursorPos, &msgID);
             width = get_msg_width(msgID, 0) + 23;
             set_window_properties(WIN_BTL_POPUP, (SCREEN_WIDTH / 2) - (width / 2), 80, width, 28, 20, btl_menu_strats_show_error, nullptr, -1);
             set_window_update(WIN_BTL_POPUP, WINDOW_UPDATE_SHOW);
@@ -399,6 +400,9 @@ void btl_menu_strats_draw_content(void* data, s32 x, s32 y) {
                 }
                 if (!StratsOptionEnabled[i]) {
                     palette = MSG_PAL_0B;
+                }
+                {
+                    CALL_EVENT(OnBattleMenuDrawEntry, BATTLE_MENU_STRATEGIES, i, xPos, yPos, StratsTextAlpha);
                 }
                 draw_msg(StratsOptionNames[i], xPos, yPos, StratsTextAlpha, palette, DRAW_MSG_STYLE_MENU);
                 yPos += MENU_LINE_HEIGHT;
@@ -483,5 +487,6 @@ void btl_menu_strats_show_error(void* data, s32 x, s32 y) {
             msgID = MSG_Menus_Battle_CantRunAway;
             break;
     }
+    CALL_EVENT(OnBattleMenuErrorText, BATTLE_MENU_STRATEGIES, StratsCursorPos, &msgID);
     draw_msg(msgID, x, y, 255, MSG_PAL_0F, 0);
 }

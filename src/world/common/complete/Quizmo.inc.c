@@ -156,6 +156,12 @@ API_CALLABLE(N(Quizmo_ShouldAppear)) {
     s32 progress;
     s32 numAnswered;
 
+    CALL_CANCELLABLE_EVENT_INV(OnQuizmoSpawnCheck, enemy) {
+        kill_enemy(enemy);
+        script->varTable[0] = false;
+        return ApiStatus_DONE2;
+    }
+
     if (curTown1 != locTown) {
         changedLocation = false;
         hasLocation = false;

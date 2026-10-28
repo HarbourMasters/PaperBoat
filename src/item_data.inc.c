@@ -598,7 +598,9 @@ HudScript HES_Item_Unused_137_disabled = HES_TEMPLATE_ITEM(battle_item_137_disab
 
 s32 pad_after_item_hudscripts[] = { 0, 0 };
 
-ItemData gItemTable[] = {
+s32 gItemCount = NUM_ITEMS;
+
+ItemData gItemTable[ITEM_TABLE_CAPACITY] = {
     {   // 0x000: None
         .nameMsg = MSG_NONE,
         .fullDescMsg = MSG_NONE,
@@ -5349,7 +5351,7 @@ ItemData gItemTable[] = {
 extern HudScript HES_MoveDiamond;
 extern HudScript HES_MoveDiamond_disabled;
 
-IconHudScriptPair gItemHudScripts[] = {
+IconHudScriptPair gItemHudScripts[ITEM_TABLE_CAPACITY] = {
     { .enabled = NULL, .disabled = NULL },
     { .enabled = &HES_Item_SpicySoup, .disabled = &HES_Item_SpicySoup_disabled },
     { .enabled = &HES_Item_ApplePie, .disabled = &HES_Item_ApplePie_disabled },
@@ -6027,7 +6029,7 @@ ItemScript IES_ITEM_136 = IES_TEMPLATE_STANDARD(battle_item_136);
 ItemScript IES_ITEM_137 = IES_TEMPLATE_STANDARD(battle_item_137);
 
 // indexed by itemID
-intptr_t* gItemEntityScripts[] = {
+intptr_t* gItemEntityScripts[ITEM_TABLE_CAPACITY] = {
     IES_Placeholder,
     IES_GearBoots1,
     IES_GearBoots2,
@@ -6416,7 +6418,7 @@ intptr_t* gItemEntityScripts[] = {
 };
 
 // indexed by itemID
-intptr_t gItemIconRasterOffsets[] = {
+intptr_t gItemIconRasterOffsets[ITEM_TABLE_CAPACITY] = {
     ICON_key_Gift_raster,
     ICON_gear_boots_1_raster,
     ICON_gear_boots_2_raster,
@@ -6769,7 +6771,7 @@ intptr_t gItemIconRasterOffsets[] = {
 };
 
 // indexed by itemID
-intptr_t gItemIconPaletteOffsets[] = {
+intptr_t gItemIconPaletteOffsets[ITEM_TABLE_CAPACITY] = {
     ICON_key_Gift_palette,
     ICON_gear_boots_1_palette,
     ICON_gear_boots_2_palette,
