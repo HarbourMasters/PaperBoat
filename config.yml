@@ -56,3 +56,22 @@ c02972e81d5f05da7ed0e7b4f0efc30f05a01b18:
       headers: include
       code: code
 
+bf41c4322ee85dbe59fd7bd5a82b909188a36cb4:
+  name: Paper Peach OG-Values
+  path: ./assets/yaml/romhacks/paper_peach
+  romhack:
+    id: PaperPeach
+    version: "1.2"
+    author: AgateTrevalyn
+    description:  Peach embarks on an adventure instead of Mario, with the original FP and BP costs.
+    website: https://gamebanana.com/mods/576687
+  config:
+    gbi: F3DEX2_PM64
+    gbi_floats: false
+    sort: OFFSET
+    logging: WARN
+    output:
+      binary: mods/~romhacks/paper_peach_og_values.o2r
+      headers: include
+      code: code
+
