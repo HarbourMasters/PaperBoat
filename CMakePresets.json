@@ -35,6 +35,17 @@
             "toolchainFile": "${sourceDir}/cmake/toolchains/windows-clang-cl.cmake"
         },
         {
+            "name": "clang-arm64-base",
+            "hidden": true,
+            "inherits": "clang-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER_TARGET": "arm64-pc-windows-msvc",
+                "CMAKE_CXX_COMPILER_TARGET": "arm64-pc-windows-msvc",
+                "CMAKE_SYSTEM_PROCESSOR": "ARM64",
+                "VCPKG_TARGET_TRIPLET": "arm64-windows-static"
+            }
+        },
+        {
             "name": "windows-debug",
             "displayName": "Debug (Windows Clang)",
             "description": "Supported Windows build: Ninja + clang-cl, Debug, x64",
@@ -52,6 +63,16 @@
             "binaryDir": "${sourceDir}/build/windows-release",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "windows-arm64-debug",
+            "displayName": "Debug (Windows ARM64 Clang)",
+            "description": "Windows ARM64 build: Ninja + clang-cl, Debug",
+            "inherits": "clang-arm64-base",
+            "binaryDir": "${sourceDir}/build/windows-arm64-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
             }
         },
         {
@@ -97,6 +118,11 @@
             "name": "windows-release",
             "displayName": "Build Release (Windows Clang)",
             "configurePreset": "windows-release"
+        },
+        {
+            "name": "windows-arm64-debug",
+            "displayName": "Build Debug (Windows ARM64 Clang)",
+            "configurePreset": "windows-arm64-debug"
         },
         {
             "name": "ninja-debug",

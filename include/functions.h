@@ -275,6 +275,10 @@ f32 sin_deg(f32 x);
 f32 cos_deg(f32 x);
 f32 sin_rad(f32 x);
 f32 cos_rad(f32 x);
+s16 sins(u16 angle);
+s16 coss(u16 angle);
+void* osViGetCurrentFramebuffer(void);
+void* osViGetNextFramebuffer(void);
 s32 pm64_round(f32);
 #define round pm64_round
 f32 pm64_atan2(f32 startX, f32 startZ, f32 endX, f32 endZ);
