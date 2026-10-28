@@ -102,19 +102,19 @@ API_CALLABLE(TTYD64_nm_TableWordRead) {
 
 API_CALLABLE(TTYD64_nm_ArrayWordRead) {
     Bytecode* args = script->ptrReadPos;
-    Bytecode ptr = evt_get_variable(script, args[0]);
-    Bytecode base = evt_get_variable(script, args[1]);
+    s32 index = evt_get_variable(script, args[0]);
+    Bytecode* array = (Bytecode*) evt_get_variable(script, args[1]);
 
-    evt_set_variable(script, args[2], ((Bytecode*) base)[(ptr - base) / 4]);
+    evt_set_variable(script, args[2], array[index]);
     return ApiStatus_DONE2;
 }
 
 API_CALLABLE(TTYD64_nm_ArrayWordWrite) {
     Bytecode* args = script->ptrReadPos;
-    Bytecode ptr = evt_get_variable(script, args[0]);
-    Bytecode base = evt_get_variable(script, args[1]);
+    s32 index = evt_get_variable(script, args[0]);
+    Bytecode* array = (Bytecode*) evt_get_variable(script, args[1]);
 
-    ((Bytecode*) base)[(ptr - base) / 4] = evt_get_variable(script, args[2]);
+    array[index] = evt_get_variable(script, args[2]);
     return ApiStatus_DONE2;
 }
 

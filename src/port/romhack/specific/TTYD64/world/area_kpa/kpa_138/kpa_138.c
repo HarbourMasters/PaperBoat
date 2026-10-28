@@ -167,11 +167,7 @@ EvtScript TTYD64_kpa_138_Script_MovePillars = {
     Call(PlaySound, 338)
     Loop(9)
         Call(TTYD64_nm_kpa_138_GetFXPos, LVar4, LVar8, LVar9, LVarA)
-        Set(LVar1, LVar4)
-        Set(LVar5, 4)
-        Mul(LVar1, LVar5)
-        Set(LVar7, MapVar(10))
-        Add(LVar7, LVar1)
+        Set(LVar7, LVar4)
         Call(TTYD64_nm_GetVarFromVar, LVar2, LVar5)
         IfEq(LVar5, 1)
             BufPeek(LVar6, LVar4)
@@ -209,8 +205,7 @@ EvtScript TTYD64_kpa_138_Script_MovePillars = {
                     Add(LVar1, 20)
                     Call(PlayEffect_impl, 29, 2, LVar8, LVar1, LVarA, 0, 10, 0, 15, 0, 0, 0, 0)
                     Wait(5)
-                    Call(PlayEffect_impl, 32, 0, LVar8, LVar9, LVarA, Float(1.0), 0, 0, 0, 0, 0, 0, 0)
-                    Call(TTYD64_GetEffect, LVarF, LVar0)
+                    Call(PlayEffect_impl, 32, 0, LVar8, LVar9, LVarA, Float(1.0), LVar0, 0, 0, 0, 0, 0, 0)
                     Call(TTYD64_nm_ArrayWordWrite, LVar7, MapVar(10), LVar0)
                 EndThread
             EndIf

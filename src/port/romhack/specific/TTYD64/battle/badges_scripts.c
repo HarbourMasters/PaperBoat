@@ -420,8 +420,7 @@ EvtScript TTYD64_Script_ReturnPostage_HurtEnemy = {
     IfLe(LVar3, 0)
         Return
     EndIf
-    Call(PlayEffect_impl, 0x1E, 0, LVar0, LVar1, LVar2, 0xA, -50, LVar3, 0, 0, 0, 0, 0, 0)
-    Call(TTYD64_GetEffect, LVarF, LVarE)
+    Call(PlayEffect_impl, 0x1E, 0, LVar0, LVar1, LVar2, 0xA, -50, LVar3, LVarE, 0, 0, 0, 0, 0)
     Set(LVar4, LVar3)
     Mul(LVar4, -1)
     Call(GetActorHP, LVar5, LVar0)
