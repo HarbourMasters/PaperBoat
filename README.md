@@ -78,6 +78,12 @@ If you're interested in creating and/or packing your own custom asset `.o2r`/`.o
 ### Building
 If you want to manually compile PaperBoat, please consult the [building instructions](docs/BUILDING.md).
 
+Android, iOS and the web are covered separately in the
+[platform build instructions](docs/android-ios-web.md). Android builds must run
+`python3 android/patches/patch_libultraship_android_tbi.py` after checking out
+submodules and before Gradle — the script is required, not optional, and CI runs
+it on every build. Skipping it produces corrupt 2D textures on arm64 devices.
+
 ### Playtesting
 If you want to playtest a continuous integration build, you can find them at the links below. Keep in mind that these are for playtesting only, and you will likely encounter bugs and possibly crashes.
 

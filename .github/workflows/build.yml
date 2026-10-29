@@ -305,6 +305,18 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
+      # Android arm64 heap pointers carry an allocation tag in their top byte.
+      # libultraship's OTR filepath guard and resource lookups compare them
+      # numerically, so without this every asset reached through a heap path
+      # string (title backdrop, HUD glyphs, skybox) draws as raw texture data.
+      - name: Patch libultraship for Android arm64 tagged pointers
+        run: python3 android/patches/patch_libultraship_android_tbi.py
+
+      # Redundant against the script's exact-match failures, but catches a
+      # skipped step or a workspace restored without the patch.
+      - name: Verify libultraship Android pointer patch
+        run: grep -q CanonicalizeAndroidPointer external/libultraship/src/fast/interpreter.cpp
+
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
