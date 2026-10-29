@@ -2,6 +2,7 @@
 #include "npc.h"
 #include "effects.h"
 #include "hud_element.h"
+#include "port/hooks/Events.h"
 
 // ----------------------------------------------------------------
 // Requirements
@@ -112,6 +113,32 @@ API_CALLABLE(N(SuperBlock_CountEligiblePartners)) {
     for (i = 1; i < ARRAY_COUNT(playerData->partners); i++) {
         if (playerData->partners[i].enabled && N(SuperBlock_get_partner_rank)(i, var) != -1) {
             script->varTable[0] = 1;
+            break;
+        }
+    }
+
+    return ApiStatus_DONE2;
+}
+
+API_CALLABLE(N(SuperBlock_HasPartners)) {
+    PlayerData* playerData = &gPlayerData;
+    s32 i;
+    bool partnerlessCrashProtectionEnabled = true;
+
+    CALL_EVENT(OnPartnerlessCrashProtectionCheck, &partnerlessCrashProtectionEnabled);
+    if (!partnerlessCrashProtectionEnabled) {
+        script->varTable[0] = true;
+        return ApiStatus_DONE2;
+    }
+
+    script->varTable[0] = false;
+    if (playerData->curPartner == PARTNER_NONE || get_npc_safe(NPC_PARTNER) == nullptr) {
+        return ApiStatus_DONE2;
+    }
+
+    for (i = 1; i < ARRAY_COUNT(playerData->partners); i++) {
+        if (playerData->partners[i].enabled) {
+            script->varTable[0] = true;
             break;
         }
     }
@@ -478,6 +505,10 @@ EvtScript N(SuperBlock_OnHit) = {
     EndIf
     Call(N(SuperBlock_WaitForPlayerToLand))
     IfEq(LVar0, 1)
+        Return
+    EndIf
+    Call(N(SuperBlock_HasPartners), LVar0)
+    IfEq(LVar0, 0)
         Return
     EndIf
     Call(ModifyGlobalOverrideFlags, 1, GLOBAL_OVERRIDES_CANT_PICK_UP_ITEMS)

@@ -93,6 +93,7 @@ void PortEnhancements_Register() {
     REGISTER_EVENT(OnHiddenBlockAlphaChange);
     REGISTER_EVENT(OnISpySoundPlay);
     REGISTER_EVENT(OnQuizmoShouldAppear);
+    REGISTER_EVENT(OnPartnerlessCrashProtectionCheck);
 }
 
 void PortEnhancements_Exit() {
