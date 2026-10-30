@@ -35,15 +35,29 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     file(GENERATE
       OUTPUT "${PROJECT_BINARY_DIR}/appimage-generate.cmake"
       CONTENT [[
+set(LINUXDEPLOY_ARCH_x86_64 x86_64)
+set(LINUXDEPLOY_ARCH_aarch64 aarch64)
+set(LINUXDEPLOY_ARCH_armv7l armhf)
+set(LINUXDEPLOY_ARCH_armv6l armhf)
+set(LINUXDEPLOY_ARCH_i686 i386)
+set(LINUXDEPLOY_ARCH_i586 i386)
+set(LINUXDEPLOY_ARCH_i386 i386)
+
+if (DEFINED LINUXDEPLOY_ARCH_${CMAKE_SYSTEM_PROCESSOR})
+  set(LINUXDEPLOY_ARCH ${LINUXDEPLOY_ARCH_${CMAKE_SYSTEM_PROCESSOR}})
+else()
+  message(FATAL_ERROR "Unsupported host architecture for linuxdeploy: ${CMAKE_SYSTEM_PROCESSOR}")
+endif()
+
 find_program(LINUXDEPLOY_EXECUTABLE
-  NAMES linuxdeploy linuxdeploy-x86_64.AppImage
+  NAMES linuxdeploy linuxdeploy-${LINUXDEPLOY_ARCH}.AppImage
   PATHS ${CPACK_PACKAGE_DIRECTORY}/linuxdeploy)
 
 if (NOT LINUXDEPLOY_EXECUTABLE)
   message(STATUS "Downloading linuxdeploy")
   set(LINUXDEPLOY_EXECUTABLE ${CPACK_PACKAGE_DIRECTORY}/linuxdeploy/linuxdeploy)
   file(DOWNLOAD
-      https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20240109-1/linuxdeploy-x86_64.AppImage
+      https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20240109-1/linuxdeploy-${LINUXDEPLOY_ARCH}.AppImage
       ${LINUXDEPLOY_EXECUTABLE}
       INACTIVITY_TIMEOUT 10
       LOG ${CPACK_PACKAGE_DIRECTORY}/linuxdeploy/download.log
