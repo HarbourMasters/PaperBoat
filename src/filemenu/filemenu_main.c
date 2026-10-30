@@ -6,6 +6,7 @@
 #include "game_modes.h"
 #include "dx/config.h"
 #include "dx/utils.h"
+#include "port/patches/Patches.h"
 
 extern HudScript HES_Spirit1;
 extern HudScript HES_Spirit2;
@@ -65,11 +66,11 @@ BSS u8 filemenu_filename[8];
 #else
 #define OFFSET_WIDTH        0
 #define DELETE_OFFSET_X     8
-#define CENTER_CANCEL_X     18
-#define RIGHT_CANCEL_X      20
+#define CENTER_CANCEL_X     port_filemenu_layout(FM_LAYOUT_OPTION_CENTER_CANCEL_X, 18)
+#define RIGHT_CANCEL_X      port_filemenu_layout(FM_LAYOUT_OPTION_CANCEL_X, 20)
 #define FILE_X              5
-#define FILE_NUMBER_X       33
-#define FILE_NAME_X         46
+#define FILE_NUMBER_X       port_filemenu_layout(FM_LAYOUT_FILE_NUMBER_X, 33)
+#define FILE_NAME_X         port_filemenu_layout(FM_LAYOUT_FILE_NAME_X, 46)
 #define NUMBER_OFFSET_Y     0
 #endif
 
@@ -428,7 +429,8 @@ void filemenu_draw_contents_option_left(
     if (menu->col == 0 && menu->row == 2) {
         filemenu_set_cursor_goal_pos(WIN_FILES_OPTION_LEFT, baseX, baseY + 8);
     }
-    filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_DELETE_FILE), baseX + 8 + OFFSET_WIDTH, baseY + 2, 255, 0, 1);
+    filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_DELETE_FILE),
+        baseX + port_filemenu_layout(FM_LAYOUT_OPTION_DELETE_X, 8) + OFFSET_WIDTH, baseY + 2, 255, 0, 1);
 }
 
 #if VERSION_PAL
@@ -489,10 +491,10 @@ void filemenu_draw_contents_option_center(
             break;
         default:
             msgIdx = FILE_MESSAGE_COPY_FILE;
-            xOffset = 14;
+            xOffset = port_filemenu_layout(FM_LAYOUT_OPTION_COPY_X, 14);
             yOffset = 0;
             if (menu->col == 1 && menu->row == 2) {
-                filemenu_set_cursor_goal_pos(WIN_FILES_OPTION_CENTER, baseX + 4, baseY + 8);
+                filemenu_set_cursor_goal_pos(WIN_FILES_OPTION_CENTER, baseX + xOffset - 10, baseY + 8);
             }
             break;
     }

@@ -2,6 +2,7 @@
 #include "message_ids.h"
 // Asset paths defined in assets/misc/pause.h, loaded via OTR
 #include "assets/misc/pause.h"
+#include "port/patches/Patches.h"
 
 Gfx PauseGfxBannerHp[] = {
     gsDPPipeSync(),
@@ -506,8 +507,58 @@ Gfx* PauseGfxLabels[] = {
     [PAUSE_LBL_ABILITIES] PauseGfxCheckAbilities,
 };
 
+#if !VERSION_PAL
+// Compiled US strings only; tips/tabs already use MSG_MenuTip_*.
+static const char* sPauseHudOtr[] = {
+    [PAUSE_MSG_17] = "__OTR__messages/MSG_MenuHud_Stats",
+    [PAUSE_MSG_18] = "__OTR__messages/MSG_MenuHud_Badge",
+    [PAUSE_MSG_19] = "__OTR__messages/MSG_MenuHud_ItemsTab",
+    [PAUSE_MSG_1A] = "__OTR__messages/MSG_MenuHud_Party",
+    [PAUSE_MSG_LBL_COINS] = "__OTR__messages/MSG_MenuHud_Coins",
+    [PAUSE_MSG_LBL_STAR_POINTS] = "__OTR__messages/MSG_MenuHud_StarPoints",
+    [PAUSE_MSG_LBL_STAR_PIECES] = "__OTR__messages/MSG_MenuHud_StarPieces",
+    [PAUSE_MSG_LBL_TIME] = "__OTR__messages/MSG_MenuHud_PlayTime",
+    [PAUSE_MSG_LBL_HP] = "__OTR__messages/MSG_MenuHud_HP",
+    [PAUSE_MSG_LBL_FP] = "__OTR__messages/MSG_MenuHud_FP",
+    [PAUSE_MSG_LBL_BP] = "__OTR__messages/MSG_MenuHud_BP",
+    [PAUSE_MSG_SLASH] = "__OTR__messages/MSG_MenuHud_Slash",
+    [PAUSE_MSG_DOT] = "__OTR__messages/MSG_MenuHud_Dot",
+    [PAUSE_MSG_3B] = "__OTR__messages/MSG_MenuHud_None",
+    [PAUSE_MSG_3C] = "__OTR__messages/MSG_MenuHud_Boots",
+    [PAUSE_MSG_3D] = "__OTR__messages/MSG_MenuHud_SuperBoots",
+    [PAUSE_MSG_3E] = "__OTR__messages/MSG_MenuHud_UltraBoots",
+    [PAUSE_MSG_3F] = "__OTR__messages/MSG_MenuHud_NoneHammer",
+    [PAUSE_MSG_40] = "__OTR__messages/MSG_MenuHud_Hammer",
+    [PAUSE_MSG_41] = "__OTR__messages/MSG_MenuHud_SuperHammer",
+    [PAUSE_MSG_42] = "__OTR__messages/MSG_MenuHud_UltraHammer",
+    [PAUSE_MSG_MARIO] = "__OTR__messages/MSG_MenuHud_Mario",
+    [PAUSE_MSG_LEVEL] = "__OTR__messages/MSG_MenuHud_Level",
+    [PAUSE_MSG_BADGE_BP] = "__OTR__messages/MSG_MenuHud_BadgeBP",
+    [PAUSE_MSG_ALL_BADGES] = "__OTR__messages/MSG_MenuHud_AllBadges",
+    [PAUSE_MSG_ACTIVE] = "__OTR__messages/MSG_MenuHud_Active",
+    [PAUSE_MSG_BADGES] = "__OTR__messages/MSG_MenuHud_Badges",
+    [PAUSE_MSG_NOT_ENOUGH_BP] = "__OTR__messages/MSG_MenuHud_NotEnoughBP",
+    [PAUSE_MSG_DONT_WEAR_MORE] = "__OTR__messages/MSG_MenuHud_DontWearMore",
+    [PAUSE_MSG_KEY_ITEMS] = "__OTR__messages/MSG_MenuHud_KeyItems",
+    [PAUSE_MSG_CONSUMABLES] = "__OTR__messages/MSG_MenuHud_Items",
+    [PAUSE_MSG_PARTNER_HP] = "__OTR__messages/MSG_MenuHud_PartnerHP",
+    [PAUSE_MSG_PARTNER_FP] = "__OTR__messages/MSG_MenuHud_PartnerFP",
+    [PAUSE_MSG_PARTNER_ABILITIES] = "__OTR__messages/MSG_MenuHud_Abilities",
+    [PAUSE_MSG_UNKNOWN_SPIRIT] = "__OTR__messages/MSG_MenuHud_UnknownSpirit",
+};
+#endif
+
 intptr_t pause_get_menu_msg(s32 index) {
+#if !VERSION_PAL
+    const char* name = NULL;
+
+    if (index >= 0 && index < (s32)ARRAY_COUNT(sPauseHudOtr)) {
+        name = sPauseHudOtr[index];
+    }
+    return (intptr_t)port_msg_override(name, (void*)gPauseMessages[index]);
+#else
     return gPauseMessages[index];
+#endif
 }
 
 void pause_draw_menu_label(s32 index, s32 x, s32 y) {
