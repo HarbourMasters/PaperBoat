@@ -177,7 +177,9 @@ API_CALLABLE(TTYD64_maps_StretchModel) {
 }
 
 static void TTYD64_maps_on_quizmo_spawn_check(IEvent* event) {
-    event->Cancelled = true;
+    if (strcmp(gAreas[gGameStatusPtr->areaID].maps[gGameStatusPtr->mapID].id, "mac_04") == 0) {
+        event->Cancelled = true;
+    }
 }
 
 void TTYD64_maps_InstallCommon(void) {
