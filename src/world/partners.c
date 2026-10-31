@@ -689,8 +689,14 @@ void _use_partner_ability(void) {
                         break;
                     }
                     set_time_freeze_mode(TIME_FREEZE_NONE);
+                    {
+                        CALL_EVENT(OnPartnerChange, PARTNER_CHANGE_LEAVE, wCurrentPartnerId);
+                    }
                     partner_free_npc();
                     playerData->curPartner = wCurrentPartnerId = NextPartnerID;
+                    {
+                        CALL_EVENT(OnPartnerChange, PARTNER_CHANGE_ENTER, wCurrentPartnerId);
+                    }
                     create_partner_npc();
                     sfx_play_sound(SOUND_PARTNER_GET_OUT);
                     wPartner->init(wPartnerNpc);
@@ -1473,7 +1479,11 @@ void partner_walking_follow_player(Npc* partner) {
                 if (D_8010CFCA == 0) {
                     partner->moveSpeed = 0.0f;
                     partner->jumpScale = 0.0f;
-                    partner->curAnim = gPartnerAnimations[wCurrentPartnerId].idle;
+                    {
+                        s32 idleAnim = gPartnerAnimations[wCurrentPartnerId].idle;
+                        CALL_EVENT(OnPartnerAnim, PARTNER_ANIM_CONTEXT_WORLD_IDLE, wCurrentPartnerId, &idleAnim);
+                        partner->curAnim = idleAnim;
+                    }
                     if (playerStatus->actionState == ACTION_STATE_TALK) {
                         D_8010CFCA = 0;
                     }
@@ -2047,7 +2057,11 @@ void partner_flying_follow_player(Npc* partner) {
                     y = partner->pos.y;
                     partner->moveSpeed = 0.0f;
                     partner->jumpScale = 0.0f;
-                    partner->curAnim = gPartnerAnimations[wCurrentPartnerId].idle;
+                    {
+                        s32 idleAnim = gPartnerAnimations[wCurrentPartnerId].idle;
+                        CALL_EVENT(OnPartnerAnim, PARTNER_ANIM_CONTEXT_WORLD_IDLE, wCurrentPartnerId, &idleAnim);
+                        partner->curAnim = idleAnim;
+                    }
                     if (playerStatus->actionState == ACTION_STATE_TALK) {
                         D_8010CFCA = 0;
                     }

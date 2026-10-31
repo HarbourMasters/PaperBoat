@@ -6,7 +6,24 @@ void btl_state_update_switch_to_player(void) {
     s32 i;
 
     if (gBattleSubState == BTL_SUBSTATE_INIT) {
-        gBattleStatus.flags1 &= ~BS_FLAGS1_PARTNER_ACTING;
+        {
+            s32 who = ACTOR_CLASS_PLAYER;
+            CALL_EVENT(OnTurnOrder, TURN_ORDER_WHO_ACTS_FIRST, &who);
+            if (who == ACTOR_CLASS_PARTNER && partner != nullptr) {
+                gBattleStatus.flags1 |= BS_FLAGS1_PARTNER_ACTING;
+            } else {
+                gBattleStatus.flags1 &= ~BS_FLAGS1_PARTNER_ACTING;
+            }
+        }
+        {
+            s32 inFront = !(gBattleStatus.flags1 & BS_FLAGS1_PLAYER_IN_BACK);
+            CALL_EVENT(OnTurnOrder, TURN_ORDER_PLAYER_IN_FRONT, &inFront);
+            if (inFront) {
+                gBattleStatus.flags1 &= ~BS_FLAGS1_PLAYER_IN_BACK;
+            } else {
+                gBattleStatus.flags1 |= BS_FLAGS1_PLAYER_IN_BACK;
+            }
+        }
         reset_actor_turn_info();
         gBattleStatus.selectedMoveID = MOVE_NONE;
         gBattleStatus.actionResult = ACTION_RESULT_NONE;

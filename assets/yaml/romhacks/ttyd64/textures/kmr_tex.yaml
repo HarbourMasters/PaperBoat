@@ -1,0 +1,18 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+kmr_s:
+  { type: TEXTURE, format: IA8, offset: 0x268BD84, width: 32, height: 32, symbol: kmr_s }
+kmr_u:
+  { type: TEXTURE, format: IA8, offset: 0x268C1B4, width: 32, height: 32, symbol: kmr_u }
+kmr_b:
+  { type: TEXTURE, format: IA8, offset: 0x268C5E4, width: 32, height: 32, symbol: kmr_b }
+kmr_c:
+  { type: TEXTURE, format: IA8, offset: 0x268CA14, width: 32, height: 32, symbol: kmr_c }
+kmr_r:
+  { type: TEXTURE, format: IA8, offset: 0x268CE44, width: 32, height: 32, symbol: kmr_r }
+kmr_i:
+  { type: TEXTURE, format: IA8, offset: 0x268D274, width: 32, height: 32, symbol: kmr_i }
+kmr_e:
+  { type: TEXTURE, format: IA8, offset: 0x268D6A4, width: 32, height: 32, symbol: kmr_e }

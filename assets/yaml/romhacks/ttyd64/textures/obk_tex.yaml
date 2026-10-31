@@ -1,0 +1,56 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+isk_togetif:
+  { type: TEXTURE, format: CI4, offset: 0x27CD404, width: 32, height: 32, tlut: 0x27CD604, symbol: isk_togetif }
+isk_togetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27CD604, colors: 16, symbol: isk_togetif_tlut }
+dgb_hokori1tif:
+  { type: TEXTURE, format: IA8, offset: 0x27CD654, width: 64, height: 32, symbol: dgb_hokori1tif }
+dgb_d_anatif:
+  { type: TEXTURE, format: IA8, offset: 0x27CDE84, width: 32, height: 64, symbol: dgb_d_anatif }
+smw_1:
+  { type: TEXTURE, format: CI4, offset: 0x27CE6B4, width: 16, height: 16, tlut: 0x27CE734, symbol: smw_1 }
+smw_1_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27CE734, colors: 16, symbol: smw_1_tlut }
+smw_2:
+  { type: TEXTURE, format: CI4, offset: 0x27CE784, width: 16, height: 16, tlut: 0x27CE804, symbol: smw_2 }
+smw_2_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27CE804, colors: 16, symbol: smw_2_tlut }
+smw_3:
+  { type: TEXTURE, format: CI4, offset: 0x27CE854, width: 32, height: 16, tlut: 0x27CE954, symbol: smw_3 }
+smw_3_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27CE954, colors: 16, symbol: smw_3_tlut }
+smw_4:
+  { type: TEXTURE, format: CI4, offset: 0x27CE9A4, width: 16, height: 8, tlut: 0x27CE9E4, symbol: smw_4 }
+smw_4_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27CE9E4, colors: 16, symbol: smw_4_tlut }
+smw_5:
+  { type: TEXTURE, format: CI4, offset: 0x27CEA34, width: 16, height: 8, tlut: 0x27CEA74, symbol: smw_5 }
+smw_5_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27CEA74, colors: 16, symbol: smw_5_tlut }
+smw_6:
+  { type: TEXTURE, format: CI4, offset: 0x27CEAC4, width: 16, height: 16, tlut: 0x27CEB44, symbol: smw_6 }
+smw_6_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27CEB44, colors: 16, symbol: smw_6_tlut }
+smw_7:
+  { type: TEXTURE, format: CI4, offset: 0x27CEB94, width: 16, height: 16, tlut: 0x27CEC14, symbol: smw_7 }
+smw_7_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27CEC14, colors: 16, symbol: smw_7_tlut }
+smw_8:
+  { type: TEXTURE, format: CI4, offset: 0x27CEC64, width: 16, height: 16, tlut: 0x27CECE4, symbol: smw_8 }
+smw_8_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27CECE4, colors: 16, symbol: smw_8_tlut }
+smw_9:
+  { type: TEXTURE, format: CI4, offset: 0x27CED34, width: 16, height: 8, tlut: 0x27CED74, symbol: smw_9 }
+smw_9_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27CED74, colors: 16, symbol: smw_9_tlut }
+smw_10:
+  { type: TEXTURE, format: CI4, offset: 0x27CEDC4, width: 16, height: 16, tlut: 0x27CEE44, symbol: smw_10 }
+smw_10_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27CEE44, colors: 16, symbol: smw_10_tlut }
+smw_11:
+  { type: TEXTURE, format: CI4, offset: 0x27CEE94, width: 16, height: 8, tlut: 0x27CEED4, symbol: smw_11 }
+smw_11_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27CEED4, colors: 16, symbol: smw_11_tlut }

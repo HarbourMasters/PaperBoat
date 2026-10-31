@@ -96,6 +96,7 @@ enum HudElementFlags {
     HUD_ELEMENT_FLAG_HIDDEN             = 0x10000000, // same effect as HUD_ELEMENT_FLAG_INVISIBLE, allows two independent controls over visiblity
     HUD_ELEMENT_FLAG_DROP_SHADOW        = 0x20000000,
     HUD_ELEMENT_FLAG_BATTLE_CAM         = 0x40000000,
+    HUD_ELEMENT_FLAG_FIXED_SIZE         = (s32)0x80000000,
 };
 
 enum {

@@ -1,0 +1,60 @@
+:config:
+  segments:
+    - [0x01, 0x01000000]
+
+sprite_data_header:
+  { type: BLOB, offset: 0x1943010, size: 0x10, symbol: gSpriteDataHeader }
+player_raster_header:
+  { type: BLOB, offset: 0x1943020, size: 0x10, symbol: gPlayerRasterHeader }
+player_raster_sets:
+  { type: BLOB, offset: 0x1943030, size: 0x38, symbol: gPlayerRasterSets }
+player_raster_load_descriptors:
+  { type: BLOB, offset: 0x1943068, size: 0xBB8, symbol: gPlayerRasterLoadDescriptors }
+player_raster_image_data:
+  { type: BLOB, offset: 0x1943C20, size: 0xBE210, symbol: gPlayerRasterImageData }
+player_sprite_0:
+  { type: PM64:SPRITE, offset: 0x1A01E98, symbol: gPlayerSprite0, raster_index: 0, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943C20, raster_offset_scale: 16 }
+player_sprite_1:
+  { type: PM64:SPRITE, offset: 0x1A027EC, symbol: gPlayerSprite1, raster_index: 1, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943C20, raster_offset_scale: 16 }
+player_sprite_2:
+  { type: PM64:SPRITE, offset: 0x1A02C58, symbol: gPlayerSprite2, raster_index: 2, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943C20, raster_offset_scale: 16 }
+player_sprite_3:
+  { type: PM64:SPRITE, offset: 0x1A03668, symbol: gPlayerSprite3, raster_index: 3, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943C20, raster_offset_scale: 16 }
+player_sprite_4:
+  { type: PM64:SPRITE, offset: 0x1A0403C, symbol: gPlayerSprite4, raster_index: 4, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943C20, raster_offset_scale: 16 }
+player_sprite_5:
+  { type: PM64:SPRITE, offset: 0x1A043D4, symbol: gPlayerSprite5, raster_index: 5, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943C20, raster_offset_scale: 16 }
+player_sprite_6:
+  { type: PM64:SPRITE, offset: 0x1A04CAA, symbol: gPlayerSprite6, raster_index: 6, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943C20, raster_offset_scale: 16 }
+player_sprite_7:
+  { type: PM64:SPRITE, offset: 0x1A0505A, symbol: gPlayerSprite7, raster_index: 7, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943C20, raster_offset_scale: 16 }
+player_sprite_8:
+  { type: PM64:SPRITE, offset: 0x1A0588C, symbol: gPlayerSprite8, raster_index: 8, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943C20, raster_offset_scale: 16 }
+player_sprite_9:
+  { type: PM64:SPRITE, offset: 0x1A05BDA, symbol: gPlayerSprite9, raster_index: 9, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943C20, raster_offset_scale: 16 }
+player_sprite_10:
+  { type: PM64:SPRITE, offset: 0x1A06758, symbol: gPlayerSprite10, raster_index: 10, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943C20, raster_offset_scale: 16 }
+player_sprite_11:
+  { type: PM64:SPRITE, offset: 0x1A06950, symbol: gPlayerSprite11, raster_index: 11, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943C20, raster_offset_scale: 16 }
+player_sprite_12:
+  { type: PM64:SPRITE, offset: 0x1A072AA, symbol: gPlayerSprite12, raster_index: 12, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943C20, raster_offset_scale: 16 }
+npc_sprite_000:
+  { type: PM64:SPRITE, offset: 0x1A07F18, symbol: gNpcSprite000 }
+npc_sprite_003:
+  { type: PM64:SPRITE, offset: 0x1A0C284, symbol: gNpcSprite003 }
+npc_sprite_007:
+  { type: PM64:SPRITE, offset: 0x1A11A28, symbol: gNpcSprite007 }
+npc_sprite_008:
+  { type: PM64:SPRITE, offset: 0x1A13224, symbol: gNpcSprite008 }
+npc_sprite_011:
+  { type: PM64:SPRITE, offset: 0x1A18FEA, symbol: gNpcSprite011 }
+npc_sprite_015:
+  { type: PM64:SPRITE, offset: 0x1A22AB6, symbol: gNpcSprite015 }
+npc_sprite_031:
+  { type: PM64:SPRITE, offset: 0x1A2FD58, symbol: gNpcSprite031 }
+npc_sprite_203:
+  { type: PM64:SPRITE, offset: 0x1B7B818, symbol: gNpcSprite203 }
+npc_sprite_213:
+  { type: PM64:SPRITE, offset: 0x280E7EA, symbol: gNpcSprite213 }
+npc_sprite_217:
+  { type: PM64:SPRITE, offset: 0x2817912, symbol: gNpcSprite217 }

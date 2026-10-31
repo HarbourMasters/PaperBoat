@@ -212,6 +212,7 @@ s32 _bgm_set_song(s32 playerIndex, s32 songID, s32 variation, s32 fadeOutTime, s
     if (mapSongVariation >= 0) {
         variation = mapSongVariation;
     }
+    CALL_EVENT(OnBgmSong, playerIndex, &songID);
 
     if (music->requestedSongID == songID && music->variation == variation) {
         bgm_set_target_volume(volume);

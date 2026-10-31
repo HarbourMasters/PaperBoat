@@ -1,0 +1,128 @@
+hammer:
+  { type: TEXTURE, format: CI4, offset: 0x93CD0, width: 32, height: 32, symbol: ui_hammer_png }
+hammer.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x93ED0, colors: 16, symbol: ui_hammer_pal }
+hammer.disabled.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x93EF0, colors: 16, symbol: ui_hammer_disabled_pal }
+super_hammer:
+  { type: TEXTURE, format: CI4, offset: 0x93F10, width: 32, height: 32, symbol: ui_super_hammer_png }
+super_hammer.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x94110, colors: 16, symbol: ui_super_hammer_pal }
+super_hammer.disabled.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x94130, colors: 16, symbol: ui_super_hammer_disabled_pal }
+ultra_hammer:
+  { type: TEXTURE, format: CI4, offset: 0x94150, width: 32, height: 32, symbol: ui_ultra_hammer_png }
+ultra_hammer.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x94350, colors: 16, symbol: ui_ultra_hammer_pal }
+ultra_hammer.disabled.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x94370, colors: 16, symbol: ui_ultra_hammer_disabled_pal }
+boots:
+  { type: TEXTURE, format: CI4, offset: 0x94390, width: 32, height: 32, symbol: ui_boots_png }
+boots.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x94590, colors: 16, symbol: ui_boots_pal }
+boots.disabled.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x945B0, colors: 16, symbol: ui_boots_disabled_pal }
+super_boots:
+  { type: TEXTURE, format: CI4, offset: 0x945D0, width: 32, height: 32, symbol: ui_super_boots_png }
+super_boots.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x947D0, colors: 16, symbol: ui_super_boots_pal }
+super_boots.disabled.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x947F0, colors: 16, symbol: ui_super_boots_disabled_pal }
+ultra_boots:
+  { type: TEXTURE, format: CI4, offset: 0x94810, width: 32, height: 32, symbol: ui_ultra_boots_png }
+ultra_boots.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x94A10, colors: 16, symbol: ui_ultra_boots_pal }
+ultra_boots.disabled.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x94A30, colors: 16, symbol: ui_ultra_boots_disabled_pal }
+mario_head:
+  { type: TEXTURE, format: CI4, offset: 0x977F0, width: 16, height: 16, symbol: ui_mario_head_png }
+mario_head.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x97870, colors: 16, symbol: ui_mario_head_pal }
+goombario:
+  { type: TEXTURE, format: CI4, offset: 0x97AD0, width: 32, height: 32, symbol: ui_goombario_png }
+goombario.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x97CD0, colors: 16, symbol: ui_goombario_pal }
+goombario.disabled.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x97CF0, colors: 16, symbol: ui_goombario_disabled_pal }
+parakarry:
+  { type: TEXTURE, format: CI4, offset: 0x98190, width: 32, height: 32, symbol: ui_parakarry_png }
+parakarry.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x98390, colors: 16, symbol: ui_parakarry_pal }
+parakarry.disabled.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x983B0, colors: 16, symbol: ui_parakarry_disabled_pal }
+lakilester:
+  { type: TEXTURE, format: CI4, offset: 0x98A90, width: 32, height: 32, symbol: ui_lakilester_png }
+lakilester.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x98C90, colors: 16, symbol: ui_lakilester_pal }
+lakilester.disabled.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x98CB0, colors: 16, symbol: ui_lakilester_disabled_pal }
+pause/unused_badge_points:
+  { type: TEXTURE, format: CI4, offset: 0x131340, width: 24, height: 24, symbol: ui_pause_unused_badge_points_png }
+pause/map_walk0:
+  { type: TEXTURE, format: CI4, offset: 0x133780, width: 24, height: 24, symbol: ui_pause_map_walk0_png }
+pause/map_walk0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x1338A0, colors: 16, symbol: ui_pause_map_walk0_pal }
+pause/map_walk1:
+  { type: TEXTURE, format: CI4, offset: 0x1338C0, width: 24, height: 24, symbol: ui_pause_map_walk1_png }
+pause/map_walk1.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x1339E0, colors: 16, symbol: ui_pause_map_walk1_pal }
+pause/map_walk2:
+  { type: TEXTURE, format: CI4, offset: 0x133A00, width: 24, height: 24, symbol: ui_pause_map_walk2_png }
+pause/map_walk2.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x133B20, colors: 16, symbol: ui_pause_map_walk2_pal }
+pause/mario_large:
+  { type: TEXTURE, format: CI4, offset: 0x1342A0, width: 32, height: 32, symbol: ui_pause_mario_large_png }
+pause/mario_large.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x1344A0, colors: 16, symbol: ui_pause_mario_large_pal }
+pause/stat_bp:
+  { type: TEXTURE, format: CI4, offset: 0x134520, width: 16, height: 16, symbol: ui_pause_stat_bp_png }
+pause/stat_mario:
+  { type: TEXTURE, format: CI4, offset: 0x1345C0, width: 16, height: 16, symbol: ui_pause_stat_mario_png }
+pause/stat_mario.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x134640, colors: 16, symbol: ui_pause_stat_mario_pal }
+pause/stat_boots1:
+  { type: TEXTURE, format: CI4, offset: 0x134A60, width: 16, height: 16, symbol: ui_pause_stat_boots1_png }
+pause/stat_boots1.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x134AE0, colors: 16, symbol: ui_pause_stat_boots1_pal }
+pause/stat_boots2:
+  { type: TEXTURE, format: CI4, offset: 0x134B00, width: 16, height: 16, symbol: ui_pause_stat_boots2_png }
+pause/stat_boots2.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x134B80, colors: 16, symbol: ui_pause_stat_boots2_pal }
+pause/stat_boots3:
+  { type: TEXTURE, format: CI4, offset: 0x134BA0, width: 16, height: 16, symbol: ui_pause_stat_boots3_png }
+pause/stat_boots3.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x134C20, colors: 16, symbol: ui_pause_stat_boots3_pal }
+pause/stat_hammer0:
+  { type: TEXTURE, format: CI4, offset: 0x134C40, width: 16, height: 16, symbol: ui_pause_stat_hammer0_png }
+pause/stat_hammer0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x134CC0, colors: 16, symbol: ui_pause_stat_hammer0_pal }
+pause/stat_hammer1:
+  { type: TEXTURE, format: CI4, offset: 0x134CE0, width: 16, height: 16, symbol: ui_pause_stat_hammer1_png }
+pause/stat_hammer1.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x134D60, colors: 16, symbol: ui_pause_stat_hammer1_pal }
+pause/stat_hammer2:
+  { type: TEXTURE, format: CI4, offset: 0x134D80, width: 16, height: 16, symbol: ui_pause_stat_hammer2_png }
+pause/stat_hammer2.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x134E00, colors: 16, symbol: ui_pause_stat_hammer2_pal }
+pause/stat_hammer3:
+  { type: TEXTURE, format: CI4, offset: 0x134E20, width: 16, height: 16, symbol: ui_pause_stat_hammer3_png }
+pause/stat_hammer3.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x134EA0, colors: 16, symbol: ui_pause_stat_hammer3_pal }
+battle/menu/defend:
+  { type: TEXTURE, format: CI4, offset: 0x1B8160, width: 32, height: 32, symbol: ui_battle_menu_defend_png }
+battle/menu/defend.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x1B8360, colors: 16, symbol: ui_battle_menu_defend_pal }
+battle/menu/defend.disabled.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x1B8380, colors: 16, symbol: ui_battle_menu_defend_disabled_pal }
+battle/cmd/flee_0:
+  { type: TEXTURE, format: CI4, offset: 0x1BC140, width: 16, height: 24, symbol: ui_battle_cmd_flee_0_png }
+battle/cmd/flee_0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x1BC200, colors: 16, symbol: ui_battle_cmd_flee_0_pal }
+battle/cmd/flee_1:
+  { type: TEXTURE, format: CI4, offset: 0x1BC220, width: 16, height: 24, symbol: ui_battle_cmd_flee_1_png }
+battle/cmd/flee_1.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x1BC2E0, colors: 16, symbol: ui_battle_cmd_flee_1_pal }
+battle/cmd/flee_2:
+  { type: TEXTURE, format: CI4, offset: 0x1BC300, width: 16, height: 24, symbol: ui_battle_cmd_flee_2_png }
+battle/cmd/flee_2.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x1BC3C0, colors: 16, symbol: ui_battle_cmd_flee_2_pal }

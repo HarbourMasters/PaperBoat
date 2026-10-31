@@ -1,0 +1,8 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+kzn_hibitif:
+  { type: TEXTURE, format: CI4, offset: 0x273BB64, width: 32, height: 32, tlut: 0x273BD64, symbol: kzn_hibitif }
+kzn_hibitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x273BD64, colors: 16, symbol: kzn_hibitif_tlut }

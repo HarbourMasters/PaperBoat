@@ -27,6 +27,7 @@ void btl_substate_try_hpfp_recovery(void) {
 
     if (gBattleStatus.flags2 & BS_FLAGS2_HAS_DRAINED_HP) {
         drainRecovery = battleStatus->hpDrainCount;
+        CALL_EVENT(OnAbilityEffect, player, ABILITY_HP_DRAIN, &drainRecovery);
         battleStatus->hpDrainCount = 0;
     }
     gBattleStatus.flags2 &= ~BS_FLAGS2_HAS_DRAINED_HP;
@@ -40,6 +41,7 @@ void btl_substate_try_hpfp_recovery(void) {
     if (rand_int(100) < 50) {
         fpRecovery += is_ability_active(ABILITY_HAPPY_FLOWER);
     }
+    CALL_EVENT(OnTurnEndRecovery, player, &drainRecovery, &hpRecovery, &fpRecovery);
     if (drainRecovery + hpRecovery + fpRecovery == 0) {
         return;
     }
@@ -83,7 +85,13 @@ void btl_state_update_end_player_turn(void) {
         player->takeTurnScript = nullptr;
 
         // force peach to back position after turn end
-        if ((gBattleStatus.flags2 & BS_FLAGS2_PEACH_BATTLE) && !(gBattleStatus.flags1 & BS_FLAGS1_PLAYER_IN_BACK)) {
+        s32 doSwap = (gBattleStatus.flags2 & BS_FLAGS2_PEACH_BATTLE) && !(gBattleStatus.flags1 & BS_FLAGS1_PLAYER_IN_BACK);
+        if (doSwap) {
+            s32 inFront = false;
+            CALL_EVENT(OnTurnOrder, TURN_ORDER_PLAYER_IN_FRONT, &inFront);
+            doSwap = !inFront;
+        }
+        if (doSwap) {
             player->state.curPos.x = player->homePos.x;
             player->state.curPos.z = player->homePos.z;
             player->state.goalPos.x = partner->homePos.x;
@@ -179,7 +187,14 @@ void btl_state_update_end_player_turn(void) {
             }
         }
 
-        if (battleStatus->hustleTurns != 0 && (gBattleStatus.flags1 & BS_FLAGS1_HUSTLED)) {
+        s32 reopenMenu = false;
+        if (battleStatus->hustleTurns != 0) {
+            s32 who = (gBattleStatus.flags1 & BS_FLAGS1_HUSTLED) ? ACTOR_CLASS_PLAYER : ACTOR_CLASS_PARTNER;
+            CALL_EVENT(OnTurnOrder, TURN_ORDER_WHO_ACTS_FIRST, &who);
+            reopenMenu = who == ACTOR_CLASS_PLAYER;
+        }
+
+        if (reopenMenu) {
             gBattleStatus.flags2 &= ~BS_FLAGS2_PLAYER_TURN_USED;
             btl_set_state(BATTLE_STATE_PREPARE_MENU);
         } else {

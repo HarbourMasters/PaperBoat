@@ -1,4 +1,5 @@
 #include "pause/pause_common.h"
+#include "inventory.h"
 #include "message_ids.h"
 
 void pause_items_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width, s32 height, s32 opacity, s32 darkening);
@@ -359,7 +360,9 @@ void pause_items_load_items(s32 invItems) {
 
     D_802705D0 = 0;
     if (invItems == true) {
-        for (i = 0; i < ARRAY_COUNT(playerData->invItems); i++) {
+        s32 capacity = get_consumables_capacity();
+
+        for (i = 0; i < capacity; i++) {
             if (playerData->invItems[i] != ITEM_NONE) {
                 gPauseItemsItemIDs[totalItems] = playerData->invItems[i];
                 totalItems++;

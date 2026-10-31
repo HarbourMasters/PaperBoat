@@ -280,6 +280,7 @@ API_CALLABLE(ShowShopPurchaseDialog) {
         bpCost = -1;
         if (shopItem->typeFlags & ITEM_TYPE_FLAG_BADGE) {
             bpCost = gMoveTable[shopItem->moveID].costBP;
+            CALL_EVENT(OnBadgeBPCost, shopInventory->itemID, &bpCost);
         }
         script->functionTemp[1] = shop_owner_buy_dialog(SHOP_MSG_BUY_CONFIRM, shopItem->nameMsg, shopInventory->price, bpCost);
         script->functionTemp[0] = PURCHASE_DIALOG_STATE_INIT;
@@ -308,8 +309,15 @@ API_CALLABLE(ShowShopPurchaseDialog) {
                     } else {
                         gPlayerData.coins -= shopInventory->price;
                         if (item_is_badge(shopInventory->itemID)) {
-                            add_item(shopInventory->itemID);
-                            evt_set_variable(nullptr, GF_MAC01_BoughtBadgeFromRowf, true);
+                            s32 badgeSlot = add_item(shopInventory->itemID);
+                            s32 refusalMsg = SHOP_MSG_NOT_ENOUGH_ROOM;
+                            CALL_CANCELLABLE_EVENT(OnShopPurchaseItem, shopInventory->itemID, badgeSlot, &refusalMsg) {
+                                evt_set_variable(nullptr, GF_MAC01_BoughtBadgeFromRowf, true);
+                            } else {
+                                script->functionTemp[1] = shop_owner_continue_speech(refusalMsg);
+                                script->functionTemp[0] = PURCHASE_DIALOG_STATE_NOT_ENOUGH_ROOM;
+                                break;
+                            }
                         } else {
                             add_item(shopInventory->itemID);
                         }
@@ -390,12 +398,12 @@ void shop_open_item_select_popup(s32 mode) {
     switch (mode) {
         case ITEM_POPUP_SELL:
             popupType = POPUP_MENU_SELL_ITEM;
-            numItemSlots = ARRAY_COUNT(gPlayerData.invItems);
+            numItemSlots = get_consumables_capacity();
             itemArray = gPlayerData.invItems;
             break;
         case ITEM_POPUP_CHECK:
             popupType = POPUP_MENU_CHECK_ITEM;
-            numItemSlots = ARRAY_COUNT(gPlayerData.invItems);
+            numItemSlots = get_consumables_capacity();
             itemArray = gPlayerData.invItems;
             break;
         case ITEM_POPUP_CLAIM:

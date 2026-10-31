@@ -634,7 +634,7 @@ API_CALLABLE(SetSelfVar) {
     Bytecode* args = script->ptrReadPos;
     Enemy* owner = script->owner1.enemy;
     s32 index = evt_get_variable(script, *args++);
-    s32 value = evt_get_variable(script, *args++);
+    intptr_t value = evt_get_variable(script, *args++);
 
     owner->varTable[index] = value;
     return ApiStatus_DONE2;

@@ -39,13 +39,6 @@ enum TitleScreenStates {
     TITLE_STATE_EXIT            = 6,
 };
 
-enum {
-    NEXT_STATE_DEMO             = 10,
-    NEXT_STATE_INTRO            = 9,
-    NEXT_STATE_FILE_SELECT      = 5,
-    NEXT_STATE_NONE             = 0, // used only for the initial value
-};
-
 s16 TitleScreenNextState = NEXT_STATE_NONE;
 
 SaveFileSummary gSaveSlotSummary[4] = {
@@ -126,6 +119,7 @@ void state_init_title_screen(void) {
     void* titleDataDst;
     void* titleData;
 
+    CALL_EVENT(OnTitleScreenInit);
     gOverrideFlags = 0;
     gTimeFreezeMode = TIME_FREEZE_NONE;
     general_heap_create();
@@ -244,34 +238,36 @@ void state_step_title_screen(void) {
             if (TitleScreen_TimeLeft == 120) {
                 bgm_set_song(0, -1, 0, 3900, 8);
             }
-            if (TitleScreen_TimeLeft == 0) {
-                gGameStatusPtr->startupState = TITLE_STATE_BEGIN_DISMISS;
-                TitleScreenNextState = NEXT_STATE_INTRO;
-                return;
-            }
             #elif DX_SKIP_STORY
             // only the demo may play
-            if (TitleScreen_TimeLeft == 0) {
-                gGameStatusPtr->startupState = TITLE_STATE_BEGIN_DISMISS;
-                TitleScreenNextState = NEXT_STATE_DEMO;
-                return;
-            }
             #else
             // allow either demo or story to play
             if (PlayIntroNext && TitleScreen_TimeLeft == 120) {
                 bgm_set_song(0, -1, 0, 3900, 8);
             }
-            if (TitleScreen_TimeLeft == 0) {
-                gGameStatusPtr->startupState = TITLE_STATE_BEGIN_DISMISS;
-                if (!PlayIntroNext) {
-                    TitleScreenNextState = NEXT_STATE_DEMO;
-                } else {
-                    TitleScreenNextState = NEXT_STATE_INTRO;
-                }
-                PlayIntroNext ^= 1;
-                return;
-            }
             #endif
+            if (TitleScreen_TimeLeft == 0) {
+                #if DX_SKIP_DEMO
+                s32 vanillaNextState = NEXT_STATE_INTRO;
+                #elif DX_SKIP_STORY
+                s32 vanillaNextState = NEXT_STATE_DEMO;
+                #else
+                s32 vanillaNextState = PlayIntroNext ? NEXT_STATE_INTRO : NEXT_STATE_DEMO;
+                #endif
+                s32 nextState = vanillaNextState;
+
+                CALL_CANCELLABLE_EVENT(OnTitleScreenTimeout, &nextState) {
+                    if (nextState != NEXT_STATE_DEMO && nextState != NEXT_STATE_INTRO && nextState != NEXT_STATE_FILE_SELECT) {
+                        nextState = vanillaNextState;
+                    }
+                    #if !DX_SKIP_DEMO && !DX_SKIP_STORY
+                    PlayIntroNext ^= 1;
+                    #endif
+                    gGameStatusPtr->startupState = TITLE_STATE_BEGIN_DISMISS;
+                    TitleScreenNextState = nextState;
+                    return;
+                }
+            }
             if (pressedButtons & (BUTTON_A | BUTTON_START)) {
                 gGameStatusPtr->startupState = TITLE_STATE_BEGIN_DISMISS;
                 TitleScreenNextState = NEXT_STATE_FILE_SELECT;

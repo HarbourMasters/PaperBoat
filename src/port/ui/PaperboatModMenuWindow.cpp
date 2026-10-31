@@ -1,5 +1,7 @@
 #include <algorithm>
+#include <atomic>
 #include <cctype>
+#include <thread>
 #include <filesystem>
 #include <map>
 #include <memory>
@@ -23,6 +25,10 @@
 #include "MenuTypes.h"
 #include "UIWidgets.hpp"
 #include "port/Engine.h"
+#include "port/extractor/GameExtractor.h"
+#include "port/features/Features.h"
+#include "port/modding/ModManifest.h"
+#include "port/romhack/Romhack.h"
 
 static std::vector<std::string> enabledModFiles;
 static std::vector<std::string> disabledModFiles;
@@ -133,6 +139,9 @@ void UpdateModFiles(bool init, bool reset) {
             continue;
         }
         std::string name = entry.path().filename().generic_string();
+        if (name.starts_with("~")) {
+            continue;
+        }
         filePaths.emplace(name, entry.path());
         discovered.push_back(name);
     }
@@ -171,13 +180,37 @@ void UpdateModFiles(bool init, bool reset) {
     SortDisabledMods();
 
     if (init) {
+        const Mod::Base base = Mod::ActiveBase();
         for (const std::string& mod : enabledModFiles) {
             auto it = filePaths.find(mod);
             if (it == filePaths.end()) {
                 continue;
             }
             SPDLOG_INFO("Loading mod archive: {}", it->second.generic_string());
-            GetArchiveManager()->AddArchive(std::filesystem::absolute(it->second).generic_string());
+            Mod::ModRecord record;
+            record.file = mod;
+            auto archive = Mod::OpenArchive(it->second);
+            if (archive == nullptr) {
+                record.displayName = mod;
+                record.skipReason = "The archive could not be opened.";
+                Mod::RecordMod(std::move(record));
+                continue;
+            }
+            record.manifest = Mod::ReadManifest(*archive);
+            record.displayName =
+                record.manifest.has_value() && !record.manifest->name.empty() ? record.manifest->name : mod;
+            const auto reason =
+                record.manifest.has_value() ? Mod::IncompatibleReason(*record.manifest, base) : std::nullopt;
+            if (reason.has_value()) {
+                SPDLOG_WARN("Not loading mod {}: {}", mod, *reason);
+                record.skipReason = *reason;
+            } else {
+                record.mounted = GetArchiveManager()->AddArchive(archive) != nullptr;
+                if (!record.mounted) {
+                    record.skipReason = "The archive could not be added.";
+                }
+            }
+            Mod::RecordMod(std::move(record));
         }
     }
 
@@ -203,6 +236,35 @@ void DisableMod(std::string file) {
     enabledModFiles.erase(it);
     disabledModFiles.push_back(file);
     SortDisabledMods();
+}
+
+static std::string ModSkipReason(const std::string& file) {
+    if (const Mod::ModRecord* record = Mod::FindModRecord(file)) {
+        return record->mounted ? "" : "Not loaded. " + record->skipReason;
+    }
+    const auto path = filePaths.find(file);
+    if (path == filePaths.end()) {
+        return "";
+    }
+    const auto& manifest = Mod::CachedManifest(file, path->second);
+    if (!manifest.has_value()) {
+        return "";
+    }
+    return Mod::IncompatibleReason(*manifest, Mod::ActiveBase()).value_or("");
+}
+
+static void DrawRuleConflicts() {
+    const auto& conflicts = Features::Conflicts();
+    if (conflicts.empty()) {
+        return;
+    }
+    ImGui::TextColored(UIWidgets::ColorValues.at(UIWidgets::Colors::Orange), "Mods disagree on these settings:");
+    for (const Features::Conflict& conflict : conflicts) {
+        ImGui::BulletText(
+            "%s: %s overrides %s (%s)", conflict.id.c_str(), conflict.winner.c_str(), conflict.loser.c_str(),
+            Features::LockReason(conflict.id.c_str()).c_str()
+        );
+    }
 }
 
 static void DrawMods(bool enabled) {
@@ -263,7 +325,15 @@ static void DrawMods(bool enabled) {
         }
 
         ImGui::SameLine();
-        ImGui::Text("%s", file.c_str());
+        const std::string reason = ModSkipReason(file);
+        if (reason.empty()) {
+            ImGui::Text("%s", file.c_str());
+        } else {
+            ImGui::TextDisabled("%s " ICON_FA_EXCLAMATION_TRIANGLE, file.c_str());
+            if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) {
+                ImGui::SetTooltip("%s", reason.c_str());
+            }
+        }
 
         if (enabled) {
             ImGui::EndGroup();
@@ -366,6 +436,221 @@ static void DrawModManager() {
     ImGui::EndDisabled();
 }
 
+static GameExtractor sRomhackExtractor;
+static std::atomic<bool> sRomhackExtracting = false;
+static std::atomic<size_t> sRomhackExtractCount { 0 }, sRomhackExtractTotal { 0 };
+static std::string sRomhackPending;
+enum class RomhackResult {
+    None,
+    Done,
+    Failed
+};
+static std::atomic<RomhackResult> sRomhackResult = RomhackResult::None;
+
+static void RestartIntoRomhack(const std::string& stem) {
+    Romhack::SetSelected(stem);
+    if (GameEngine::CanRelaunch()) {
+        GameEngine::RequestRelaunch();
+        Ship::Context::GetRawInstance()->GetWindow()->Close();
+    }
+}
+
+static void StartRomhackExtraction() {
+    sRomhackExtractor = GameExtractor();
+    sRomhackExtractor.SelectGameFromUI([](bool picked) {
+        if (!picked) {
+            return;
+        }
+        const auto recipe = sRomhackExtractor.GetRomhack();
+        if (!recipe.has_value()) {
+            PaperboatGui::RegisterPopup(
+                "Not a Supported Romhack",
+                "That ROM is not a romhack PaperBoat has a recipe for.\nPatch the hack onto a US Paper Mario ROM "
+                "and pick the patched .z64."
+            );
+            return;
+        }
+        sRomhackPending = std::filesystem::path(recipe->output).stem().string();
+        sRomhackExtracting = true;
+        std::thread([]() {
+            const bool ok = sRomhackExtractor.GenerateOTR(sRomhackExtractCount, sRomhackExtractTotal, "boat");
+            sRomhackResult = ok ? RomhackResult::Done : RomhackResult::Failed;
+            sRomhackExtracting = false;
+        }).detach();
+    });
+}
+
+static void ReportRomhackExtraction() {
+    const RomhackResult result = sRomhackResult.exchange(RomhackResult::None);
+    if (result == RomhackResult::Failed) {
+        const std::string msg = "Extraction failed:\n" + GameExtractor::sLastError;
+        PaperboatGui::RegisterPopup("Romhack Extraction Failed", msg.c_str());
+    } else if (result == RomhackResult::Done) {
+        const std::string stem = sRomhackPending;
+        PaperboatGui::RegisterPopup(
+            "Romhack Ready", "Play it now? PaperBoat restarts into the romhack.", "Play", "Later",
+            [stem]() { RestartIntoRomhack(stem); }
+        );
+    }
+}
+
+static bool sRomhackEditing = false;
+static std::string sRomhackEnabled;
+static WidgetInfo generateRomhackWidget;
+
+static void DrawRomhackList(bool enabled, const std::vector<std::string>& stems) {
+    for (const auto& stem : stems) {
+        if ((stem == sRomhackEnabled) != enabled) {
+            continue;
+        }
+        if (UIWidgets::StateButton(
+                (stem + "_romhack_left_right").c_str(), enabled ? ICON_FA_ARROW_RIGHT : ICON_FA_ARROW_LEFT,
+                ImVec2(25, 25), UIWidgets::ButtonOptions().Color(THEME_COLOR)
+            ))
+        {
+            sRomhackEnabled = enabled ? "" : stem;
+        }
+        ImGui::SameLine();
+        ImGui::Text("%s.o2r", stem.c_str());
+    }
+}
+
+static void DrawRomhackManager() {
+    const std::vector<std::string> stems = Romhack::ListArchives();
+    if (!sRomhackEnabled.empty() && std::find(stems.begin(), stems.end(), sRomhackEnabled) == stems.end()) {
+        sRomhackEnabled.clear();
+    }
+
+    auto editOpts = UIWidgets::ButtonOptions().Size(UIWidgets::Sizes::Inline).Color(THEME_COLOR);
+    editOpts.Disabled(sRomhackEditing || sRomhackExtracting);
+    editOpts.DisabledTooltip("Already editing...");
+    if (UIWidgets::Button("Edit##romhacks", editOpts)) {
+        sRomhackEditing = true;
+    }
+    if (sRomhackEditing) {
+        ImGui::SameLine();
+        if (UIWidgets::Button("Cancel##romhacks", UIWidgets::ButtonOptions().Size(UIWidgets::Sizes::Inline))) {
+            sRomhackEditing = false;
+            sRomhackEnabled = Romhack::GetSelected();
+        }
+        ImGui::SameLine();
+        if (UIWidgets::Button("Clear List##romhacks", UIWidgets::ButtonOptions().Size(UIWidgets::Sizes::Inline))) {
+            PaperboatGui::RegisterPopup(
+                "Clear List", "Disable the romhack and play Paper Mario.\nClick Apply to save this change.", "Clear",
+                "Cancel", []() { sRomhackEnabled.clear(); }
+            );
+        }
+        ImGui::SameLine();
+        const bool restarts = GameEngine::CanRelaunch();
+        if (UIWidgets::Button(
+                restarts ? "Apply & Restart##romhacks" : "Apply##romhacks",
+                UIWidgets::ButtonOptions().Size(UIWidgets::Sizes::Inline).Color(THEME_COLOR)
+            ))
+        {
+            PaperboatGui::RegisterPopup(
+                restarts ? "Apply & Restart" : "Apply",
+                restarts ? "Switching romhacks requires a restart. Save the selection and relaunch Paperboat now?"
+                         : "Save the selection? It takes effect the next time Paperboat starts.",
+                restarts ? "Restart" : "Save", "Cancel", []() {
+                    sRomhackEditing = false;
+                    RestartIntoRomhack(sRomhackEnabled);
+                }
+            );
+        }
+    }
+
+    ImGui::BeginDisabled(!sRomhackEditing);
+    if (ImGui::BeginTable("tableRomhacks", 2, ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV)) {
+        ImGui::TableSetupColumn("Enabled Romhack", ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn("Disabled Romhacks", ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+        ImGui::TableHeadersRow();
+        ImGui::PopItemFlag();
+        ImGui::TableNextRow();
+
+        ImGui::TableNextColumn();
+        if (ImGui::BeginChild("Enabled Romhack", ImVec2(0, -8))) {
+            DrawRomhackList(true, stems);
+            ImGui::EndChild();
+        }
+
+        ImGui::TableNextColumn();
+        if (ImGui::BeginChild("Disabled Romhacks", ImVec2(0, -8))) {
+            DrawRomhackList(false, stems);
+            ImGui::EndChild();
+        }
+
+        ImGui::EndTable();
+    }
+    ImGui::EndDisabled();
+}
+
+static std::vector<Romhack::Supported> sSupportedRomhacks;
+
+static void DrawSupportedRomhacks() {
+    for (const auto& hack : sSupportedRomhacks) {
+        ImGui::PushID(hack.id.c_str());
+        ImGui::BeginDisabled(hack.website.empty());
+        if (UIWidgets::Button(
+                ICON_FA_EXTERNAL_LINK,
+                UIWidgets::ButtonOptions()
+                    .Size(UIWidgets::Sizes::Inline)
+                    .Color(THEME_COLOR)
+                    .Tooltip(hack.website.c_str())
+            ))
+        {
+            SDL_OpenURL(hack.website.c_str());
+        }
+        ImGui::EndDisabled();
+        ImGui::SameLine();
+        ImGui::AlignTextToFramePadding();
+        if (hack.version.empty()) {
+            ImGui::Text("%s", hack.name.c_str());
+        } else {
+            ImGui::Text("%s (v%s)", hack.name.c_str(), hack.version.c_str());
+        }
+        ImGui::PopID();
+    }
+}
+
+void PaperboatRomhackMenuWindow::DrawElement() {
+    ReportRomhackExtraction();
+
+    ImGui::BeginDisabled(sRomhackExtracting);
+    PaperboatGui::mPaperboatMenu->MenuDrawItem(generateRomhackWidget, 200, PaperboatGui::GetMenuThemeColor());
+    ImGui::EndDisabled();
+    if (sRomhackExtracting) {
+        const size_t total = sRomhackExtractTotal;
+        const float progress = total > 0 ? std::min<float>(1.0f, (float) sRomhackExtractCount / (float) total) : 0.0f;
+        ImGui::ProgressBar(progress, ImVec2(-1.0f, 0.0f), "Extracting romhack...");
+    }
+
+    if (ImGui::BeginTable("tableRomhackMenu", 2, ImGuiTableFlags_BordersInnerV)) {
+        ImGui::TableSetupColumn("Installed Romhacks", ImGuiTableColumnFlags_WidthStretch, 2.0f);
+        ImGui::TableSetupColumn("Supported Romhacks", ImGuiTableColumnFlags_WidthStretch, 1.0f);
+        ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+        ImGui::TableHeadersRow();
+        ImGui::PopItemFlag();
+        ImGui::TableNextRow();
+
+        ImGui::TableNextColumn();
+        DrawRomhackManager();
+
+        ImGui::TableNextColumn();
+        if (ImGui::BeginChild("Supported Romhacks", ImVec2(0, -8))) {
+            DrawSupportedRomhacks();
+        }
+        ImGui::EndChild();
+
+        ImGui::EndTable();
+    }
+}
+
+void PaperboatRomhackMenuWindow::InitElement() {
+    sRomhackEnabled = Romhack::GetSelected();
+    sSupportedRomhacks = Romhack::ListSupported();
+}
+
 void PaperboatModMenuWindow::DrawElement() {
     PaperboatGui::mPaperboatMenu->MenuDrawItem(altAssetsWidget, 200, PaperboatGui::GetMenuThemeColor());
     PaperboatGui::mPaperboatMenu->MenuDrawItem(autoMipmapsWidget, 200, PaperboatGui::GetMenuThemeColor());
@@ -376,6 +661,7 @@ void PaperboatModMenuWindow::DrawElement() {
         "Priority runs top to bottom: a mod overrides everything listed below it.\n"
         "Drag an entry or use the arrows to reorder the enabled list."
     );
+    DrawRuleConflicts();
 
     DrawModManager();
 }
@@ -414,8 +700,25 @@ static void RegisterModMenuWidgets() {
         )
         .PreFunc([](WidgetInfo& info) {
             std::static_pointer_cast<UIWidgets::CheckboxOptions>(info.options)->disabled =
-                CVarGetInteger(CVAR_ENHANCEMENT("Graphics.DisableMipmaps"), 0) != 0;
+                Port_FeatureInt("graphics.disable_mipmaps", 0) != 0;
         });
+
+    generateRomhackWidget = { .name = "Generate Romhack from ROM", .type = WidgetType::WIDGET_BUTTON };
+    generateRomhackWidget
+        .Callback([](WidgetInfo& info) {
+            PaperboatGui::RegisterPopup(
+                "Generate Romhack from ROM",
+                "Select a patched romhack ROM to extract as an overlay. Torch generates\n"
+                "a slim o2r in your mods/~romhacks/ folder alongside the existing\n"
+                "pm64.o2r, holding only what the hack changed.",
+                "Select ROM", "Cancel", []() { StartRomhackExtraction(); }
+            );
+        })
+        .Options(
+            UIWidgets::ButtonOptions()
+                .Size(UIWidgets::Sizes::Inline)
+                .Tooltip("Pick a patched romhack ROM and extract it as a slim overlay into the mods/~romhacks/ folder.")
+        );
 }
 
 static RegisterMenuInitFunc menuInitFunc(RegisterModMenuWidgets);

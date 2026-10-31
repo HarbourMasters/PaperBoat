@@ -1,0 +1,322 @@
+arn_05_hit:
+  { type: PM64:COLLISION, offset: 0x222871C, symbol: arn_05_hit }
+arn_20_hit:
+  { type: PM64:COLLISION, offset: 0x223B038, symbol: arn_20_hit }
+dro_02_hit:
+  { type: PM64:COLLISION, offset: 0x20C7F7C, symbol: dro_02_hit }
+flo_00_hit:
+  { type: PM64:COLLISION, offset: 0x23CC6CC, symbol: flo_00_hit }
+flo_14_hit:
+  { type: PM64:COLLISION, offset: 0x23F3A04, symbol: flo_14_hit }
+flo_15_hit:
+  { type: PM64:COLLISION, offset: 0x23F7C3A, symbol: flo_15_hit }
+flo_19_hit:
+  { type: PM64:COLLISION, offset: 0x240A44E, symbol: flo_19_hit }
+flo_22_hit:
+  { type: PM64:COLLISION, offset: 0x2411F94, symbol: flo_22_hit }
+flo_23_hit:
+  { type: PM64:COLLISION, offset: 0x2415686, symbol: flo_23_hit }
+hos_01_hit:
+  { type: PM64:COLLISION, offset: 0x1FCBE20, symbol: hos_01_hit }
+hos_03_hit:
+  { type: PM64:COLLISION, offset: 0x1FDE5E6, symbol: hos_03_hit }
+hos_04_hit:
+  { type: PM64:COLLISION, offset: 0x1FE81AE, symbol: hos_04_hit }
+hos_06_hit:
+  { type: PM64:COLLISION, offset: 0x1FFC20E, symbol: hos_06_hit }
+isk_07_hit:
+  { type: PM64:COLLISION, offset: 0x214A8A8, symbol: isk_07_hit }
+isk_10_hit:
+  { type: PM64:COLLISION, offset: 0x21584F6, symbol: isk_10_hit }
+iwa_00_hit:
+  { type: PM64:COLLISION, offset: 0x208C7C6, symbol: iwa_00_hit }
+iwa_03_hit:
+  { type: PM64:COLLISION, offset: 0x209D58C, symbol: iwa_03_hit }
+iwa_10_hit:
+  { type: PM64:COLLISION, offset: 0x20A95AA, symbol: iwa_10_hit }
+iwa_11_hit:
+  { type: PM64:COLLISION, offset: 0x20B077E, symbol: iwa_11_hit }
+jan_00_hit:
+  { type: PM64:COLLISION, offset: 0x230072A, symbol: jan_00_hit }
+jan_02_hit:
+  { type: PM64:COLLISION, offset: 0x230D366, symbol: jan_02_hit }
+jan_03_hit:
+  { type: PM64:COLLISION, offset: 0x2318778, symbol: jan_03_hit }
+jan_07_hit:
+  { type: PM64:COLLISION, offset: 0x232D870, symbol: jan_07_hit }
+jan_10_hit:
+  { type: PM64:COLLISION, offset: 0x233ACD8, symbol: jan_10_hit }
+jan_11_hit:
+  { type: PM64:COLLISION, offset: 0x233FCB2, symbol: jan_11_hit }
+jan_13_hit:
+  { type: PM64:COLLISION, offset: 0x23455EC, symbol: jan_13_hit }
+jan_16_hit:
+  { type: PM64:COLLISION, offset: 0x2350E00, symbol: jan_16_hit }
+jan_22_hit:
+  { type: PM64:COLLISION, offset: 0x235EFA4, symbol: jan_22_hit }
+kkj_16_hit:
+  { type: PM64:COLLISION, offset: 0x1F7D41E, symbol: kkj_16_hit }
+kkj_18_hit:
+  { type: PM64:COLLISION, offset: 0x1F85074, symbol: kkj_18_hit }
+kkj_24_hit:
+  { type: PM64:COLLISION, offset: 0x1F9EB72, symbol: kkj_24_hit }
+kkj_27_hit:
+  { type: PM64:COLLISION, offset: 0x1FAA16C, symbol: kkj_27_hit }
+kmr_00_hit:
+  { type: PM64:COLLISION, offset: 0x1E4A742, symbol: kmr_00_hit }
+kmr_02_hit:
+  { type: PM64:COLLISION, offset: 0x1E53FA4, symbol: kmr_02_hit }
+kmr_03_hit:
+  { type: PM64:COLLISION, offset: 0x1E59A44, symbol: kmr_03_hit }
+kpa_01_hit:
+  { type: PM64:COLLISION, offset: 0x24CEC7A, symbol: kpa_01_hit }
+kpa_03_hit:
+  { type: PM64:COLLISION, offset: 0x24DA362, symbol: kpa_03_hit }
+kpa_12_hit:
+  { type: PM64:COLLISION, offset: 0x24F9AC4, symbol: kpa_12_hit }
+kpa_130_hit:
+  { type: PM64:COLLISION, offset: 0x2590E34, symbol: kpa_130_hit }
+kpa_133_hit:
+  { type: PM64:COLLISION, offset: 0x2594FEA, symbol: kpa_133_hit }
+kpa_134_hit:
+  { type: PM64:COLLISION, offset: 0x259A5AE, symbol: kpa_134_hit }
+kpa_17_hit:
+  { type: PM64:COLLISION, offset: 0x2517D60, symbol: kpa_17_hit }
+kpa_40_hit:
+  { type: PM64:COLLISION, offset: 0x2528B2A, symbol: kpa_40_hit }
+kpa_61_hit:
+  { type: PM64:COLLISION, offset: 0x2548A10, symbol: kpa_61_hit }
+kpa_63_hit:
+  { type: PM64:COLLISION, offset: 0x25567C8, symbol: kpa_63_hit }
+kzn_03_hit:
+  { type: PM64:COLLISION, offset: 0x238FF7A, symbol: kzn_03_hit }
+mac_00_hit:
+  { type: PM64:COLLISION, offset: 0x1EB4370, symbol: mac_00_hit }
+mac_01_hit:
+  { type: PM64:COLLISION, offset: 0x1EBFFF4, symbol: mac_01_hit }
+mac_02_hit:
+  { type: PM64:COLLISION, offset: 0x1EC8522, symbol: mac_02_hit }
+mac_04_hit:
+  { type: PM64:COLLISION, offset: 0x1ED9D6A, symbol: mac_04_hit }
+mac_05_hit:
+  { type: PM64:COLLISION, offset: 0x1EE0C10, symbol: mac_05_hit }
+mim_03_hit:
+  { type: PM64:COLLISION, offset: 0x219D026, symbol: mim_03_hit }
+mim_10_hit:
+  { type: PM64:COLLISION, offset: 0x21CC58E, symbol: mim_10_hit }
+nok_01_hit:
+  { type: PM64:COLLISION, offset: 0x201441A, symbol: nok_01_hit }
+nok_02_hit:
+  { type: PM64:COLLISION, offset: 0x201F164, symbol: nok_02_hit }
+nok_11_hit:
+  { type: PM64:COLLISION, offset: 0x202FF58, symbol: nok_11_hit }
+nok_12_hit:
+  { type: PM64:COLLISION, offset: 0x2036EB8, symbol: nok_12_hit }
+nok_13_hit:
+  { type: PM64:COLLISION, offset: 0x203D0C0, symbol: nok_13_hit }
+obk_01_hit:
+  { type: PM64:COLLISION, offset: 0x21E9022, symbol: obk_01_hit }
+obk_02_hit:
+  { type: PM64:COLLISION, offset: 0x21EF49A, symbol: obk_02_hit }
+obk_05_hit:
+  { type: PM64:COLLISION, offset: 0x21F9CDC, symbol: obk_05_hit }
+obk_07_hit:
+  { type: PM64:COLLISION, offset: 0x2200AC6, symbol: obk_07_hit }
+obk_08_hit:
+  { type: PM64:COLLISION, offset: 0x220390E, symbol: obk_08_hit }
+omo_04_hit:
+  { type: PM64:COLLISION, offset: 0x22B1024, symbol: omo_04_hit }
+omo_05_hit:
+  { type: PM64:COLLISION, offset: 0x22B562E, symbol: omo_05_hit }
+omo_09_hit:
+  { type: PM64:COLLISION, offset: 0x22CDE14, symbol: omo_09_hit }
+omo_11_hit:
+  { type: PM64:COLLISION, offset: 0x22D8070, symbol: omo_11_hit }
+osr_01_hit:
+  { type: PM64:COLLISION, offset: 0x25C59B8, symbol: osr_01_hit }
+osr_02_hit:
+  { type: PM64:COLLISION, offset: 0x25CA75C, symbol: osr_02_hit }
+sam_06_hit:
+  { type: PM64:COLLISION, offset: 0x24666C4, symbol: sam_06_hit }
+sam_07_hit:
+  { type: PM64:COLLISION, offset: 0x246C012, symbol: sam_07_hit }
+sam_11_hit:
+  { type: PM64:COLLISION, offset: 0x2484AD8, symbol: sam_11_hit }
+sbk_02_hit:
+  { type: PM64:COLLISION, offset: 0x20DC05C, symbol: sbk_02_hit }
+tik_02_hit:
+  { type: PM64:COLLISION, offset: 0x1EF8582, symbol: tik_02_hit }
+tik_03_hit:
+  { type: PM64:COLLISION, offset: 0x1EFC2D6, symbol: tik_03_hit }
+tik_05_hit:
+  { type: PM64:COLLISION, offset: 0x1F020D4, symbol: tik_05_hit }
+tik_08_hit:
+  { type: PM64:COLLISION, offset: 0x1F0B640, symbol: tik_08_hit }
+tik_09_hit:
+  { type: PM64:COLLISION, offset: 0x1F0ED16, symbol: tik_09_hit }
+tik_10_hit:
+  { type: PM64:COLLISION, offset: 0x1F10FC8, symbol: tik_10_hit }
+tik_12_hit:
+  { type: PM64:COLLISION, offset: 0x1F13890, symbol: tik_12_hit }
+tik_15_hit:
+  { type: PM64:COLLISION, offset: 0x1F16F1C, symbol: tik_15_hit }
+tik_17_hit:
+  { type: PM64:COLLISION, offset: 0x1F1AA5A, symbol: tik_17_hit }
+tik_23_hit:
+  { type: PM64:COLLISION, offset: 0x1F2766A, symbol: tik_23_hit }
+trd_00_hit:
+  { type: PM64:COLLISION, offset: 0x205EED6, symbol: trd_00_hit }
+trd_03_hit:
+  { type: PM64:COLLISION, offset: 0x206774E, symbol: trd_03_hit }
+kmr_31_hit:
+  { type: PM64:COLLISION, offset: 0x1E95EF6, symbol: kmr_31_hit }
+kmr_32_hit:
+  { type: PM64:COLLISION, offset: 0x1E96FCA, symbol: kmr_32_hit }
+kmr_33_hit:
+  { type: PM64:COLLISION, offset: 0x1E998F0, symbol: kmr_33_hit }
+kmr_34_hit:
+  { type: PM64:COLLISION, offset: 0x1E9CC0A, symbol: kmr_34_hit }
+mac_07_hit:
+  { type: PM64:COLLISION, offset: 0x1EEEA6E, symbol: mac_07_hit }
+mac_08_hit:
+  { type: PM64:COLLISION, offset: 0x1EF1FFC, symbol: mac_08_hit }
+tik_27_hit:
+  { type: PM64:COLLISION, offset: 0x1F2A834, symbol: tik_27_hit }
+tik_28_hit:
+  { type: PM64:COLLISION, offset: 0x1F2C702, symbol: tik_28_hit }
+kkj_30_hit:
+  { type: PM64:COLLISION, offset: 0x1FBE340, symbol: kkj_30_hit }
+hos_25_hit:
+  { type: PM64:COLLISION, offset: 0x20085BC, symbol: hos_25_hit }
+nok_05_hit:
+  { type: PM64:COLLISION, offset: 0x204BF9C, symbol: nok_05_hit }
+trd_11_hit:
+  { type: PM64:COLLISION, offset: 0x207F6B6, symbol: trd_11_hit }
+dro_03_hit:
+  { type: PM64:COLLISION, offset: 0x20CEB40, symbol: dro_03_hit }
+dro_04_hit:
+  { type: PM64:COLLISION, offset: 0x20D22A4, symbol: dro_04_hit }
+isk_20_hit:
+  { type: PM64:COLLISION, offset: 0x2175DA6, symbol: isk_20_hit }
+isk_21_hit:
+  { type: PM64:COLLISION, offset: 0x2178500, symbol: isk_21_hit }
+mim_13_hit:
+  { type: PM64:COLLISION, offset: 0x21DE598, symbol: mim_13_hit }
+obk_10_hit:
+  { type: PM64:COLLISION, offset: 0x2209B7E, symbol: obk_10_hit }
+obk_11_hit:
+  { type: PM64:COLLISION, offset: 0x220CF78, symbol: obk_11_hit }
+obk_12_hit:
+  { type: PM64:COLLISION, offset: 0x220F1BC, symbol: obk_12_hit }
+obk_13_hit:
+  { type: PM64:COLLISION, offset: 0x220FA9C, symbol: obk_13_hit }
+obk_14_hit:
+  { type: PM64:COLLISION, offset: 0x2210D56, symbol: obk_14_hit }
+arn_21_hit:
+  { type: PM64:COLLISION, offset: 0x223CF7A, symbol: arn_21_hit }
+arn_22_hit:
+  { type: PM64:COLLISION, offset: 0x223F122, symbol: arn_22_hit }
+arn_23_hit:
+  { type: PM64:COLLISION, offset: 0x2241484, symbol: arn_23_hit }
+arn_24_hit:
+  { type: PM64:COLLISION, offset: 0x2243372, symbol: arn_24_hit }
+arn_bt07_hit:
+  { type: PM64:COLLISION, offset: 0x2250658, symbol: arn_bt07_hit }
+omo_18_hit:
+  { type: PM64:COLLISION, offset: 0x22EE372, symbol: omo_18_hit }
+omo_19_hit:
+  { type: PM64:COLLISION, offset: 0x22F1836, symbol: omo_19_hit }
+jan_24_hit:
+  { type: PM64:COLLISION, offset: 0x2366E28, symbol: jan_24_hit }
+jan_25_hit:
+  { type: PM64:COLLISION, offset: 0x236BD70, symbol: jan_25_hit }
+jan_26_hit:
+  { type: PM64:COLLISION, offset: 0x2372C40, symbol: jan_26_hit }
+jan_27_hit:
+  { type: PM64:COLLISION, offset: 0x23758FA, symbol: jan_27_hit }
+jan_bt05_hit:
+  { type: PM64:COLLISION, offset: 0x2382C1E, symbol: jan_bt05_hit }
+flo_26_hit:
+  { type: PM64:COLLISION, offset: 0x24253DE, symbol: flo_26_hit }
+flo_27_hit:
+  { type: PM64:COLLISION, offset: 0x2429F50, symbol: flo_27_hit }
+flo_28_hit:
+  { type: PM64:COLLISION, offset: 0x242DA92, symbol: flo_28_hit }
+flo_bt07_hit:
+  { type: PM64:COLLISION, offset: 0x24399E0, symbol: flo_bt07_hit }
+sam_13_hit:
+  { type: PM64:COLLISION, offset: 0x248B7B4, symbol: sam_13_hit }
+kpa_135_hit:
+  { type: PM64:COLLISION, offset: 0x25A14A4, symbol: kpa_135_hit }
+kpa_136_hit:
+  { type: PM64:COLLISION, offset: 0x25A39D8, symbol: kpa_136_hit }
+kpa_137_hit:
+  { type: PM64:COLLISION, offset: 0x25A7A32, symbol: kpa_137_hit }
+kpa_138_hit:
+  { type: PM64:COLLISION, offset: 0x25AA3AC, symbol: kpa_138_hit }
+kpa_139_hit:
+  { type: PM64:COLLISION, offset: 0x25AC7E8, symbol: kpa_139_hit }
+kpa_140_hit:
+  { type: PM64:COLLISION, offset: 0x25ADD38, symbol: kpa_140_hit }
+pit_00_hit:
+  { type: PM64:COLLISION, offset: 0x25F6D1E, symbol: pit_00_hit }
+pit_01_hit:
+  { type: PM64:COLLISION, offset: 0x25F7DC2, symbol: pit_01_hit }
+pit_02_hit:
+  { type: PM64:COLLISION, offset: 0x25F8138, symbol: pit_02_hit }
+pit_03_hit:
+  { type: PM64:COLLISION, offset: 0x25F81BE, symbol: pit_03_hit }
+pit_04_hit:
+  { type: PM64:COLLISION, offset: 0x25F8244, symbol: pit_04_hit }
+pit_05_hit:
+  { type: PM64:COLLISION, offset: 0x25F82CA, symbol: pit_05_hit }
+pit_06_hit:
+  { type: PM64:COLLISION, offset: 0x25F8350, symbol: pit_06_hit }
+pit_07_hit:
+  { type: PM64:COLLISION, offset: 0x25F83D6, symbol: pit_07_hit }
+pit_08_hit:
+  { type: PM64:COLLISION, offset: 0x25F845C, symbol: pit_08_hit }
+pit_09_hit:
+  { type: PM64:COLLISION, offset: 0x25F84E2, symbol: pit_09_hit }
+pit_10_hit:
+  { type: PM64:COLLISION, offset: 0x25F8568, symbol: pit_10_hit }
+pit_11_hit:
+  { type: PM64:COLLISION, offset: 0x25F967C, symbol: pit_11_hit }
+pit_12_hit:
+  { type: PM64:COLLISION, offset: 0x25FD25C, symbol: pit_12_hit }
+pit_bt01_hit:
+  { type: PM64:COLLISION, offset: 0x25FE1D0, symbol: pit_bt01_hit }
+pit_bt02_hit:
+  { type: PM64:COLLISION, offset: 0x2600F1E, symbol: pit_bt02_hit }
+tyd_00_hit:
+  { type: PM64:COLLISION, offset: 0x2608D14, symbol: tyd_00_hit }
+tyd_01_hit:
+  { type: PM64:COLLISION, offset: 0x260DF5C, symbol: tyd_01_hit }
+tyd_02_hit:
+  { type: PM64:COLLISION, offset: 0x26110A6, symbol: tyd_02_hit }
+tyd_03_hit:
+  { type: PM64:COLLISION, offset: 0x26167D2, symbol: tyd_03_hit }
+tyd_04_hit:
+  { type: PM64:COLLISION, offset: 0x261A44E, symbol: tyd_04_hit }
+tyd_05_hit:
+  { type: PM64:COLLISION, offset: 0x261E1EE, symbol: tyd_05_hit }
+tyd_06_hit:
+  { type: PM64:COLLISION, offset: 0x26245C0, symbol: tyd_06_hit }
+tyd_07_hit:
+  { type: PM64:COLLISION, offset: 0x262E01E, symbol: tyd_07_hit }
+tyd_08_hit:
+  { type: PM64:COLLISION, offset: 0x2635F24, symbol: tyd_08_hit }
+tyd_bt01_hit:
+  { type: PM64:COLLISION, offset: 0x2637E4E, symbol: tyd_bt01_hit }
+tyd_bt02_hit:
+  { type: PM64:COLLISION, offset: 0x2639C26, symbol: tyd_bt02_hit }
+tyd_bt03_hit:
+  { type: PM64:COLLISION, offset: 0x263AD86, symbol: tyd_bt03_hit }
+tyd_bt04_hit:
+  { type: PM64:COLLISION, offset: 0x263CC58, symbol: tyd_bt04_hit }
+tyd_bt05_hit:
+  { type: PM64:COLLISION, offset: 0x263DE66, symbol: tyd_bt05_hit }
+tyd_bt06_hit:
+  { type: PM64:COLLISION, offset: 0x263ECDC, symbol: tyd_bt06_hit }
+tes_00_hit:
+  { type: PM64:COLLISION, offset: 0x263F950, symbol: tes_00_hit }

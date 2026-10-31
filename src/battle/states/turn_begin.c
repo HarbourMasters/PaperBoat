@@ -27,7 +27,13 @@ void btl_state_update_begin_turn(void) {
 
     if (gBattleSubState == BTL_SUBSTATE_INIT) {
         battleStatus->flags2 &= ~BS_FLAGS2_PLAYER_TURN_USED;
-        battleStatus->flags2 &= ~BS_FLAGS2_PARTNER_TURN_USED;
+        {
+            s32 skipPartner = false;
+            CALL_EVENT(OnTurnOrder, TURN_ORDER_SKIP_PARTNER_TURN, &skipPartner);
+            if (!skipPartner) {
+                battleStatus->flags2 &= ~BS_FLAGS2_PARTNER_TURN_USED;
+            }
+        }
         battleStatus->flags2 &= ~BS_FLAGS2_OVERRIDE_INACTIVE_PLAYER;
         battleStatus->flags2 &= ~BS_FLAGS2_OVERRIDE_INACTIVE_PARTNER;
         battleStatus->merleeAttackBoost = 0;

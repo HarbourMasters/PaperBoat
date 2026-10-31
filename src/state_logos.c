@@ -22,21 +22,6 @@ void appendGfx_intro_logos(void);
 #define N64_FADE_IN_TIME 40
 #endif
 
-enum LogoStates {
-    LOGOS_STATE_N64_FADE_IN         = 0x0,
-    LOGOS_STATE_N64_HOLD            = 0x1,
-    LOGOS_STATE_N64_FADE_OUT        = 0x2,
-    LOGOS_STATE_NINTENDO_FADE_IN    = 0x3,
-    LOGOS_STATE_NINTENDO_HOLD       = 0x4,
-    LOGOS_STATE_NINTENDO_FADE_OUT   = 0x5,
-    LOGOS_STATE_IS_FADE_IN          = 0x6,
-    LOGOS_STATE_IS_HOLD_1           = 0x7,
-    LOGOS_STATE_IS_HOLD_2           = 0x8,
-    LOGOS_STATE_IS_FADE_OUT         = 0x9,
-    LOGOS_STATE_CURTAINS_APPEAR     = 0xA,
-    LOGOS_STATE_CLEANUP             = 0xB,
-};
-
 s32 D_800778C0[] = { 0, 0 };
 
 Gfx D_800778C8[] = {
@@ -71,7 +56,12 @@ void state_init_logos(void) {
     s8* romEnd;
 
     general_heap_create();
-    gGameStatusPtr->startupState = LOGOS_STATE_N64_FADE_IN;
+    s32 firstState = LOGOS_STATE_N64_FADE_IN;
+    CALL_EVENT(OnBootLogos, &firstState);
+    if (firstState < LOGOS_STATE_N64_FADE_IN || firstState > LOGOS_STATE_CLEANUP) {
+        firstState = LOGOS_STATE_N64_FADE_IN;
+    }
+    gGameStatusPtr->startupState = firstState;
     gGameStatusPtr->logoTime = 0;
     gGameStatusPtr->skipLogos = false;
     startup_set_fade_screen_alpha(255);

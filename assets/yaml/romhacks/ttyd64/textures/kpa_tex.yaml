@@ -1,0 +1,52 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+dokan02:
+  { type: TEXTURE, format: CI4, offset: 0x2720CB4, width: 32, height: 32, tlut: 0x2720EB4, symbol: dokan02 }
+dokan02_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2720EB4, colors: 16, symbol: dokan02_tlut }
+las_zyuu_01:
+  { type: TEXTURE, format: CI4, offset: 0x2720F04, width: 32, height: 32, tlut: 0x2721104, symbol: las_zyuu_01 }
+las_zyuu_01_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2721104, colors: 16, symbol: las_zyuu_01_tlut }
+las_kabe_05:
+  { type: TEXTURE, format: CI4, offset: 0x2721154, width: 64, height: 64, tlut: 0x2721954, symbol: las_kabe_05 }
+las_kabe_05_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2721954, colors: 16, symbol: las_kabe_05_tlut }
+las_kabe_06:
+  { type: TEXTURE, format: CI4, offset: 0x27219A4, width: 64, height: 64, tlut: 0x27221A4, symbol: las_kabe_06 }
+las_kabe_06_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27221A4, colors: 16, symbol: las_kabe_06_tlut }
+las_kabe_01:
+  { type: TEXTURE, format: CI4, offset: 0x27221F4, width: 32, height: 32, tlut: 0x27223F4, symbol: las_kabe_01 }
+las_kabe_01_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27223F4, colors: 16, symbol: las_kabe_01_tlut }
+las_kabe_02:
+  { type: TEXTURE, format: CI4, offset: 0x2722444, width: 32, height: 32, tlut: 0x2722644, symbol: las_kabe_02 }
+las_kabe_02_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2722644, colors: 16, symbol: las_kabe_02_tlut }
+las_kazari_01_1:
+  { type: TEXTURE, format: CI4, offset: 0x2722694, width: 16, height: 16, tlut: 0x2722714, symbol: las_kazari_01_1 }
+las_kazari_01_1_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2722714, colors: 16, symbol: las_kazari_01_1_tlut }
+las_kazari_01_2:
+  { type: TEXTURE, format: CI4, offset: 0x2722764, width: 64, height: 64, tlut: 0x2722F64, symbol: las_kazari_01_2 }
+las_kazari_01_2_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2722F64, colors: 16, symbol: las_kazari_01_2_tlut }
+las_kazari_02:
+  { type: TEXTURE, format: CI4, offset: 0x2722FB4, width: 64, height: 64, tlut: 0x27237B4, symbol: las_kazari_02 }
+las_kazari_02_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27237B4, colors: 16, symbol: las_kazari_02_tlut }
+las_glass_05:
+  { type: TEXTURE, format: CI4, offset: 0x2723804, width: 32, height: 64, tlut: 0x2723C04, symbol: las_glass_05 }
+las_glass_05_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2723C04, colors: 16, symbol: las_glass_05_tlut }
+tik_tn_kabe3tif:
+  { type: TEXTURE, format: I4, offset: 0x2723C54, width: 128, height: 32, symbol: tik_tn_kabe3tif }
+tik_tn_kabe3tif_aux:
+  { type: TEXTURE, format: I4, offset: 0x2724454, width: 128, height: 32, symbol: tik_tn_kabe3tif_aux }
+tik_t_yuka1tif:
+  { type: TEXTURE, format: CI4, offset: 0x2724C84, width: 32, height: 32, tlut: 0x2724E84, symbol: tik_t_yuka1tif }
+tik_t_yuka1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2724E84, colors: 16, symbol: tik_t_yuka1tif_tlut }

@@ -1,0 +1,4 @@
+title_logo:
+  { type: PM64:TITLE_DATA, offset: 0x2958D40, sub_offset: 8720, size: 0x15E00, symbol: title_logo, img_format: RGBA32, img_width: 200, img_height: 112 }
+title_copyright:
+  { type: PM64:TITLE_DATA, offset: 0x2958D40, sub_offset: 16, size: 0x1200, symbol: title_copyright, img_format: IA8, img_width: 144, img_height: 32 }

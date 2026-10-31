@@ -277,6 +277,7 @@ void btl_main_menu_destroy(void) {
     hud_element_free(HID_SwapZ);
     hud_element_free(HID_SwapArrowLeft);
     hud_element_free(HID_SwapArrowRight);
+    CALL_EVENT(OnBattleMenuDestroyed, BATTLE_MENU_WHEEL);
 }
 
 s32 btl_main_menu_update(void) {
@@ -285,6 +286,10 @@ s32 btl_main_menu_update(void) {
     s32 i;
     f32 x, y;
     s32 l, t;
+
+    {
+        CALL_EVENT(OnBattleMainMenuInput);
+    }
 
     switch (BattleMenuState) {
         case BTL_MENU_STATE_CREATE:
@@ -374,6 +379,9 @@ s32 btl_main_menu_update(void) {
             hud_element_set_render_pos(hid, 81, 210);
 
             HID_SwapArrowRight = hid = hud_element_create(&HES_SwapArrowRight);
+            {
+                CALL_EVENT(OnBattleMenuCreated, BATTLE_MENU_WHEEL);
+            }
             hud_element_set_render_depth(hid, 5);
             hud_element_clear_flags(hid, HUD_ELEMENT_FLAG_FILTER_TEX);
             hud_element_set_flags(hid, HUD_ELEMENT_FLAG_MANUAL_RENDER);
@@ -660,6 +668,7 @@ void btl_main_menu_draw(void) {
                     hud_element_set_alpha(hid, opacity);
                 }
                 hud_element_draw_clipped(hid);
+                CALL_EVENT(OnBattleMenuDrawEntry, BATTLE_MENU_WHEEL, i, x, y, opacity);
             }
 
             // draw the names for each option

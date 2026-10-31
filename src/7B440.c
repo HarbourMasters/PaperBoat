@@ -114,7 +114,7 @@ void reset_player_status(void) {
     playerStatus->flipYaw[CAM_TATTLE] = 0.0f;
     playerStatus->flipYaw[CAM_HUD] = 0.0f;
 
-    ASSERT_MSG(gGameStatusPtr->areaID < ARRAY_COUNT(gAreas) - 1, "Invalid area ID %d", gGameStatusPtr->areaID);
+    ASSERT_MSG(gGameStatusPtr->areaID < ARRAY_COUNT(gAreas) && gAreas[gGameStatusPtr->areaID].maps != nullptr, "Invalid area ID %d", gGameStatusPtr->areaID);
     AreaConfig* area = &gAreas[gGameStatusPtr->areaID];
     ASSERT_MSG(gGameStatusPtr->mapID < area->mapCount, "Invalid map ID %d in %s", gGameStatusPtr->mapID, area->id);
     mapSettings = area->maps[gGameStatusPtr->mapID].settings;

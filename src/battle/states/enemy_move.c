@@ -66,7 +66,9 @@ void btl_state_update_enemy_move(void) {
             if (!(enemy->flags & ACTOR_FLAG_NO_ATTACK)) {
                 reset_all_actor_sounds(enemy);
                 battleStatus->battlePhase = PHASE_EXECUTE_ACTION;
-                script = start_script(enemy->takeTurnSource, EVT_PRIORITY_A, 0);
+                EvtScript* takeTurnSource = enemy->takeTurnSource;
+                CALL_EVENT(OnEnemyTakeTurnScript, enemy, &takeTurnSource);
+                script = start_script(takeTurnSource, EVT_PRIORITY_A, 0);
                 enemy->takeTurnScript = script;
                 enemy->takeTurnScriptID = script->id;
                 script->owner1.actorID = battleStatus->activeEnemyActorID;
@@ -140,14 +142,20 @@ void btl_state_update_enemy_move(void) {
                 btl_set_state(BATTLE_STATE_END_DEMO_BATTLE);
             } else {
                 btl_update_ko_status();
-                if (player->statusAfflicted != 0) {
+                s32 afflictedStatus = player->statusAfflicted;
+                s32 camPreset = BTL_CAM_PLAYER_STATUS_AFFLICTED;
+                CALL_EVENT(OnStatusAfflictedNotice, player, partner, &afflictedStatus, &camPreset);
+                if (camPreset < BTL_CAM_RESET || camPreset > BTL_CAM_STAR_SPIRIT) {
+                    camPreset = BTL_CAM_PLAYER_STATUS_AFFLICTED;
+                }
+                if (afflictedStatus != 0) {
                     player->flags |= ACTOR_FLAG_SHOW_STATUS_ICONS | ACTOR_FLAG_USING_IDLE_ANIM;
                     if (partner != nullptr) {
                         partner->flags |= ACTOR_FLAG_SHOW_STATUS_ICONS | ACTOR_FLAG_USING_IDLE_ANIM;
                     }
-                    btl_cam_use_preset(BTL_CAM_PLAYER_STATUS_AFFLICTED);
+                    btl_cam_use_preset(camPreset);
 
-                    switch (player->statusAfflicted) {
+                    switch (afflictedStatus) {
                         case STATUS_KEY_DIZZY:
                             messageIndex = BTL_MSG_PLAYER_DAZED;
                             break;
@@ -234,6 +242,10 @@ void btl_state_update_enemy_move(void) {
     }
 
     if (gBattleSubState == BTL_SUBSTATE_DONE) {
+        enemy = get_actor(battleStatus->activeEnemyActorID);
+        if (enemy != nullptr) {
+            CALL_EVENT(OnStatusTick, enemy, STATUS_PHASE_ACTION_END);
+        }
         btl_set_state(BATTLE_STATE_NEXT_ENEMY);
     }
 }

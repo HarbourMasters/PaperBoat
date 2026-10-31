@@ -114,10 +114,22 @@ void ring_blast_appendGfx(void* effect) {
             }
         }
 
-        gDPSetPrimColor(gMainGfxPos++, 0, 0, var_f4 * 255.0f, var_f4 * 18.0f, var_f4 * 59.0f, 0);
-        gDPSetEnvColor(gMainGfxPos++, var_f4 * 255.0f, var_f4 * 53.0f, var_f4 * 24.0f, envAlpha);
-        gDPSetKeyR(gMainGfxPos++, var_f4 * 211.0f, 0, 0);
-        gDPSetKeyGB(gMainGfxPos++, var_f4 * 255.0f, 0, 0, var_f4 * 216.0f, 0, 0);
+        EffectColor color1 = { 255, 18, 59, 0 };
+        EffectColor color2 = { 255, 53, 24, envAlpha };
+        EffectColor color3 = { 211, 255, 216, 0 };
+        {
+            CALL_EVENT(OnEffectColor, EFFECT_RING_BLAST, (EffectInstance*)effect, 0, &color1);
+        }
+        {
+            CALL_EVENT(OnEffectColor, EFFECT_RING_BLAST, (EffectInstance*)effect, 1, &color2);
+        }
+        {
+            CALL_EVENT(OnEffectColor, EFFECT_RING_BLAST, (EffectInstance*)effect, 2, &color3);
+        }
+        gDPSetPrimColor(gMainGfxPos++, 0, 0, var_f4 * color1.r, var_f4 * color1.g, var_f4 * color1.b, color1.a);
+        gDPSetEnvColor(gMainGfxPos++, var_f4 * color2.r, var_f4 * color2.g, var_f4 * color2.b, color2.a);
+        gDPSetKeyR(gMainGfxPos++, var_f4 * color3.r, 0, 0);
+        gDPSetKeyGB(gMainGfxPos++, var_f4 * color3.g, 0, 0, var_f4 * color3.b, 0, 0);
         gDPSetCombineMode(gMainGfxPos++, PM_CC_4A, PM_CC_4B);
     } else {
         gDPSetCombineMode(gMainGfxPos++, PM_CC_4A, PM_CC_4C);

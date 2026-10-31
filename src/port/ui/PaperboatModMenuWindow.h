@@ -13,6 +13,14 @@ class PaperboatModMenuWindow : public Ship::GuiWindow {
     void DrawElement() override;
     void UpdateElement() override {};
 };
+class PaperboatRomhackMenuWindow : public Ship::GuiWindow {
+  public:
+    using GuiWindow::GuiWindow;
+
+    void InitElement() override;
+    void DrawElement() override;
+    void UpdateElement() override {};
+};
 void UpdateModFiles(bool init = false, bool reset = false);
 void EnableMod(std::string file);
 void DisableMod(std::string file);

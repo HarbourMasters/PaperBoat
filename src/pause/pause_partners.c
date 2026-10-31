@@ -397,6 +397,10 @@ void pause_partners_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 wid
             pause_draw_menu_label(PAUSE_LBL_ABILITIES, 18, 158);
         }
     }
+    {
+        ModPanelDraw overlay = { menu, baseX, baseY, width, height, opacity, darkening };
+        CALL_EVENT(OnPausePartnersOverlay, &overlay, gPausePartnersPartnerIDs[gPausePartnersPartnerIdx[gPausePartnersCurrentPartnerIdx]]);
+    }
 
     x1 = baseX + 130;
     y1 = baseY + 24;

@@ -1,0 +1,8 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+dokan02:
+  { type: TEXTURE, format: CI4, offset: 0x28CA490, width: 32, height: 32, tlut: 0x28CA690, symbol: dokan02 }
+dokan02_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x28CA690, colors: 16, symbol: dokan02_tlut }

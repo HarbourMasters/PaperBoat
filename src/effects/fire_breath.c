@@ -200,8 +200,16 @@ void fire_breath_appendGfx(void* effect) {
     }
 
     gSPDisplayList(gMainGfxPos++, dlist2);
-    gDPSetPrimColor(gMainGfxPos++, 0, 0, data->primR, data->primG, data->primB, data->alpha);
-    gDPSetEnvColor(gMainGfxPos++, data->envR, data->envG, data->envB, envAlpha);
+    EffectColor body = { data->primR, data->primG, data->primB, data->alpha };
+    {
+        CALL_EVENT(OnEffectColor, EFFECT_FIRE_BREATH, (EffectInstance*)effect, 0, &body);
+    }
+    gDPSetPrimColor(gMainGfxPos++, 0, 0, body.r, body.g, body.b, body.a);
+    EffectColor outline = { data->envR, data->envG, data->envB, envAlpha };
+    {
+        CALL_EVENT(OnEffectColor, EFFECT_FIRE_BREATH, (EffectInstance*)effect, 1, &outline);
+    }
+    gDPSetEnvColor(gMainGfxPos++, outline.r, outline.g, outline.b, outline.a);
     gDPSetTileSize(gMainGfxPos++, G_TX_RENDERTILE, ((imgFrame * 32) + 0)  * 4, 0, ((imgFrame * 32) + 32) * 4, 128);
     gDPSetTileSize(gMainGfxPos++, 1,               ((imgFrame * 32) + 32) * 4, 0, ((imgFrame * 32) + 64) * 4, 128);
 

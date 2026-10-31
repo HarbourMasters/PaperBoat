@@ -1,4 +1,5 @@
 #include "PaperboatMenu.h"
+#include "port/Engine.h"
 
 namespace PaperboatGui {
 
@@ -155,15 +156,15 @@ void PaperboatMenu::AddMenuEnhancements() {
     AddSidebarEntry("Enhancements", path.sidebarName, 2);
 
     auto hideWithoutBackground = [](WidgetInfo& info) {
-        info.isHidden = !CVarGetInteger(CVAR_ENHANCEMENT("StatusBar.ShowBackground"), 1);
+        info.isHidden = !Port_FeatureInt("graphics.status_bar.show.background", 1);
     };
     auto hideUnlessShaded = [](WidgetInfo& info) {
-        info.isHidden = !CVarGetInteger(CVAR_ENHANCEMENT("StatusBar.ShowBackground"), 1)
-            || CVarGetInteger(CVAR_ENHANCEMENT("StatusBar.FlatColor"), 0);
+        info.isHidden = !Port_FeatureInt("graphics.status_bar.show.background", 1)
+            || Port_FeatureInt("graphics.status_bar.flat_color", 0);
     };
     auto hideUnlessFlat = [](WidgetInfo& info) {
-        info.isHidden = !CVarGetInteger(CVAR_ENHANCEMENT("StatusBar.ShowBackground"), 1)
-            || !CVarGetInteger(CVAR_ENHANCEMENT("StatusBar.FlatColor"), 0);
+        info.isHidden = !Port_FeatureInt("graphics.status_bar.show.background", 1)
+            || !Port_FeatureInt("graphics.status_bar.flat_color", 0);
     };
 
     AddWidget(path, "Layout", WIDGET_SEPARATOR_TEXT);
@@ -275,6 +276,7 @@ void PaperboatMenu::AddMenuEnhancements() {
     AddWidget(path, "Reset", WIDGET_SEPARATOR_TEXT);
 
     AddWidget(path, "Reset Status Bar", WIDGET_BUTTON)
+        .Feature("graphics.status_bar.reset")
         .Callback([](WidgetInfo& info) {
             // Clearing a block reloads every CVar from disk, so flush pending changes elsewhere first
             CVarSave();

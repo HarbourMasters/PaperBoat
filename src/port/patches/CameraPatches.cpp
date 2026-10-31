@@ -138,7 +138,7 @@ static f32 cam_get_display_aspect(s32 camID, Camera* camera) {
 // FULL HEIGHT VIEW
 
 static bool cam_full_height_enabled(void) {
-    return CVarGetInteger(CVAR_ENHANCEMENT("Graphics.FullHeightView"), 0) != 0 && !cam_demo_active();
+    return Port_FeatureInt("graphics.full_height_view", 0) != 0 && !cam_demo_active();
 }
 
 static bool cam_is_full_height_rect(s32 x, s32 y, s32 w, s32 h) {
@@ -212,7 +212,7 @@ static void RegisterCameraPatches_Init() {
     REGISTER_LISTENER(BattleMenuDrawReel, EVENT_PRIORITY_NORMAL, [](IEvent* event) {
         auto* ev = (BattleMenuDrawReel*) event;
 
-        if (!cam_view_is_widened() || !CVarGetInteger(CVAR_ENHANCEMENT("Graphics.RoundedReel"), 0)) {
+        if (!cam_view_is_widened() || !Port_FeatureInt("graphics.rounded_reel", 0)) {
             return;
         }
 

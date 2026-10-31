@@ -598,6 +598,11 @@ void pause_stats_draw_contents(MenuPanel* menu, s32 baseX, s32 baseY, s32 width,
 void pause_stats_init(MenuPanel* panel) {
     s32 i;
 
+    {
+        PauseStatsView view = { gPauseStatsIconIDs, ARRAY_COUNT(gPauseStatsIconIDs) };
+        CALL_EVENT(OnPauseStatsView, &view);
+    }
+
     for (i = 0; i < ARRAY_COUNT(gPauseStatsIconIDs); i++) {
         gPauseStatsIconIDs[i] = hud_element_create(gStatsMenuElements[i]);
         hud_element_set_flags(gPauseStatsIconIDs[i], HUD_ELEMENT_FLAG_MANUAL_RENDER);

@@ -1945,7 +1945,12 @@ void update_item_entity_collectable(ItemEntity* item) {
                         fx_recover(0, playerStatus->pos.x, playerStatus->pos.y + playerStatus->colliderHeight, playerStatus->pos.z, 1);
                         sfx_play_sound_at_position(SOUND_RECOVER, SOUND_SPACE_DEFAULT, item->pos.x, item->pos.y, item->pos.z);
                     }
-                    playerData->curHP++;
+                    {
+                        s32 delta = 1;
+                        CALL_CANCELLABLE_EVENT(OnActorHpChange, nullptr, HP_SOURCE_FIELD_HEART, &delta) {
+                            playerData->curHP += delta;
+                        }
+                    }
                     if (playerData->curHP > playerData->curMaxHP) {
                         playerData->curHP = playerData->curMaxHP;
                     }
@@ -2130,13 +2135,15 @@ void update_item_entity_pickup(ItemEntity* item) {
 
             if (!(item->flags & ITEM_ENTITY_FLAG_2000000)) {
                 if (gItemTable[item->itemID].typeFlags & ITEM_TYPE_FLAG_CONSUMABLE) {
-                    for (i = 0; i < ARRAY_COUNT(playerData->invItems); i++) {
+                    s32 capacity = get_consumables_capacity();
+
+                    for (i = 0; i < capacity; i++) {
                         if (playerData->invItems[i] == ITEM_NONE) {
                             break;
                         }
                     }
 
-                    if (i < ARRAY_COUNT(playerData->invItems)) {
+                    if (i < capacity) {
                         playerData->invItems[i] = item->itemID;
                     } else {
                         item->state = ITEM_PICKUP_STATE_SHOW_TOO_MANY;
@@ -2358,7 +2365,8 @@ block_47: // TODO required to match
                 menu->descMsg[numEntries] = itemData->shortDescMsg;
                 numEntries++;
                 // add player inventory to menu
-                for (i = 0; i < ARRAY_COUNT(playerData->invItems); i++) {
+                s32 capacity = get_consumables_capacity();
+                for (i = 0; i < capacity && numEntries < ARRAY_COUNT(menu->ptrIcon); i++) {
                     if (playerData->invItems[i] != ITEM_NONE) {
                         itemData = &gItemTable[playerData->invItems[i]];
                         menu->ptrIcon[numEntries] = gItemHudScripts[itemData->hudElemID].enabled;

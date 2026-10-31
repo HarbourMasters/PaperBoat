@@ -192,6 +192,7 @@ s32 dispatch_damage_event_actor_0(Actor* actor, s32 damageAmount, s32 event);
 // Text
 MessagePrintState* msg_get_printer_for_msg(intptr_t msgID, bool* donePrintingWriteback);
 MessagePrintState* _msg_get_printer_for_msg(intptr_t msgID, bool* donePrintingWriteback, s32 arg2);
+MessagePrintState* msg_get_printer_by_index(s32 index);
 s32 msg_printer_load_msg(intptr_t msgID, MessagePrintState* printer);
 void msg_printer_set_origin_pos(MessagePrintState* msgPrintState, s32 x, s32 y);
 
@@ -270,6 +271,8 @@ Bytecode evt_set_variable(Evt* script, Bytecode var, Bytecode value);
 f32 evt_get_float_variable(Evt* script, Bytecode var);
 f32 evt_set_float_variable(Evt* script, Bytecode var, f32 value);
 s32 evt_get_variable_index(Evt* script, s32 var);
+Bytecode evt_buffer_next(Evt* script);
+Bytecode evt_buffer_at(Evt* script, s32 index);
 void set_script_timescale(Evt* script, f32 timescale);
 f32 sin_deg(f32 x);
 f32 cos_deg(f32 x);

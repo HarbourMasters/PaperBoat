@@ -1,0 +1,326 @@
+:config:
+  segments:
+    - [0x01, 0x01000000]
+
+arn_05_shape:
+  { type: PM64:SHAPE, offset: 0x2223DB0, symbol: arn_05_shape }
+arn_20_shape:
+  { type: PM64:SHAPE, offset: 0x22378D0, symbol: arn_20_shape }
+dro_02_shape:
+  { type: PM64:SHAPE, offset: 0x20C0EBA, symbol: dro_02_shape }
+flo_00_shape:
+  { type: PM64:SHAPE, offset: 0x23C7788, symbol: flo_00_shape }
+flo_14_shape:
+  { type: PM64:SHAPE, offset: 0x23EFA1A, symbol: flo_14_shape }
+flo_15_shape:
+  { type: PM64:SHAPE, offset: 0x23F4594, symbol: flo_15_shape }
+flo_19_shape:
+  { type: PM64:SHAPE, offset: 0x2407834, symbol: flo_19_shape }
+flo_22_shape:
+  { type: PM64:SHAPE, offset: 0x240EA3A, symbol: flo_22_shape }
+flo_23_shape:
+  { type: PM64:SHAPE, offset: 0x2412CCE, symbol: flo_23_shape }
+hos_01_shape:
+  { type: PM64:SHAPE, offset: 0x1FC61CE, symbol: hos_01_shape }
+hos_03_shape:
+  { type: PM64:SHAPE, offset: 0x1FD1558, symbol: hos_03_shape }
+hos_04_shape:
+  { type: PM64:SHAPE, offset: 0x1FE0C44, symbol: hos_04_shape }
+hos_06_shape:
+  { type: PM64:SHAPE, offset: 0x1FF1F4A, symbol: hos_06_shape }
+isk_07_shape:
+  { type: PM64:SHAPE, offset: 0x21460AA, symbol: isk_07_shape }
+isk_10_shape:
+  { type: PM64:SHAPE, offset: 0x215680A, symbol: isk_10_shape }
+iwa_00_shape:
+  { type: PM64:SHAPE, offset: 0x2088F28, symbol: iwa_00_shape }
+iwa_03_shape:
+  { type: PM64:SHAPE, offset: 0x2098884, symbol: iwa_03_shape }
+iwa_10_shape:
+  { type: PM64:SHAPE, offset: 0x20A3456, symbol: iwa_10_shape }
+iwa_11_shape:
+  { type: PM64:SHAPE, offset: 0x20AA8CA, symbol: iwa_11_shape }
+jan_00_shape:
+  { type: PM64:SHAPE, offset: 0x22FCC4C, symbol: jan_00_shape }
+jan_02_shape:
+  { type: PM64:SHAPE, offset: 0x2305E3E, symbol: jan_02_shape }
+jan_03_shape:
+  { type: PM64:SHAPE, offset: 0x230F3CC, symbol: jan_03_shape }
+jan_07_shape:
+  { type: PM64:SHAPE, offset: 0x232C2FA, symbol: jan_07_shape }
+jan_10_shape:
+  { type: PM64:SHAPE, offset: 0x233897E, symbol: jan_10_shape }
+jan_11_shape:
+  { type: PM64:SHAPE, offset: 0x233B80C, symbol: jan_11_shape }
+jan_13_shape:
+  { type: PM64:SHAPE, offset: 0x2343000, symbol: jan_13_shape }
+jan_16_shape:
+  { type: PM64:SHAPE, offset: 0x234BA66, symbol: jan_16_shape }
+jan_22_shape:
+  { type: PM64:SHAPE, offset: 0x2358BFA, symbol: jan_22_shape }
+kkj_16_shape:
+  { type: PM64:SHAPE, offset: 0x1F75F6A, symbol: kkj_16_shape }
+kkj_18_shape:
+  { type: PM64:SHAPE, offset: 0x1F82AC8, symbol: kkj_18_shape }
+kkj_24_shape:
+  { type: PM64:SHAPE, offset: 0x1F9B2FA, symbol: kkj_24_shape }
+kkj_27_shape:
+  { type: PM64:SHAPE, offset: 0x1FA8670, symbol: kkj_27_shape }
+kmr_00_shape:
+  { type: PM64:SHAPE, offset: 0x1E481D8, symbol: kmr_00_shape }
+kmr_02_shape:
+  { type: PM64:SHAPE, offset: 0x1E4ABFE, symbol: kmr_02_shape }
+kmr_03_shape:
+  { type: PM64:SHAPE, offset: 0x1E5611A, symbol: kmr_03_shape }
+kpa_01_shape:
+  { type: PM64:SHAPE, offset: 0x24C8318, symbol: kpa_01_shape }
+kpa_03_shape:
+  { type: PM64:SHAPE, offset: 0x24D0578, symbol: kpa_03_shape }
+kpa_12_shape:
+  { type: PM64:SHAPE, offset: 0x24F28A6, symbol: kpa_12_shape }
+kpa_130_shape:
+  { type: PM64:SHAPE, offset: 0x2589864, symbol: kpa_130_shape }
+kpa_133_shape:
+  { type: PM64:SHAPE, offset: 0x2591D7E, symbol: kpa_133_shape }
+kpa_134_shape:
+  { type: PM64:SHAPE, offset: 0x2595BF0, symbol: kpa_134_shape }
+kpa_17_shape:
+  { type: PM64:SHAPE, offset: 0x2516762, symbol: kpa_17_shape }
+kpa_40_shape:
+  { type: PM64:SHAPE, offset: 0x2525294, symbol: kpa_40_shape }
+kpa_61_shape:
+  { type: PM64:SHAPE, offset: 0x2545A56, symbol: kpa_61_shape }
+kpa_63_shape:
+  { type: PM64:SHAPE, offset: 0x25513EA, symbol: kpa_63_shape }
+kzn_03_shape:
+  { type: PM64:SHAPE, offset: 0x238B356, symbol: kzn_03_shape }
+mac_00_shape:
+  { type: PM64:SHAPE, offset: 0x1EAA60A, symbol: mac_00_shape }
+mac_01_shape:
+  { type: PM64:SHAPE, offset: 0x1EB7044, symbol: mac_01_shape }
+mac_02_shape:
+  { type: PM64:SHAPE, offset: 0x1EC2062, symbol: mac_02_shape }
+mac_04_shape:
+  { type: PM64:SHAPE, offset: 0x1ED21A0, symbol: mac_04_shape }
+mac_05_shape:
+  { type: PM64:SHAPE, offset: 0x1EDB9DA, symbol: mac_05_shape }
+mim_03_shape:
+  { type: PM64:SHAPE, offset: 0x2196964, symbol: mim_03_shape }
+mim_10_shape:
+  { type: PM64:SHAPE, offset: 0x21C9AD0, symbol: mim_10_shape }
+nok_01_shape:
+  { type: PM64:SHAPE, offset: 0x200CA30, symbol: nok_01_shape }
+nok_02_shape:
+  { type: PM64:SHAPE, offset: 0x2015D0A, symbol: nok_02_shape }
+nok_11_shape:
+  { type: PM64:SHAPE, offset: 0x202C6D4, symbol: nok_11_shape }
+nok_12_shape:
+  { type: PM64:SHAPE, offset: 0x203078C, symbol: nok_12_shape }
+nok_13_shape:
+  { type: PM64:SHAPE, offset: 0x2037C2C, symbol: nok_13_shape }
+obk_01_shape:
+  { type: PM64:SHAPE, offset: 0x21E1A0C, symbol: obk_01_shape }
+obk_02_shape:
+  { type: PM64:SHAPE, offset: 0x21EAAAC, symbol: obk_02_shape }
+obk_05_shape:
+  { type: PM64:SHAPE, offset: 0x21F795C, symbol: obk_05_shape }
+obk_07_shape:
+  { type: PM64:SHAPE, offset: 0x21FDC26, symbol: obk_07_shape }
+obk_08_shape:
+  { type: PM64:SHAPE, offset: 0x220163A, symbol: obk_08_shape }
+omo_04_shape:
+  { type: PM64:SHAPE, offset: 0x22ACAE6, symbol: omo_04_shape }
+omo_05_shape:
+  { type: PM64:SHAPE, offset: 0x22B1E08, symbol: omo_05_shape }
+omo_09_shape:
+  { type: PM64:SHAPE, offset: 0x22C93E0, symbol: omo_09_shape }
+omo_11_shape:
+  { type: PM64:SHAPE, offset: 0x22D55D4, symbol: omo_11_shape }
+osr_01_shape:
+  { type: PM64:SHAPE, offset: 0x25C21A2, symbol: osr_01_shape }
+osr_02_shape:
+  { type: PM64:SHAPE, offset: 0x25C62F4, symbol: osr_02_shape }
+sam_06_shape:
+  { type: PM64:SHAPE, offset: 0x245C3C4, symbol: sam_06_shape }
+sam_07_shape:
+  { type: PM64:SHAPE, offset: 0x2468292, symbol: sam_07_shape }
+sam_11_shape:
+  { type: PM64:SHAPE, offset: 0x2476D6E, symbol: sam_11_shape }
+sbk_02_shape:
+  { type: PM64:SHAPE, offset: 0x20D5AAC, symbol: sbk_02_shape }
+tik_02_shape:
+  { type: PM64:SHAPE, offset: 0x1EF682E, symbol: tik_02_shape }
+tik_03_shape:
+  { type: PM64:SHAPE, offset: 0x1EF8F32, symbol: tik_03_shape }
+tik_05_shape:
+  { type: PM64:SHAPE, offset: 0x1F00662, symbol: tik_05_shape }
+tik_08_shape:
+  { type: PM64:SHAPE, offset: 0x1F08CC2, symbol: tik_08_shape }
+tik_09_shape:
+  { type: PM64:SHAPE, offset: 0x1F0C36A, symbol: tik_09_shape }
+tik_10_shape:
+  { type: PM64:SHAPE, offset: 0x1F0F66C, symbol: tik_10_shape }
+tik_12_shape:
+  { type: PM64:SHAPE, offset: 0x1F11876, symbol: tik_12_shape }
+tik_15_shape:
+  { type: PM64:SHAPE, offset: 0x1F15444, symbol: tik_15_shape }
+tik_17_shape:
+  { type: PM64:SHAPE, offset: 0x1F1755C, symbol: tik_17_shape }
+tik_23_shape:
+  { type: PM64:SHAPE, offset: 0x1F25448, symbol: tik_23_shape }
+trd_00_shape:
+  { type: PM64:SHAPE, offset: 0x2057530, symbol: trd_00_shape }
+trd_03_shape:
+  { type: PM64:SHAPE, offset: 0x206542A, symbol: trd_03_shape }
+kmr_31_shape:
+  { type: PM64:SHAPE, offset: 0x1E8D256, symbol: kmr_31_shape }
+kmr_32_shape:
+  { type: PM64:SHAPE, offset: 0x1E96134, symbol: kmr_32_shape }
+kmr_33_shape:
+  { type: PM64:SHAPE, offset: 0x1E973CA, symbol: kmr_33_shape }
+kmr_34_shape:
+  { type: PM64:SHAPE, offset: 0x1E9A0BC, symbol: kmr_34_shape }
+mac_07_shape:
+  { type: PM64:SHAPE, offset: 0x1EEBA00, symbol: mac_07_shape }
+mac_08_shape:
+  { type: PM64:SHAPE, offset: 0x1EEF770, symbol: mac_08_shape }
+tik_27_shape:
+  { type: PM64:SHAPE, offset: 0x1F297A2, symbol: tik_27_shape }
+tik_28_shape:
+  { type: PM64:SHAPE, offset: 0x1F2AEF2, symbol: tik_28_shape }
+kkj_30_shape:
+  { type: PM64:SHAPE, offset: 0x1FBA8BE, symbol: kkj_30_shape }
+hos_25_shape:
+  { type: PM64:SHAPE, offset: 0x200367E, symbol: hos_25_shape }
+nok_05_shape:
+  { type: PM64:SHAPE, offset: 0x204A274, symbol: nok_05_shape }
+trd_11_shape:
+  { type: PM64:SHAPE, offset: 0x207C388, symbol: trd_11_shape }
+dro_03_shape:
+  { type: PM64:SHAPE, offset: 0x20C9F90, symbol: dro_03_shape }
+dro_04_shape:
+  { type: PM64:SHAPE, offset: 0x20CF7A6, symbol: dro_04_shape }
+isk_20_shape:
+  { type: PM64:SHAPE, offset: 0x217337A, symbol: isk_20_shape }
+isk_21_shape:
+  { type: PM64:SHAPE, offset: 0x2176848, symbol: isk_21_shape }
+mim_13_shape:
+  { type: PM64:SHAPE, offset: 0x21D8622, symbol: mim_13_shape }
+obk_10_shape:
+  { type: PM64:SHAPE, offset: 0x22081B6, symbol: obk_10_shape }
+obk_11_shape:
+  { type: PM64:SHAPE, offset: 0x220A0AA, symbol: obk_11_shape }
+obk_12_shape:
+  { type: PM64:SHAPE, offset: 0x220DD5A, symbol: obk_12_shape }
+obk_13_shape:
+  { type: PM64:SHAPE, offset: 0x220F572, symbol: obk_13_shape }
+obk_14_shape:
+  { type: PM64:SHAPE, offset: 0x220FBC8, symbol: obk_14_shape }
+arn_21_shape:
+  { type: PM64:SHAPE, offset: 0x223BB72, symbol: arn_21_shape }
+arn_22_shape:
+  { type: PM64:SHAPE, offset: 0x223D880, symbol: arn_22_shape }
+arn_23_shape:
+  { type: PM64:SHAPE, offset: 0x223FC90, symbol: arn_23_shape }
+arn_24_shape:
+  { type: PM64:SHAPE, offset: 0x2241E50, symbol: arn_24_shape }
+arn_bt07_shape:
+  { type: PM64:SHAPE, offset: 0x224F51C, symbol: arn_bt07_shape }
+omo_18_shape:
+  { type: PM64:SHAPE, offset: 0x22EBE52, symbol: omo_18_shape }
+omo_19_shape:
+  { type: PM64:SHAPE, offset: 0x22EF02C, symbol: omo_19_shape }
+jan_24_shape:
+  { type: PM64:SHAPE, offset: 0x2362478, symbol: jan_24_shape }
+jan_25_shape:
+  { type: PM64:SHAPE, offset: 0x236826A, symbol: jan_25_shape }
+jan_26_shape:
+  { type: PM64:SHAPE, offset: 0x236C594, symbol: jan_26_shape }
+jan_27_shape:
+  { type: PM64:SHAPE, offset: 0x237440A, symbol: jan_27_shape }
+jan_bt05_shape:
+  { type: PM64:SHAPE, offset: 0x2380C30, symbol: jan_bt05_shape }
+flo_26_shape:
+  { type: PM64:SHAPE, offset: 0x241F774, symbol: flo_26_shape }
+flo_27_shape:
+  { type: PM64:SHAPE, offset: 0x242628A, symbol: flo_27_shape }
+flo_28_shape:
+  { type: PM64:SHAPE, offset: 0x242B2E0, symbol: flo_28_shape }
+flo_bt07_shape:
+  { type: PM64:SHAPE, offset: 0x2438C92, symbol: flo_bt07_shape }
+sam_13_shape:
+  { type: PM64:SHAPE, offset: 0x248961E, symbol: sam_13_shape }
+kpa_135_shape:
+  { type: PM64:SHAPE, offset: 0x259F19E, symbol: kpa_135_shape }
+kpa_136_shape:
+  { type: PM64:SHAPE, offset: 0x25A185E, symbol: kpa_136_shape }
+kpa_137_shape:
+  { type: PM64:SHAPE, offset: 0x25A3EF8, symbol: kpa_137_shape }
+kpa_138_shape:
+  { type: PM64:SHAPE, offset: 0x25A84A0, symbol: kpa_138_shape }
+kpa_139_shape:
+  { type: PM64:SHAPE, offset: 0x25AAA48, symbol: kpa_139_shape }
+kpa_140_shape:
+  { type: PM64:SHAPE, offset: 0x25ACEFC, symbol: kpa_140_shape }
+pit_00_shape:
+  { type: PM64:SHAPE, offset: 0x25F5F44, symbol: pit_00_shape }
+pit_01_shape:
+  { type: PM64:SHAPE, offset: 0x25F724A, symbol: pit_01_shape }
+pit_02_shape:
+  { type: PM64:SHAPE, offset: 0x25F80DC, symbol: pit_02_shape }
+pit_03_shape:
+  { type: PM64:SHAPE, offset: 0x25F8162, symbol: pit_03_shape }
+pit_04_shape:
+  { type: PM64:SHAPE, offset: 0x25F81E8, symbol: pit_04_shape }
+pit_05_shape:
+  { type: PM64:SHAPE, offset: 0x25F826E, symbol: pit_05_shape }
+pit_06_shape:
+  { type: PM64:SHAPE, offset: 0x25F82F4, symbol: pit_06_shape }
+pit_07_shape:
+  { type: PM64:SHAPE, offset: 0x25F837A, symbol: pit_07_shape }
+pit_08_shape:
+  { type: PM64:SHAPE, offset: 0x25F8400, symbol: pit_08_shape }
+pit_09_shape:
+  { type: PM64:SHAPE, offset: 0x25F8486, symbol: pit_09_shape }
+pit_10_shape:
+  { type: PM64:SHAPE, offset: 0x25F850C, symbol: pit_10_shape }
+pit_11_shape:
+  { type: PM64:SHAPE, offset: 0x25F8592, symbol: pit_11_shape }
+pit_12_shape:
+  { type: PM64:SHAPE, offset: 0x25F9A7E, symbol: pit_12_shape }
+pit_bt01_shape:
+  { type: PM64:SHAPE, offset: 0x25FD87E, symbol: pit_bt01_shape }
+pit_bt02_shape:
+  { type: PM64:SHAPE, offset: 0x25FE25E, symbol: pit_bt02_shape }
+tyd_00_shape:
+  { type: PM64:SHAPE, offset: 0x2600FAC, symbol: tyd_00_shape }
+tyd_01_shape:
+  { type: PM64:SHAPE, offset: 0x260B32C, symbol: tyd_01_shape }
+tyd_02_shape:
+  { type: PM64:SHAPE, offset: 0x260EB86, symbol: tyd_02_shape }
+tyd_03_shape:
+  { type: PM64:SHAPE, offset: 0x26118EA, symbol: tyd_03_shape }
+tyd_04_shape:
+  { type: PM64:SHAPE, offset: 0x2616FA2, symbol: tyd_04_shape }
+tyd_05_shape:
+  { type: PM64:SHAPE, offset: 0x261AE50, symbol: tyd_05_shape }
+tyd_06_shape:
+  { type: PM64:SHAPE, offset: 0x261F152, symbol: tyd_06_shape }
+tyd_07_shape:
+  { type: PM64:SHAPE, offset: 0x2625A88, symbol: tyd_07_shape }
+tyd_08_shape:
+  { type: PM64:SHAPE, offset: 0x2630408, symbol: tyd_08_shape }
+tyd_bt01_shape:
+  { type: PM64:SHAPE, offset: 0x2636738, symbol: tyd_bt01_shape }
+tyd_bt02_shape:
+  { type: PM64:SHAPE, offset: 0x2637EDC, symbol: tyd_bt02_shape }
+tyd_bt03_shape:
+  { type: PM64:SHAPE, offset: 0x2639CB4, symbol: tyd_bt03_shape }
+tyd_bt04_shape:
+  { type: PM64:SHAPE, offset: 0x263AE14, symbol: tyd_bt04_shape }
+tyd_bt05_shape:
+  { type: PM64:SHAPE, offset: 0x263CCE6, symbol: tyd_bt05_shape }
+tyd_bt06_shape:
+  { type: PM64:SHAPE, offset: 0x263DEF4, symbol: tyd_bt06_shape }
+tes_00_shape:
+  { type: PM64:SHAPE, offset: 0x263ED6A, symbol: tes_00_shape }

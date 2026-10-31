@@ -1,0 +1,4 @@
+banner_boots:
+  { type: TEXTURE, format: CI4, offset: 0x160570, width: 48, height: 16, symbol: pause_banner_boots_png }
+banner_hammer:
+  { type: TEXTURE, format: CI4, offset: 0x1608F0, width: 48, height: 16, symbol: pause_banner_hammer_png }

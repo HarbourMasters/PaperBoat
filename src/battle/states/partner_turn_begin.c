@@ -43,21 +43,37 @@ void btl_state_update_begin_partner_turn(void) {
             battleStatus->blockResult = BLOCK_RESULT_NONE;
             BattleSkipActorTurn = false;
             gBattleStatus.flags1 |= BS_FLAGS1_PARTNER_ACTING;
+            {
+                s32 inFront = !(gBattleStatus.flags1 & BS_FLAGS1_PLAYER_IN_BACK);
+                CALL_EVENT(OnTurnOrder, TURN_ORDER_PLAYER_IN_FRONT, &inFront);
+                if (inFront) {
+                    gBattleStatus.flags1 &= ~BS_FLAGS1_PLAYER_IN_BACK;
+                } else {
+                    gBattleStatus.flags1 |= BS_FLAGS1_PLAYER_IN_BACK;
+                }
+            }
             gBattleStatus.flags2 |= BS_FLAGS1_PLAYER_IN_BACK;
             partner->flags |= ACTOR_FLAG_SHOW_STATUS_ICONS;
 
             if (partner->koStatus != 0) {
-                partner->koDuration--;
-                BattleSkipActorTurn = true;
-                BattleStatusUpdateDelay = 20;
-                if (partner->koDuration > 0) {
-                    partner->disableEffect->data.disableX->koDuration = partner->koDuration;
-                } else {
-                    partner->koStatus = 0;
-                    dispatch_event_partner(EVENT_RECOVER_FROM_KO);
-                    partner->disableEffect->data.disableX->koDuration = 0;
-                    gBattleStatus.flags2 |= BS_FLAGS2_OVERRIDE_INACTIVE_PLAYER;
+                CALL_CANCELLABLE_EVENT(OnStatusTick, partner, STATUS_PHASE_PARTNER_TURN) {
+                    partner->koDuration--;
+                    BattleSkipActorTurn = true;
+                    BattleStatusUpdateDelay = 20;
+                    if (partner->koDuration > 0) {
+                        partner->disableEffect->data.disableX->koDuration = partner->koDuration;
+                    } else {
+                        partner->koStatus = 0;
+                        dispatch_event_partner(EVENT_RECOVER_FROM_KO);
+                        partner->disableEffect->data.disableX->koDuration = 0;
+                        gBattleStatus.flags2 |= BS_FLAGS2_OVERRIDE_INACTIVE_PLAYER;
+                    }
                 }
+            }
+            {
+                s32 skipTurn = BattleSkipActorTurn;
+                CALL_EVENT(OnTurnOrder, TURN_ORDER_SKIP_PARTNER_TURN, &skipTurn);
+                BattleSkipActorTurn = skipTurn;
             }
 
             for (i = 0; i < ARRAY_COUNT(battleStatus->enemyActors); i++) {

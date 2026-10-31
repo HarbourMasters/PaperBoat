@@ -275,19 +275,31 @@ s32 _update_message(MessagePrintState* printer) {
 
     cond = false;
     if (!(printer->stateFlags & MSG_STATE_FLAG_40)) {
+        s32 fastChars = 12;
+        s32 skip = false;
+        CALL_EVENT(OnMessageSpeed, printer, &fastChars, &skip);
+        if (fastChars < 1) {
+            fastChars = 1;
+        }
         if (!(printer->stateFlags & (MSG_STATE_FLAG_20 | MSG_STATE_FLAG_10))) {
             s32 buttons = BUTTON_A;
 
             switch (printer->windowState) {
-                case MSG_WINDOW_STATE_WAITING:
+                case MSG_WINDOW_STATE_WAITING: {
                     if (printer->stateFlags & MSG_STATE_FLAG_80000) {
                         buttons = BUTTON_A | BUTTON_C_DOWN;
                     }
-                    if ((buttons & gGameStatusPtr->pressedButtons[0]) || (gGameStatusPtr->curButtons[0] & BUTTON_B)) {
+                    u32 waitPressed = gGameStatusPtr->pressedButtons[0];
+                    u32 waitHeld = gGameStatusPtr->curButtons[0];
+                    if (skip) {
+                        waitPressed &= ~(BUTTON_A | BUTTON_C_DOWN);
+                        waitHeld |= BUTTON_B;
+                    }
+                    if ((buttons & waitPressed) || (waitHeld & BUTTON_B)) {
                         printer->windowState = MSG_WINDOW_STATE_PRINTING;
                         printer->curPrintDelay = 0;
                         printer->stateFlags |= MSG_STATE_FLAG_4;
-                        if (gGameStatusPtr->pressedButtons[0] & (BUTTON_A | BUTTON_C_DOWN)) {
+                        if (waitPressed & (BUTTON_A | BUTTON_C_DOWN)) {
                             cond = true;
                             sfx_play_sound_with_params(SOUND_MENU_NEXT, 0, 0, 0);
                         } else if (printer->srcBuffer[printer->srcBufferPos] != MSG_CHAR_READ_END) {
@@ -314,6 +326,7 @@ s32 _update_message(MessagePrintState* printer) {
                         sfx_play_sound_with_params(SOUND_MSG_REWIND, 0, 0, 0);
                     }
                     break;
+                }
                 case MSG_WINDOW_STATE_C:
                     if (gGameStatusPtr->pressedButtons[0] & BUTTON_B) {
                         printer->windowState = MSG_WINDOW_STATE_B;
@@ -420,14 +433,17 @@ s32 _update_message(MessagePrintState* printer) {
                     printer->windowState = MSG_WINDOW_STATE_PRINTING;
                     printer->curPrintDelay = 0;
                 } else if (printer->stateFlags & MSG_STATE_FLAG_PRINT_QUICKLY) {
-                    charsToPrint = 12;
+                    charsToPrint = fastChars;
                     printer->curPrintDelay = 0;
                 } else if (!(printer->stateFlags & MSG_STATE_FLAG_4)) {
-                    if (!(printer->stateFlags & (MSG_STATE_FLAG_20 | MSG_STATE_FLAG_10)) &&
-                        (gGameStatusPtr->curButtons[0] & BUTTON_A))
-                    {
-                        charsToPrint = 6;
-                        printer->curPrintDelay = 0;
+                    if (!(printer->stateFlags & (MSG_STATE_FLAG_20 | MSG_STATE_FLAG_10))) {
+                        if (skip) {
+                            charsToPrint = fastChars;
+                            printer->curPrintDelay = 0;
+                        } else if (gGameStatusPtr->curButtons[0] & BUTTON_A) {
+                            charsToPrint = 6;
+                            printer->curPrintDelay = 0;
+                        }
                     }
                 }
                 if ((printer->curPrintDelay == 0) || --printer->curPrintDelay == 0) {
@@ -1373,10 +1389,35 @@ void initialize_printer(MessagePrintState* printer, s32 arg1, s32 arg2) {
     printer->sizeScale = 1.0f;
 }
 
+static const u16 sMsgSectionSizes[] = {
+    ARRAY_COUNT(gMsgPaths_sec00), ARRAY_COUNT(gMsgPaths_sec01), ARRAY_COUNT(gMsgPaths_sec02),
+    ARRAY_COUNT(gMsgPaths_sec03), ARRAY_COUNT(gMsgPaths_sec04), ARRAY_COUNT(gMsgPaths_sec05),
+    ARRAY_COUNT(gMsgPaths_sec06), ARRAY_COUNT(gMsgPaths_sec07), ARRAY_COUNT(gMsgPaths_sec08),
+    ARRAY_COUNT(gMsgPaths_sec09), ARRAY_COUNT(gMsgPaths_sec0A), ARRAY_COUNT(gMsgPaths_sec0B),
+    ARRAY_COUNT(gMsgPaths_sec0C), ARRAY_COUNT(gMsgPaths_sec0D), ARRAY_COUNT(gMsgPaths_sec0E),
+    ARRAY_COUNT(gMsgPaths_sec0F), ARRAY_COUNT(gMsgPaths_sec10), ARRAY_COUNT(gMsgPaths_sec11),
+    ARRAY_COUNT(gMsgPaths_sec12), ARRAY_COUNT(gMsgPaths_sec13), ARRAY_COUNT(gMsgPaths_sec14),
+    ARRAY_COUNT(gMsgPaths_sec15), ARRAY_COUNT(gMsgPaths_sec16), ARRAY_COUNT(gMsgPaths_sec17),
+    ARRAY_COUNT(gMsgPaths_sec18), ARRAY_COUNT(gMsgPaths_sec19), ARRAY_COUNT(gMsgPaths_sec1A),
+    ARRAY_COUNT(gMsgPaths_sec1B), ARRAY_COUNT(gMsgPaths_sec1C), ARRAY_COUNT(gMsgPaths_sec1D),
+    ARRAY_COUNT(gMsgPaths_sec1E), ARRAY_COUNT(gMsgPaths_sec1F), ARRAY_COUNT(gMsgPaths_sec20),
+    ARRAY_COUNT(gMsgPaths_sec21), ARRAY_COUNT(gMsgPaths_sec22), ARRAY_COUNT(gMsgPaths_sec23),
+    ARRAY_COUNT(gMsgPaths_sec24), ARRAY_COUNT(gMsgPaths_sec25), ARRAY_COUNT(gMsgPaths_sec26),
+    ARRAY_COUNT(gMsgPaths_sec27), ARRAY_COUNT(gMsgPaths_sec28), ARRAY_COUNT(gMsgPaths_sec29),
+    ARRAY_COUNT(gMsgPaths_sec2A), ARRAY_COUNT(gMsgPaths_sec2B), ARRAY_COUNT(gMsgPaths_sec2C),
+    ARRAY_COUNT(gMsgPaths_sec2D), ARRAY_COUNT(gMsgPaths_sec2E),
+};
+
 static u8* load_msg_asset(u32 msgID) {
     u32 section = msgID >> 16;
     u32 index = msgID & 0xFFFF;
-    return (u8*)LOAD_ASSET(gMsgSectionPaths[section][index]);
+    u8* data = nullptr;
+
+    if (section < ARRAY_COUNT(sMsgSectionSizes) && index < sMsgSectionSizes[section]) {
+        data = (u8*)LOAD_ASSET(gMsgSectionPaths[section][index]);
+    }
+    CALL_EVENT(OnMessageLoad, msgID, &data);
+    return data;
 }
 
 s8* load_message_to_buffer(s32 msgID) {
@@ -1428,6 +1469,7 @@ MessagePrintState* _msg_get_printer_for_msg(intptr_t msgID, bool* donePrintingWr
             printer->srcBuffer = srcBuffer;
             printer->msgID = msgID;
             printer->stateFlags |= MSG_STATE_FLAG_2;
+            CALL_EVENT(OnMessageOpen, printer);
             get_msg_properties(msgID, &height, &width, &maxLineChars, &numLines, &maxLinesPerPage, nullptr, 0);
             printer->msgHeight = height;
             printer->msgWidth = width;
@@ -2276,4 +2318,11 @@ void draw_number(s32 value, s32 x, s32 y, s32 charset, s32 palette, s32 opacity,
         }
     }
     gDPPipeSync(gMainGfxPos++);
+}
+
+MessagePrintState* msg_get_printer_by_index(s32 index) {
+    if (index < 0 || index >= ARRAY_COUNT(gMessagePrinters)) {
+        return nullptr;
+    }
+    return &gMessagePrinters[index];
 }

@@ -3,6 +3,7 @@
 #include <string.h>
 #include "dx/versioning.h"
 #include "dx/config.h"
+#include "port/Engine.h"
 
 typedef struct SaveInfo {
     /* 0x08 */ s32 slot;
@@ -201,10 +202,7 @@ void fio_save_game(s32 saveSlot) {
 
     strcpy(gCurrentSaveFile.magicString, MagicSaveString);
 
-    // adding 1 accounts for null terminator
-    ASSERT(1 + strlen(DX_MOD_NAME) < ARRAY_COUNT(gCurrentSaveFile.modName));
-
-    strcpy(gCurrentSaveFile.modName, DX_MOD_NAME);
+    Port_CopyModName(gCurrentSaveFile.modName);
     gCurrentSaveFile.majorVersion = DX_MOD_VER_MAJOR;
     gCurrentSaveFile.minorVersion = DX_MOD_VER_MINOR;
     gCurrentSaveFile.patchVersion = DX_MOD_VER_PATCH;
