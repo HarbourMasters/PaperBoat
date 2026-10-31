@@ -27,7 +27,7 @@ API_CALLABLE(TTYD64_tp_ShowShopInventory);
 API_CALLABLE(TTYD64_tp_GetVarFromVar);
 API_CALLABLE(TTYD64_tp_SetVarFromVar);
 API_CALLABLE(TTYD64_tp_TerritoryWrite);
-API_CALLABLE(TTYD64_tp_PitNpcsRead);
+API_CALLABLE(TTYD64_tp_PitNpcsSelect);
 API_CALLABLE(TTYD64_tp_PitGroupWrite);
 API_CALLABLE(TTYD64_tp_TransformFoliage);
 API_CALLABLE(TTYD64_tp_kzn_03_PiranhaPlantAI_Main);

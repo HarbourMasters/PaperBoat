@@ -11,6 +11,7 @@
 #define TTYD64_TP_NPCS_TABLE_MAX 16
 
 extern IconHudScriptPair gItemHudScripts[];
+extern NpcGroupList TTYD64_imp_Pit_NpcGroupList_pit;
 
 static TTYD64_PitNpcsEntry* sNpcsTables[TTYD64_TP_NPCS_TABLE_MAX];
 static s32 sNpcsTableCounts[TTYD64_TP_NPCS_TABLE_MAX];
@@ -170,23 +171,29 @@ API_CALLABLE(TTYD64_tp_TerritoryWrite) {
     return ApiStatus_DONE2;
 }
 
-API_CALLABLE(TTYD64_tp_PitNpcsRead) {
+API_CALLABLE(TTYD64_tp_PitNpcsSelect) {
     Bytecode* args = script->ptrReadPos;
-    u8* ptr = (u8*) evt_get_variable(script, args[0]);
-    s32 offset = evt_get_variable(script, args[3]);
-    Bytecode value = 0;
+    TTYD64_PitNpcsEntry* table = (TTYD64_PitNpcsEntry*) evt_get_variable(script, args[0]);
+    s32 index = evt_get_variable(script, args[1]);
+    NpcGroup* group = (NpcGroup*) TTYD64_imp_Pit_NpcGroupList_pit;
 
     for (s32 i = 0; i < sNpcsTableCount; i++) {
-        u8* base = (u8*) sNpcsTables[i];
-        intptr_t rel = ptr - base;
-
-        if (rel >= 0 && rel % 8 == 0 && rel / 8 < sNpcsTableCounts[i]) {
-            TTYD64_PitNpcsEntry* entry = &sNpcsTables[i][rel / 8];
-            value = offset == 0 ? entry->first : entry->second;
+        if (sNpcsTables[i] != table) {
+            continue;
+        }
+        if (index < 0 || index >= sNpcsTableCounts[i]) {
+            GameEngine_LogInfo("TTYD64: pit NPC index %d out of range", index);
             break;
         }
+        if ((uintptr_t) table[index].first > 0xFFFF) {
+            group = (NpcGroup*) table[index].first;
+        } else {
+            group->npcCount = table[index].first;
+            group->npcs = (NpcData*) table[index].second;
+        }
+        break;
     }
-    evt_set_variable(script, args[2], value);
+    evt_set_variable(script, args[2], (Bytecode) group);
     return ApiStatus_DONE2;
 }
 

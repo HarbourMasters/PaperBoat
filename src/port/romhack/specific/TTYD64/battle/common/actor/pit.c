@@ -329,18 +329,7 @@ EvtScript TTYD64_imp_Pit_Script_SpawnNpcs = {
     EndIf
     Sub(LVar1, 1)
     Set(LVar4, LVar1)
-    Set(LVar2, 8)
-    Mul(LVar2, LVar1)
-    Add(LVar0, LVar2)
-    Call(TTYD64_tp_PitNpcsRead, LVar0, 2, LVar1, 0, 0)
-    Call(TTYD64_tp_PitNpcsRead, LVar0, 2, LVar2, 4, 0)
-    IfGt(LVar1, 0xFFFF)
-        Set(LVarA, LVar1)
-    Else
-        Set(LVarA, (Bytecode) TTYD64_imp_Pit_NpcGroupList_pit)
-        Call(TTYD64_tp_PitGroupWrite, LVarA, 2, LVar1, 0, 0)
-        Call(TTYD64_tp_PitGroupWrite, LVarA, 2, LVar2, 4, 0)
-    EndIf
+    Call(TTYD64_tp_PitNpcsSelect, LVar0, LVar4, LVarA)
     Set(LVar2, AreaByte(0))
     Div(LVar2, 10)
     Set(LVar1, 48)
