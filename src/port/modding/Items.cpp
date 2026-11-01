@@ -173,6 +173,22 @@ extern "C" void Mod_SetItemIcon(
     ApplyItems();
 }
 
+std::string Mod::ItemOwner(int32_t itemID) {
+    const auto& slots = ItemSlots();
+    const auto it = slots.find(itemID);
+
+    if (it == slots.end()) {
+        return "";
+    }
+    if (!it->second.dataStack.Empty()) {
+        return it->second.dataStack.TopOwner();
+    }
+    if (!it->second.iconStack.Empty()) {
+        return it->second.iconStack.TopOwner();
+    }
+    return "";
+}
+
 void Mod::UnregisterItems(const std::string& owner) {
     bool changed = false;
     for (auto& [itemID, slot] : ItemSlots()) {

@@ -30,5 +30,6 @@ extern "C" void Mod_UnregisterOwner(const char* owner) {
     Mod::UnregisterPanels(name);
     Mod::UnregisterItemCapacity(name);
     Mod::UnregisterInputFrameListeners(name);
+    Mod::UnregisterSaveEditor(name);
     SPDLOG_INFO("Mod: unregistered everything {} registered", name);
 }
