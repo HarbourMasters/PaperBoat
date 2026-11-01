@@ -138,6 +138,8 @@ void step_game_loop(void) {
                     gGameStatus.healthBarsEnabled = true;
                     gGameStatus.altViewportOffset.x = -8;
                     gGameStatus.altViewportOffset.y = 4;
+                    clear_script_list();
+                    clear_worker_list();
                     set_game_mode(GAME_MODE_STARTUP);
                     gOverrideFlags &= ~GLOBAL_OVERRIDES_SOFT_RESET;
                 }
