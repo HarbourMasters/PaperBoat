@@ -62,8 +62,7 @@ jobs:
       # build the versions the other HarbourMasters ports use.
       - name: Install latest SDL
         run: |
-          if [ ! -f SDL2-2.30.3/Makefile.in ] || [ ! -x SDL2-2.30.3/configure ]; then
-            rm -rf SDL2-2.30.3
+          if [ ! -d "SDL2-2.30.3" ]; then
             wget -q https://www.libsdl.org/release/SDL2-2.30.3.tar.gz
             tar -xzf SDL2-2.30.3.tar.gz
             (cd SDL2-2.30.3 && ./configure --enable-hidapi-libusb && make -j$(nproc))
