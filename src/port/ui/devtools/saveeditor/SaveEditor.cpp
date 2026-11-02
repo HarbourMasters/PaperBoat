@@ -623,7 +623,7 @@ void SaveEditor_DrawImageButton(int32_t iconIndex, const char* itemType) {
         if (keyItemList.find(iconIndex) == keyItemList.end() && (iconIndex > 85 || iconIndex < 53)) {
             ImGui::SetTooltip("%s", GetNameFromPath(rasterPath));
         } else if (keyItemList.find(iconIndex) != keyItemList.end()) {
-            ImGui::SetTooltip("%s",keyItemList.find(iconIndex)->second);
+            ImGui::SetTooltip("%s", keyItemList.find(iconIndex)->second);
         } else if (iconIndex == ITEM_ARTIFACT) {
             ImGui::SetTooltip("%s", GetNameFromPath(rasterPath));
         } else {
