@@ -10,10 +10,8 @@
 #include "fast/interpreter.h"
 #include "fast/Fast3dWindow.h"
 #include "fast/Fast3dGui.h"
-
 #include "common_structs.h"
 #include "assets/ui.h"
-
 extern "C" {
 extern s32 get_global_byte(s32 index);
 extern s8 set_global_byte(s32 index, s32 value);
@@ -82,6 +80,22 @@ typedef struct {
     const char* kind;
     s32 flag;
 } StarPieceData;
+
+// Some Icons are identical and are otherwise confusing.
+// This map is to change the text in the menu for the given items.
+std::unordered_map<int32_t, const char*> keyItemList = {
+    { ITEM_NONE, "None" },
+    { ITEM_MAP, "Map" },
+    { ITEM_BIG_MAP, "Big Map" },
+    { ITEM_ODD_KEY, "Odd Key" },
+    { ITEM_KOOT_ALT_PHOTO, " Alt Photo" },
+    { ITEM_UNUSED_PEACH_KEY, "Unused Peach Key" },
+    { ITEM_WAREHOUSE_KEY, "Warehouse Key" },
+    { ITEM_PRISON_KEY, "Prison Key" },
+    { ITEM_UNUSED_PRISON_KEY_1, "Unused Prison Key 1" },
+    { ITEM_UNUSED_PRISON_KEY_2, "Unused Prison Key 2" },
+    { ITEM_UNUSED_PRISON_KEY_3, "Unused Prison Key 3" },
+};
 
 // Standalone letters Parakarry delivers, keyed by the flag set when the letter is picked up.
 // Delivering one only removes the key item, so "delivered" is picked up but no longer held.
@@ -580,6 +594,8 @@ void SaveEditor_DrawImageButton(int32_t iconIndex, const char* itemType) {
         hasItem = PlayerHasItem(iconIndex);
     } else if (itemType == "badge") {
         hasItem = PlayerHasBadge(iconIndex);
+    } else if (itemType == "key") {
+        hasItem = PlayerHasKeyItem(iconIndex);
     } else {
         hasItem = true;
     }
@@ -599,9 +615,30 @@ void SaveEditor_DrawImageButton(int32_t iconIndex, const char* itemType) {
         if (itemType == "inventory") {
             AddRemove_Item(iconIndex, true);
         }
+        if (itemType == "key") {
+            AddRemove_KeyItem(iconIndex, hasItem);
+        }
     }
     if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip("%s", GetNameFromPath(rasterPath));
+        if (keyItemList.find(iconIndex) == keyItemList.end() && (iconIndex > 85 || iconIndex < 53)) {
+            ImGui::SetTooltip("%s", GetNameFromPath(rasterPath));
+        } else if (keyItemList.find(iconIndex) != keyItemList.end()) {
+            ImGui::SetTooltip(keyItemList.find(iconIndex)->second);
+        } else if (iconIndex == ITEM_ARTIFACT) {
+            ImGui::SetTooltip("%s", GetNameFromPath(rasterPath));
+        } else {
+            for (int i = 0; i < letterList.size(); i++) {
+                if (letterList[i].itemID == iconIndex) {
+                    ImGui::SetTooltip(letterList[i].name);
+                    break;
+                } else if (chainLetterList[i].itemID == iconIndex) {
+                    ImGui::SetTooltip(chainLetterList[i].name);
+                    break;
+                } else {
+                    ImGui::SetTooltip("UnusedLetter");
+                }
+            }
+        }
     }
     SaveEditor_PopImageButtonStyle();
 }
@@ -625,7 +662,9 @@ void SaveEditor_DrawItemList(const char* itemType) {
                 {
                     continue;
                 }
-
+                if (itemType == "key" && i > ITEM_UNUSED_PRISON_KEY_3) {
+                    break;
+                }
                 ImGui::PushID(i);
                 ImGui::TableNextColumn();
                 SaveEditor_DrawImageButton(i, itemType);
@@ -1433,6 +1472,33 @@ void SaveEditor_DrawTattlesMenu() {
     }
 }
 
+void SaveEditor_DrawKeyItemsMenu() {
+    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
+    if (ImGui::BeginChild("ItemChild")) {
+        for (int i = 0; i < MAX_KEY_ITEM_SIZE; i++) {
+
+            ImGui::PushID(i);
+            if (gPlayerData.keyItems[i] == 0) {
+                SaveEditor_PushImageButtonStyle();
+                ImGui::ImageButton("Empty", gui->GetTextureByName(ui_battle_menu_nothing_png), itemImageSize);
+                SaveEditor_PopImageButtonStyle();
+            } else {
+                SaveEditor_DrawImageButton(gPlayerData.keyItems[i], "key");
+            }
+            ImGui::PopID();
+            if (i != (MAX_KEY_ITEM_SIZE / 2) - 1) {
+                ImGui::SameLine();
+            } else {
+                ImGui::NewLine();
+            }
+        }
+        ImGui::NewLine();
+        ImGui::SeparatorText("Available Items");
+        SaveEditor_DrawItemList("key");
+        ImGui::EndChild();
+    }
+}
+
 void SaveEditor_DrawTabBar() {
     UIWidgets::PushStyleTabs(WIDGET_COLOR);
     if (ImGui::BeginTabBar("SaveEditorTabBar")) {
@@ -1466,6 +1532,10 @@ void SaveEditor_DrawTabBar() {
         }
         if (ImGui::BeginTabItem("Tattles")) {
             SaveEditor_DrawTattlesMenu();
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Key Items")) {
+            SaveEditor_DrawKeyItemsMenu();
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();
