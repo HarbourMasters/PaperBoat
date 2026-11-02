@@ -629,10 +629,10 @@ void SaveEditor_DrawImageButton(int32_t iconIndex, const char* itemType) {
         } else {
             for (int i = 0; i < letterList.size(); i++) {
                 if (letterList[i].itemID == iconIndex) {
-                    ImGui::SetTooltip(letterList[i].name);
+                    ImGui::SetTooltip("%s", letterList[i].name);
                     break;
                 } else if (chainLetterList[i].itemID == iconIndex) {
-                    ImGui::SetTooltip(chainLetterList[i].name);
+                    ImGui::SetTooltip("%s", chainLetterList[i].name);
                     break;
                 } else {
                     ImGui::SetTooltip("UnusedLetter");
