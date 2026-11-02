@@ -22,6 +22,7 @@ void TTYD64_InstallBattlesNew(void);
 void TTYD64_InstallNewMaps(void);
 void TTYD64_InstallNewMapsTydPit(void);
 void TTYD64_InstallMaps(void);
+void TTYD64_InstallSaveEditor(void);
 
 #ifdef __cplusplus
 }

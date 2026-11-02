@@ -78,6 +78,7 @@ public:
         TTYD64_InstallNewMaps();
         TTYD64_InstallNewMapsTydPit();
         TTYD64_InstallMaps();
+        TTYD64_InstallSaveEditor();
     }
 };
 
