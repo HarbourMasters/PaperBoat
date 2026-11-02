@@ -118,6 +118,8 @@ struct WidgetInfo {
     bool sameLine = false;
     bool raceDisable = true;
     bool hideInSearch = false;
+    const char* feature = nullptr;
+    bool featureLocked = false;
 
     WidgetInfo& CVar(const char* cVar_) {
         cVar = cVar_;
@@ -216,6 +218,11 @@ struct WidgetInfo {
 
     WidgetInfo& HideInSearch(bool hide) {
         hideInSearch = hide;
+        return *this;
+    }
+
+    WidgetInfo& Feature(const char* feature_) {
+        feature = feature_;
         return *this;
     }
 

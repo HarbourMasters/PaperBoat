@@ -1,0 +1,8 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+isk_togetif:
+  { type: TEXTURE, format: CI4, offset: 0x26BC834, width: 32, height: 32, tlut: 0x26BCA34, symbol: isk_togetif }
+isk_togetif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26BCA34, colors: 16, symbol: isk_togetif_tlut }

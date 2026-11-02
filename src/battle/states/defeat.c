@@ -14,6 +14,8 @@ void btl_state_update_defeat(void) {
     Actor* partner = battleStatus->partnerActor;
     Evt* script;
 
+    CALL_CANCELLABLE_RETURN_EVENT(OnBattleStateUpdate, BATTLE_STATE_DEFEAT);
+
     switch (gBattleSubState) {
         case BTL_SUBSTATE_INIT:
             battleStatus->flags1 &= ~BS_FLAGS1_SHOW_PLAYER_DECORATIONS;

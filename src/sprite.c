@@ -676,7 +676,7 @@ void spr_component_update_commands(SpriteComponent* comp, SpriteAnimComponent* a
 }
 
 void spr_component_update_finish(SpriteComponent* comp, SpriteComponent** compList,
-                                 SpriteRasterCacheEntry** rasterCacheEntry, s32 overridePalette)
+                                 SpriteRasterCacheEntry** rasterCacheEntry, s32 overridePalette, s32 compIndex)
 {
     SpriteComponent* listComp;
     SpriteRasterCacheEntry* cache;
@@ -696,7 +696,9 @@ void spr_component_update_finish(SpriteComponent* comp, SpriteComponent** compLi
         if (comp->curRaster != -1) {
             cache = rasterCacheEntry[comp->curRaster];
             if (comp->curPalette == -1) {
-                comp->curPalette = cache->palette;
+                s32 palette = cache->palette;
+                CALL_EVENT(OnSpriteComponentPalette, compList, compIndex, overridePalette, &palette);
+                comp->curPalette = palette;
                 if (overridePalette != 0 && comp->curPalette == 0) {
                     comp->curPalette = overridePalette;
                 }
@@ -721,7 +723,8 @@ s32 spr_component_update(s32 curNotifyValue, SpriteComponent** compList, SpriteA
 
     compListIt = compList;
     while (*compListIt != PTR_LIST_END) {
-        spr_component_update_finish(*compListIt++, compList, rasterCache, overridePalette);
+        s32 compIndex = compListIt - compList;
+        spr_component_update_finish(*compListIt++, compList, rasterCache, overridePalette, compIndex);
     }
 
     return SpriteUpdateNotifyValue;
@@ -1016,7 +1019,9 @@ void spr_get_player_raster_info(SpriteRasterInfo* out, s32 playerSpriteID, s32 r
         cache = sprite->rastersOffset[rasterIndex];
         out->width = cache->width;
         out->height = cache->height;
-        out->defaultPal = paletteOffsetCopy[cache->palette];
+        s32 palette = cache->palette;
+        CALL_EVENT(OnPlayerRasterPalette, playerSpriteID + 1, rasterIndex, &palette);
+        out->defaultPal = paletteOffsetCopy[palette];
         out->raster = spr_get_player_raster(rasterIndex, playerSpriteID);
     }
 }

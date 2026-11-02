@@ -1,0 +1,12 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+nok_g_and_btif_bw:
+  { type: TEXTURE, format: CI4, offset: 0x26DD414, width: 16, height: 32, tlut: 0x26DD514, symbol: nok_g_and_btif_bw }
+nok_g_and_btif_bw_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26DD514, colors: 16, symbol: nok_g_and_btif_bw_tlut }
+dokan02:
+  { type: TEXTURE, format: CI4, offset: 0x26DD564, width: 32, height: 32, tlut: 0x26DD764, symbol: dokan02 }
+dokan02_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26DD764, colors: 16, symbol: dokan02_tlut }

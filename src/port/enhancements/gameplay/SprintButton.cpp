@@ -1,3 +1,4 @@
+#include "port/Engine.h"
 #include "port/hooks/Events.h"
 #include "port/ui/cvar_prefixes.h"
 #include "port/ShipInit.hpp"
@@ -22,7 +23,7 @@ void RegisterSprintButton_Init() {
         OnPlayerSpeedUpdate* ev = (OnPlayerSpeedUpdate*) event;
         f32 multiplier = SPRINT_MULTIPLIER;
 
-        if (!CVarGetInteger(CVAR_ENHANCEMENT("SprintButton"), 0)) {
+        if (!Port_FeatureInt("enhancements.sprint_button", 0)) {
             multiplier = 1.0f;
         } else if (gPlayerStatus.flags & PS_FLAG_CUTSCENE_MOVEMENT) {
             multiplier = 1.0f;

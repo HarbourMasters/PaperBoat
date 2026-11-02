@@ -1,0 +1,177 @@
+:config:
+  directory: romhack
+  segments:
+    - [0x02, 0x02000000]
+
+maptex_arn_tex:
+  { type: BLOB, offset: 0x27CEEF4, size: 0xBA00, symbol: romhack_maptex_arn_tex }
+maptex_dro_tex:
+  { type: BLOB, offset: 0x26A6DB4, size: 0xB800, symbol: romhack_maptex_dro_tex }
+maptex_flo_tex:
+  { type: BLOB, offset: 0x2875300, size: 0x20D20, symbol: romhack_maptex_flo_tex }
+maptex_hos_tex:
+  { type: BLOB, offset: 0x26DD784, size: 0x1EEA0, symbol: romhack_maptex_hos_tex }
+maptex_isk_tex:
+  { type: BLOB, offset: 0x26B25B4, size: 0xA4A0, symbol: romhack_maptex_isk_tex }
+maptex_jan_tex:
+  { type: BLOB, offset: 0x2792134, size: 0x1A110, symbol: romhack_maptex_jan_tex }
+maptex_kmr_tex:
+  { type: BLOB, offset: 0x266B884, size: 0x22220, symbol: romhack_maptex_kmr_tex }
+maptex_kpa_tex:
+  { type: BLOB, offset: 0x26FC624, size: 0x28880, symbol: romhack_maptex_kpa_tex }
+maptex_kzn_tex:
+  { type: BLOB, offset: 0x27E69E4, size: 0x12980, symbol: romhack_maptex_kzn_tex }
+maptex_mac_tex:
+  { type: BLOB, offset: 0x263FD34, size: 0x18340, symbol: romhack_maptex_mac_tex }
+maptex_nok_tex:
+  { type: BLOB, offset: 0x26CB4E4, size: 0x122A0, symbol: romhack_maptex_nok_tex }
+maptex_obk_tex:
+  { type: BLOB, offset: 0x27BD104, size: 0x11DF0, symbol: romhack_maptex_obk_tex }
+maptex_omo_tex:
+  { type: BLOB, offset: 0x28BA2D0, size: 0x103E0, symbol: romhack_maptex_omo_tex }
+maptex_osr_tex:
+  { type: BLOB, offset: 0x2724EA4, size: 0x16EE0, symbol: romhack_maptex_osr_tex }
+maptex_sam_tex:
+  { type: BLOB, offset: 0x2896020, size: 0x18C70, symbol: romhack_maptex_sam_tex }
+maptex_tik_tex:
+  { type: BLOB, offset: 0x2658074, size: 0xFD70, symbol: romhack_maptex_tik_tex }
+maptex_trd_tex:
+  { type: BLOB, offset: 0x26BCA54, size: 0xEA90, symbol: romhack_maptex_trd_tex }
+maptex_tst_tex:
+  { type: BLOB, offset: 0x2756994, size: 0x3B7A0, symbol: romhack_maptex_tst_tex }
+actor_groups_table:
+  { type: BLOB, offset: 0x2804F50, size: 0x34, symbol: romhack_actor_groups_table }
+res/battle_items/coconutbomb:
+  { type: TEXTURE, format: CI4, offset: 0x2824EB0, width: 32, height: 32, symbol: romhack_res_battle_items_coconutbomb }
+res/battle_items/coconutbomb.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x282A490, colors: 16, symbol: romhack_res_battle_items_coconutbomb_pal }
+res/battle_items/couragemeal:
+  { type: TEXTURE, format: CI4, offset: 0x2826380, width: 32, height: 32, symbol: romhack_res_battle_items_couragemeal }
+res/battle_items/couragemeal.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x282B0B0, colors: 16, symbol: romhack_res_battle_items_couragemeal_pal }
+res/battle_items/zessdynamite:
+  { type: TEXTURE, format: CI4, offset: 0x2826AB0, width: 32, height: 32, symbol: romhack_res_battle_items_zessdynamite }
+res/battle_items/zessdynamite.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2826330, colors: 16, symbol: romhack_res_battle_items_zessdynamite_pal }
+res/battle_shorcuts/c_middle:
+  { type: TEXTURE, format: CI4, offset: 0x2830E90, width: 16, height: 16, symbol: romhack_res_battle_shorcuts_c_middle }
+res/battle_shorcuts/c_middle.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2830FD0, colors: 16, symbol: romhack_res_battle_shorcuts_c_middle_pal }
+res/battle_shorcuts/equal:
+  { type: TEXTURE, format: CI4, offset: 0x28312D0, width: 16, height: 16, symbol: romhack_res_battle_shorcuts_equal }
+res/battle_shorcuts/equal.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2831080, colors: 16, symbol: romhack_res_battle_shorcuts_equal_pal }
+res/battle_shorcuts/r_button:
+  { type: TEXTURE, format: CI4, offset: 0x2831930, width: 16, height: 16, symbol: romhack_res_battle_shorcuts_r_button }
+res/battle_shorcuts/r_button.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28310A0, colors: 16, symbol: romhack_res_battle_shorcuts_r_button_pal }
+res/battle_strats/charge:
+  { type: TEXTURE, format: CI4, offset: 0x285D840, width: 32, height: 32, symbol: romhack_res_battle_strats_charge }
+res/battle_strats/charge.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x285D540, colors: 16, symbol: romhack_res_battle_strats_charge_pal }
+res/battle_strats/charge_bw.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x285E490, colors: 16, symbol: romhack_res_battle_strats_charge_bw_pal }
+res/battle_strats/defense:
+  { type: TEXTURE, format: CI4, offset: 0x285E1F0, width: 32, height: 32, symbol: romhack_res_battle_strats_defense }
+res/battle_strats/defense.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x285E4B0, colors: 16, symbol: romhack_res_battle_strats_defense_pal }
+res/battle_strats/focus:
+  { type: TEXTURE, format: CI4, offset: 0x285EC30, width: 32, height: 32, symbol: romhack_res_battle_strats_focus }
+res/battle_strats/focus.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x285E430, colors: 16, symbol: romhack_res_battle_strats_focus_pal }
+res/battle_strats/runAway:
+  { type: TEXTURE, format: CI4, offset: 0x285D5B0, width: 32, height: 32, symbol: romhack_res_battle_strats_runAway }
+res/battle_strats/runAway.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x285EBE0, colors: 16, symbol: romhack_res_battle_strats_runAway_pal }
+res/battle_strats/runAway_bw.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x285D590, colors: 16, symbol: romhack_res_battle_strats_runAway_bw_pal }
+res/belts/0A8:
+  { type: TEXTURE, format: CI4, offset: 0x281BEF0, width: 32, height: 32, symbol: romhack_res_belts_0A8 }
+res/belts/0A8.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x281C380, colors: 16, symbol: romhack_res_belts_0A8_pal }
+res/belts/0AE:
+  { type: TEXTURE, format: CI4, offset: 0x281BBC0, width: 32, height: 32, symbol: romhack_res_belts_0AE }
+res/belts/0AE.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x281CA10, colors: 16, symbol: romhack_res_belts_0AE_pal }
+res/belts/0B9:
+  { type: TEXTURE, format: CI4, offset: 0x281B820, width: 32, height: 32, symbol: romhack_res_belts_0B9 }
+res/belts/0B9.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x281C160, colors: 16, symbol: romhack_res_belts_0B9_pal }
+res/belts/0C8:
+  { type: TEXTURE, format: CI4, offset: 0x281C180, width: 32, height: 32, symbol: romhack_res_belts_0C8 }
+res/belts/0C8.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x281C140, colors: 16, symbol: romhack_res_belts_0C8_pal }
+res/belts/dpad:
+  { type: TEXTURE, format: CI4, offset: 0x281C680, width: 32, height: 32, symbol: romhack_res_belts_dpad }
+res/belts/dpad.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x281BE30, colors: 16, symbol: romhack_res_belts_dpad_pal }
+res/misc/fp_drain:
+  { type: TEXTURE, format: CI4, offset: 0x2865B70, width: 40, height: 16, symbol: romhack_res_misc_fp_drain }
+res/misc/fp_drain.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2865EC0, colors: 16, symbol: romhack_res_misc_fp_drain_pal }
+res/pause_menu/EmptyBook:
+  { type: TEXTURE, format: CI4, offset: 0x2858E20, width: 32, height: 32, symbol: romhack_res_pause_menu_EmptyBook }
+res/pause_menu/EmptyBook.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2841770, colors: 16, symbol: romhack_res_pause_menu_EmptyBook_pal }
+res/pause_menu/gear_boots_1:
+  { type: TEXTURE, format: CI4, offset: 0x2841540, width: 32, height: 32, symbol: romhack_res_pause_menu_gear_boots_1 }
+res/pause_menu/gear_boots_1.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2841B20, colors: 16, symbol: romhack_res_pause_menu_gear_boots_1_pal }
+res/pause_menu/screwdriver:
+  { type: TEXTURE, format: CI4, offset: 0x28590F0, width: 32, height: 32, symbol: romhack_res_pause_menu_screwdriver }
+res/pause_menu/screwdriver.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28585A0, colors: 16, symbol: romhack_res_pause_menu_screwdriver_pal }
+res/pause_menu/ssprite_0:
+  { type: TEXTURE, format: CI4, offset: 0x285B7F0, width: 32, height: 32, symbol: romhack_res_pause_menu_ssprite_0 }
+res/pause_menu/ssprite_0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x285B6E0, colors: 16, symbol: romhack_res_pause_menu_ssprite_0_pal }
+res/pause_menu/ssprite_2:
+  { type: TEXTURE, format: CI4, offset: 0x285C070, width: 32, height: 32, symbol: romhack_res_pause_menu_ssprite_2 }
+res/pause_menu/ssprite_2.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x285B700, colors: 16, symbol: romhack_res_pause_menu_ssprite_2_pal }
+res/pause_menu/title_1:
+  { type: TEXTURE, format: RGBA32, offset: 0x28427A0, width: 200, height: 112, symbol: romhack_res_pause_menu_title_1 }
+res/pause_menu/unused_compass:
+  { type: TEXTURE, format: CI4, offset: 0x2841B50, width: 32, height: 32, symbol: romhack_res_pause_menu_unused_compass }
+res/pause_menu/unused_compass.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28592F0, colors: 16, symbol: romhack_res_pause_menu_unused_compass_pal }
+res/status_menu/bombette_icon:
+  { type: TEXTURE, format: CI4, offset: 0x2838370, width: 32, height: 32, symbol: romhack_res_status_menu_bombette_icon }
+res/status_menu/bombette_icon.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2836EE0, colors: 16, symbol: romhack_res_status_menu_bombette_icon_pal }
+res/status_menu/bow_icon:
+  { type: TEXTURE, format: CI4, offset: 0x28369A0, width: 32, height: 32, symbol: romhack_res_status_menu_bow_icon }
+res/status_menu/bow_icon.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2836CD0, colors: 16, symbol: romhack_res_status_menu_bow_icon_pal }
+res/status_menu/goombario_icon:
+  { type: TEXTURE, format: CI4, offset: 0x28379B0, width: 32, height: 32, symbol: romhack_res_status_menu_goombario_icon }
+res/status_menu/goombario_icon.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2837FB0, colors: 16, symbol: romhack_res_status_menu_goombario_icon_pal }
+res/status_menu/kooper_icon:
+  { type: TEXTURE, format: CI4, offset: 0x2838CD0, width: 32, height: 32, symbol: romhack_res_status_menu_kooper_icon }
+res/status_menu/kooper_icon.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2838150, colors: 16, symbol: romhack_res_status_menu_kooper_icon_pal }
+res/status_menu/lakilester_icon:
+  { type: TEXTURE, format: CI4, offset: 0x28386D0, width: 32, height: 32, symbol: romhack_res_status_menu_lakilester_icon }
+res/status_menu/lakilester_icon.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2836CF0, colors: 16, symbol: romhack_res_status_menu_lakilester_icon_pal }
+res/status_menu/mario_icon:
+  { type: TEXTURE, format: CI4, offset: 0x2838170, width: 32, height: 32, symbol: romhack_res_status_menu_mario_icon }
+res/status_menu/mario_icon.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2836EC0, colors: 16, symbol: romhack_res_status_menu_mario_icon_pal }
+res/status_menu/parakarry_icon:
+  { type: TEXTURE, format: CI4, offset: 0x2837110, width: 32, height: 32, symbol: romhack_res_status_menu_parakarry_icon }
+res/status_menu/parakarry_icon.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2838F30, colors: 16, symbol: romhack_res_status_menu_parakarry_icon_pal }
+res/status_menu/stat_heart:
+  { type: TEXTURE, format: CI4, offset: 0x2838B90, width: 16, height: 16, symbol: romhack_res_status_menu_stat_heart }
+res/status_menu/stat_heart.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2837600, colors: 16, symbol: romhack_res_status_menu_stat_heart_pal }
+res/status_menu/sushie_icon:
+  { type: TEXTURE, format: CI4, offset: 0x2836F00, width: 32, height: 32, symbol: romhack_res_status_menu_sushie_icon }
+res/status_menu/sushie_icon.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2837770, colors: 16, symbol: romhack_res_status_menu_sushie_icon_pal }
+res/status_menu/watt_icon:
+  { type: TEXTURE, format: CI4, offset: 0x2838950, width: 32, height: 32, symbol: romhack_res_status_menu_watt_icon }
+res/status_menu/watt_icon.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2837800, colors: 16, symbol: romhack_res_status_menu_watt_icon_pal }

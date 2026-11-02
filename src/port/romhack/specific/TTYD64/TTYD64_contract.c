@@ -1,0 +1,8 @@
+#include "port/romhack/specific/TTYD64/TTYD64.h"
+#include "port/romhack/specific/TTYD64/include/ttyd64_api.h"
+#include "port/romhack/specific/TTYD64/include/ttyd64_drop_tables.h"
+#include "port/romhack/specific/TTYD64/include/ttyd64_flags.h"
+#include "port/romhack/specific/TTYD64/include/ttyd64_items.h"
+#include "port/romhack/specific/TTYD64/include/ttyd64_rawmem.h"
+#include "port/romhack/specific/TTYD64/include/ttyd64_symbols.h"
+#include "port/hooks/Events.h"

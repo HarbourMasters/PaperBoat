@@ -122,9 +122,11 @@ API_CALLABLE(LoadStarPowerScript) {
         }
     }
     starPowerIdx = battleStatus->moveArgument;
+    EvtScript* mainScript = (&StarPowersTable[starPowerIdx])->mainScript;
+    CALL_EVENT(OnBattleScriptLoad, BATTLE_SCRIPT_LOAD_STAR_POWER, starPowerIdx, &mainScript);
     dma_copy((&StarPowersTable[starPowerIdx])->romStart,
              (&StarPowersTable[starPowerIdx])->romEnd,
              (&StarPowersTable[starPowerIdx])->vramStart);
-    script->varTable[0] = (Bytecode)(uintptr_t)(&StarPowersTable[starPowerIdx])->mainScript;
+    script->varTable[0] = (Bytecode)(uintptr_t)mainScript;
     return ApiStatus_DONE2;
 }

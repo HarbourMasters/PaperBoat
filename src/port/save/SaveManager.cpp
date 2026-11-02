@@ -1,9 +1,11 @@
 #include "SaveManager.h"
-#include "SaveTypes.h"
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 #include <libultraship/bridge/consolevariablebridge.h>
 #include "port/ShipUtils.h"
+#include "port/romhack/Romhack.h"
+#include "port/Engine.h"
+#include "port/modding/ModSaveData.h"
 #include <fstream>
 #include <filesystem>
 #include <regex>
@@ -19,6 +21,10 @@ s32 fio_calc_globals_checksum(void);
 using nlohmann::json;
 using nlohmann::ordered_json;
 namespace fs = std::filesystem;
+
+// Saves only write the global flags and bytes past vanilla's arrays when they are set.
+constexpr int kVanillaGlobalFlagWords = 64;
+constexpr int kVanillaGlobalBytes = 512;
 
 std::string CollapsedJSONArray(const nlohmann::ordered_json& jsonFile) {
     std::string source = jsonFile.dump(4);
@@ -99,7 +105,7 @@ SaveData* ConvertJSON_to_SaveData(nlohmann::json jsonSaveFile) {
     saveData->player.curPartner = jsonPlayer["curPartner"];
 
     ordered_json jsonPartners = jsonPlayer["partners"];
-    for (int p = 0; p < MAX_PARTNERS; p++) {
+    for (int p = 0; p < ARRAY_COUNT(saveData->player.partners); p++) {
         saveData->player.partners[p].enabled = jsonPartners[p]["enabled"];
         saveData->player.partners[p].level = jsonPartners[p]["level"];
 
@@ -110,27 +116,27 @@ SaveData* ConvertJSON_to_SaveData(nlohmann::json jsonSaveFile) {
     }
 
     ordered_json jsonKeyItems = jsonPlayer["keyItems"];
-    for (int ki = 0; ki < MAX_KEYITEMS; ki++) {
+    for (int ki = 0; ki < ARRAY_COUNT(saveData->player.keyItems); ki++) {
         saveData->player.keyItems[ki] = jsonKeyItems[ki];
     }
 
     ordered_json jsonBadges = jsonPlayer["badges"];
-    for (int b = 0; b < MAX_BADGES; b++) {
+    for (int b = 0; b < ARRAY_COUNT(saveData->player.badges); b++) {
         saveData->player.badges[b] = jsonBadges[b];
     }
 
     ordered_json jsonInvItems = jsonPlayer["invItems"];
-    for (int ii = 0; ii < MAX_INVITEMS; ii++) {
+    for (int ii = 0; ii < ARRAY_COUNT(saveData->player.invItems) && ii < (int) jsonInvItems.size(); ii++) {
         saveData->player.invItems[ii] = jsonInvItems[ii];
     }
 
     ordered_json jsonStoredItems = jsonPlayer["storedItems"];
-    for (int si = 0; si < MAX_STOREDITEMS; si++) {
+    for (int si = 0; si < ARRAY_COUNT(saveData->player.storedItems) && si < (int) jsonStoredItems.size(); si++) {
         saveData->player.storedItems[si] = jsonStoredItems[si];
     }
 
     ordered_json jsonEquippedBadges = jsonPlayer["equippedBadges"];
-    for (int eb = 0; eb < MAX_EQUIPPEDBADGES; eb++) {
+    for (int eb = 0; eb < ARRAY_COUNT(saveData->player.equippedBadges); eb++) {
         saveData->player.equippedBadges[eb] = jsonEquippedBadges[eb];
     }
 
@@ -161,13 +167,13 @@ SaveData* ConvertJSON_to_SaveData(nlohmann::json jsonSaveFile) {
     saveData->player.quizzesCorrect = jsonPlayer["quizzesCorrect"];
 
     ordered_json jsonPartnerUnlockTime = jsonPlayer["partnerUnlockedTime"];
-    for (int pt = 0; pt < MAX_PARTNERUNLOCKTIME; pt++) {
+    for (int pt = 0; pt < ARRAY_COUNT(saveData->player.partnerUnlockedTime); pt++) {
         saveData->player.partnerUnlockedTime[pt] = jsonPartnerUnlockTime[pt];
     }
 
     ordered_json jsonPartnerUsedTime = jsonPlayer["partnerUsedTime"];
-    for (int put = 0; put < MAX_PARTNERUSEDTIME; put++) {
-        saveData->player.partnerUnlockedTime[put] = jsonPartnerUsedTime[put];
+    for (int put = 0; put < ARRAY_COUNT(saveData->player.partnerUsedTime); put++) {
+        saveData->player.partnerUsedTime[put] = jsonPartnerUsedTime[put];
     }
 
     saveData->player.tradeEventStartTime = jsonPlayer["tradeEventStartTime"];
@@ -188,30 +194,30 @@ SaveData* ConvertJSON_to_SaveData(nlohmann::json jsonSaveFile) {
     saveData->unk_46E[1] = jsonSaveFile["unk_46E"][1];
 
     ordered_json jsonEnemyDefeatFlags = jsonSaveFile["enemyDefeatFlags"];
-    for (int en = 0; en < MAX_ENEMYDEFEATFLAGINDEX; en++) {
+    for (int en = 0; en < ARRAY_COUNT(saveData->enemyDefeatFlags); en++) {
         ordered_json jsonEnemyData = jsonEnemyDefeatFlags[en];
-        for (int ed = 0; ed < MAX_ENEMYDEFEATFLAGDATA; ed++) {
+        for (int ed = 0; ed < ARRAY_COUNT(saveData->enemyDefeatFlags[0]); ed++) {
             saveData->enemyDefeatFlags[en][ed] = jsonEnemyData[ed];
         }
     }
 
     ordered_json jsonGlobalFlags = jsonSaveFile["globalFlags"];
-    for (int gf = 0; gf < MAX_GLOBALFLAGS; gf++) {
+    for (int gf = 0; gf < ARRAY_COUNT(saveData->globalFlags) && gf < (int) jsonGlobalFlags.size(); gf++) {
         saveData->globalFlags[gf] = jsonGlobalFlags[gf];
     }
 
     ordered_json jsonGlobalBytes = jsonSaveFile["globalBytes"];
-    for (int gb = 0; gb < MAX_GLOBALBYTES; gb++) {
+    for (int gb = 0; gb < ARRAY_COUNT(saveData->globalBytes) && gb < (int) jsonGlobalBytes.size(); gb++) {
         saveData->globalBytes[gb] = jsonGlobalBytes[gb];
     }
 
     ordered_json jsonAreaFlags = jsonSaveFile["areaFlags"];
-    for (int af = 0; af < MAX_AREAFLAGS; af++) {
+    for (int af = 0; af < ARRAY_COUNT(saveData->areaFlags); af++) {
         saveData->areaFlags[af] = jsonAreaFlags[af];
     }
 
     ordered_json jsonAreaBytes = jsonSaveFile["areaBytes"];
-    for (int ab = 0; ab < MAX_AREABYTES; ab++) {
+    for (int ab = 0; ab < ARRAY_COUNT(saveData->areaBytes); ab++) {
         saveData->areaBytes[ab] = jsonAreaBytes[ab];
     }
 
@@ -233,7 +239,7 @@ SaveData* ConvertJSON_to_SaveData(nlohmann::json jsonSaveFile) {
     saveData->summary.unused_05[0] = jsonSummary["unused_05"][0];
     saveData->summary.level = jsonSummary["level"];
 
-    for (int fn = 0; fn < MAX_FILENAME; fn++) {
+    for (int fn = 0; fn < ARRAY_COUNT(saveData->summary.filename); fn++) {
         int val = 0;
         if (jsonSummary["filename"][fn] < 0) {
             val = jsonSummary["filename"][fn].get<int>() + 256;
@@ -244,12 +250,12 @@ SaveData* ConvertJSON_to_SaveData(nlohmann::json jsonSaveFile) {
     }
 
     ordered_json jsonUnused_0F = jsonSummary["unused_0F"];
-    for (int uf = 0; uf < MAX_UNUSED0F; uf++) {
+    for (int uf = 0; uf < ARRAY_COUNT(saveData->summary.unused_0F); uf++) {
         saveData->summary.unused_0F[uf] = jsonUnused_0F[uf];
     }
 
     ordered_json jsonUnk1304 = jsonSaveFile["unk_1304"];
-    for (int un = 0; un < MAX_UNK1304; un++) {
+    for (int un = 0; un < ARRAY_COUNT(saveData->unk_1304); un++) {
         saveData->unk_1304[un] = jsonUnk1304[un];
     }
 
@@ -267,6 +273,10 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
     jsonSave["majorVersion"] = saveData->majorVersion;
     jsonSave["minorVersion"] = saveData->minorVersion;
     jsonSave["patchVersion"] = saveData->patchVersion;
+    const char* romhackVersion = Romhack_GetVersion();
+    if (romhackVersion != nullptr && Port_ModNameMatches(saveData->modName)) {
+        jsonSave["romhackVersion"] = romhackVersion;
+    }
 
     jsonSave["reserved"] = saveData->reserved;
     jsonSave["crc1"] = saveData->crc1;
@@ -294,7 +304,7 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
     jsonPlayerData["curPartner"] = saveData->player.curPartner;
 
     ordered_json jsonPartners = ordered_json::array();
-    for (int p = 0; p < MAX_PARTNERS; p++) {
+    for (int p = 0; p < ARRAY_COUNT(saveData->player.partners); p++) {
         ordered_json partnerEntry = ordered_json::object();
         partnerEntry["enabled"] = saveData->player.partners[p].enabled;
         partnerEntry["level"] = saveData->player.partners[p].level;
@@ -311,31 +321,31 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
     jsonPlayerData["partners"] = jsonPartners;
 
     ordered_json jsonKeyItems = ordered_json::array();
-    for (int ki = 0; ki < MAX_KEYITEMS; ki++) {
+    for (int ki = 0; ki < ARRAY_COUNT(saveData->player.keyItems); ki++) {
         jsonKeyItems.push_back(saveData->player.keyItems[ki]);
     }
     jsonPlayerData["keyItems"] = jsonKeyItems;
 
     ordered_json jsonBadges = ordered_json::array();
-    for (int b = 0; b < MAX_BADGES; b++) {
+    for (int b = 0; b < ARRAY_COUNT(saveData->player.badges); b++) {
         jsonBadges.push_back(saveData->player.badges[b]);
     }
     jsonPlayerData["badges"] = jsonBadges;
 
     ordered_json jsonInvItems = ordered_json::array();
-    for (int ii = 0; ii < MAX_INVITEMS; ii++) {
+    for (int ii = 0; ii < ARRAY_COUNT(saveData->player.invItems); ii++) {
         jsonInvItems.push_back(saveData->player.invItems[ii]);
     }
     jsonPlayerData["invItems"] = jsonInvItems;
 
     ordered_json jsonStoredItems = ordered_json::array();
-    for (int si = 0; si < MAX_STOREDITEMS; si++) {
+    for (int si = 0; si < ARRAY_COUNT(saveData->player.storedItems); si++) {
         jsonStoredItems.push_back(saveData->player.storedItems[si]);
     }
     jsonPlayerData["storedItems"] = jsonStoredItems;
 
     ordered_json jsonEquippedBadges = ordered_json::array();
-    for (int eb = 0; eb < MAX_EQUIPPEDBADGES; eb++) {
+    for (int eb = 0; eb < ARRAY_COUNT(saveData->player.equippedBadges); eb++) {
         jsonEquippedBadges.push_back(saveData->player.equippedBadges[eb]);
     }
     jsonPlayerData["equippedBadges"] = jsonEquippedBadges;
@@ -367,13 +377,13 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
     jsonPlayerData["quizzesCorrect"] = saveData->player.quizzesCorrect;
 
     ordered_json jsonPartnerUnlockTime = ordered_json::array();
-    for (int pt = 0; pt < MAX_PARTNERUNLOCKTIME; pt++) {
+    for (int pt = 0; pt < ARRAY_COUNT(saveData->player.partnerUnlockedTime); pt++) {
         jsonPartnerUnlockTime.push_back(saveData->player.partnerUnlockedTime[pt]);
     }
     jsonPlayerData["partnerUnlockedTime"] = jsonPartnerUnlockTime;
 
     ordered_json jsonPartnerUsedTime = ordered_json::array();
-    for (int put = 0; put < MAX_PARTNERUSEDTIME; put++) {
+    for (int put = 0; put < ARRAY_COUNT(saveData->player.partnerUsedTime); put++) {
         jsonPartnerUsedTime.push_back(saveData->player.partnerUsedTime[put]);
     }
     jsonPlayerData["partnerUsedTime"] = jsonPartnerUsedTime;
@@ -397,35 +407,43 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
     jsonSave["unk_46E"] = saveData->unk_46E;
 
     ordered_json jsonEnemyDefeatFlags = ordered_json::array();
-    for (int en = 0; en < MAX_ENEMYDEFEATFLAGINDEX; en++) {
+    for (int en = 0; en < ARRAY_COUNT(saveData->enemyDefeatFlags); en++) {
         ordered_json jsonEnemyData = ordered_json::array();
-        for (int ed = 0; ed < MAX_ENEMYDEFEATFLAGDATA; ed++) {
+        for (int ed = 0; ed < ARRAY_COUNT(saveData->enemyDefeatFlags[0]); ed++) {
             jsonEnemyData.push_back(saveData->enemyDefeatFlags[en][ed]);
         }
         jsonEnemyDefeatFlags.push_back(jsonEnemyData);
     }
     jsonSave["enemyDefeatFlags"] = jsonEnemyDefeatFlags;
 
+    int globalFlagCount = ARRAY_COUNT(saveData->globalFlags);
+    while (globalFlagCount > kVanillaGlobalFlagWords && saveData->globalFlags[globalFlagCount - 1] == 0) {
+        globalFlagCount--;
+    }
     ordered_json jsonGlobalFlags = ordered_json::array();
-    for (int gf = 0; gf < MAX_GLOBALFLAGS; gf++) {
+    for (int gf = 0; gf < globalFlagCount; gf++) {
         jsonGlobalFlags.push_back(saveData->globalFlags[gf]);
     }
     jsonSave["globalFlags"] = jsonGlobalFlags;
 
+    int globalByteCount = ARRAY_COUNT(saveData->globalBytes);
+    while (globalByteCount > kVanillaGlobalBytes && saveData->globalBytes[globalByteCount - 1] == 0) {
+        globalByteCount--;
+    }
     ordered_json jsonGlobalBytes = ordered_json::array();
-    for (int gb = 0; gb < MAX_GLOBALBYTES; gb++) {
+    for (int gb = 0; gb < globalByteCount; gb++) {
         jsonGlobalBytes.push_back(saveData->globalBytes[gb]);
     }
     jsonSave["globalBytes"] = jsonGlobalBytes;
 
     ordered_json jsonAreaFlags = ordered_json::array();
-    for (int af = 0; af < MAX_AREAFLAGS; af++) {
+    for (int af = 0; af < ARRAY_COUNT(saveData->areaFlags); af++) {
         jsonAreaFlags.push_back(saveData->areaFlags[af]);
     }
     jsonSave["areaFlags"] = jsonAreaFlags;
 
     ordered_json jsonAreaBytes = ordered_json::array();
-    for (int ab = 0; ab < MAX_AREABYTES; ab++) {
+    for (int ab = 0; ab < ARRAY_COUNT(saveData->areaBytes); ab++) {
         jsonAreaBytes.push_back(saveData->areaBytes[ab]);
     }
     jsonSave["areaBytes"] = jsonAreaBytes;
@@ -452,7 +470,7 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
     jsonSaveFileSummary["level"] = saveData->summary.level;
 
     ordered_json jsonFileName = ordered_json::array();
-    for (int fn = 0; fn < MAX_FILENAME; fn++) {
+    for (int fn = 0; fn < ARRAY_COUNT(saveData->summary.filename); fn++) {
         jsonFileName.push_back(saveData->summary.filename[fn]);
     }
     jsonSaveFileSummary["filename"] = jsonFileName;
@@ -470,8 +488,16 @@ ordered_json ConvertSaveData_to_JSON(SaveData* saveData) {
     return jsonSave;
 }
 
+std::string SaveManager_GetSavesDir() {
+    std::string dir = "saves/";
+    if (Romhack::Active() != nullptr) {
+        dir += std::string(Romhack::kFolder) + "/" + Romhack::ActiveStem() + "/";
+    }
+    return Ship::Context::GetPathRelativeToAppDirectory(dir, "pm64");
+}
+
 static std::string GlobalsPath() {
-    return Ship::Context::GetPathRelativeToAppDirectory("saves/globals.json", "pm64");
+    return SaveManager_GetSavesDir() + "globals.json";
 }
 
 static void StampGlobals(SaveGlobals* globals) {
@@ -487,7 +513,7 @@ static void WriteGlobals(const SaveGlobals* globals) {
     j["useMonoSound"] = globals->useMonoSound;
     j["lastFileSelected"] = globals->lastFileSelected;
 
-    std::string dir = Ship::Context::GetPathRelativeToAppDirectory("saves/", "pm64");
+    std::string dir = SaveManager_GetSavesDir();
     if (!fs::exists(dir)) {
         fs::create_directories(dir);
     }
@@ -498,6 +524,8 @@ static void WriteGlobals(const SaveGlobals* globals) {
 }
 
 void SaveManager_Init() {
+    REGISTER_LISTENER(OnPlayerDataClear, EVENT_PRIORITY_HIGH, [](IEvent* event) { Mod::ClearSaveData(); })
+
     REGISTER_LISTENER(OnSaveGlobalsSave, EVENT_PRIORITY_HIGH, [](IEvent* event) {
         OnSaveGlobalsSave* ev = (OnSaveGlobalsSave*) event;
         event->Cancelled = true;
@@ -528,10 +556,13 @@ void SaveManager_Init() {
 
         SaveData* saveData = (SaveData*) ev->saveData;
         ordered_json jsonSaveFile = ConvertSaveData_to_JSON(saveData);
+        if (!jsonSaveFile.empty() && saveData == &gCurrentSaveFile) {
+            Mod::WriteSaveData(jsonSaveFile);
+        }
 
         if (!jsonSaveFile.empty()) {
             std::string fileName = fmt::format("file{}.json", saveData->saveSlot);
-            std::string filePath = Ship::Context::GetPathRelativeToAppDirectory("saves/", "pm64");
+            std::string filePath = SaveManager_GetSavesDir();
 
             if (!fs::exists(filePath)) {
                 fs::create_directories(filePath);
@@ -553,7 +584,7 @@ void SaveManager_Init() {
         event->Cancelled = true;
 
         std::string fileName = fmt::format("file{}.json", ev->saveSlot);
-        std::string filePath = Ship::Context::GetPathRelativeToAppDirectory("saves/" + fileName, "pm64");
+        std::string filePath = SaveManager_GetSavesDir() + fileName;
 
         if (fs::exists(filePath)) {
             std::ifstream inputFile(filePath);
@@ -561,9 +592,11 @@ void SaveManager_Init() {
             inputFile >> jsonSave;
 
             gCurrentSaveFile = *ConvertJSON_to_SaveData(jsonSave);
+            Mod::ReadSaveData(jsonSave);
         } else {
             SaveData* newSaveData = new SaveData();
             gCurrentSaveFile = *newSaveData;
+            Mod::ClearSaveData();
         }
         CALL_EVENT(OnPostSaveFileLoad);
     })
@@ -573,7 +606,7 @@ void SaveManager_Init() {
         event->Cancelled = true;
 
         std::string fileName = fmt::format("file{}.json", ev->saveSlot);
-        std::string filePath = Ship::Context::GetPathRelativeToAppDirectory("saves/" + fileName, "pm64");
+        std::string filePath = SaveManager_GetSavesDir() + fileName;
 
         if (fs::exists(filePath)) {
             fs::remove(filePath);

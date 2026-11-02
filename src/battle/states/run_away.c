@@ -30,10 +30,34 @@ void btl_state_update_run_away(void) {
         case BTL_SUBSTATE_EXEC_SCRIPT:
             battleStatus->stateFreezeCount = 0;
             gBattleStatus.flags1 &= ~BS_FLAGS1_BATTLE_FLED;
-            gBattleStatus.flags2 |= BS_FLAGS2_OVERRIDE_INACTIVE_PARTNER;
-            gBattleStatus.flags2 |= BS_FLAGS2_OVERRIDE_INACTIVE_PLAYER;
-            gBattleStatus.flags2 |= BS_FLAGS2_PARTNER_TURN_USED;
-            gBattleStatus.flags2 |= BS_FLAGS2_PLAYER_TURN_USED;
+            {
+                s32 skipPartner = false;
+                CALL_EVENT(OnTurnOrder, TURN_ORDER_SKIP_PARTNER_TURN, &skipPartner);
+                s32 wasInFront = !(gBattleStatus.flags1 & BS_FLAGS1_PLAYER_IN_BACK);
+                s32 endsTeamTurn = true;
+                {
+                    CALL_EVENT(OnTurnOrder, TURN_ORDER_FLEE_ENDS_TEAM_TURN, &endsTeamTurn);
+                }
+                s32 inFront = wasInFront;
+                {
+                    CALL_EVENT(OnTurnOrder, TURN_ORDER_PLAYER_IN_FRONT, &inFront);
+                }
+                if (!skipPartner) {
+                    gBattleStatus.flags2 |= BS_FLAGS2_OVERRIDE_INACTIVE_PARTNER;
+                }
+                gBattleStatus.flags2 |= BS_FLAGS2_OVERRIDE_INACTIVE_PLAYER;
+                if (endsTeamTurn || !wasInFront) {
+                    gBattleStatus.flags2 |= BS_FLAGS2_PARTNER_TURN_USED;
+                }
+                if (endsTeamTurn || wasInFront) {
+                    gBattleStatus.flags2 |= BS_FLAGS2_PLAYER_TURN_USED;
+                }
+                if (inFront) {
+                    gBattleStatus.flags1 &= ~BS_FLAGS1_PLAYER_IN_BACK;
+                } else {
+                    gBattleStatus.flags1 |= BS_FLAGS1_PLAYER_IN_BACK;
+                }
+            }
 
             playerData->fleeAttempts++;
             btl_cam_use_preset(BTL_CAM_PLAYER_FLEE);

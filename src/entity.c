@@ -341,6 +341,7 @@ void render_entities(void) {
             }
 
             if (!(entity->flags & ENTITY_FLAG_HIDDEN)) {
+                CALL_EVENT(EntityPreDraw, entity);
                 FrameInterpolation_RecordOpenChild("entity", (uintptr_t)entity);
                 if (entity->flags & ENTITY_FLAG_HAS_ANIMATED_MODEL) {
                     if (D_8014AFB0 == 255) {
@@ -1043,6 +1044,7 @@ s32 create_entity(EntityBlueprint* bp, ...) {
     if (bp->fpInit != nullptr) {
         bp->fpInit(entity);
     }
+    CALL_EVENT(OnEntityCreated, entity);
 
     update_entity_transform_matrix(entity);
     return entity->listIndex;

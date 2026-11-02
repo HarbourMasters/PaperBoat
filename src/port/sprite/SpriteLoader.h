@@ -119,6 +119,12 @@ SpriteS32 Sprite_GetPlayerRasterLoadDescriptors(SpriteS32 spriteIdx, SpriteS32 s
                                                  int32_t* outBuffer, SpriteS32 count);
 
 /**
+ * Multiplier for the offset field of a player raster load descriptor: 1 for vanilla descriptors,
+ * 16 for Star Rod descriptors that store the offset in 16-byte units.
+ */
+SpriteS32 Sprite_GetPlayerRasterOffsetScale(void);
+
+/**
  * Load a player raster image by its descriptor info.
  * Uses the pre-extracted raster image data blob.
  *

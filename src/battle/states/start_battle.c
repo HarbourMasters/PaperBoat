@@ -113,6 +113,11 @@ void btl_state_update_normal_start(void) {
             battleStatus->actionQuality = 0;
             battleStatus->maxActionQuality = 0;
             battleStatus->enabledMenusFlags = -1;
+            {
+                s32 enabledMenus = battleStatus->enabledMenusFlags;
+                CALL_EVENT(OnBattleMenusEnabled, &enabledMenus);
+                battleStatus->enabledMenusFlags = enabledMenus;
+            }
             battleStatus->enabledStarPowersFlags = -1;
             battleStatus->itemUsesLeft = 0;
             battleStatus->hammerCharge = 0;
@@ -240,6 +245,13 @@ void btl_state_update_normal_start(void) {
             actor->takeTurnScript = script;
             actor->takeTurnScriptID = script->id;
             script->owner1.actorID = ACTOR_PLAYER;
+            {
+                s32 partnerID = gPlayerData.curPartner;
+                CALL_EVENT(OnBattlePartnerSelect, &partnerID);
+                if (partnerID >= PARTNER_NONE && partnerID < ARRAY_COUNT(gPlayerData.partners)) {
+                    gPlayerData.curPartner = partnerID;
+                }
+            }
             load_partner_actor();
             gBattleSubState = BTL_SUBSTATE_CHECK_FIRST_STRIKE;
             break;
@@ -285,7 +297,12 @@ void btl_state_update_normal_start(void) {
                 currentEncounter->firstStrikeType = FIRST_STRIKE_NONE;
             }
 
-            switch (currentEncounter->firstStrikeType) {
+            s32 firstStrikeType = currentEncounter->firstStrikeType;
+            {
+                CALL_EVENT(OnTurnOrder, TURN_ORDER_FIRST_STRIKE, &firstStrikeType);
+            }
+
+            switch (firstStrikeType) {
                 case FIRST_STRIKE_PLAYER:
                     btl_set_state(BATTLE_STATE_FIRST_STRIKE);
                     break;

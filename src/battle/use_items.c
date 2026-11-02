@@ -155,7 +155,9 @@ API_CALLABLE(LoadItemScript) {
     }
 
     // DMA loading not needed on port — item scripts are compiled in
-    script->varTablePtr[0].p = gBattleItemTable[i].mainScript;
+    EvtScript* mainScript = gBattleItemTable[i].mainScript;
+    CALL_EVENT(OnBattleScriptLoad, BATTLE_SCRIPT_LOAD_ITEM, itemID, &mainScript);
+    script->varTablePtr[0].p = mainScript;
     script->varTable[1] = false;
 
     return ApiStatus_DONE2;
@@ -169,6 +171,7 @@ API_CALLABLE(LoadMysteryItemScript) {
     s32* itemPtr;
     s32 i;
 
+    CALL_EVENT(OnMysteryItemTarget, &actor);
     battleStatus->curTargetListFlags = item->targetFlags | TARGET_FLAG_PRIMARY_ONLY;
     battleStatus->curAttackElement = 0;
 

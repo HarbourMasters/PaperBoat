@@ -79,6 +79,7 @@ void btl_state_update_end_battle(void) {
             }
 
             btl_delete_player_actor(battleStatus->playerActor);
+            CALL_EVENT(OnBattleCleanup);
 
             if (battleStatus->nextMerleeSpellType == MERLEE_SPELL_COIN_BOOST) {
                 encounterStatus->hasMerleeCoinBonus = true;

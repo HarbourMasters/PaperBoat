@@ -1,0 +1,62 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+dokan02:
+  { type: TEXTURE, format: CI4, offset: 0x28AB530, width: 32, height: 32, tlut: 0x28AB730, symbol: dokan02 }
+dokan02_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x28AB730, colors: 16, symbol: dokan02_tlut }
+aji_yuka_01:
+  { type: TEXTURE, format: CI4, offset: 0x28AB780, width: 16, height: 16, tlut: 0x28AB800, symbol: aji_yuka_01 }
+aji_yuka_01_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x28AB800, colors: 16, symbol: aji_yuka_01_tlut }
+tou_k_tekkinita2:
+  { type: TEXTURE, format: CI4, offset: 0x28AB850, width: 32, height: 32, tlut: 0x28ABA50, symbol: tou_k_tekkinita2 }
+tou_k_tekkinita2_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x28ABA50, colors: 16, symbol: tou_k_tekkinita2_tlut }
+tou_k_tekkinita3:
+  { type: TEXTURE, format: CI4, offset: 0x28ABAA0, width: 64, height: 64, tlut: 0x28AC2A0, symbol: tou_k_tekkinita3 }
+tou_k_tekkinita3_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x28AC2A0, colors: 16, symbol: tou_k_tekkinita3_tlut }
+aji_kabe_01:
+  { type: TEXTURE, format: CI4, offset: 0x28AC2F0, width: 16, height: 16, tlut: 0x28AC370, symbol: aji_kabe_01 }
+aji_kabe_01_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x28AC370, colors: 16, symbol: aji_kabe_01_tlut }
+aji_tekkin_2_1:
+  { type: TEXTURE, format: CI4, offset: 0x28AC3C0, width: 32, height: 32, tlut: 0x28AC5C0, symbol: aji_tekkin_2_1 }
+aji_tekkin_2_1_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x28AC5C0, colors: 16, symbol: aji_tekkin_2_1_tlut }
+omo_yajiruc_1itif2:
+  { type: TEXTURE, format: CI4, offset: 0x28AC610, width: 32, height: 64, tlut: 0x28ACA10, symbol: omo_yajiruc_1itif2 }
+omo_yajiruc_1itif2_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x28ACA10, colors: 16, symbol: omo_yajiruc_1itif2_tlut }
+aji_kabe_03:
+  { type: TEXTURE, format: CI4, offset: 0x28ACA60, width: 64, height: 64, tlut: 0x28AD260, symbol: aji_kabe_03 }
+aji_kabe_03_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x28AD260, colors: 16, symbol: aji_kabe_03_tlut }
+aji_termometro:
+  { type: TEXTURE, format: CI4, offset: 0x28AD2B0, width: 32, height: 64, tlut: 0x28AD6B0, symbol: aji_termometro }
+aji_termometro_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x28AD6B0, colors: 16, symbol: aji_termometro_tlut }
+kkj_yuka6tif:
+  { type: TEXTURE, format: CI4, offset: 0x28AD700, width: 16, height: 32, tlut: 0x28AD800, symbol: kkj_yuka6tif }
+kkj_yuka6tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x28AD800, colors: 16, symbol: kkj_yuka6tif_tlut }
+eki_ro-pu_1:
+  { type: TEXTURE, format: CI4, offset: 0x28AD850, width: 16, height: 16, tlut: 0x28AD8D0, symbol: eki_ro-pu_1 }
+eki_ro-pu_1_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x28AD8D0, colors: 16, symbol: eki_ro-pu_1_tlut }
+trd_kusaritif:
+  { type: TEXTURE, format: CI4, offset: 0x28AD920, width: 16, height: 16, tlut: 0x28AD9A0, symbol: trd_kusaritif }
+trd_kusaritif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x28AD9A0, colors: 16, symbol: trd_kusaritif_tlut }
+aji_kabe_04:
+  { type: TEXTURE, format: CI4, offset: 0x28AD9F0, width: 32, height: 32, tlut: 0x28ADBF0, symbol: aji_kabe_04 }
+aji_kabe_04_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x28ADBF0, colors: 16, symbol: aji_kabe_04_tlut }
+arn_haguruma1tif_bw:
+  { type: TEXTURE, format: I8, offset: 0x28ADC40, width: 32, height: 64, symbol: arn_haguruma1tif_bw }
+aji_hako:
+  { type: TEXTURE, format: CI4, offset: 0x28AE470, width: 64, height: 64, tlut: 0x28AEC70, symbol: aji_hako }
+aji_hako_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x28AEC70, colors: 16, symbol: aji_hako_tlut }

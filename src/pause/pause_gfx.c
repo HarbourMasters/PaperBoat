@@ -513,6 +513,8 @@ intptr_t pause_get_menu_msg(s32 index) {
 void pause_draw_menu_label(s32 index, s32 x, s32 y) {
     s32 xOffset = 64;
 
+    CALL_EVENT(OnPauseLabelPos, index, &x, &y);
+
     if (index == 8) {
         xOffset = 128;
     }

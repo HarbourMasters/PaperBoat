@@ -7,8 +7,147 @@
 #include <stdio.h>
 #include <string.h>
 #include "port/patches/Patches.h"
+#include "port/modding/MapTextures.h"
+
+#include <deque>
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
+#include <libultraship/libultraship.h>
+#include <ship/resource/ResourceManager.h>
+#include <ship/resource/type/Blob.h>
 
 #include "MapTextureMeta.inc.c"
+
+namespace {
+
+struct ModMapTexArchive {
+    std::deque<std::string> strings;
+    std::vector<MapTexMeta> textures;
+    MapTexArchive archive;
+};
+
+u32 MapTexImageSize(u32 depth, u32 w, u32 h) {
+    static const u32 bits[] = { 4, 8, 16, 32 };
+    return depth < 4 ? w * h * bits[depth] / 8 : 0;
+}
+
+u32 MapTexPaletteBytes(u32 fmt, u32 depth) {
+    return fmt != G_IM_FMT_CI ? 0 : (depth == 0 ? 16 : 256) * 2;
+}
+
+std::unique_ptr<ModMapTexArchive> ParseModMapTexArchive(const char* archiveName, const u8* data, size_t size) {
+    auto out = std::make_unique<ModMapTexArchive>();
+    size_t p = 0;
+
+    while (p + sizeof(TextureHeader) <= size && data[p] != 0) {
+        const u8* h = data + p;
+        char name[33] = { 0 };
+        memcpy(name, h, 32);
+        const u16 auxW = (h[0x20] << 8) | h[0x21];
+        const u16 mainW = (h[0x22] << 8) | h[0x23];
+        const u16 auxH = (h[0x24] << 8) | h[0x25];
+        const u16 mainH = (h[0x26] << 8) | h[0x27];
+        const u8 extra = h[0x29];
+        const u8 mainFmt = h[0x2B] & 0xF, auxFmt = h[0x2B] >> 4;
+        const u8 mainDepth = h[0x2C] & 0xF, auxDepth = h[0x2C] >> 4;
+        MapTexMeta m;
+
+        memset(&m, 0, sizeof(m));
+        p += sizeof(TextureHeader);
+        switch (extra) {
+            case EXTRA_TILE_NONE:
+                p += MapTexImageSize(mainDepth, mainW, mainH) + MapTexPaletteBytes(mainFmt, mainDepth);
+                break;
+            case EXTRA_TILE_MIPMAPS: {
+                u32 div = 2;
+                p += MapTexImageSize(mainDepth, mainW, mainH);
+                if (mainW >= (32 >> mainDepth)) {
+                    while (mainW / div > 0) {
+                        p += MapTexImageSize(mainDepth, mainW / div, mainH / div);
+                        div *= 2;
+                        if (mainW / div < (u32) (16 >> mainDepth)) {
+                            break;
+                        }
+                    }
+                }
+                p += MapTexPaletteBytes(mainFmt, mainDepth);
+                break;
+            }
+            case EXTRA_TILE_AUX_SAME_AS_MAIN:
+                p += 2 * MapTexImageSize(mainDepth, mainW, mainH / 2) + MapTexPaletteBytes(mainFmt, mainDepth);
+                break;
+            case EXTRA_TILE_AUX_INDEPENDENT:
+                p += MapTexImageSize(mainDepth, mainW, mainH) + MapTexPaletteBytes(mainFmt, mainDepth);
+                p += MapTexImageSize(auxDepth, auxW, auxH) + MapTexPaletteBytes(auxFmt, auxDepth);
+                break;
+            default:
+                GameEngine_LogWarn("[maptex] %s: texture %s has unknown extra tiles %d", archiveName, name, extra);
+                return nullptr;
+        }
+
+        const std::string base = std::string("__OTR__textures/") + archiveName + "/" + name;
+        out->strings.push_back(name);
+        m.name = out->strings.back().c_str();
+        out->strings.push_back(base);
+        m.otrPath = out->strings.back().c_str();
+        if (extra == EXTRA_TILE_AUX_SAME_AS_MAIN || extra == EXTRA_TILE_AUX_INDEPENDENT) {
+            out->strings.push_back(base + "_aux");
+            m.auxOtrPath = out->strings.back().c_str();
+        }
+        m.mainW = mainW;
+        m.mainH = mainH;
+        m.mainFmt = mainFmt;
+        m.mainDepth = mainDepth;
+        m.mainWrapW = h[0x2D] & 0xF;
+        m.mainWrapH = h[0x2E] & 0xF;
+        m.filter = h[0x2F];
+        m.auxCombineType = h[0x2A] >> 2;
+        m.auxCombineSubType = h[0x2A] & 3;
+        m.extraTiles = extra;
+        m.isVariant = h[0x28];
+        m.auxW = auxW;
+        m.auxH = auxH;
+        m.auxFmt = auxFmt;
+        m.auxDepth = auxDepth;
+        m.auxWrapW = h[0x2D] >> 4;
+        m.auxWrapH = h[0x2E] >> 4;
+        m.hasMipmaps = extra == EXTRA_TILE_MIPMAPS;
+        out->textures.push_back(m);
+    }
+
+    out->strings.push_back(archiveName);
+    out->archive.archive = out->strings.back().c_str();
+    out->archive.textures = out->textures.data();
+    out->archive.count = (u32) out->textures.size();
+    return out;
+}
+
+const MapTexArchive* ModMapTexArchiveOverride(const char* archiveName) {
+    static std::unordered_map<std::string, std::unique_ptr<ModMapTexArchive>> sCache;
+
+    const char* blobPath = Mod_GetMapTexArchiveBlob(archiveName);
+    if (blobPath == nullptr) {
+        return nullptr;
+    }
+    auto it = sCache.find(blobPath);
+    if (it == sCache.end()) {
+        std::unique_ptr<ModMapTexArchive> parsed;
+        auto blob = std::dynamic_pointer_cast<Ship::Blob>(
+            Ship::Context::GetRawInstance()->GetResourceManager()->LoadResource(blobPath)
+        );
+        if (blob != nullptr) {
+            parsed =
+                ParseModMapTexArchive(archiveName, reinterpret_cast<const u8*>(blob->Data.data()), blob->Data.size());
+        }
+        it = sCache.emplace(blobPath, std::move(parsed)).first;
+    }
+    return it->second != nullptr ? &it->second->archive : nullptr;
+}
+
+} // namespace
 
 extern "C" {
 
@@ -193,6 +332,7 @@ IMG_PTR port_aux_raster(IMG_PTR raster, IMG_PTR auxPtr) {
 static void port_load_one_texture(const char* archive, const MapTexMeta* meta, s32 metaIdx, s32 textureID) {
     TextureHandle* handle = &TextureHandles[textureID];
     const MapTexMeta* m = &meta[metaIdx];
+    MapTexMeta resized;
     TextureHeader header;
     Gfx* gfxCursor;
     IMG_PTR raster;
@@ -201,6 +341,14 @@ static void port_load_one_texture(const char* archive, const MapTexMeta* meta, s
     PAL_PTR auxPalette;
     b32 mainIsCI;
     b32 auxIsCI;
+
+    if (Mod_GetMapTextureSize(archive, m->name, &resized.mainW, &resized.mainH)) {
+        const u16 w = resized.mainW, h = resized.mainH;
+        resized = *m;
+        resized.mainW = w;
+        resized.mainH = h;
+        m = &resized;
+    }
 
     port_build_texture_header(&header, m);
 
@@ -353,7 +501,8 @@ void port_load_map_textures(ModelNode* rootModel, const char* archiveName) {
         return;
     }
 
-    for (i = 0; i < gMapTexArchiveCount; i++) {
+    arc = ModMapTexArchiveOverride(archiveName);
+    for (i = 0; arc == NULL && i < gMapTexArchiveCount; i++) {
         if (strcmp(gMapTexArchives[i].archive, archiveName) == 0) {
             arc = &gMapTexArchives[i];
             break;

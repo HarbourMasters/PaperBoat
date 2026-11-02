@@ -1,6 +1,11 @@
 #include "SaveEditor.h"
+#include "port/Engine.h"
+#include "port/features/Features.h"
 #include "port/ui/UIWidgets.hpp"
 #include "port/ActorTypeNames.h"
+#include "port/modding/SaveEditorLists.h"
+#include "port/modding/Items.h"
+#include "port/romhack/Romhack.h"
 #include <string>
 #include <spdlog/fmt/fmt.h>
 #include <imgui.h>
@@ -10,6 +15,8 @@
 #include "fast/interpreter.h"
 #include "fast/Fast3dWindow.h"
 #include "fast/Fast3dGui.h"
+#include "fast/resource/type/Texture.h"
+#include <unordered_set>
 
 #include "common_structs.h"
 #include "assets/ui.h"
@@ -24,24 +31,26 @@ extern s32 set_global_flag(s32 index);
 extern s32 clear_global_flag(s32 index);
 extern s32 get_global_flag(s32 index);
 extern void enforce_hpfp_limits(void);
+extern s32 get_consumables_capacity(void);
+
+extern s8* load_message_to_buffer(s32 msgID);
 
 extern const s32 CookableItemIDs[];
 extern const s32 CookableDiscoveredFlags[];
 
 extern SaveData gCurrentSaveFile;
 extern s32 gPausePartnersPartnerIDs[8];
-extern intptr_t gItemIconRasterOffsets[349];
-extern intptr_t gItemIconPaletteOffsets[349];
+extern intptr_t gItemIconRasterOffsets[];
+extern intptr_t gItemIconPaletteOffsets[];
 }
 
 #pragma push_macro("End")
 #undef End
 
-#define MAX_ICON_RASTER_SIZE 349
-#define MAX_INVENTORY_SIZE   10
-#define MAX_KEY_ITEM_SIZE    32
+#define MAX_KEY_ITEM_SIZE    ARRAY_COUNT(gPlayerData.keyItems)
 #define NUM_COOKABLE_RECIPES 52
-#define TOTAL_STAR_PIECES    160
+
+#define LIMIT(name) Mod::SaveEditorLimit(MOD_SAVE_EDITOR_LIMIT_##name)
 
 #define CVAR_NAME_POPOUT_SAVE_EDITOR "gOpenWindows.SaveEditor"
 
@@ -63,13 +72,6 @@ std::vector<std::pair<const char*, const char*>> partyMemberList = {
     { "Lakilester", ui_lakilester_png },
 };
 
-typedef struct {
-    const char* name;
-    s32 itemID;
-    s32 obtainedFlag;
-    bool returnedToParakarry;
-} LetterData;
-
 typedef enum {
     LETTER_NOT_FOUND,
     LETTER_WITH_PARAKARRY,
@@ -77,114 +79,114 @@ typedef enum {
     LETTER_DELIVERED,
 } LetterState;
 
-typedef struct {
-    const char* location;
-    const char* kind;
-    s32 flag;
-} StarPieceData;
+typedef Mod::SaveEditorEntry SaveEditorEntry;
 
 // Standalone letters Parakarry delivers, keyed by the flag set when the letter is picked up.
 // Delivering one only removes the key item, so "delivered" is picked up but no longer held.
-std::vector<LetterData> letterList = {
-    { "Letter to Merlon", ITEM_LETTER_TO_MERLON, GF_IWA01_Item_Letter01, true },
-    { "Letter to Goompa", ITEM_LETTER_TO_GOOMPA, GF_SBK30_Tree2_Letter02, false },
-    { "Letter to Mort T.", ITEM_LETTER_TO_MORT_T, GF_SBK36_Tree9_Letter03, false },
-    { "Letter to Russ T.", ITEM_LETTER_TO_RUSS_T, GF_JAN04_Tree2_Letter04, false },
-    { "Letter to Mayor Penguin", ITEM_LETTER_TO_MAYOR_PENGUIN, GF_SAM04_Item_Letter05, false },
-    { "Letter to Merlow", ITEM_LETTER_TO_MERLOW, GF_SAM05_Item_Letter06, false },
-    { "Letter to Fice T.", ITEM_LETTER_TO_FICE_T, GF_ARN02_Item_LetterFiceT, false },
-    { "Letter to Nomadimouse", ITEM_LETTER_TO_NOMADIMOUSE, GF_DRO02_Item_Letter08, false },
-    { "Letter to Minh T.", ITEM_LETTER_TO_MINH_T, GF_FLO17_Item_Letter09, false },
-    { "Letter to Igor", ITEM_LETTER_TO_IGOR, GF_JAN01_Item_Letter11, false },
-    { "Letter to Kolorado", ITEM_LETTER_TO_KOLORADO, GF_IWA03_Item_LettertoKolorado, true },
+const std::vector<SaveEditorEntry> kVanillaLetters = {
+    { "Letter to Merlon", "", ITEM_LETTER_TO_MERLON, GF_IWA01_Item_Letter01, 1 },
+    { "Letter to Goompa", "", ITEM_LETTER_TO_GOOMPA, GF_SBK30_Tree2_Letter02, 0 },
+    { "Letter to Mort T.", "", ITEM_LETTER_TO_MORT_T, GF_SBK36_Tree9_Letter03, 0 },
+    { "Letter to Russ T.", "", ITEM_LETTER_TO_RUSS_T, GF_JAN04_Tree2_Letter04, 0 },
+    { "Letter to Mayor Penguin", "", ITEM_LETTER_TO_MAYOR_PENGUIN, GF_SAM04_Item_Letter05, 0 },
+    { "Letter to Merlow", "", ITEM_LETTER_TO_MERLOW, GF_SAM05_Item_Letter06, 0 },
+    { "Letter to Fice T.", "", ITEM_LETTER_TO_FICE_T, GF_ARN02_Item_LetterFiceT, 0 },
+    { "Letter to Nomadimouse", "", ITEM_LETTER_TO_NOMADIMOUSE, GF_DRO02_Item_Letter08, 0 },
+    { "Letter to Minh T.", "", ITEM_LETTER_TO_MINH_T, GF_FLO17_Item_Letter09, 0 },
+    { "Letter to Igor", "", ITEM_LETTER_TO_IGOR, GF_JAN01_Item_Letter11, 0 },
+    { "Letter to Kolorado", "", ITEM_LETTER_TO_KOLORADO, GF_IWA03_Item_LettertoKolorado, 1 },
 };
 
 // The chain letter quest in delivery order, named after the recipient. Each letter is the reward
 // for delivering the one before it, so only the first has a pickup flag and the rest of the chain
 // is derived from which chain letter is currently held.
-std::vector<LetterData> chainLetterList = {
-    { "Goompapa (1st)", ITEM_LETTER_CHAIN_GOOMPAPA_1, GF_IWA04_Item_Letter10, true },
-    { "Muss T.", ITEM_LETTER_CHAIN_MUSS_T },
-    { "Koover (1st)", ITEM_LETTER_CHAIN_KOOVER_1 },
-    { "Fishmael", ITEM_LETTER_CHAIN_FISHMAEL },
-    { "Koover (2nd)", ITEM_LETTER_CHAIN_KOOVER_2 },
-    { "Mr. E", ITEM_LETTER_CHAIN_MR_E },
-    { "Miss T.", ITEM_LETTER_CHAIN_MISS_T },
-    { "Little Mouser", ITEM_LETTER_CHAIN_LITTLE_MOUSER },
-    { "Franky", ITEM_LETTER_CHAIN_FRANKY },
-    { "Dane T. (1st)", ITEM_LETTER_CHAIN_DANE_T_1 },
-    { "Yoshi Kid", ITEM_LETTER_CHAIN_YOSHI_KID },
-    { "Dane T. (2nd)", ITEM_LETTER_CHAIN_DANE_T_2 },
-    { "Frost T.", ITEM_LETTER_CHAIN_FROST_T },
-    { "Goompapa (2nd)", ITEM_LETTER_CHAIN_GOOMPAPA_2 },
+const std::vector<SaveEditorEntry> kVanillaChainLetters = {
+    { "Goompapa (1st)", "", ITEM_LETTER_CHAIN_GOOMPAPA_1, GF_IWA04_Item_Letter10, 1 },
+    { "Muss T.", "", ITEM_LETTER_CHAIN_MUSS_T, 0, 0 },
+    { "Koover (1st)", "", ITEM_LETTER_CHAIN_KOOVER_1, 0, 0 },
+    { "Fishmael", "", ITEM_LETTER_CHAIN_FISHMAEL, 0, 0 },
+    { "Koover (2nd)", "", ITEM_LETTER_CHAIN_KOOVER_2, 0, 0 },
+    { "Mr. E", "", ITEM_LETTER_CHAIN_MR_E, 0, 0 },
+    { "Miss T.", "", ITEM_LETTER_CHAIN_MISS_T, 0, 0 },
+    { "Little Mouser", "", ITEM_LETTER_CHAIN_LITTLE_MOUSER, 0, 0 },
+    { "Franky", "", ITEM_LETTER_CHAIN_FRANKY, 0, 0 },
+    { "Dane T. (1st)", "", ITEM_LETTER_CHAIN_DANE_T_1, 0, 0 },
+    { "Yoshi Kid", "", ITEM_LETTER_CHAIN_YOSHI_KID, 0, 0 },
+    { "Dane T. (2nd)", "", ITEM_LETTER_CHAIN_DANE_T_2, 0, 0 },
+    { "Frost T.", "", ITEM_LETTER_CHAIN_FROST_T, 0, 0 },
+    { "Goompapa (2nd)", "", ITEM_LETTER_CHAIN_GOOMPAPA_2, 0, 0 },
 };
 
 // The 63 star pieces lying around the overworld - the same set Merluvlee can predict.
-std::vector<StarPieceData> starPieceList = {
-    { "Goomba Village (kmr_05)", "Overworld", GF_KMR05_Item_StarPiece },
-    { "Goomba Village (kmr_11)", "Tree", GF_KMR11_Tree1_StarPiece },
-    { "Goomba Village (kmr_00)", "Hidden Panel", GF_KMR00_HiddenPanel },
-    { "Goomba Village (kmr_03)", "Hidden Panel", GF_KMR03_HiddenPanel },
-    { "Goomba Village (kmr_11)", "Hidden Panel", GF_KMR11_HiddenPanel },
-    { "Toad Town (mac_00)", "Overworld", GF_MAC00_Item_StarPiece },
-    { "Toad Town (mac_00)", "Hidden Panel", GF_MAC00_HiddenPanel },
-    { "Toad Town (mac_02)", "Hidden Panel", GF_MAC02_HiddenPanel },
-    { "Toad Town (mac_03)", "Hidden Panel", GF_MAC03_HiddenPanel },
-    { "Toad Town (mac_05)", "Hidden Panel", GF_MAC05_HiddenPanel },
-    { "Toad Town (mac_01)", "Tree", GF_MAC01_Tree1_StarPiece },
-    { "Shooting Star Summit (hos_00)", "Hidden Panel", GF_HOS00_HiddenPanel },
-    { "Shooting Star Summit (hos_01)", "Hidden Panel", GF_HOS01_HiddenPanel },
-    { "Shooting Star Summit (hos_06)", "Hidden Panel", GF_HOS06_HiddenPanel },
-    { "Shooting Star Summit (hos_01)", "Overworld", GF_HOS01_Item_StarPiece },
-    { "Toad Town Tunnels (tik_07)", "Overworld", GF_TIK07_Item_StarPiece },
-    { "Koopa Village (nok_12)", "Overworld", GF_NOK12_Item_StarPiece },
-    { "Koopa Village (nok_01)", "Hidden Panel", GF_NOK01_HiddenPanel },
-    { "Koopa Village (nok_13)", "Hidden Panel", GF_NOK13_HiddenPanel },
-    { "Koopa Village (nok_14)", "Hidden Panel", GF_NOK14_HiddenPanel },
-    { "Koopa Village (nok_02)", "Overworld", GF_NOK02_Item_StarPiece },
-    { "Koopa Village (nok_15)", "Tree", GF_NOK15_Tree1_StarPiece },
-    { "Mt. Rugged (iwa_02)", "Overworld", GF_IWA02_Item_StarPiece },
-    { "Mt. Rugged (iwa_01)", "Hidden Panel", GF_IWA01_HiddenPanel },
-    { "Mt. Rugged (iwa_03)", "Overworld", GF_IWA03_Item_StarPiece },
-    { "Dry Dry Desert (sbk_33)", "Hidden Panel", GF_SBK33_HiddenPanel },
-    { "Dry Dry Outpost (dro_02)", "Hidden Panel", GF_DRO02_HiddenPanel },
-    { "Dry Dry Ruins (isk_06)", "Overworld", GF_ISK06_Item_StarPiece },
-    { "Boo's Mansion (obk_01)", "Hidden Panel", GF_OBK01_HiddenPanel },
-    { "Boo's Mansion (obk_02)", "Hidden Panel", GF_OBK02_HiddenPanel },
-    { "Boo's Mansion (obk_04)", "Hidden Panel", GF_OBK04_HiddenPanel },
-    { "Boo's Mansion (obk_08)", "Hidden Panel", GF_OBK08_HiddenPanel },
-    { "Boo's Mansion (obk_06)", "Crate", GF_OBK06_Crate_StarPiece },
-    { "Forever Forest (mim_12)", "Hidden Panel", GF_MIM12_HiddenPanel },
-    { "Gusty Gulch (arn_04)", "Overworld", GF_ARN04_Item_StarPiece },
-    { "Tubba Blubba's Castle (dgb_03)", "Overworld", GF_DGB03_Item_StarPiece },
-    { "Tubba Blubba's Castle (dgb_07)", "Overworld", GF_DGB07_Item_StarPiece },
-    { "Shy Guy's Toy Box (omo_04)", "Overworld", GF_OMO04_Item_StarPieceA },
-    { "Shy Guy's Toy Box (omo_03)", "Hidden Panel", GF_OMO03_HiddenPanel },
-    { "Shy Guy's Toy Box (omo_06)", "Hidden Panel", GF_OMO06_HiddenPanel },
-    { "Shy Guy's Toy Box (omo_08)", "Hidden Panel", GF_OMO08_HiddenPanel },
-    { "Shy Guy's Toy Box (omo_10)", "Hidden Panel", GF_OMO10_HiddenPanel },
-    { "Shy Guy's Toy Box (omo_04)", "Overworld", GF_OMO04_Item_StarPieceB },
-    { "Shy Guy's Toy Box (omo_09)", "Overworld", GF_OMO09_Item_StarPiece },
-    { "Jade Jungle (jan_02)", "Hidden Panel", GF_JAN02_HiddenPanel },
-    { "Jade Jungle (jan_15)", "Hidden Panel", GF_JAN15_HiddenPanel },
-    { "Jade Jungle (jan_04)", "Overworld", GF_JAN04_Item_StarPiece },
-    { "Jade Jungle (jan_01)", "Tree", GF_JAN01_Tree7_StarPiece },
-    { "Jade Jungle (jan_10)", "Overworld", GF_JAN10_Item_StarPiece },
-    { "Mt. Lavalava (kzn_09)", "Hidden Panel", GF_KZN09_HiddenPanel },
-    { "Mt. Lavalava (kzn_18)", "Hidden Panel", GF_KZN18_HiddenPanel },
-    { "Flower Fields (flo_16)", "Overworld", GF_FLO16_Item_StarPiece },
-    { "Flower Fields (flo_03)", "Hidden Panel", GF_FLO03_HiddenPanel },
-    { "Flower Fields (flo_24)", "Hidden Panel", GF_FLO24_HiddenPanel },
-    { "Flower Fields (flo_14)", "Overworld", GF_FLO14_Item_StarPiece },
-    { "Flower Fields (flo_25)", "Hidden Panel", GF_FLO25_HiddenPanel },
-    { "Flower Fields (flo_08)", "Overworld", GF_FLO08_Item_StarPiece },
-    { "Shiver City (sam_10)", "Overworld", GF_SAM10_Item_StarPiece },
-    { "Shiver City (sam_01)", "Hidden Panel", GF_SAM01_HiddenPanel },
-    { "Shiver City (sam_04)", "Hidden Panel", GF_SAM04_HiddenPanel },
-    { "Crystal Palace (pra_15)", "Overworld", GF_PRA15_Item_StarPiece },
-    { "Crystal Palace (pra_21)", "Hidden Panel", GF_PRA21_HiddenPanel },
-    { "Crystal Palace (pra_22)", "Hidden Panel", GF_PRA22_HiddenPanel },
+const std::vector<SaveEditorEntry> kVanillaStarPieces = {
+    { "Goomba Village (kmr_05)", "Overworld", 0, GF_KMR05_Item_StarPiece, 0 },
+    { "Goomba Village (kmr_11)", "Tree", 0, GF_KMR11_Tree1_StarPiece, 0 },
+    { "Goomba Village (kmr_00)", "Hidden Panel", 0, GF_KMR00_HiddenPanel, 0 },
+    { "Goomba Village (kmr_03)", "Hidden Panel", 0, GF_KMR03_HiddenPanel, 0 },
+    { "Goomba Village (kmr_11)", "Hidden Panel", 0, GF_KMR11_HiddenPanel, 0 },
+    { "Toad Town (mac_00)", "Overworld", 0, GF_MAC00_Item_StarPiece, 0 },
+    { "Toad Town (mac_00)", "Hidden Panel", 0, GF_MAC00_HiddenPanel, 0 },
+    { "Toad Town (mac_02)", "Hidden Panel", 0, GF_MAC02_HiddenPanel, 0 },
+    { "Toad Town (mac_03)", "Hidden Panel", 0, GF_MAC03_HiddenPanel, 0 },
+    { "Toad Town (mac_05)", "Hidden Panel", 0, GF_MAC05_HiddenPanel, 0 },
+    { "Toad Town (mac_01)", "Tree", 0, GF_MAC01_Tree1_StarPiece, 0 },
+    { "Shooting Star Summit (hos_00)", "Hidden Panel", 0, GF_HOS00_HiddenPanel, 0 },
+    { "Shooting Star Summit (hos_01)", "Hidden Panel", 0, GF_HOS01_HiddenPanel, 0 },
+    { "Shooting Star Summit (hos_06)", "Hidden Panel", 0, GF_HOS06_HiddenPanel, 0 },
+    { "Shooting Star Summit (hos_01)", "Overworld", 0, GF_HOS01_Item_StarPiece, 0 },
+    { "Toad Town Tunnels (tik_07)", "Overworld", 0, GF_TIK07_Item_StarPiece, 0 },
+    { "Koopa Village (nok_12)", "Overworld", 0, GF_NOK12_Item_StarPiece, 0 },
+    { "Koopa Village (nok_01)", "Hidden Panel", 0, GF_NOK01_HiddenPanel, 0 },
+    { "Koopa Village (nok_13)", "Hidden Panel", 0, GF_NOK13_HiddenPanel, 0 },
+    { "Koopa Village (nok_14)", "Hidden Panel", 0, GF_NOK14_HiddenPanel, 0 },
+    { "Koopa Village (nok_02)", "Overworld", 0, GF_NOK02_Item_StarPiece, 0 },
+    { "Koopa Village (nok_15)", "Tree", 0, GF_NOK15_Tree1_StarPiece, 0 },
+    { "Mt. Rugged (iwa_02)", "Overworld", 0, GF_IWA02_Item_StarPiece, 0 },
+    { "Mt. Rugged (iwa_01)", "Hidden Panel", 0, GF_IWA01_HiddenPanel, 0 },
+    { "Mt. Rugged (iwa_03)", "Overworld", 0, GF_IWA03_Item_StarPiece, 0 },
+    { "Dry Dry Desert (sbk_33)", "Hidden Panel", 0, GF_SBK33_HiddenPanel, 0 },
+    { "Dry Dry Outpost (dro_02)", "Hidden Panel", 0, GF_DRO02_HiddenPanel, 0 },
+    { "Dry Dry Ruins (isk_06)", "Overworld", 0, GF_ISK06_Item_StarPiece, 0 },
+    { "Boo's Mansion (obk_01)", "Hidden Panel", 0, GF_OBK01_HiddenPanel, 0 },
+    { "Boo's Mansion (obk_02)", "Hidden Panel", 0, GF_OBK02_HiddenPanel, 0 },
+    { "Boo's Mansion (obk_04)", "Hidden Panel", 0, GF_OBK04_HiddenPanel, 0 },
+    { "Boo's Mansion (obk_08)", "Hidden Panel", 0, GF_OBK08_HiddenPanel, 0 },
+    { "Boo's Mansion (obk_06)", "Crate", 0, GF_OBK06_Crate_StarPiece, 0 },
+    { "Forever Forest (mim_12)", "Hidden Panel", 0, GF_MIM12_HiddenPanel, 0 },
+    { "Gusty Gulch (arn_04)", "Overworld", 0, GF_ARN04_Item_StarPiece, 0 },
+    { "Tubba Blubba's Castle (dgb_03)", "Overworld", 0, GF_DGB03_Item_StarPiece, 0 },
+    { "Tubba Blubba's Castle (dgb_07)", "Overworld", 0, GF_DGB07_Item_StarPiece, 0 },
+    { "Shy Guy's Toy Box (omo_04)", "Overworld", 0, GF_OMO04_Item_StarPieceA, 0 },
+    { "Shy Guy's Toy Box (omo_03)", "Hidden Panel", 0, GF_OMO03_HiddenPanel, 0 },
+    { "Shy Guy's Toy Box (omo_06)", "Hidden Panel", 0, GF_OMO06_HiddenPanel, 0 },
+    { "Shy Guy's Toy Box (omo_08)", "Hidden Panel", 0, GF_OMO08_HiddenPanel, 0 },
+    { "Shy Guy's Toy Box (omo_10)", "Hidden Panel", 0, GF_OMO10_HiddenPanel, 0 },
+    { "Shy Guy's Toy Box (omo_04)", "Overworld", 0, GF_OMO04_Item_StarPieceB, 0 },
+    { "Shy Guy's Toy Box (omo_09)", "Overworld", 0, GF_OMO09_Item_StarPiece, 0 },
+    { "Jade Jungle (jan_02)", "Hidden Panel", 0, GF_JAN02_HiddenPanel, 0 },
+    { "Jade Jungle (jan_15)", "Hidden Panel", 0, GF_JAN15_HiddenPanel, 0 },
+    { "Jade Jungle (jan_04)", "Overworld", 0, GF_JAN04_Item_StarPiece, 0 },
+    { "Jade Jungle (jan_01)", "Tree", 0, GF_JAN01_Tree7_StarPiece, 0 },
+    { "Jade Jungle (jan_10)", "Overworld", 0, GF_JAN10_Item_StarPiece, 0 },
+    { "Mt. Lavalava (kzn_09)", "Hidden Panel", 0, GF_KZN09_HiddenPanel, 0 },
+    { "Mt. Lavalava (kzn_18)", "Hidden Panel", 0, GF_KZN18_HiddenPanel, 0 },
+    { "Flower Fields (flo_16)", "Overworld", 0, GF_FLO16_Item_StarPiece, 0 },
+    { "Flower Fields (flo_03)", "Hidden Panel", 0, GF_FLO03_HiddenPanel, 0 },
+    { "Flower Fields (flo_24)", "Hidden Panel", 0, GF_FLO24_HiddenPanel, 0 },
+    { "Flower Fields (flo_14)", "Overworld", 0, GF_FLO14_Item_StarPiece, 0 },
+    { "Flower Fields (flo_25)", "Hidden Panel", 0, GF_FLO25_HiddenPanel, 0 },
+    { "Flower Fields (flo_08)", "Overworld", 0, GF_FLO08_Item_StarPiece, 0 },
+    { "Shiver City (sam_10)", "Overworld", 0, GF_SAM10_Item_StarPiece, 0 },
+    { "Shiver City (sam_01)", "Hidden Panel", 0, GF_SAM01_HiddenPanel, 0 },
+    { "Shiver City (sam_04)", "Hidden Panel", 0, GF_SAM04_HiddenPanel, 0 },
+    { "Crystal Palace (pra_15)", "Overworld", 0, GF_PRA15_Item_StarPiece, 0 },
+    { "Crystal Palace (pra_21)", "Hidden Panel", 0, GF_PRA21_HiddenPanel, 0 },
+    { "Crystal Palace (pra_22)", "Hidden Panel", 0, GF_PRA22_HiddenPanel, 0 },
 };
+
+std::vector<SaveEditorEntry> letterList;
+std::vector<SaveEditorEntry> chainLetterList;
+std::vector<SaveEditorEntry> starPieceList;
 
 void SaveEditor_PushImageButtonStyle() {
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
@@ -261,7 +263,8 @@ TextureData GetRankTexture(int32_t currentRank) {
 }
 
 bool PlayerHasItem(int16_t itemId) {
-    for (int i = 0; i < 10; i++) {
+    const int capacity = get_consumables_capacity();
+    for (int i = 0; i < capacity; i++) {
         if (gPlayerData.invItems[i] == itemId) {
             return true;
         }
@@ -270,7 +273,7 @@ bool PlayerHasItem(int16_t itemId) {
 }
 
 bool PlayerHasBadge(int16_t badgeId) {
-    for (int b = 0; b < 128; b++) {
+    for (int b = 0; b < ARRAY_COUNT(gPlayerData.badges); b++) {
         if (gPlayerData.badges[b] == badgeId) {
             return true;
         }
@@ -280,14 +283,14 @@ bool PlayerHasBadge(int16_t badgeId) {
 
 void AddRemove_Badge(int badgeId, bool currentState) {
     if (currentState) {
-        for (int b = 0; b < 128; b++) {
+        for (int b = 0; b < ARRAY_COUNT(gPlayerData.badges); b++) {
             if (gPlayerData.badges[b] == badgeId) {
                 gPlayerData.badges[b] = 0;
                 break;
             }
         }
     } else {
-        for (int b = 0; b < 128; b++) {
+        for (int b = 0; b < ARRAY_COUNT(gPlayerData.badges); b++) {
             if (gPlayerData.badges[b] == 0) {
                 gPlayerData.badges[b] = badgeId;
                 break;
@@ -297,15 +300,16 @@ void AddRemove_Badge(int badgeId, bool currentState) {
 }
 
 void AddRemove_Item(int itemId, bool currentState) {
+    const int capacity = get_consumables_capacity();
     if (currentState) {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < capacity; i++) {
             if (gPlayerData.invItems[i] == itemId) {
                 gPlayerData.invItems[i] = 0;
                 break;
             }
         }
     } else {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < capacity; i++) {
             if (gPlayerData.invItems[i] == 0) {
                 gPlayerData.invItems[i] = itemId;
                 break;
@@ -356,51 +360,51 @@ bool ParakarryHoldsLostLetters() {
     return get_global_byte(EVT_INDEX_OF_GAME_BYTE(GB_StoryProgress)) < STORY_CH2_PARAKARRY_JOINED_PARTY;
 }
 
-LetterState GetLetterState(const LetterData& letter) {
-    if (PlayerHasKeyItem(letter.itemID)) {
+LetterState GetLetterState(const SaveEditorEntry& letter) {
+    if (PlayerHasKeyItem(letter.id)) {
         return LETTER_IN_ITEMS;
     }
-    if (!get_global_flag(letter.obtainedFlag)) {
+    if (!get_global_flag(letter.flag)) {
         return LETTER_NOT_FOUND;
     }
-    if (letter.returnedToParakarry && ParakarryHoldsLostLetters()) {
+    if (letter.option && ParakarryHoldsLostLetters()) {
         return LETTER_WITH_PARAKARRY;
     }
     return LETTER_DELIVERED;
 }
 
-void SetLetterState(const LetterData& letter, LetterState state) {
-    bool held = PlayerHasKeyItem(letter.itemID);
+void SetLetterState(const SaveEditorEntry& letter, LetterState state) {
+    bool held = PlayerHasKeyItem(letter.id);
 
     if (state == LETTER_IN_ITEMS) {
         if (!held && CountUsedKeyItemSlots() >= MAX_KEY_ITEM_SIZE) {
             return;
         }
-        set_global_flag(letter.obtainedFlag);
+        set_global_flag(letter.flag);
         if (!held) {
-            AddRemove_KeyItem(letter.itemID, false);
+            AddRemove_KeyItem(letter.id, false);
         }
         return;
     }
 
     if (held) {
-        AddRemove_KeyItem(letter.itemID, true);
+        AddRemove_KeyItem(letter.id, true);
     }
     if (state == LETTER_NOT_FOUND) {
-        clear_global_flag(letter.obtainedFlag);
+        clear_global_flag(letter.flag);
     } else {
-        set_global_flag(letter.obtainedFlag);
+        set_global_flag(letter.flag);
     }
 }
 
 // 0 = not started, N = holding chain letter N - 1, size + 1 = finished, -1 = first letter is with Parakarry.
 int32_t GetChainLetterProgress() {
     for (int i = (int) chainLetterList.size() - 1; i >= 0; i--) {
-        if (PlayerHasKeyItem(chainLetterList[i].itemID)) {
+        if (PlayerHasKeyItem(chainLetterList[i].id)) {
             return i + 1;
         }
     }
-    if (!get_global_flag(chainLetterList[0].obtainedFlag)) {
+    if (chainLetterList.empty() || !get_global_flag(chainLetterList[0].flag)) {
         return 0;
     }
     if (ParakarryHoldsLostLetters()) {
@@ -411,17 +415,20 @@ int32_t GetChainLetterProgress() {
 
 void SetChainLetterProgress(int32_t progress) {
     for (auto& letter : chainLetterList) {
-        if (PlayerHasKeyItem(letter.itemID)) {
-            AddRemove_KeyItem(letter.itemID, true);
+        if (PlayerHasKeyItem(letter.id)) {
+            AddRemove_KeyItem(letter.id, true);
         }
     }
-    if (progress <= 0) {
-        clear_global_flag(chainLetterList[0].obtainedFlag);
+    if (chainLetterList.empty()) {
         return;
     }
-    set_global_flag(chainLetterList[0].obtainedFlag);
+    if (progress <= 0) {
+        clear_global_flag(chainLetterList[0].flag);
+        return;
+    }
+    set_global_flag(chainLetterList[0].flag);
     if (progress <= (int32_t) chainLetterList.size()) {
-        AddRemove_KeyItem(chainLetterList[progress - 1].itemID, false);
+        AddRemove_KeyItem(chainLetterList[progress - 1].id, false);
     }
 }
 
@@ -492,36 +499,62 @@ ImVec4 LetterStateColor(LetterState state) {
     }
 }
 
-// Mirrors what picking a star piece up does: sets the pickup flag and moves both counters.
-void SetStarPieceCollected(const StarPieceData& starPiece, bool collected) {
-    bool wasCollected = get_global_flag(starPiece.flag) != 0;
+int32_t GetStarPieces() {
+    return gPlayerData.starPieces;
+}
+
+void SetStarPieces(int32_t value) {
+    gPlayerData.starPieces = value;
+}
+
+int32_t GetStarPiecesCollected() {
+    return gPlayerData.starPiecesCollected;
+}
+
+void SetStarPiecesCollected(int32_t value) {
+    gPlayerData.starPiecesCollected = value;
+}
+
+std::vector<Mod::SaveEditorCounter> StarPieceCounters() {
+    return {
+        { "Current Pieces", GetStarPieces, SetStarPieces, MAX_STAR_PIECES },
+        { "Collected Pieces", GetStarPiecesCollected, SetStarPiecesCollected, LIMIT(STAR_PIECES) },
+    };
+}
+
+// Mirrors what picking a collectible up does: sets the pickup flag and moves every counter by one.
+void SetCollected(const SaveEditorEntry& entry, const std::vector<Mod::SaveEditorCounter>& counters, bool collected) {
+    bool wasCollected = get_global_flag(entry.flag) != 0;
 
     if (collected == wasCollected) {
         return;
     }
 
     if (collected) {
-        set_global_flag(starPiece.flag);
-        if (gPlayerData.starPieces < TOTAL_STAR_PIECES) {
-            gPlayerData.starPieces++;
-        }
-        if (gPlayerData.starPiecesCollected < TOTAL_STAR_PIECES) {
-            gPlayerData.starPiecesCollected++;
-        }
+        set_global_flag(entry.flag);
     } else {
-        clear_global_flag(starPiece.flag);
-        if (gPlayerData.starPieces > 0) {
-            gPlayerData.starPieces--;
-        }
-        if (gPlayerData.starPiecesCollected > 0) {
-            gPlayerData.starPiecesCollected--;
+        clear_global_flag(entry.flag);
+    }
+    for (const Mod::SaveEditorCounter& counter : counters) {
+        const int32_t value = counter.get();
+        if (collected && value < counter.max) {
+            counter.set(value + 1);
+        } else if (!collected && value > 0) {
+            counter.set(value - 1);
         }
     }
 }
 
 // Tattle state lives in the saved game bytes; gBattleStatus.tattleFlags is a runtime mirror
 // that battles OR on top, so read both and write both.
+bool TattleInRange(int32_t actorType) {
+    return actorType >= 0 && actorType < (int32_t) ARRAY_COUNT(gBattleStatus.tattleFlags) * 8;
+}
+
 bool GetTattleFlag(int32_t actorType) {
+    if (!TattleInRange(actorType)) {
+        return false;
+    }
     int32_t flags = get_global_byte(EVT_INDEX_OF_GAME_BYTE(GB_Tattles_00) + actorType / 8);
 
     flags |= gBattleStatus.tattleFlags[actorType / 8];
@@ -529,6 +562,9 @@ bool GetTattleFlag(int32_t actorType) {
 }
 
 void SetTattleFlag(int32_t actorType, bool known) {
+    if (!TattleInRange(actorType)) {
+        return;
+    }
     int32_t byteIndex = actorType / 8;
     int32_t bit = 1 << (actorType % 8);
     int32_t saved = get_global_byte(EVT_INDEX_OF_GAME_BYTE(GB_Tattles_00) + byteIndex) & 0xFF;
@@ -569,19 +605,235 @@ bool ContainsIgnoreCase(const char* haystack, const char* needle) {
     return false;
 }
 
-void SaveEditor_DrawImageButton(int32_t iconIndex, const char* itemType) {
-    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
-    const char* rasterPath = reinterpret_cast<const char*>(gItemIconRasterOffsets[iconIndex]);
-    const char* palettePath = reinterpret_cast<const char*>(gItemIconPaletteOffsets[iconIndex]);
-    ImTextureID itemTexture = gui->GetTextureByName(rasterPath);
-    bool hasItem = false;
+typedef enum {
+    ITEM_BUTTON_ADD_ITEM,
+    ITEM_BUTTON_TOGGLE_BADGE,
+    ITEM_BUTTON_REMOVE_ITEM,
+} ItemButtonAction;
 
-    if (itemType == "food" || itemType == "battle") {
-        hasItem = PlayerHasItem(iconIndex);
-    } else if (itemType == "badge") {
-        hasItem = PlayerHasBadge(iconIndex);
-    } else {
-        hasItem = true;
+const char* ItemRaster(int32_t itemID) {
+    if (itemID < 0 || itemID >= ITEM_TABLE_CAPACITY) {
+        return nullptr;
+    }
+    return reinterpret_cast<const char*>(gItemIconRasterOffsets[itemID]);
+}
+
+typedef struct {
+    const char* raster;
+    const char* palette;
+    s16 typeFlags;
+    s32 nameMsg;
+} VanillaItem;
+
+std::vector<VanillaItem> SnapshotVanillaItems() {
+    std::vector<VanillaItem> items;
+
+    for (int32_t i = 0; i < NUM_ITEMS; i++) {
+        items.push_back(
+            { reinterpret_cast<const char*>(gItemIconRasterOffsets[i]),
+              reinterpret_cast<const char*>(gItemIconPaletteOffsets[i]), gItemTable[i].typeFlags,
+              gItemTable[i].nameMsg }
+        );
+    }
+    return items;
+}
+
+// Taken at static init, before a romhack rewrites the item tables, so replaced slots can be told apart.
+const std::vector<VanillaItem> kVanillaItems = SnapshotVanillaItems();
+
+bool IsPlaceholderIcon(const char* raster) {
+    const char* placeholder = kVanillaItems.empty() ? nullptr : kVanillaItems[0].raster;
+    return raster == nullptr || (placeholder != nullptr && strcmp(raster, placeholder) == 0);
+}
+
+// Vanilla icons sit in badge/food/battle folders, which is how the tabs have always been split.
+// Icons outside those folders (a romhack's own) fall back to the item's type flags.
+int32_t ListForIcon(const char* raster, s16 typeFlags) {
+    if (IsPlaceholderIcon(raster)) {
+        return -1;
+    }
+    std::string_view path = raster;
+    if (path.find("/badge/") != std::string_view::npos) {
+        return MOD_SAVE_EDITOR_BADGES;
+    }
+    if (path.find("/food/") != std::string_view::npos) {
+        return MOD_SAVE_EDITOR_FOOD;
+    }
+    if (path.find("/battle/") != std::string_view::npos) {
+        return MOD_SAVE_EDITOR_BATTLE_ITEMS;
+    }
+    if (typeFlags & ITEM_TYPE_FLAG_BADGE) {
+        return MOD_SAVE_EDITOR_BADGES;
+    }
+    if (typeFlags & ITEM_TYPE_FLAG_FOOD_OR_DRINK) {
+        return MOD_SAVE_EDITOR_FOOD;
+    }
+    if (typeFlags & ITEM_TYPE_FLAG_BATTLE_USABLE) {
+        return MOD_SAVE_EDITOR_BATTLE_ITEMS;
+    }
+    return -1;
+}
+
+int32_t ItemListFor(int32_t itemID) {
+    if (itemID <= 0 || itemID >= gItemCount) {
+        return -1;
+    }
+    return ListForIcon(ItemRaster(itemID), gItemTable[itemID].typeFlags);
+}
+
+bool IsReplacedSlot(int32_t itemID) {
+    const char* current = ItemRaster(itemID);
+    const char* vanilla = kVanillaItems[itemID].raster;
+
+    return current != nullptr && (vanilla == nullptr || strcmp(current, vanilla) != 0);
+}
+
+std::string ItemOwnerFor(int32_t itemID) {
+    std::string owner = Mod::ItemOwner(itemID);
+    if (owner.empty() && Romhack_GetId() != nullptr) {
+        owner = Romhack_GetId();
+    }
+    return owner.empty() ? "Mods" : owner;
+}
+
+typedef struct {
+    std::vector<SaveEditorEntry> entries;
+    std::vector<SaveEditorEntry> disabled;
+} ItemSections;
+
+// A vanilla slot whose icon changed holds a romhack's item now: that item counts as added by the romhack,
+// and the vanilla item it took the place of as disabled.
+ItemSections BuildItemSections(int32_t list) {
+    std::vector<SaveEditorEntry> defaults;
+    ItemSections sections;
+
+    for (int32_t i = 1; i < std::max<int32_t>(gItemCount, NUM_ITEMS); i++) {
+        const bool vanillaSlot = i < NUM_ITEMS;
+        const bool replaced = vanillaSlot && IsReplacedSlot(i);
+
+        if (ItemListFor(i) == list) {
+            defaults.push_back({ "", "", i, 0, 0, vanillaSlot && !replaced ? "" : ItemOwnerFor(i) });
+        }
+        if (replaced && ListForIcon(kVanillaItems[i].raster, kVanillaItems[i].typeFlags) == list) {
+            sections.disabled.push_back({ "", "", i, 0, 1, ItemOwnerFor(i) });
+        }
+    }
+    sections.entries = Mod::SaveEditorList(list, defaults);
+    for (SaveEditorEntry& removed : Mod::SaveEditorRemoved(list, defaults)) {
+        sections.disabled.push_back(removed);
+    }
+    return sections;
+}
+
+std::vector<std::pair<std::string, std::vector<SaveEditorEntry>>>
+GroupByOwner(const std::vector<SaveEditorEntry>& entries) {
+    std::vector<std::pair<std::string, std::vector<SaveEditorEntry>>> groups = { { "", {} } };
+
+    for (const SaveEditorEntry& entry : entries) {
+        auto group = std::find_if(groups.begin(), groups.end(), [&](const auto& g) { return g.first == entry.owner; });
+        if (group == groups.end()) {
+            groups.push_back({ entry.owner, {} });
+            group = std::prev(groups.end());
+        }
+        group->second.push_back(entry);
+    }
+    return groups;
+}
+
+const char* kAddedBy = "Collectables added by";
+
+void SaveEditor_DrawOwnerHeader(const std::string& owner, const std::string& what) {
+    const std::string name = Mod::SaveEditorOwnerName(owner);
+    ImGui::SeparatorText(name.c_str());
+    ImGui::TextDisabled("%s %s", what.c_str(), name.c_str());
+}
+
+// The item names are plain text in the US charset: 0x00-0x5F are ASCII shifted down by 0x20.
+std::string MessageText(int32_t msgID) {
+    const u8* msg = reinterpret_cast<const u8*>(load_message_to_buffer(msgID));
+    std::string text;
+
+    if (msg == nullptr) {
+        return text;
+    }
+    for (int i = 0; i < 0x100; i++) {
+        const u8 c = msg[i];
+        if (c == MSG_CHAR_READ_END || c == 0xFF) {
+            break;
+        }
+        if (c == MSG_CHAR_READ_SPACE || c == MSG_CHAR_READ_ENDL) {
+            if (!text.empty() && text.back() != ' ') {
+                text += ' ';
+            }
+        } else if (c < 0x60) {
+            text += (char) (c + 0x20);
+        }
+    }
+    while (!text.empty() && text.back() == ' ') {
+        text.pop_back();
+    }
+    return text;
+}
+
+ImTextureID IconTexture(const std::shared_ptr<Fast::Fast3dGui>& gui, const char* raster, const char* palette) {
+    static std::unordered_set<std::string> sTried;
+
+    if (raster == nullptr) {
+        return nullptr;
+    }
+    if (!gui->HasTextureByName(raster) && sTried.insert(raster).second) {
+        auto texture = std::dynamic_pointer_cast<Fast::Texture>(
+            Ship::Context::GetRawInstance()->GetResourceManager()->LoadResource(raster, true)
+        );
+        if (texture != nullptr) {
+            gui->LoadGuiTexture(raster, *texture, palette != nullptr ? palette : "");
+        }
+    }
+    return gui->GetTextureByName(raster);
+}
+
+ImTextureID ItemIconTexture(const std::shared_ptr<Fast::Fast3dGui>& gui, int32_t itemID) {
+    if (itemID < 0 || itemID >= ITEM_TABLE_CAPACITY) {
+        return nullptr;
+    }
+    return IconTexture(gui, ItemRaster(itemID), reinterpret_cast<const char*>(gItemIconPaletteOffsets[itemID]));
+}
+
+std::string IconName(const char* raster) {
+    if (raster != nullptr && strchr(raster, '/') != nullptr) {
+        return GetNameFromPath(raster);
+    }
+    return "";
+}
+
+std::string ItemTooltip(const SaveEditorEntry& entry) {
+    if (!entry.name.empty()) {
+        return entry.name;
+    }
+    if (entry.id > 0 && entry.id < gItemCount) {
+        std::string name = MessageText(gItemTable[entry.id].nameMsg);
+        if (!name.empty()) {
+            return name;
+        }
+    }
+    std::string name = IconName(ItemRaster(entry.id));
+    return name.empty() ? fmt::format("Item 0x{:03X}", entry.id) : name;
+}
+
+void SaveEditor_DrawImageButton(const SaveEditorEntry& entry, ItemButtonAction action) {
+    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
+    const int32_t itemID = entry.id;
+    const char* rasterPath = ItemRaster(itemID);
+    if (rasterPath == nullptr) {
+        return;
+    }
+    ImTextureID itemTexture = ItemIconTexture(gui, itemID);
+    bool hasItem = true;
+
+    if (action == ITEM_BUTTON_ADD_ITEM) {
+        hasItem = PlayerHasItem(itemID);
+    } else if (action == ITEM_BUTTON_TOGGLE_BADGE) {
+        hasItem = PlayerHasBadge(itemID);
     }
 
     SaveEditor_PushImageButtonStyle();
@@ -590,49 +842,143 @@ void SaveEditor_DrawImageButton(int32_t iconIndex, const char* itemType) {
             ImVec4(1, 1, 1, hasItem ? 1.0f : 0.5f)
         ))
     {
-        if (itemType == "food" || itemType == "battle") {
-            AddRemove_Item(iconIndex, false);
-        }
-        if (itemType == "badge") {
-            AddRemove_Badge(iconIndex, hasItem);
-        }
-        if (itemType == "inventory") {
-            AddRemove_Item(iconIndex, true);
+        switch (action) {
+            case ITEM_BUTTON_ADD_ITEM:
+                AddRemove_Item(itemID, false);
+                break;
+            case ITEM_BUTTON_TOGGLE_BADGE:
+                AddRemove_Badge(itemID, hasItem);
+                break;
+            case ITEM_BUTTON_REMOVE_ITEM:
+                AddRemove_Item(itemID, true);
+                break;
         }
     }
     if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip("%s", GetNameFromPath(rasterPath));
+        ImGui::SetTooltip("%s", ItemTooltip(entry).c_str());
     }
     SaveEditor_PopImageButtonStyle();
 }
 
-void SaveEditor_DrawItemList(const char* itemType) {
-    int32_t columns = 13;
+// "GroupFocus" -> "Group Focus", "HPPlus" -> "HP Plus".
+std::string SpacedIconName(const char* raster) {
+    const std::string name = IconName(raster);
+    std::string spaced;
+
+    for (size_t i = 0; i < name.size(); i++) {
+        const bool upper = isupper((unsigned char) name[i]);
+        const bool afterLower = i > 0 && (islower((unsigned char) name[i - 1]) || isdigit((unsigned char) name[i - 1]));
+        const bool endsAcronym = i > 0 && i + 1 < name.size() && isupper((unsigned char) name[i - 1])
+            && islower((unsigned char) name[i + 1]);
+        if (upper && (afterLower || endsAcronym)) {
+            spaced += ' ';
+        }
+        spaced += name[i];
+    }
+    return spaced;
+}
+
+// The vanilla name message, unless the romhack rewrote it for the item that now sits in the slot.
+std::string VanillaItemName(int32_t itemID) {
+    std::string name = MessageText(kVanillaItems[itemID].nameMsg);
+
+    if (name.empty() || (itemID < gItemCount && name == MessageText(gItemTable[itemID].nameMsg))) {
+        name = SpacedIconName(kVanillaItems[itemID].raster);
+    }
+    return name;
+}
+
+// A replaced slot (option set) shows the vanilla item it held, which can't be given any more;
+// a hidden or cleared entry shows the item as it is now.
+void SaveEditor_DrawDisabledItem(const SaveEditorEntry& entry) {
+    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
+    const bool vanillaSlot = entry.option != 0 && entry.id > 0 && entry.id < NUM_ITEMS;
+    const char* raster = vanillaSlot ? kVanillaItems[entry.id].raster : ItemRaster(entry.id);
+    const char* palette = vanillaSlot ? kVanillaItems[entry.id].palette
+                                      : reinterpret_cast<const char*>(gItemIconPaletteOffsets[entry.id]);
+
+    ImGui::ImageWithBg(
+        IconTexture(gui, raster, palette), itemImageSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0),
+        ImVec4(1, 1, 1, 0.35f)
+    );
+    if (ImGui::IsItemHovered()) {
+        std::string name = vanillaSlot ? VanillaItemName(entry.id) : ItemTooltip(entry);
+        ImGui::SetTooltip("%s\nDisabled by %s", name.c_str(), Mod::SaveEditorOwnerName(entry.owner).c_str());
+    }
+}
+
+void SaveEditor_DrawItemGrid(
+    const char* id, const std::vector<SaveEditorEntry>& entries, ItemButtonAction action, bool disabled
+) {
     ImVec2 padding = ImGui::GetStyle().CellPadding;
     padding.y += 2.0f;
+    const float cellWidth = itemImageSize.x + ImGui::GetStyle().CellPadding.x * 2.0f;
+    const int32_t columns = std::max<int32_t>(1, (int32_t) (ImGui::GetContentRegionAvail().x / cellWidth));
+
+    if (entries.empty()) {
+        ImGui::TextDisabled("None");
+        return;
+    }
+    if (ImGui::BeginTable(id, columns, ImGuiTableFlags_SizingStretchSame)) {
+        ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, padding);
+        for (int c = 0; c < columns; c++) {
+            ImGui::TableSetupColumn(std::to_string(c).c_str(), ImGuiTableColumnFlags_WidthFixed, itemImageSize.x);
+        }
+        for (int i = 0; i < (int) entries.size(); i++) {
+            ImGui::PushID(i);
+            ImGui::TableNextColumn();
+            if (disabled) {
+                SaveEditor_DrawDisabledItem(entries[i]);
+            } else {
+                SaveEditor_DrawImageButton(entries[i], action);
+            }
+            ImGui::PopID();
+        }
+        ImGui::PopStyleVar(1);
+        ImGui::EndTable();
+    }
+}
+
+void SaveEditor_DrawItemList(int32_t list, ItemButtonAction action, const char* kind) {
+    const ItemSections sections = BuildItemSections(list);
+    const auto groups = GroupByOwner(sections.entries);
+    const bool modded = groups.size() > 1 || !sections.disabled.empty();
 
     if (ImGui::BeginChild("ItemChild")) {
-        if (ImGui::BeginTable("ItemListTable", columns, ImGuiTableFlags_SizingStretchSame)) {
-            ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, padding);
-            for (int c = 0; c < columns; c++) {
-                ImGui::TableSetupColumn(std::to_string(c).c_str(), ImGuiTableColumnFlags_WidthFixed, itemImageSize.x);
-            }
+        if (!modded) {
+            SaveEditor_DrawItemGrid("ItemListTable", groups[0].second, action, false);
+        } else if (ImGui::BeginTable("ItemSplit", 2, ImGuiTableFlags_SizingStretchProp | ImGuiTableFlags_BordersInnerV))
+        {
+            ImGui::TableSetupColumn("items", ImGuiTableColumnFlags_WidthStretch, 2.0f);
+            ImGui::TableSetupColumn("disabled", ImGuiTableColumnFlags_WidthStretch, 1.0f);
 
-            for (int i = 0; i < MAX_ICON_RASTER_SIZE; i++) {
-                if (reinterpret_cast<const char*>(gItemIconRasterOffsets[i]) != nullptr
-                    && std::string_view(reinterpret_cast<const char*>(gItemIconRasterOffsets[i])).find(itemType)
-                        == std::string_view::npos)
-                {
-                    continue;
+            ImGui::TableNextColumn();
+            for (int g = 0; g < (int) groups.size(); g++) {
+                ImGui::PushID(g);
+                if (!groups[g].first.empty()) {
+                    SaveEditor_DrawOwnerHeader(groups[g].first, fmt::format("{} added by", kind));
                 }
-
-                ImGui::PushID(i);
-                ImGui::TableNextColumn();
-                SaveEditor_DrawImageButton(i, itemType);
+                SaveEditor_DrawItemGrid("ItemListTable", groups[g].second, action, false);
                 ImGui::PopID();
             }
 
-            ImGui::PopStyleVar(1);
+            ImGui::TableNextColumn();
+            const auto disabledGroups = GroupByOwner(sections.disabled);
+            bool anyDisabled = false;
+            for (int g = 0; g < (int) disabledGroups.size(); g++) {
+                if (disabledGroups[g].second.empty()) {
+                    continue;
+                }
+                anyDisabled = true;
+                ImGui::PushID(g);
+                SaveEditor_DrawOwnerHeader(disabledGroups[g].first, fmt::format("{} disabled by", kind));
+                SaveEditor_DrawItemGrid("DisabledTable", disabledGroups[g].second, action, true);
+                ImGui::PopID();
+            }
+            if (!anyDisabled) {
+                ImGui::SeparatorText("Disabled");
+                ImGui::TextDisabled("No %s disabled", kind);
+            }
             ImGui::EndTable();
         }
         ImGui::EndChild();
@@ -667,7 +1013,7 @@ void SaveEditor_DrawPlayerMenu() {
                             .LabelPosition(UIWidgets::LabelPositions::None)
                             .Format("Level: %i")
                             .Min(1)
-                            .Max(30)
+                            .Max(LIMIT(LEVEL))
                     ))
                 {
                     gPlayerData.level = playerLevel;
@@ -702,7 +1048,7 @@ void SaveEditor_DrawPlayerMenu() {
                             .Format(maxHealthFormat.c_str())
                             .Step(5)
                             .Min(5)
-                            .Max(50)
+                            .Max(LIMIT(MAX_HP))
                     ))
                 {
                     gPlayerData.hardMaxHP = maxHealth;
@@ -738,7 +1084,7 @@ void SaveEditor_DrawPlayerMenu() {
                             .Format(maxFlowerFormat.c_str())
                             .Step(5)
                             .Min(5)
-                            .Max(50)
+                            .Max(LIMIT(MAX_FP))
                     ))
                 {
                     gPlayerData.hardMaxFP = maxFlower;
@@ -757,7 +1103,7 @@ void SaveEditor_DrawPlayerMenu() {
                             .LabelPosition(UIWidgets::LabelPositions::None)
                             .Format("Current BP: %i")
                             .Min(3)
-                            .Max(30)
+                            .Max(LIMIT(MAX_BP))
                     ))
                 {
                     gPlayerData.maxBP = maxBadgePoints;
@@ -833,7 +1179,7 @@ void SaveEditor_DrawPlayerMenu() {
                             .LabelPosition(UIWidgets::LabelPositions::None)
                             .Format("Max Energy: %i")
                             .Min(0)
-                            .Max(7)
+                            .Max(LIMIT(STAR_POWER))
                     ))
                 {
                     gPlayerData.maxStarPower = maxEnergy;
@@ -851,7 +1197,7 @@ void SaveEditor_DrawPlayerMenu() {
                             .LabelPosition(UIWidgets::LabelPositions::None)
                             .Format("Star Points: %i")
                             .Min(0)
-                            .Max(99)
+                            .Max(LIMIT(STAR_POINTS))
                     ))
                 {
                     gPlayerData.starPoints = curPoints;
@@ -869,7 +1215,7 @@ void SaveEditor_DrawPlayerMenu() {
                             .LabelPosition(UIWidgets::LabelPositions::None)
                             .Format("Coins: %i")
                             .Min(0)
-                            .Max(999)
+                            .Max(LIMIT(COINS))
                     ))
                 {
                     gPlayerData.coins = curCoins;
@@ -888,7 +1234,7 @@ void SaveEditor_DrawPlayerMenu() {
                             .LabelPosition(UIWidgets::LabelPositions::None)
                             .Format("Current Pieces: %i")
                             .Min(0)
-                            .Max(160)
+                            .Max(MAX_STAR_PIECES)
                     ))
                 {
                     gPlayerData.starPieces = curPieces;
@@ -900,7 +1246,7 @@ void SaveEditor_DrawPlayerMenu() {
                             .LabelPosition(UIWidgets::LabelPositions::None)
                             .Format("Collected Pieces: %i")
                             .Min(0)
-                            .Max(160)
+                            .Max(LIMIT(STAR_PIECES))
                     ))
                 {
                     gPlayerData.starPiecesCollected = collectedPieces;
@@ -938,7 +1284,8 @@ void SaveEditor_DrawPlayerMenu() {
 void SaveEditor_DrawItemsMenu() {
     auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
     if (ImGui::BeginChild("ItemChild")) {
-        for (int i = 0; i < MAX_INVENTORY_SIZE; i++) {
+        const int capacity = get_consumables_capacity();
+        for (int i = 0; i < capacity; i++) {
 
             ImGui::PushID(i);
             if (gPlayerData.invItems[i] == 0) {
@@ -946,10 +1293,10 @@ void SaveEditor_DrawItemsMenu() {
                 ImGui::ImageButton("Empty", gui->GetTextureByName(ui_battle_menu_nothing_png), itemImageSize);
                 SaveEditor_PopImageButtonStyle();
             } else {
-                SaveEditor_DrawImageButton(gPlayerData.invItems[i], "inventory");
+                SaveEditor_DrawImageButton({ "", "", gPlayerData.invItems[i], 0, 0 }, ITEM_BUTTON_REMOVE_ITEM);
             }
             ImGui::PopID();
-            if (i != MAX_INVENTORY_SIZE - 1) {
+            if (i != capacity - 1 && i % 10 != 9) {
                 ImGui::SameLine();
             }
         }
@@ -957,11 +1304,11 @@ void SaveEditor_DrawItemsMenu() {
         ImGui::SeparatorText("Available Items");
         if (ImGui::BeginTabBar("ItemTabBar")) {
             if (ImGui::BeginTabItem("Food")) {
-                SaveEditor_DrawItemList("food");
+                SaveEditor_DrawItemList(MOD_SAVE_EDITOR_FOOD, ITEM_BUTTON_ADD_ITEM, "Items");
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem("Battle")) {
-                SaveEditor_DrawItemList("battle");
+                SaveEditor_DrawItemList(MOD_SAVE_EDITOR_BATTLE_ITEMS, ITEM_BUTTON_ADD_ITEM, "Items");
                 ImGui::EndTabItem();
             }
             ImGui::EndTabBar();
@@ -1042,9 +1389,8 @@ void SaveEditor_SetupLetterTable(ImVec2 padding, ImVec2 imageSize) {
 }
 
 bool SaveEditor_DrawLetterCell(
-    const std::shared_ptr<Fast::Fast3dGui>& gui, const LetterData& letter, LetterState state, ImVec2 imageSize
+    const std::shared_ptr<Fast::Fast3dGui>& gui, const SaveEditorEntry& letter, LetterState state, ImVec2 imageSize
 ) {
-    const char* rasterPath = reinterpret_cast<const char*>(gItemIconRasterOffsets[letter.itemID]);
     ImVec4 stateColor = LetterStateColor(state);
     bool found = state != LETTER_NOT_FOUND;
 
@@ -1059,7 +1405,7 @@ bool SaveEditor_DrawLetterCell(
         ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, highlight);
     }
     bool clicked = ImGui::ImageButton(
-        letter.name, gui->GetTextureByName(rasterPath), imageSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0),
+        letter.name.c_str(), ItemIconTexture(gui, letter.id), imageSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0),
         ImVec4(1, 1, 1, found ? 1.0f : 0.35f)
     );
     bool hovered = ImGui::IsItemHovered();
@@ -1077,7 +1423,7 @@ bool SaveEditor_DrawLetterCell(
     ImGui::SetCursorPos(
         ImVec2(textCellPos.x, textCellPos.y + std::max<float>(0.0f, (imageSize.y - textHeight) * 0.5f))
     );
-    ImGui::Text("%s", letter.name);
+    ImGui::Text("%s", letter.name.c_str());
     ImGui::TextColored(stateColor, "%s", LetterStateName(state));
 
     if (hovered) {
@@ -1093,6 +1439,9 @@ void SaveEditor_DrawLettersMenu() {
     ImVec2 padding = ImGui::GetStyle().CellPadding;
     ImVec2 statImageSize = ImVec2(36.0f, 36.0f);
     padding.y += 4.0f;
+
+    letterList = Mod::SaveEditorList(MOD_SAVE_EDITOR_LETTERS, kVanillaLetters);
+    chainLetterList = Mod::SaveEditorList(MOD_SAVE_EDITOR_CHAIN_LETTERS, kVanillaChainLetters);
 
     if (ImGui::BeginChild("LettersChild")) {
         int32_t inItems = 0;
@@ -1151,21 +1500,32 @@ void SaveEditor_DrawLettersMenu() {
         }
 
         ImGui::SeparatorText("Letters");
-        if (ImGui::BeginTable("LettersTable", 4, ImGuiTableFlags_SizingStretchSame)) {
-            SaveEditor_SetupLetterTable(padding, statImageSize);
-            for (int i = 0; i < (int) letterList.size(); i++) {
-                const LetterData& letter = letterList[i];
-                LetterState state = GetLetterState(letter);
-
-                ImGui::PushID(i);
-                if (SaveEditor_DrawLetterCell(gui, letter, state, statImageSize)) {
-                    SetLetterState(letter, NextLetterState(state));
-                }
-                ImGui::PopID();
+        const auto groups = GroupByOwner(letterList);
+        for (int g = 0; g < (int) groups.size(); g++) {
+            if (groups[g].second.empty()) {
+                continue;
             }
-            SaveEditor_PopImageButtonStyle();
-            ImGui::PopStyleVar(1);
-            ImGui::EndTable();
+            ImGui::PushID(g);
+            if (!groups[g].first.empty()) {
+                SaveEditor_DrawOwnerHeader(groups[g].first, kAddedBy);
+            }
+            if (ImGui::BeginTable("LettersTable", 4, ImGuiTableFlags_SizingStretchSame)) {
+                SaveEditor_SetupLetterTable(padding, statImageSize);
+                for (int i = 0; i < (int) groups[g].second.size(); i++) {
+                    const SaveEditorEntry& letter = groups[g].second[i];
+                    LetterState state = GetLetterState(letter);
+
+                    ImGui::PushID(i);
+                    if (SaveEditor_DrawLetterCell(gui, letter, state, statImageSize)) {
+                        SetLetterState(letter, NextLetterState(state));
+                    }
+                    ImGui::PopID();
+                }
+                SaveEditor_PopImageButtonStyle();
+                ImGui::PopStyleVar(1);
+                ImGui::EndTable();
+            }
+            ImGui::PopID();
         }
 
         ImGui::SeparatorText("Chain Letters");
@@ -1176,7 +1536,7 @@ void SaveEditor_DrawLettersMenu() {
         if (ImGui::BeginTable("ChainLettersTable", 4, ImGuiTableFlags_SizingStretchSame)) {
             SaveEditor_SetupLetterTable(padding, statImageSize);
             for (int i = 0; i < (int) chainLetterList.size(); i++) {
-                const LetterData& letter = chainLetterList[i];
+                const SaveEditorEntry& letter = chainLetterList[i];
                 LetterState state = GetChainLetterState(i);
 
                 ImGui::PushID(i);
@@ -1193,6 +1553,15 @@ void SaveEditor_DrawLettersMenu() {
     }
 }
 
+std::vector<SaveEditorEntry> RecipeList() {
+    std::vector<SaveEditorEntry> defaults;
+
+    for (int i = 0; i < NUM_COOKABLE_RECIPES; i++) {
+        defaults.push_back({ "", "", CookableItemIDs[i], CookableDiscoveredFlags[i], 0 });
+    }
+    return Mod::SaveEditorList(MOD_SAVE_EDITOR_RECIPES, defaults);
+}
+
 void SaveEditor_DrawRecipesMenu() {
     auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
     int32_t columns = 13;
@@ -1200,64 +1569,175 @@ void SaveEditor_DrawRecipesMenu() {
     padding.y += 2.0f;
 
     if (ImGui::BeginChild("RecipesChild")) {
+        const std::vector<SaveEditorEntry> recipes = RecipeList();
         int32_t discovered = 0;
-        for (int i = 0; i < NUM_COOKABLE_RECIPES; i++) {
-            if (get_global_flag(CookableDiscoveredFlags[i])) {
+        for (const SaveEditorEntry& recipe : recipes) {
+            if (get_global_flag(recipe.flag)) {
                 discovered++;
             }
         }
 
-        ImGui::Text("Discovered: %d / %d", discovered, NUM_COOKABLE_RECIPES);
+        ImGui::Text("Discovered: %d / %d", discovered, (int32_t) recipes.size());
 
         if (UIWidgets::Button("Discover All", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
-            for (int i = 0; i < NUM_COOKABLE_RECIPES; i++) {
-                set_global_flag(CookableDiscoveredFlags[i]);
+            for (const SaveEditorEntry& recipe : recipes) {
+                set_global_flag(recipe.flag);
             }
         }
         ImGui::SameLine();
         if (UIWidgets::Button("Forget All", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
-            for (int i = 0; i < NUM_COOKABLE_RECIPES; i++) {
-                clear_global_flag(CookableDiscoveredFlags[i]);
+            for (const SaveEditorEntry& recipe : recipes) {
+                clear_global_flag(recipe.flag);
             }
         }
 
         ImGui::SeparatorText("Tayce T. Cookbook");
-        if (ImGui::BeginTable("RecipesTable", columns, ImGuiTableFlags_SizingStretchSame)) {
-            ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, padding);
-            for (int c = 0; c < columns; c++) {
-                ImGui::TableSetupColumn(std::to_string(c).c_str(), ImGuiTableColumnFlags_WidthFixed, itemImageSize.x);
+        const auto groups = GroupByOwner(recipes);
+        for (int g = 0; g < (int) groups.size(); g++) {
+            if (groups[g].second.empty()) {
+                continue;
             }
+            ImGui::PushID(g);
+            if (!groups[g].first.empty()) {
+                SaveEditor_DrawOwnerHeader(groups[g].first, kAddedBy);
+            }
+            if (ImGui::BeginTable("RecipesTable", columns, ImGuiTableFlags_SizingStretchSame)) {
+                ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, padding);
+                for (int c = 0; c < columns; c++) {
+                    ImGui::TableSetupColumn(
+                        std::to_string(c).c_str(), ImGuiTableColumnFlags_WidthFixed, itemImageSize.x
+                    );
+                }
 
-            SaveEditor_PushImageButtonStyle();
-            for (int i = 0; i < NUM_COOKABLE_RECIPES; i++) {
-                const char* rasterPath = reinterpret_cast<const char*>(gItemIconRasterOffsets[CookableItemIDs[i]]);
-                bool isDiscovered = get_global_flag(CookableDiscoveredFlags[i]) != 0;
+                SaveEditor_PushImageButtonStyle();
+                for (int i = 0; i < (int) groups[g].second.size(); i++) {
+                    const SaveEditorEntry& recipe = groups[g].second[i];
+                    const char* rasterPath = ItemRaster(recipe.id);
+                    bool isDiscovered = get_global_flag(recipe.flag) != 0;
 
-                ImGui::PushID(i);
-                ImGui::TableNextColumn();
-                if (ImGui::ImageButton(
-                        rasterPath, gui->GetTextureByName(rasterPath), itemImageSize, ImVec2(0, 0), ImVec2(1, 1),
-                        ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, isDiscovered ? 1.0f : 0.5f)
-                    ))
-                {
-                    if (isDiscovered) {
-                        clear_global_flag(CookableDiscoveredFlags[i]);
-                    } else {
-                        set_global_flag(CookableDiscoveredFlags[i]);
+                    if (rasterPath == nullptr) {
+                        continue;
                     }
+                    ImGui::PushID(i);
+                    ImGui::TableNextColumn();
+                    if (ImGui::ImageButton(
+                            rasterPath, ItemIconTexture(gui, recipe.id), itemImageSize, ImVec2(0, 0), ImVec2(1, 1),
+                            ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, isDiscovered ? 1.0f : 0.5f)
+                        ))
+                    {
+                        if (isDiscovered) {
+                            clear_global_flag(recipe.flag);
+                        } else {
+                            set_global_flag(recipe.flag);
+                        }
+                    }
+                    if (ImGui::IsItemHovered()) {
+                        ImGui::SetTooltip("%s", ItemTooltip(recipe).c_str());
+                    }
+                    ImGui::PopID();
                 }
-                if (ImGui::IsItemHovered()) {
-                    ImGui::SetTooltip("%s", GetNameFromPath(rasterPath));
-                }
-                ImGui::PopID();
-            }
-            SaveEditor_PopImageButtonStyle();
+                SaveEditor_PopImageButtonStyle();
 
-            ImGui::PopStyleVar(1);
-            ImGui::EndTable();
+                ImGui::PopStyleVar(1);
+                ImGui::EndTable();
+            }
+            ImGui::PopID();
         }
         ImGui::EndChild();
     }
+}
+
+void SaveEditor_DrawCollectibles(
+    const char* title,
+    const char* description,
+    const std::vector<SaveEditorEntry>& entries,
+    const std::vector<Mod::SaveEditorCounter>& counters,
+    ImVec2 padding,
+    const std::string& owner = "",
+    bool showCounters = false
+) {
+    int32_t foundCount = 0;
+    for (const SaveEditorEntry& entry : entries) {
+        if (get_global_flag(entry.flag)) {
+            foundCount++;
+        }
+    }
+
+    ImGui::PushID(title);
+    ImGui::SeparatorText(title);
+    if (!owner.empty()) {
+        ImGui::TextDisabled("%s %s", kAddedBy, Mod::SaveEditorOwnerName(owner).c_str());
+    }
+    ImGui::Text("Found: %d / %d", foundCount, (int32_t) entries.size());
+    if (description[0] != '\0') {
+        ImGui::TextWrapped("%s", description);
+    }
+    if (showCounters) {
+        for (int c = 0; c < (int) counters.size(); c++) {
+            const Mod::SaveEditorCounter& counter = counters[c];
+            int32_t value = counter.get();
+            std::string format = fmt::format("{}: %i", counter.label);
+
+            ImGui::PushID(c);
+            if (UIWidgets::SliderInt(
+                    "##counter", &value,
+                    UIWidgets::IntSliderOptions()
+                        .Color(WIDGET_COLOR)
+                        .LabelPosition(UIWidgets::LabelPositions::None)
+                        .Format(format.c_str())
+                        .Min(0)
+                        .Max(counter.max)
+                ))
+            {
+                counter.set(value);
+            }
+            ImGui::PopID();
+        }
+    }
+
+    if (UIWidgets::Button("Collect All", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
+        for (const SaveEditorEntry& entry : entries) {
+            SetCollected(entry, counters, true);
+        }
+    }
+    ImGui::SameLine();
+    if (UIWidgets::Button("Clear All", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
+        for (const SaveEditorEntry& entry : entries) {
+            SetCollected(entry, counters, false);
+        }
+    }
+
+    const auto groups = GroupByOwner(entries);
+    for (int g = 0; g < (int) groups.size(); g++) {
+        if (groups[g].second.empty()) {
+            continue;
+        }
+        ImGui::PushID(g);
+        if (!groups[g].first.empty()) {
+            SaveEditor_DrawOwnerHeader(groups[g].first, kAddedBy);
+        }
+        if (ImGui::BeginTable("CollectibleTable", 2, ImGuiTableFlags_SizingStretchSame)) {
+            ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, padding);
+            for (int i = 0; i < (int) groups[g].second.size(); i++) {
+                const SaveEditorEntry& entry = groups[g].second[i];
+                bool isCollected = get_global_flag(entry.flag) != 0;
+                std::string label =
+                    entry.detail.empty() ? entry.name : fmt::format("{} - {}", entry.name, entry.detail);
+
+                ImGui::PushID(i);
+                ImGui::TableNextColumn();
+                if (UIWidgets::Checkbox(label.c_str(), &isCollected, UIWidgets::CheckboxOptions().Color(WIDGET_COLOR)))
+                {
+                    SetCollected(entry, counters, isCollected);
+                }
+                ImGui::PopID();
+            }
+            ImGui::PopStyleVar(1);
+            ImGui::EndTable();
+        }
+        ImGui::PopID();
+    }
+    ImGui::PopID();
 }
 
 void SaveEditor_DrawStarPiecesMenu() {
@@ -1283,7 +1763,7 @@ void SaveEditor_DrawStarPiecesMenu() {
                         .LabelPosition(UIWidgets::LabelPositions::None)
                         .Format("Current Pieces: %i")
                         .Min(0)
-                        .Max(TOTAL_STAR_PIECES)
+                        .Max(MAX_STAR_PIECES)
                 ))
             {
                 gPlayerData.starPieces = curPieces;
@@ -1295,7 +1775,7 @@ void SaveEditor_DrawStarPiecesMenu() {
                         .LabelPosition(UIWidgets::LabelPositions::None)
                         .Format("Collected Pieces: %i")
                         .Min(0)
-                        .Max(TOTAL_STAR_PIECES)
+                        .Max(LIMIT(STAR_PIECES))
                 ))
             {
                 gPlayerData.starPiecesCollected = collectedPieces;
@@ -1304,49 +1784,23 @@ void SaveEditor_DrawStarPiecesMenu() {
             ImGui::EndTable();
         }
 
-        int32_t foundCount = 0;
-        for (auto& starPiece : starPieceList) {
-            if (get_global_flag(starPiece.flag)) {
-                foundCount++;
-            }
-        }
-
-        ImGui::SeparatorText("Overworld Star Pieces");
-        ImGui::Text("Found: %d / %d", foundCount, (int32_t) starPieceList.size());
-        ImGui::TextWrapped("These are the star pieces lying around the world - the ones Merluvlee can predict. ");
-
-        if (UIWidgets::Button("Collect All", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
-            for (auto& starPiece : starPieceList) {
-                SetStarPieceCollected(starPiece, true);
-            }
-        }
-        ImGui::SameLine();
-        if (UIWidgets::Button("Clear All", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
-            for (auto& starPiece : starPieceList) {
-                SetStarPieceCollected(starPiece, false);
-            }
-        }
-
-        if (ImGui::BeginTable("StarPieceTable", 2, ImGuiTableFlags_SizingStretchSame)) {
-            ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, padding);
-            for (int i = 0; i < (int) starPieceList.size(); i++) {
-                const StarPieceData& starPiece = starPieceList[i];
-                bool isCollected = get_global_flag(starPiece.flag) != 0;
-                std::string label = fmt::format("{} - {}", starPiece.location, starPiece.kind);
-
-                ImGui::PushID(i);
-                ImGui::TableNextColumn();
-                if (UIWidgets::Checkbox(label.c_str(), &isCollected, UIWidgets::CheckboxOptions().Color(WIDGET_COLOR)))
-                {
-                    SetStarPieceCollected(starPiece, isCollected);
-                }
-                ImGui::PopID();
-            }
-            ImGui::PopStyleVar(1);
-            ImGui::EndTable();
-        }
+        starPieceList = Mod::SaveEditorList(MOD_SAVE_EDITOR_STAR_PIECES, kVanillaStarPieces);
+        SaveEditor_DrawCollectibles(
+            "Overworld Star Pieces",
+            "These are the star pieces lying around the world - the ones Merluvlee can predict. ", starPieceList,
+            StarPieceCounters(), padding
+        );
         ImGui::EndChild();
     }
+}
+
+std::vector<SaveEditorEntry> TattleList() {
+    std::vector<SaveEditorEntry> defaults;
+
+    for (const ActorTypeName& tattle : gActorTypeNames) {
+        defaults.push_back({ tattle.name, "", tattle.actorType, 0, tattle.isUnused ? 1 : 0 });
+    }
+    return Mod::SaveEditorList(MOD_SAVE_EDITOR_TATTLES, defaults);
 }
 
 void SaveEditor_DrawTattlesMenu() {
@@ -1357,17 +1811,18 @@ void SaveEditor_DrawTattlesMenu() {
     padding.y += 2.0f;
 
     if (ImGui::BeginChild("TattlesChild")) {
+        const std::vector<SaveEditorEntry> tattles = TattleList();
         int32_t listed = 0;
         int32_t known = 0;
-        for (auto& tattle : gActorTypeNames) {
-            if (hideUnusedTattles && tattle.isUnused) {
+        for (auto& tattle : tattles) {
+            if (hideUnusedTattles && tattle.option) {
                 continue;
             }
-            if (!ContainsIgnoreCase(tattle.name, tattleFilter)) {
+            if (!ContainsIgnoreCase(tattle.name.c_str(), tattleFilter)) {
                 continue;
             }
             listed++;
-            if (GetTattleFlag(tattle.actorType)) {
+            if (GetTattleFlag(tattle.id)) {
                 known++;
             }
         }
@@ -1380,11 +1835,11 @@ void SaveEditor_DrawTattlesMenu() {
         UIWidgets::Checkbox("Hide unused", &hideUnusedTattles, UIWidgets::CheckboxOptions().Color(WIDGET_COLOR));
 
         if (UIWidgets::Button("Enable All", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
-            for (auto& tattle : gActorTypeNames) {
-                if ((hideUnusedTattles && tattle.isUnused) || !ContainsIgnoreCase(tattle.name, tattleFilter)) {
+            for (auto& tattle : tattles) {
+                if ((hideUnusedTattles && tattle.option) || !ContainsIgnoreCase(tattle.name.c_str(), tattleFilter)) {
                     continue;
                 }
-                SetTattleFlag(tattle.actorType, true);
+                SetTattleFlag(tattle.id, true);
             }
         }
         if (ImGui::IsItemHovered()) {
@@ -1392,11 +1847,11 @@ void SaveEditor_DrawTattlesMenu() {
         }
         ImGui::SameLine();
         if (UIWidgets::Button("Clear All", UIWidgets::ButtonOptions().Color(WIDGET_COLOR))) {
-            for (auto& tattle : gActorTypeNames) {
-                if ((hideUnusedTattles && tattle.isUnused) || !ContainsIgnoreCase(tattle.name, tattleFilter)) {
+            for (auto& tattle : tattles) {
+                if ((hideUnusedTattles && tattle.option) || !ContainsIgnoreCase(tattle.name.c_str(), tattleFilter)) {
                     continue;
                 }
-                SetTattleFlag(tattle.actorType, false);
+                SetTattleFlag(tattle.id, false);
             }
         }
         if (ImGui::IsItemHovered()) {
@@ -1404,36 +1859,78 @@ void SaveEditor_DrawTattlesMenu() {
         }
 
         ImGui::SeparatorText("Tattle Log");
-        if (ImGui::BeginTable("TattleTable", 2, ImGuiTableFlags_SizingStretchSame)) {
-            ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, padding);
-            for (int i = 0; i < (int) gActorTypeNames.size(); i++) {
-                const ActorTypeName& tattle = gActorTypeNames[i];
-
-                if (hideUnusedTattles && tattle.isUnused) {
-                    continue;
-                }
-                if (!ContainsIgnoreCase(tattle.name, tattleFilter)) {
-                    continue;
-                }
-
-                bool isKnown = GetTattleFlag(tattle.actorType);
-                std::string label = fmt::format("{} (0x{:02X})", tattle.name, tattle.actorType);
-
-                ImGui::PushID(i);
-                ImGui::TableNextColumn();
-                if (UIWidgets::Checkbox(label.c_str(), &isKnown, UIWidgets::CheckboxOptions().Color(WIDGET_COLOR))) {
-                    SetTattleFlag(tattle.actorType, isKnown);
-                }
-                ImGui::PopID();
+        const auto groups = GroupByOwner(tattles);
+        for (int g = 0; g < (int) groups.size(); g++) {
+            if (groups[g].second.empty()) {
+                continue;
             }
-            ImGui::PopStyleVar(1);
-            ImGui::EndTable();
+            ImGui::PushID(g);
+            if (!groups[g].first.empty()) {
+                SaveEditor_DrawOwnerHeader(groups[g].first, kAddedBy);
+            }
+            if (ImGui::BeginTable("TattleTable", 2, ImGuiTableFlags_SizingStretchSame)) {
+                ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, padding);
+                for (int i = 0; i < (int) groups[g].second.size(); i++) {
+                    const SaveEditorEntry& tattle = groups[g].second[i];
+
+                    if (hideUnusedTattles && tattle.option) {
+                        continue;
+                    }
+                    if (!ContainsIgnoreCase(tattle.name.c_str(), tattleFilter)) {
+                        continue;
+                    }
+
+                    bool isKnown = GetTattleFlag(tattle.id);
+                    std::string label = fmt::format("{} (0x{:02X})", tattle.name, tattle.id);
+
+                    ImGui::PushID(i);
+                    ImGui::TableNextColumn();
+                    if (UIWidgets::Checkbox(label.c_str(), &isKnown, UIWidgets::CheckboxOptions().Color(WIDGET_COLOR)))
+                    {
+                        SetTattleFlag(tattle.id, isKnown);
+                    }
+                    ImGui::PopID();
+                }
+                ImGui::PopStyleVar(1);
+                ImGui::EndTable();
+            }
+            ImGui::PopID();
+        }
+        ImGui::EndChild();
+    }
+}
+
+void SaveEditor_DrawOthersMenu() {
+    ImVec2 padding = ImGui::GetStyle().CellPadding;
+    padding.y += 4.0f;
+
+    if (ImGui::BeginChild("OthersChild")) {
+        const auto& trackers = Mod::SaveEditorTrackers();
+        for (int t = 0; t < (int) trackers.size(); t++) {
+            const Mod::SaveEditorTracker& tracker = trackers[t];
+
+            ImGui::PushID(t);
+            SaveEditor_DrawCollectibles(
+                tracker.title.c_str(), tracker.description.c_str(), tracker.entries, tracker.counters, padding,
+                tracker.owner, true
+            );
+            ImGui::PopID();
+        }
+
+        for (const Mod::SaveEditorSection& section : Mod::SaveEditorSections()) {
+            ImGui::PushID(section.title.c_str());
+            ImGui::SeparatorText(section.title.c_str());
+            section.draw();
+            ImGui::PopID();
         }
         ImGui::EndChild();
     }
 }
 
 void SaveEditor_DrawTabBar() {
+    if (Features::DrawLockedNotice("devtools.save_editor")) {
+        return;
+    }
     UIWidgets::PushStyleTabs(WIDGET_COLOR);
     if (ImGui::BeginTabBar("SaveEditorTabBar")) {
         if (ImGui::BeginTabItem("Player")) {
@@ -1441,7 +1938,7 @@ void SaveEditor_DrawTabBar() {
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Badges")) {
-            SaveEditor_DrawItemList("badge");
+            SaveEditor_DrawItemList(MOD_SAVE_EDITOR_BADGES, ITEM_BUTTON_TOGGLE_BADGE, "Badges");
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Items")) {
@@ -1467,6 +1964,12 @@ void SaveEditor_DrawTabBar() {
         if (ImGui::BeginTabItem("Tattles")) {
             SaveEditor_DrawTattlesMenu();
             ImGui::EndTabItem();
+        }
+        if (!Mod::SaveEditorTrackers().empty() || !Mod::SaveEditorSections().empty()) {
+            if (ImGui::BeginTabItem("Others")) {
+                SaveEditor_DrawOthersMenu();
+                ImGui::EndTabItem();
+            }
         }
         ImGui::EndTabBar();
     }

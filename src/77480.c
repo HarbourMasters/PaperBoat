@@ -1004,6 +1004,7 @@ s32 enable_player_input(void) {
     if (playerStatus->inputDisabledCount == 0) {
         playerStatus->flags &= ~PS_FLAG_INPUT_DISABLED;
     }
+    CALL_EVENT(OnPlayerInputEnabled);
     return playerStatus->inputDisabledCount;
 }
 
@@ -1428,6 +1429,7 @@ void player_update_sprite(void) {
             playerStatus->curYaw = playerStatus->targetYaw;
         }
     }
+    CALL_EVENT(OnPlayerSpriteAnim, &trueAnim);
     playerStatus->trueAnimation = trueAnim;
 
     timescale = 1.0f;

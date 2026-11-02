@@ -1,3 +1,5 @@
+#include "port/Engine.h"
+#include "port/features/Features.h"
 #include "port/ui/cvar_prefixes.h"
 #include <fast/resource/type/Texture.h>
 #include <libultraship/bridge/consolevariablebridge.h>
@@ -13,16 +15,16 @@
 #include "port/patches/Patches.h"
 
 struct StatusBarElementOption {
-    const char* cvar;
+    const char* feature;
     s32 defaultValue;
 };
 
 // Indexed by PortStatusBarElement
 static const StatusBarElementOption sElements[] = {
-    { CVAR_ENHANCEMENT("StatusBar.ShowBackground"), 1 }, { CVAR_ENHANCEMENT("StatusBar.ShowHP"), 1 },
-    { CVAR_ENHANCEMENT("StatusBar.ShowFP"), 1 },         { CVAR_ENHANCEMENT("StatusBar.ShowStarPower"), 1 },
-    { CVAR_ENHANCEMENT("StatusBar.ShowStarPoints"), 1 }, { CVAR_ENHANCEMENT("StatusBar.ShowCoins"), 1 },
-    { CVAR_ENHANCEMENT("StatusBar.ShowStarPieces"), 0 }, { CVAR_ENHANCEMENT("StatusBar.ShowBadges"), 0 },
+    { "graphics.status_bar.show.background", 1 },  { "graphics.status_bar.show.hp", 1 },
+    { "graphics.status_bar.show.fp", 1 },          { "graphics.status_bar.show.star_power", 1 },
+    { "graphics.status_bar.show.star_points", 1 }, { "graphics.status_bar.show.coins", 1 },
+    { "graphics.status_bar.show.star_pieces", 0 }, { "graphics.status_bar.show.badges", 0 },
 };
 
 static const Color_RGBA8 sDefaultHighlightColor = { 235, 230, 119, 255 };
@@ -39,8 +41,8 @@ struct FlatBottomCorners {
     u8 siz;
 };
 
-static f32 status_bar_percent(const char* cvar, s32 min, s32 max) {
-    return std::clamp(CVarGetInteger(cvar, 100), min, max) / 100.0f;
+static f32 status_bar_percent(const char* feature, s32 min, s32 max) {
+    return std::clamp(Port_FeatureInt(feature, 100), min, max) / 100.0f;
 }
 
 static std::shared_ptr<Fast::Texture> status_bar_load_corners(const char* path, bool original) {
@@ -111,27 +113,27 @@ static const FlatBottomCorners* status_bar_flat_bottom_corners() {
 }
 
 extern "C" b32 port_status_bar_show(s32 element) {
-    return CVarGetInteger(sElements[element].cvar, sElements[element].defaultValue) != 0;
+    return Port_FeatureInt(sElements[element].feature, sElements[element].defaultValue) != 0;
 }
 
 extern "C" b32 port_status_bar_always_show(void) {
-    return CVarGetInteger(CVAR_ENHANCEMENT("StatusBar.AlwaysShow"), 0) && gGameStatusPtr->context == CONTEXT_WORLD;
+    return Port_FeatureInt("graphics.status_bar.always_show", 0) && gGameStatusPtr->context == CONTEXT_WORLD;
 }
 
 extern "C" b32 port_status_bar_flat_bottom(void) {
-    return CVarGetInteger(CVAR_ENHANCEMENT("StatusBar.FlatBottom"), 0) && status_bar_flat_bottom_corners() != nullptr;
+    return Port_FeatureInt("graphics.status_bar.flat_bottom", 0) && status_bar_flat_bottom_corners() != nullptr;
 }
 
 extern "C" f32 port_status_bar_scale(void) {
-    return status_bar_percent(CVAR_ENHANCEMENT("StatusBar.Scale"), 50, 200);
+    return status_bar_percent("graphics.status_bar.scale", 50, 200);
 }
 
 extern "C" f32 port_status_bar_box_width(void) {
-    return status_bar_percent(CVAR_ENHANCEMENT("StatusBar.BoxWidth"), 20, 100);
+    return status_bar_percent("graphics.status_bar.box_width", 20, 100);
 }
 
 extern "C" f32 port_status_bar_box_height(void) {
-    return status_bar_percent(CVAR_ENHANCEMENT("StatusBar.BoxHeight"), 50, 200);
+    return status_bar_percent("graphics.status_bar.box_height", 50, 200);
 }
 
 extern "C" s32 port_status_bar_retracted_y(void) {
@@ -142,14 +144,14 @@ extern "C" void* port_status_bar_box_style(s32 styleID) {
     WindowStyleCustom* style = &sBoxStyles[styleID == WINDOW_STYLE_6];
 
     port_box_default_style(style, styleID);
-    if (CVarGetInteger(CVAR_ENHANCEMENT("StatusBar.FlatColor"), 0)) {
-        style->color1 = CVarGetColor(CVAR_ENHANCEMENT("StatusBar.FillColor.Value"), sDefaultFillColor);
+    if (Port_FeatureInt("graphics.status_bar.flat_color", 0)) {
+        style->color1 = Port_FeatureColor("graphics.status_bar.fill_color", sDefaultFillColor);
         style->color2 = style->color1;
     } else {
-        style->color1 = CVarGetColor(CVAR_ENHANCEMENT("StatusBar.HighlightColor.Value"), sDefaultHighlightColor);
-        style->color2 = CVarGetColor(CVAR_ENHANCEMENT("StatusBar.ShadowColor.Value"), sDefaultShadowColor);
+        style->color1 = Port_FeatureColor("graphics.status_bar.highlight_color", sDefaultHighlightColor);
+        style->color2 = Port_FeatureColor("graphics.status_bar.shadow_color", sDefaultShadowColor);
     }
-    if (CVarGetInteger(CVAR_ENHANCEMENT("StatusBar.FlatBottom"), 0)) {
+    if (Port_FeatureInt("graphics.status_bar.flat_bottom", 0)) {
         if (const FlatBottomCorners* corners = status_bar_flat_bottom_corners()) {
             style->corners.fmt = corners->fmt;
             style->corners.bitDepth = corners->siz;

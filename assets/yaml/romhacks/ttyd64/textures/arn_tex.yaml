@@ -1,0 +1,16 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+arn_flecha:
+  { type: TEXTURE, format: CI4, offset: 0x27DA334, width: 32, height: 16, tlut: 0x27DA434, symbol: arn_flecha }
+arn_flecha_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27DA434, colors: 16, symbol: arn_flecha_tlut }
+arn_hibitif:
+  { type: TEXTURE, format: CI4, offset: 0x27DA484, width: 32, height: 32, tlut: 0x27DA684, symbol: arn_hibitif }
+arn_hibitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27DA684, colors: 16, symbol: arn_hibitif_tlut }
+dokan02:
+  { type: TEXTURE, format: CI4, offset: 0x27DA6D4, width: 32, height: 32, tlut: 0x27DA8D4, symbol: dokan02 }
+dokan02_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x27DA8D4, colors: 16, symbol: dokan02_tlut }
