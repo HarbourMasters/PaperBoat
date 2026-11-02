@@ -653,7 +653,6 @@ EvtScript TTYD64_pit_11_Script_MakeEntities = {
     Call(MakeEntity, Ref(Entity_GiantChest), 7, 20, -112, 0, 0x80000000)
     ExecWait(TTYD64_pit_11_Script_AssignFlag_GiantChest)
     Call(AssignScript, (Bytecode) TTYD64_pit_11_Script_OpenChest)
-    Call(MakeEntity, Ref(Entity_BlueWarpPipe), 6, 0, 43, 0, 0, 0, -1, 0x80000000)
     Return
     End
 };
