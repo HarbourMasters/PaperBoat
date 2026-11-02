@@ -229,6 +229,8 @@ Evt* start_script(EvtScript* source, s32 priority, s32 flags) {
     s32 curScriptIndex;
     s32 i;
 
+    CALL_EVENT(OnScriptResolve, &source);
+
     for (i = 0; i < MAX_SCRIPTS; i++) {
         if ((*gCurrentScriptListPtr)[i] == nullptr) {
             break;
@@ -300,6 +302,8 @@ Evt* start_script_in_group(EvtScript* source, u8 priority, u8 flags, u8 groupFla
     s32 curScriptIndex;
     s32 i;
 
+    CALL_EVENT(OnScriptResolve, &source);
+
     for (i = 0; i < MAX_SCRIPTS; i++) {
         if ((*gCurrentScriptListPtr)[i] == nullptr) {
             break;
@@ -369,6 +373,8 @@ Evt* start_child_script(Evt* parentScript, EvtScript* source, s32 flags) {
     s32 scriptListCount;
     Evt* child;
     s32 i;
+
+    CALL_EVENT(OnScriptResolve, &source);
 
     for (i = 0; i < MAX_SCRIPTS; i++) {
         if ((*gCurrentScriptListPtr)[i] == nullptr) {

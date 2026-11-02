@@ -97,6 +97,12 @@ void underwater_update(EffectInstance* effect) {
     if (lifeTime < 16) {
         alpha = lifeTime * 16 + 15;
     }
+    EffectColor color = { data->waterColor.r, data->waterColor.g, data->waterColor.b, alpha };
+    CALL_EVENT(OnEffectColor, EFFECT_UNDERWATER, effect, 0, &color);
+    data->waterColor.r = color.r;
+    data->waterColor.g = color.g;
+    data->waterColor.b = color.b;
+    alpha = color.a;
 
     data->waterColor.a = (f32) alpha;
     factor = (f32) alpha / 255.0f;

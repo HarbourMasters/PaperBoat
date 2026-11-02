@@ -95,7 +95,7 @@ API_CALLABLE(StepTaggedAIWaveBuf) {
 }
 
 API_CALLABLE(DisableLoadingZoneInput) {
-    if (!CVarGetInteger(CVAR_ENHANCEMENT("PreventLoadingZoneStorage"), 0)) {
+    if (!Port_FeatureInt("enhancements.prevent_lz_storage", 0)) {
         return ApiStatus_DONE2;
     }
 

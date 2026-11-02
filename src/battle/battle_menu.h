@@ -67,7 +67,7 @@ extern s32 StratsOptionNames[]; // msg IDs
 extern s32 StratsOptionCount;
 extern s32 StratsPrevSelected;
 
-extern s32 StratsOptionMenuTypes[];
+extern s32 StratsOptionMenuTypes[6];
 extern s32 StratsOptionEnabled[];
 extern s32 StratsOptionError[];
 extern s32 StratsOptionMessage[];
@@ -116,7 +116,7 @@ extern s8 MovesOptionSortPriority[24];
 extern s8 MovesOptionError[24];
 extern s32 SelectedMovesIndex;
 
-extern s32 WheelOptionSubmenu[];
+extern s32 WheelOptionSubmenu[6];
 extern s32 WheelOptionEnabled[];
 extern s32 WheelOptionError[];
 extern HudScript* WheelOptionHudScript[];

@@ -160,13 +160,13 @@ API_CALLABLE(N(CheckItemsHasRoom)) {
     return ApiStatus_DONE2;
 }
 
-static s32 N(TayceT_ItemChoiceList)[ITEM_NUM_CONSUMABLES + 1];
+static s32 N(TayceT_ItemChoiceList)[ITEM_TABLE_CAPACITY + 1];
 
 API_CALLABLE(N(TayceT_MakeItemList)) {
     s32 pos = 0;
     s32 itemID;
 
-    for (itemID = 0; itemID < NUM_ITEMS; itemID++) {
+    for (itemID = 0; itemID < gItemCount; itemID++) {
         if (item_is_consumable(itemID)) {
             N(TayceT_ItemChoiceList)[pos++] = itemID;
         }

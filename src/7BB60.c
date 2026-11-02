@@ -151,11 +151,14 @@ void handle_jumping_land_on_switch(void) {
         playerStatus->pos.y = groundPosY;
         if (colliderID > NO_COLLIDER) {
             if (!(playerStatus->animFlags & PA_FLAG_USING_WATT)) {
-                anim = ANIM_Mario1_Land;
+                s32 landAnim = ANIM_Mario1_Land;
+                CALL_CANCELLABLE_EVENT(OnPlayerLandAnim, &landAnim) {
+                    suggest_player_anim_allow_backward(landAnim);
+                }
             } else {
                 anim = ANIM_MarioW1_LandWatt;
+                suggest_player_anim_allow_backward(anim);
             }
-            suggest_player_anim_allow_backward(anim);
             enable_player_input();
             phys_player_land();
         }
@@ -716,17 +719,25 @@ void collision_main_lateral(void) {
                     yaw = clamp_angle(yaw2 + 35.0);
                     test2 = player_test_lateral_overlap(PLAYER_COLLISION_0, playerStatus, &test2X, &test2Z, &test2Y, 0.0f, yaw);
 
+                    PlayerMovementConstraint constraint = { false };
+                    CALL_EVENT(OnPlayerMovementConstraint, &constraint);
                     if (test1 <= NO_COLLIDER) {
                         if (test2 <= NO_COLLIDER) {
                             playerStatus->pos.x = playerX;
-                            playerStatus->pos.z = playerZ;
+                            if (!constraint.lockWalkZ) {
+                                playerStatus->pos.z = playerZ;
+                            }
                         } else {
                             playerStatus->pos.x = test1X;
-                            playerStatus->pos.z = test1Z;
+                            if (!constraint.lockWalkZ) {
+                                playerStatus->pos.z = test1Z;
+                            }
                         }
                     } else if (test2 <= NO_COLLIDER) {
                         playerStatus->pos.x = test2X;
-                        playerStatus->pos.z = test2Y;
+                        if (!constraint.lockWalkZ) {
+                            playerStatus->pos.z = test2Y;
+                        }
                     }
 
                     if (playerStatus->enableCollisionOverlapsCheck == 0) {

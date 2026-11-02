@@ -108,14 +108,6 @@ void state_drawUI_enter_world(void) {
     }
 }
 
-enum ChangeMapStates {
-    CHANGE_MAP_INIT             = 0,
-    CHANGE_MAP_DELAY            = 1,
-    CHANGE_MAP_LOAD_MAP         = 2,
-    CHANGE_MAP_AWAIT_MAIN       = 3,
-    CHANGE_MAP_FADE_IN          = 4,
-};
-
 void state_init_change_map(void) {
     gMapTransitionAlpha = 0;
     gMapTransitionFadeRate = 20;
@@ -127,9 +119,11 @@ void state_init_change_map(void) {
     } else {
         gGameStatusPtr->didAreaChange = false;
     }
+    CALL_EVENT(OnChangeMapInit);
 }
 
 void state_step_change_map(void) {
+    CALL_EVENT(OnChangeMapStep, gMapTransitionState);
     switch (gMapTransitionState) {
         case CHANGE_MAP_INIT:
             update_npcs();

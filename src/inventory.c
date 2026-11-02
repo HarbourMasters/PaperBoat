@@ -160,9 +160,12 @@ void clear_player_data(void) {
     playerData->smashGamePlays = 0;
     playerData->smashGameTotal = 0;
     playerData->smashGameRecord = 0;
+
+    CALL_EVENT(OnPlayerDataClear);
 }
 
 s32 add_item(s32 itemID) {
+    s32 capacity;
     s32 idx;
 
     // handle key items
@@ -190,7 +193,9 @@ s32 add_item(s32 itemID) {
         }
 
         if (idx >= ARRAY_COUNT(gPlayerData.badges)) {
-            return -1;
+            s32 result = -1;
+            CALL_EVENT(OnBadgeInventoryFull, itemID, &result);
+            return result;
         }
 
         gPlayerData.badges[idx] = itemID;
@@ -200,13 +205,14 @@ s32 add_item(s32 itemID) {
     // handle consumables
     sort_consumables();
 
-    for (idx = 0; idx < ARRAY_COUNT(gPlayerData.invItems); idx++) {
+    capacity = get_consumables_capacity();
+    for (idx = 0; idx < capacity; idx++) {
         if (gPlayerData.invItems[idx] == ITEM_NONE) {
             break;
         }
     }
 
-    if (idx == ARRAY_COUNT(gPlayerData.invItems)) {
+    if (idx == capacity) {
         return -1;
     }
 
@@ -215,6 +221,7 @@ s32 add_item(s32 itemID) {
 }
 
 s32 remove_item(s32 itemID) {
+    s32 capacity;
     s32 idx;
 
     // handle key items
@@ -235,35 +242,40 @@ s32 remove_item(s32 itemID) {
 
     // handle badges
     if (item_is_badge(itemID)) {
-        // unequip
-        for (idx = 0; idx < ARRAY_COUNT(gPlayerData.equippedBadges); idx++) {
-            if (gPlayerData.equippedBadges[idx] == itemID) {
-                gPlayerData.equippedBadges[idx] = ITEM_NONE;
+        s32 slot = -1;
+        CALL_CANCELLABLE_EVENT(OnRemoveBadge, itemID, &slot) {
+            // unequip
+            for (idx = 0; idx < ARRAY_COUNT(gPlayerData.equippedBadges); idx++) {
+                if (gPlayerData.equippedBadges[idx] == itemID) {
+                    gPlayerData.equippedBadges[idx] = ITEM_NONE;
+                }
             }
-        }
 
-        for (idx = 0; idx < ARRAY_COUNT(gPlayerData.badges); idx++) {
-            if (gPlayerData.badges[idx] == itemID) {
-                break;
+            for (idx = 0; idx < ARRAY_COUNT(gPlayerData.badges); idx++) {
+                if (gPlayerData.badges[idx] == itemID) {
+                    break;
+                }
             }
-        }
 
-        if (idx >= ARRAY_COUNT(gPlayerData.badges)) {
-            return -1;
-        }
+            if (idx >= ARRAY_COUNT(gPlayerData.badges)) {
+                return -1;
+            }
 
-        gPlayerData.badges[idx] = ITEM_NONE;
-        return idx;
+            gPlayerData.badges[idx] = ITEM_NONE;
+            return idx;
+        }
+        return slot;
     }
 
     // handle consumables
-    for (idx = 0; idx < ARRAY_COUNT(gPlayerData.invItems); idx++) {
+    capacity = get_consumables_capacity();
+    for (idx = 0; idx < capacity; idx++) {
         if (gPlayerData.invItems[idx] == itemID) {
             break;
         }
     }
 
-    if (idx == ARRAY_COUNT(gPlayerData.invItems)) {
+    if (idx == capacity) {
         return -1;
     }
 
@@ -275,6 +287,7 @@ s32 remove_item(s32 itemID) {
 /// Search player inventory for `itemID` and return first matching array index.
 /// Returns the index of the given item in the player's inventory, or -1 if not found.
 s32 find_item(s32 itemID) {
+    s32 capacity;
     s32 idx;
 
     // handle key items
@@ -306,13 +319,14 @@ s32 find_item(s32 itemID) {
     }
 
     // handle consumables
-    for (idx = 0; idx < ARRAY_COUNT(gPlayerData.invItems); idx++) {
+    capacity = get_consumables_capacity();
+    for (idx = 0; idx < capacity; idx++) {
         if (gPlayerData.invItems[idx] == itemID) {
             break;
         }
     }
 
-    if (idx == ARRAY_COUNT(gPlayerData.invItems)) {
+    if (idx == capacity) {
         return -1;
     }
     return idx;
@@ -321,6 +335,7 @@ s32 find_item(s32 itemID) {
 /// Search player inventory for `itemID` and count the number matches.
 /// Returns the number of items matching `itemID`.
 s32 count_item(s32 itemID) {
+    s32 capacity;
     s32 idx;
     s32 sum = 0;
 
@@ -345,7 +360,8 @@ s32 count_item(s32 itemID) {
     }
 
     // handle consumables
-    for (idx = 0; idx < ARRAY_COUNT(gPlayerData.invItems); idx++) {
+    capacity = get_consumables_capacity();
+    for (idx = 0; idx < capacity; idx++) {
         if (gPlayerData.invItems[idx] == itemID) {
             sum++;
         }
@@ -354,6 +370,7 @@ s32 count_item(s32 itemID) {
 }
 
 b32 has_item(s32 itemID) {
+    s32 capacity;
     s32 idx;
 
     // handle key items
@@ -377,7 +394,8 @@ b32 has_item(s32 itemID) {
     }
 
     // handle consumables
-    for (idx = 0; idx < ARRAY_COUNT(gPlayerData.invItems); idx++) {
+    capacity = get_consumables_capacity();
+    for (idx = 0; idx < capacity; idx++) {
         if (gPlayerData.invItems[idx] == itemID) {
             return true;
         }
@@ -421,15 +439,16 @@ b32 is_badge_equipped(s32 itemID) {
 
 /// Bubbles up player inventory items such that all ITEM_NONE values are at the bottom.
 void sort_consumables(void) {
+    s32 capacity = get_consumables_capacity();
     s32 i, j;
 
-    for (i = ARRAY_COUNT(gPlayerData.invItems) - 2; i >= 0; i--) {
+    for (i = capacity - 2; i >= 0; i--) {
         // leave ITEM_NONE at the end of the list alone
         if (gPlayerData.invItems[i] == ITEM_NONE) {
             continue;
         }
         // swap any other ITEM_NONE to the end of the list
-        for (j = ARRAY_COUNT(gPlayerData.invItems) - 1; i < j; j--) {
+        for (j = capacity - 1; i < j; j--) {
             if (gPlayerData.invItems[j] == ITEM_NONE) {
                 gPlayerData.invItems[j] = gPlayerData.invItems[i];
                 gPlayerData.invItems[i] = ITEM_NONE;
@@ -440,10 +459,11 @@ void sort_consumables(void) {
 }
 
 s32 get_consumables_count(void) {
+    s32 capacity = get_consumables_capacity();
     s32 idx;
     s32 sum = 0;
 
-    for (idx = 0; idx < ARRAY_COUNT(gPlayerData.invItems); idx++) {
+    for (idx = 0; idx < capacity; idx++) {
         if (gPlayerData.invItems[idx] != ITEM_NONE) {
             sum++;
         }
@@ -453,7 +473,7 @@ s32 get_consumables_count(void) {
 }
 
 s32 get_consumables_empty(void) {
-    return ARRAY_COUNT(gPlayerData.invItems) - get_consumables_count();
+    return get_consumables_capacity() - get_consumables_count();
 }
 
 s32 get_stored_count(void) {
@@ -475,22 +495,25 @@ s32 get_stored_empty(void) {
 
 void enforce_hpfp_limits(void) {
     PlayerData* playerData = &gPlayerData;
+    StatLimits limits = STAT_LIMITS_VANILLA;
 
+    CALL_EVENT(OnStatLimits, &limits);
     playerData->curMaxHP = playerData->hardMaxHP + (is_ability_active(ABILITY_HP_PLUS) * 5);
-    if (playerData->curMaxHP > 75) {
-        playerData->curMaxHP = 75;
+    if (playerData->curMaxHP > limits.hpCap) {
+        playerData->curMaxHP = limits.hpCap;
     }
     if (playerData->curHP > playerData->curMaxHP) {
         playerData->curHP = playerData->curMaxHP;
     }
 
     playerData->curMaxFP = playerData->hardMaxFP + (is_ability_active(ABILITY_FP_PLUS) * 5);
-    if (playerData->curMaxFP > 75) {
-        playerData->curMaxFP = 75;
+    if (playerData->curMaxFP > limits.fpCap) {
+        playerData->curMaxFP = limits.fpCap;
     }
     if (playerData->curFP > playerData->curMaxFP) {
         playerData->curFP = playerData->curMaxFP;
     }
+    CALL_EVENT(OnMaxStatsRecalculated);
 }
 
 void initialize_status_bar(void) {
@@ -647,6 +670,7 @@ void initialize_status_bar(void) {
     hud_element_set_flags(hid, HUD_ELEMENT_FLAG_MANUAL_RENDER | HUD_ELEMENT_FLAG_DISABLED);
     hud_element_clear_flags(hid, HUD_ELEMENT_FLAG_FILTER_TEX);
 
+    CALL_EVENT(OnStatusBarPanel, STATUS_BAR_PHASE_INIT, statusBar->drawPosX, statusBar->drawPosY);
     star_power_shimmer_init();
 }
 
@@ -957,6 +981,9 @@ void update_status_bar(void) {
     statusBar->drawPosX = OTRGetRectDimensionFromLeftEdge(12);
     x = statusBar->drawPosX;
     y = statusBar->drawPosY;
+    {
+        CALL_CANCELLABLE_RETURN_EVENT(OnStatusBarPanel, STATUS_BAR_PHASE_DRAW, x, y);
+    }
     StatusBarScale = port_status_bar_scale();
     StatusBarOriginX = x;
     StatusBarOriginY = y;
@@ -1068,8 +1095,12 @@ void update_status_bar(void) {
         status_bar_draw_stat(statusBar->fpTimesHID, x, y, statusBar->displayFP, playerData->curMaxFP);
     }
 
-    if (playerData->level >= 27) {
-        playerData->starPoints = 0;
+    {
+        StatLimits limits = STAT_LIMITS_VANILLA;
+        CALL_EVENT(OnStatLimits, &limits);
+        if (playerData->level >= limits.levelCap) {
+            playerData->starPoints = 0;
+        }
     }
 
     showStat = true;
@@ -1552,6 +1583,7 @@ API_CALLABLE(ShowCoinCounter) {
 
 void draw_status_ui(void) {
     update_status_bar();
+    CALL_EVENT(OnStatusBarUpdated);
     update_coin_counter();
 
     #if DX_DEBUG_MENU
@@ -1805,6 +1837,7 @@ void sync_status_bar(void) {
 
     statusBar->displayHP = playerData->curHP;
     statusBar->displayFP = playerData->curFP;
+    CALL_EVENT(OnStatusBarPanel, STATUS_BAR_PHASE_SYNC, statusBar->drawPosX, statusBar->drawPosY);
     statusBar->displayStarPower = playerData->starPower;
     statusBar->displayCoins = playerData->coins;
     statusBar->displayStarpoints = playerData->starPoints;
@@ -1970,6 +2003,9 @@ s32 is_ability_active(s32 ability) {
                 }
                 break;
             case ABILITY_ATTACK_FX:
+                if (attackFXIndex >= ARRAY_COUNT(attackFXArray)) {
+                    break;
+                }
                 if (badgeMoveID == MOVE_ATTACK_FX_A) {
                     attackFXArray[attackFXIndex++] = 1;
                     ret = -1;
@@ -2201,11 +2237,23 @@ s32 is_ability_active(s32 ability) {
     if (ret < 0) {
         ret = attackFXArray[rand_int(attackFXIndex - 1)];
     }
+    if (ability != ABILITY_ATTACK_FX) {
+        CALL_EVENT(OnAbilityCount, nullptr, ability, &ret);
+        if (ret < 0) {
+            ret = 0;
+        }
+    }
     return ret;
 }
 
 s32 is_partner_ability_active(s32 ability) {
-    return 0;
+    s32 count = 0;
+
+    CALL_EVENT(OnAbilityCount, gBattleStatus.partnerActor, ability, &count);
+    if (count < 0) {
+        count = 0;
+    }
+    return count;
 }
 
 s32 add_coins(s32 amt) {
@@ -2337,6 +2385,9 @@ s32 recover_hp(s32 amt) {
 
 void subtract_hp(s32 amt) {
     PlayerData* playerData = &gPlayerData;
+    s32 delta = -amt;
+    CALL_CANCELLABLE_RETURN_EVENT(OnActorHpChange, nullptr, HP_SOURCE_FIELD_HAZARD, &delta);
+    amt = -delta;
     s32 newHP = playerData->curHP;
 
     if (amt > 0) {

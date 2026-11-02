@@ -49,13 +49,15 @@ EffectInstance* fire_flower_main(s32 arg0, f32 arg1, f32 arg2, f32 arg3, s32 arg
 
     part++;
 
+    f32 ballSpeedX = 8.0f;
+    CALL_EVENT(OnEffectSpawnParams, EFFECT_FIRE_FLOWER, EFFECT_PARAM_FIRE_FLOWER_SPEED_X, &ballSpeedX);
     for (i = 1; i < numParts; i++, part++) {
         partData = &part->unk_40;
         part->unk_00 = 1;
         part->pos.x = 0;
         part->pos.y = 0;
         part->pos.z = 0;
-        part->unk_14 = 8.0f;
+        part->unk_14 = ballSpeedX;
         part->unk_18 = 0;
         part->unk_1C = effect_rand_int(20) - 8;
         part->unk_20 = (effect_rand_int(10) - 5) * 0.05;

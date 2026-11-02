@@ -699,6 +699,37 @@ Sprite_GetPlayerRasterLoadDescriptors(SpriteS32 spriteIdx, SpriteS32 startIndex,
     return 1;
 }
 
+SpriteS32 Sprite_GetPlayerRasterOffsetScale(void) {
+    int32_t header[3];
+    if (!Sprite_GetPlayerRasterHeader(header)) {
+        return 1;
+    }
+
+    const char* descPath = "__OTR__sprites/player_raster_load_descriptors";
+    const uint32_t* desc = (const uint32_t*) ResourceGetDataByName(descPath);
+    auto blob = std::dynamic_pointer_cast<Ship::Blob>(
+        Ship::Context::GetRawInstance()->GetResourceManager()->LoadResource(descPath)
+    );
+    if (desc == nullptr || blob == nullptr || blob->Data.size() < sizeof(uint32_t)) {
+        return 1;
+    }
+
+    const int32_t imageData = header[2];
+    if ((int32_t) (BSWAP32(desc[0]) & 0xFFFFF) < imageData) {
+        return 16;
+    }
+
+    const int32_t declared = (imageData - header[1]) / 4;
+    const size_t available = blob->Data.size() / sizeof(uint32_t);
+    const size_t count = declared > 0 ? ((size_t) declared < available ? (size_t) declared : available) : 0;
+    for (size_t i = 0; i < count; i++) {
+        if (BSWAP32(desc[i]) & 0xF) {
+            return 16;
+        }
+    }
+    return 1;
+}
+
 void* Sprite_GetPlayerRasterPath(SpriteS32 spriteIdx, SpriteS32 rasterIndex) {
     char assetPath[64];
     snprintf(assetPath, sizeof(assetPath), "%s%d", PLAYER_SPRITE_ASSET_PREFIX, spriteIdx);
@@ -725,16 +756,16 @@ SpriteS32 Sprite_LoadPlayerRaster(SpriteS32 rasterOffset, void* destBuffer, Spri
         return 0;
     }
 
-    // Get blob size for bounds checking
-    // player_raster_image_data is 0x9CDD0 bytes (642,512 bytes)
-    const size_t PLAYER_RASTER_BLOB_SIZE = 0x9CDD0;
+    auto blob = std::dynamic_pointer_cast<Ship::Blob>(
+        Ship::Context::GetRawInstance()->GetResourceManager()->LoadResource(imagePath)
+    );
+    const size_t blobSize = blob != nullptr ? blob->Data.size() : 0;
 
-    // Bounds check
-    if ((size_t) (rasterOffset + size) > PLAYER_RASTER_BLOB_SIZE) {
+    if ((size_t) (rasterOffset + size) > blobSize) {
         SPDLOG_ERROR(
             "Sprite_LoadPlayerRaster: Out of bounds! offset=0x{:X} "
             "size={} (end=0x{:X}, max=0x{:X})",
-            rasterOffset, size, rasterOffset + size, PLAYER_RASTER_BLOB_SIZE
+            rasterOffset, size, rasterOffset + size, blobSize
         );
         return 0;
     }

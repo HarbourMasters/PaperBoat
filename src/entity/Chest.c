@@ -146,6 +146,9 @@ void entity_Chest_idle(Entity* entity) {
 
 void entity_Chest_begin_opening(Entity* entity) {
     ChestData* data = entity->dataBuf.chest;
+    EvtScript* boundScript = entity->boundScriptBytecode;
+    CALL_EVENT(OnChestOpening, entity, &boundScript);
+    entity->boundScriptBytecode = boundScript;
     data->postLidAnimDelay = 10;
     data->lidAngle = 0.0f;
     data->openState = 0;

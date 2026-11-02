@@ -3,6 +3,7 @@
 #include <functional>
 
 #include "Companion.h"
+#include "port/romhack/Romhack.h"
 
 #include <atomic>
 #include <cstdint>
@@ -11,8 +12,19 @@
 #include <utility>
 #include <vector>
 
+// A config.yml entry with a romhack: block. It extracts to a delta o2r under mods/~romhacks.
+struct RomhackRecipe {
+    Romhack::Info info;
+    Mod::Manifest manifest;
+    std::string yamlPath;
+    std::string output;
+};
+
 class GameExtractor {
 public:
+    // The loaded ROM's romhack recipe, or nullopt for the base game or an unknown ROM.
+    std::optional<RomhackRecipe> GetRomhack() const;
+    static bool IsRomhack(const std::string& romPath, const std::string& configDir = "");
     static bool GenAssetFile();
     std::optional<std::string> ValidateChecksum() const;
     // configDir holds config.yml. Empty asks Ship::Context; the Android
