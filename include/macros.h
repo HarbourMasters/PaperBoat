@@ -119,10 +119,10 @@ typedef s32 Difficulty2D[AC_DIFFICULTY_LEN][2];
 #define GFX_DEPTH_IMAGE_SENTINEL ((void*) 2)
 
 #define WORLD_ENTITY_HEAP_SIZE 0x17FF0
-#define COLLISION_HEAP_SIZE 0x40000
-#define GENERAL_HEAP_SIZE 0x54000
+#define COLLISION_HEAP_SIZE 0xC0000
+#define GENERAL_HEAP_SIZE 0xC0000
 #define SPRITE_HEAP_SIZE 0x100000 // 1MB. spr_load_npc_extra_anims is disabled in sprite.c ln 1052 which usually trims sprites in heap
-#define BATTLE_HEAP_SIZE 0x25800
+#define BATTLE_HEAP_SIZE 0xC0000
 #define FRAME_BUFFER_SIZE 0x25800
 
 #define CAM_NEAR_CLIP 16
