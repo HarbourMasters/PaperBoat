@@ -30,4 +30,13 @@ void Mod_SetItemIcon(
 
 #ifdef __cplusplus
 }
+
+#include <string>
+
+namespace Mod {
+
+std::string ItemOwner(int32_t itemID);
+
+} // namespace Mod
+
 #endif

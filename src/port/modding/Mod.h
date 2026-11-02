@@ -15,6 +15,7 @@
 #include "ModSaveData.h"
 #include "Panels.h"
 #include "Popups.h"
+#include "SaveEditorLists.h"
 #include "ScriptOverrides.h"
 #include "VertexColors.h"
 #include "WindowStyles.h"

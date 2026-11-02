@@ -44,6 +44,10 @@ public:
         return mEntries.back().value;
     }
 
+    const std::string& TopOwner() const {
+        return mEntries.back().owner;
+    }
+
 private:
     std::vector<Entry> mEntries;
     std::string mConflictOwner;
@@ -72,5 +76,6 @@ void UnregisterWindowStyles(const std::string& owner);
 void UnregisterPanels(const std::string& owner);
 void UnregisterItemCapacity(const std::string& owner);
 void UnregisterInputFrameListeners(const std::string& owner);
+void UnregisterSaveEditor(const std::string& owner);
 
 } // namespace Mod
