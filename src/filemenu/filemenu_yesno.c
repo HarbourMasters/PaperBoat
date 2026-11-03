@@ -4,6 +4,7 @@
 #include "game_modes.h"
 #include "dx/config.h"
 #include <string.h>
+#include "port/patches/Patches.h"
 
 #if VERSION_IQUE
 #define DELETE_FILE_DELETE_X            20
@@ -11,6 +12,7 @@
 #define DELETE_FILE_NUMBER_X            93
 #define DELETE_FILE_QMARK_X             92
 #define COPY_FILE_NUMBER_X              49
+#define COPY_CONFIRM_SUFFIX_X           49
 #define START_GAME_START_WITH_X         37
 #define START_GAME_FILE_X               100
 #define START_GAME_NUMBER_X             142
@@ -18,14 +20,15 @@
 #define NUMBER_OFFSET_Y                 1
 #else
 #define DELETE_FILE_DELETE_X            10
-#define DELETE_FILE_FILE_X              60
-#define DELETE_FILE_NUMBER_X            98
-#define DELETE_FILE_QMARK_X             99
-#define COPY_FILE_NUMBER_X              48
+#define DELETE_FILE_FILE_X              port_filemenu_layout(FM_LAYOUT_DELETE_CONFIRM_FILE_X, 60)
+#define DELETE_FILE_NUMBER_X            port_filemenu_layout(FM_LAYOUT_DELETE_CONFIRM_NUMBER_X, 98)
+#define DELETE_FILE_QMARK_X             port_filemenu_layout(FM_LAYOUT_DELETE_CONFIRM_QMARK_X, 99)
+#define COPY_FILE_NUMBER_X              port_filemenu_layout(FM_LAYOUT_COPY_CONFIRM_NUMBER_X, 48)
+#define COPY_CONFIRM_SUFFIX_X           port_filemenu_layout(FM_LAYOUT_COPY_CONFIRM_SUFFIX_X, 49)
 #define START_GAME_START_WITH_X         10
-#define START_GAME_FILE_X               127
-#define START_GAME_NUMBER_X             165
-#define START_GAME_QMARK_X              162
+#define START_GAME_FILE_X               port_filemenu_layout(FM_LAYOUT_START_FILE_X, 127)
+#define START_GAME_NUMBER_X             port_filemenu_layout(FM_LAYOUT_START_NUMBER_X, 165)
+#define START_GAME_QMARK_X              port_filemenu_layout(FM_LAYOUT_START_QMARK_X, 162)
 #define NUMBER_OFFSET_Y                 0
 #endif
 
@@ -158,7 +161,7 @@ void filemenu_yesno_draw_prompt_contents(
         case FM_CONFIRM_COPY:
             filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_FILE_22), baseX + 10, baseY + 4, 0xFF, 0, 0);
             draw_number(filemenu_menus[FILE_MENU_MAIN]->selected + 1, baseX + COPY_FILE_NUMBER_X, baseY + 6 + NUMBER_OFFSET_Y, DRAW_NUMBER_CHARSET_NORMAL, MSG_PAL_WHITE, 0xFF, DRAW_NUMBER_STYLE_MONOSPACE | DRAW_NUMBER_STYLE_ALIGN_RIGHT);
-            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_WILL_BE_DELETED), baseX + 49, baseY + 4, 0xFF, 0, 0);
+            filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_WILL_BE_DELETED), baseX + COPY_CONFIRM_SUFFIX_X, baseY + 4, 0xFF, 0, 0);
             filemenu_draw_message(filemenu_get_menu_message(FILE_MESSAGE_OK_TO_COPY_TO_THIS_FILE), baseX + 10, baseY + 18, 0xFF, 0, 0);
             break;
         case FM_CONFIRM_CREATE:
