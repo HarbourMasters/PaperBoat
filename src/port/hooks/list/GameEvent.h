@@ -118,3 +118,7 @@ DEFINE_EVENT(OnISpySoundPlay,
 DEFINE_EVENT(OnQuizmoShouldAppear,
     bool* forceAppear;
 );
+
+DEFINE_EVENT(OnPartnerlessCrashProtectionCheck,
+    bool* enabled;
+);
