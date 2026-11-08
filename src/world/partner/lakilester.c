@@ -390,7 +390,7 @@ void N(update_riding_physics)(Npc* lakilester) {
     if (N(CurrentGroundPitch) >= 20.0f) {
         moveSpeed *= 0.8f;
     }
-
+    CALL_EVENT(OnPlayerSpeedUpdate, &gPlayerStatus.walkSpeed, &gPlayerStatus.runSpeed,&moveSpeed);
     lakilester->moveSpeed = moveSpeed;
 
     if (moveSpeed != 0.0f) {
