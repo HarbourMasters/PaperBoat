@@ -761,6 +761,9 @@ API_CALLABLE(TTYD64_Function_InitNewGamePlusData) {
     modFlags[0xF0 / 4] = TTYD64_ReadBE(sPushModFlags, 0x10, 4);
     memcpy(modBytes, sPushModBytes, 0x0C);
     memcpy(&modBytes[0xFC], &sPushModBytes[0x0C], 0x100);
+    for (s32 i = 0; i < 5; i++) {
+        evt_set_variable(NULL, FLAG_RowfBadgeAvailableA + i, 1);
+    }
 
     switch (gGameStatusPtr->saveSlot) {
         case 1:
