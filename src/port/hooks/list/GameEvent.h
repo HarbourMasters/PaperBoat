@@ -101,6 +101,7 @@ DEFINE_EVENT(OnMapLoad,
 DEFINE_EVENT(OnPlayerSpeedUpdate,
     float* walkSpeed;
     float* runSpeed;
+    float* partnerSpeed;
 );
 
 DEFINE_EVENT(OnMapReady,
@@ -109,7 +110,7 @@ DEFINE_EVENT(OnMapReady,
 
 DEFINE_EVENT(OnHiddenBlockAlphaChange,
     int32_t* alpha;
-    );
+);
 
 DEFINE_EVENT(OnISpySoundPlay,
     bool* SoundPlay;

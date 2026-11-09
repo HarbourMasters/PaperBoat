@@ -7,6 +7,7 @@ extern "C" {
 #include "enums.h"
 
 extern PlayerStatus gPlayerStatus;
+extern PartnerStatus gPartnerStatus;
 
 // Default player speeds
 extern f32 DefaultWalkSpeed;
@@ -26,7 +27,7 @@ void RegisterSprintButton_Init() {
             multiplier = 1.0f;
         } else if (gPlayerStatus.flags & PS_FLAG_CUTSCENE_MOVEMENT) {
             multiplier = 1.0f;
-        } else if (!(gPlayerStatus.curButtons & BUTTON_R)) {
+        } else if (!(gPlayerStatus.curButtons & BUTTON_R) && !(gPartnerStatus.curButtons & BUTTON_R)) {
             multiplier = 1.0f;
         }
 
@@ -42,6 +43,7 @@ void RegisterSprintButton_Init() {
 
         *ev->walkSpeed = DefaultWalkSpeed * multiplier;
         *ev->runSpeed = DefaultRunSpeed * multiplier;
+        *ev->partnerSpeed = *ev->partnerSpeed * multiplier;
     });
 }
 

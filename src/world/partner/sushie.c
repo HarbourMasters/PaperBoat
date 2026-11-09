@@ -113,7 +113,7 @@ void N(update_riding_physics)(Npc* sushie) {
     // determine movement speed and direction from input and inertia
 
      N(get_movement_from_input)(&moveAngle, &moveSpeed);
-
+     CALL_EVENT(OnPlayerSpeedUpdate, &gPlayerStatus.walkSpeed, &gPlayerStatus.runSpeed,&moveSpeed);
     if (N(DiveState) != DIVE_STATE_NONE) {
         moveSpeedDamping = 80.0f;
     } else {
