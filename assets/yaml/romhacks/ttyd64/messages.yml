@@ -1,0 +1,699 @@
+:config:
+  segments:
+    - [1, 0x1B83000]
+  no_compression: true
+
+MSG_MAC_Gate_0022:
+  { type: BLOB, offset: 0xFDE8, size: 0x1B }
+MSG_MAC_Gate_0029:
+  { type: BLOB, offset: 0xFF70, size: 0x1A }
+MSG_MAC_Gate_0032:
+  { type: BLOB, offset: 0x101A8, size: 0x21 }
+MSG_MAC_Gate_0037:
+  { type: BLOB, offset: 0x10274, size: 0x17 }
+MSG_MAC_Gate_003D:
+  { type: BLOB, offset: 0x103D4, size: 0x3E }
+MSG_HOS_0013:
+  { type: BLOB, offset: 0x3FE34, size: 0x9C }
+MSG_CH3_0017:
+  { type: BLOB, offset: 0x60BF0, size: 0x65 }
+MSG_CH6_00DD:
+  { type: BLOB, offset: 0x81BEC, size: 0x108 }
+MSG_CH8_0044:
+  { type: BLOB, offset: 0x92264, size: 0xDC }
+MSG_CH8_0045:
+  { type: BLOB, offset: 0x92340, size: 0x59 }
+MSG_CH8_0046:
+  { type: BLOB, offset: 0x9239C, size: 0x58 }
+MSG_CH8_0047:
+  { type: BLOB, offset: 0x923F4, size: 0x3C }
+MSG_CH8_0048:
+  { type: BLOB, offset: 0x92430, size: 0x79 }
+MSG_Peach_006E:
+  { type: BLOB, offset: 0x981EC, size: 0x6E }
+MSG_Peach_006F:
+  { type: BLOB, offset: 0x9825C, size: 0xAB }
+MSG_Peach_0070:
+  { type: BLOB, offset: 0x98308, size: 0x13F }
+MSG_Peach_0071:
+  { type: BLOB, offset: 0x98448, size: 0xB0 }
+MSG_Peach_0072:
+  { type: BLOB, offset: 0x984F8, size: 0xA5 }
+MSG_Peach_0073:
+  { type: BLOB, offset: 0x985A0, size: 0x90 }
+MSG_Peach_0074:
+  { type: BLOB, offset: 0x98630, size: 0xD0 }
+MSG_Peach_0075:
+  { type: BLOB, offset: 0x98700, size: 0x9C }
+MSG_Peach_0076:
+  { type: BLOB, offset: 0x9879C, size: 0x4C }
+MSG_Peach_0077:
+  { type: BLOB, offset: 0x987E8, size: 0x4B }
+MSG_Peach_0078:
+  { type: BLOB, offset: 0x98834, size: 0x26 }
+MSG_Peach_0079:
+  { type: BLOB, offset: 0x9885C, size: 0x3E }
+MSG_Peach_007A:
+  { type: BLOB, offset: 0x9889C, size: 0x55 }
+MSG_NpcTattle_Merlon:
+  { type: BLOB, offset: 0xBD8B8, size: 0x1A9 }
+MSG_EnemyTattle_KoopaTroopa:
+  { type: BLOB, offset: 0xCA630, size: 0x151 }
+MSG_EnemyTattle_Paratroopa:
+  { type: BLOB, offset: 0xCA784, size: 0x1A9 }
+MSG_EnemyTattle_Pokey:
+  { type: BLOB, offset: 0xCBA8C, size: 0x158 }
+MSG_EnemyTattle_PokeyMummy:
+  { type: BLOB, offset: 0xCBD48, size: 0x1B5 }
+MSG_EnemyTattle_BuzzyBeetle:
+  { type: BLOB, offset: 0xCBF00, size: 0x17B }
+MSG_EnemyTattle_HyperGoomba:
+  { type: BLOB, offset: 0xCCAB4, size: 0x184 }
+MSG_EnemyTattle_HyperParagoomba:
+  { type: BLOB, offset: 0xCCC38, size: 0x1AA }
+MSG_EnemyTattle_SpikeTop:
+  { type: BLOB, offset: 0xCF03C, size: 0x100 }
+MSG_EnemyTattle_FrostPiranha:
+  { type: BLOB, offset: 0xD0A38, size: 0x158 }
+MSG_EnemyTattle_DryBones:
+  { type: BLOB, offset: 0xD2034, size: 0x159 }
+MSG_EnemyTattle_BombshellBill:
+  { type: BLOB, offset: 0xD29DC, size: 0x13F }
+MSG_EnemyTattle_Gloomba:
+  { type: BLOB, offset: 0xD3FF4, size: 0xCD }
+MSG_EnemyTattle_Paragloomba:
+  { type: BLOB, offset: 0xD40C4, size: 0x115 }
+MSG_EnemyTattle_SpikedGloomba:
+  { type: BLOB, offset: 0xD41DC, size: 0xE6 }
+MSG_EnemyTattle_DarkKoopa:
+  { type: BLOB, offset: 0xD42C4, size: 0x17A }
+MSG_Menus_StarPowerDesc_Smooch:
+  { type: BLOB, offset: 0xD7354, size: 0x22 }
+MSG_Menus_PlayerDazed:
+  { type: BLOB, offset: 0xD7E88, size: 0x1E }
+MSG_Menus_PlayerPoisoned:
+  { type: BLOB, offset: 0xD7EA8, size: 0x1C }
+MSG_Menus_PlayerFrozen:
+  { type: BLOB, offset: 0xD7EC4, size: 0x1F }
+MSG_Menus_PlayerAsleep:
+  { type: BLOB, offset: 0xD7EE4, size: 0x1F }
+MSG_Menus_PlayerShrunk:
+  { type: BLOB, offset: 0xD7F04, size: 0x29 }
+MSG_Menus_PlayerParalyzed:
+  { type: BLOB, offset: 0xD7F30, size: 0x22 }
+MSG_Menus_PlayerElectricCharge:
+  { type: BLOB, offset: 0xD7F54, size: 0x2F }
+MSG_Menus_PlayerTransparent:
+  { type: BLOB, offset: 0xD7F84, size: 0x24 }
+MSG_Menus_EnemyCantMove:
+  { type: BLOB, offset: 0xD80AC, size: 0x17 }
+MSG_Menus_00E0:
+  { type: BLOB, offset: 0xD8BB4, size: 0x3E }
+MSG_Menus_00E1:
+  { type: BLOB, offset: 0xD8BF4, size: 0x35 }
+MSG_Menus_00E6:
+  { type: BLOB, offset: 0xD8D04, size: 0x3B }
+MSG_Choice_003E:
+  { type: BLOB, offset: 0xDE844, size: 0x6C }
+MSG_ItemShortDesc_HPDrain:
+  { type: BLOB, offset: 0xF2DDC, size: 0x3C }
+MSG_ItemShortDesc_LuckyStar:
+  { type: BLOB, offset: 0xF3764, size: 0x2C }
+MSG_ItemShopDesc_HPDrain:
+  { type: BLOB, offset: 0xF6BD4, size: 0x3C }
+MSG_ItemFullDesc_ShrinkStomp:
+  { type: BLOB, offset: 0xF8E40, size: 0x93 }
+MSG_ItemFullDesc_DoubleDip:
+  { type: BLOB, offset: 0xF9460, size: 0x43 }
+MSG_ItemFullDesc_TripleDip:
+  { type: BLOB, offset: 0xF94A4, size: 0x45 }
+MSG_ItemFullDesc_HPDrain:
+  { type: BLOB, offset: 0xF96E8, size: 0x3C }
+MSG_ItemFullDesc_LuckyStar:
+  { type: BLOB, offset: 0xFA078, size: 0x2C }
+MSG_PartnerDesc_Goombario_Battle_Charge:
+  { type: BLOB, offset: 0xCEC898, size: 0x38 }
+MSG_PartnerDesc_Parakarry_Battle_AirLift:
+  { type: BLOB, offset: 0xCED110, size: 0x20 }
+MSG_PartnerMoveName_Charge:
+  { type: BLOB, offset: 0xCEE858, size: 0x7 }
+MSG_PartnerMoveName_AirLift:
+  { type: BLOB, offset: 0xCEE8E0, size: 0xD }
+MSG_Credits_0000:
+  { type: BLOB, offset: 0xCF0C74, size: 0x16 }
+MSG_Credits_0005:
+  { type: BLOB, offset: 0xCF0CC0, size: 0xE }
+MSG_Credits_0006:
+  { type: BLOB, offset: 0xCF0CD0, size: 0xC }
+MSG_Credits_0007:
+  { type: BLOB, offset: 0xCF0CDC, size: 0x8 }
+MSG_Credits_0008:
+  { type: BLOB, offset: 0xCF0CE4, size: 0xC }
+MSG_mod_1C_0096:
+  { type: BLOB, offset: 0xD5F34, size: 0x123 }
+MSG_mod_1C_0097:
+  { type: BLOB, offset: 0xD6058, size: 0x16E }
+MSG_mod_1C_0098:
+  { type: BLOB, offset: 0xD61C8, size: 0xAA }
+MSG_mod_1C_0099:
+  { type: BLOB, offset: 0xD6274, size: 0x140 }
+MSG_mod_1C_009A:
+  { type: BLOB, offset: 0xD63B4, size: 0x128 }
+MSG_mod_1C_009B:
+  { type: BLOB, offset: 0xD64DC, size: 0x17B }
+MSG_mod_1C_009C:
+  { type: BLOB, offset: 0xD6658, size: 0xDF }
+MSG_mod_1C_009D:
+  { type: BLOB, offset: 0xD6738, size: 0xED }
+MSG_mod_1C_009E:
+  { type: BLOB, offset: 0xD6828, size: 0x159 }
+MSG_mod_1C_009F:
+  { type: BLOB, offset: 0xD6984, size: 0x96 }
+MSG_mod_1C_00A0:
+  { type: BLOB, offset: 0xD6A1C, size: 0xA4 }
+MSG_mod_1C_00A1:
+  { type: BLOB, offset: 0xD6AC0, size: 0xCA }
+MSG_mod_1C_00A2:
+  { type: BLOB, offset: 0xD6B8C, size: 0x14F }
+MSG_mod_1C_00A3:
+  { type: BLOB, offset: 0xD6CDC, size: 0x48 }
+MSG_mod_1C_00A4:
+  { type: BLOB, offset: 0xD6D24, size: 0x4B }
+MSG_mod_1C_00A5:
+  { type: BLOB, offset: 0xD6D70, size: 0x4D }
+MSG_mod_1C_00A6:
+  { type: BLOB, offset: 0xD6DC0, size: 0x48 }
+MSG_mod_1C_00A7:
+  { type: BLOB, offset: 0xD6E08, size: 0x4B }
+MSG_mod_1C_00A8:
+  { type: BLOB, offset: 0xD6E54, size: 0x49 }
+MSG_mod_1C_00A9:
+  { type: BLOB, offset: 0xD6EA0, size: 0x49 }
+MSG_mod_1D_01AC:
+  { type: BLOB, offset: 0xDD898, size: 0x26 }
+MSG_mod_1D_01AD:
+  { type: BLOB, offset: 0xDD8C0, size: 0xF }
+MSG_mod_23_010C:
+  { type: BLOB, offset: 0xF4A08, size: 0x4 }
+MSG_mod_23_010D:
+  { type: BLOB, offset: 0xF4A0C, size: 0x3B }
+MSG_mod_23_010E:
+  { type: BLOB, offset: 0xF4A48, size: 0x35 }
+MSG_mod_23_010F:
+  { type: BLOB, offset: 0xF4A80, size: 0x3B }
+MSG_mod_23_0110:
+  { type: BLOB, offset: 0xF4ABC, size: 0x33 }
+MSG_mod_23_0111:
+  { type: BLOB, offset: 0xF4AF0, size: 0x38 }
+MSG_mod_23_0112:
+  { type: BLOB, offset: 0xF4B28, size: 0x39 }
+MSG_mod_23_0113:
+  { type: BLOB, offset: 0xF4B64, size: 0x36 }
+MSG_mod_23_0114:
+  { type: BLOB, offset: 0xF4B9C, size: 0x2D }
+MSG_mod_23_0115:
+  { type: BLOB, offset: 0xF4BCC, size: 0x2D }
+MSG_mod_23_0116:
+  { type: BLOB, offset: 0xF4BFC, size: 0x3A }
+MSG_mod_23_0117:
+  { type: BLOB, offset: 0xF4C38, size: 0x28 }
+MSG_mod_23_0118:
+  { type: BLOB, offset: 0xF4C60, size: 0x34 }
+MSG_mod_23_0119:
+  { type: BLOB, offset: 0xF4C94, size: 0x27 }
+MSG_mod_23_011A:
+  { type: BLOB, offset: 0xF4CBC, size: 0x35 }
+MSG_mod_23_011B:
+  { type: BLOB, offset: 0xF4CF4, size: 0x29 }
+MSG_mod_23_011C:
+  { type: BLOB, offset: 0xF4D20, size: 0x2A }
+MSG_mod_23_011D:
+  { type: BLOB, offset: 0xF4D4C, size: 0x26 }
+MSG_mod_23_011E:
+  { type: BLOB, offset: 0xF4D74, size: 0x35 }
+MSG_mod_23_011F:
+  { type: BLOB, offset: 0xF4DAC, size: 0x35 }
+MSG_mod_23_0120:
+  { type: BLOB, offset: 0xF4DE4, size: 0x3B }
+MSG_mod_23_0121:
+  { type: BLOB, offset: 0xF4E20, size: 0x3E }
+MSG_mod_23_0122:
+  { type: BLOB, offset: 0xF4E60, size: 0x3D }
+MSG_mod_23_0123:
+  { type: BLOB, offset: 0xF4EA0, size: 0x3B }
+MSG_mod_23_0124:
+  { type: BLOB, offset: 0xF4EDC, size: 0x40 }
+MSG_mod_23_0125:
+  { type: BLOB, offset: 0xF4F1C, size: 0x22 }
+MSG_mod_23_0126:
+  { type: BLOB, offset: 0xF4F40, size: 0x3F }
+MSG_mod_23_0127:
+  { type: BLOB, offset: 0xF4F80, size: 0x23 }
+MSG_mod_23_0128:
+  { type: BLOB, offset: 0xF4FA4, size: 0x3C }
+MSG_mod_23_0129:
+  { type: BLOB, offset: 0xF4FE0, size: 0x3C }
+MSG_mod_23_012A:
+  { type: BLOB, offset: 0xF501C, size: 0x4B }
+MSG_mod_23_012B:
+  { type: BLOB, offset: 0xF5068, size: 0x4B }
+MSG_mod_23_012C:
+  { type: BLOB, offset: 0xF50B4, size: 0x34 }
+MSG_mod_23_012D:
+  { type: BLOB, offset: 0xF50E8, size: 0x3D }
+MSG_mod_23_012E:
+  { type: BLOB, offset: 0xF5128, size: 0x40 }
+MSG_mod_23_012F:
+  { type: BLOB, offset: 0xF5168, size: 0x36 }
+MSG_mod_23_0130:
+  { type: BLOB, offset: 0xF51A0, size: 0x3E }
+MSG_mod_23_0131:
+  { type: BLOB, offset: 0xF51E0, size: 0x41 }
+MSG_mod_23_0132:
+  { type: BLOB, offset: 0xF5224, size: 0x27 }
+MSG_mod_23_0133:
+  { type: BLOB, offset: 0xF524C, size: 0x29 }
+MSG_mod_23_0134:
+  { type: BLOB, offset: 0xF5278, size: 0x33 }
+MSG_mod_23_0135:
+  { type: BLOB, offset: 0xF52AC, size: 0x22 }
+MSG_mod_23_0136:
+  { type: BLOB, offset: 0xF52D0, size: 0x19 }
+MSG_mod_23_0137:
+  { type: BLOB, offset: 0xF52EC, size: 0x23 }
+MSG_mod_23_0138:
+  { type: BLOB, offset: 0xF5310, size: 0x28 }
+MSG_mod_23_0139:
+  { type: BLOB, offset: 0xF5338, size: 0x10 }
+MSG_mod_23_013A:
+  { type: BLOB, offset: 0xF5348, size: 0x29 }
+MSG_mod_23_013B:
+  { type: BLOB, offset: 0xF5374, size: 0xF }
+MSG_mod_23_013C:
+  { type: BLOB, offset: 0xF5384, size: 0x17 }
+MSG_mod_23_013D:
+  { type: BLOB, offset: 0xF539C, size: 0x37 }
+MSG_mod_23_013E:
+  { type: BLOB, offset: 0xF53D4, size: 0x33 }
+MSG_mod_23_013F:
+  { type: BLOB, offset: 0xF5408, size: 0xF }
+MSG_mod_23_0140:
+  { type: BLOB, offset: 0xF5418, size: 0x36 }
+MSG_mod_23_0141:
+  { type: BLOB, offset: 0xF5450, size: 0x38 }
+MSG_mod_23_0142:
+  { type: BLOB, offset: 0xF5488, size: 0x18 }
+MSG_mod_23_0143:
+  { type: BLOB, offset: 0xF54A0, size: 0x2B }
+MSG_mod_23_0144:
+  { type: BLOB, offset: 0xF54CC, size: 0x1D }
+MSG_mod_23_0145:
+  { type: BLOB, offset: 0xF54EC, size: 0x2E }
+MSG_mod_23_0146:
+  { type: BLOB, offset: 0xF551C, size: 0x2C }
+MSG_mod_23_0147:
+  { type: BLOB, offset: 0xF5548, size: 0x29 }
+MSG_mod_23_0148:
+  { type: BLOB, offset: 0xF5574, size: 0x3A }
+MSG_mod_23_0149:
+  { type: BLOB, offset: 0xF55B0, size: 0x29 }
+MSG_mod_23_014A:
+  { type: BLOB, offset: 0xF55DC, size: 0x31 }
+MSG_mod_23_014B:
+  { type: BLOB, offset: 0xF5610, size: 0x30 }
+MSG_mod_23_014C:
+  { type: BLOB, offset: 0xF5640, size: 0x3B }
+MSG_mod_23_014D:
+  { type: BLOB, offset: 0xF567C, size: 0x35 }
+MSG_mod_23_014E:
+  { type: BLOB, offset: 0xF56B4, size: 0x38 }
+MSG_mod_23_014F:
+  { type: BLOB, offset: 0xF56EC, size: 0x36 }
+MSG_mod_23_0150:
+  { type: BLOB, offset: 0xF5724, size: 0x34 }
+MSG_mod_23_0151:
+  { type: BLOB, offset: 0xF5758, size: 0x36 }
+MSG_mod_23_0152:
+  { type: BLOB, offset: 0xF5790, size: 0x37 }
+MSG_mod_23_0153:
+  { type: BLOB, offset: 0xF57C8, size: 0x3E }
+MSG_mod_23_0154:
+  { type: BLOB, offset: 0xF5808, size: 0x35 }
+MSG_mod_23_0155:
+  { type: BLOB, offset: 0xF5840, size: 0x2D }
+MSG_mod_23_0156:
+  { type: BLOB, offset: 0xF5870, size: 0x27 }
+MSG_mod_23_0157:
+  { type: BLOB, offset: 0xF5898, size: 0x2C }
+MSG_mod_23_0158:
+  { type: BLOB, offset: 0xF58C4, size: 0x44 }
+MSG_mod_23_0159:
+  { type: BLOB, offset: 0xF5908, size: 0x34 }
+MSG_mod_23_015A:
+  { type: BLOB, offset: 0xF593C, size: 0x39 }
+MSG_mod_23_015B:
+  { type: BLOB, offset: 0xF5978, size: 0x28 }
+MSG_mod_23_015C:
+  { type: BLOB, offset: 0xF59A0, size: 0x2E }
+MSG_mod_23_015D:
+  { type: BLOB, offset: 0xF59D0, size: 0x44 }
+MSG_mod_23_015E:
+  { type: BLOB, offset: 0xF5A14, size: 0x40 }
+MSG_mod_23_015F:
+  { type: BLOB, offset: 0xF5A54, size: 0x33 }
+MSG_mod_23_0160:
+  { type: BLOB, offset: 0xF5A88, size: 0x31 }
+MSG_mod_23_0161:
+  { type: BLOB, offset: 0xF5ABC, size: 0x37 }
+MSG_mod_23_0162:
+  { type: BLOB, offset: 0xF5AF4, size: 0x3C }
+MSG_mod_23_0163:
+  { type: BLOB, offset: 0xF5B30, size: 0x3F }
+MSG_mod_23_0164:
+  { type: BLOB, offset: 0xF5B70, size: 0x34 }
+MSG_mod_23_0165:
+  { type: BLOB, offset: 0xF5BA4, size: 0x38 }
+MSG_mod_23_0166:
+  { type: BLOB, offset: 0xF5BDC, size: 0x38 }
+MSG_mod_23_0167:
+  { type: BLOB, offset: 0xF5C14, size: 0x3D }
+MSG_mod_23_0168:
+  { type: BLOB, offset: 0xF5C54, size: 0x3E }
+MSG_mod_23_0169:
+  { type: BLOB, offset: 0xF5C94, size: 0x38 }
+MSG_mod_23_016A:
+  { type: BLOB, offset: 0xF5CCC, size: 0x27 }
+MSG_mod_23_016B:
+  { type: BLOB, offset: 0xF5CF4, size: 0x36 }
+MSG_mod_23_016C:
+  { type: BLOB, offset: 0xF5D2C, size: 0x2C }
+MSG_mod_25_010C:
+  { type: BLOB, offset: 0xFB9B4, size: 0x4 }
+MSG_mod_25_010D:
+  { type: BLOB, offset: 0xFB9B8, size: 0x3B }
+MSG_mod_25_010E:
+  { type: BLOB, offset: 0xFB9F4, size: 0xA5 }
+MSG_mod_25_010F:
+  { type: BLOB, offset: 0xFBA9C, size: 0x3B }
+MSG_mod_25_0110:
+  { type: BLOB, offset: 0xFBAD8, size: 0x33 }
+MSG_mod_25_0111:
+  { type: BLOB, offset: 0xFBB0C, size: 0x38 }
+MSG_mod_25_0112:
+  { type: BLOB, offset: 0xFBB44, size: 0x39 }
+MSG_mod_25_0113:
+  { type: BLOB, offset: 0xFBB80, size: 0x36 }
+MSG_mod_25_0114:
+  { type: BLOB, offset: 0xFBBB8, size: 0x2D }
+MSG_mod_25_0115:
+  { type: BLOB, offset: 0xFBBE8, size: 0x2D }
+MSG_mod_25_0116:
+  { type: BLOB, offset: 0xFBC18, size: 0x3A }
+MSG_mod_25_0117:
+  { type: BLOB, offset: 0xFBC54, size: 0x28 }
+MSG_mod_25_0118:
+  { type: BLOB, offset: 0xFBC7C, size: 0x80 }
+MSG_mod_25_0119:
+  { type: BLOB, offset: 0xFBCFC, size: 0x77 }
+MSG_mod_25_011A:
+  { type: BLOB, offset: 0xFBD74, size: 0x81 }
+MSG_mod_25_011B:
+  { type: BLOB, offset: 0xFBDF8, size: 0x76 }
+MSG_mod_25_011C:
+  { type: BLOB, offset: 0xFBE70, size: 0x6F }
+MSG_mod_25_011D:
+  { type: BLOB, offset: 0xFBEE0, size: 0x74 }
+MSG_mod_25_011E:
+  { type: BLOB, offset: 0xFBF54, size: 0x35 }
+MSG_mod_25_011F:
+  { type: BLOB, offset: 0xFBF8C, size: 0x35 }
+MSG_mod_25_0120:
+  { type: BLOB, offset: 0xFBFC4, size: 0xAC }
+MSG_mod_25_0121:
+  { type: BLOB, offset: 0xFC070, size: 0x50 }
+MSG_mod_25_0122:
+  { type: BLOB, offset: 0xFC0C0, size: 0x59 }
+MSG_mod_25_0123:
+  { type: BLOB, offset: 0xFC11C, size: 0x3B }
+MSG_mod_25_0124:
+  { type: BLOB, offset: 0xFC158, size: 0x40 }
+MSG_mod_25_0125:
+  { type: BLOB, offset: 0xFC198, size: 0x22 }
+MSG_mod_25_0126:
+  { type: BLOB, offset: 0xFC1BC, size: 0x61 }
+MSG_mod_25_0127:
+  { type: BLOB, offset: 0xFC220, size: 0x23 }
+MSG_mod_25_0128:
+  { type: BLOB, offset: 0xFC244, size: 0x7B }
+MSG_mod_25_0129:
+  { type: BLOB, offset: 0xFC2C0, size: 0x49 }
+MSG_mod_25_012A:
+  { type: BLOB, offset: 0xFC30C, size: 0x4D }
+MSG_mod_25_012B:
+  { type: BLOB, offset: 0xFC35C, size: 0x50 }
+MSG_mod_25_012C:
+  { type: BLOB, offset: 0xFC3AC, size: 0x34 }
+MSG_mod_25_012D:
+  { type: BLOB, offset: 0xFC3E0, size: 0x4E }
+MSG_mod_25_012E:
+  { type: BLOB, offset: 0xFC430, size: 0x70 }
+MSG_mod_25_012F:
+  { type: BLOB, offset: 0xFC4A0, size: 0x36 }
+MSG_mod_25_0130:
+  { type: BLOB, offset: 0xFC4D8, size: 0x3E }
+MSG_mod_25_0131:
+  { type: BLOB, offset: 0xFC518, size: 0x41 }
+MSG_mod_25_0132:
+  { type: BLOB, offset: 0xFC55C, size: 0x27 }
+MSG_mod_26_010D:
+  { type: BLOB, offset: 0xFD264, size: 0xD }
+MSG_mod_26_010E:
+  { type: BLOB, offset: 0xFD274, size: 0x7 }
+MSG_mod_26_010F:
+  { type: BLOB, offset: 0xFD27C, size: 0x9 }
+MSG_mod_26_0110:
+  { type: BLOB, offset: 0xFD288, size: 0xC }
+MSG_mod_26_0111:
+  { type: BLOB, offset: 0xFD294, size: 0x8 }
+MSG_mod_26_0112:
+  { type: BLOB, offset: 0xFD29C, size: 0xA }
+MSG_mod_26_0113:
+  { type: BLOB, offset: 0xFD2A8, size: 0x9 }
+MSG_mod_26_0114:
+  { type: BLOB, offset: 0xFD2B4, size: 0x9 }
+MSG_mod_26_0115:
+  { type: BLOB, offset: 0xFD2C0, size: 0x9 }
+MSG_mod_26_0116:
+  { type: BLOB, offset: 0xFD2CC, size: 0xC }
+MSG_mod_26_0117:
+  { type: BLOB, offset: 0xFD2D8, size: 0xF }
+MSG_mod_26_0118:
+  { type: BLOB, offset: 0xFD2E8, size: 0xD }
+MSG_mod_26_0119:
+  { type: BLOB, offset: 0xFD2F8, size: 0xD }
+MSG_mod_26_011A:
+  { type: BLOB, offset: 0xFD308, size: 0xA }
+MSG_mod_26_011B:
+  { type: BLOB, offset: 0xFD314, size: 0xE }
+MSG_mod_26_011C:
+  { type: BLOB, offset: 0xFD324, size: 0xB }
+MSG_mod_26_011D:
+  { type: BLOB, offset: 0xFD330, size: 0xC }
+MSG_mod_26_011E:
+  { type: BLOB, offset: 0xFD33C, size: 0xB }
+MSG_mod_26_011F:
+  { type: BLOB, offset: 0xFD348, size: 0xD }
+MSG_mod_26_0120:
+  { type: BLOB, offset: 0xFD358, size: 0x9 }
+MSG_mod_26_0121:
+  { type: BLOB, offset: 0xFD364, size: 0xD }
+MSG_mod_26_0122:
+  { type: BLOB, offset: 0xFD374, size: 0xD }
+MSG_mod_26_0123:
+  { type: BLOB, offset: 0xFD384, size: 0xF }
+MSG_mod_26_0124:
+  { type: BLOB, offset: 0xFD394, size: 0xF }
+MSG_mod_26_0125:
+  { type: BLOB, offset: 0xFD3A4, size: 0xE }
+MSG_mod_26_0126:
+  { type: BLOB, offset: 0xFD3B4, size: 0xD }
+MSG_mod_26_0127:
+  { type: BLOB, offset: 0xFD3C4, size: 0xD }
+MSG_mod_26_0128:
+  { type: BLOB, offset: 0xFD3D4, size: 0xD }
+MSG_mod_26_0129:
+  { type: BLOB, offset: 0xFD3E4, size: 0xC }
+MSG_mod_26_012A:
+  { type: BLOB, offset: 0xFD3F0, size: 0xF }
+MSG_mod_26_012B:
+  { type: BLOB, offset: 0xFD400, size: 0xF }
+MSG_mod_26_012C:
+  { type: BLOB, offset: 0xFD410, size: 0xD }
+MSG_mod_26_012D:
+  { type: BLOB, offset: 0xFD420, size: 0xF }
+MSG_mod_26_012E:
+  { type: BLOB, offset: 0xFD430, size: 0xF }
+MSG_mod_26_012F:
+  { type: BLOB, offset: 0xFD440, size: 0xE }
+MSG_mod_26_0130:
+  { type: BLOB, offset: 0xFD450, size: 0xB }
+MSG_mod_26_0131:
+  { type: BLOB, offset: 0xFD45C, size: 0xA }
+MSG_mod_26_0132:
+  { type: BLOB, offset: 0xFD468, size: 0xD }
+MSG_mod_26_0133:
+  { type: BLOB, offset: 0xFD478, size: 0xE }
+MSG_mod_26_0134:
+  { type: BLOB, offset: 0xFD488, size: 0xE }
+MSG_mod_26_0135:
+  { type: BLOB, offset: 0xFD498, size: 0xC }
+MSG_mod_26_0136:
+  { type: BLOB, offset: 0xFD4A4, size: 0xC }
+MSG_mod_26_0137:
+  { type: BLOB, offset: 0xFD4B0, size: 0x9 }
+MSG_mod_26_0138:
+  { type: BLOB, offset: 0xFD4BC, size: 0xC }
+MSG_mod_26_0139:
+  { type: BLOB, offset: 0xFD4C8, size: 0xC }
+MSG_mod_26_013A:
+  { type: BLOB, offset: 0xFD4D4, size: 0xE }
+MSG_mod_26_013B:
+  { type: BLOB, offset: 0xFD4E4, size: 0xA }
+MSG_mod_26_013C:
+  { type: BLOB, offset: 0xFD4F0, size: 0x8 }
+MSG_mod_26_013D:
+  { type: BLOB, offset: 0xFD4F8, size: 0xA }
+MSG_mod_26_013E:
+  { type: BLOB, offset: 0xFD504, size: 0xA }
+MSG_mod_26_013F:
+  { type: BLOB, offset: 0xFD510, size: 0xB }
+MSG_mod_26_0140:
+  { type: BLOB, offset: 0xFD51C, size: 0xE }
+MSG_mod_26_0141:
+  { type: BLOB, offset: 0xFD52C, size: 0xD }
+MSG_mod_26_0142:
+  { type: BLOB, offset: 0xFD53C, size: 0xD }
+MSG_mod_26_0143:
+  { type: BLOB, offset: 0xFD54C, size: 0xB }
+MSG_mod_26_0144:
+  { type: BLOB, offset: 0xFD558, size: 0xE }
+MSG_mod_26_0145:
+  { type: BLOB, offset: 0xFD568, size: 0xC }
+MSG_mod_26_0146:
+  { type: BLOB, offset: 0xFD574, size: 0xC }
+MSG_mod_26_0147:
+  { type: BLOB, offset: 0xFD580, size: 0xC }
+MSG_mod_26_0148:
+  { type: BLOB, offset: 0xFD58C, size: 0xC }
+MSG_mod_26_0149:
+  { type: BLOB, offset: 0xFD598, size: 0xB }
+MSG_mod_26_014A:
+  { type: BLOB, offset: 0xFD5A4, size: 0xB }
+MSG_mod_26_014B:
+  { type: BLOB, offset: 0xFD5B0, size: 0xB }
+MSG_mod_26_014C:
+  { type: BLOB, offset: 0xFD5BC, size: 0xD }
+MSG_mod_26_014D:
+  { type: BLOB, offset: 0xFD5CC, size: 0xE }
+MSG_mod_26_014E:
+  { type: BLOB, offset: 0xFD5DC, size: 0xD }
+MSG_mod_26_014F:
+  { type: BLOB, offset: 0xFD5EC, size: 0xC }
+MSG_mod_26_0150:
+  { type: BLOB, offset: 0xFD5F8, size: 0xE }
+MSG_mod_26_0151:
+  { type: BLOB, offset: 0xFD608, size: 0xE }
+MSG_mod_26_0152:
+  { type: BLOB, offset: 0xFD618, size: 0xE }
+MSG_mod_26_0153:
+  { type: BLOB, offset: 0xFD628, size: 0xB }
+MSG_mod_26_0154:
+  { type: BLOB, offset: 0xFD634, size: 0xA }
+MSG_mod_26_0155:
+  { type: BLOB, offset: 0xFD640, size: 0xB }
+MSG_mod_26_0156:
+  { type: BLOB, offset: 0xFD64C, size: 0xC }
+MSG_mod_26_0157:
+  { type: BLOB, offset: 0xFD658, size: 0xA }
+MSG_mod_26_0158:
+  { type: BLOB, offset: 0xFD664, size: 0xD }
+MSG_mod_26_0159:
+  { type: BLOB, offset: 0xFD674, size: 0xE }
+MSG_mod_26_015A:
+  { type: BLOB, offset: 0xFD684, size: 0xC }
+MSG_mod_26_015B:
+  { type: BLOB, offset: 0xFD690, size: 0xC }
+MSG_mod_26_015C:
+  { type: BLOB, offset: 0xFD69C, size: 0xE }
+MSG_mod_26_015D:
+  { type: BLOB, offset: 0xFD6AC, size: 0xB }
+MSG_mod_26_015E:
+  { type: BLOB, offset: 0xFD6B8, size: 0xD }
+MSG_mod_26_015F:
+  { type: BLOB, offset: 0xFD6C8, size: 0xD }
+MSG_mod_26_0160:
+  { type: BLOB, offset: 0xFD6D8, size: 0xD }
+MSG_mod_26_0161:
+  { type: BLOB, offset: 0xFD6E8, size: 0xB }
+MSG_mod_26_0162:
+  { type: BLOB, offset: 0xFD6F4, size: 0xB }
+MSG_mod_26_0163:
+  { type: BLOB, offset: 0xFD700, size: 0xC }
+MSG_mod_26_0164:
+  { type: BLOB, offset: 0xFD70C, size: 0xD }
+MSG_mod_26_0165:
+  { type: BLOB, offset: 0xFD71C, size: 0xD }
+MSG_mod_26_0166:
+  { type: BLOB, offset: 0xFD72C, size: 0xD }
+MSG_mod_26_0167:
+  { type: BLOB, offset: 0xFD73C, size: 0xA }
+MSG_mod_26_0168:
+  { type: BLOB, offset: 0xFD748, size: 0xD }
+MSG_mod_26_0169:
+  { type: BLOB, offset: 0xFD758, size: 0xE }
+MSG_mod_26_016A:
+  { type: BLOB, offset: 0xFD768, size: 0xA }
+MSG_mod_26_016B:
+  { type: BLOB, offset: 0xFD774, size: 0x4 }
+MSG_mod_26_016C:
+  { type: BLOB, offset: 0xFD778, size: 0xD }
+MSG_mod_29_0083:
+  { type: BLOB, offset: 0xCEE5CC, size: 0xD }
+MSG_mod_29_0084:
+  { type: BLOB, offset: 0xCEE5DC, size: 0xD }
+MSG_mod_29_0085:
+  { type: BLOB, offset: 0xCEE5EC, size: 0xC }
+MSG_mod_29_0086:
+  { type: BLOB, offset: 0xCEE5F8, size: 0xC }
+MSG_mod_29_0087:
+  { type: BLOB, offset: 0xCEE604, size: 0xF }
+MSG_mod_29_0088:
+  { type: BLOB, offset: 0xCEE614, size: 0x12 }
+MSG_mod_29_0089:
+  { type: BLOB, offset: 0xCEE628, size: 0x10 }
+MSG_mod_29_008A:
+  { type: BLOB, offset: 0xCEE638, size: 0xF }
+MSG_mod_29_008B:
+  { type: BLOB, offset: 0xCEE648, size: 0xB }
+MSG_mod_29_008C:
+  { type: BLOB, offset: 0xCEE654, size: 0x9 }
+MSG_mod_29_008D:
+  { type: BLOB, offset: 0xCEE660, size: 0x4 }
+MSG_mod_29_008E:
+  { type: BLOB, offset: 0xCEE664, size: 0x6 }
+MSG_mod_29_008F:
+  { type: BLOB, offset: 0xCEE66C, size: 0xE }
+MSG_mod_29_0090:
+  { type: BLOB, offset: 0xCEE67C, size: 0xA }
+MSG_mod_29_0091:
+  { type: BLOB, offset: 0xCEE688, size: 0xD }
+MSG_mod_29_0092:
+  { type: BLOB, offset: 0xCEE698, size: 0x10 }
+MSG_mod_29_0093:
+  { type: BLOB, offset: 0xCEE6A8, size: 0xB }
+MSG_mod_29_0094:
+  { type: BLOB, offset: 0xCEE6B4, size: 0xD }
+MSG_mod_29_0095:
+  { type: BLOB, offset: 0xCEE6C4, size: 0xA }
+MSG_mod_29_0096:
+  { type: BLOB, offset: 0xCEE6D0, size: 0xB }

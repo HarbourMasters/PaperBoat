@@ -141,7 +141,11 @@ API_CALLABLE(N(Merlow_ShopBadgesPopup)) {
         script->varTable[1] = selectedItem->price;
         script->varTable[2] = i;
         script->varTable[4] = gItemTable[selectedItem->itemID].nameMsg;
-        script->varTable[5] = gMoveTable[gItemTable[selectedItem->itemID].moveID].costBP;
+        {
+            s32 cost = gMoveTable[gItemTable[selectedItem->itemID].moveID].costBP;
+            CALL_EVENT(OnBadgeBPCost, selectedItem->itemID, &cost);
+            script->varTable[5] = cost;
+        }
     } else {
         script->varTable[0] = -1;
     }

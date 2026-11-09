@@ -2,7 +2,9 @@
 #include "common.h"
 #include "message_ids.h"
 
-MoveData gMoveTable[] = {
+s32 gMoveCount = NUM_MOVES;
+
+MoveData gMoveTable[MOVE_TABLE_CAPACITY] = {
     {   // 0x00: None
         .nameMsg = MSG_NONE,
         .fullDescMsg = MSG_NONE,

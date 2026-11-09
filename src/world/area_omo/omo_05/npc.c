@@ -41,13 +41,13 @@ API_CALLABLE(N(SpinCameraAround)) {
     }
 }
 
-BSS s32 N(AllConsumables)[ITEM_NUM_CONSUMABLES + 1];
+BSS s32 N(AllConsumables)[ITEM_TABLE_CAPACITY + 1];
 
 API_CALLABLE(N(MakeAllConsumablesItemList)) {
     s32 pos = 0;
     s32 itemID;
 
-    for (itemID = 0; itemID < NUM_ITEMS; itemID++) {
+    for (itemID = 0; itemID < gItemCount; itemID++) {
         if (item_is_consumable(itemID)) {
            N(AllConsumables)[pos++] = itemID;
         }

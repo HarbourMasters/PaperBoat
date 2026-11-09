@@ -65,8 +65,10 @@ extern char wMapHitName[];
 extern char wMapShapeName[];
 extern char wMapBgName[];
 
+#define AREA_TABLE_CAPACITY 0x30
+
 /// Zero-terminated.
-extern AreaConfig gAreas[29];
+extern AreaConfig gAreas[AREA_TABLE_CAPACITY];
 
 extern EvtScript EVS_NpcHitRecoil;
 extern EvtScript EVS_800936C0;

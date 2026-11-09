@@ -1,0 +1,4173 @@
+:config:
+  segments:
+    - [1, 0x1B83000]
+  no_compression: true
+
+MSG_Intro_0011:
+  { type: BLOB, offset: 0x811C, size: 0x3C }
+MSG_Intro_001F:
+  { type: BLOB, offset: 0x8308, size: 0x39 }
+MSG_Intro_0023:
+  { type: BLOB, offset: 0x8388, size: 0x1DB }
+MSG_Intro_0024:
+  { type: BLOB, offset: 0x8564, size: 0xCB }
+MSG_Intro_0025:
+  { type: BLOB, offset: 0x8630, size: 0x9D }
+MSG_Intro_0026:
+  { type: BLOB, offset: 0x86D0, size: 0x5E }
+MSG_Intro_0027:
+  { type: BLOB, offset: 0x8730, size: 0x91 }
+MSG_Intro_0028:
+  { type: BLOB, offset: 0x87C4, size: 0xA5 }
+MSG_Intro_0029:
+  { type: BLOB, offset: 0x886C, size: 0x3D }
+MSG_Intro_002B:
+  { type: BLOB, offset: 0x8954, size: 0xEE }
+MSG_Intro_002C:
+  { type: BLOB, offset: 0x8A44, size: 0x94 }
+MSG_Intro_002D:
+  { type: BLOB, offset: 0x8AD8, size: 0x81 }
+MSG_Intro_002E:
+  { type: BLOB, offset: 0x8B5C, size: 0x1E }
+MSG_Intro_002F:
+  { type: BLOB, offset: 0x8B7C, size: 0x57 }
+MSG_Intro_0030:
+  { type: BLOB, offset: 0x8BD4, size: 0x75 }
+MSG_Intro_0031:
+  { type: BLOB, offset: 0x8C4C, size: 0x129 }
+MSG_Intro_0032:
+  { type: BLOB, offset: 0x8D78, size: 0xDE }
+MSG_Intro_0033:
+  { type: BLOB, offset: 0x8E58, size: 0xBD }
+MSG_Intro_0034:
+  { type: BLOB, offset: 0x8F18, size: 0x122 }
+MSG_Intro_0037:
+  { type: BLOB, offset: 0x9188, size: 0xA5 }
+MSG_Intro_0038:
+  { type: BLOB, offset: 0x9230, size: 0xFE }
+MSG_Intro_0039:
+  { type: BLOB, offset: 0x9330, size: 0x86 }
+MSG_Intro_003A:
+  { type: BLOB, offset: 0x93B8, size: 0xDF }
+MSG_Intro_003B:
+  { type: BLOB, offset: 0x9498, size: 0x8F }
+MSG_Intro_003C:
+  { type: BLOB, offset: 0x9528, size: 0xA8 }
+MSG_Intro_003D:
+  { type: BLOB, offset: 0x95D0, size: 0x47 }
+MSG_Intro_003E:
+  { type: BLOB, offset: 0x9618, size: 0x78 }
+MSG_Intro_003F:
+  { type: BLOB, offset: 0x9690, size: 0x5C }
+MSG_Intro_0040:
+  { type: BLOB, offset: 0x96EC, size: 0x67 }
+MSG_Intro_0041:
+  { type: BLOB, offset: 0x9754, size: 0x23 }
+MSG_Intro_0042:
+  { type: BLOB, offset: 0x9778, size: 0x57 }
+MSG_Intro_0044:
+  { type: BLOB, offset: 0x9804, size: 0x62 }
+MSG_Intro_0045:
+  { type: BLOB, offset: 0x9868, size: 0x3E }
+MSG_Intro_0046:
+  { type: BLOB, offset: 0x98A8, size: 0x1D }
+MSG_Intro_0047:
+  { type: BLOB, offset: 0x98C8, size: 0x4A }
+MSG_Intro_004A:
+  { type: BLOB, offset: 0x9998, size: 0x3C }
+MSG_Intro_004B:
+  { type: BLOB, offset: 0x99D4, size: 0x4E }
+MSG_Intro_004C:
+  { type: BLOB, offset: 0x9A24, size: 0xB9 }
+MSG_Intro_004D:
+  { type: BLOB, offset: 0x9AE0, size: 0x7A }
+MSG_Intro_004E:
+  { type: BLOB, offset: 0x9B5C, size: 0x3F }
+MSG_Intro_004F:
+  { type: BLOB, offset: 0x9B9C, size: 0x5A }
+MSG_Intro_0052:
+  { type: BLOB, offset: 0x9CB8, size: 0xF9 }
+MSG_Intro_0053:
+  { type: BLOB, offset: 0x9DB4, size: 0xCD }
+MSG_Intro_0054:
+  { type: BLOB, offset: 0x9E84, size: 0x71 }
+MSG_Intro_0056:
+  { type: BLOB, offset: 0x9F6C, size: 0x21 }
+MSG_Intro_0057:
+  { type: BLOB, offset: 0x9F90, size: 0x1B }
+MSG_Intro_0058:
+  { type: BLOB, offset: 0x9FAC, size: 0x77 }
+MSG_Intro_0059:
+  { type: BLOB, offset: 0xA024, size: 0x100 }
+MSG_Intro_005A:
+  { type: BLOB, offset: 0xA124, size: 0x3E }
+MSG_Intro_005B:
+  { type: BLOB, offset: 0xA164, size: 0x7D }
+MSG_Intro_005C:
+  { type: BLOB, offset: 0xA1E4, size: 0x7F }
+MSG_Intro_005D:
+  { type: BLOB, offset: 0xA264, size: 0x1C }
+MSG_Intro_005E:
+  { type: BLOB, offset: 0xA280, size: 0x55 }
+MSG_Intro_0061:
+  { type: BLOB, offset: 0xA390, size: 0x6A }
+MSG_Intro_0062:
+  { type: BLOB, offset: 0xA3FC, size: 0x1C }
+MSG_Outro_0000:
+  { type: BLOB, offset: 0xA418, size: 0xB9 }
+MSG_Outro_0001:
+  { type: BLOB, offset: 0xA4D4, size: 0x6C }
+MSG_Outro_0003:
+  { type: BLOB, offset: 0xA5EC, size: 0x7A }
+MSG_Outro_0004:
+  { type: BLOB, offset: 0xA668, size: 0x98 }
+MSG_Outro_0006:
+  { type: BLOB, offset: 0xA7A8, size: 0xC0 }
+MSG_Outro_0007:
+  { type: BLOB, offset: 0xA868, size: 0x71 }
+MSG_Outro_0009:
+  { type: BLOB, offset: 0xA900, size: 0xD1 }
+MSG_Outro_000A:
+  { type: BLOB, offset: 0xA9D4, size: 0xFC }
+MSG_Outro_000B:
+  { type: BLOB, offset: 0xAAD0, size: 0x59 }
+MSG_Outro_000C:
+  { type: BLOB, offset: 0xAB2C, size: 0xBD }
+MSG_Outro_000D:
+  { type: BLOB, offset: 0xABEC, size: 0x194 }
+MSG_Outro_000F:
+  { type: BLOB, offset: 0xADE0, size: 0x11 }
+MSG_Outro_0010:
+  { type: BLOB, offset: 0xADF4, size: 0x53 }
+MSG_Outro_0011:
+  { type: BLOB, offset: 0xAE48, size: 0x82 }
+MSG_Outro_0012:
+  { type: BLOB, offset: 0xAECC, size: 0x48 }
+MSG_Outro_0014:
+  { type: BLOB, offset: 0xAF50, size: 0x41 }
+MSG_Outro_0015:
+  { type: BLOB, offset: 0xAF94, size: 0x49 }
+MSG_Outro_001A:
+  { type: BLOB, offset: 0xB1D8, size: 0x29 }
+MSG_Outro_001B:
+  { type: BLOB, offset: 0xB204, size: 0x4E }
+MSG_Outro_0020:
+  { type: BLOB, offset: 0xB6DC, size: 0xBD }
+MSG_Outro_0022:
+  { type: BLOB, offset: 0xB7F4, size: 0xFC }
+MSG_Outro_0023:
+  { type: BLOB, offset: 0xB8F0, size: 0xA0 }
+MSG_Outro_0025:
+  { type: BLOB, offset: 0xBA2C, size: 0x93 }
+MSG_Outro_0028:
+  { type: BLOB, offset: 0xBC04, size: 0x1D3 }
+MSG_Outro_002B:
+  { type: BLOB, offset: 0xBE9C, size: 0xB5 }
+MSG_Outro_002D:
+  { type: BLOB, offset: 0xBFBC, size: 0x60 }
+MSG_Outro_002E:
+  { type: BLOB, offset: 0xC01C, size: 0xB1 }
+MSG_Outro_002F:
+  { type: BLOB, offset: 0xC0D0, size: 0xA8 }
+MSG_Outro_0032:
+  { type: BLOB, offset: 0xC280, size: 0xDF }
+MSG_Outro_0039:
+  { type: BLOB, offset: 0xC740, size: 0xEF }
+MSG_Outro_003A:
+  { type: BLOB, offset: 0xC830, size: 0x9D }
+MSG_Outro_003C:
+  { type: BLOB, offset: 0xC8DC, size: 0x141 }
+MSG_Outro_003D:
+  { type: BLOB, offset: 0xCA20, size: 0xEA }
+MSG_Outro_003E:
+  { type: BLOB, offset: 0xCB0C, size: 0xC6 }
+MSG_Outro_0042:
+  { type: BLOB, offset: 0xCD7C, size: 0x82 }
+MSG_Outro_0043:
+  { type: BLOB, offset: 0xCE00, size: 0x11F }
+MSG_Outro_0044:
+  { type: BLOB, offset: 0xCF20, size: 0x6C }
+MSG_Outro_0045:
+  { type: BLOB, offset: 0xCF8C, size: 0x98 }
+MSG_Outro_0046:
+  { type: BLOB, offset: 0xD024, size: 0x41 }
+MSG_Outro_0047:
+  { type: BLOB, offset: 0xD068, size: 0xBF }
+MSG_Outro_0048:
+  { type: BLOB, offset: 0xD128, size: 0x55 }
+MSG_Outro_0049:
+  { type: BLOB, offset: 0xD180, size: 0x59 }
+MSG_Outro_004A:
+  { type: BLOB, offset: 0xD1DC, size: 0x84 }
+MSG_Outro_004B:
+  { type: BLOB, offset: 0xD260, size: 0x58 }
+MSG_Outro_004D:
+  { type: BLOB, offset: 0xD39C, size: 0x4E }
+MSG_Outro_004F:
+  { type: BLOB, offset: 0xD4A4, size: 0x7D }
+MSG_Outro_0050:
+  { type: BLOB, offset: 0xD524, size: 0x96 }
+MSG_Outro_0055:
+  { type: BLOB, offset: 0xD7D8, size: 0xF2 }
+MSG_Outro_0057:
+  { type: BLOB, offset: 0xD94C, size: 0x55 }
+MSG_Outro_0058:
+  { type: BLOB, offset: 0xD9A4, size: 0xD2 }
+MSG_Outro_0059:
+  { type: BLOB, offset: 0xDA78, size: 0x13D }
+MSG_Outro_005A:
+  { type: BLOB, offset: 0xDBB8, size: 0xC5 }
+MSG_Outro_005B:
+  { type: BLOB, offset: 0xDC80, size: 0x63 }
+MSG_Outro_005C:
+  { type: BLOB, offset: 0xDCE4, size: 0x4A }
+MSG_Outro_005D:
+  { type: BLOB, offset: 0xDD30, size: 0x96 }
+MSG_Outro_0061:
+  { type: BLOB, offset: 0xDF84, size: 0x135 }
+MSG_Outro_0062:
+  { type: BLOB, offset: 0xE0BC, size: 0x140 }
+MSG_Outro_0063:
+  { type: BLOB, offset: 0xE1FC, size: 0x112 }
+MSG_Outro_0064:
+  { type: BLOB, offset: 0xE310, size: 0x5E }
+MSG_Outro_0065:
+  { type: BLOB, offset: 0xE370, size: 0x1E }
+MSG_Outro_0067:
+  { type: BLOB, offset: 0xE3E8, size: 0x89 }
+MSG_Outro_0069:
+  { type: BLOB, offset: 0xE4F0, size: 0x15 }
+MSG_Outro_006A:
+  { type: BLOB, offset: 0xE508, size: 0x2C }
+MSG_Outro_006B:
+  { type: BLOB, offset: 0xE534, size: 0x26 }
+MSG_Outro_006C:
+  { type: BLOB, offset: 0xE55C, size: 0x7F }
+MSG_Outro_006D:
+  { type: BLOB, offset: 0xE5DC, size: 0xD1 }
+MSG_MAC_Gate_0000:
+  { type: BLOB, offset: 0xE6F0, size: 0x74 }
+MSG_MAC_Gate_0001:
+  { type: BLOB, offset: 0xE764, size: 0x66 }
+MSG_MAC_Gate_0003:
+  { type: BLOB, offset: 0xE7E8, size: 0xBA }
+MSG_MAC_Gate_0004:
+  { type: BLOB, offset: 0xE8A4, size: 0x15D }
+MSG_MAC_Gate_0006:
+  { type: BLOB, offset: 0xEA7C, size: 0x6F }
+MSG_MAC_Gate_000A:
+  { type: BLOB, offset: 0xEC48, size: 0x7C }
+MSG_MAC_Gate_000C:
+  { type: BLOB, offset: 0xED20, size: 0x20 }
+MSG_MAC_Gate_000D:
+  { type: BLOB, offset: 0xED40, size: 0x42 }
+MSG_MAC_Gate_0011:
+  { type: BLOB, offset: 0xF034, size: 0x7C }
+MSG_MAC_Gate_0013:
+  { type: BLOB, offset: 0xF0FC, size: 0x44 }
+MSG_MAC_Gate_0014:
+  { type: BLOB, offset: 0xF140, size: 0x214 }
+MSG_MAC_Gate_0017:
+  { type: BLOB, offset: 0xF544, size: 0x19A }
+MSG_MAC_Gate_0018:
+  { type: BLOB, offset: 0xF6E0, size: 0x7A }
+MSG_MAC_Gate_001D:
+  { type: BLOB, offset: 0xFA40, size: 0x5B }
+MSG_MAC_Gate_001F:
+  { type: BLOB, offset: 0xFAB4, size: 0x2E }
+MSG_MAC_Gate_0022:
+  { type: BLOB, offset: 0xFB28, size: 0x2D }
+MSG_MAC_Gate_0023:
+  { type: BLOB, offset: 0xFB58, size: 0x68 }
+MSG_MAC_Gate_0024:
+  { type: BLOB, offset: 0xFBC0, size: 0x5F }
+MSG_MAC_Gate_0029:
+  { type: BLOB, offset: 0xFCC4, size: 0x2C }
+MSG_MAC_Gate_002A:
+  { type: BLOB, offset: 0xFCF0, size: 0x79 }
+MSG_MAC_Gate_002C:
+  { type: BLOB, offset: 0xFD9C, size: 0x9E }
+MSG_MAC_Gate_0032:
+  { type: BLOB, offset: 0xFF20, size: 0x33 }
+MSG_MAC_Gate_0033:
+  { type: BLOB, offset: 0xFF54, size: 0x1B }
+MSG_MAC_Gate_0037:
+  { type: BLOB, offset: 0xFFFC, size: 0x23 }
+MSG_MAC_Gate_0038:
+  { type: BLOB, offset: 0x10020, size: 0x2B }
+MSG_MAC_Gate_003A:
+  { type: BLOB, offset: 0x100AC, size: 0x4C }
+MSG_MAC_Gate_003C:
+  { type: BLOB, offset: 0x1012C, size: 0x3C }
+MSG_MAC_Gate_003D:
+  { type: BLOB, offset: 0x10168, size: 0x48 }
+MSG_MAC_Gate_003E:
+  { type: BLOB, offset: 0x101B0, size: 0x8D }
+MSG_MAC_Gate_0040:
+  { type: BLOB, offset: 0x10284, size: 0xA6 }
+MSG_MAC_Gate_0043:
+  { type: BLOB, offset: 0x10400, size: 0xC2 }
+MSG_MAC_Gate_004A:
+  { type: BLOB, offset: 0x109EC, size: 0x89 }
+MSG_MAC_Gate_004B:
+  { type: BLOB, offset: 0x10A78, size: 0x89 }
+MSG_MAC_Gate_004C:
+  { type: BLOB, offset: 0x10B04, size: 0x89 }
+MSG_MAC_Gate_0053:
+  { type: BLOB, offset: 0x11178, size: 0xEB }
+MSG_MAC_Gate_0055:
+  { type: BLOB, offset: 0x112B4, size: 0x160 }
+MSG_MAC_Gate_0056:
+  { type: BLOB, offset: 0x11414, size: 0x160 }
+MSG_MAC_Gate_005C:
+  { type: BLOB, offset: 0x11A34, size: 0x126 }
+MSG_MAC_Gate_005D:
+  { type: BLOB, offset: 0x11B5C, size: 0x126 }
+MSG_MAC_Gate_006C:
+  { type: BLOB, offset: 0x124C8, size: 0x92 }
+MSG_MAC_Gate_006D:
+  { type: BLOB, offset: 0x1255C, size: 0x92 }
+MSG_MAC_Gate_006E:
+  { type: BLOB, offset: 0x125F0, size: 0xB2 }
+MSG_MAC_Gate_006F:
+  { type: BLOB, offset: 0x126A4, size: 0xB2 }
+MSG_MAC_Gate_0070:
+  { type: BLOB, offset: 0x12758, size: 0xB2 }
+MSG_MAC_Gate_0071:
+  { type: BLOB, offset: 0x1280C, size: 0x83 }
+MSG_MAC_Gate_0072:
+  { type: BLOB, offset: 0x12890, size: 0x83 }
+MSG_MAC_Gate_0073:
+  { type: BLOB, offset: 0x12914, size: 0x83 }
+MSG_MAC_Gate_0074:
+  { type: BLOB, offset: 0x12998, size: 0xA3 }
+MSG_MAC_Gate_0075:
+  { type: BLOB, offset: 0x12A3C, size: 0xA4 }
+MSG_MAC_Gate_0079:
+  { type: BLOB, offset: 0x12C1C, size: 0xDC }
+MSG_MAC_Gate_007A:
+  { type: BLOB, offset: 0x12CF8, size: 0xDC }
+MSG_MAC_Gate_007E:
+  { type: BLOB, offset: 0x12FE4, size: 0xF3 }
+MSG_MAC_Gate_007F:
+  { type: BLOB, offset: 0x130D8, size: 0x8F }
+MSG_MAC_Gate_0085:
+  { type: BLOB, offset: 0x13470, size: 0xA5 }
+MSG_MAC_Gate_0086:
+  { type: BLOB, offset: 0x13518, size: 0xBD }
+MSG_MAC_Gate_0087:
+  { type: BLOB, offset: 0x135D8, size: 0x6D }
+MSG_MAC_Gate_008A:
+  { type: BLOB, offset: 0x137E4, size: 0xD6 }
+MSG_MAC_Gate_008C:
+  { type: BLOB, offset: 0x13928, size: 0xFC }
+MSG_MAC_Gate_008D:
+  { type: BLOB, offset: 0x13A24, size: 0xFA }
+MSG_MAC_Gate_008E:
+  { type: BLOB, offset: 0x13B20, size: 0xD9 }
+MSG_MAC_Gate_008F:
+  { type: BLOB, offset: 0x13BFC, size: 0x106 }
+MSG_MAC_Gate_0090:
+  { type: BLOB, offset: 0x13D04, size: 0x106 }
+MSG_MAC_Gate_0097:
+  { type: BLOB, offset: 0x1422C, size: 0x6A }
+MSG_MAC_Gate_00A1:
+  { type: BLOB, offset: 0x148C8, size: 0x118 }
+MSG_MAC_Gate_00A3:
+  { type: BLOB, offset: 0x14AB4, size: 0xBE }
+MSG_MAC_Gate_00A8:
+  { type: BLOB, offset: 0x14DCC, size: 0xCC }
+MSG_MAC_Gate_00A9:
+  { type: BLOB, offset: 0x14E98, size: 0xCB }
+MSG_MAC_Gate_00AC:
+  { type: BLOB, offset: 0x1512C, size: 0x83 }
+MSG_MAC_Gate_00AD:
+  { type: BLOB, offset: 0x151B0, size: 0x83 }
+MSG_MAC_Gate_00AE:
+  { type: BLOB, offset: 0x15234, size: 0xAD }
+MSG_MAC_Gate_00AF:
+  { type: BLOB, offset: 0x152E4, size: 0xC8 }
+MSG_MAC_Gate_00B1:
+  { type: BLOB, offset: 0x15408, size: 0xC8 }
+MSG_MAC_Gate_00CE:
+  { type: BLOB, offset: 0x15FF8, size: 0x53 }
+MSG_MAC_Gate_00D0:
+  { type: BLOB, offset: 0x1606C, size: 0x75 }
+MSG_MAC_Gate_00D2:
+  { type: BLOB, offset: 0x16124, size: 0x88 }
+MSG_MAC_Gate_00D3:
+  { type: BLOB, offset: 0x161AC, size: 0x7C }
+MSG_MAC_Gate_00D8:
+  { type: BLOB, offset: 0x163FC, size: 0xE2 }
+MSG_MAC_Gate_00DB:
+  { type: BLOB, offset: 0x165B8, size: 0xE2 }
+MSG_MAC_Gate_00ED:
+  { type: BLOB, offset: 0x16DE0, size: 0x9C }
+MSG_MAC_Gate_00EE:
+  { type: BLOB, offset: 0x16E7C, size: 0x4F }
+MSG_MAC_Gate_00F3:
+  { type: BLOB, offset: 0x1704C, size: 0x66 }
+MSG_MAC_Gate_00F4:
+  { type: BLOB, offset: 0x170B4, size: 0x3D }
+MSG_MAC_Gate_00F5:
+  { type: BLOB, offset: 0x170F4, size: 0x94 }
+MSG_MAC_Gate_00F6:
+  { type: BLOB, offset: 0x17188, size: 0x7A }
+MSG_MAC_Gate_00F7:
+  { type: BLOB, offset: 0x17204, size: 0x73 }
+MSG_MAC_Gate_00F9:
+  { type: BLOB, offset: 0x1732C, size: 0x7A }
+MSG_MAC_Gate_00FA:
+  { type: BLOB, offset: 0x173A8, size: 0x73 }
+MSG_MAC_Gate_00FC:
+  { type: BLOB, offset: 0x174D0, size: 0x48 }
+MSG_MAC_Gate_00FD:
+  { type: BLOB, offset: 0x17518, size: 0x66 }
+MSG_MAC_Gate_00FE:
+  { type: BLOB, offset: 0x17580, size: 0x91 }
+MSG_MAC_Gate_00FF:
+  { type: BLOB, offset: 0x17614, size: 0x78 }
+MSG_MAC_Gate_0101:
+  { type: BLOB, offset: 0x176D8, size: 0x43 }
+MSG_MAC_Gate_0102:
+  { type: BLOB, offset: 0x1771C, size: 0x1ED }
+MSG_MAC_Gate_0103:
+  { type: BLOB, offset: 0x1790C, size: 0x137 }
+MSG_MAC_Gate_010B:
+  { type: BLOB, offset: 0x17F44, size: 0xC1 }
+MSG_MAC_Gate_010D:
+  { type: BLOB, offset: 0x18088, size: 0xA6 }
+MSG_MAC_Gate_010E:
+  { type: BLOB, offset: 0x18130, size: 0x88 }
+MSG_MAC_Gate_010F:
+  { type: BLOB, offset: 0x181B8, size: 0x88 }
+MSG_MAC_Gate_0110:
+  { type: BLOB, offset: 0x18240, size: 0x9C }
+MSG_MAC_Gate_0111:
+  { type: BLOB, offset: 0x182DC, size: 0x76 }
+MSG_MAC_Gate_0112:
+  { type: BLOB, offset: 0x18354, size: 0x99 }
+MSG_MAC_Gate_0113:
+  { type: BLOB, offset: 0x183F0, size: 0xD5 }
+MSG_MAC_Gate_0115:
+  { type: BLOB, offset: 0x1855C, size: 0x86 }
+MSG_MAC_Gate_0117:
+  { type: BLOB, offset: 0x18640, size: 0x70 }
+MSG_MAC_Gate_0118:
+  { type: BLOB, offset: 0x186B0, size: 0x95 }
+MSG_MAC_Plaza_0006:
+  { type: BLOB, offset: 0x18CF8, size: 0xE9 }
+MSG_MAC_Plaza_000C:
+  { type: BLOB, offset: 0x190C4, size: 0x83 }
+MSG_MAC_Plaza_000D:
+  { type: BLOB, offset: 0x19148, size: 0xAE }
+MSG_MAC_Plaza_000F:
+  { type: BLOB, offset: 0x19278, size: 0x66 }
+MSG_MAC_Plaza_0011:
+  { type: BLOB, offset: 0x19378, size: 0x9D }
+MSG_MAC_Plaza_0012:
+  { type: BLOB, offset: 0x19418, size: 0x45 }
+MSG_MAC_Plaza_0013:
+  { type: BLOB, offset: 0x19460, size: 0x96 }
+MSG_MAC_Plaza_0015:
+  { type: BLOB, offset: 0x19538, size: 0x7C }
+MSG_MAC_Plaza_0022:
+  { type: BLOB, offset: 0x198EC, size: 0x9F }
+MSG_MAC_Plaza_0024:
+  { type: BLOB, offset: 0x19CE0, size: 0x102 }
+MSG_MAC_Plaza_0025:
+  { type: BLOB, offset: 0x19DE4, size: 0x1E9 }
+MSG_MAC_Plaza_0033:
+  { type: BLOB, offset: 0x1A358, size: 0x82 }
+MSG_MAC_Plaza_0034:
+  { type: BLOB, offset: 0x1A3DC, size: 0x11C }
+MSG_MAC_Plaza_0035:
+  { type: BLOB, offset: 0x1A4F8, size: 0x99 }
+MSG_MAC_Plaza_0036:
+  { type: BLOB, offset: 0x1A594, size: 0x7D }
+MSG_MAC_Plaza_003D:
+  { type: BLOB, offset: 0x1A884, size: 0x8D }
+MSG_MAC_Plaza_003E:
+  { type: BLOB, offset: 0x1A914, size: 0x3A }
+MSG_MAC_Plaza_0041:
+  { type: BLOB, offset: 0x1AC1C, size: 0x93 }
+MSG_MAC_Plaza_0043:
+  { type: BLOB, offset: 0x1ACD4, size: 0x77 }
+MSG_MAC_Plaza_0045:
+  { type: BLOB, offset: 0x1AD98, size: 0x44 }
+MSG_MAC_Plaza_0048:
+  { type: BLOB, offset: 0x1AFC4, size: 0xFE }
+MSG_MAC_Plaza_0049:
+  { type: BLOB, offset: 0x1B0C4, size: 0xD4 }
+MSG_MAC_Plaza_004B:
+  { type: BLOB, offset: 0x1B1E4, size: 0xD2 }
+MSG_MAC_Plaza_004C:
+  { type: BLOB, offset: 0x1B2B8, size: 0xD0 }
+MSG_MAC_Plaza_0056:
+  { type: BLOB, offset: 0x1B650, size: 0x8A }
+MSG_MAC_Plaza_0057:
+  { type: BLOB, offset: 0x1B6DC, size: 0xA2 }
+MSG_MAC_Plaza_0062:
+  { type: BLOB, offset: 0x1BA9C, size: 0xA7 }
+MSG_MAC_Plaza_0064:
+  { type: BLOB, offset: 0x1BB80, size: 0x35 }
+MSG_MAC_Plaza_006F:
+  { type: BLOB, offset: 0x1C370, size: 0x4F }
+MSG_MAC_Plaza_0070:
+  { type: BLOB, offset: 0x1C3C0, size: 0xF4 }
+MSG_MAC_Plaza_0071:
+  { type: BLOB, offset: 0x1C4B4, size: 0x7F }
+MSG_MAC_Plaza_0072:
+  { type: BLOB, offset: 0x1C534, size: 0xA4 }
+MSG_MAC_Plaza_0073:
+  { type: BLOB, offset: 0x1C5D8, size: 0xA4 }
+MSG_MAC_Plaza_0074:
+  { type: BLOB, offset: 0x1C67C, size: 0x17B }
+MSG_MAC_Plaza_0075:
+  { type: BLOB, offset: 0x1C7F8, size: 0x3E }
+MSG_MAC_Plaza_0078:
+  { type: BLOB, offset: 0x1C8D0, size: 0x77 }
+MSG_MAC_Plaza_007A:
+  { type: BLOB, offset: 0x1C994, size: 0x45 }
+MSG_MAC_Plaza_007D:
+  { type: BLOB, offset: 0x1CC90, size: 0x17D }
+MSG_MAC_Plaza_0084:
+  { type: BLOB, offset: 0x1D178, size: 0x8D }
+MSG_MAC_Plaza_0089:
+  { type: BLOB, offset: 0x1D488, size: 0x60 }
+MSG_MAC_Plaza_008A:
+  { type: BLOB, offset: 0x1D4E8, size: 0xB1 }
+MSG_MAC_Plaza_008B:
+  { type: BLOB, offset: 0x1D59C, size: 0xB1 }
+MSG_MAC_Plaza_0092:
+  { type: BLOB, offset: 0x1DBBC, size: 0x10F }
+MSG_MAC_Plaza_0094:
+  { type: BLOB, offset: 0x1DD5C, size: 0x39 }
+MSG_MAC_Plaza_00A5:
+  { type: BLOB, offset: 0x1EB24, size: 0xF0 }
+MSG_MAC_Plaza_00A7:
+  { type: BLOB, offset: 0x1ECEC, size: 0x52 }
+MSG_MAC_Plaza_00A8:
+  { type: BLOB, offset: 0x1ED40, size: 0x52 }
+MSG_MAC_Plaza_00A9:
+  { type: BLOB, offset: 0x1ED94, size: 0x7A }
+MSG_MAC_Plaza_00AA:
+  { type: BLOB, offset: 0x1EE10, size: 0x7A }
+MSG_MAC_Plaza_00AB:
+  { type: BLOB, offset: 0x1EE8C, size: 0xE9 }
+MSG_MAC_Plaza_00AC:
+  { type: BLOB, offset: 0x1EF78, size: 0xDB }
+MSG_MAC_Plaza_00B2:
+  { type: BLOB, offset: 0x1F480, size: 0x7B }
+MSG_MAC_Plaza_00B7:
+  { type: BLOB, offset: 0x1F6C0, size: 0xAD }
+MSG_MAC_Plaza_00B8:
+  { type: BLOB, offset: 0x1F770, size: 0xAD }
+MSG_MAC_Plaza_00B9:
+  { type: BLOB, offset: 0x1F820, size: 0xAD }
+MSG_MAC_Plaza_00BA:
+  { type: BLOB, offset: 0x1F8D0, size: 0xAD }
+MSG_MAC_Plaza_00BB:
+  { type: BLOB, offset: 0x1F980, size: 0xE6 }
+MSG_MAC_Plaza_00C2:
+  { type: BLOB, offset: 0x1FF00, size: 0xAC }
+MSG_MAC_Plaza_00C4:
+  { type: BLOB, offset: 0x20040, size: 0xF4 }
+MSG_MAC_Plaza_00C5:
+  { type: BLOB, offset: 0x20134, size: 0xF5 }
+MSG_MAC_Plaza_00C6:
+  { type: BLOB, offset: 0x2022C, size: 0x35 }
+MSG_MAC_Plaza_00CF:
+  { type: BLOB, offset: 0x20BA0, size: 0xC2 }
+MSG_MAC_Plaza_00D1:
+  { type: BLOB, offset: 0x20D80, size: 0xEE }
+MSG_MAC_Plaza_00D3:
+  { type: BLOB, offset: 0x20F30, size: 0x53 }
+MSG_MAC_Plaza_00D5:
+  { type: BLOB, offset: 0x21034, size: 0xC5 }
+MSG_MAC_Plaza_00D6:
+  { type: BLOB, offset: 0x210FC, size: 0xC5 }
+MSG_MAC_Plaza_00D7:
+  { type: BLOB, offset: 0x211C4, size: 0xC5 }
+MSG_MAC_Plaza_00DB:
+  { type: BLOB, offset: 0x21544, size: 0x21 }
+MSG_MAC_Plaza_00DC:
+  { type: BLOB, offset: 0x21568, size: 0x3B }
+MSG_MAC_Plaza_00DD:
+  { type: BLOB, offset: 0x215A4, size: 0xB9 }
+MSG_MAC_Plaza_00DE:
+  { type: BLOB, offset: 0x21660, size: 0x1C6 }
+MSG_MAC_Plaza_00DF:
+  { type: BLOB, offset: 0x21828, size: 0x126 }
+MSG_MAC_Plaza_00E0:
+  { type: BLOB, offset: 0x21950, size: 0x78 }
+MSG_MAC_Plaza_00E2:
+  { type: BLOB, offset: 0x21A14, size: 0x44 }
+MSG_MAC_Plaza_00E3:
+  { type: BLOB, offset: 0x21A58, size: 0xE6 }
+MSG_MAC_Plaza_00E4:
+  { type: BLOB, offset: 0x21B40, size: 0x17D }
+MSG_MAC_Plaza_00E5:
+  { type: BLOB, offset: 0x21CC0, size: 0x8C }
+MSG_MAC_Plaza_00E8:
+  { type: BLOB, offset: 0x21DD8, size: 0x145 }
+MSG_MAC_Bridge_0000:
+  { type: BLOB, offset: 0x21F88, size: 0xD1 }
+MSG_MAC_Bridge_0001:
+  { type: BLOB, offset: 0x2205C, size: 0x4A }
+MSG_MAC_Bridge_0018:
+  { type: BLOB, offset: 0x2268C, size: 0x59 }
+MSG_MAC_Bridge_0019:
+  { type: BLOB, offset: 0x226E8, size: 0xAF }
+MSG_MAC_Bridge_001B:
+  { type: BLOB, offset: 0x227AC, size: 0xD5 }
+MSG_MAC_Bridge_001D:
+  { type: BLOB, offset: 0x22918, size: 0xD2 }
+MSG_MAC_Bridge_001E:
+  { type: BLOB, offset: 0x229EC, size: 0xC8 }
+MSG_MAC_Bridge_0029:
+  { type: BLOB, offset: 0x22DD8, size: 0xDE }
+MSG_MAC_Bridge_002B:
+  { type: BLOB, offset: 0x22F1C, size: 0x73 }
+MSG_MAC_Bridge_002D:
+  { type: BLOB, offset: 0x22FF8, size: 0x76 }
+MSG_MAC_Bridge_002F:
+  { type: BLOB, offset: 0x2316C, size: 0x76 }
+MSG_MAC_Bridge_0031:
+  { type: BLOB, offset: 0x232D0, size: 0x76 }
+MSG_MAC_Bridge_0033:
+  { type: BLOB, offset: 0x23408, size: 0x76 }
+MSG_MAC_Bridge_0034:
+  { type: BLOB, offset: 0x23480, size: 0x86 }
+MSG_MAC_Bridge_0035:
+  { type: BLOB, offset: 0x23508, size: 0x76 }
+MSG_MAC_Bridge_0036:
+  { type: BLOB, offset: 0x23580, size: 0x94 }
+MSG_MAC_Bridge_0038:
+  { type: BLOB, offset: 0x23660, size: 0x45 }
+MSG_MAC_Bridge_003D:
+  { type: BLOB, offset: 0x23C54, size: 0xC2 }
+MSG_MAC_Bridge_003E:
+  { type: BLOB, offset: 0x23D18, size: 0xC2 }
+MSG_MAC_Bridge_0040:
+  { type: BLOB, offset: 0x23EFC, size: 0xDC }
+MSG_MAC_Bridge_0042:
+  { type: BLOB, offset: 0x24074, size: 0x62 }
+MSG_MAC_Bridge_0043:
+  { type: BLOB, offset: 0x240D8, size: 0x94 }
+MSG_MAC_Bridge_0044:
+  { type: BLOB, offset: 0x2416C, size: 0x94 }
+MSG_MAC_Bridge_004D:
+  { type: BLOB, offset: 0x24868, size: 0xE2 }
+MSG_MAC_Bridge_004F:
+  { type: BLOB, offset: 0x24A38, size: 0x15E }
+MSG_MAC_Bridge_0051:
+  { type: BLOB, offset: 0x24CBC, size: 0xC7 }
+MSG_MAC_Bridge_0052:
+  { type: BLOB, offset: 0x24D84, size: 0x118 }
+MSG_MAC_Bridge_0056:
+  { type: BLOB, offset: 0x25210, size: 0x15A }
+MSG_MAC_Bridge_0057:
+  { type: BLOB, offset: 0x2536C, size: 0x16C }
+MSG_MAC_Bridge_0058:
+  { type: BLOB, offset: 0x254D8, size: 0x16C }
+MSG_MAC_Bridge_0059:
+  { type: BLOB, offset: 0x25644, size: 0x1B9 }
+MSG_MAC_Bridge_005A:
+  { type: BLOB, offset: 0x25800, size: 0x175 }
+MSG_MAC_Bridge_005B:
+  { type: BLOB, offset: 0x25978, size: 0x175 }
+MSG_MAC_Bridge_005C:
+  { type: BLOB, offset: 0x25AF0, size: 0x175 }
+MSG_MAC_Bridge_005D:
+  { type: BLOB, offset: 0x25C68, size: 0x1A8 }
+MSG_MAC_Bridge_005E:
+  { type: BLOB, offset: 0x25E10, size: 0x1A8 }
+MSG_MAC_Bridge_005F:
+  { type: BLOB, offset: 0x25FB8, size: 0xDC }
+MSG_MAC_Bridge_0060:
+  { type: BLOB, offset: 0x26094, size: 0xDC }
+MSG_MAC_Bridge_0061:
+  { type: BLOB, offset: 0x26170, size: 0x12F }
+MSG_MAC_Bridge_0062:
+  { type: BLOB, offset: 0x262A0, size: 0x12F }
+MSG_MAC_Bridge_0063:
+  { type: BLOB, offset: 0x263D0, size: 0x10F }
+MSG_MAC_Bridge_0065:
+  { type: BLOB, offset: 0x2655C, size: 0x107 }
+MSG_MAC_Bridge_0066:
+  { type: BLOB, offset: 0x26664, size: 0x85 }
+MSG_MAC_Bridge_0068:
+  { type: BLOB, offset: 0x2678C, size: 0x100 }
+MSG_MAC_Bridge_0069:
+  { type: BLOB, offset: 0x2688C, size: 0xB0 }
+MSG_MAC_Bridge_006A:
+  { type: BLOB, offset: 0x2693C, size: 0xD6 }
+MSG_MAC_Bridge_0073:
+  { type: BLOB, offset: 0x27134, size: 0xE4 }
+MSG_MAC_Bridge_0074:
+  { type: BLOB, offset: 0x27218, size: 0xF9 }
+MSG_MAC_Bridge_0077:
+  { type: BLOB, offset: 0x2743C, size: 0xCA }
+MSG_MAC_Bridge_0080:
+  { type: BLOB, offset: 0x27B08, size: 0x7B }
+MSG_MAC_Bridge_0081:
+  { type: BLOB, offset: 0x27B84, size: 0x7B }
+MSG_MAC_Bridge_0082:
+  { type: BLOB, offset: 0x27C00, size: 0x7B }
+MSG_MAC_Bridge_0083:
+  { type: BLOB, offset: 0x27C7C, size: 0x7B }
+MSG_MAC_Bridge_0084:
+  { type: BLOB, offset: 0x27CF8, size: 0x7B }
+MSG_MAC_Bridge_008E:
+  { type: BLOB, offset: 0x284B4, size: 0x92 }
+MSG_MAC_Bridge_008F:
+  { type: BLOB, offset: 0x28548, size: 0x20 }
+MSG_MAC_Bridge_0090:
+  { type: BLOB, offset: 0x28568, size: 0x29 }
+MSG_MAC_Bridge_0093:
+  { type: BLOB, offset: 0x2874C, size: 0x93 }
+MSG_MAC_Station_0000:
+  { type: BLOB, offset: 0x287E0, size: 0x10B }
+MSG_MAC_Station_0001:
+  { type: BLOB, offset: 0x288EC, size: 0x99 }
+MSG_MAC_Station_0002:
+  { type: BLOB, offset: 0x28988, size: 0x58 }
+MSG_MAC_Station_0008:
+  { type: BLOB, offset: 0x28B84, size: 0x61 }
+MSG_MAC_Station_000B:
+  { type: BLOB, offset: 0x28D04, size: 0x98 }
+MSG_MAC_Station_000C:
+  { type: BLOB, offset: 0x28D9C, size: 0x14E }
+MSG_MAC_Station_0016:
+  { type: BLOB, offset: 0x2947C, size: 0xCB }
+MSG_MAC_Station_0017:
+  { type: BLOB, offset: 0x29548, size: 0x10D }
+MSG_MAC_Station_0018:
+  { type: BLOB, offset: 0x29658, size: 0x10D }
+MSG_MAC_Station_0019:
+  { type: BLOB, offset: 0x29768, size: 0x10D }
+MSG_MAC_Station_001B:
+  { type: BLOB, offset: 0x29894, size: 0x9B }
+MSG_MAC_Station_001C:
+  { type: BLOB, offset: 0x29930, size: 0x3F }
+MSG_MAC_Station_001D:
+  { type: BLOB, offset: 0x29970, size: 0x9E }
+MSG_MAC_Station_001E:
+  { type: BLOB, offset: 0x29A10, size: 0x9E }
+MSG_MAC_Station_002E:
+  { type: BLOB, offset: 0x2A798, size: 0xAD }
+MSG_MAC_Station_002F:
+  { type: BLOB, offset: 0x2A848, size: 0xAD }
+MSG_MAC_Station_0030:
+  { type: BLOB, offset: 0x2A8F8, size: 0xC4 }
+MSG_MAC_Station_0031:
+  { type: BLOB, offset: 0x2A9BC, size: 0x55 }
+MSG_MAC_Station_0033:
+  { type: BLOB, offset: 0x2AA84, size: 0x55 }
+MSG_MAC_Station_0035:
+  { type: BLOB, offset: 0x2AB4C, size: 0x55 }
+MSG_MAC_Station_0038:
+  { type: BLOB, offset: 0x2AC60, size: 0x88 }
+MSG_MAC_Station_003A:
+  { type: BLOB, offset: 0x2AD10, size: 0x5D }
+MSG_MAC_Station_0043:
+  { type: BLOB, offset: 0x2B2F8, size: 0x93 }
+MSG_MAC_Station_0044:
+  { type: BLOB, offset: 0x2B38C, size: 0xB2 }
+MSG_MAC_Station_0045:
+  { type: BLOB, offset: 0x2B440, size: 0x93 }
+MSG_MAC_Station_0046:
+  { type: BLOB, offset: 0x2B4D4, size: 0xB2 }
+MSG_MAC_Station_0047:
+  { type: BLOB, offset: 0x2B588, size: 0x31 }
+MSG_MAC_Station_0048:
+  { type: BLOB, offset: 0x2B5BC, size: 0x3C }
+MSG_MAC_Station_0049:
+  { type: BLOB, offset: 0x2B5F8, size: 0x77 }
+MSG_MAC_Station_004B:
+  { type: BLOB, offset: 0x2B6BC, size: 0x44 }
+MSG_MAC_Station_004C:
+  { type: BLOB, offset: 0x2B700, size: 0x146 }
+MSG_MAC_Station_004D:
+  { type: BLOB, offset: 0x2B848, size: 0x1B5 }
+MSG_MAC_Station_004E:
+  { type: BLOB, offset: 0x2BA00, size: 0x77 }
+MSG_MAC_Station_0052:
+  { type: BLOB, offset: 0x2BC58, size: 0x1F1 }
+MSG_MAC_Station_0061:
+  { type: BLOB, offset: 0x2C3E8, size: 0xAB }
+MSG_MAC_Housing_0001:
+  { type: BLOB, offset: 0x2C6C0, size: 0xA2 }
+MSG_MAC_Housing_0002:
+  { type: BLOB, offset: 0x2C764, size: 0x42 }
+MSG_MAC_Housing_0003:
+  { type: BLOB, offset: 0x2C7A8, size: 0x7C }
+MSG_MAC_Housing_0004:
+  { type: BLOB, offset: 0x2C824, size: 0xBB }
+MSG_MAC_Housing_0008:
+  { type: BLOB, offset: 0x2CB40, size: 0xC8 }
+MSG_MAC_Housing_0009:
+  { type: BLOB, offset: 0x2CC08, size: 0xE7 }
+MSG_MAC_Housing_000A:
+  { type: BLOB, offset: 0x2CCF0, size: 0xE6 }
+MSG_MAC_Housing_0010:
+  { type: BLOB, offset: 0x2D260, size: 0xBD }
+MSG_MAC_Housing_0011:
+  { type: BLOB, offset: 0x2D320, size: 0xBD }
+MSG_MAC_Housing_0012:
+  { type: BLOB, offset: 0x2D3E0, size: 0x167 }
+MSG_MAC_Housing_0013:
+  { type: BLOB, offset: 0x2D548, size: 0x11D }
+MSG_MAC_Housing_0014:
+  { type: BLOB, offset: 0x2D668, size: 0x11D }
+MSG_MAC_Housing_0020:
+  { type: BLOB, offset: 0x2DF40, size: 0xBA }
+MSG_MAC_Housing_0021:
+  { type: BLOB, offset: 0x2DFFC, size: 0xBA }
+MSG_MAC_Housing_0022:
+  { type: BLOB, offset: 0x2E0B8, size: 0xBA }
+MSG_MAC_Housing_0023:
+  { type: BLOB, offset: 0x2E174, size: 0x98 }
+MSG_MAC_Housing_0026:
+  { type: BLOB, offset: 0x2E358, size: 0xDE }
+MSG_MAC_Housing_0027:
+  { type: BLOB, offset: 0x2E438, size: 0xDF }
+MSG_MAC_Housing_0028:
+  { type: BLOB, offset: 0x2E518, size: 0xCA }
+MSG_MAC_Housing_0029:
+  { type: BLOB, offset: 0x2E5E4, size: 0x83 }
+MSG_MAC_Housing_002C:
+  { type: BLOB, offset: 0x2E7B0, size: 0x90 }
+MSG_MAC_Housing_0033:
+  { type: BLOB, offset: 0x2ED34, size: 0xD2 }
+MSG_MAC_Housing_0034:
+  { type: BLOB, offset: 0x2EE08, size: 0xC3 }
+MSG_MAC_Housing_0035:
+  { type: BLOB, offset: 0x2EECC, size: 0xBD }
+MSG_MAC_Housing_0039:
+  { type: BLOB, offset: 0x2F204, size: 0x14D }
+MSG_MAC_Housing_003C:
+  { type: BLOB, offset: 0x2F3A0, size: 0x65 }
+MSG_MAC_Housing_003F:
+  { type: BLOB, offset: 0x2F454, size: 0x65 }
+MSG_MAC_Housing_0042:
+  { type: BLOB, offset: 0x2F510, size: 0xA1 }
+MSG_MAC_Housing_005E:
+  { type: BLOB, offset: 0x2FFD0, size: 0x6D }
+MSG_MAC_Housing_005F:
+  { type: BLOB, offset: 0x30040, size: 0x5E }
+MSG_MAC_Housing_0060:
+  { type: BLOB, offset: 0x300A0, size: 0x60 }
+MSG_MAC_Housing_0066:
+  { type: BLOB, offset: 0x30494, size: 0x99 }
+MSG_MAC_Housing_0069:
+  { type: BLOB, offset: 0x306B4, size: 0x101 }
+MSG_MAC_Housing_006A:
+  { type: BLOB, offset: 0x307B8, size: 0x78 }
+MSG_MAC_Housing_007A:
+  { type: BLOB, offset: 0x311C8, size: 0xA5 }
+MSG_MAC_Housing_007B:
+  { type: BLOB, offset: 0x31270, size: 0xA5 }
+MSG_MAC_Housing_007C:
+  { type: BLOB, offset: 0x31318, size: 0xA5 }
+MSG_MAC_Housing_007D:
+  { type: BLOB, offset: 0x313C0, size: 0xA5 }
+MSG_MAC_Housing_007E:
+  { type: BLOB, offset: 0x31468, size: 0xA5 }
+MSG_MAC_Housing_007F:
+  { type: BLOB, offset: 0x31510, size: 0xA5 }
+MSG_MAC_Housing_0080:
+  { type: BLOB, offset: 0x315B8, size: 0xA5 }
+MSG_MAC_Housing_0081:
+  { type: BLOB, offset: 0x31660, size: 0x20 }
+MSG_MAC_Housing_0082:
+  { type: BLOB, offset: 0x31680, size: 0x3F }
+MSG_MAC_Housing_0083:
+  { type: BLOB, offset: 0x316C0, size: 0x55 }
+MSG_MAC_Housing_0084:
+  { type: BLOB, offset: 0x31718, size: 0x21 }
+MSG_MAC_Housing_0085:
+  { type: BLOB, offset: 0x3173C, size: 0x3C }
+MSG_MAC_Housing_0086:
+  { type: BLOB, offset: 0x31778, size: 0x55 }
+MSG_MAC_Housing_0093:
+  { type: BLOB, offset: 0x31E08, size: 0x89 }
+MSG_MAC_Housing_0096:
+  { type: BLOB, offset: 0x31F68, size: 0x89 }
+MSG_MAC_Housing_009A:
+  { type: BLOB, offset: 0x32144, size: 0x96 }
+MSG_MAC_Housing_009D:
+  { type: BLOB, offset: 0x322B4, size: 0x96 }
+MSG_MAC_Housing_009F:
+  { type: BLOB, offset: 0x323A4, size: 0xAE }
+MSG_MAC_Housing_00A5:
+  { type: BLOB, offset: 0x32628, size: 0x4C }
+MSG_MAC_Housing_00A6:
+  { type: BLOB, offset: 0x32674, size: 0x63 }
+MSG_MAC_Housing_00A7:
+  { type: BLOB, offset: 0x326D8, size: 0x49 }
+MSG_MAC_Housing_00A8:
+  { type: BLOB, offset: 0x32724, size: 0x16B }
+MSG_MAC_Housing_00A9:
+  { type: BLOB, offset: 0x32890, size: 0x10B }
+MSG_MAC_Housing_00B2:
+  { type: BLOB, offset: 0x32D70, size: 0x24 }
+MSG_MAC_Housing_00B5:
+  { type: BLOB, offset: 0x32DB8, size: 0xD4 }
+MSG_MAC_Housing_00B6:
+  { type: BLOB, offset: 0x32E8C, size: 0x6A }
+MSG_MAC_Housing_00B8:
+  { type: BLOB, offset: 0x32F30, size: 0xB3 }
+MSG_MAC_Housing_00BC:
+  { type: BLOB, offset: 0x33104, size: 0x2C }
+MSG_MAC_Housing_00BE:
+  { type: BLOB, offset: 0x33148, size: 0x25 }
+MSG_MAC_Housing_00BF:
+  { type: BLOB, offset: 0x33170, size: 0xB4 }
+MSG_MAC_Housing_00C0:
+  { type: BLOB, offset: 0x33224, size: 0x7E }
+MSG_MAC_Housing_00C1:
+  { type: BLOB, offset: 0x332A4, size: 0x41 }
+MSG_MAC_Housing_00C4:
+  { type: BLOB, offset: 0x33350, size: 0x2F }
+MSG_MAC_Housing_00C6:
+  { type: BLOB, offset: 0x333F8, size: 0x79 }
+MSG_MAC_Housing_00C8:
+  { type: BLOB, offset: 0x33514, size: 0x20 }
+MSG_MAC_Housing_00C9:
+  { type: BLOB, offset: 0x33534, size: 0x43 }
+MSG_MAC_Housing_00CB:
+  { type: BLOB, offset: 0x335A4, size: 0x9E }
+MSG_MAC_Housing_00CF:
+  { type: BLOB, offset: 0x336D0, size: 0x9C }
+MSG_MAC_Housing_00D2:
+  { type: BLOB, offset: 0x33838, size: 0x112 }
+MSG_MAC_Housing_00D3:
+  { type: BLOB, offset: 0x3394C, size: 0x9C }
+MSG_MAC_Port_0008:
+  { type: BLOB, offset: 0x33FF8, size: 0xA8 }
+MSG_MAC_Port_000D:
+  { type: BLOB, offset: 0x343F4, size: 0xF6 }
+MSG_MAC_Port_000E:
+  { type: BLOB, offset: 0x344EC, size: 0xEE }
+MSG_MAC_Port_000F:
+  { type: BLOB, offset: 0x345DC, size: 0xEE }
+MSG_MAC_Port_0010:
+  { type: BLOB, offset: 0x346CC, size: 0x77 }
+MSG_MAC_Port_0011:
+  { type: BLOB, offset: 0x34744, size: 0x77 }
+MSG_MAC_Port_0012:
+  { type: BLOB, offset: 0x347BC, size: 0x77 }
+MSG_MAC_Port_0013:
+  { type: BLOB, offset: 0x34834, size: 0x104 }
+MSG_MAC_Port_0026:
+  { type: BLOB, offset: 0x35380, size: 0xB4 }
+MSG_MAC_Port_002E:
+  { type: BLOB, offset: 0x358A4, size: 0xC7 }
+MSG_MAC_Port_002F:
+  { type: BLOB, offset: 0x3596C, size: 0x53 }
+MSG_MAC_Port_0034:
+  { type: BLOB, offset: 0x35C30, size: 0x24C }
+MSG_MAC_Port_0035:
+  { type: BLOB, offset: 0x35E7C, size: 0x24C }
+MSG_MAC_Port_0036:
+  { type: BLOB, offset: 0x360C8, size: 0x234 }
+MSG_MAC_Port_0037:
+  { type: BLOB, offset: 0x362FC, size: 0x2C9 }
+MSG_MAC_Port_0038:
+  { type: BLOB, offset: 0x365C8, size: 0x2CA }
+MSG_MAC_Port_0039:
+  { type: BLOB, offset: 0x36894, size: 0x2CA }
+MSG_MAC_Port_003A:
+  { type: BLOB, offset: 0x36B60, size: 0x1B6 }
+MSG_MAC_Port_003B:
+  { type: BLOB, offset: 0x36D18, size: 0x1B6 }
+MSG_MAC_Port_003C:
+  { type: BLOB, offset: 0x36ED0, size: 0x1A6 }
+MSG_MAC_Port_003D:
+  { type: BLOB, offset: 0x37078, size: 0x1A6 }
+MSG_MAC_Port_003E:
+  { type: BLOB, offset: 0x37220, size: 0x244 }
+MSG_MAC_Port_003F:
+  { type: BLOB, offset: 0x37464, size: 0x246 }
+MSG_MAC_Port_0040:
+  { type: BLOB, offset: 0x376AC, size: 0x17F }
+MSG_MAC_Port_0047:
+  { type: BLOB, offset: 0x37CC8, size: 0x106 }
+MSG_MAC_Port_0064:
+  { type: BLOB, offset: 0x38C38, size: 0xA3 }
+MSG_MAC_Port_0066:
+  { type: BLOB, offset: 0x38D28, size: 0x44 }
+MSG_MAC_Port_0067:
+  { type: BLOB, offset: 0x38D6C, size: 0x1A7 }
+MSG_MAC_Port_0068:
+  { type: BLOB, offset: 0x38F14, size: 0x190 }
+MSG_MAC_Port_006A:
+  { type: BLOB, offset: 0x390E8, size: 0x45 }
+MSG_MAC_Port_006B:
+  { type: BLOB, offset: 0x39130, size: 0x45 }
+MSG_MAC_Port_0070:
+  { type: BLOB, offset: 0x3924C, size: 0x11A }
+MSG_MAC_Port_0071:
+  { type: BLOB, offset: 0x39368, size: 0x96 }
+MSG_MAC_Port_0075:
+  { type: BLOB, offset: 0x3954C, size: 0x21A }
+MSG_MAC_Port_0079:
+  { type: BLOB, offset: 0x39894, size: 0x35 }
+MSG_MAC_Port_007F:
+  { type: BLOB, offset: 0x39B18, size: 0x82 }
+MSG_MAC_Port_0080:
+  { type: BLOB, offset: 0x39B9C, size: 0x9F }
+MSG_MAC_Port_0083:
+  { type: BLOB, offset: 0x39D5C, size: 0x1FC }
+MSG_MAC_Port_0087:
+  { type: BLOB, offset: 0x3A128, size: 0x44 }
+MSG_MAC_Port_0089:
+  { type: BLOB, offset: 0x3A28C, size: 0x19B }
+MSG_MAC_Port_008A:
+  { type: BLOB, offset: 0x3A428, size: 0x118 }
+MSG_MAC_Port_008B:
+  { type: BLOB, offset: 0x3A540, size: 0x50 }
+MSG_MAC_Port_008E:
+  { type: BLOB, offset: 0x3A638, size: 0x123 }
+MSG_MAC_Port_0093:
+  { type: BLOB, offset: 0x3A908, size: 0x83 }
+MSG_MAC_Port_009C:
+  { type: BLOB, offset: 0x3ACC8, size: 0x6E }
+MSG_MAC_Port_009D:
+  { type: BLOB, offset: 0x3AD38, size: 0x12D }
+MSG_MAC_Port_009E:
+  { type: BLOB, offset: 0x3AE68, size: 0x8D }
+MSG_MAC_Port_00A2:
+  { type: BLOB, offset: 0x3AFE4, size: 0xB3 }
+MSG_MAC_Port_00A3:
+  { type: BLOB, offset: 0x3B098, size: 0x117 }
+MSG_MAC_Port_00A4:
+  { type: BLOB, offset: 0x3B1B0, size: 0xE6 }
+MSG_MAC_Port_00A5:
+  { type: BLOB, offset: 0x3B298, size: 0x12C }
+MSG_MAC_Port_00A6:
+  { type: BLOB, offset: 0x3B3C4, size: 0x9B }
+MSG_MAC_Port_00A7:
+  { type: BLOB, offset: 0x3B460, size: 0xD7 }
+MSG_MAC_Port_00A8:
+  { type: BLOB, offset: 0x3B538, size: 0xBA }
+MSG_MAC_Port_00A9:
+  { type: BLOB, offset: 0x3B5F4, size: 0x8F }
+MSG_MAC_Port_00AA:
+  { type: BLOB, offset: 0x3B684, size: 0xAB }
+MSG_MAC_Port_00AC:
+  { type: BLOB, offset: 0x3B840, size: 0x50 }
+MSG_MAC_Port_00AF:
+  { type: BLOB, offset: 0x3B904, size: 0x6B }
+MSG_MAC_Port_00B3:
+  { type: BLOB, offset: 0x3B9E0, size: 0x12F }
+MSG_MAC_Port_00B6:
+  { type: BLOB, offset: 0x3BB94, size: 0x31 }
+MSG_MAC_Port_00BB:
+  { type: BLOB, offset: 0x3BCDC, size: 0xBC }
+MSG_MAC_Port_00BE:
+  { type: BLOB, offset: 0x3BDFC, size: 0xE8 }
+MSG_MGM_0002:
+  { type: BLOB, offset: 0x3C328, size: 0x122 }
+MSG_MGM_0004:
+  { type: BLOB, offset: 0x3C55C, size: 0x13B }
+MSG_MGM_0012:
+  { type: BLOB, offset: 0x3CF00, size: 0xB3 }
+MSG_MGM_0013:
+  { type: BLOB, offset: 0x3CFB4, size: 0x5F }
+MSG_MGM_0014:
+  { type: BLOB, offset: 0x3D014, size: 0x38 }
+MSG_MGM_0015:
+  { type: BLOB, offset: 0x3D04C, size: 0xAC }
+MSG_MGM_0016:
+  { type: BLOB, offset: 0x3D0F8, size: 0x38 }
+MSG_MGM_0027:
+  { type: BLOB, offset: 0x3D464, size: 0xD2 }
+MSG_MGM_0028:
+  { type: BLOB, offset: 0x3D538, size: 0x85 }
+MSG_MGM_002B:
+  { type: BLOB, offset: 0x3D600, size: 0x36 }
+MSG_MGM_002D:
+  { type: BLOB, offset: 0x3D668, size: 0x3F2 }
+MSG_MGM_0033:
+  { type: BLOB, offset: 0x3DC14, size: 0x3F }
+MSG_MGM_0039:
+  { type: BLOB, offset: 0x3DD74, size: 0x5C }
+MSG_MGM_003C:
+  { type: BLOB, offset: 0x3E128, size: 0x1FE }
+MSG_MGM_003E:
+  { type: BLOB, offset: 0x3E37C, size: 0x58 }
+MSG_OSR_0000:
+  { type: BLOB, offset: 0x3E76C, size: 0x100 }
+MSG_OSR_0001:
+  { type: BLOB, offset: 0x3E86C, size: 0xDB }
+MSG_OSR_0002:
+  { type: BLOB, offset: 0x3E948, size: 0xDB }
+MSG_OSR_000F:
+  { type: BLOB, offset: 0x3F2FC, size: 0x49 }
+MSG_OSR_0010:
+  { type: BLOB, offset: 0x3F348, size: 0x77 }
+MSG_OSR_0012:
+  { type: BLOB, offset: 0x3F40C, size: 0x43 }
+MSG_HOS_0000:
+  { type: BLOB, offset: 0x3F67C, size: 0x42 }
+MSG_HOS_0004:
+  { type: BLOB, offset: 0x3F9A8, size: 0x14E }
+MSG_HOS_0005:
+  { type: BLOB, offset: 0x3FAF8, size: 0xEF }
+MSG_HOS_0008:
+  { type: BLOB, offset: 0x3FD4C, size: 0x29 }
+MSG_HOS_0009:
+  { type: BLOB, offset: 0x3FD78, size: 0x1B7 }
+MSG_HOS_000A:
+  { type: BLOB, offset: 0x3FF30, size: 0x70 }
+MSG_HOS_000B:
+  { type: BLOB, offset: 0x3FFA0, size: 0x47 }
+MSG_HOS_000C:
+  { type: BLOB, offset: 0x3FFE8, size: 0xA2 }
+MSG_HOS_000F:
+  { type: BLOB, offset: 0x400DC, size: 0x51 }
+MSG_HOS_0010:
+  { type: BLOB, offset: 0x40130, size: 0x57 }
+MSG_HOS_0013:
+  { type: BLOB, offset: 0x401D8, size: 0xB7 }
+MSG_HOS_0014:
+  { type: BLOB, offset: 0x40290, size: 0x4E }
+MSG_HOS_0016:
+  { type: BLOB, offset: 0x40314, size: 0x80 }
+MSG_HOS_0017:
+  { type: BLOB, offset: 0x40394, size: 0x32 }
+MSG_HOS_0018:
+  { type: BLOB, offset: 0x403C8, size: 0x2A }
+MSG_HOS_0019:
+  { type: BLOB, offset: 0x403F4, size: 0x67 }
+MSG_HOS_001D:
+  { type: BLOB, offset: 0x40544, size: 0xC9 }
+MSG_HOS_001E:
+  { type: BLOB, offset: 0x40610, size: 0x22 }
+MSG_HOS_0020:
+  { type: BLOB, offset: 0x4067C, size: 0xFB }
+MSG_HOS_0021:
+  { type: BLOB, offset: 0x40778, size: 0x94 }
+MSG_HOS_0025:
+  { type: BLOB, offset: 0x40928, size: 0xDD }
+MSG_HOS_0026:
+  { type: BLOB, offset: 0x40A08, size: 0xA6 }
+MSG_HOS_0027:
+  { type: BLOB, offset: 0x40AB0, size: 0x92 }
+MSG_HOS_0029:
+  { type: BLOB, offset: 0x40BD0, size: 0x61 }
+MSG_HOS_0033:
+  { type: BLOB, offset: 0x40DD8, size: 0xF8 }
+MSG_HOS_0034:
+  { type: BLOB, offset: 0x40ED0, size: 0x6D }
+MSG_HOS_0035:
+  { type: BLOB, offset: 0x40F40, size: 0xB5 }
+MSG_HOS_0036:
+  { type: BLOB, offset: 0x40FF8, size: 0x144 }
+MSG_HOS_0037:
+  { type: BLOB, offset: 0x4113C, size: 0x7E }
+MSG_HOS_0038:
+  { type: BLOB, offset: 0x411BC, size: 0x14D }
+MSG_HOS_0039:
+  { type: BLOB, offset: 0x4130C, size: 0xC9 }
+MSG_HOS_0045:
+  { type: BLOB, offset: 0x419D0, size: 0x9C }
+MSG_HOS_0047:
+  { type: BLOB, offset: 0x41ADC, size: 0x17A }
+MSG_HOS_0054:
+  { type: BLOB, offset: 0x42110, size: 0x72 }
+MSG_HOS_0056:
+  { type: BLOB, offset: 0x42204, size: 0x3B }
+MSG_HOS_0058:
+  { type: BLOB, offset: 0x422D8, size: 0x7D }
+MSG_HOS_005A:
+  { type: BLOB, offset: 0x423A4, size: 0x44 }
+MSG_HOS_005B:
+  { type: BLOB, offset: 0x423E8, size: 0x1AF }
+MSG_HOS_005C:
+  { type: BLOB, offset: 0x42598, size: 0x30 }
+MSG_HOS_005E:
+  { type: BLOB, offset: 0x42704, size: 0x52 }
+MSG_HOS_0061:
+  { type: BLOB, offset: 0x42954, size: 0x11A }
+MSG_HOS_0062:
+  { type: BLOB, offset: 0x42A70, size: 0xAE }
+MSG_HOS_0069:
+  { type: BLOB, offset: 0x42CB4, size: 0xB8 }
+MSG_CH0_0000:
+  { type: BLOB, offset: 0x43110, size: 0x57 }
+MSG_CH0_0002:
+  { type: BLOB, offset: 0x431CC, size: 0xD2 }
+MSG_CH0_0003:
+  { type: BLOB, offset: 0x432A0, size: 0x6D }
+MSG_CH0_0005:
+  { type: BLOB, offset: 0x43378, size: 0xB4 }
+MSG_CH0_0006:
+  { type: BLOB, offset: 0x4342C, size: 0x56 }
+MSG_CH0_0008:
+  { type: BLOB, offset: 0x434A4, size: 0x24 }
+MSG_CH0_0009:
+  { type: BLOB, offset: 0x434C8, size: 0x1AE }
+MSG_CH0_000A:
+  { type: BLOB, offset: 0x43678, size: 0x3D }
+MSG_CH0_000F:
+  { type: BLOB, offset: 0x438C4, size: 0x95 }
+MSG_CH0_0019:
+  { type: BLOB, offset: 0x43CF0, size: 0x116 }
+MSG_CH0_001A:
+  { type: BLOB, offset: 0x43E08, size: 0x101 }
+MSG_CH0_001B:
+  { type: BLOB, offset: 0x43F0C, size: 0x105 }
+MSG_CH0_001C:
+  { type: BLOB, offset: 0x44014, size: 0x59 }
+MSG_CH0_0021:
+  { type: BLOB, offset: 0x441D8, size: 0x5F }
+MSG_CH0_0023:
+  { type: BLOB, offset: 0x442C8, size: 0x62 }
+MSG_CH0_0027:
+  { type: BLOB, offset: 0x44414, size: 0x169 }
+MSG_CH0_0028:
+  { type: BLOB, offset: 0x44580, size: 0x72 }
+MSG_CH0_002A:
+  { type: BLOB, offset: 0x44644, size: 0x2D }
+MSG_CH0_002B:
+  { type: BLOB, offset: 0x44674, size: 0x37 }
+MSG_CH0_002C:
+  { type: BLOB, offset: 0x446AC, size: 0x40 }
+MSG_CH0_002E:
+  { type: BLOB, offset: 0x448A0, size: 0x6E }
+MSG_CH0_0031:
+  { type: BLOB, offset: 0x44960, size: 0x155 }
+MSG_CH0_0032:
+  { type: BLOB, offset: 0x44AB8, size: 0x89 }
+MSG_CH0_0033:
+  { type: BLOB, offset: 0x44B44, size: 0x48 }
+MSG_CH0_0034:
+  { type: BLOB, offset: 0x44B8C, size: 0x100 }
+MSG_CH0_0037:
+  { type: BLOB, offset: 0x44D0C, size: 0xC0 }
+MSG_CH0_0038:
+  { type: BLOB, offset: 0x44DCC, size: 0x78 }
+MSG_CH0_0039:
+  { type: BLOB, offset: 0x44E44, size: 0x15 }
+MSG_CH0_003A:
+  { type: BLOB, offset: 0x44E5C, size: 0xC8 }
+MSG_CH0_003B:
+  { type: BLOB, offset: 0x44F24, size: 0x39 }
+MSG_CH0_003C:
+  { type: BLOB, offset: 0x44F60, size: 0x9B }
+MSG_CH0_003D:
+  { type: BLOB, offset: 0x44FFC, size: 0x62 }
+MSG_CH0_003E:
+  { type: BLOB, offset: 0x45060, size: 0xE4 }
+MSG_CH0_003F:
+  { type: BLOB, offset: 0x45144, size: 0x85 }
+MSG_CH0_0040:
+  { type: BLOB, offset: 0x451CC, size: 0xB9 }
+MSG_CH0_0041:
+  { type: BLOB, offset: 0x45288, size: 0x6D }
+MSG_CH0_0043:
+  { type: BLOB, offset: 0x4534C, size: 0x3C }
+MSG_CH0_0045:
+  { type: BLOB, offset: 0x453A8, size: 0x76 }
+MSG_CH0_0047:
+  { type: BLOB, offset: 0x4546C, size: 0x44 }
+MSG_CH0_0049:
+  { type: BLOB, offset: 0x45630, size: 0x3E }
+MSG_CH0_004D:
+  { type: BLOB, offset: 0x45818, size: 0x76 }
+MSG_CH0_004E:
+  { type: BLOB, offset: 0x45890, size: 0xC2 }
+MSG_CH0_004F:
+  { type: BLOB, offset: 0x45954, size: 0xC3 }
+MSG_CH0_0050:
+  { type: BLOB, offset: 0x45A18, size: 0xB9 }
+MSG_CH0_0052:
+  { type: BLOB, offset: 0x45BA4, size: 0x48 }
+MSG_CH0_0055:
+  { type: BLOB, offset: 0x45E00, size: 0x16C }
+MSG_CH0_0056:
+  { type: BLOB, offset: 0x45F6C, size: 0xED }
+MSG_CH0_0057:
+  { type: BLOB, offset: 0x4605C, size: 0x1BA }
+MSG_CH0_0058:
+  { type: BLOB, offset: 0x46218, size: 0x18 }
+MSG_CH0_005A:
+  { type: BLOB, offset: 0x46250, size: 0xE1 }
+MSG_CH0_005C:
+  { type: BLOB, offset: 0x4637C, size: 0x171 }
+MSG_CH0_005D:
+  { type: BLOB, offset: 0x464F0, size: 0x8C }
+MSG_CH0_0060:
+  { type: BLOB, offset: 0x46680, size: 0xED }
+MSG_CH0_0061:
+  { type: BLOB, offset: 0x46770, size: 0x62 }
+MSG_CH0_0062:
+  { type: BLOB, offset: 0x467D4, size: 0xB1 }
+MSG_CH0_0063:
+  { type: BLOB, offset: 0x46888, size: 0x74 }
+MSG_CH0_0064:
+  { type: BLOB, offset: 0x468FC, size: 0x70 }
+MSG_CH0_0067:
+  { type: BLOB, offset: 0x46AD8, size: 0xCF }
+MSG_CH0_0068:
+  { type: BLOB, offset: 0x46BA8, size: 0x5B }
+MSG_CH0_0069:
+  { type: BLOB, offset: 0x46C04, size: 0x51 }
+MSG_CH0_006A:
+  { type: BLOB, offset: 0x46C58, size: 0x28 }
+MSG_CH0_006B:
+  { type: BLOB, offset: 0x46C80, size: 0xEE }
+MSG_CH0_006C:
+  { type: BLOB, offset: 0x46D70, size: 0x67 }
+MSG_CH0_006D:
+  { type: BLOB, offset: 0x46DD8, size: 0xC5 }
+MSG_CH0_006E:
+  { type: BLOB, offset: 0x46EA0, size: 0x67 }
+MSG_CH0_006F:
+  { type: BLOB, offset: 0x46F08, size: 0x78 }
+MSG_CH0_0071:
+  { type: BLOB, offset: 0x46FCC, size: 0x44 }
+MSG_CH0_0072:
+  { type: BLOB, offset: 0x47010, size: 0x18D }
+MSG_CH0_0073:
+  { type: BLOB, offset: 0x471A0, size: 0x4C }
+MSG_CH0_0075:
+  { type: BLOB, offset: 0x47238, size: 0x44 }
+MSG_CH0_0076:
+  { type: BLOB, offset: 0x4727C, size: 0x1B7 }
+MSG_CH0_0077:
+  { type: BLOB, offset: 0x47434, size: 0xA6 }
+MSG_CH0_0078:
+  { type: BLOB, offset: 0x474DC, size: 0xF7 }
+MSG_CH0_0079:
+  { type: BLOB, offset: 0x475D4, size: 0x7C }
+MSG_CH0_007A:
+  { type: BLOB, offset: 0x47650, size: 0x5B }
+MSG_CH0_007B:
+  { type: BLOB, offset: 0x476AC, size: 0xA3 }
+MSG_CH0_007D:
+  { type: BLOB, offset: 0x47778, size: 0xED }
+MSG_CH0_007F:
+  { type: BLOB, offset: 0x4788C, size: 0x49 }
+MSG_CH0_0080:
+  { type: BLOB, offset: 0x478D8, size: 0x3A }
+MSG_CH0_0081:
+  { type: BLOB, offset: 0x47914, size: 0x6F }
+MSG_CH0_0083:
+  { type: BLOB, offset: 0x479A8, size: 0xD8 }
+MSG_CH0_0084:
+  { type: BLOB, offset: 0x47A80, size: 0x69 }
+MSG_CH0_0087:
+  { type: BLOB, offset: 0x47BD0, size: 0x20 }
+MSG_CH0_0088:
+  { type: BLOB, offset: 0x47BF0, size: 0xB0 }
+MSG_CH0_0089:
+  { type: BLOB, offset: 0x47CA0, size: 0xD1 }
+MSG_CH0_008A:
+  { type: BLOB, offset: 0x47D74, size: 0xD1 }
+MSG_CH0_008C:
+  { type: BLOB, offset: 0x47EC4, size: 0x2E }
+MSG_CH0_008D:
+  { type: BLOB, offset: 0x47EF4, size: 0x75 }
+MSG_CH0_008E:
+  { type: BLOB, offset: 0x47F6C, size: 0x3E }
+MSG_CH0_008F:
+  { type: BLOB, offset: 0x47FAC, size: 0xA3 }
+MSG_CH0_0091:
+  { type: BLOB, offset: 0x480C4, size: 0x34 }
+MSG_CH0_0092:
+  { type: BLOB, offset: 0x480F8, size: 0xD6 }
+MSG_CH0_0093:
+  { type: BLOB, offset: 0x481D0, size: 0x64 }
+MSG_CH0_0094:
+  { type: BLOB, offset: 0x48234, size: 0x50 }
+MSG_CH0_0096:
+  { type: BLOB, offset: 0x482AC, size: 0x22 }
+MSG_CH0_0097:
+  { type: BLOB, offset: 0x482D0, size: 0x62 }
+MSG_CH0_0099:
+  { type: BLOB, offset: 0x48388, size: 0x18 }
+MSG_CH0_009A:
+  { type: BLOB, offset: 0x483A0, size: 0x74 }
+MSG_CH0_009C:
+  { type: BLOB, offset: 0x48430, size: 0x131 }
+MSG_CH0_00A0:
+  { type: BLOB, offset: 0x48690, size: 0x35 }
+MSG_CH0_00A2:
+  { type: BLOB, offset: 0x48758, size: 0x9F }
+MSG_CH0_00A3:
+  { type: BLOB, offset: 0x487F8, size: 0x8E }
+MSG_CH0_00A4:
+  { type: BLOB, offset: 0x48888, size: 0x88 }
+MSG_CH0_00A5:
+  { type: BLOB, offset: 0x48910, size: 0xC8 }
+MSG_CH0_00A6:
+  { type: BLOB, offset: 0x489D8, size: 0x124 }
+MSG_CH0_00A8:
+  { type: BLOB, offset: 0x48B50, size: 0x104 }
+MSG_CH0_00A9:
+  { type: BLOB, offset: 0x48C54, size: 0xDC }
+MSG_CH0_00AA:
+  { type: BLOB, offset: 0x48D30, size: 0x112 }
+MSG_CH0_00AC:
+  { type: BLOB, offset: 0x48F44, size: 0x4D }
+MSG_CH0_00AF:
+  { type: BLOB, offset: 0x49058, size: 0x106 }
+MSG_CH0_00B2:
+  { type: BLOB, offset: 0x491B4, size: 0x38 }
+MSG_CH0_00B4:
+  { type: BLOB, offset: 0x49254, size: 0xD9 }
+MSG_CH0_00B5:
+  { type: BLOB, offset: 0x49330, size: 0x40 }
+MSG_CH0_00B7:
+  { type: BLOB, offset: 0x49390, size: 0x15A }
+MSG_CH0_00B8:
+  { type: BLOB, offset: 0x494EC, size: 0xED }
+MSG_CH0_00BA:
+  { type: BLOB, offset: 0x49654, size: 0xA9 }
+MSG_CH0_00BB:
+  { type: BLOB, offset: 0x49700, size: 0x50 }
+MSG_CH0_00BC:
+  { type: BLOB, offset: 0x49750, size: 0xF6 }
+MSG_CH0_00BD:
+  { type: BLOB, offset: 0x49848, size: 0x1F }
+MSG_CH0_00BF:
+  { type: BLOB, offset: 0x49894, size: 0x2C }
+MSG_CH0_00C0:
+  { type: BLOB, offset: 0x498C0, size: 0x49 }
+MSG_CH0_00C1:
+  { type: BLOB, offset: 0x4990C, size: 0x5A }
+MSG_CH0_00C4:
+  { type: BLOB, offset: 0x499BC, size: 0x1C }
+MSG_CH0_00C5:
+  { type: BLOB, offset: 0x499D8, size: 0x94 }
+MSG_CH0_00C6:
+  { type: BLOB, offset: 0x49A6C, size: 0xE4 }
+MSG_CH0_00C7:
+  { type: BLOB, offset: 0x49B50, size: 0x52 }
+MSG_CH0_00C9:
+  { type: BLOB, offset: 0x49BF4, size: 0x70 }
+MSG_CH0_00CA:
+  { type: BLOB, offset: 0x49C64, size: 0x3C }
+MSG_CH0_00CB:
+  { type: BLOB, offset: 0x49CA0, size: 0x1E }
+MSG_CH0_00CE:
+  { type: BLOB, offset: 0x49CEC, size: 0xAA }
+MSG_CH0_00D0:
+  { type: BLOB, offset: 0x49DC0, size: 0x31 }
+MSG_CH0_00D5:
+  { type: BLOB, offset: 0x49EF0, size: 0x66 }
+MSG_CH0_00D7:
+  { type: BLOB, offset: 0x49F98, size: 0x52 }
+MSG_CH0_00D8:
+  { type: BLOB, offset: 0x49FEC, size: 0xF8 }
+MSG_CH0_00DC:
+  { type: BLOB, offset: 0x4A18C, size: 0x31 }
+MSG_CH0_00DF:
+  { type: BLOB, offset: 0x4A288, size: 0x22 }
+MSG_CH0_00E2:
+  { type: BLOB, offset: 0x4A32C, size: 0x40 }
+MSG_CH0_00E3:
+  { type: BLOB, offset: 0x4A36C, size: 0xBE }
+MSG_CH0_00E5:
+  { type: BLOB, offset: 0x4A468, size: 0x3B }
+MSG_CH0_00E6:
+  { type: BLOB, offset: 0x4A4A4, size: 0xBF }
+MSG_CH0_00E7:
+  { type: BLOB, offset: 0x4A564, size: 0x10B }
+MSG_CH0_00E8:
+  { type: BLOB, offset: 0x4A670, size: 0xFC }
+MSG_CH0_00E9:
+  { type: BLOB, offset: 0x4A76C, size: 0x2D }
+MSG_CH0_00EA:
+  { type: BLOB, offset: 0x4A79C, size: 0x19 }
+MSG_CH0_00EF:
+  { type: BLOB, offset: 0x4A90C, size: 0x140 }
+MSG_CH0_00F0:
+  { type: BLOB, offset: 0x4AA4C, size: 0x6A }
+MSG_CH0_00F1:
+  { type: BLOB, offset: 0x4AAB8, size: 0xCE }
+MSG_CH0_00F2:
+  { type: BLOB, offset: 0x4AB88, size: 0xBC }
+MSG_CH0_00F3:
+  { type: BLOB, offset: 0x4AC44, size: 0x92 }
+MSG_CH0_0101:
+  { type: BLOB, offset: 0x4ADCC, size: 0x1F }
+MSG_CH0_0102:
+  { type: BLOB, offset: 0x4ADEC, size: 0x4F }
+MSG_CH0_0103:
+  { type: BLOB, offset: 0x4AE3C, size: 0x2D }
+MSG_CH0_0105:
+  { type: BLOB, offset: 0x4AF4C, size: 0x51 }
+MSG_CH1_0000:
+  { type: BLOB, offset: 0x4B014, size: 0x1A9 }
+MSG_CH1_0002:
+  { type: BLOB, offset: 0x4B1FC, size: 0xEE }
+MSG_CH1_0005:
+  { type: BLOB, offset: 0x4B47C, size: 0x5C }
+MSG_CH1_0006:
+  { type: BLOB, offset: 0x4B4D8, size: 0x33 }
+MSG_CH1_0009:
+  { type: BLOB, offset: 0x4B658, size: 0x77 }
+MSG_CH1_000B:
+  { type: BLOB, offset: 0x4B720, size: 0x44 }
+MSG_CH1_000D:
+  { type: BLOB, offset: 0x4B9DC, size: 0x4A }
+MSG_CH1_000F:
+  { type: BLOB, offset: 0x4BA74, size: 0x44 }
+MSG_CH1_0014:
+  { type: BLOB, offset: 0x4BD80, size: 0x6E }
+MSG_CH1_0015:
+  { type: BLOB, offset: 0x4BDF0, size: 0xBB }
+MSG_CH1_0016:
+  { type: BLOB, offset: 0x4BEAC, size: 0x38 }
+MSG_CH1_0018:
+  { type: BLOB, offset: 0x4BFC0, size: 0x6D }
+MSG_CH1_001A:
+  { type: BLOB, offset: 0x4C0B4, size: 0x76 }
+MSG_CH1_001B:
+  { type: BLOB, offset: 0x4C12C, size: 0x76 }
+MSG_CH1_001D:
+  { type: BLOB, offset: 0x4C23C, size: 0xA6 }
+MSG_CH1_0034:
+  { type: BLOB, offset: 0x4D0EC, size: 0x4D }
+MSG_CH1_0035:
+  { type: BLOB, offset: 0x4D13C, size: 0x44 }
+MSG_CH1_0039:
+  { type: BLOB, offset: 0x4D1E8, size: 0x77 }
+MSG_CH1_003B:
+  { type: BLOB, offset: 0x4D2AC, size: 0x44 }
+MSG_CH1_0049:
+  { type: BLOB, offset: 0x4DB20, size: 0x76 }
+MSG_CH1_004B:
+  { type: BLOB, offset: 0x4DBE8, size: 0x58 }
+MSG_CH1_004D:
+  { type: BLOB, offset: 0x4DC68, size: 0x4B }
+MSG_CH1_0056:
+  { type: BLOB, offset: 0x4E0E0, size: 0x68 }
+MSG_CH1_005A:
+  { type: BLOB, offset: 0x4E2B8, size: 0xD6 }
+MSG_CH1_005E:
+  { type: BLOB, offset: 0x4E59C, size: 0x35 }
+MSG_CH1_0069:
+  { type: BLOB, offset: 0x4EAC4, size: 0x68 }
+MSG_CH1_006C:
+  { type: BLOB, offset: 0x4EC3C, size: 0x89 }
+MSG_CH1_006F:
+  { type: BLOB, offset: 0x4ED4C, size: 0xB1 }
+MSG_CH1_0087:
+  { type: BLOB, offset: 0x4F6F0, size: 0xB3 }
+MSG_CH1_008A:
+  { type: BLOB, offset: 0x4F948, size: 0x53 }
+MSG_CH1_008C:
+  { type: BLOB, offset: 0x4FA4C, size: 0xDB }
+MSG_CH1_008F:
+  { type: BLOB, offset: 0x4FCEC, size: 0x10F }
+MSG_CH1_0090:
+  { type: BLOB, offset: 0x4FDFC, size: 0x17C }
+MSG_CH1_0093:
+  { type: BLOB, offset: 0x50060, size: 0x85 }
+MSG_CH1_0099:
+  { type: BLOB, offset: 0x502F0, size: 0x44 }
+MSG_CH1_009B:
+  { type: BLOB, offset: 0x5042C, size: 0x187 }
+MSG_CH1_009C:
+  { type: BLOB, offset: 0x505B4, size: 0x86 }
+MSG_CH1_009D:
+  { type: BLOB, offset: 0x5063C, size: 0x4E }
+MSG_CH1_009F:
+  { type: BLOB, offset: 0x506E8, size: 0x137 }
+MSG_CH1_00A0:
+  { type: BLOB, offset: 0x50820, size: 0x59 }
+MSG_CH1_00A3:
+  { type: BLOB, offset: 0x509CC, size: 0x81 }
+MSG_CH1_00A4:
+  { type: BLOB, offset: 0x50A50, size: 0x76 }
+MSG_CH1_00A5:
+  { type: BLOB, offset: 0x50AC8, size: 0x99 }
+MSG_CH1_00A6:
+  { type: BLOB, offset: 0x50B64, size: 0x18E }
+MSG_CH1_00A7:
+  { type: BLOB, offset: 0x50CF4, size: 0x52 }
+MSG_CH1_00AA:
+  { type: BLOB, offset: 0x50E38, size: 0x52 }
+MSG_CH1_00AB:
+  { type: BLOB, offset: 0x50E8C, size: 0xAA }
+MSG_CH1_00B1:
+  { type: BLOB, offset: 0x51188, size: 0x44 }
+MSG_CH1_00B5:
+  { type: BLOB, offset: 0x51524, size: 0xE5 }
+MSG_CH1_00B7:
+  { type: BLOB, offset: 0x51740, size: 0x4C }
+MSG_CH1_00BB:
+  { type: BLOB, offset: 0x51854, size: 0x4D }
+MSG_CH1_00C3:
+  { type: BLOB, offset: 0x51A84, size: 0xE3 }
+MSG_CH1_00C7:
+  { type: BLOB, offset: 0x51C58, size: 0x9F }
+MSG_CH1_00C9:
+  { type: BLOB, offset: 0x51D18, size: 0x51 }
+MSG_CH1_00CB:
+  { type: BLOB, offset: 0x51DCC, size: 0x122 }
+MSG_CH1_00CC:
+  { type: BLOB, offset: 0x51EF0, size: 0x1F }
+MSG_CH1_00D2:
+  { type: BLOB, offset: 0x5207C, size: 0x8E }
+MSG_CH1_00D3:
+  { type: BLOB, offset: 0x5210C, size: 0x35 }
+MSG_CH1_00D4:
+  { type: BLOB, offset: 0x52144, size: 0xBC }
+MSG_CH1_00D6:
+  { type: BLOB, offset: 0x52224, size: 0x24 }
+MSG_CH1_00D9:
+  { type: BLOB, offset: 0x522BC, size: 0x102 }
+MSG_CH1_00DA:
+  { type: BLOB, offset: 0x523C0, size: 0x32D }
+MSG_CH1_00DB:
+  { type: BLOB, offset: 0x526F0, size: 0x71 }
+MSG_CH1_00DC:
+  { type: BLOB, offset: 0x52764, size: 0x23 }
+MSG_CH1_00DE:
+  { type: BLOB, offset: 0x527A4, size: 0x69 }
+MSG_CH1_00E2:
+  { type: BLOB, offset: 0x5294C, size: 0x10F }
+MSG_CH1_00E3:
+  { type: BLOB, offset: 0x52A5C, size: 0x115 }
+MSG_CH1_00E6:
+  { type: BLOB, offset: 0x52E04, size: 0x38 }
+MSG_CH1_00F1:
+  { type: BLOB, offset: 0x5352C, size: 0x67 }
+MSG_CH1_00F2:
+  { type: BLOB, offset: 0x53594, size: 0xE6 }
+MSG_CH1_00FD:
+  { type: BLOB, offset: 0x53824, size: 0x125 }
+MSG_CH1_0101:
+  { type: BLOB, offset: 0x53A48, size: 0x44 }
+MSG_CH1_0102:
+  { type: BLOB, offset: 0x53A8C, size: 0x24 }
+MSG_CH1_0105:
+  { type: BLOB, offset: 0x53B60, size: 0x47 }
+MSG_CH1_010A:
+  { type: BLOB, offset: 0x53C6C, size: 0x29 }
+MSG_CH1_010D:
+  { type: BLOB, offset: 0x53CE8, size: 0x132 }
+MSG_CH1_0112:
+  { type: BLOB, offset: 0x53F30, size: 0x10F }
+MSG_CH1_0113:
+  { type: BLOB, offset: 0x54040, size: 0x88 }
+MSG_CH1_0114:
+  { type: BLOB, offset: 0x540C8, size: 0x38 }
+MSG_CH1_0118:
+  { type: BLOB, offset: 0x54348, size: 0xA8 }
+MSG_CH1_0119:
+  { type: BLOB, offset: 0x543F0, size: 0x4C }
+MSG_CH1_011A:
+  { type: BLOB, offset: 0x5443C, size: 0xD8 }
+MSG_CH1_011E:
+  { type: BLOB, offset: 0x547A0, size: 0x3D }
+MSG_CH1_0121:
+  { type: BLOB, offset: 0x54858, size: 0x5E }
+MSG_CH1_0125:
+  { type: BLOB, offset: 0x5499C, size: 0x42 }
+MSG_CH1_0127:
+  { type: BLOB, offset: 0x54A44, size: 0xB5 }
+MSG_CH1_0128:
+  { type: BLOB, offset: 0x54AFC, size: 0x50 }
+MSG_CH1_012A:
+  { type: BLOB, offset: 0x54BC0, size: 0x78 }
+MSG_CH1_012C:
+  { type: BLOB, offset: 0x54C50, size: 0x22 }
+MSG_CH2_0002:
+  { type: BLOB, offset: 0x5513C, size: 0x61 }
+MSG_CH2_000A:
+  { type: BLOB, offset: 0x555F0, size: 0xB3 }
+MSG_CH2_0010:
+  { type: BLOB, offset: 0x5598C, size: 0x52 }
+MSG_CH2_0011:
+  { type: BLOB, offset: 0x559E0, size: 0x19C }
+MSG_CH2_001A:
+  { type: BLOB, offset: 0x56114, size: 0x5B }
+MSG_CH2_001D:
+  { type: BLOB, offset: 0x5628C, size: 0xA7 }
+MSG_CH2_0032:
+  { type: BLOB, offset: 0x56D50, size: 0x83 }
+MSG_CH2_0033:
+  { type: BLOB, offset: 0x56DD4, size: 0x55 }
+MSG_CH2_0034:
+  { type: BLOB, offset: 0x56E2C, size: 0x80 }
+MSG_CH2_0035:
+  { type: BLOB, offset: 0x56EAC, size: 0xF9 }
+MSG_CH2_0037:
+  { type: BLOB, offset: 0x56FC0, size: 0x192 }
+MSG_CH2_0038:
+  { type: BLOB, offset: 0x57154, size: 0x192 }
+MSG_CH2_0039:
+  { type: BLOB, offset: 0x572E8, size: 0x157 }
+MSG_CH2_003B:
+  { type: BLOB, offset: 0x574EC, size: 0x11E }
+MSG_CH2_003E:
+  { type: BLOB, offset: 0x57764, size: 0x52 }
+MSG_CH2_0040:
+  { type: BLOB, offset: 0x57870, size: 0x1A4 }
+MSG_CH2_0043:
+  { type: BLOB, offset: 0x57A84, size: 0x65 }
+MSG_CH2_0044:
+  { type: BLOB, offset: 0x57AEC, size: 0x108 }
+MSG_CH2_0045:
+  { type: BLOB, offset: 0x57BF4, size: 0x52 }
+MSG_CH2_0046:
+  { type: BLOB, offset: 0x57C48, size: 0x8C }
+MSG_CH2_0047:
+  { type: BLOB, offset: 0x57CD4, size: 0x103 }
+MSG_CH2_0048:
+  { type: BLOB, offset: 0x57DD8, size: 0x149 }
+MSG_CH2_004A:
+  { type: BLOB, offset: 0x57FA4, size: 0x78 }
+MSG_CH2_004C:
+  { type: BLOB, offset: 0x58068, size: 0x45 }
+MSG_CH2_005B:
+  { type: BLOB, offset: 0x58E38, size: 0x7E }
+MSG_CH2_005D:
+  { type: BLOB, offset: 0x58F04, size: 0x45 }
+MSG_CH2_0071:
+  { type: BLOB, offset: 0x5A01C, size: 0xC0 }
+MSG_CH2_0072:
+  { type: BLOB, offset: 0x5A0DC, size: 0xFC }
+MSG_CH2_0075:
+  { type: BLOB, offset: 0x5A248, size: 0x81 }
+MSG_CH2_0076:
+  { type: BLOB, offset: 0x5A2CC, size: 0x50 }
+MSG_CH2_0087:
+  { type: BLOB, offset: 0x5AF9C, size: 0xF9 }
+MSG_CH2_0088:
+  { type: BLOB, offset: 0x5B098, size: 0x7B }
+MSG_CH2_0089:
+  { type: BLOB, offset: 0x5B114, size: 0x86 }
+MSG_CH2_008B:
+  { type: BLOB, offset: 0x5B1E8, size: 0x45 }
+MSG_CH2_0095:
+  { type: BLOB, offset: 0x5B9D0, size: 0x75 }
+MSG_CH2_0097:
+  { type: BLOB, offset: 0x5BA94, size: 0x45 }
+MSG_CH2_009A:
+  { type: BLOB, offset: 0x5BD8C, size: 0xC2 }
+MSG_CH2_009B:
+  { type: BLOB, offset: 0x5BE50, size: 0xA2 }
+MSG_CH2_009C:
+  { type: BLOB, offset: 0x5BEF4, size: 0x88 }
+MSG_CH2_009D:
+  { type: BLOB, offset: 0x5BF7C, size: 0x6A }
+MSG_CH2_009E:
+  { type: BLOB, offset: 0x5BFE8, size: 0xAC }
+MSG_CH2_00B2:
+  { type: BLOB, offset: 0x5D834, size: 0x146 }
+MSG_CH2_00B4:
+  { type: BLOB, offset: 0x5D9CC, size: 0x59 }
+MSG_CH2_00B5:
+  { type: BLOB, offset: 0x5DA28, size: 0x72 }
+MSG_CH2_00B7:
+  { type: BLOB, offset: 0x5DAB0, size: 0x88 }
+MSG_CH2_00B9:
+  { type: BLOB, offset: 0x5DB8C, size: 0xBE }
+MSG_CH2_00BC:
+  { type: BLOB, offset: 0x5DD90, size: 0x60 }
+MSG_CH2_00BE:
+  { type: BLOB, offset: 0x5DEF0, size: 0x137 }
+MSG_CH2_00BF:
+  { type: BLOB, offset: 0x5E028, size: 0x14E }
+MSG_CH2_00C2:
+  { type: BLOB, offset: 0x5E37C, size: 0x37 }
+MSG_CH2_00C3:
+  { type: BLOB, offset: 0x5E3B4, size: 0x3B }
+MSG_CH2_00C4:
+  { type: BLOB, offset: 0x5E3F0, size: 0x109 }
+MSG_CH2_00C6:
+  { type: BLOB, offset: 0x5E53C, size: 0x136 }
+MSG_CH2_00C7:
+  { type: BLOB, offset: 0x5E674, size: 0x9F }
+MSG_CH2_00CE:
+  { type: BLOB, offset: 0x5EA68, size: 0xEA }
+MSG_CH2_00D0:
+  { type: BLOB, offset: 0x5EB8C, size: 0x93 }
+MSG_CH2_00E4:
+  { type: BLOB, offset: 0x5F640, size: 0x6E }
+MSG_CH2_00EB:
+  { type: BLOB, offset: 0x5F7D4, size: 0x108 }
+MSG_CH2_00EC:
+  { type: BLOB, offset: 0x5F8DC, size: 0x107 }
+MSG_CH2_00ED:
+  { type: BLOB, offset: 0x5F9E4, size: 0xAC }
+MSG_CH3_0000:
+  { type: BLOB, offset: 0x5FD30, size: 0x130 }
+MSG_CH3_0017:
+  { type: BLOB, offset: 0x61130, size: 0x65 }
+MSG_CH3_0019:
+  { type: BLOB, offset: 0x611A4, size: 0x5E }
+MSG_CH3_001B:
+  { type: BLOB, offset: 0x61250, size: 0x31 }
+MSG_CH3_0024:
+  { type: BLOB, offset: 0x61524, size: 0x93 }
+MSG_CH3_0025:
+  { type: BLOB, offset: 0x615B8, size: 0xAF }
+MSG_CH3_0026:
+  { type: BLOB, offset: 0x61668, size: 0xAA }
+MSG_CH3_0027:
+  { type: BLOB, offset: 0x61714, size: 0xA1 }
+MSG_CH3_0028:
+  { type: BLOB, offset: 0x617B8, size: 0x95 }
+MSG_CH3_0030:
+  { type: BLOB, offset: 0x61D18, size: 0x5F }
+MSG_CH3_003A:
+  { type: BLOB, offset: 0x62190, size: 0x5E }
+MSG_CH3_0045:
+  { type: BLOB, offset: 0x62630, size: 0x5A }
+MSG_CH3_0047:
+  { type: BLOB, offset: 0x626A8, size: 0xCB }
+MSG_CH3_004A:
+  { type: BLOB, offset: 0x6294C, size: 0x5D }
+MSG_CH3_004C:
+  { type: BLOB, offset: 0x62A20, size: 0x1D5 }
+MSG_CH3_004D:
+  { type: BLOB, offset: 0x62BF8, size: 0xF4 }
+MSG_CH3_004F:
+  { type: BLOB, offset: 0x62D90, size: 0xE3 }
+MSG_CH3_0053:
+  { type: BLOB, offset: 0x62FC0, size: 0x51 }
+MSG_CH3_0056:
+  { type: BLOB, offset: 0x63098, size: 0x2F }
+MSG_CH3_005A:
+  { type: BLOB, offset: 0x63170, size: 0x7E }
+MSG_CH3_005C:
+  { type: BLOB, offset: 0x63294, size: 0x40 }
+MSG_CH3_005D:
+  { type: BLOB, offset: 0x632D4, size: 0x7B }
+MSG_CH3_005F:
+  { type: BLOB, offset: 0x63390, size: 0x44 }
+MSG_CH3_0063:
+  { type: BLOB, offset: 0x6360C, size: 0x56 }
+MSG_CH3_0064:
+  { type: BLOB, offset: 0x63664, size: 0xB5 }
+MSG_CH3_0067:
+  { type: BLOB, offset: 0x6387C, size: 0x76 }
+MSG_CH3_0069:
+  { type: BLOB, offset: 0x63940, size: 0x44 }
+MSG_CH3_006D:
+  { type: BLOB, offset: 0x63D48, size: 0x34 }
+MSG_CH3_0078:
+  { type: BLOB, offset: 0x64408, size: 0xE2 }
+MSG_CH3_0086:
+  { type: BLOB, offset: 0x64DF4, size: 0x7F }
+MSG_CH3_0087:
+  { type: BLOB, offset: 0x64E74, size: 0x2E }
+MSG_CH3_0089:
+  { type: BLOB, offset: 0x64F5C, size: 0xB1 }
+MSG_CH3_008A:
+  { type: BLOB, offset: 0x65010, size: 0x36 }
+MSG_CH3_00A1:
+  { type: BLOB, offset: 0x65F60, size: 0x63 }
+MSG_CH3_00A3:
+  { type: BLOB, offset: 0x65FDC, size: 0x51 }
+MSG_CH3_00AA:
+  { type: BLOB, offset: 0x66228, size: 0xF7 }
+MSG_CH3_00C0:
+  { type: BLOB, offset: 0x67034, size: 0x71 }
+MSG_CH3_00C4:
+  { type: BLOB, offset: 0x67214, size: 0xA6 }
+MSG_CH3_00CC:
+  { type: BLOB, offset: 0x67510, size: 0x94 }
+MSG_CH3_00CE:
+  { type: BLOB, offset: 0x6771C, size: 0x158 }
+MSG_CH3_00D1:
+  { type: BLOB, offset: 0x6795C, size: 0x72 }
+MSG_CH3_00D2:
+  { type: BLOB, offset: 0x679D0, size: 0x22 }
+MSG_CH3_00D3:
+  { type: BLOB, offset: 0x679F4, size: 0xD6 }
+MSG_CH3_00D4:
+  { type: BLOB, offset: 0x67ACC, size: 0x16F }
+MSG_CH3_00D5:
+  { type: BLOB, offset: 0x67C3C, size: 0xE6 }
+MSG_CH3_00D6:
+  { type: BLOB, offset: 0x67D24, size: 0xA2 }
+MSG_CH3_00D8:
+  { type: BLOB, offset: 0x67E60, size: 0x7F }
+MSG_CH3_00EA:
+  { type: BLOB, offset: 0x68510, size: 0x32 }
+MSG_CH3_00EB:
+  { type: BLOB, offset: 0x68544, size: 0x34 }
+MSG_CH3_00EC:
+  { type: BLOB, offset: 0x68578, size: 0x53 }
+MSG_CH3_00EE:
+  { type: BLOB, offset: 0x6861C, size: 0x3C }
+MSG_CH3_00F0:
+  { type: BLOB, offset: 0x68694, size: 0x278 }
+MSG_CH3_00FF:
+  { type: BLOB, offset: 0x6904C, size: 0x5C }
+MSG_CH4_0034:
+  { type: BLOB, offset: 0x6B08C, size: 0xDE }
+MSG_CH4_0036:
+  { type: BLOB, offset: 0x6B1B8, size: 0xB0 }
+MSG_CH4_0038:
+  { type: BLOB, offset: 0x6B2B4, size: 0xDC }
+MSG_CH4_003A:
+  { type: BLOB, offset: 0x6B3B0, size: 0x84 }
+MSG_CH4_003B:
+  { type: BLOB, offset: 0x6B434, size: 0x73 }
+MSG_CH4_003C:
+  { type: BLOB, offset: 0x6B4A8, size: 0x37 }
+MSG_CH4_003D:
+  { type: BLOB, offset: 0x6B4E0, size: 0x65 }
+MSG_CH4_0048:
+  { type: BLOB, offset: 0x6B9C4, size: 0x21 }
+MSG_CH4_004F:
+  { type: BLOB, offset: 0x6BCC0, size: 0x51 }
+MSG_CH4_0050:
+  { type: BLOB, offset: 0x6BD14, size: 0x55 }
+MSG_CH4_0055:
+  { type: BLOB, offset: 0x6BEE0, size: 0x3B }
+MSG_CH4_0056:
+  { type: BLOB, offset: 0x6BF1C, size: 0x42 }
+MSG_CH4_0057:
+  { type: BLOB, offset: 0x6BF60, size: 0x45 }
+MSG_CH4_0058:
+  { type: BLOB, offset: 0x6BFA8, size: 0x66 }
+MSG_CH4_0059:
+  { type: BLOB, offset: 0x6C010, size: 0xBB }
+MSG_CH4_005A:
+  { type: BLOB, offset: 0x6C0CC, size: 0x129 }
+MSG_CH4_0061:
+  { type: BLOB, offset: 0x6C43C, size: 0xFB }
+MSG_CH4_0062:
+  { type: BLOB, offset: 0x6C538, size: 0x1F }
+MSG_CH4_0065:
+  { type: BLOB, offset: 0x6C590, size: 0x4A }
+MSG_CH4_0069:
+  { type: BLOB, offset: 0x6C6D0, size: 0x52 }
+MSG_CH4_006B:
+  { type: BLOB, offset: 0x6C77C, size: 0x72 }
+MSG_CH4_006F:
+  { type: BLOB, offset: 0x6C8A4, size: 0x61 }
+MSG_CH4_0075:
+  { type: BLOB, offset: 0x6CB70, size: 0x9D }
+MSG_CH5_0002:
+  { type: BLOB, offset: 0x6CCA0, size: 0x85 }
+MSG_CH5_0006:
+  { type: BLOB, offset: 0x6CDB4, size: 0x60 }
+MSG_CH5_000A:
+  { type: BLOB, offset: 0x6CEF0, size: 0x4E }
+MSG_CH5_000B:
+  { type: BLOB, offset: 0x6CF40, size: 0x5F }
+MSG_CH5_000E:
+  { type: BLOB, offset: 0x6D000, size: 0x7D }
+MSG_CH5_0011:
+  { type: BLOB, offset: 0x6D124, size: 0xA1 }
+MSG_CH5_0012:
+  { type: BLOB, offset: 0x6D1C8, size: 0xA7 }
+MSG_CH5_0013:
+  { type: BLOB, offset: 0x6D270, size: 0xC8 }
+MSG_CH5_0017:
+  { type: BLOB, offset: 0x6D504, size: 0x64 }
+MSG_CH5_0018:
+  { type: BLOB, offset: 0x6D568, size: 0x9A }
+MSG_CH5_0019:
+  { type: BLOB, offset: 0x6D604, size: 0x78 }
+MSG_CH5_001C:
+  { type: BLOB, offset: 0x6D750, size: 0xEF }
+MSG_CH5_001D:
+  { type: BLOB, offset: 0x6D840, size: 0x78 }
+MSG_CH5_001F:
+  { type: BLOB, offset: 0x6D904, size: 0x44 }
+MSG_CH5_0021:
+  { type: BLOB, offset: 0x6DA60, size: 0x152 }
+MSG_CH5_0023:
+  { type: BLOB, offset: 0x6DC68, size: 0x160 }
+MSG_CH5_0024:
+  { type: BLOB, offset: 0x6DDC8, size: 0x19B }
+MSG_CH5_0028:
+  { type: BLOB, offset: 0x6E234, size: 0x91 }
+MSG_CH5_002C:
+  { type: BLOB, offset: 0x6E454, size: 0x1E7 }
+MSG_CH5_002E:
+  { type: BLOB, offset: 0x6E768, size: 0xDB }
+MSG_CH5_0030:
+  { type: BLOB, offset: 0x6E910, size: 0x89 }
+MSG_CH5_0032:
+  { type: BLOB, offset: 0x6EA50, size: 0xA7 }
+MSG_CH5_0037:
+  { type: BLOB, offset: 0x6EE7C, size: 0x91 }
+MSG_CH5_0039:
+  { type: BLOB, offset: 0x6EFD8, size: 0xA8 }
+MSG_CH5_003A:
+  { type: BLOB, offset: 0x6F080, size: 0xA7 }
+MSG_CH5_003C:
+  { type: BLOB, offset: 0x6F27C, size: 0x88 }
+MSG_CH5_0040:
+  { type: BLOB, offset: 0x6F5D0, size: 0xB2 }
+MSG_CH5_0041:
+  { type: BLOB, offset: 0x6F684, size: 0x7F }
+MSG_CH5_0046:
+  { type: BLOB, offset: 0x6F9E4, size: 0x16E }
+MSG_CH5_004B:
+  { type: BLOB, offset: 0x6FEE8, size: 0x129 }
+MSG_CH5_004C:
+  { type: BLOB, offset: 0x70014, size: 0x129 }
+MSG_CH5_004E:
+  { type: BLOB, offset: 0x70248, size: 0x9D }
+MSG_CH5_004F:
+  { type: BLOB, offset: 0x702E8, size: 0xCC }
+MSG_CH5_0052:
+  { type: BLOB, offset: 0x7050C, size: 0xC6 }
+MSG_CH5_0053:
+  { type: BLOB, offset: 0x705D4, size: 0x10E }
+MSG_CH5_0054:
+  { type: BLOB, offset: 0x706E4, size: 0xCA }
+MSG_CH5_005B:
+  { type: BLOB, offset: 0x70DE0, size: 0x132 }
+MSG_CH5_005C:
+  { type: BLOB, offset: 0x70F14, size: 0x132 }
+MSG_CH5_0061:
+  { type: BLOB, offset: 0x71364, size: 0xEF }
+MSG_CH5_0062:
+  { type: BLOB, offset: 0x71454, size: 0x98 }
+MSG_CH5_0063:
+  { type: BLOB, offset: 0x714EC, size: 0x1DA }
+MSG_CH5_0067:
+  { type: BLOB, offset: 0x719C0, size: 0xE4 }
+MSG_CH5_006B:
+  { type: BLOB, offset: 0x71D98, size: 0x88 }
+MSG_CH5_0071:
+  { type: BLOB, offset: 0x72288, size: 0x133 }
+MSG_CH5_0072:
+  { type: BLOB, offset: 0x723BC, size: 0x159 }
+MSG_CH5_0073:
+  { type: BLOB, offset: 0x72518, size: 0xA9 }
+MSG_CH5_0074:
+  { type: BLOB, offset: 0x725C4, size: 0x11D }
+MSG_CH5_0077:
+  { type: BLOB, offset: 0x728F0, size: 0x1B0 }
+MSG_CH5_0078:
+  { type: BLOB, offset: 0x72AA0, size: 0xDD }
+MSG_CH5_0079:
+  { type: BLOB, offset: 0x72B80, size: 0x8C }
+MSG_CH5_007B:
+  { type: BLOB, offset: 0x72C58, size: 0x44 }
+MSG_CH5_007C:
+  { type: BLOB, offset: 0x72C9C, size: 0x1E4 }
+MSG_CH5_007F:
+  { type: BLOB, offset: 0x730EC, size: 0x1B7 }
+MSG_CH5_0081:
+  { type: BLOB, offset: 0x733D4, size: 0x12A }
+MSG_CH5_0085:
+  { type: BLOB, offset: 0x73918, size: 0x19B }
+MSG_CH5_0086:
+  { type: BLOB, offset: 0x73AB4, size: 0x95 }
+MSG_CH5_0087:
+  { type: BLOB, offset: 0x73B4C, size: 0x1C3 }
+MSG_CH5_008A:
+  { type: BLOB, offset: 0x73EE4, size: 0x12E }
+MSG_CH5_008E:
+  { type: BLOB, offset: 0x7408C, size: 0x50 }
+MSG_CH5_0090:
+  { type: BLOB, offset: 0x740E4, size: 0x7C }
+MSG_CH5_0095:
+  { type: BLOB, offset: 0x741F8, size: 0x58 }
+MSG_CH5_0099:
+  { type: BLOB, offset: 0x742C0, size: 0x185 }
+MSG_CH5_009A:
+  { type: BLOB, offset: 0x74448, size: 0xD4 }
+MSG_CH5_009D:
+  { type: BLOB, offset: 0x746AC, size: 0x97 }
+MSG_CH5_00A2:
+  { type: BLOB, offset: 0x74830, size: 0x62 }
+MSG_CH5_00A7:
+  { type: BLOB, offset: 0x74BFC, size: 0xEF }
+MSG_CH5_00B2:
+  { type: BLOB, offset: 0x755F8, size: 0x1A4 }
+MSG_CH5_00B3:
+  { type: BLOB, offset: 0x7579C, size: 0x171 }
+MSG_CH5_00B7:
+  { type: BLOB, offset: 0x75A4C, size: 0x117 }
+MSG_CH5_00B9:
+  { type: BLOB, offset: 0x75B80, size: 0x171 }
+MSG_CH5_00BA:
+  { type: BLOB, offset: 0x75CF4, size: 0x15F }
+MSG_CH5_00BF:
+  { type: BLOB, offset: 0x75FD4, size: 0xB6 }
+MSG_CH5_00C1:
+  { type: BLOB, offset: 0x760B4, size: 0xD6 }
+MSG_CH5_00C2:
+  { type: BLOB, offset: 0x7618C, size: 0x27 }
+MSG_CH5_00C3:
+  { type: BLOB, offset: 0x761B4, size: 0xF3 }
+MSG_CH5_00C6:
+  { type: BLOB, offset: 0x763B0, size: 0xC2 }
+MSG_CH5_00CF:
+  { type: BLOB, offset: 0x76564, size: 0xBC }
+MSG_CH5_00D7:
+  { type: BLOB, offset: 0x76A4C, size: 0xA5 }
+MSG_CH5_00D8:
+  { type: BLOB, offset: 0x76AF4, size: 0x10F }
+MSG_CH5_00DB:
+  { type: BLOB, offset: 0x76DC4, size: 0x1C4 }
+MSG_CH5_00E4:
+  { type: BLOB, offset: 0x7715C, size: 0x78 }
+MSG_CH5_00E6:
+  { type: BLOB, offset: 0x77220, size: 0x44 }
+MSG_CH5_00E8:
+  { type: BLOB, offset: 0x773D0, size: 0xA7 }
+MSG_CH5_00EA:
+  { type: BLOB, offset: 0x774C4, size: 0x59 }
+MSG_CH5_00ED:
+  { type: BLOB, offset: 0x776B0, size: 0x41 }
+MSG_CH5_00F0:
+  { type: BLOB, offset: 0x777F0, size: 0x58 }
+MSG_CH5_00F3:
+  { type: BLOB, offset: 0x77910, size: 0x4B }
+MSG_CH5_00F4:
+  { type: BLOB, offset: 0x7795C, size: 0x55 }
+MSG_CH5_00F6:
+  { type: BLOB, offset: 0x779E4, size: 0x75 }
+MSG_CH5_00F7:
+  { type: BLOB, offset: 0x77A5C, size: 0x26 }
+MSG_CH5_00FA:
+  { type: BLOB, offset: 0x77B38, size: 0x44 }
+MSG_CH5_00FB:
+  { type: BLOB, offset: 0x77B7C, size: 0x18 }
+MSG_CH5_00FF:
+  { type: BLOB, offset: 0x77CC0, size: 0x74 }
+MSG_CH5_0101:
+  { type: BLOB, offset: 0x77E18, size: 0x80 }
+MSG_CH5_0102:
+  { type: BLOB, offset: 0x77E98, size: 0x37 }
+MSG_CH5_0103:
+  { type: BLOB, offset: 0x77ED0, size: 0x11A }
+MSG_CH5_0104:
+  { type: BLOB, offset: 0x77FEC, size: 0x53 }
+MSG_CH5_0109:
+  { type: BLOB, offset: 0x78184, size: 0x2B }
+MSG_CH5_0111:
+  { type: BLOB, offset: 0x78420, size: 0x93 }
+MSG_CH5_0112:
+  { type: BLOB, offset: 0x784B4, size: 0x82 }
+MSG_CH5_0113:
+  { type: BLOB, offset: 0x78538, size: 0x76 }
+MSG_CH5_0115:
+  { type: BLOB, offset: 0x785E0, size: 0x32 }
+MSG_CH6_0001:
+  { type: BLOB, offset: 0x786F0, size: 0xA2 }
+MSG_CH6_0002:
+  { type: BLOB, offset: 0x78794, size: 0x14F }
+MSG_CH6_0006:
+  { type: BLOB, offset: 0x78D5C, size: 0x1B3 }
+MSG_CH6_000A:
+  { type: BLOB, offset: 0x79070, size: 0xB4 }
+MSG_CH6_000B:
+  { type: BLOB, offset: 0x79124, size: 0x79 }
+MSG_CH6_000C:
+  { type: BLOB, offset: 0x791A0, size: 0x95 }
+MSG_CH6_000D:
+  { type: BLOB, offset: 0x79238, size: 0x38 }
+MSG_CH6_0012:
+  { type: BLOB, offset: 0x79594, size: 0xC7 }
+MSG_CH6_0013:
+  { type: BLOB, offset: 0x7965C, size: 0xB0 }
+MSG_CH6_0014:
+  { type: BLOB, offset: 0x7970C, size: 0x38 }
+MSG_CH6_0030:
+  { type: BLOB, offset: 0x7AABC, size: 0xF8 }
+MSG_CH6_0031:
+  { type: BLOB, offset: 0x7ABB4, size: 0xA4 }
+MSG_CH6_0032:
+  { type: BLOB, offset: 0x7AC58, size: 0x5A }
+MSG_CH6_0033:
+  { type: BLOB, offset: 0x7ACB4, size: 0x77 }
+MSG_CH6_0034:
+  { type: BLOB, offset: 0x7AD2C, size: 0x64 }
+MSG_CH6_0035:
+  { type: BLOB, offset: 0x7AD90, size: 0xC0 }
+MSG_CH6_0036:
+  { type: BLOB, offset: 0x7AE50, size: 0x105 }
+MSG_CH6_0037:
+  { type: BLOB, offset: 0x7AF58, size: 0x175 }
+MSG_CH6_003A:
+  { type: BLOB, offset: 0x7B384, size: 0xF9 }
+MSG_CH6_0042:
+  { type: BLOB, offset: 0x7B8E4, size: 0x106 }
+MSG_CH6_0047:
+  { type: BLOB, offset: 0x7BD94, size: 0x5E }
+MSG_CH6_004F:
+  { type: BLOB, offset: 0x7C444, size: 0xD5 }
+MSG_CH6_0050:
+  { type: BLOB, offset: 0x7C51C, size: 0x1D1 }
+MSG_CH6_007B:
+  { type: BLOB, offset: 0x7DFA0, size: 0x61 }
+MSG_CH6_007E:
+  { type: BLOB, offset: 0x7E17C, size: 0x129 }
+MSG_CH6_0084:
+  { type: BLOB, offset: 0x7E4EC, size: 0x1BC }
+MSG_CH6_008A:
+  { type: BLOB, offset: 0x7EBC4, size: 0x7B }
+MSG_CH6_008B:
+  { type: BLOB, offset: 0x7EC40, size: 0x98 }
+MSG_CH6_008D:
+  { type: BLOB, offset: 0x7EDF0, size: 0xB2 }
+MSG_CH6_009D:
+  { type: BLOB, offset: 0x7FB00, size: 0x129 }
+MSG_CH6_00A0:
+  { type: BLOB, offset: 0x7FDD0, size: 0x25 }
+MSG_CH6_00A1:
+  { type: BLOB, offset: 0x7FDF8, size: 0x1D4 }
+MSG_CH6_00A2:
+  { type: BLOB, offset: 0x7FFCC, size: 0xBC }
+MSG_CH6_00A4:
+  { type: BLOB, offset: 0x800A0, size: 0x17 }
+MSG_CH6_00A5:
+  { type: BLOB, offset: 0x800B8, size: 0x3F }
+MSG_CH6_00A6:
+  { type: BLOB, offset: 0x800F8, size: 0x1A6 }
+MSG_CH6_00A7:
+  { type: BLOB, offset: 0x802A0, size: 0x58 }
+MSG_CH6_00A8:
+  { type: BLOB, offset: 0x802F8, size: 0x47 }
+MSG_CH6_00A9:
+  { type: BLOB, offset: 0x80340, size: 0x3E }
+MSG_CH6_00AA:
+  { type: BLOB, offset: 0x80380, size: 0x165 }
+MSG_CH6_00AB:
+  { type: BLOB, offset: 0x804E8, size: 0x5F }
+MSG_CH6_00AC:
+  { type: BLOB, offset: 0x80548, size: 0x156 }
+MSG_CH6_00AD:
+  { type: BLOB, offset: 0x806A0, size: 0xBD }
+MSG_CH6_00AE:
+  { type: BLOB, offset: 0x80760, size: 0xE2 }
+MSG_CH6_00AF:
+  { type: BLOB, offset: 0x80844, size: 0x13A }
+MSG_CH6_00B0:
+  { type: BLOB, offset: 0x80980, size: 0x46 }
+MSG_CH6_00B1:
+  { type: BLOB, offset: 0x809C8, size: 0xBD }
+MSG_CH6_00B2:
+  { type: BLOB, offset: 0x80A88, size: 0xAC }
+MSG_CH6_00B4:
+  { type: BLOB, offset: 0x80C14, size: 0x4D }
+MSG_CH6_00B5:
+  { type: BLOB, offset: 0x80C64, size: 0x28 }
+MSG_CH6_00B8:
+  { type: BLOB, offset: 0x80D74, size: 0x15E }
+MSG_CH6_00BA:
+  { type: BLOB, offset: 0x80F2C, size: 0xF8 }
+MSG_CH6_00BB:
+  { type: BLOB, offset: 0x81024, size: 0x33 }
+MSG_CH6_00BD:
+  { type: BLOB, offset: 0x810DC, size: 0x4A }
+MSG_CH6_00BE:
+  { type: BLOB, offset: 0x81128, size: 0x14B }
+MSG_CH6_00C0:
+  { type: BLOB, offset: 0x81300, size: 0x116 }
+MSG_CH6_00C1:
+  { type: BLOB, offset: 0x81418, size: 0x87 }
+MSG_CH6_00C2:
+  { type: BLOB, offset: 0x814A0, size: 0xA2 }
+MSG_CH6_00C4:
+  { type: BLOB, offset: 0x81598, size: 0x57 }
+MSG_CH6_00C9:
+  { type: BLOB, offset: 0x817EC, size: 0x77 }
+MSG_CH6_00CA:
+  { type: BLOB, offset: 0x81864, size: 0xAD }
+MSG_CH6_00CB:
+  { type: BLOB, offset: 0x81914, size: 0x9B }
+MSG_CH6_00CD:
+  { type: BLOB, offset: 0x81AB0, size: 0xD3 }
+MSG_CH6_00CF:
+  { type: BLOB, offset: 0x81B9C, size: 0x4D }
+MSG_CH6_00D0:
+  { type: BLOB, offset: 0x81BEC, size: 0x12 }
+MSG_CH6_00D2:
+  { type: BLOB, offset: 0x81C48, size: 0x2A }
+MSG_CH6_00D8:
+  { type: BLOB, offset: 0x81D98, size: 0x190 }
+MSG_CH7_0000:
+  { type: BLOB, offset: 0x822AC, size: 0x9A }
+MSG_CH7_000B:
+  { type: BLOB, offset: 0x827E4, size: 0xD1 }
+MSG_CH7_000C:
+  { type: BLOB, offset: 0x828B8, size: 0x70 }
+MSG_CH7_000D:
+  { type: BLOB, offset: 0x82928, size: 0x79 }
+MSG_CH7_000E:
+  { type: BLOB, offset: 0x829A4, size: 0x9E }
+MSG_CH7_0010:
+  { type: BLOB, offset: 0x82A8C, size: 0x49 }
+MSG_CH7_0011:
+  { type: BLOB, offset: 0x82AD8, size: 0x4D }
+MSG_CH7_0012:
+  { type: BLOB, offset: 0x82B28, size: 0x2E }
+MSG_CH7_0013:
+  { type: BLOB, offset: 0x82B58, size: 0x33 }
+MSG_CH7_0014:
+  { type: BLOB, offset: 0x82B8C, size: 0x4F }
+MSG_CH7_0015:
+  { type: BLOB, offset: 0x82BDC, size: 0x7D }
+MSG_CH7_0016:
+  { type: BLOB, offset: 0x82C5C, size: 0x61 }
+MSG_CH7_0017:
+  { type: BLOB, offset: 0x82CC0, size: 0x54 }
+MSG_CH7_0018:
+  { type: BLOB, offset: 0x82D14, size: 0x13F }
+MSG_CH7_0024:
+  { type: BLOB, offset: 0x83678, size: 0x54 }
+MSG_CH7_0033:
+  { type: BLOB, offset: 0x83C74, size: 0xA7 }
+MSG_CH7_0037:
+  { type: BLOB, offset: 0x83FB0, size: 0xBB }
+MSG_CH7_0038:
+  { type: BLOB, offset: 0x8406C, size: 0xD4 }
+MSG_CH7_003A:
+  { type: BLOB, offset: 0x84208, size: 0xFF }
+MSG_CH7_003E:
+  { type: BLOB, offset: 0x8451C, size: 0xC3 }
+MSG_CH7_0040:
+  { type: BLOB, offset: 0x8465C, size: 0x103 }
+MSG_CH7_0041:
+  { type: BLOB, offset: 0x84760, size: 0x8C }
+MSG_CH7_0043:
+  { type: BLOB, offset: 0x84838, size: 0x44 }
+MSG_CH7_0052:
+  { type: BLOB, offset: 0x85200, size: 0xCD }
+MSG_CH7_0060:
+  { type: BLOB, offset: 0x85D6C, size: 0xD7 }
+MSG_CH7_0063:
+  { type: BLOB, offset: 0x85F5C, size: 0xAF }
+MSG_CH7_0066:
+  { type: BLOB, offset: 0x860D8, size: 0x4A }
+MSG_CH7_006C:
+  { type: BLOB, offset: 0x86310, size: 0x54 }
+MSG_CH7_0070:
+  { type: BLOB, offset: 0x863C0, size: 0x101 }
+MSG_CH7_0075:
+  { type: BLOB, offset: 0x867D4, size: 0xF0 }
+MSG_CH7_0078:
+  { type: BLOB, offset: 0x86B2C, size: 0x108 }
+MSG_CH7_0079:
+  { type: BLOB, offset: 0x86C34, size: 0x108 }
+MSG_CH7_0081:
+  { type: BLOB, offset: 0x87334, size: 0x126 }
+MSG_CH7_0086:
+  { type: BLOB, offset: 0x8796C, size: 0xAA }
+MSG_CH7_0087:
+  { type: BLOB, offset: 0x87A18, size: 0xAA }
+MSG_CH7_0088:
+  { type: BLOB, offset: 0x87AC4, size: 0x84 }
+MSG_CH7_0089:
+  { type: BLOB, offset: 0x87B48, size: 0xDD }
+MSG_CH7_008A:
+  { type: BLOB, offset: 0x87C28, size: 0xDD }
+MSG_CH7_008F:
+  { type: BLOB, offset: 0x88020, size: 0x18A }
+MSG_CH7_0095:
+  { type: BLOB, offset: 0x884B8, size: 0x96 }
+MSG_CH7_00B9:
+  { type: BLOB, offset: 0x89DAC, size: 0x99 }
+MSG_CH7_00BA:
+  { type: BLOB, offset: 0x89E48, size: 0x99 }
+MSG_CH7_00D7:
+  { type: BLOB, offset: 0x8ABA8, size: 0xE1 }
+MSG_CH7_00D9:
+  { type: BLOB, offset: 0x8ACA8, size: 0x101 }
+MSG_CH7_00DA:
+  { type: BLOB, offset: 0x8ADAC, size: 0x8F }
+MSG_CH7_00DB:
+  { type: BLOB, offset: 0x8AE3C, size: 0x62 }
+MSG_CH7_00DD:
+  { type: BLOB, offset: 0x8AF44, size: 0x3C }
+MSG_CH7_00E9:
+  { type: BLOB, offset: 0x8B1D4, size: 0x32 }
+MSG_CH7_00EE:
+  { type: BLOB, offset: 0x8B414, size: 0x40 }
+MSG_CH7_00F3:
+  { type: BLOB, offset: 0x8BA54, size: 0x194 }
+MSG_CH7_00F6:
+  { type: BLOB, offset: 0x8BD28, size: 0xF3 }
+MSG_CH7_00F7:
+  { type: BLOB, offset: 0x8BE1C, size: 0xBA }
+MSG_CH7_00F8:
+  { type: BLOB, offset: 0x8BED8, size: 0x73 }
+MSG_CH7_00FD:
+  { type: BLOB, offset: 0x8C37C, size: 0x134 }
+MSG_CH7_00FE:
+  { type: BLOB, offset: 0x8C4B0, size: 0x78 }
+MSG_CH7_0100:
+  { type: BLOB, offset: 0x8C574, size: 0x44 }
+MSG_CH7_0108:
+  { type: BLOB, offset: 0x8CBBC, size: 0xDE }
+MSG_CH7_010A:
+  { type: BLOB, offset: 0x8CD10, size: 0xE5 }
+MSG_CH7_010B:
+  { type: BLOB, offset: 0x8CDF8, size: 0xC6 }
+MSG_CH7_010F:
+  { type: BLOB, offset: 0x8D060, size: 0x94 }
+MSG_CH7_0110:
+  { type: BLOB, offset: 0x8D0F4, size: 0x55 }
+MSG_CH7_011D:
+  { type: BLOB, offset: 0x8D564, size: 0x6D }
+MSG_CH7_0124:
+  { type: BLOB, offset: 0x8D74C, size: 0x92 }
+MSG_CH7_0125:
+  { type: BLOB, offset: 0x8D7E0, size: 0x5E }
+MSG_CH7_0126:
+  { type: BLOB, offset: 0x8D840, size: 0x43 }
+MSG_CH7_0127:
+  { type: BLOB, offset: 0x8D884, size: 0x4A }
+MSG_CH7_0128:
+  { type: BLOB, offset: 0x8D8D0, size: 0xA3 }
+MSG_CH7_0129:
+  { type: BLOB, offset: 0x8D974, size: 0x94 }
+MSG_CH7_012A:
+  { type: BLOB, offset: 0x8DA08, size: 0xD4 }
+MSG_CH7_012B:
+  { type: BLOB, offset: 0x8DADC, size: 0x50 }
+MSG_CH7_012D:
+  { type: BLOB, offset: 0x8DB60, size: 0x4F }
+MSG_CH7_012E:
+  { type: BLOB, offset: 0x8DBB0, size: 0x3D }
+MSG_CH7_0131:
+  { type: BLOB, offset: 0x8DC8C, size: 0x63 }
+MSG_CH7_0133:
+  { type: BLOB, offset: 0x8DD18, size: 0x9B }
+MSG_CH7_0139:
+  { type: BLOB, offset: 0x8E4B8, size: 0x18 }
+MSG_CH7_013A:
+  { type: BLOB, offset: 0x8E4D0, size: 0x1F }
+MSG_CH7_013B:
+  { type: BLOB, offset: 0x8E4F0, size: 0x27 }
+MSG_CH7_013C:
+  { type: BLOB, offset: 0x8E518, size: 0xA2 }
+MSG_CH7_013E:
+  { type: BLOB, offset: 0x8E618, size: 0x8D }
+MSG_CH7_013F:
+  { type: BLOB, offset: 0x8E6A8, size: 0x67 }
+MSG_CH7_0141:
+  { type: BLOB, offset: 0x8E780, size: 0x91 }
+MSG_CH7_0143:
+  { type: BLOB, offset: 0x8E850, size: 0x71 }
+MSG_CH7_0144:
+  { type: BLOB, offset: 0x8E8C4, size: 0x51 }
+MSG_CH7_0146:
+  { type: BLOB, offset: 0x8E93C, size: 0x1D }
+MSG_CH7_0147:
+  { type: BLOB, offset: 0x8E95C, size: 0xBF }
+MSG_CH7_0149:
+  { type: BLOB, offset: 0x8EA70, size: 0x55 }
+MSG_CH7_014F:
+  { type: BLOB, offset: 0x8ECC0, size: 0xA7 }
+MSG_CH7_0153:
+  { type: BLOB, offset: 0x8EF44, size: 0x55 }
+MSG_CH7_0154:
+  { type: BLOB, offset: 0x8EF9C, size: 0x4C }
+MSG_CH7_0155:
+  { type: BLOB, offset: 0x8EFE8, size: 0x3F }
+MSG_CH7_0156:
+  { type: BLOB, offset: 0x8F028, size: 0x3C }
+MSG_CH7_0157:
+  { type: BLOB, offset: 0x8F064, size: 0x52 }
+MSG_CH7_015A:
+  { type: BLOB, offset: 0x8F114, size: 0x2D }
+MSG_CH7_015C:
+  { type: BLOB, offset: 0x8F1A8, size: 0x47 }
+MSG_CH7_015D:
+  { type: BLOB, offset: 0x8F1F0, size: 0x8F }
+MSG_CH7_015F:
+  { type: BLOB, offset: 0x8F2DC, size: 0x4B }
+MSG_CH7_0160:
+  { type: BLOB, offset: 0x8F328, size: 0x5C }
+MSG_CH7_0162:
+  { type: BLOB, offset: 0x8F3EC, size: 0x53 }
+MSG_CH7_0163:
+  { type: BLOB, offset: 0x8F440, size: 0x59 }
+MSG_CH7_0164:
+  { type: BLOB, offset: 0x8F49C, size: 0x93 }
+MSG_CH7_0166:
+  { type: BLOB, offset: 0x8F554, size: 0x65 }
+MSG_CH7_016B:
+  { type: BLOB, offset: 0x8F730, size: 0xE5 }
+MSG_CH7_016D:
+  { type: BLOB, offset: 0x8F85C, size: 0x172 }
+MSG_CH7_016E:
+  { type: BLOB, offset: 0x8F9D0, size: 0xFC }
+MSG_CH7_016F:
+  { type: BLOB, offset: 0x8FACC, size: 0x67 }
+MSG_CH8_0000:
+  { type: BLOB, offset: 0x8FB34, size: 0x11C }
+MSG_CH8_0009:
+  { type: BLOB, offset: 0x90138, size: 0x116 }
+MSG_CH8_000A:
+  { type: BLOB, offset: 0x90250, size: 0xDC }
+MSG_CH8_000B:
+  { type: BLOB, offset: 0x9032C, size: 0x57 }
+MSG_CH8_000C:
+  { type: BLOB, offset: 0x90384, size: 0xE7 }
+MSG_CH8_000D:
+  { type: BLOB, offset: 0x9046C, size: 0xE7 }
+MSG_CH8_000E:
+  { type: BLOB, offset: 0x90554, size: 0x74 }
+MSG_CH8_000F:
+  { type: BLOB, offset: 0x905C8, size: 0xBF }
+MSG_CH8_0010:
+  { type: BLOB, offset: 0x90688, size: 0xBF }
+MSG_CH8_0011:
+  { type: BLOB, offset: 0x90748, size: 0xBE }
+MSG_CH8_0012:
+  { type: BLOB, offset: 0x90808, size: 0x1B7 }
+MSG_CH8_0013:
+  { type: BLOB, offset: 0x909C0, size: 0x1B7 }
+MSG_CH8_0014:
+  { type: BLOB, offset: 0x90B78, size: 0x1B7 }
+MSG_CH8_0015:
+  { type: BLOB, offset: 0x90D30, size: 0x4F }
+MSG_CH8_0017:
+  { type: BLOB, offset: 0x90E48, size: 0x11F }
+MSG_CH8_0018:
+  { type: BLOB, offset: 0x90F68, size: 0x33 }
+MSG_CH8_0019:
+  { type: BLOB, offset: 0x90F9C, size: 0x10C }
+MSG_CH8_001B:
+  { type: BLOB, offset: 0x91100, size: 0x8D }
+MSG_CH8_001C:
+  { type: BLOB, offset: 0x91190, size: 0x5F }
+MSG_CH8_001D:
+  { type: BLOB, offset: 0x911F0, size: 0x97 }
+MSG_CH8_001F:
+  { type: BLOB, offset: 0x91310, size: 0xE9 }
+MSG_CH8_0022:
+  { type: BLOB, offset: 0x9151C, size: 0xCE }
+MSG_CH8_0023:
+  { type: BLOB, offset: 0x915EC, size: 0x3C }
+MSG_CH8_0027:
+  { type: BLOB, offset: 0x917B0, size: 0xE4 }
+MSG_CH8_002A:
+  { type: BLOB, offset: 0x918FC, size: 0x92 }
+MSG_CH8_0030:
+  { type: BLOB, offset: 0x91C70, size: 0xAD }
+MSG_CH8_0031:
+  { type: BLOB, offset: 0x91D20, size: 0x11F }
+MSG_CH8_0033:
+  { type: BLOB, offset: 0x92028, size: 0x1F }
+MSG_CH8_003E:
+  { type: BLOB, offset: 0x92318, size: 0xC0 }
+MSG_CH8_003F:
+  { type: BLOB, offset: 0x923D8, size: 0xEA }
+MSG_CH8_0040:
+  { type: BLOB, offset: 0x924C4, size: 0xE5 }
+MSG_CH8_0041:
+  { type: BLOB, offset: 0x925AC, size: 0xD5 }
+MSG_CH8_0043:
+  { type: BLOB, offset: 0x92720, size: 0xF0 }
+MSG_CH8_0044:
+  { type: BLOB, offset: 0x92810, size: 0xDC }
+MSG_CH8_0045:
+  { type: BLOB, offset: 0x928EC, size: 0x59 }
+MSG_CH8_0046:
+  { type: BLOB, offset: 0x92948, size: 0x58 }
+MSG_CH8_0047:
+  { type: BLOB, offset: 0x929A0, size: 0x3C }
+MSG_CH8_0048:
+  { type: BLOB, offset: 0x929DC, size: 0x79 }
+MSG_CH8_0049:
+  { type: BLOB, offset: 0x92A58, size: 0x12C }
+MSG_CH8_004A:
+  { type: BLOB, offset: 0x92B84, size: 0x12B }
+MSG_CH8_004B:
+  { type: BLOB, offset: 0x92CB0, size: 0x10F }
+MSG_CH8_004C:
+  { type: BLOB, offset: 0x92DC0, size: 0x10F }
+MSG_CH8_004D:
+  { type: BLOB, offset: 0x92ED0, size: 0xC8 }
+MSG_CH8_004E:
+  { type: BLOB, offset: 0x92F98, size: 0xC8 }
+MSG_CH8_004F:
+  { type: BLOB, offset: 0x93060, size: 0xF5 }
+MSG_CH8_0051:
+  { type: BLOB, offset: 0x93180, size: 0x47 }
+MSG_CH8_0052:
+  { type: BLOB, offset: 0x931C8, size: 0x32 }
+MSG_CH8_0055:
+  { type: BLOB, offset: 0x93334, size: 0x66 }
+MSG_CH8_0057:
+  { type: BLOB, offset: 0x933EC, size: 0x5A }
+MSG_CH8_005A:
+  { type: BLOB, offset: 0x93664, size: 0x33 }
+MSG_CH8_005D:
+  { type: BLOB, offset: 0x93728, size: 0x6D }
+MSG_CH8_0061:
+  { type: BLOB, offset: 0x93868, size: 0x7B }
+MSG_CH8_0065:
+  { type: BLOB, offset: 0x93BFC, size: 0x4E }
+MSG_CH8_0068:
+  { type: BLOB, offset: 0x93C84, size: 0x66 }
+MSG_CH8_0069:
+  { type: BLOB, offset: 0x93CEC, size: 0x12D }
+MSG_CH8_006A:
+  { type: BLOB, offset: 0x93E1C, size: 0x12D }
+MSG_CH8_006B:
+  { type: BLOB, offset: 0x93F4C, size: 0xC5 }
+MSG_CH8_006C:
+  { type: BLOB, offset: 0x94014, size: 0xA6 }
+MSG_CH8_006F:
+  { type: BLOB, offset: 0x94284, size: 0x1D }
+MSG_CH8_0070:
+  { type: BLOB, offset: 0x942A4, size: 0x107 }
+MSG_CH8_0071:
+  { type: BLOB, offset: 0x943AC, size: 0x10 }
+MSG_CH8_0072:
+  { type: BLOB, offset: 0x943BC, size: 0x36 }
+MSG_CH8_0073:
+  { type: BLOB, offset: 0x943F4, size: 0x53 }
+MSG_CH8_0077:
+  { type: BLOB, offset: 0x94530, size: 0x50 }
+MSG_CH8_0078:
+  { type: BLOB, offset: 0x94580, size: 0x7B }
+MSG_CH8_0079:
+  { type: BLOB, offset: 0x945FC, size: 0x37 }
+MSG_CH8_007A:
+  { type: BLOB, offset: 0x94634, size: 0x42 }
+MSG_CH8_007B:
+  { type: BLOB, offset: 0x94678, size: 0x49 }
+MSG_CH8_007C:
+  { type: BLOB, offset: 0x946C4, size: 0x3A }
+MSG_CH8_007D:
+  { type: BLOB, offset: 0x94700, size: 0x7D }
+MSG_CH8_007F:
+  { type: BLOB, offset: 0x947D8, size: 0x18 }
+MSG_CH8_0082:
+  { type: BLOB, offset: 0x949D0, size: 0xB3 }
+MSG_CH8_0083:
+  { type: BLOB, offset: 0x94A84, size: 0x75 }
+MSG_CH8_0085:
+  { type: BLOB, offset: 0x94B54, size: 0x56 }
+MSG_CH8_0086:
+  { type: BLOB, offset: 0x94BAC, size: 0x3B }
+MSG_CH8_0087:
+  { type: BLOB, offset: 0x94BE8, size: 0x30 }
+MSG_CH8_008A:
+  { type: BLOB, offset: 0x94C90, size: 0x6F }
+MSG_CH8_008B:
+  { type: BLOB, offset: 0x94D00, size: 0x73 }
+MSG_CH8_008C:
+  { type: BLOB, offset: 0x94D74, size: 0x4F }
+MSG_CH8_008D:
+  { type: BLOB, offset: 0x94DC4, size: 0x50 }
+MSG_CH8_008E:
+  { type: BLOB, offset: 0x94E14, size: 0x99 }
+MSG_CH8_0090:
+  { type: BLOB, offset: 0x94EF0, size: 0x50 }
+MSG_CH8_0091:
+  { type: BLOB, offset: 0x94F40, size: 0x24 }
+MSG_CH8_0095:
+  { type: BLOB, offset: 0x9500C, size: 0x1A }
+MSG_CH8_0096:
+  { type: BLOB, offset: 0x95028, size: 0x13 }
+MSG_CH8_009A:
+  { type: BLOB, offset: 0x95124, size: 0xD8 }
+MSG_CH8_009C:
+  { type: BLOB, offset: 0x95234, size: 0x58 }
+MSG_CH8_009D:
+  { type: BLOB, offset: 0x9528C, size: 0x154 }
+MSG_CH8_009E:
+  { type: BLOB, offset: 0x953E0, size: 0x1E }
+MSG_CH8_009F:
+  { type: BLOB, offset: 0x95400, size: 0x1A }
+MSG_CH8_00A0:
+  { type: BLOB, offset: 0x9541C, size: 0x76 }
+MSG_CH8_00A3:
+  { type: BLOB, offset: 0x95504, size: 0xAE }
+MSG_CH8_00A4:
+  { type: BLOB, offset: 0x955B4, size: 0x82 }
+MSG_CH8_00A6:
+  { type: BLOB, offset: 0x9565C, size: 0x61 }
+MSG_CH8_00A9:
+  { type: BLOB, offset: 0x9573C, size: 0xB8 }
+MSG_CH8_00AB:
+  { type: BLOB, offset: 0x9581C, size: 0x12 }
+MSG_CH8_00AC:
+  { type: BLOB, offset: 0x95830, size: 0x3D }
+MSG_CH8_00AF:
+  { type: BLOB, offset: 0x95904, size: 0x17B }
+MSG_Peach_CH1_KoopaBros_0000:
+  { type: BLOB, offset: 0x95B10, size: 0x96 }
+MSG_Peach_CH1_KoopaBros_0001:
+  { type: BLOB, offset: 0x95BA8, size: 0xF8 }
+MSG_Peach_CH1_KoopaBros_0002:
+  { type: BLOB, offset: 0x95CA0, size: 0x10B }
+MSG_Peach_CH1_KoopaBros_0004:
+  { type: BLOB, offset: 0x95DE4, size: 0x79 }
+MSG_Peach_CH1_KoopaBros_0005:
+  { type: BLOB, offset: 0x95E60, size: 0xB8 }
+MSG_Peach_CH1_KoopaBros_0006:
+  { type: BLOB, offset: 0x95F18, size: 0xAF }
+MSG_Peach_CH1_KoopaBros_000A:
+  { type: BLOB, offset: 0x9605C, size: 0x96 }
+MSG_Peach_CH1_KoopaBros_000B:
+  { type: BLOB, offset: 0x960F4, size: 0xF0 }
+MSG_Peach_CH1_KoopaBros_0011:
+  { type: BLOB, offset: 0x962FC, size: 0x8B }
+MSG_Peach_0017:
+  { type: BLOB, offset: 0x964E0, size: 0x1C }
+MSG_Peach_001A:
+  { type: BLOB, offset: 0x965B8, size: 0x5E }
+MSG_Peach_001B:
+  { type: BLOB, offset: 0x96618, size: 0x95 }
+MSG_Peach_001D:
+  { type: BLOB, offset: 0x96778, size: 0xEF }
+MSG_Peach_001E:
+  { type: BLOB, offset: 0x96868, size: 0xEB }
+MSG_Peach_0022:
+  { type: BLOB, offset: 0x969F4, size: 0x48 }
+MSG_Peach_0029:
+  { type: BLOB, offset: 0x96CD4, size: 0x89 }
+MSG_Peach_002B:
+  { type: BLOB, offset: 0x96E40, size: 0x84 }
+MSG_Peach_002C:
+  { type: BLOB, offset: 0x96EC4, size: 0x55 }
+MSG_Peach_002D:
+  { type: BLOB, offset: 0x96F1C, size: 0x89 }
+MSG_Peach_002E:
+  { type: BLOB, offset: 0x96FA8, size: 0x37 }
+MSG_Peach_002F:
+  { type: BLOB, offset: 0x96FE0, size: 0x1D }
+MSG_Peach_0030:
+  { type: BLOB, offset: 0x97000, size: 0x47 }
+MSG_Peach_0031:
+  { type: BLOB, offset: 0x97048, size: 0x9D }
+MSG_Peach_0032:
+  { type: BLOB, offset: 0x970E8, size: 0x1D }
+MSG_Peach_0033:
+  { type: BLOB, offset: 0x97108, size: 0x65 }
+MSG_Peach_0034:
+  { type: BLOB, offset: 0x97170, size: 0x5C }
+MSG_Peach_0035:
+  { type: BLOB, offset: 0x971CC, size: 0x69 }
+MSG_Peach_0037:
+  { type: BLOB, offset: 0x972B4, size: 0x8D }
+MSG_Peach_003B:
+  { type: BLOB, offset: 0x973D8, size: 0x22 }
+MSG_Peach_003C:
+  { type: BLOB, offset: 0x973FC, size: 0x3D }
+MSG_Peach_004E:
+  { type: BLOB, offset: 0x97928, size: 0x1A1 }
+MSG_Peach_004F:
+  { type: BLOB, offset: 0x97ACC, size: 0x5D }
+MSG_Peach_0050:
+  { type: BLOB, offset: 0x97B2C, size: 0x61 }
+MSG_Peach_0051:
+  { type: BLOB, offset: 0x97B90, size: 0x282 }
+MSG_Peach_0053:
+  { type: BLOB, offset: 0x97E90, size: 0x3D }
+MSG_Peach_0054:
+  { type: BLOB, offset: 0x97ED0, size: 0x4C }
+MSG_Peach_0059:
+  { type: BLOB, offset: 0x98040, size: 0x5E }
+MSG_Peach_005C:
+  { type: BLOB, offset: 0x980F0, size: 0x9E }
+MSG_Peach_005E:
+  { type: BLOB, offset: 0x982A8, size: 0x1A6 }
+MSG_Peach_0064:
+  { type: BLOB, offset: 0x98538, size: 0x4E }
+MSG_Peach_0066:
+  { type: BLOB, offset: 0x985C8, size: 0x1D }
+MSG_Peach_0067:
+  { type: BLOB, offset: 0x985E8, size: 0xB5 }
+MSG_Peach_0068:
+  { type: BLOB, offset: 0x986A0, size: 0x8B }
+MSG_Peach_006E:
+  { type: BLOB, offset: 0x98848, size: 0x6E }
+MSG_Peach_006F:
+  { type: BLOB, offset: 0x988B8, size: 0xAB }
+MSG_Peach_0070:
+  { type: BLOB, offset: 0x98964, size: 0x13F }
+MSG_Peach_0071:
+  { type: BLOB, offset: 0x98AA4, size: 0xB0 }
+MSG_Peach_0072:
+  { type: BLOB, offset: 0x98B54, size: 0xA5 }
+MSG_Peach_0073:
+  { type: BLOB, offset: 0x98BFC, size: 0x90 }
+MSG_Peach_0074:
+  { type: BLOB, offset: 0x98C8C, size: 0xD0 }
+MSG_Peach_0075:
+  { type: BLOB, offset: 0x98D5C, size: 0x9C }
+MSG_Peach_0076:
+  { type: BLOB, offset: 0x98DF8, size: 0x4C }
+MSG_Peach_0077:
+  { type: BLOB, offset: 0x98E44, size: 0x4B }
+MSG_Peach_0078:
+  { type: BLOB, offset: 0x98E90, size: 0x26 }
+MSG_Peach_0079:
+  { type: BLOB, offset: 0x98EB8, size: 0x3E }
+MSG_Peach_007A:
+  { type: BLOB, offset: 0x98EF8, size: 0x55 }
+MSG_Peach_007B:
+  { type: BLOB, offset: 0x98F50, size: 0x36 }
+MSG_Peach_007C:
+  { type: BLOB, offset: 0x98F88, size: 0x52 }
+MSG_Peach_007E:
+  { type: BLOB, offset: 0x98FEC, size: 0x5F }
+MSG_Peach_007F:
+  { type: BLOB, offset: 0x9904C, size: 0x42 }
+MSG_Peach_0080:
+  { type: BLOB, offset: 0x99090, size: 0xD9 }
+MSG_Peach_0081:
+  { type: BLOB, offset: 0x9916C, size: 0x77 }
+MSG_Peach_0083:
+  { type: BLOB, offset: 0x99228, size: 0x63 }
+MSG_Peach_0085:
+  { type: BLOB, offset: 0x99300, size: 0xC5 }
+MSG_Peach_0086:
+  { type: BLOB, offset: 0x993C8, size: 0x8A }
+MSG_Peach_0087:
+  { type: BLOB, offset: 0x99454, size: 0x10A }
+MSG_Peach_008A:
+  { type: BLOB, offset: 0x99590, size: 0x6A }
+MSG_Peach_008B:
+  { type: BLOB, offset: 0x995FC, size: 0x139 }
+MSG_Peach_008C:
+  { type: BLOB, offset: 0x99738, size: 0x56 }
+MSG_Peach_008D:
+  { type: BLOB, offset: 0x99790, size: 0x51 }
+MSG_Peach_008E:
+  { type: BLOB, offset: 0x997E4, size: 0x98 }
+MSG_Peach_0090:
+  { type: BLOB, offset: 0x998C0, size: 0x112 }
+MSG_Peach_0091:
+  { type: BLOB, offset: 0x999D4, size: 0x6D }
+MSG_Peach_0093:
+  { type: BLOB, offset: 0x99A90, size: 0xAD }
+MSG_Peach_0094:
+  { type: BLOB, offset: 0x99B40, size: 0x4A }
+MSG_Peach_0097:
+  { type: BLOB, offset: 0x99BB8, size: 0x9A }
+MSG_Peach_0099:
+  { type: BLOB, offset: 0x99CC4, size: 0x99 }
+MSG_Peach_009B:
+  { type: BLOB, offset: 0x99D84, size: 0x34 }
+MSG_Peach_009C:
+  { type: BLOB, offset: 0x99DB8, size: 0x167 }
+MSG_Peach_00AD:
+  { type: BLOB, offset: 0x9A634, size: 0x14B }
+MSG_Peach_00AE:
+  { type: BLOB, offset: 0x9A780, size: 0x74 }
+MSG_Peach_00AF:
+  { type: BLOB, offset: 0x9A7F4, size: 0x34 }
+MSG_Peach_00B0:
+  { type: BLOB, offset: 0x9A828, size: 0x6E }
+MSG_Peach_00B2:
+  { type: BLOB, offset: 0x9A8C8, size: 0x29 }
+MSG_Peach_00B4:
+  { type: BLOB, offset: 0x9A934, size: 0xCC }
+MSG_Peach_00BA:
+  { type: BLOB, offset: 0x9AB2C, size: 0x4D }
+MSG_Peach_00BD:
+  { type: BLOB, offset: 0x9AC0C, size: 0x4C }
+MSG_Peach_00C1:
+  { type: BLOB, offset: 0x9AD0C, size: 0x37 }
+MSG_Peach_00C2:
+  { type: BLOB, offset: 0x9AD44, size: 0x51 }
+MSG_Peach_00C4:
+  { type: BLOB, offset: 0x9ADF8, size: 0x39 }
+MSG_Peach_00CE:
+  { type: BLOB, offset: 0x9B360, size: 0x34 }
+MSG_Peach_00D0:
+  { type: BLOB, offset: 0x9B3F4, size: 0x39 }
+MSG_Peach_00D1:
+  { type: BLOB, offset: 0x9B430, size: 0xCD }
+MSG_Peach_00D6:
+  { type: BLOB, offset: 0x9B634, size: 0x40 }
+MSG_Peach_00D8:
+  { type: BLOB, offset: 0x9B6B0, size: 0xDA }
+MSG_Peach_00EB:
+  { type: BLOB, offset: 0x9BC34, size: 0x63 }
+MSG_Peach_00EC:
+  { type: BLOB, offset: 0x9BC98, size: 0x62 }
+MSG_Peach_00ED:
+  { type: BLOB, offset: 0x9BCFC, size: 0xA5 }
+MSG_Peach_00EE:
+  { type: BLOB, offset: 0x9BDA4, size: 0x5B }
+MSG_Peach_00EF:
+  { type: BLOB, offset: 0x9BE00, size: 0x8D }
+MSG_Peach_00F0:
+  { type: BLOB, offset: 0x9BE90, size: 0x108 }
+MSG_Peach_00F2:
+  { type: BLOB, offset: 0x9BFD4, size: 0xB0 }
+MSG_Peach_00F4:
+  { type: BLOB, offset: 0x9C0A8, size: 0x21 }
+MSG_Peach_00F9:
+  { type: BLOB, offset: 0x9C30C, size: 0x23 }
+MSG_Peach_0121:
+  { type: BLOB, offset: 0x9CDF8, size: 0x86 }
+MSG_Peach_0122:
+  { type: BLOB, offset: 0x9CE80, size: 0x2F }
+MSG_Peach_0123:
+  { type: BLOB, offset: 0x9CEB0, size: 0xBC }
+MSG_Peach_0126:
+  { type: BLOB, offset: 0x9D078, size: 0x53 }
+MSG_Peach_0127:
+  { type: BLOB, offset: 0x9D0CC, size: 0x16C }
+MSG_Peach_012B:
+  { type: BLOB, offset: 0x9D2D8, size: 0x99 }
+MSG_Peach_012D:
+  { type: BLOB, offset: 0x9D384, size: 0x1A }
+MSG_Peach_012F:
+  { type: BLOB, offset: 0x9D3B0, size: 0xB5 }
+MSG_Peach_0132:
+  { type: BLOB, offset: 0x9D53C, size: 0xD1 }
+MSG_Peach_0133:
+  { type: BLOB, offset: 0x9D610, size: 0xA0 }
+MSG_Peach_0134:
+  { type: BLOB, offset: 0x9D6B0, size: 0xC6 }
+MSG_Peach_0138:
+  { type: BLOB, offset: 0x9D8BC, size: 0x104 }
+MSG_Peach_013F:
+  { type: BLOB, offset: 0x9DD08, size: 0xFA }
+MSG_Peach_014A:
+  { type: BLOB, offset: 0x9E260, size: 0x6A }
+MSG_Peach_014F:
+  { type: BLOB, offset: 0x9E4C8, size: 0x97 }
+MSG_Peach_0156:
+  { type: BLOB, offset: 0x9E644, size: 0x4C }
+MSG_Peach_0157:
+  { type: BLOB, offset: 0x9E690, size: 0x56 }
+MSG_Peach_015A:
+  { type: BLOB, offset: 0x9E738, size: 0x62 }
+MSG_Peach_015B:
+  { type: BLOB, offset: 0x9E79C, size: 0xCC }
+MSG_Peach_015C:
+  { type: BLOB, offset: 0x9E868, size: 0xE1 }
+MSG_Peach_015D:
+  { type: BLOB, offset: 0x9E94C, size: 0x156 }
+MSG_Peach_015E:
+  { type: BLOB, offset: 0x9EAA4, size: 0x5E }
+MSG_Peach_015F:
+  { type: BLOB, offset: 0x9EB04, size: 0xC9 }
+MSG_Peach_0160:
+  { type: BLOB, offset: 0x9EBD0, size: 0x75 }
+MSG_Peach_0161:
+  { type: BLOB, offset: 0x9EC48, size: 0x39 }
+MSG_Peach_0165:
+  { type: BLOB, offset: 0x9ED78, size: 0x34 }
+MSG_Peach_0166:
+  { type: BLOB, offset: 0x9EDAC, size: 0xB2 }
+MSG_Peach_016A:
+  { type: BLOB, offset: 0x9EF0C, size: 0xAA }
+MSG_Peach_016B:
+  { type: BLOB, offset: 0x9EFB8, size: 0x90 }
+MSG_Peach_016C:
+  { type: BLOB, offset: 0x9F048, size: 0xD0 }
+MSG_Peach_0171:
+  { type: BLOB, offset: 0x9F1C0, size: 0x11 }
+MSG_Peach_0174:
+  { type: BLOB, offset: 0x9F210, size: 0x1D }
+MSG_Peach_0177:
+  { type: BLOB, offset: 0x9F2C4, size: 0x5F }
+MSG_Peach_0178:
+  { type: BLOB, offset: 0x9F324, size: 0x2D }
+MSG_Peach_0182:
+  { type: BLOB, offset: 0x9F520, size: 0x5C }
+MSG_Peach_0184:
+  { type: BLOB, offset: 0x9F5C8, size: 0xF9 }
+MSG_Peach_0187:
+  { type: BLOB, offset: 0x9F720, size: 0x104 }
+MSG_Peach_0188:
+  { type: BLOB, offset: 0x9F824, size: 0x103 }
+MSG_Peach_018B:
+  { type: BLOB, offset: 0x9FA14, size: 0x40 }
+MSG_Peach_018D:
+  { type: BLOB, offset: 0x9FA70, size: 0x2B }
+MSG_Peach_0195:
+  { type: BLOB, offset: 0x9FD58, size: 0x16 }
+MSG_Peach_0196:
+  { type: BLOB, offset: 0x9FD70, size: 0xAE }
+MSG_KootFavor_0000:
+  { type: BLOB, offset: 0x9FE60, size: 0x137 }
+MSG_KootFavor_0001:
+  { type: BLOB, offset: 0x9FF98, size: 0xAB }
+MSG_KootFavor_0002:
+  { type: BLOB, offset: 0xA0044, size: 0x147 }
+MSG_KootFavor_0003:
+  { type: BLOB, offset: 0xA018C, size: 0x12E }
+MSG_KootFavor_0004:
+  { type: BLOB, offset: 0xA02BC, size: 0xA8 }
+MSG_KootFavor_0005:
+  { type: BLOB, offset: 0xA0364, size: 0x158 }
+MSG_KootFavor_0006:
+  { type: BLOB, offset: 0xA04BC, size: 0x182 }
+MSG_KootFavor_0007:
+  { type: BLOB, offset: 0xA0640, size: 0x8E }
+MSG_KootFavor_0008:
+  { type: BLOB, offset: 0xA06D0, size: 0x12C }
+MSG_KootFavor_0009:
+  { type: BLOB, offset: 0xA07FC, size: 0x232 }
+MSG_KootFavor_000A:
+  { type: BLOB, offset: 0xA0A30, size: 0xB1 }
+MSG_KootFavor_000B:
+  { type: BLOB, offset: 0xA0AE4, size: 0x168 }
+MSG_KootFavor_000C:
+  { type: BLOB, offset: 0xA0C4C, size: 0x157 }
+MSG_KootFavor_000D:
+  { type: BLOB, offset: 0xA0DA4, size: 0xC9 }
+MSG_KootFavor_000E:
+  { type: BLOB, offset: 0xA0E70, size: 0x15B }
+MSG_KootFavor_000F:
+  { type: BLOB, offset: 0xA0FCC, size: 0x1F9 }
+MSG_KootFavor_0010:
+  { type: BLOB, offset: 0xA11C8, size: 0x84 }
+MSG_KootFavor_0011:
+  { type: BLOB, offset: 0xA124C, size: 0x148 }
+MSG_KootFavor_0012:
+  { type: BLOB, offset: 0xA1394, size: 0x14B }
+MSG_KootFavor_0013:
+  { type: BLOB, offset: 0xA14E0, size: 0x97 }
+MSG_KootFavor_0014:
+  { type: BLOB, offset: 0xA1578, size: 0x139 }
+MSG_KootFavor_0015:
+  { type: BLOB, offset: 0xA16B4, size: 0x154 }
+MSG_KootFavor_0016:
+  { type: BLOB, offset: 0xA1808, size: 0xDE }
+MSG_KootFavor_0017:
+  { type: BLOB, offset: 0xA18E8, size: 0x199 }
+MSG_KootFavor_0018:
+  { type: BLOB, offset: 0xA1A84, size: 0x1EA }
+MSG_KootFavor_0019:
+  { type: BLOB, offset: 0xA1C70, size: 0x158 }
+MSG_KootFavor_001A:
+  { type: BLOB, offset: 0xA1DC8, size: 0x205 }
+MSG_KootFavor_001B:
+  { type: BLOB, offset: 0xA1FD0, size: 0x174 }
+MSG_KootFavor_001C:
+  { type: BLOB, offset: 0xA2144, size: 0xB3 }
+MSG_KootFavor_001D:
+  { type: BLOB, offset: 0xA21F8, size: 0x164 }
+MSG_KootFavor_001E:
+  { type: BLOB, offset: 0xA235C, size: 0x1D7 }
+MSG_KootFavor_001F:
+  { type: BLOB, offset: 0xA2534, size: 0x8E }
+MSG_KootFavor_0020:
+  { type: BLOB, offset: 0xA25C4, size: 0x141 }
+MSG_KootFavor_0021:
+  { type: BLOB, offset: 0xA2708, size: 0x1E3 }
+MSG_KootFavor_0022:
+  { type: BLOB, offset: 0xA28EC, size: 0xFD }
+MSG_KootFavor_0023:
+  { type: BLOB, offset: 0xA29EC, size: 0x191 }
+MSG_KootFavor_0025:
+  { type: BLOB, offset: 0xA2EE0, size: 0x1C3 }
+MSG_KootFavor_0026:
+  { type: BLOB, offset: 0xA30A4, size: 0x254 }
+MSG_KootFavor_0027:
+  { type: BLOB, offset: 0xA32F8, size: 0x156 }
+MSG_KootFavor_0028:
+  { type: BLOB, offset: 0xA3450, size: 0xE1 }
+MSG_KootFavor_0029:
+  { type: BLOB, offset: 0xA3534, size: 0x183 }
+MSG_KootFavor_002A:
+  { type: BLOB, offset: 0xA36B8, size: 0x172 }
+MSG_KootFavor_002B:
+  { type: BLOB, offset: 0xA382C, size: 0xFD }
+MSG_KootFavor_002C:
+  { type: BLOB, offset: 0xA392C, size: 0x198 }
+MSG_KootFavor_002D:
+  { type: BLOB, offset: 0xA3AC4, size: 0x12B }
+MSG_KootFavor_002E:
+  { type: BLOB, offset: 0xA3BF0, size: 0xB2 }
+MSG_KootFavor_002F:
+  { type: BLOB, offset: 0xA3CA4, size: 0x156 }
+MSG_KootFavor_0030:
+  { type: BLOB, offset: 0xA3DFC, size: 0x198 }
+MSG_KootFavor_0031:
+  { type: BLOB, offset: 0xA3F94, size: 0xD0 }
+MSG_KootFavor_0032:
+  { type: BLOB, offset: 0xA4064, size: 0x16F }
+MSG_KootFavor_0033:
+  { type: BLOB, offset: 0xA41D4, size: 0x22C }
+MSG_KootFavor_0034:
+  { type: BLOB, offset: 0xA4400, size: 0x107 }
+MSG_KootFavor_0035:
+  { type: BLOB, offset: 0xA4508, size: 0x1C7 }
+MSG_KootFavor_0036:
+  { type: BLOB, offset: 0xA46D0, size: 0xE7 }
+MSG_KootFavor_0037:
+  { type: BLOB, offset: 0xA47B8, size: 0xBD }
+MSG_KootFavor_0038:
+  { type: BLOB, offset: 0xA4878, size: 0x15C }
+MSG_KootFavor_0039:
+  { type: BLOB, offset: 0xA49D4, size: 0x264 }
+MSG_KootFavor_003A:
+  { type: BLOB, offset: 0xA4C38, size: 0xC8 }
+MSG_KootFavor_003B:
+  { type: BLOB, offset: 0xA4D00, size: 0x16B }
+MSG_KootFavor_003C:
+  { type: BLOB, offset: 0xA4E6C, size: 0x198 }
+MSG_RussTHint_0001:
+  { type: BLOB, offset: 0xA522C, size: 0x25E }
+MSG_RussTHint_0002:
+  { type: BLOB, offset: 0xA548C, size: 0x1FE }
+MSG_RussTHint_000E:
+  { type: BLOB, offset: 0xA6820, size: 0x1EE }
+MSG_RussTHint_0010:
+  { type: BLOB, offset: 0xA6C0C, size: 0x1C0 }
+MSG_RussTHint_0012:
+  { type: BLOB, offset: 0xA6EA4, size: 0x12D }
+MSG_RussTHint_0017:
+  { type: BLOB, offset: 0xA7588, size: 0x11C }
+MSG_NewsBoard_0000:
+  { type: BLOB, offset: 0xA8CA4, size: 0x1F1 }
+MSG_NewsBoard_0003:
+  { type: BLOB, offset: 0xA9128, size: 0x1A9 }
+MSG_NewsBoard_0006:
+  { type: BLOB, offset: 0xA95E0, size: 0x1D6 }
+MSG_NewsBoard_0007:
+  { type: BLOB, offset: 0xA97B8, size: 0x1FB }
+MSG_NewsBoard_0008:
+  { type: BLOB, offset: 0xA99B4, size: 0x221 }
+MSG_NewsBoard_000A:
+  { type: BLOB, offset: 0xA9D78, size: 0x249 }
+MSG_NewsBoard_000E:
+  { type: BLOB, offset: 0xAA5C8, size: 0x1B7 }
+MSG_NewsBoard_000F:
+  { type: BLOB, offset: 0xAA780, size: 0x1DC }
+MSG_NewsBoard_0012:
+  { type: BLOB, offset: 0xAACE8, size: 0x202 }
+MSG_NewsBoard_0013:
+  { type: BLOB, offset: 0xAAEEC, size: 0x2C4 }
+MSG_NewsBoard_0014:
+  { type: BLOB, offset: 0xAB1B0, size: 0x221 }
+MSG_NewsBoard_0015:
+  { type: BLOB, offset: 0xAB3D4, size: 0x211 }
+MSG_NewsBoard_0017:
+  { type: BLOB, offset: 0xAB744, size: 0x276 }
+MSG_NewsBoard_0018:
+  { type: BLOB, offset: 0xAB9BC, size: 0x1AB }
+MSG_NewsBoard_0019:
+  { type: BLOB, offset: 0xABB68, size: 0x2A3 }
+MSG_GossipBoard_0000:
+  { type: BLOB, offset: 0xABE0C, size: 0xFD }
+MSG_GossipBoard_0009:
+  { type: BLOB, offset: 0xAC6E4, size: 0xAD }
+MSG_GossipBoard_000C:
+  { type: BLOB, offset: 0xAC928, size: 0xDA }
+MSG_GossipBoard_0012:
+  { type: BLOB, offset: 0xAD004, size: 0xBB }
+MSG_GossipBoard_0019:
+  { type: BLOB, offset: 0xAD5C0, size: 0x155 }
+MSG_MapTattle_mgm_00:
+  { type: BLOB, offset: 0xADEB4, size: 0x68 }
+MSG_MapTattle_osr_02:
+  { type: BLOB, offset: 0xAE0D0, size: 0xD8 }
+MSG_MapTattle_kkj_10:
+  { type: BLOB, offset: 0xAE1A8, size: 0x7B }
+MSG_MapTattle_kkj_11:
+  { type: BLOB, offset: 0xAE224, size: 0x7C }
+MSG_MapTattle_kkj_12:
+  { type: BLOB, offset: 0xAE2A0, size: 0x60 }
+MSG_MapTattle_kkj_13:
+  { type: BLOB, offset: 0xAE300, size: 0x47 }
+MSG_MapTattle_kkj_14:
+  { type: BLOB, offset: 0xAE348, size: 0x110 }
+MSG_MapTattle_kkj_19:
+  { type: BLOB, offset: 0xAE670, size: 0x109 }
+MSG_MapTattle_kkj_22:
+  { type: BLOB, offset: 0xAE8A4, size: 0x55 }
+MSG_MapTattle_kkj_23:
+  { type: BLOB, offset: 0xAE8FC, size: 0x53 }
+MSG_MapTattle_hos_04:
+  { type: BLOB, offset: 0xAEC38, size: 0x6B }
+MSG_MapTattle_tik_20:
+  { type: BLOB, offset: 0xAF784, size: 0x94 }
+MSG_MapTattle_tik_21:
+  { type: BLOB, offset: 0xAF818, size: 0x3C }
+MSG_MapTattle_tik_25:
+  { type: BLOB, offset: 0xAFA60, size: 0x7D }
+MSG_MapTattle_kmr_07:
+  { type: BLOB, offset: 0xAFEF0, size: 0x5F }
+MSG_MapTattle_trd_03:
+  { type: BLOB, offset: 0xB0A10, size: 0xA1 }
+MSG_MapTattle_trd_07:
+  { type: BLOB, offset: 0xB0C88, size: 0x123 }
+MSG_MapTattle_trd_10:
+  { type: BLOB, offset: 0xB0ECC, size: 0x89 }
+MSG_MapTattle_sbk_06:
+  { type: BLOB, offset: 0xB16F4, size: 0x3A }
+MSG_MapTattle_sbk_12:
+  { type: BLOB, offset: 0xB1828, size: 0x74 }
+MSG_MapTattle_sbk_21:
+  { type: BLOB, offset: 0xB1B0C, size: 0x4D }
+MSG_MapTattle_sbk_24:
+  { type: BLOB, offset: 0xB1CA8, size: 0x5A }
+MSG_MapTattle_sbk_32:
+  { type: BLOB, offset: 0xB2008, size: 0x87 }
+MSG_MapTattle_sbk_42:
+  { type: BLOB, offset: 0xB2324, size: 0x6A }
+MSG_MapTattle_sbk_46:
+  { type: BLOB, offset: 0xB2534, size: 0x4B }
+MSG_MapTattle_sbk_54:
+  { type: BLOB, offset: 0xB2748, size: 0xB7 }
+MSG_MapTattle_sbk_55:
+  { type: BLOB, offset: 0xB2800, size: 0x4B }
+MSG_MapTattle_sbk_60:
+  { type: BLOB, offset: 0xB28D8, size: 0x9A }
+MSG_MapTattle_sbk_62:
+  { type: BLOB, offset: 0xB2A20, size: 0x54 }
+MSG_MapTattle_isk_16:
+  { type: BLOB, offset: 0xB36E0, size: 0x118 }
+MSG_MapTattle_mim_02:
+  { type: BLOB, offset: 0xB3A48, size: 0x68 }
+MSG_MapTattle_mim_06:
+  { type: BLOB, offset: 0xB3DBC, size: 0xE6 }
+MSG_MapTattle_arn_13:
+  { type: BLOB, offset: 0xB58F8, size: 0x9B }
+MSG_MapTattle_kgr_02:
+  { type: BLOB, offset: 0xB645C, size: 0xAD }
+MSG_MapTattle_jan_04_after:
+  { type: BLOB, offset: 0xB6A08, size: 0xC0 }
+MSG_MapTattle_kzn_04:
+  { type: BLOB, offset: 0xB761C, size: 0x5C }
+MSG_MapTattle_kzn_11:
+  { type: BLOB, offset: 0xB7900, size: 0x7D }
+MSG_MapTattle_flo_19:
+  { type: BLOB, offset: 0xB8544, size: 0x82 }
+MSG_MapTattle_sam_02:
+  { type: BLOB, offset: 0xB88E8, size: 0xBE }
+MSG_MapTattle_sam_03:
+  { type: BLOB, offset: 0xB8BEC, size: 0xE0 }
+MSG_MapTattle_sam_07:
+  { type: BLOB, offset: 0xB8EE8, size: 0x5F }
+MSG_MapTattle_sam_10:
+  { type: BLOB, offset: 0xB9054, size: 0x65 }
+MSG_MapTattle_pra_02:
+  { type: BLOB, offset: 0xB9288, size: 0x95 }
+MSG_MapTattle_pra_06:
+  { type: BLOB, offset: 0xB9470, size: 0xD7 }
+MSG_MapTattle_pra_11:
+  { type: BLOB, offset: 0xB9680, size: 0x75 }
+MSG_MapTattle_pra_12:
+  { type: BLOB, offset: 0xB96F8, size: 0xEA }
+MSG_MapTattle_pra_21:
+  { type: BLOB, offset: 0xB9C64, size: 0x97 }
+MSG_MapTattle_pra_28:
+  { type: BLOB, offset: 0xB9DF8, size: 0x102 }
+MSG_MapTattle_pra_29:
+  { type: BLOB, offset: 0xB9EFC, size: 0xE0 }
+MSG_MapTattle_kpa_10:
+  { type: BLOB, offset: 0xBA5A4, size: 0x57 }
+MSG_MapTattle_kpa_50:
+  { type: BLOB, offset: 0xBA678, size: 0x7A }
+MSG_MapTattle_kpa_81:
+  { type: BLOB, offset: 0xBA900, size: 0x76 }
+MSG_MapTattle_kpa_17:
+  { type: BLOB, offset: 0xBA978, size: 0x6F }
+MSG_MapTattle_kpa_13_before:
+  { type: BLOB, offset: 0xBAA6C, size: 0xC3 }
+MSG_MapTattle_kpa_52:
+  { type: BLOB, offset: 0xBB32C, size: 0x9C }
+MSG_MapTattle_kpa_82:
+  { type: BLOB, offset: 0xBB72C, size: 0xA6 }
+MSG_MapTattle_kpa_101:
+  { type: BLOB, offset: 0xBBB5C, size: 0x84 }
+MSG_MapTattle_kpa_119:
+  { type: BLOB, offset: 0xBC1FC, size: 0xEB }
+MSG_MapTattle_kpa_121:
+  { type: BLOB, offset: 0xBC2E8, size: 0x8F }
+MSG_NpcTattle_PrizeToad:
+  { type: BLOB, offset: 0xBC954, size: 0xD7 }
+MSG_NpcTattle_Merluvlee:
+  { type: BLOB, offset: 0xBCA2C, size: 0x10B }
+MSG_NpcTattle_Chan:
+  { type: BLOB, offset: 0xBD184, size: 0xBC }
+MSG_NpcTattle_MAC_ThreeSisters_Eldest:
+  { type: BLOB, offset: 0xBD704, size: 0x12A }
+MSG_NpcTattle_MAC_ThreeSisters_Middle:
+  { type: BLOB, offset: 0xBD830, size: 0xF6 }
+MSG_NpcTattle_Postmaster:
+  { type: BLOB, offset: 0xBE078, size: 0xA5 }
+MSG_NpcTattle_MAC_Parakarry:
+  { type: BLOB, offset: 0xBE120, size: 0xAC }
+MSG_NpcTattle_MAC_KnowsTheRumors:
+  { type: BLOB, offset: 0xBE72C, size: 0x65 }
+MSG_NpcTattle_MAC_FickleDreamer:
+  { type: BLOB, offset: 0xBEE68, size: 0x132 }
+MSG_NpcTattle_GreatGossipTrioC:
+  { type: BLOB, offset: 0xBFC60, size: 0x96 }
+MSG_NpcTattle_MAC_NewResidentB:
+  { type: BLOB, offset: 0xBFDBC, size: 0xCC }
+MSG_NpcTattle_MasterPoet:
+  { type: BLOB, offset: 0xC0488, size: 0xBE }
+MSG_NpcTattle_Goomama:
+  { type: BLOB, offset: 0xC0C44, size: 0xC0 }
+MSG_NpcTattle_Luigi:
+  { type: BLOB, offset: 0xC0DE4, size: 0x57 }
+MSG_NpcTattle_NOK_RadioLover:
+  { type: BLOB, offset: 0xC1148, size: 0xBC }
+MSG_NpcTattle_NOK_GenericKoopaD:
+  { type: BLOB, offset: 0xC180C, size: 0xE1 }
+MSG_NpcTattle_IWA_Parakarry:
+  { type: BLOB, offset: 0xC2294, size: 0x139 }
+MSG_NpcTattle_DRO_Greeter:
+  { type: BLOB, offset: 0xC2BA4, size: 0x125 }
+MSG_NpcTattle_MIM_Bubulb_Revealed:
+  { type: BLOB, offset: 0xC3A74, size: 0xB4 }
+MSG_NpcTattle_OBK_BootsTutor:
+  { type: BLOB, offset: 0xC3EB4, size: 0xBD }
+MSG_NpcTattle_PurpleYoshiKid:
+  { type: BLOB, offset: 0xC5370, size: 0x65 }
+MSG_NpcTattle_RedYoshiKid:
+  { type: BLOB, offset: 0xC54C0, size: 0xF9 }
+MSG_NpcTattle_RavenB:
+  { type: BLOB, offset: 0xC5710, size: 0x9B }
+MSG_NpcTattle_RavenC:
+  { type: BLOB, offset: 0xC57AC, size: 0x7B }
+MSG_NpcTattle_RavenE:
+  { type: BLOB, offset: 0xC58F4, size: 0x9B }
+MSG_NpcTattle_Tolielup:
+  { type: BLOB, offset: 0xC6144, size: 0x9D }
+MSG_NpcTattle_Petunia:
+  { type: BLOB, offset: 0xC6464, size: 0xF3 }
+MSG_NpcTattle_MayorPenguinWife:
+  { type: BLOB, offset: 0xC6AB0, size: 0x12F }
+MSG_NpcTattle_MayorPenguin:
+  { type: BLOB, offset: 0xC6BE0, size: 0x13C }
+MSG_NpcTattle_SAM_Patrol:
+  { type: BLOB, offset: 0xC741C, size: 0xD6 }
+MSG_NpcTattle_SAM_StarKidA:
+  { type: BLOB, offset: 0xC7EFC, size: 0xC4 }
+MSG_NpcTattle_HOS_ShopOwner:
+  { type: BLOB, offset: 0xC8534, size: 0xA2 }
+MSG_NpcTattle_KPA_CaptiveToadA:
+  { type: BLOB, offset: 0xC8A1C, size: 0xBE }
+MSG_NpcTattle_KPA_ToadMinister:
+  { type: BLOB, offset: 0xC8BEC, size: 0xD4 }
+MSG_NpcTattle_KPA_ShopOwner:
+  { type: BLOB, offset: 0xC91D4, size: 0x15A }
+MSG_NpcTattle_KPA_FakePrincessPeach:
+  { type: BLOB, offset: 0xC9330, size: 0xC6 }
+MSG_NpcTattle_KKJ_ToadHouseToad:
+  { type: BLOB, offset: 0xC93F8, size: 0x9A }
+MSG_EntityTattle_HammerBlock1_CanBreak:
+  { type: BLOB, offset: 0xC9494, size: 0x42 }
+MSG_EntityTattle_HammerBlock2_CantBreak:
+  { type: BLOB, offset: 0xC94D8, size: 0x79 }
+MSG_EntityTattle_HammerBlock2_CanBreak:
+  { type: BLOB, offset: 0xC9554, size: 0x42 }
+MSG_EntityTattle_HammerBlock3_CantBreak:
+  { type: BLOB, offset: 0xC9598, size: 0x7A }
+MSG_EntityTattle_HammerBlock3_CanBreak:
+  { type: BLOB, offset: 0xC9614, size: 0x42 }
+MSG_EntityTattle_BrickBlock:
+  { type: BLOB, offset: 0xC9658, size: 0x82 }
+MSG_EntityTattle_JackInTheBox_SpinJump:
+  { type: BLOB, offset: 0xC9F90, size: 0x95 }
+MSG_EntityTattle_JackInTheBox_TornadoJump:
+  { type: BLOB, offset: 0xCA028, size: 0x99 }
+MSG_EnemyTattle_Goomba:
+  { type: BLOB, offset: 0xCA528, size: 0x152 }
+MSG_EnemyTattle_Paragoomba:
+  { type: BLOB, offset: 0xCA758, size: 0x105 }
+MSG_EnemyTattle_BobOmb:
+  { type: BLOB, offset: 0xCB06C, size: 0x1F0 }
+MSG_EnemyTattle_BulletBill:
+  { type: BLOB, offset: 0xCB25C, size: 0x13E }
+MSG_EnemyTattle_KoopaBros:
+  { type: BLOB, offset: 0xCBB70, size: 0x1C6 }
+MSG_EnemyTattle_BuzzyBeetle:
+  { type: BLOB, offset: 0xCC51C, size: 0x174 }
+MSG_EnemyTattle_Swooper:
+  { type: BLOB, offset: 0xCC690, size: 0x18B }
+MSG_EnemyTattle_ShyStack:
+  { type: BLOB, offset: 0xCEA08, size: 0x1A1 }
+MSG_EnemyTattle_SpearGuy:
+  { type: BLOB, offset: 0xCF194, size: 0x1ED }
+MSG_EnemyTattle_Lakitu:
+  { type: BLOB, offset: 0xCFE98, size: 0x160 }
+MSG_EnemyTattle_RuffPuff:
+  { type: BLOB, offset: 0xD0730, size: 0x12D }
+MSG_EnemyTattle_HuffNPuff:
+  { type: BLOB, offset: 0xD0860, size: 0x1CE }
+MSG_EnemyTattle_GhostGoombario:
+  { type: BLOB, offset: 0xD166C, size: 0x11F }
+MSG_EnemyTattle_GhostParakarry:
+  { type: BLOB, offset: 0xD19B8, size: 0xF8 }
+MSG_EnemyTattle_Swoopula:
+  { type: BLOB, offset: 0xD1D6C, size: 0x1F4 }
+MSG_EnemyTattle_CrystalClone:
+  { type: BLOB, offset: 0xD21E0, size: 0xF6 }
+MSG_EnemyTattle_Magikoopa:
+  { type: BLOB, offset: 0xD28A0, size: 0x120 }
+MSG_EnemyTattle_MagikoopaDup:
+  { type: BLOB, offset: 0xD2A64, size: 0x121 }
+MSG_EnemyTattle_Koopatrol:
+  { type: BLOB, offset: 0xD2C28, size: 0x1E5 }
+MSG_EnemyTattle_JrTroopa5:
+  { type: BLOB, offset: 0xD321C, size: 0x18C }
+MSG_EnemyTattle_HallwayBowser:
+  { type: BLOB, offset: 0xD33A8, size: 0x1D6 }
+MSG_EnemyTattle_FinalBowser2:
+  { type: BLOB, offset: 0xD377C, size: 0x216 }
+MSG_EnemyTattle_SuperBlooper:
+  { type: BLOB, offset: 0xD3E6C, size: 0x14C }
+MSG_EnemyTattle_TheMaster2:
+  { type: BLOB, offset: 0xD4148, size: 0xFA }
+MSG_EnemyTattle_Chan:
+  { type: BLOB, offset: 0xD433C, size: 0x112 }
+MSG_EnemyTattle_DarkParatroopa:
+  { type: BLOB, offset: 0xD49EC, size: 0x165 }
+MSG_EnemyTattle_MagikoopaBoss:
+  { type: BLOB, offset: 0xD57D8, size: 0xB2 }
+MSG_EnemyTattle_MagikoopaBossDup:
+  { type: BLOB, offset: 0xD588C, size: 0xB2 }
+MSG_EnemyTattle_LeeParakarry:
+  { type: BLOB, offset: 0xD5F3C, size: 0x16C }
+MSG_EnemyTattle_Mario:
+  { type: BLOB, offset: 0xD6250, size: 0xA4 }
+MSG_Menus_Tutorial_GotItem:
+  { type: BLOB, offset: 0xD6608, size: 0xBA }
+MSG_Menus_Party_Goombario:
+  { type: BLOB, offset: 0xD6764, size: 0x6 }
+MSG_Menus_Party_Parakarry:
+  { type: BLOB, offset: 0xD6780, size: 0x6 }
+MSG_Menus_Party_Lakilester:
+  { type: BLOB, offset: 0xD67A0, size: 0x9 }
+MSG_Menus_Party_Twink:
+  { type: BLOB, offset: 0xD67BC, size: 0x6 }
+MSG_Menus_Party_Peach:
+  { type: BLOB, offset: 0xD67C4, size: 0x6 }
+MSG_Menus_Party_Mario:
+  { type: BLOB, offset: 0xD67CC, size: 0x6 }
+MSG_Menus_Hammer:
+  { type: BLOB, offset: 0xD6CF4, size: 0x8 }
+MSG_Menus_Hammer_Centered:
+  { type: BLOB, offset: 0xD6DD4, size: 0xB }
+MSG_Menus_ChargeHammer:
+  { type: BLOB, offset: 0xD71F8, size: 0x2D }
+MSG_Menus_ChargeHammerMore:
+  { type: BLOB, offset: 0xD7228, size: 0x32 }
+MSG_Menus_ChargeGoombario:
+  { type: BLOB, offset: 0xD7314, size: 0x29 }
+MSG_Menus_ChargeGoombarioMore:
+  { type: BLOB, offset: 0xD7340, size: 0x2F }
+MSG_Menus_PlayerDazed:
+  { type: BLOB, offset: 0xD7454, size: 0x2A }
+MSG_Menus_PlayerPoisoned:
+  { type: BLOB, offset: 0xD7480, size: 0x29 }
+MSG_Menus_PlayerFrozen:
+  { type: BLOB, offset: 0xD74AC, size: 0x2B }
+MSG_Menus_PlayerAsleep:
+  { type: BLOB, offset: 0xD74D8, size: 0x32 }
+MSG_Menus_PlayerShrunk:
+  { type: BLOB, offset: 0xD750C, size: 0x3A }
+MSG_Menus_PlayerParalyzed:
+  { type: BLOB, offset: 0xD7548, size: 0x2E }
+MSG_Menus_PlayerElectricCharge:
+  { type: BLOB, offset: 0xD7578, size: 0x3B }
+MSG_Menus_PlayerTransparent:
+  { type: BLOB, offset: 0xD75B4, size: 0x30 }
+MSG_Menus_WaterBlockBegin:
+  { type: BLOB, offset: 0xD7704, size: 0x39 }
+MSG_Menus_Battle_NoTarget_Hammer:
+  { type: BLOB, offset: 0xD7D8C, size: 0x2C }
+MSG_Menus_Battle_TargetMario:
+  { type: BLOB, offset: 0xD7DFC, size: 0x6 }
+MSG_Menus_Battle_CantUseHammer:
+  { type: BLOB, offset: 0xD7E10, size: 0x21 }
+MSG_Menus_00D0:
+  { type: BLOB, offset: 0xD7F04, size: 0x12 }
+MSG_Menus_00E6:
+  { type: BLOB, offset: 0xD8344, size: 0x36 }
+MSG_Menus_00E7:
+  { type: BLOB, offset: 0xD837C, size: 0x2E }
+MSG_Menus_00EA:
+  { type: BLOB, offset: 0xD8414, size: 0x3E }
+MSG_Menus_00EC:
+  { type: BLOB, offset: 0xD8488, size: 0x3D }
+MSG_Menus_00EE:
+  { type: BLOB, offset: 0xD84F8, size: 0x31 }
+MSG_Menus_00EF:
+  { type: BLOB, offset: 0xD852C, size: 0x40 }
+MSG_Map_PeachsCastleGrounds_DescBefore:
+  { type: BLOB, offset: 0xD8724, size: 0xB9 }
+MSG_Map_GoombaVillage_DescBefore:
+  { type: BLOB, offset: 0xD8A9C, size: 0x72 }
+MSG_Map_GoombaVillage_DescAfter:
+  { type: BLOB, offset: 0xD8B10, size: 0x6C }
+MSG_Map_BowsersCastle_DescBefore:
+  { type: BLOB, offset: 0xDA110, size: 0xA5 }
+MSG_Map_BowsersCastle_DescAfter:
+  { type: BLOB, offset: 0xDA1B8, size: 0x72 }
+MSG_Map_PeachsCastle_DescBefore:
+  { type: BLOB, offset: 0xDA244, size: 0x6D }
+MSG_Map_MariosHouse_DescBefore:
+  { type: BLOB, offset: 0xDA314, size: 0x78 }
+MSG_Map_MariosHouse_DescAfter:
+  { type: BLOB, offset: 0xDA38C, size: 0x78 }
+MSG_Menus_Inspect_FoundHammer:
+  { type: BLOB, offset: 0xDA644, size: 0x96 }
+MSG_Menus_0175:
+  { type: BLOB, offset: 0xDAB7C, size: 0x220 }
+MSG_Menus_0179:
+  { type: BLOB, offset: 0xDAE70, size: 0x4B }
+MSG_Menus_017D:
+  { type: BLOB, offset: 0xDAFE8, size: 0x81 }
+MSG_Menus_0180:
+  { type: BLOB, offset: 0xDB0FC, size: 0x9A }
+MSG_Menus_0186:
+  { type: BLOB, offset: 0xDB2E0, size: 0x82 }
+MSG_Menus_0187:
+  { type: BLOB, offset: 0xDB364, size: 0xA8 }
+MSG_Menus_0189:
+  { type: BLOB, offset: 0xDB42C, size: 0x133 }
+MSG_Menus_018C:
+  { type: BLOB, offset: 0xDB80C, size: 0x122 }
+MSG_Menus_0190:
+  { type: BLOB, offset: 0xDBD28, size: 0x109 }
+MSG_Menus_0191:
+  { type: BLOB, offset: 0xDBE34, size: 0x3A }
+MSG_Menus_0192:
+  { type: BLOB, offset: 0xDBE70, size: 0x93 }
+MSG_Menus_0193:
+  { type: BLOB, offset: 0xDBF04, size: 0x8F }
+MSG_Menus_0194:
+  { type: BLOB, offset: 0xDBF94, size: 0xA0 }
+MSG_Menus_0195:
+  { type: BLOB, offset: 0xDC034, size: 0x87 }
+MSG_Menus_0196:
+  { type: BLOB, offset: 0xDC0BC, size: 0xA8 }
+MSG_Menus_0197:
+  { type: BLOB, offset: 0xDC164, size: 0x96 }
+MSG_Menus_0198:
+  { type: BLOB, offset: 0xDC1FC, size: 0x22 }
+MSG_Menus_0199:
+  { type: BLOB, offset: 0xDC220, size: 0x59 }
+MSG_Menus_019A:
+  { type: BLOB, offset: 0xDC27C, size: 0x67 }
+MSG_Menus_019B:
+  { type: BLOB, offset: 0xDC2E4, size: 0x53 }
+MSG_Menus_01A5:
+  { type: BLOB, offset: 0xDC43C, size: 0x170 }
+MSG_Menus_01A6:
+  { type: BLOB, offset: 0xDC5AC, size: 0x172 }
+MSG_Menus_01A7:
+  { type: BLOB, offset: 0xDC720, size: 0x19F }
+MSG_Menus_01A8:
+  { type: BLOB, offset: 0xDC8C0, size: 0x165 }
+MSG_Menus_01A9:
+  { type: BLOB, offset: 0xDCA28, size: 0x13E }
+MSG_Menus_01AA:
+  { type: BLOB, offset: 0xDCB68, size: 0x1E9 }
+MSG_Menus_01AB:
+  { type: BLOB, offset: 0xDCD54, size: 0x173 }
+MSG_Choice_0017:
+  { type: BLOB, offset: 0xDD360, size: 0x50 }
+MSG_Choice_0025:
+  { type: BLOB, offset: 0xDD77C, size: 0x34 }
+MSG_Choice_0030:
+  { type: BLOB, offset: 0xDDA14, size: 0x4D }
+MSG_Choice_003E:
+  { type: BLOB, offset: 0xDDE58, size: 0x6C }
+MSG_MenuTip_StatsTab:
+  { type: BLOB, offset: 0xDE3D4, size: 0x32 }
+MSG_MenuTip_ItemsTab:
+  { type: BLOB, offset: 0xDE440, size: 0x2F }
+MSG_MenuTip_ControllingMario:
+  { type: BLOB, offset: 0xDE51C, size: 0x125 }
+MSG_MenuTip_HeartPoints:
+  { type: BLOB, offset: 0xDE644, size: 0x41 }
+MSG_MenuTip_FlowerPoints:
+  { type: BLOB, offset: 0xDE688, size: 0x40 }
+MSG_MenuTip_Boots1:
+  { type: BLOB, offset: 0xDE6F4, size: 0x3F }
+MSG_MenuTip_Boots2:
+  { type: BLOB, offset: 0xDE734, size: 0x78 }
+MSG_MenuTip_Boots3:
+  { type: BLOB, offset: 0xDE7AC, size: 0x7B }
+MSG_MenuTip_Hammer0:
+  { type: BLOB, offset: 0xDE828, size: 0x1E }
+MSG_MenuTip_Hammer1:
+  { type: BLOB, offset: 0xDE848, size: 0x77 }
+MSG_MenuTip_Hammer2:
+  { type: BLOB, offset: 0xDE8C0, size: 0x76 }
+MSG_MenuTip_Hammer3:
+  { type: BLOB, offset: 0xDE938, size: 0x76 }
+MSG_MenuTip_Coins:
+  { type: BLOB, offset: 0xDEA24, size: 0x3A }
+MSG_MenuTip_StarPieces:
+  { type: BLOB, offset: 0xDEA88, size: 0x3A }
+MSG_MenuTip_ItemTab_KeyItems:
+  { type: BLOB, offset: 0xDEB08, size: 0x3E }
+MSG_MenuTip_ItemTab_Consumables:
+  { type: BLOB, offset: 0xDEB48, size: 0x3F }
+MSG_MenuTip_BadgeTab_All:
+  { type: BLOB, offset: 0xDEB88, size: 0x74 }
+MSG_MenuTip_BadgeTab_Equipped:
+  { type: BLOB, offset: 0xDEBFC, size: 0x77 }
+MSG_Document_Letter_Mario01_Body:
+  { type: BLOB, offset: 0xDEEE0, size: 0xC7 }
+MSG_Document_Letter_Mario02_Body:
+  { type: BLOB, offset: 0xDEFB4, size: 0x10F }
+MSG_Document_Letter_Mario03_Body:
+  { type: BLOB, offset: 0xDF0D0, size: 0x111 }
+MSG_Document_Letter_Mario04_Body:
+  { type: BLOB, offset: 0xDF1F0, size: 0x18A }
+MSG_Document_Letter_Mario06_Body:
+  { type: BLOB, offset: 0xDF574, size: 0x14F }
+MSG_Document_Letter_Mario07_Body:
+  { type: BLOB, offset: 0xDF6D0, size: 0x18F }
+MSG_Document_Letter_Mario08_Body:
+  { type: BLOB, offset: 0xDF86C, size: 0x1FA }
+MSG_Document_Letter_Mario10_Body:
+  { type: BLOB, offset: 0xDFC0C, size: 0x10A }
+MSG_Document_Letter_Mario11_Body:
+  { type: BLOB, offset: 0xDFD24, size: 0xD6 }
+MSG_Document_Letter_Mario12_Body:
+  { type: BLOB, offset: 0xDFE04, size: 0x1DF }
+MSG_Document_Letter_Goombario1_Desc:
+  { type: BLOB, offset: 0xDFFFC, size: 0x1C }
+MSG_Document_Letter_Goombario1_Body:
+  { type: BLOB, offset: 0xE0018, size: 0x187 }
+MSG_Document_Letter_Goombario2_Desc:
+  { type: BLOB, offset: 0xE01A8, size: 0x1B }
+MSG_Document_Letter_Goombario2_Body:
+  { type: BLOB, offset: 0xE01C4, size: 0xF9 }
+MSG_Document_Letter_Goombario3_Desc:
+  { type: BLOB, offset: 0xE02D4, size: 0x32 }
+MSG_Document_Letter_Goombario3_Body:
+  { type: BLOB, offset: 0xE0308, size: 0x16A }
+MSG_Document_Letter_Kooper2_Body:
+  { type: BLOB, offset: 0xE068C, size: 0x14C }
+MSG_Document_Letter_Kooper3_Body:
+  { type: BLOB, offset: 0xE080C, size: 0x14E }
+MSG_Document_Letter_Parakarry1_Desc:
+  { type: BLOB, offset: 0xE0EA0, size: 0x1E }
+MSG_Document_Letter_Parakarry1_Body:
+  { type: BLOB, offset: 0xE0EC0, size: 0x187 }
+MSG_Document_Letter_Parakarry2_Desc:
+  { type: BLOB, offset: 0xE1050, size: 0x1C }
+MSG_Document_Letter_Parakarry2_Body:
+  { type: BLOB, offset: 0xE106C, size: 0x124 }
+MSG_Document_Letter_Bow1_Body:
+  { type: BLOB, offset: 0xE11B4, size: 0x1A9 }
+MSG_Document_Letter_Sushie1_Body:
+  { type: BLOB, offset: 0xE18EC, size: 0x11D }
+MSG_Document_Letter_Sushie2_Body:
+  { type: BLOB, offset: 0xE1A48, size: 0x174 }
+MSG_Document_Letter_Lakilester1_Desc:
+  { type: BLOB, offset: 0xE1BC8, size: 0x23 }
+MSG_Document_Letter_Lakilester1_Body:
+  { type: BLOB, offset: 0xE1BEC, size: 0x142 }
+MSG_Document_Letter_Lakilester2_Desc:
+  { type: BLOB, offset: 0xE1D38, size: 0x1F }
+MSG_Document_Letter_Lakilester2_Body:
+  { type: BLOB, offset: 0xE1D58, size: 0x182 }
+MSG_Document_LuigisDiary_04:
+  { type: BLOB, offset: 0xE23B8, size: 0x122 }
+MSG_Document_LuigisDiary_05:
+  { type: BLOB, offset: 0xE24DC, size: 0x7C }
+MSG_Document_LuigisDiary_06:
+  { type: BLOB, offset: 0xE2558, size: 0xAC }
+MSG_Document_LuigisDiary_12:
+  { type: BLOB, offset: 0xE2AD0, size: 0x20B }
+MSG_MerlonHint_0016:
+  { type: BLOB, offset: 0xE4488, size: 0x113 }
+MSG_MerlonHint_0025:
+  { type: BLOB, offset: 0xE5538, size: 0x2A4 }
+MSG_MerlonHint_0032:
+  { type: BLOB, offset: 0xE6450, size: 0xF1 }
+MSG_MerlonHint_004E:
+  { type: BLOB, offset: 0xE8570, size: 0x161 }
+MSG_MerluvleeHint_DizzyStomp:
+  { type: BLOB, offset: 0xE8B28, size: 0x120 }
+MSG_MerluvleeHint_DDownJump:
+  { type: BLOB, offset: 0xE8C48, size: 0x176 }
+MSG_MerluvleeHint_QuakeHammer:
+  { type: BLOB, offset: 0xE91C0, size: 0xB3 }
+MSG_MerluvleeHint_HammerThrow:
+  { type: BLOB, offset: 0xE93B8, size: 0xE6 }
+MSG_MerluvleeHint_MegaRush:
+  { type: BLOB, offset: 0xEAC78, size: 0x160 }
+MSG_MerluvleeHint_SlowGo:
+  { type: BLOB, offset: 0xEB628, size: 0xF5 }
+MSG_MerluvleeHint_SuperBlock_03:
+  { type: BLOB, offset: 0xEC9E8, size: 0xF7 }
+MSG_MerluvleeHint_StarPiece_16:
+  { type: BLOB, offset: 0xEE0BC, size: 0x100 }
+MSG_MerluvleeHint_StarPiece_25:
+  { type: BLOB, offset: 0xEE7D0, size: 0xC4 }
+MSG_MerluvleeHint_StarPiece_31:
+  { type: BLOB, offset: 0xEEC88, size: 0x11E }
+MSG_MerluvleeHint_StarPiece_38:
+  { type: BLOB, offset: 0xEF2FC, size: 0xC2 }
+MSG_MerluvleeHint_StarPiece_52:
+  { type: BLOB, offset: 0xEFF1C, size: 0x183 }
+MSG_ItemShortDesc_StoneCap:
+  { type: BLOB, offset: 0xF0C08, size: 0x40 }
+MSG_ItemShortDesc_VoltShroom:
+  { type: BLOB, offset: 0xF0C48, size: 0x3F }
+MSG_ItemShortDesc_LifeShroom:
+  { type: BLOB, offset: 0xF0CFC, size: 0x3F }
+MSG_ItemShortDesc_RepelGel:
+  { type: BLOB, offset: 0xF137C, size: 0x3C }
+MSG_ItemShortDesc_StrangeCake:
+  { type: BLOB, offset: 0xF1B30, size: 0x44 }
+MSG_ItemShortDesc_KookyCookie:
+  { type: BLOB, offset: 0xF1B74, size: 0x3E }
+MSG_ItemShortDesc_PowerJump:
+  { type: BLOB, offset: 0xF1CAC, size: 0x3C }
+MSG_ItemShortDesc_MegaJump:
+  { type: BLOB, offset: 0xF1CE8, size: 0x3B }
+MSG_ItemShortDesc_JumpCharge:
+  { type: BLOB, offset: 0xF1D24, size: 0x2F }
+MSG_ItemShortDesc_SJumpChg:
+  { type: BLOB, offset: 0xF1D54, size: 0x34 }
+MSG_ItemShortDesc_SleepStomp:
+  { type: BLOB, offset: 0xF1D88, size: 0x3E }
+MSG_ItemShortDesc_DizzyStomp:
+  { type: BLOB, offset: 0xF1DC8, size: 0x35 }
+MSG_ItemShortDesc_PowerSmash:
+  { type: BLOB, offset: 0xF1EFC, size: 0x2E }
+MSG_ItemShortDesc_MegaSmash:
+  { type: BLOB, offset: 0xF1F2C, size: 0x36 }
+MSG_ItemShortDesc_SmashCharge:
+  { type: BLOB, offset: 0xF1F64, size: 0x32 }
+MSG_ItemShortDesc_SSmashChg:
+  { type: BLOB, offset: 0xF1F98, size: 0x37 }
+MSG_ItemShortDesc_HammerThrow:
+  { type: BLOB, offset: 0xF1FD0, size: 0x59 }
+MSG_ItemShortDesc_SpinSmash:
+  { type: BLOB, offset: 0xF2068, size: 0x3C }
+MSG_ItemShortDesc_GroupFocus:
+  { type: BLOB, offset: 0xF21F4, size: 0x3B }
+MSG_ItemShortDesc_PowerPlus:
+  { type: BLOB, offset: 0xF22A4, size: 0x37 }
+MSG_ItemShortDesc_DefendPlus:
+  { type: BLOB, offset: 0xF22DC, size: 0x2C }
+MSG_ItemShortDesc_DamageDodge:
+  { type: BLOB, offset: 0xF2308, size: 0x3D }
+MSG_ItemShortDesc_HPDrain:
+  { type: BLOB, offset: 0xF23C0, size: 0x3E }
+MSG_ItemShortDesc_SpikeShield:
+  { type: BLOB, offset: 0xF255C, size: 0x39 }
+MSG_ItemShortDesc_PrettyLucky:
+  { type: BLOB, offset: 0xF25C8, size: 0x3A }
+MSG_ItemShortDesc_LuckyDay:
+  { type: BLOB, offset: 0xF2604, size: 0x2E }
+MSG_ItemShortDesc_CloseCall:
+  { type: BLOB, offset: 0xF2634, size: 0x3A }
+MSG_ItemShortDesc_PowerRush:
+  { type: BLOB, offset: 0xF2670, size: 0x39 }
+MSG_ItemShortDesc_LastStand:
+  { type: BLOB, offset: 0xF26AC, size: 0x3B }
+MSG_ItemShortDesc_MegaRush:
+  { type: BLOB, offset: 0xF26E8, size: 0x38 }
+MSG_ItemShortDesc_FirstAttack:
+  { type: BLOB, offset: 0xF2720, size: 0x39 }
+MSG_ItemShortDesc_BumpAttack:
+  { type: BLOB, offset: 0xF275C, size: 0x3F }
+MSG_ItemShortDesc_SpinAttack:
+  { type: BLOB, offset: 0xF279C, size: 0x38 }
+MSG_ItemShortDesc_SpeedySpin:
+  { type: BLOB, offset: 0xF2814, size: 0x2C }
+MSG_ItemShortDesc_FeelingFine:
+  { type: BLOB, offset: 0xF2840, size: 0x3B }
+MSG_ItemShortDesc_AttackFXA:
+  { type: BLOB, offset: 0xF287C, size: 0x32 }
+MSG_ItemShortDesc_AttackFXD:
+  { type: BLOB, offset: 0xF28B0, size: 0x32 }
+MSG_ItemShortDesc_AttackFXB:
+  { type: BLOB, offset: 0xF28E4, size: 0x32 }
+MSG_ItemShortDesc_AttackFXE:
+  { type: BLOB, offset: 0xF2918, size: 0x32 }
+MSG_ItemShortDesc_AttackFXC:
+  { type: BLOB, offset: 0xF294C, size: 0x32 }
+MSG_ItemShortDesc_AttackFXF:
+  { type: BLOB, offset: 0xF2980, size: 0x32 }
+MSG_ItemShortDesc_SlowGo:
+  { type: BLOB, offset: 0xF29F4, size: 0x37 }
+MSG_ItemShortDesc_PayOff:
+  { type: BLOB, offset: 0xF2A60, size: 0x3A }
+MSG_ItemShortDesc_FireShield:
+  { type: BLOB, offset: 0xF2A9C, size: 0x3D }
+MSG_ItemShortDesc_ZapTap:
+  { type: BLOB, offset: 0xF2B08, size: 0x3D }
+MSG_ItemShortDesc_MoneyMoney:
+  { type: BLOB, offset: 0xF2B48, size: 0x3D }
+MSG_ItemShortDesc_RightOn:
+  { type: BLOB, offset: 0xF2B88, size: 0x38 }
+MSG_ItemShortDesc_RunawayPay:
+  { type: BLOB, offset: 0xF2BC0, size: 0x3E }
+MSG_ItemShortDesc_Hammer:
+  { type: BLOB, offset: 0xF2CEC, size: 0x21 }
+MSG_ItemShortDesc_SuperHammer:
+  { type: BLOB, offset: 0xF2D10, size: 0x21 }
+MSG_ItemShortDesc_UltraHammer:
+  { type: BLOB, offset: 0xF2D34, size: 0x21 }
+MSG_ItemShortDesc_FirstDegreeCard:
+  { type: BLOB, offset: 0xF380C, size: 0x3E }
+MSG_ItemShortDesc_SecondDegreeCard:
+  { type: BLOB, offset: 0xF384C, size: 0x3D }
+MSG_ItemShortDesc_ThirdDegreeCard:
+  { type: BLOB, offset: 0xF388C, size: 0x3F }
+MSG_ItemShortDesc_FourthDegreeCard:
+  { type: BLOB, offset: 0xF38CC, size: 0x3F }
+MSG_ItemShortDesc_Diploma:
+  { type: BLOB, offset: 0xF390C, size: 0x37 }
+MSG_ItemShopDesc_StoneCap:
+  { type: BLOB, offset: 0xF4184, size: 0x40 }
+MSG_ItemShopDesc_VoltShroom:
+  { type: BLOB, offset: 0xF41C4, size: 0x3D }
+MSG_ItemShopDesc_LifeShroom:
+  { type: BLOB, offset: 0xF4278, size: 0x3F }
+MSG_ItemShopDesc_RepelGel:
+  { type: BLOB, offset: 0xF45F8, size: 0x3C }
+MSG_ItemShopDesc_PowerJump:
+  { type: BLOB, offset: 0xF478C, size: 0x3C }
+MSG_ItemShopDesc_MegaJump:
+  { type: BLOB, offset: 0xF47C8, size: 0x3B }
+MSG_ItemShopDesc_JumpCharge:
+  { type: BLOB, offset: 0xF4804, size: 0x2F }
+MSG_ItemShopDesc_SJumpChg:
+  { type: BLOB, offset: 0xF4834, size: 0x34 }
+MSG_ItemShopDesc_SleepStomp:
+  { type: BLOB, offset: 0xF4868, size: 0x3E }
+MSG_ItemShopDesc_DizzyStomp:
+  { type: BLOB, offset: 0xF48A8, size: 0x36 }
+MSG_ItemShopDesc_PowerSmash:
+  { type: BLOB, offset: 0xF49DC, size: 0x2E }
+MSG_ItemShopDesc_MegaSmash:
+  { type: BLOB, offset: 0xF4A0C, size: 0x36 }
+MSG_ItemShopDesc_SmashCharge:
+  { type: BLOB, offset: 0xF4A44, size: 0x32 }
+MSG_ItemShopDesc_SSmashChg:
+  { type: BLOB, offset: 0xF4A78, size: 0x38 }
+MSG_ItemShopDesc_HammerThrow:
+  { type: BLOB, offset: 0xF4AB0, size: 0x41 }
+MSG_ItemShopDesc_SpinSmash:
+  { type: BLOB, offset: 0xF4B30, size: 0x3C }
+MSG_ItemShopDesc_GroupFocus:
+  { type: BLOB, offset: 0xF4CBC, size: 0x3A }
+MSG_ItemShopDesc_PowerPlus:
+  { type: BLOB, offset: 0xF4D6C, size: 0x37 }
+MSG_ItemShopDesc_DefendPlus:
+  { type: BLOB, offset: 0xF4DA4, size: 0x2C }
+MSG_ItemShopDesc_DamageDodge:
+  { type: BLOB, offset: 0xF4DD0, size: 0x3D }
+MSG_ItemShopDesc_HPDrain:
+  { type: BLOB, offset: 0xF4E88, size: 0x3E }
+MSG_ItemShopDesc_SpikeShield:
+  { type: BLOB, offset: 0xF5024, size: 0x39 }
+MSG_ItemShopDesc_PrettyLucky:
+  { type: BLOB, offset: 0xF5090, size: 0x3A }
+MSG_ItemShopDesc_LuckyDay:
+  { type: BLOB, offset: 0xF50CC, size: 0x2E }
+MSG_ItemShopDesc_CloseCall:
+  { type: BLOB, offset: 0xF50FC, size: 0x3A }
+MSG_ItemShopDesc_PowerRush:
+  { type: BLOB, offset: 0xF5138, size: 0x39 }
+MSG_ItemShopDesc_LastStand:
+  { type: BLOB, offset: 0xF5174, size: 0x3B }
+MSG_ItemShopDesc_MegaRush:
+  { type: BLOB, offset: 0xF51B0, size: 0x39 }
+MSG_ItemShopDesc_FirstAttack:
+  { type: BLOB, offset: 0xF51EC, size: 0x3A }
+MSG_ItemShopDesc_BumpAttack:
+  { type: BLOB, offset: 0xF5228, size: 0x3E }
+MSG_ItemShopDesc_SpinAttack:
+  { type: BLOB, offset: 0xF5268, size: 0x38 }
+MSG_ItemShopDesc_SpeedySpin:
+  { type: BLOB, offset: 0xF52E0, size: 0x2C }
+MSG_ItemShopDesc_FeelingFine:
+  { type: BLOB, offset: 0xF530C, size: 0x3B }
+MSG_ItemShopDesc_AttackFXA:
+  { type: BLOB, offset: 0xF5348, size: 0x32 }
+MSG_ItemShopDesc_AttackFXD:
+  { type: BLOB, offset: 0xF537C, size: 0x32 }
+MSG_ItemShopDesc_AttackFXB:
+  { type: BLOB, offset: 0xF53B0, size: 0x32 }
+MSG_ItemShopDesc_AttackFXE:
+  { type: BLOB, offset: 0xF53E4, size: 0x32 }
+MSG_ItemShopDesc_AttackFXC:
+  { type: BLOB, offset: 0xF5418, size: 0x32 }
+MSG_ItemShopDesc_AttackFXF:
+  { type: BLOB, offset: 0xF544C, size: 0x32 }
+MSG_ItemShopDesc_SlowGo:
+  { type: BLOB, offset: 0xF54C0, size: 0x37 }
+MSG_ItemShopDesc_PayOff:
+  { type: BLOB, offset: 0xF552C, size: 0x3A }
+MSG_ItemShopDesc_FireShield:
+  { type: BLOB, offset: 0xF5568, size: 0x3D }
+MSG_ItemShopDesc_ZapTap:
+  { type: BLOB, offset: 0xF55D4, size: 0x3D }
+MSG_ItemShopDesc_MoneyMoney:
+  { type: BLOB, offset: 0xF5614, size: 0x3D }
+MSG_ItemShopDesc_RightOn:
+  { type: BLOB, offset: 0xF5654, size: 0x38 }
+MSG_ItemShopDesc_RunawayPay:
+  { type: BLOB, offset: 0xF568C, size: 0x3E }
+MSG_ItemFullDesc_StoneCap:
+  { type: BLOB, offset: 0xF5C40, size: 0x6D }
+MSG_ItemFullDesc_VoltShroom:
+  { type: BLOB, offset: 0xF5CB0, size: 0x52 }
+MSG_ItemFullDesc_LifeShroom:
+  { type: BLOB, offset: 0xF5D78, size: 0x3F }
+MSG_ItemFullDesc_RepelGel:
+  { type: BLOB, offset: 0xF641C, size: 0x3C }
+MSG_ItemFullDesc_StrangeCake:
+  { type: BLOB, offset: 0xF6BCC, size: 0x70 }
+MSG_ItemFullDesc_KookyCookie:
+  { type: BLOB, offset: 0xF6C3C, size: 0x6D }
+MSG_ItemFullDesc_PowerJump:
+  { type: BLOB, offset: 0xF6DA4, size: 0x61 }
+MSG_ItemFullDesc_MegaJump:
+  { type: BLOB, offset: 0xF6E08, size: 0x5F }
+MSG_ItemFullDesc_JumpCharge:
+  { type: BLOB, offset: 0xF6E68, size: 0x98 }
+MSG_ItemFullDesc_SJumpChg:
+  { type: BLOB, offset: 0xF6F00, size: 0x9D }
+MSG_ItemFullDesc_SleepStomp:
+  { type: BLOB, offset: 0xF6FA0, size: 0x64 }
+MSG_ItemFullDesc_DizzyStomp:
+  { type: BLOB, offset: 0xF7004, size: 0x8B }
+MSG_ItemFullDesc_ShrinkStomp:
+  { type: BLOB, offset: 0xF70F8, size: 0x96 }
+MSG_ItemFullDesc_PowerSmash:
+  { type: BLOB, offset: 0xF725C, size: 0x54 }
+MSG_ItemFullDesc_MegaSmash:
+  { type: BLOB, offset: 0xF72B0, size: 0x5B }
+MSG_ItemFullDesc_SmashCharge:
+  { type: BLOB, offset: 0xF730C, size: 0x9D }
+MSG_ItemFullDesc_SSmashChg:
+  { type: BLOB, offset: 0xF73AC, size: 0xA3 }
+MSG_ItemFullDesc_HammerThrow:
+  { type: BLOB, offset: 0xF7450, size: 0x61 }
+MSG_ItemFullDesc_ShrinkSmash:
+  { type: BLOB, offset: 0xF74B4, size: 0x90 }
+MSG_ItemFullDesc_SpinSmash:
+  { type: BLOB, offset: 0xF7544, size: 0x61 }
+MSG_ItemFullDesc_QuakeHammer:
+  { type: BLOB, offset: 0xF7604, size: 0x5D }
+MSG_ItemFullDesc_GroupFocus:
+  { type: BLOB, offset: 0xF77A8, size: 0x3B }
+MSG_ItemFullDesc_PowerPlus:
+  { type: BLOB, offset: 0xF7888, size: 0x37 }
+MSG_ItemFullDesc_DefendPlus:
+  { type: BLOB, offset: 0xF78C0, size: 0x2C }
+MSG_ItemFullDesc_DamageDodge:
+  { type: BLOB, offset: 0xF78EC, size: 0x3D }
+MSG_ItemFullDesc_HPDrain:
+  { type: BLOB, offset: 0xF79A4, size: 0x84 }
+MSG_ItemFullDesc_SpikeShield:
+  { type: BLOB, offset: 0xF7B84, size: 0x39 }
+MSG_ItemFullDesc_PrettyLucky:
+  { type: BLOB, offset: 0xF7BF0, size: 0x3A }
+MSG_ItemFullDesc_LuckyDay:
+  { type: BLOB, offset: 0xF7C2C, size: 0x2E }
+MSG_ItemFullDesc_CloseCall:
+  { type: BLOB, offset: 0xF7C5C, size: 0x3A }
+MSG_ItemFullDesc_PowerRush:
+  { type: BLOB, offset: 0xF7C98, size: 0x39 }
+MSG_ItemFullDesc_LastStand:
+  { type: BLOB, offset: 0xF7CD4, size: 0x3B }
+MSG_ItemFullDesc_MegaRush:
+  { type: BLOB, offset: 0xF7D10, size: 0x38 }
+MSG_ItemFullDesc_FirstAttack:
+  { type: BLOB, offset: 0xF7D48, size: 0x39 }
+MSG_ItemFullDesc_BumpAttack:
+  { type: BLOB, offset: 0xF7D84, size: 0x3F }
+MSG_ItemFullDesc_SpinAttack:
+  { type: BLOB, offset: 0xF7DC4, size: 0x38 }
+MSG_ItemFullDesc_SpeedySpin:
+  { type: BLOB, offset: 0xF7E3C, size: 0x2C }
+MSG_ItemFullDesc_FeelingFine:
+  { type: BLOB, offset: 0xF7E68, size: 0x3B }
+MSG_ItemFullDesc_AttackFXA:
+  { type: BLOB, offset: 0xF7EA4, size: 0x32 }
+MSG_ItemFullDesc_AttackFXD:
+  { type: BLOB, offset: 0xF7ED8, size: 0x33 }
+MSG_ItemFullDesc_AttackFXB:
+  { type: BLOB, offset: 0xF7F0C, size: 0x32 }
+MSG_ItemFullDesc_AttackFXE:
+  { type: BLOB, offset: 0xF7F40, size: 0x32 }
+MSG_ItemFullDesc_AttackFXC:
+  { type: BLOB, offset: 0xF7F74, size: 0x32 }
+MSG_ItemFullDesc_AttackFXF:
+  { type: BLOB, offset: 0xF7FA8, size: 0x32 }
+MSG_ItemFullDesc_AllorNothing:
+  { type: BLOB, offset: 0xF7FDC, size: 0x5B }
+MSG_ItemFullDesc_SlowGo:
+  { type: BLOB, offset: 0xF8038, size: 0x37 }
+MSG_ItemFullDesc_IcePower:
+  { type: BLOB, offset: 0xF8070, size: 0x6A }
+MSG_ItemFullDesc_PayOff:
+  { type: BLOB, offset: 0xF80DC, size: 0x3A }
+MSG_ItemFullDesc_FireShield:
+  { type: BLOB, offset: 0xF8118, size: 0x76 }
+MSG_ItemFullDesc_ZapTap:
+  { type: BLOB, offset: 0xF81BC, size: 0x3D }
+MSG_ItemFullDesc_MoneyMoney:
+  { type: BLOB, offset: 0xF81FC, size: 0x3D }
+MSG_ItemFullDesc_RightOn:
+  { type: BLOB, offset: 0xF823C, size: 0x38 }
+MSG_ItemFullDesc_RunawayPay:
+  { type: BLOB, offset: 0xF8274, size: 0x3E }
+MSG_ItemFullDesc_FirstDegreeCard:
+  { type: BLOB, offset: 0xF8ED0, size: 0x3E }
+MSG_ItemFullDesc_SecondDegreeCard:
+  { type: BLOB, offset: 0xF8F10, size: 0x3D }
+MSG_ItemFullDesc_ThirdDegreeCard:
+  { type: BLOB, offset: 0xF8F50, size: 0x3F }
+MSG_ItemFullDesc_FourthDegreeCard:
+  { type: BLOB, offset: 0xF8F90, size: 0x3F }
+MSG_ItemFullDesc_Diploma:
+  { type: BLOB, offset: 0xF8FD0, size: 0x4F }
+MSG_ItemFullDesc_Letter25:
+  { type: BLOB, offset: 0xF90D4, size: 0x4E }
+MSG_ItemFullDesc_Letter01:
+  { type: BLOB, offset: 0xF9124, size: 0x59 }
+MSG_ItemFullDesc_Letter02:
+  { type: BLOB, offset: 0xF9180, size: 0x5D }
+MSG_ItemFullDesc_Letter03:
+  { type: BLOB, offset: 0xF91E0, size: 0x5D }
+MSG_ItemFullDesc_Letter04:
+  { type: BLOB, offset: 0xF9240, size: 0x5A }
+MSG_ItemFullDesc_Letter05:
+  { type: BLOB, offset: 0xF929C, size: 0x61 }
+MSG_ItemFullDesc_Letter06:
+  { type: BLOB, offset: 0xF9300, size: 0x63 }
+MSG_ItemFullDesc_Letter07:
+  { type: BLOB, offset: 0xF9364, size: 0x70 }
+MSG_ItemFullDesc_Letter08:
+  { type: BLOB, offset: 0xF93D4, size: 0x6A }
+MSG_ItemFullDesc_Letter09:
+  { type: BLOB, offset: 0xF9440, size: 0x5A }
+MSG_ItemFullDesc_Letter10:
+  { type: BLOB, offset: 0xF949C, size: 0x5F }
+MSG_ItemFullDesc_Letter11:
+  { type: BLOB, offset: 0xF94FC, size: 0x58 }
+MSG_ItemFullDesc_Letter12:
+  { type: BLOB, offset: 0xF9554, size: 0x5C }
+MSG_ItemFullDesc_Letter13:
+  { type: BLOB, offset: 0xF95B0, size: 0x69 }
+MSG_ItemFullDesc_Letter14:
+  { type: BLOB, offset: 0xF961C, size: 0x5C }
+MSG_ItemFullDesc_Letter15:
+  { type: BLOB, offset: 0xF9678, size: 0x63 }
+MSG_ItemFullDesc_Letter16:
+  { type: BLOB, offset: 0xF96DC, size: 0x5C }
+MSG_ItemFullDesc_Letter17:
+  { type: BLOB, offset: 0xF9738, size: 0x5E }
+MSG_ItemFullDesc_Letter18:
+  { type: BLOB, offset: 0xF9798, size: 0x64 }
+MSG_ItemFullDesc_Letter19:
+  { type: BLOB, offset: 0xF97FC, size: 0x6E }
+MSG_ItemFullDesc_Letter20:
+  { type: BLOB, offset: 0xF986C, size: 0x63 }
+MSG_ItemFullDesc_Letter21:
+  { type: BLOB, offset: 0xF98D0, size: 0x69 }
+MSG_ItemFullDesc_Letter22:
+  { type: BLOB, offset: 0xF993C, size: 0x63 }
+MSG_ItemFullDesc_Letter23:
+  { type: BLOB, offset: 0xF99A0, size: 0x60 }
+MSG_ItemFullDesc_Letter24:
+  { type: BLOB, offset: 0xF9A00, size: 0x5F }
+MSG_ItemName_HammerThrow:
+  { type: BLOB, offset: 0xFA164, size: 0xC }
+MSG_ItemName_QuakeHammer:
+  { type: BLOB, offset: 0xFA19C, size: 0xC }
+MSG_ItemName_Hammer:
+  { type: BLOB, offset: 0xFA468, size: 0x8 }
+MSG_ItemName_SuperHammer:
+  { type: BLOB, offset: 0xFA470, size: 0xE }
+MSG_ItemName_UltraHammer:
+  { type: BLOB, offset: 0xFA480, size: 0xC }
+MSG_Shop_00_MAC01:
+  { type: BLOB, offset: 0xFADFC, size: 0xD1 }
+MSG_Shop_01_MAC01:
+  { type: BLOB, offset: 0xFAED0, size: 0x4B }
+MSG_PartnerDesc_Goombario_Pause:
+  { type: BLOB, offset: 0xFD9A0, size: 0x90 }
+MSG_PartnerDesc_Parakarry_World:
+  { type: BLOB, offset: 0xFE0E8, size: 0x4D }
+MSG_PartnerDesc_Parakarry_Battle:
+  { type: BLOB, offset: 0xFE138, size: 0x2F }
+MSG_PartnerDesc_Parakarry_Battle_SkyDive:
+  { type: BLOB, offset: 0xFE168, size: 0xF }
+MSG_PartnerDesc_Parakarry_Battle_ShellShot:
+  { type: BLOB, offset: 0xFE178, size: 0x30 }
+MSG_PartnerDesc_Parakarry_Pause:
+  { type: BLOB, offset: 0xFE210, size: 0x120 }
+MSG_PartnerDesc_Parakarry_Pause_SkyDive1:
+  { type: BLOB, offset: 0xFE330, size: 0xF }
+MSG_PartnerDesc_Parakarry_Pause_SkyDive2:
+  { type: BLOB, offset: 0xFE340, size: 0xF }
+MSG_PartnerDesc_Parakarry_Pause_SkyDive3:
+  { type: BLOB, offset: 0xFE350, size: 0xF }
+MSG_PartnerDesc_Parakarry_Pause_ShellShot:
+  { type: BLOB, offset: 0xFE360, size: 0x30 }
+MSG_PartnerDesc_Parakarry_Pause_AirLift:
+  { type: BLOB, offset: 0xFE390, size: 0x54 }
+MSG_PartnerDesc_Bow_Battle_OuttaSight:
+  { type: BLOB, offset: 0xFE4A8, size: 0x37 }
+MSG_PartnerDesc_Bow_Pause_OuttaSight:
+  { type: BLOB, offset: 0xFE618, size: 0x37 }
+MSG_PartnerDesc_Watt_Battle_TurboCharge:
+  { type: BLOB, offset: 0xFE794, size: 0x3A }
+MSG_PartnerDesc_Watt_Pause_TurboCharge:
+  { type: BLOB, offset: 0xFE9BC, size: 0x3A }
+MSG_PartnerDesc_Sushie_Battle_WaterBlock:
+  { type: BLOB, offset: 0xFEB00, size: 0x39 }
+MSG_PartnerDesc_Sushie_Pause_WaterBlock:
+  { type: BLOB, offset: 0xFECD4, size: 0x39 }
+MSG_PartnerDesc_Lakilester_World:
+  { type: BLOB, offset: 0xFED4C, size: 0x40 }
+MSG_PartnerDesc_Lakilester_Battle_CloudNine:
+  { type: BLOB, offset: 0xFEDF0, size: 0x2F }
+MSG_PartnerDesc_Lakilester_Pause:
+  { type: BLOB, offset: 0xFEE54, size: 0x9B }
+MSG_PartnerDesc_Lakilester_Pause_CloudNine:
+  { type: BLOB, offset: 0xFEF74, size: 0x63 }
+MSG_EnemyName_GhostParakarry:
+  { type: BLOB, offset: 0xFF408, size: 0x9 }
+MSG_EnemyName_Mario:
+  { type: BLOB, offset: 0xFF5BC, size: 0x6 }
+MSG_PlayerMoveName_HammerThrow:
+  { type: BLOB, offset: 0xFF71C, size: 0xC }
+MSG_PlayerMoveName_ShrinkSmash:
+  { type: BLOB, offset: 0xFF728, size: 0xD }
+MSG_PlayerMoveName_DDownPound:
+  { type: BLOB, offset: 0xFF744, size: 0xD }
+MSG_PlayerMoveName_QuakeHammer:
+  { type: BLOB, offset: 0xFF754, size: 0xC }
+MSG_PartnerMoveName_ShellShot:
+  { type: BLOB, offset: 0xFF85C, size: 0xB }
+MSG_QuizQuestion_01:
+  { type: BLOB, offset: 0xFF93C, size: 0x3D }
+MSG_QuizQuestion_02:
+  { type: BLOB, offset: 0xFF97C, size: 0x5E }
+MSG_QuizQuestion_03:
+  { type: BLOB, offset: 0xFF9DC, size: 0x3B }
+MSG_QuizQuestion_05:
+  { type: BLOB, offset: 0xFFA5C, size: 0x46 }
+MSG_QuizQuestion_09:
+  { type: BLOB, offset: 0xFFB78, size: 0x3F }
+MSG_QuizQuestion_36:
+  { type: BLOB, offset: 0x1003D8, size: 0x66 }
+MSG_QuizQuestion_54:
+  { type: BLOB, offset: 0x1008E8, size: 0x46 }
+MSG_QuizQuestion_63:
+  { type: BLOB, offset: 0x100B5C, size: 0x54 }
+MSG_QuizChoice_26:
+  { type: BLOB, offset: 0x101238, size: 0x3F }
+MSG_QuizChoice_56:
+  { type: BLOB, offset: 0x1019D0, size: 0x43 }
+MSG_QuizChoice_63:
+  { type: BLOB, offset: 0x101B80, size: 0x35 }
+MSG_Credits_0000:
+  { type: BLOB, offset: 0xC872F0, size: 0xF }

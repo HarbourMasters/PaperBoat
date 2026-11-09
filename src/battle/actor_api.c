@@ -1,6 +1,7 @@
 #include "common.h"
 #include "effects.h"
 #include "battle/battle.h"
+#include "port/patches/Patches.h"
 
 extern s32 IsGroupHeal;
 extern s8 ApplyingBuff;
@@ -2896,6 +2897,10 @@ API_CALLABLE(GetStatusFlags) {
         flags |= STATUS_FLAG_CHILL_OUT;
     }
 
+    {
+        CALL_EVENT(OnActorStat, actor, ACTOR_STAT_STATUS_FLAGS, &flags);
+    }
+
     if (player_team_is_ability_active(actor, ABILITY_RIGHT_ON)) {
         flags |= STATUS_FLAG_RIGHT_ON;
     }
@@ -3159,7 +3164,10 @@ API_CALLABLE(GetActorAttackBoost) {
     }
 
     attackBoost = *args++;
-    evt_set_variable(script, attackBoost, get_actor(enemyID)->attackBoost);
+    Actor* actor = get_actor(enemyID);
+    s32 boost = actor->attackBoost;
+    CALL_EVENT(OnActorStat, actor, ACTOR_STAT_ATTACK_BOOST, &boost);
+    evt_set_variable(script, attackBoost, boost);
     return ApiStatus_DONE2;
 }
 
@@ -3173,7 +3181,10 @@ API_CALLABLE(GetActorDefenseBoost) {
     }
 
     defenseBoost = *args++;
-    evt_set_variable(script, defenseBoost, get_actor(enemyID)->defenseBoost);
+    Actor* actor = get_actor(enemyID);
+    s32 boost = actor->defenseBoost;
+    CALL_EVENT(OnActorStat, actor, ACTOR_STAT_DEFENSE_BOOST, &boost);
+    evt_set_variable(script, defenseBoost, boost);
     return ApiStatus_DONE2;
 }
 
@@ -3257,12 +3268,14 @@ API_CALLABLE(BoostAttack) {
                 dispatch_event_actor(actor, EVENT_RECEIVE_BUFF);
                 btl_cam_use_preset(BTL_CAM_DEFAULT);
                 btl_cam_move(15);
-                actor->isGlowing = true;
-                actor->attackBoost += attackBoost;
-                if (actor->attackBoost > 20) {
-                    actor->attackBoost = 20;
+                CALL_CANCELLABLE_EVENT(OnActorBoost, actor, ACTOR_STAT_BOOST_ATTACK, attackBoost, 0) {
+                    actor->isGlowing = true;
+                    actor->attackBoost += attackBoost;
+                    if (actor->attackBoost > 20) {
+                        actor->attackBoost = 20;
+                    }
                 }
-                fx_stat_change(attackBoost - 1, x2, y2, z2, 1.0f, 60);
+                port_stat_change_fx(ACTOR_STAT_BOOST_ATTACK, attackBoost, x2, y2, z2);
                 script->functionTemp[3] = 15;
                 script->functionTemp[0] = 3;
             } else {
@@ -3381,12 +3394,14 @@ API_CALLABLE(BoostDefense) {
                 dispatch_event_actor(actor, EVENT_RECEIVE_BUFF);
                 btl_cam_use_preset(BTL_CAM_DEFAULT);
                 btl_cam_move(15);
-                actor->isGlowing = true;
-                actor->defenseBoost += defenseBoost;
-                if (actor->defenseBoost > 20) {
-                    actor->defenseBoost = 20;
+                CALL_CANCELLABLE_EVENT(OnActorBoost, actor, ACTOR_STAT_BOOST_DEFENSE, defenseBoost, 0) {
+                    actor->isGlowing = true;
+                    actor->defenseBoost += defenseBoost;
+                    if (actor->defenseBoost > 20) {
+                        actor->defenseBoost = 20;
+                    }
                 }
-                fx_stat_change(defenseBoost + 5, x2, y2, z2, 1.0f, 60);
+                port_stat_change_fx(ACTOR_STAT_BOOST_DEFENSE, defenseBoost, x2, y2, z2);
                 script->functionTemp[3] = 15;
                 script->functionTemp[0] = 3;
             } else {
@@ -3715,7 +3730,12 @@ API_CALLABLE(HealActor) {
             if (script->functionTemp[3] == 0) {
                 btl_cam_use_preset(BTL_CAM_DEFAULT);
                 btl_cam_move(15);
-                actor->curHP += hpBoost;
+                {
+                    s32 delta = hpBoost;
+                    CALL_CANCELLABLE_EVENT(OnActorHpChange, actor, HP_SOURCE_HEAL, &delta) {
+                        actor->curHP += delta;
+                    }
+                }
                 if (actor->maxHP < actor->curHP) {
                     actor->curHP = actor->maxHP;
                 }

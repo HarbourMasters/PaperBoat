@@ -483,7 +483,10 @@ API_CALLABLE(GetPlayerAnimation) {
 API_CALLABLE(FullyRestoreHPandFP) {
     PlayerData* playerData = &gPlayerData;
 
-    playerData->curHP = playerData->curMaxHP;
+    s32 delta = playerData->curMaxHP - playerData->curHP;
+    CALL_CANCELLABLE_EVENT(OnActorHpChange, nullptr, HP_SOURCE_FULL_RESTORE, &delta) {
+        playerData->curHP += delta;
+    }
     playerData->curFP = playerData->curMaxFP;
     return ApiStatus_DONE2;
 }

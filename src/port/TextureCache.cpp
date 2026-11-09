@@ -1,4 +1,5 @@
 #include "TextureCache.h"
+#include "port/Engine.h"
 
 #include <algorithm>
 #include <cstdint>
@@ -92,7 +93,7 @@ void TextureCache_Configure() {
     }
 
     const uint64_t ceiling = TextureCache_CeilingBytes();
-    const int32_t step = std::clamp(CVarGetInteger("gGraphics.TextureCache", 0), 0, 4);
+    const int32_t step = std::clamp(Port_FeatureInt("graphics.texture_cache", 0), 0, 4);
     uint64_t budget = TextureCache_AutoBytes();
     if (step != 0) {
         budget = ceiling * (uint64_t) step / 4;

@@ -3,6 +3,7 @@
 #include "fio.h"
 #include "game_modes.h"
 #include "dx/config.h"
+#include "port/Engine.h"
 #include <string.h>
 
 #if VERSION_IQUE
@@ -277,18 +278,27 @@ void filemenu_yesno_handle_input(MenuPanel* menu) {
                     case FM_CONFIRM_CREATE:
                         clear_player_data();
                         clear_saved_variables();
-                        get_map_IDs_by_name_checked(NEW_GAME_MAP_ID, &gGameStatusPtr->areaID, &gGameStatusPtr->mapID);
-                        gGameStatusPtr->entryID = NEW_GAME_ENTRY_ID;
+                        {
+                            const char* newGameMap = NEW_GAME_MAP_ID;
+                            s32 newGameEntry = NEW_GAME_ENTRY_ID;
+                            CALL_EVENT(OnNewGameStart, &newGameMap, &newGameEntry);
+                            if (newGameMap == nullptr || !get_map_IDs_by_name(newGameMap, &gGameStatusPtr->areaID, &gGameStatusPtr->mapID)) {
+                                get_map_IDs_by_name_checked(NEW_GAME_MAP_ID, &gGameStatusPtr->areaID, &gGameStatusPtr->mapID);
+                                newGameEntry = NEW_GAME_ENTRY_ID;
+                            }
+                            gGameStatusPtr->entryID = newGameEntry;
+                        }
                         evt_set_variable(nullptr, GB_StoryProgress, NEW_GAME_STORY_PROGRESS);
 
                         selected = filemenu_menus[FILE_MENU_MAIN]->selected;
                         for (i = 0; i < ARRAY_COUNT(gSaveSlotSummary->filename); i++) {
                             gSaveSlotSummary[selected].filename[i] = filemenu_filename[i];
                         }
+                        CALL_EVENT(OnSaveFileCreate, selected);
                         fio_save_game(selected);
                         gSaveSlotMetadata[selected].hasData = true;
                         gSaveSlotMetadata[selected].validData = true;
-                        strcpy(gSaveSlotMetadata[selected].modName, DX_MOD_NAME);
+                        Port_CopyModName(gSaveSlotMetadata[selected].modName);
 
                         set_window_update(WIN_FILES_INPUT_FIELD, (intptr_t)filemenu_update_hidden_name_input);
                         set_window_update(WIN_FILES_INPUT_KEYBOARD, (intptr_t)filemenu_update_hidden_name_input);

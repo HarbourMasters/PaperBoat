@@ -2,6 +2,7 @@
 #include "PaperboatInputEditorWindow.h"
 
 #include "ShipInit.hpp"
+#include "port/Engine.h"
 #include "port/ui/cvar_prefixes.h"
 
 #include <ship/utils/StringHelper.h>
@@ -126,7 +127,7 @@ void PaperboatMenu::InitElement() {
            },
             "Not Available on DirectX" } },
         { DISABLE_FOR_MATCH_REFRESH_RATE_ON,
-          { [](disabledInfo& info) -> bool { return CVarGetInteger(CVAR_SETTING("MatchRefreshRate"), 0); },
+          { [](disabledInfo& info) -> bool { return Port_FeatureInt("graphics.match_refresh_rate", 0); },
             "Match Refresh Rate is Enabled" } },
         { DISABLE_FOR_ADVANCED_RESOLUTION_ON,
           { [](disabledInfo& info) -> bool { return CVarGetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".Enabled", 0); },

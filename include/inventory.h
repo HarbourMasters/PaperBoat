@@ -26,6 +26,9 @@ s32 count_item(s32 itemID);
 /// Returns whether the player has `itemID` as an equipped badge.
 b32 is_badge_equipped(s32 itemID);
 
+/// Returns the number of consumable slots the player can carry.
+s32 get_consumables_capacity(void);
+
 /// Returns the number of consumables in player inventory.
 s32 get_consumables_count(void);
 

@@ -1,0 +1,30 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+mac_flecha:
+  { type: TEXTURE, format: CI4, offset: 0x26B11F4, width: 32, height: 16, tlut: 0x26B12F4, symbol: mac_flecha }
+mac_flecha_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26B12F4, colors: 16, symbol: mac_flecha_tlut }
+dokan02:
+  { type: TEXTURE, format: CI4, offset: 0x26B1344, width: 32, height: 32, tlut: 0x26B1544, symbol: dokan02 }
+dokan02_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26B1544, colors: 16, symbol: dokan02_tlut }
+obk_nuno_2tif:
+  { type: TEXTURE, format: CI4, offset: 0x26B1594, width: 32, height: 32, tlut: 0x26B1794, symbol: obk_nuno_2tif }
+obk_nuno_2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26B1794, colors: 16, symbol: obk_nuno_2tif_tlut }
+jan_kassya2tif:
+  { type: TEXTURE, format: CI8, offset: 0x26B17E4, width: 32, height: 64, tlut: 0x26B1FE4, symbol: jan_kassya2tif }
+jan_kassya2tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26B1FE4, colors: 256, symbol: jan_kassya2tif_tlut }
+jan_kassyatif:
+  { type: TEXTURE, format: CI4, offset: 0x26B2214, width: 32, height: 32, tlut: 0x26B2414, symbol: jan_kassyatif }
+jan_kassyatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26B2414, colors: 16, symbol: jan_kassyatif_tlut }
+jan_boaltif:
+  { type: TEXTURE, format: CI4, offset: 0x26B2464, width: 16, height: 16, tlut: 0x26B24E4, symbol: jan_boaltif }
+jan_boaltif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26B24E4, colors: 16, symbol: jan_boaltif_tlut }
+jan_ropetif:
+  { type: TEXTURE, format: I4, offset: 0x26B2534, width: 16, height: 16, symbol: jan_ropetif }

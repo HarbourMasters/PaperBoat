@@ -7,7 +7,11 @@
 #include "nlohmann/json.hpp"
 #include "port/build.h"
 #include "port/enhancements/PortEnhancements.h"
+#include "port/features/Features.h"
+#include "port/hooks/Events.h"
 #include "port/interpolation/FrameInterpolation.h"
+#include "port/modding/ModInternal.h"
+#include "port/modding/ModManifest.h"
 #include "port/ui/cvar_prefixes.h"
 #include "port/audio/AudioVolume.h"
 #include "port/os/OS.h"
@@ -260,12 +264,15 @@ void GameEngine::FinishInit() {
         }
     }
 
+    Romhack::Mount(archiveManager);
+
     const std::string hd_path = Ship::Context::GetPathRelativeToAppDirectory("paperboat-hd.o2r");
     if (std::filesystem::exists(hd_path)) {
         SPDLOG_INFO("Loading HD asset archive: paperboat-hd.o2r");
         archiveManager->AddArchive(hd_path);
     }
     UpdateModFiles(true);
+    Mod::ResolveFeatureRules();
 
 #ifdef _DEBUG
     spdlog::set_level(spdlog::level::trace);
@@ -318,6 +325,8 @@ void GameEngine::FinishInit() {
         std::make_shared<PM64::ResourceFactoryBinaryVec3sV0>(), RESOURCE_FORMAT_BINARY, "Vec3s",
         static_cast<uint32_t>(0x56433353), 0
     );
+
+    Romhack::ApplyDataTables();
 }
 
 bool GameEngine::GenAssetFile(bool exitOnFail) {
@@ -388,12 +397,7 @@ void GameEngine::RunExtract(int argc, char* argv[]) {
         gui->GetMenu()->Hide();
     }
 
-    std::vector<std::string> args;
-    if (argc > 1) {
-        for (int i = 1; i < argc; i++) {
-            args.push_back(argv[i]);
-        }
-    }
+    std::vector<std::string> args = Romhack::ConsumeLaunchArgs(argc, argv);
 
     GameExtractor extract;
     PromptSteps promptStep = PS_FILE_CHECK;
@@ -632,6 +636,14 @@ void GameEngine::RunExtract(int argc, char* argv[]) {
                     }
                     case PS_FIRST: {
                         const auto startExtract = [&]() {
+                            if (const auto romhack = extract.GetRomhack()) {
+                                const std::string msg = romhack->info.name
+                                    + " is a romhack and loads on top of the base game.\n"
+                                      "Pick a vanilla Paper Mario (US) ROM first.";
+                                PaperboatGui::RegisterPopup("Base Game Required", msg.c_str());
+                                promptStep = PS_FILE_CHECK;
+                                return;
+                            }
                             extracting = true;
                             extractStarted = true;
                             file = extract.GetRomPath();
@@ -686,7 +698,15 @@ void GameEngine::RunExtract(int argc, char* argv[]) {
                 args.erase(args.begin());
                 extract = GameExtractor();
                 if (extract.RunStandalone(file)) {
-                    std::string archive = "pm64.o2r";
+                    const auto romhack = extract.GetRomhack();
+                    if (romhack.has_value() && !AnyRomArchiveExists()) {
+                        const std::string msg = romhack->info.name
+                            + " is a romhack and loads on top of the base game.\n"
+                              "Generate the game files from a vanilla Paper Mario (US) ROM first.";
+                        PaperboatGui::RegisterPopup("Base Game Required", msg.c_str());
+                        break;
+                    }
+                    std::string archive = romhack.has_value() ? romhack->output : "pm64.o2r";
                     if (std::filesystem::exists(Ship::Context::GetAppDirectoryPath("boat") + "/" + archive)) {
                         std::string msg = "Archive for current ROM, " + archive + ", already exists.\nExtract again?";
                         PaperboatGui::RegisterPopup("Confirm Re-extract", msg.c_str(), "Yes", "No", [&]() {
@@ -844,7 +864,9 @@ void GameEngine::Create(int argc, char* argv[]) {
     PaperboatGui::SetupGuiElements();
     PortEnhancements_Init();
     ShipInit::InitAll();
+    Mod::ListenServices();
     instance->AudioInit();
+    CALL_EVENT(EngineReady);
 }
 
 bool GameEngine::sRelaunchRequested = false;
@@ -948,7 +970,7 @@ static void ApplyDPadAsLeftStick(bool enabled) {
 void GameEngine::StartFrame() const {
     Ship::Context::GetRawInstance()->GetWindow()->HandleEvents();
 
-    const bool altAssets = CVarGetInteger("gEnhancements.Mods.AlternateAssets", 0) != 0;
+    const bool altAssets = Port_FeatureInt("graphics.alt_assets", 0) != 0;
     if (altAssets != mPrevAltAssets) {
         mPrevAltAssets = altAssets;
         Ship::Context::GetRawInstance()->GetResourceManager()->SetAltAssetsEnabled(altAssets);
@@ -972,7 +994,7 @@ void GameEngine::StartFrame() const {
 
     // HD replacements upload with generated mip chains, and drawing with those hangs the GPU
     // on Adreno through zink. The devices that hit it ship with this turned off.
-    const bool autoMipmaps = CVarGetInteger("gEnhancements.Mods.AutoMipmaps", 1) != 0;
+    const bool autoMipmaps = Port_FeatureInt("graphics.hd_mipmaps", 1) != 0;
     if (autoMipmaps != mPrevAutoMipmaps) {
         mPrevAutoMipmaps = autoMipmaps;
         if (gsFast3dWindow != nullptr) {
@@ -983,7 +1005,7 @@ void GameEngine::StartFrame() const {
         SPDLOG_INFO("HD auto-mipmaps {}", autoMipmaps ? "enabled" : "disabled");
     }
 
-    const bool mipmaps = CVarGetInteger("gEnhancements.Graphics.DisableMipmaps", 0) == 0;
+    const bool mipmaps = Port_FeatureInt("graphics.disable_mipmaps", 0) == 0;
     if (mipmaps != mPrevMipmaps) {
         mPrevMipmaps = mipmaps;
         if (gsFast3dWindow != nullptr) {
@@ -1000,6 +1022,9 @@ void GameEngine::StartFrame() const {
 
     switch (dwScancode) {
         case KbScancode::LUS_KB_TAB: {
+            if (Features::IsLocked("graphics.alt_assets")) {
+                break;
+            }
             CVarSetInteger(
                 "gEnhancements.Mods.AlternateAssets", !CVarGetInteger("gEnhancements.Mods.AlternateAssets", 0)
             );
@@ -1015,7 +1040,7 @@ void GameEngine::StartFrame() const {
 }
 
 uint32_t GameEngine::GetInterpolationFPS() {
-    if (CVarGetInteger(CVAR_SETTING("MatchRefreshRate"), 0)) {
+    if (Port_FeatureInt("graphics.match_refresh_rate", 0)) {
         return Ship::Context::GetRawInstance()->GetWindow()->GetCurrentRefreshRate();
     }
 
@@ -1024,10 +1049,10 @@ uint32_t GameEngine::GetInterpolationFPS() {
     {
         return std::min<uint32_t>(
             Ship::Context::GetRawInstance()->GetWindow()->GetCurrentRefreshRate(),
-            CVarGetInteger(CVAR_SETTING("InterpolationFPS"), 30)
+            Port_FeatureInt("graphics.interpolation_fps", 30)
         );
     }
-    return CVarGetInteger(CVAR_SETTING("InterpolationFPS"), 30);
+    return Port_FeatureInt("graphics.interpolation_fps", 30);
 }
 
 // Audio
@@ -1340,6 +1365,28 @@ extern "C" void GameEngine_LogInfo(const char* fmt, ...) {
     vsnprintf(buffer, sizeof(buffer), fmt, args);
     va_end(args);
     SPDLOG_INFO("{}", buffer);
+}
+
+extern "C" void GameEngine_LogWarn(const char* fmt, ...) {
+    char buffer[512];
+    va_list args;
+    va_start(args, fmt);
+    vsnprintf(buffer, sizeof(buffer), fmt, args);
+    va_end(args);
+    SPDLOG_WARN("{}", buffer);
+}
+
+extern "C" const char* Port_GetModName(void) {
+    return Romhack_GetModName();
+}
+
+extern "C" bool Port_ModNameMatches(const char* modName) {
+    return strncmp(modName, Port_GetModName(), PORT_MOD_NAME_SIZE - 1) == 0;
+}
+
+extern "C" void Port_CopyModName(char* dest) {
+    strncpy(dest, Port_GetModName(), PORT_MOD_NAME_SIZE - 1);
+    dest[PORT_MOD_NAME_SIZE - 1] = '\0';
 }
 
 // C-callable stack trace logging using spdlog.

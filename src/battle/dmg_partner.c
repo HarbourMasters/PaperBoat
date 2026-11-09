@@ -90,7 +90,14 @@ HitResult calc_partner_test_enemy(void) {
         && !player_team_is_ability_active(partner, ABILITY_SPIKE_SHIELD)
     ) {
         sfx_play_sound_at_position(SOUND_HIT_SPIKE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
-        dispatch_damage_event_partner_1(1, EVENT_SPIKE_CONTACT);
+        {
+            s32 hazardDamage = 1;
+            CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SPIKE, &hazardDamage);
+            if (hazardDamage < 0) {
+                hazardDamage = 0;
+            }
+            dispatch_damage_event_partner_1(hazardDamage, EVENT_SPIKE_CONTACT);
+        }
         dispatch_event_actor(target, EVENT_SPIKE_TAUNT);
         return HIT_RESULT_BACKFIRE;
     }
@@ -101,7 +108,14 @@ HitResult calc_partner_test_enemy(void) {
         && !(battleStatus->curAttackEventSuppression & SUPPRESS_EVENT_BURN_CONTACT)
     ) {
         sfx_play_sound_at_position(SOUND_HIT_FIRE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
-        dispatch_damage_event_partner_1(1, EVENT_BURN_CONTACT);
+        {
+            s32 hazardDamage = 1;
+            CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_FIRE, &hazardDamage);
+            if (hazardDamage < 0) {
+                hazardDamage = 0;
+            }
+            dispatch_damage_event_partner_1(hazardDamage, EVENT_BURN_CONTACT);
+        }
         dispatch_event_actor(target, EVENT_BURN_TAUNT);
         return HIT_RESULT_BACKFIRE;
     }
@@ -115,7 +129,14 @@ HitResult calc_partner_test_enemy(void) {
                 && !(battleStatus->curAttackEventSuppression & SUPPRESS_EVENT_SPIKY_TOP)
             ) {
                 sfx_play_sound_at_position(SOUND_HIT_SPIKE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
-                dispatch_damage_event_partner_1(1, EVENT_SPIKE_CONTACT);
+                {
+                    s32 hazardDamage = 1;
+                    CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SPIKE_TOP, &hazardDamage);
+                    if (hazardDamage < 0) {
+                        hazardDamage = 0;
+                    }
+                    dispatch_damage_event_partner_1(hazardDamage, EVENT_SPIKE_CONTACT);
+                }
                 dispatch_event_actor(target, EVENT_SPIKE_TAUNT);
                 return HIT_RESULT_BACKFIRE;
             }
@@ -126,7 +147,14 @@ HitResult calc_partner_test_enemy(void) {
                 && !(battleStatus->curAttackEventSuppression & SUPPRESS_EVENT_ALT_SPIKY)
             ) {
                 sfx_play_sound_at_position(SOUND_HIT_SPIKE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
-                dispatch_damage_event_partner_1(1, EVENT_SPIKE_CONTACT);
+                {
+                    s32 hazardDamage = 1;
+                    CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SPIKE, &hazardDamage);
+                    if (hazardDamage < 0) {
+                        hazardDamage = 0;
+                    }
+                    dispatch_damage_event_partner_1(hazardDamage, EVENT_SPIKE_CONTACT);
+                }
                 dispatch_event_actor(target, EVENT_SPIKE_TAUNT);
                 return HIT_RESULT_BACKFIRE;
             }
@@ -140,7 +168,14 @@ HitResult calc_partner_test_enemy(void) {
         {
             sfx_play_sound_at_position(SOUND_HIT_SHOCK, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
             apply_shock_effect(partner);
-            dispatch_damage_event_partner_1(1, EVENT_SHOCK_HIT);
+            {
+                s32 hazardDamage = 1;
+                CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SHOCK, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
+                dispatch_damage_event_partner_1(hazardDamage, EVENT_SHOCK_HIT);
+            }
             return HIT_RESULT_BACKFIRE;
         }
 
@@ -150,7 +185,14 @@ HitResult calc_partner_test_enemy(void) {
             && !(battleStatus->curAttackEventSuppression & SUPPRESS_EVENT_BURN_CONTACT))
         {
             sfx_play_sound_at_position(SOUND_HIT_FIRE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
-            dispatch_damage_event_partner_1(1, EVENT_BURN_CONTACT);
+            {
+                s32 hazardDamage = 1;
+                CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_FIRE, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
+                dispatch_damage_event_partner_1(hazardDamage, EVENT_BURN_CONTACT);
+            }
             dispatch_event_actor(target, EVENT_BURN_TAUNT);
             return HIT_RESULT_BACKFIRE;
         }
@@ -203,11 +245,15 @@ HitResult calc_partner_damage_enemy(void) {
         dispatchEvent = EVENT_ZERO_DAMAGE;
         sfx_play_sound_at_position(SOUND_IMMUNE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
     } else {
-        if ((targetPart->eventFlags & ACTOR_EVENT_FLAG_ILLUSORY)
-            || (target->transparentStatus == STATUS_KEY_TRANSPARENT)
-            || ((targetPart->eventFlags & ACTOR_EVENT_FLAG_BURIED) && !(battleStatus->curAttackElement & DAMAGE_TYPE_QUAKE))
-        ) {
-            return HIT_RESULT_MISS;
+        {
+            s32 strikeResult = ((targetPart->eventFlags & ACTOR_EVENT_FLAG_ILLUSORY)
+                || (target->transparentStatus == STATUS_KEY_TRANSPARENT)
+                || ((targetPart->eventFlags & ACTOR_EVENT_FLAG_BURIED) && !(battleStatus->curAttackElement & DAMAGE_TYPE_QUAKE)))
+                ? HIT_RESULT_MISS : HIT_RESULT_HIT;
+            CALL_EVENT(OnHitCheck, partner, target, ATTACK_SOURCE_PARTNER, HIT_CHECK_STRIKE, &strikeResult);
+            if (strikeResult == HIT_RESULT_MISS) {
+                return HIT_RESULT_MISS;
+            }
         }
 
         if (target->stoneStatus == STATUS_KEY_STONE) {
@@ -231,7 +277,14 @@ HitResult calc_partner_damage_enemy(void) {
             && targetPart->eventFlags & ACTOR_EVENT_FLAG_SPIKY_TOP
         ) {
             sfx_play_sound_at_position(SOUND_HIT_SPIKE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
-            dispatch_damage_event_partner_1(1, EVENT_SPIKE_CONTACT);
+            {
+                s32 hazardDamage = 1;
+                CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SPIKE_TOP, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
+                dispatch_damage_event_partner_1(hazardDamage, EVENT_SPIKE_CONTACT);
+            }
             dispatch_event_actor(target, EVENT_SPIKE_TAUNT);
             return HIT_RESULT_BACKFIRE;
         }
@@ -244,7 +297,14 @@ HitResult calc_partner_damage_enemy(void) {
 
             if (!(battleStatus->curAttackEventSuppression & SUPPRESS_EVENT_EXPLODE_CONTACT)) {
                 sfx_play_sound_at_position(SOUND_HIT_FIRE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
-                dispatch_damage_event_partner_1(1, EVENT_BURN_CONTACT);
+                {
+                    s32 hazardDamage = 1;
+                    CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_EXPLODE, &hazardDamage);
+                    if (hazardDamage < 0) {
+                        hazardDamage = 0;
+                    }
+                    dispatch_damage_event_partner_1(hazardDamage, EVENT_BURN_CONTACT);
+                }
                 return HIT_RESULT_BACKFIRE;
             }
 
@@ -263,7 +323,14 @@ HitResult calc_partner_damage_enemy(void) {
             && !(battleStatus->curAttackEventSuppression & SUPPRESS_EVENT_BURN_CONTACT)
         ) {
             sfx_play_sound_at_position(SOUND_HIT_FIRE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
-            dispatch_damage_event_partner_1(1, EVENT_BURN_CONTACT);
+            {
+                s32 hazardDamage = 1;
+                CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_FIRE, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
+                dispatch_damage_event_partner_1(hazardDamage, EVENT_BURN_CONTACT);
+            }
             dispatch_event_actor(target, EVENT_BURN_TAUNT);
             return HIT_RESULT_BACKFIRE;
         }
@@ -274,7 +341,14 @@ HitResult calc_partner_damage_enemy(void) {
             && !(battleStatus->curAttackEventSuppression & SUPPRESS_EVENT_SPIKY_FRONT)
         ) {
             sfx_play_sound_at_position(SOUND_HIT_SPIKE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
-            dispatch_damage_event_partner_1(1, EVENT_SPIKE_CONTACT);
+            {
+                s32 hazardDamage = 1;
+                CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SPIKE, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
+                dispatch_damage_event_partner_1(hazardDamage, EVENT_SPIKE_CONTACT);
+            }
             dispatch_event_actor(target, EVENT_SPIKE_TAUNT);
             return HIT_RESULT_BACKFIRE;
         }
@@ -301,7 +375,14 @@ HitResult calc_partner_damage_enemy(void) {
             && !(battleStatus->curAttackEventSuppression & SUPPRESS_EVENT_ALT_SPIKY)
         ) {
             sfx_play_sound_at_position(SOUND_HIT_SPIKE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
-            dispatch_damage_event_partner_1(1, EVENT_SPIKE_CONTACT);
+            {
+                s32 hazardDamage = 1;
+                CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SPIKE, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
+                dispatch_damage_event_partner_1(hazardDamage, EVENT_SPIKE_CONTACT);
+            }
             dispatch_event_actor(target, EVENT_SPIKE_TAUNT);
             return HIT_RESULT_BACKFIRE;
         }
@@ -313,7 +394,14 @@ HitResult calc_partner_damage_enemy(void) {
             && !(battleStatus->curAttackEventSuppression & SUPPRESS_EVENT_SPIKY_TOP)
         ) {
             sfx_play_sound_at_position(SOUND_HIT_SPIKE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
-            dispatch_damage_event_partner_1(1, EVENT_SPIKE_CONTACT);
+            {
+                s32 hazardDamage = 1;
+                CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SPIKE_TOP, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
+                dispatch_damage_event_partner_1(hazardDamage, EVENT_SPIKE_CONTACT);
+            }
             dispatch_event_actor(target, EVENT_SPIKE_TAUNT);
             return HIT_RESULT_BACKFIRE;
         }
@@ -342,7 +430,14 @@ HitResult calc_partner_damage_enemy(void) {
             ) {
                 sfx_play_sound_at_position(SOUND_HIT_SHOCK, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
                 apply_shock_effect(partner);
-                dispatch_damage_event_partner_1(1, EVENT_SHOCK_HIT);
+                {
+                    s32 hazardDamage = 1;
+                    CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SHOCK, &hazardDamage);
+                    if (hazardDamage < 0) {
+                        hazardDamage = 0;
+                    }
+                    dispatch_damage_event_partner_1(hazardDamage, EVENT_SHOCK_HIT);
+                }
                 return HIT_RESULT_BACKFIRE;
             } else {
                 return HIT_RESULT_HIT;
@@ -384,12 +479,23 @@ HitResult calc_partner_damage_enemy(void) {
         statusChanceOrDefense = get_defense(target, targetPart->defenseTable, battleStatus->curAttackElement);
 
         if (!(battleStatus->curAttackElement & DAMAGE_TYPE_IGNORE_DEFENSE)) {
-            statusChanceOrDefense += target->defenseBoost;
+            s32 defenseBoost = target->defenseBoost;
+            CALL_EVENT(OnActorStat, target, ACTOR_STAT_DEFENSE_BOOST, &defenseBoost);
+            statusChanceOrDefense += defenseBoost;
+        }
+        {
+            CALL_EVENT(OnDamageDefense, partner, target, ATTACK_SOURCE_PARTNER, battleStatus->curAttackDamage, &statusChanceOrDefense);
         }
 
         damageDealt = battleStatus->curAttackDamage;
         CALL_EVENT(OnPartnerAttackDamage, partner, target, &damageDealt);
+        {
+            CALL_EVENT(OnDamageCalc, partner, target, ATTACK_SOURCE_PARTNER, DAMAGE_STAGE_BASE, &damageDealt);
+        }
         damageDealt += partner->attackBoost;
+        {
+            CALL_EVENT(OnDamageCalc, partner, target, ATTACK_SOURCE_PARTNER, DAMAGE_STAGE_AFTER_BOOSTS, &damageDealt);
+        }
 
         if (gBattleStatus.flags1 & BS_FLAGS1_TRIGGER_EVENTS) {
             if (battleStatus->curAttackElement & DAMAGE_TYPE_BLAST
@@ -424,17 +530,26 @@ HitResult calc_partner_damage_enemy(void) {
         }
 
         damageDealt -= statusChanceOrDefense;
+        {
+            CALL_EVENT(OnDamageCalc, partner, target, ATTACK_SOURCE_PARTNER, DAMAGE_STAGE_AFTER_DEFENSE, &damageDealt);
+        }
         target->hpChangeCounter = 0;
 
         if (damageDealt < 0) {
             damageDealt = 0;
         }
 
-        if ((battleStatus->curAttackElement & DAMAGE_TYPE_POWER_BOUNCE) && damageDealt > 0) {
-            damageDealt += battleStatus->powerBounceCounter;
+        {
+            CALL_EVENT(OnDamageCalc, partner, target, ATTACK_SOURCE_PARTNER, DAMAGE_STAGE_AFTER_BADGES, &damageDealt);
+        }
 
-            if (damageDealt < 1) {
-                damageDealt = 1;
+        if ((battleStatus->curAttackElement & DAMAGE_TYPE_POWER_BOUNCE) && damageDealt > 0) {
+            CALL_CANCELLABLE_EVENT(OnPowerBounceDamage, partner, battleStatus->powerBounceCounter, &damageDealt) {
+                damageDealt += battleStatus->powerBounceCounter;
+
+                if (damageDealt < 1) {
+                    damageDealt = 1;
+                }
             }
         }
 
@@ -458,6 +573,9 @@ HitResult calc_partner_damage_enemy(void) {
 
             battleStatus->lastAttackDamage = 0;
         } else {
+            {
+                CALL_EVENT(OnDamageCalc, partner, target, ATTACK_SOURCE_PARTNER, DAMAGE_STAGE_FINAL, &damageDealt);
+            }
             target->damageCounter += damageDealt;
             target->hpChangeCounter -= damageDealt;
             battleStatus->lastAttackDamage = 0;
@@ -469,7 +587,11 @@ HitResult calc_partner_damage_enemy(void) {
                 && !partImmuneToElement
                 && !(targetPart->targetFlags & ACTOR_PART_TARGET_NO_DAMAGE)
             ) {
-                target->curHP -= damageDealt;
+                s32 delta = -damageDealt;
+                CALL_CANCELLABLE_EVENT(OnActorHpChange, target, HP_SOURCE_PARTNER_ATTACK, &delta) {
+                    target->curHP += delta;
+                }
+                damageDealt = -delta;
 
                 if (target->curHP < 1) {
                     target->curHP = 0;
@@ -490,7 +612,9 @@ HitResult calc_partner_damage_enemy(void) {
             ) {
                 dispatchEvent = (!(gBattleStatus.flags1 & BS_FLAGS1_TRIGGER_EVENTS)) ? EVENT_ZERO_DAMAGE : EVENT_IMMUNE;
                 sfx_play_sound_at_position(SOUND_IMMUNE, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
-                dispatch_event_actor(target, dispatchEvent);
+                CALL_CANCELLABLE_EVENT(OnDamageEventDispatch, target, HP_SOURCE_PARTNER_ATTACK, &dispatchEvent) {
+                    dispatch_event_actor(target, dispatchEvent);
+                }
                 show_immune_bonk(state->goalPos.x, state->goalPos.y, state->goalPos.z, 0, 1, 3);
                 if (gBattleStatus.flags1 & (BS_FLAGS1_NICE_HIT | BS_FLAGS1_SUPER_HIT)) {
                     return HIT_RESULT_NICE;
@@ -501,7 +625,14 @@ HitResult calc_partner_damage_enemy(void) {
 
             sfx_play_sound_at_position(SOUND_HIT_SHOCK, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
             apply_shock_effect(partner);
-            dispatch_damage_event_partner_1(1, EVENT_SHOCK_HIT);
+            {
+                s32 hazardDamage = 1;
+                CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SHOCK, &hazardDamage);
+                if (hazardDamage < 0) {
+                    hazardDamage = 0;
+                }
+                dispatch_damage_event_partner_1(hazardDamage, EVENT_SHOCK_HIT);
+            }
             return HIT_RESULT_BACKFIRE;
         }
     }
@@ -761,7 +892,9 @@ HitResult calc_partner_damage_enemy(void) {
     }
 
     battleStatus->wasStatusInflicted = wasStatusInflicted;
-    dispatch_event_actor(target, dispatchEvent);
+    CALL_CANCELLABLE_EVENT(OnDamageEventDispatch, target, HP_SOURCE_PARTNER_ATTACK, &dispatchEvent) {
+        dispatch_event_actor(target, dispatchEvent);
+    }
 
     if (!(target->flags & ACTOR_FLAG_NO_DMG_POPUP)) {
         if (battleStatus->lastAttackDamage == 0) {
@@ -906,7 +1039,14 @@ HitResult calc_partner_damage_enemy(void) {
         !(battleStatus->curAttackEventSuppression & SUPPRESS_EVENT_SHOCK_CONTACT)) {
         sfx_play_sound_at_position(SOUND_HIT_SHOCK, SOUND_SPACE_DEFAULT, state->goalPos.x, state->goalPos.y, state->goalPos.z);
         apply_shock_effect(partner);
-        dispatch_damage_event_partner_1(1, EVENT_SHOCK_HIT);
+        {
+            s32 hazardDamage = 1;
+            CALL_EVENT(OnContactHazard, target, partner, CONTACT_HAZARD_SHOCK, &hazardDamage);
+            if (hazardDamage < 0) {
+                hazardDamage = 0;
+            }
+            dispatch_damage_event_partner_1(hazardDamage, EVENT_SHOCK_HIT);
+        }
         return HIT_RESULT_BACKFIRE;
     }
 
@@ -919,6 +1059,7 @@ s32 dispatch_damage_event_partner(s32 damageAmount, s32 event, s32 stopMotion) {
     ActorState* state = &partner->state;
     s32 hpChange;
     s32 flagCheck;
+    b32 hpOwned = false;
 
     battleStatus->curAttackDamage = damageAmount;
 
@@ -930,7 +1071,15 @@ s32 dispatch_damage_event_partner(s32 damageAmount, s32 event, s32 stopMotion) {
     partner->damageCounter += hpChange;
     partner->hpChangeCounter -= hpChange;
     battleStatus->lastAttackDamage = 0;
-    partner->curHP -= hpChange;
+    {
+        s32 delta = -hpChange;
+        CALL_CANCELLABLE_EVENT(OnActorHpChange, partner, HP_SOURCE_DIRECT, &delta) {
+            partner->curHP += delta;
+        } else {
+            hpOwned = true;
+        }
+        hpChange = -delta;
+    }
 
     if (partner->curHP <= 0) {
         event = EVENT_DEATH;
@@ -950,14 +1099,14 @@ s32 dispatch_damage_event_partner(s32 damageAmount, s32 event, s32 stopMotion) {
         }
     }
 
-    if (battleStatus->lastAttackDamage > 0) {
+    if (battleStatus->lastAttackDamage > 0 && !hpOwned) {
         gBattleStatus.flags1 |= BS_FLAGS1_TRIGGER_EVENTS;
 
         inflict_status(partner, STATUS_KEY_KO, battleStatus->lastAttackDamage);
     }
 
     if (!stopMotion) {
-        set_goal_pos_to_part(state, ACTOR_PARTNER, 0);
+        set_goal_pos_to_part(state, ACTOR_PARTNER, -1);
     }
 
     show_next_damage_popup(state->goalPos.x, state->goalPos.y, state->goalPos.z,
@@ -972,7 +1121,9 @@ s32 dispatch_damage_event_partner(s32 damageAmount, s32 event, s32 stopMotion) {
     partner->flags |= ACTOR_FLAG_HEALTH_BAR_HIDDEN;
 
     flagCheck = (gBattleStatus.flags1 & (BS_FLAGS1_NICE_HIT | BS_FLAGS1_SUPER_HIT)) != 0;
-    dispatch_event_partner(event);
+    CALL_CANCELLABLE_EVENT(OnDamageEventDispatch, partner, HP_SOURCE_DIRECT, &event) {
+        dispatch_event_partner(event);
+    }
     return flagCheck;
 }
 
@@ -1068,6 +1219,14 @@ API_CALLABLE(PartnerDamageEnemy) {
     gBattleStatus.curAttackDamage = evt_get_variable(script, *args++);
     gBattleStatus.powerBounceCounter = 0;
     flags = *args++;
+    {
+        Actor* attacker = battleStatus->partnerActor;
+        s32 damage = battleStatus->curAttackDamage;
+        s32 status = battleStatus->curAttackStatus;
+        CALL_EVENT(OnAttackBegin, ATTACK_API_PARTNER_DAMAGE_ENEMY, enemy, &attacker, &damage, &status);
+        battleStatus->curAttackDamage = damage;
+        battleStatus->curAttackStatus = status;
+    }
 
     #if DX_DEBUG_MENU
     if (dx_debug_is_cheat_enabled(DEBUG_CHEAT_GOD_MODE)) {
@@ -1357,6 +1516,7 @@ API_CALLABLE(PartnerTestEnemy) {
 
     battleStatus->statusDuration = (battleStatus->curAttackStatus & 0xF00) >> 8;
     damageResult = calc_partner_test_enemy();
+    CALL_EVENT(OnHitCheck, battleStatus->partnerActor, get_actor(battleStatus->curTargetID), ATTACK_SOURCE_PARTNER, HIT_CHECK_TEST, &damageResult);
 
     if (damageResult < 0) {
         return ApiStatus_FINISH;

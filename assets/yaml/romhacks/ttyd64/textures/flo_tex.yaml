@@ -1,0 +1,48 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+flo_hibitif:
+  { type: TEXTURE, format: CI4, offset: 0x2890F20, width: 32, height: 32, tlut: 0x2891120, symbol: flo_hibitif }
+flo_hibitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2891120, colors: 16, symbol: flo_hibitif_tlut }
+dokan02:
+  { type: TEXTURE, format: CI4, offset: 0x2891170, width: 32, height: 32, tlut: 0x2891370, symbol: dokan02 }
+dokan02_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2891370, colors: 16, symbol: dokan02_tlut }
+flo_watertif_filter:
+  { type: TEXTURE, format: IA8, offset: 0x28913C0, width: 32, height: 64, symbol: flo_watertif_filter }
+flo_watertif_filter_aux:
+  { type: TEXTURE, format: IA8, offset: 0x28917C0, width: 32, height: 32, symbol: flo_watertif_filter_aux }
+mac_mac_house3tif:
+  { type: TEXTURE, format: I8, offset: 0x2891BF0, width: 32, height: 32, symbol: mac_mac_house3tif }
+mac_mac_house8tif:
+  { type: TEXTURE, format: CI4, offset: 0x2892020, width: 32, height: 32, tlut: 0x2892220, symbol: mac_mac_house8tif }
+mac_mac_house8tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2892220, colors: 16, symbol: mac_mac_house8tif_tlut }
+sbk_iwasakutif:
+  { type: TEXTURE, format: IA4, offset: 0x2892270, width: 32, height: 16, symbol: sbk_iwasakutif }
+tik_t_yuka1tif:
+  { type: TEXTURE, format: CI4, offset: 0x28923A0, width: 32, height: 32, tlut: 0x28925A0, symbol: tik_t_yuka1tif }
+tik_t_yuka1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x28925A0, colors: 16, symbol: tik_t_yuka1tif_tlut }
+eki_teppan1:
+  { type: TEXTURE, format: IA8, offset: 0x28925F0, width: 64, height: 64, symbol: eki_teppan1 }
+tst_hashi33tif_ia:
+  { type: TEXTURE, format: I8, offset: 0x2893620, width: 64, height: 32, symbol: tst_hashi33tif_ia }
+arn_hane1tif:
+  { type: TEXTURE, format: CI4, offset: 0x2894E80, width: 32, height: 64, tlut: 0x2895280, symbol: arn_hane1tif }
+arn_hane1tif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2895280, colors: 16, symbol: arn_hane1tif_tlut }
+arn_haguruma1tif_bw:
+  { type: TEXTURE, format: I8, offset: 0x28952D0, width: 32, height: 64, symbol: arn_haguruma1tif_bw }
+eki_ro-pu_1:
+  { type: TEXTURE, format: CI4, offset: 0x2895B00, width: 16, height: 16, tlut: 0x2895B80, symbol: eki_ro-pu_1 }
+eki_ro-pu_1_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2895B80, colors: 16, symbol: eki_ro-pu_1_tlut }
+tou_k_tekkinita2:
+  { type: TEXTURE, format: CI4, offset: 0x2895BD0, width: 32, height: 32, tlut: 0x2895DD0, symbol: tou_k_tekkinita2 }
+tou_k_tekkinita2_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2895DD0, colors: 16, symbol: tou_k_tekkinita2_tlut }
+omo_amiami2tif:
+  { type: TEXTURE, format: I4, offset: 0x2895E20, width: 32, height: 32, symbol: omo_amiami2tif }

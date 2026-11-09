@@ -1,0 +1,20 @@
+move_table:
+  { type: BLOB, offset: 0x6A460, size: 0x10CC, symbol: romhack_move_table }
+item_table:
+  { type: BLOB, offset: 0x62CE0, size: 0x3900, symbol: romhack_item_table }
+player_sprite_sets:
+  { type: BLOB, offset: 0x1025B4, size: 0x54, symbol: romhack_player_sprite_sets }
+actor_names:
+  { type: BLOB, offset: 0x1AF9E4, size: 0x350, symbol: romhack_actor_names }
+actor_tattles:
+  { type: BLOB, offset: 0x1B1478, size: 0x350, symbol: romhack_actor_tattles }
+actor_offsets:
+  { type: BLOB, offset: 0x1B17C8, size: 0x350, symbol: romhack_actor_offsets }
+actor_sounds:
+  { type: BLOB, offset: 0x1AFD48, size: 0x1730, symbol: romhack_actor_sounds }
+actor_groups:
+  { type: BLOB, offset: 0x1B28E4, size: 0x33, symbol: romhack_actor_groups }
+res/pause_menu/ssprite_1:
+  { type: TEXTURE, format: CI4, offset: 0xE4A6A0, width: 32, height: 32, symbol: romhack_res_pause_menu_ssprite_1 }
+res/pause_menu/ssprite_1.pal:
+  { type: TEXTURE, format: TLUT, offset: 0xE4A8A0, colors: 16, symbol: romhack_res_pause_menu_ssprite_1_pal }

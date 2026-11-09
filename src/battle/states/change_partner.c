@@ -73,6 +73,9 @@ void btl_state_update_change_partner(void) {
 
     switch (gBattleSubState) {
         case BTL_SUBSTATE_INIT:
+            {
+                CALL_EVENT(OnPartnerChange, PARTNER_CHANGE_LEAVE, gPlayerData.curPartner);
+            }
             player->flags &= ~ACTOR_FLAG_SHOW_STATUS_ICONS;
             partner->flags &= ~ACTOR_FLAG_SHOW_STATUS_ICONS;
             battleStatus->stateFreezeCount = 0;
@@ -144,6 +147,9 @@ void btl_state_update_change_partner(void) {
             battleStatus->controlScriptID = script->id;
             script->owner1.actorID = ACTOR_PARTNER;
             gBattleSubState = BTL_SUBSTATE_EXEC_PHASE;
+            {
+                CALL_EVENT(OnPartnerChange, PARTNER_CHANGE_ENTER, gPlayerData.curPartner);
+            }
             break;
         case BTL_SUBSTATE_EXEC_PHASE:
             if (does_script_exist(battleStatus->controlScriptID)) {
@@ -176,6 +182,15 @@ void btl_state_update_change_partner(void) {
                 break;
             }
             gBattleStatus.flags2 &= ~BS_FLAGS2_OVERRIDE_INACTIVE_PARTNER;
+            {
+                s32 inFront = !(gBattleStatus.flags1 & BS_FLAGS1_PLAYER_IN_BACK);
+                CALL_EVENT(OnTurnOrder, TURN_ORDER_PLAYER_IN_FRONT, &inFront);
+                if (inFront) {
+                    gBattleStatus.flags1 &= ~BS_FLAGS1_PLAYER_IN_BACK;
+                } else {
+                    gBattleStatus.flags1 |= BS_FLAGS1_PLAYER_IN_BACK;
+                }
+            }
             if (gBattleStatus.flags1 & BS_FLAGS1_PARTNER_ACTING) {
                 if (player_team_is_ability_active(player, ABILITY_QUICK_CHANGE)) {
                     btl_set_state(BATTLE_STATE_PREPARE_MENU);

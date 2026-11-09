@@ -1,0 +1,40 @@
+:config:
+  segments:
+    - [0x02, 0x02000000]
+
+mac_flecha:
+  { type: TEXTURE, format: CI4, offset: 0x26646A4, width: 32, height: 16, tlut: 0x26647A4, symbol: mac_flecha }
+mac_flecha_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26647A4, colors: 16, symbol: mac_flecha_tlut }
+kzn_hibitif:
+  { type: TEXTURE, format: CI4, offset: 0x26647F4, width: 32, height: 32, tlut: 0x26649F4, symbol: kzn_hibitif }
+kzn_hibitif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x26649F4, colors: 16, symbol: kzn_hibitif_tlut }
+trd_kamitif:
+  { type: TEXTURE, format: I4, offset: 0x2664A44, width: 32, height: 64, symbol: trd_kamitif }
+trd_kawa_atif:
+  { type: TEXTURE, format: CI4, offset: 0x2664E74, width: 32, height: 64, tlut: 0x2665274, symbol: trd_kawa_atif }
+trd_kawa_atif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2665274, colors: 16, symbol: trd_kawa_atif_tlut }
+trd_kitif:
+  { type: TEXTURE, format: I4, offset: 0x26652C4, width: 64, height: 64, symbol: trd_kitif }
+trd_komatif:
+  { type: TEXTURE, format: CI4, offset: 0x2665AF4, width: 16, height: 32, tlut: 0x2665BF4, symbol: trd_komatif }
+trd_komatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2665BF4, colors: 16, symbol: trd_komatif_tlut }
+trd_kubiwatif:
+  { type: TEXTURE, format: CI4, offset: 0x2665C44, width: 16, height: 16, tlut: 0x2665CC4, symbol: trd_kubiwatif }
+trd_kubiwatif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2665CC4, colors: 16, symbol: trd_kubiwatif_tlut }
+trd_me_btif:
+  { type: TEXTURE, format: CI4, offset: 0x2665D14, width: 64, height: 64, tlut: 0x2666514, symbol: trd_me_btif }
+trd_me_btif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2666514, colors: 16, symbol: trd_me_btif_tlut }
+trd_nuno_ctif:
+  { type: TEXTURE, format: I4, offset: 0x2666564, width: 64, height: 64, symbol: trd_nuno_ctif }
+trd_nuno_etif:
+  { type: TEXTURE, format: I4, offset: 0x2666D94, width: 64, height: 64, symbol: trd_nuno_etif }
+trd_peachtif:
+  { type: TEXTURE, format: CI4, offset: 0x26675C4, width: 64, height: 64, tlut: 0x2667DC4, symbol: trd_peachtif }
+trd_peachtif_tlut:
+  { type: TEXTURE, format: TLUT, offset: 0x2667DC4, colors: 16, symbol: trd_peachtif_tlut }

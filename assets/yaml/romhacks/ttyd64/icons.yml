@@ -1,0 +1,4 @@
+key/screwdriver:
+  { type: TEXTURE, format: CI4, offset: 0x1DA1F0, width: 32, height: 32, symbol: ICON_key_screwdriver_raster }
+key/screwdriver.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x1DA3F0, colors: 16, symbol: ICON_key_screwdriver_palette }

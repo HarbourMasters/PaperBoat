@@ -223,7 +223,7 @@ void port_prefetch_player_anim(SpriteAnimData* sprite, s32 prevAnimID, s32 animI
 }
 
 #define RESOLVED_PALETTE_LISTS 64
-#define RESOLVED_PALETTE_MAX   27
+#define RESOLVED_PALETTE_MAX   ACTOR_MAX_PALETTES
 #define ORIGINAL_PALETTE_LISTS 32
 #define PALETTE_BLEND_TAGS     64
 #define SILHOUETTE_SPREAD      4

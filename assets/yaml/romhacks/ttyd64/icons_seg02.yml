@@ -1,0 +1,573 @@
+:config:
+  directory: icons
+  segments:
+    - [0x02, 0x02000000]
+
+romhack/2804F90:
+  { type: TEXTURE, format: CI4, offset: 0x2804F90, width: 32, height: 32, symbol: ICON_romhack_2804F90 }
+romhack/28051D0:
+  { type: TEXTURE, format: CI4, offset: 0x28051D0, width: 32, height: 32, symbol: ICON_romhack_28051D0 }
+romhack/2805410:
+  { type: TEXTURE, format: CI4, offset: 0x2805410, width: 32, height: 32, symbol: ICON_romhack_2805410 }
+romhack/2805650:
+  { type: TEXTURE, format: CI4, offset: 0x2805650, width: 32, height: 32, symbol: ICON_romhack_2805650 }
+romhack/2805890:
+  { type: TEXTURE, format: CI4, offset: 0x2805890, width: 32, height: 32, symbol: ICON_romhack_2805890 }
+romhack/2805AD0:
+  { type: TEXTURE, format: CI4, offset: 0x2805AD0, width: 32, height: 32, symbol: ICON_romhack_2805AD0 }
+romhack/2805D10:
+  { type: TEXTURE, format: CI4, offset: 0x2805D10, width: 32, height: 32, symbol: ICON_romhack_2805D10 }
+romhack/2805F50:
+  { type: TEXTURE, format: CI4, offset: 0x2805F50, width: 32, height: 32, symbol: ICON_romhack_2805F50 }
+romhack/2806190:
+  { type: TEXTURE, format: CI4, offset: 0x2806190, width: 32, height: 32, symbol: ICON_romhack_2806190 }
+romhack/28063D0:
+  { type: TEXTURE, format: CI4, offset: 0x28063D0, width: 32, height: 32, symbol: ICON_romhack_28063D0 }
+romhack/2806610:
+  { type: TEXTURE, format: CI4, offset: 0x2806610, width: 32, height: 32, symbol: ICON_romhack_2806610 }
+romhack/2806850:
+  { type: TEXTURE, format: CI4, offset: 0x2806850, width: 32, height: 32, symbol: ICON_romhack_2806850 }
+romhack/2806A90:
+  { type: TEXTURE, format: CI4, offset: 0x2806A90, width: 32, height: 32, symbol: ICON_romhack_2806A90 }
+romhack/2806CD0:
+  { type: TEXTURE, format: CI4, offset: 0x2806CD0, width: 32, height: 32, symbol: ICON_romhack_2806CD0 }
+romhack/2806F10:
+  { type: TEXTURE, format: CI4, offset: 0x2806F10, width: 32, height: 32, symbol: ICON_romhack_2806F10 }
+romhack/2807150:
+  { type: TEXTURE, format: CI4, offset: 0x2807150, width: 32, height: 32, symbol: ICON_romhack_2807150 }
+romhack/2807390:
+  { type: TEXTURE, format: CI4, offset: 0x2807390, width: 32, height: 32, symbol: ICON_romhack_2807390 }
+romhack/28075D0:
+  { type: TEXTURE, format: CI4, offset: 0x28075D0, width: 32, height: 32, symbol: ICON_romhack_28075D0 }
+romhack/2807810:
+  { type: TEXTURE, format: CI4, offset: 0x2807810, width: 32, height: 32, symbol: ICON_romhack_2807810 }
+romhack/2807A50:
+  { type: TEXTURE, format: CI4, offset: 0x2807A50, width: 32, height: 32, symbol: ICON_romhack_2807A50 }
+romhack/2807C90:
+  { type: TEXTURE, format: CI4, offset: 0x2807C90, width: 32, height: 32, symbol: ICON_romhack_2807C90 }
+romhack/2807ED0:
+  { type: TEXTURE, format: CI4, offset: 0x2807ED0, width: 32, height: 32, symbol: ICON_romhack_2807ED0 }
+romhack/2808110:
+  { type: TEXTURE, format: CI4, offset: 0x2808110, width: 32, height: 32, symbol: ICON_romhack_2808110 }
+romhack/2808350:
+  { type: TEXTURE, format: CI4, offset: 0x2808350, width: 32, height: 32, symbol: ICON_romhack_2808350 }
+romhack/2808590:
+  { type: TEXTURE, format: CI4, offset: 0x2808590, width: 32, height: 32, symbol: ICON_romhack_2808590 }
+romhack/28087D0:
+  { type: TEXTURE, format: CI4, offset: 0x28087D0, width: 32, height: 32, symbol: ICON_romhack_28087D0 }
+romhack/2808A10:
+  { type: TEXTURE, format: CI4, offset: 0x2808A10, width: 32, height: 32, symbol: ICON_romhack_2808A10 }
+romhack/2808C50:
+  { type: TEXTURE, format: CI4, offset: 0x2808C50, width: 32, height: 32, symbol: ICON_romhack_2808C50 }
+romhack/2808E90:
+  { type: TEXTURE, format: CI4, offset: 0x2808E90, width: 32, height: 32, symbol: ICON_romhack_2808E90 }
+romhack/28090D0:
+  { type: TEXTURE, format: CI4, offset: 0x28090D0, width: 32, height: 32, symbol: ICON_romhack_28090D0 }
+romhack/2809310:
+  { type: TEXTURE, format: CI4, offset: 0x2809310, width: 32, height: 32, symbol: ICON_romhack_2809310 }
+romhack/2809550:
+  { type: TEXTURE, format: CI4, offset: 0x2809550, width: 32, height: 32, symbol: ICON_romhack_2809550 }
+romhack/2809790:
+  { type: TEXTURE, format: CI4, offset: 0x2809790, width: 32, height: 32, symbol: ICON_romhack_2809790 }
+romhack/28099D0:
+  { type: TEXTURE, format: CI4, offset: 0x28099D0, width: 32, height: 32, symbol: ICON_romhack_28099D0 }
+romhack/2809C10:
+  { type: TEXTURE, format: CI4, offset: 0x2809C10, width: 32, height: 32, symbol: ICON_romhack_2809C10 }
+romhack/2809E50:
+  { type: TEXTURE, format: CI4, offset: 0x2809E50, width: 32, height: 32, symbol: ICON_romhack_2809E50 }
+romhack/280A090:
+  { type: TEXTURE, format: CI4, offset: 0x280A090, width: 32, height: 32, symbol: ICON_romhack_280A090 }
+romhack/280A2D0:
+  { type: TEXTURE, format: CI4, offset: 0x280A2D0, width: 32, height: 32, symbol: ICON_romhack_280A2D0 }
+romhack/280A510:
+  { type: TEXTURE, format: CI4, offset: 0x280A510, width: 32, height: 32, symbol: ICON_romhack_280A510 }
+romhack/280A750:
+  { type: TEXTURE, format: CI4, offset: 0x280A750, width: 32, height: 32, symbol: ICON_romhack_280A750 }
+romhack/280A990:
+  { type: TEXTURE, format: CI4, offset: 0x280A990, width: 32, height: 32, symbol: ICON_romhack_280A990 }
+romhack/280ABD0:
+  { type: TEXTURE, format: CI4, offset: 0x280ABD0, width: 32, height: 32, symbol: ICON_romhack_280ABD0 }
+romhack/280AE10:
+  { type: TEXTURE, format: CI4, offset: 0x280AE10, width: 32, height: 32, symbol: ICON_romhack_280AE10 }
+romhack/280B050:
+  { type: TEXTURE, format: CI4, offset: 0x280B050, width: 32, height: 32, symbol: ICON_romhack_280B050 }
+romhack/280B290:
+  { type: TEXTURE, format: CI4, offset: 0x280B290, width: 32, height: 32, symbol: ICON_romhack_280B290 }
+romhack/280B4D0:
+  { type: TEXTURE, format: CI4, offset: 0x280B4D0, width: 32, height: 32, symbol: ICON_romhack_280B4D0 }
+romhack/280B710:
+  { type: TEXTURE, format: CI4, offset: 0x280B710, width: 32, height: 32, symbol: ICON_romhack_280B710 }
+romhack/280B950:
+  { type: TEXTURE, format: CI4, offset: 0x280B950, width: 32, height: 32, symbol: ICON_romhack_280B950 }
+romhack/280BB90:
+  { type: TEXTURE, format: CI4, offset: 0x280BB90, width: 32, height: 32, symbol: ICON_romhack_280BB90 }
+romhack/280BDD0:
+  { type: TEXTURE, format: CI4, offset: 0x280BDD0, width: 32, height: 32, symbol: ICON_romhack_280BDD0 }
+romhack/280C010:
+  { type: TEXTURE, format: CI4, offset: 0x280C010, width: 32, height: 32, symbol: ICON_romhack_280C010 }
+romhack/280C250:
+  { type: TEXTURE, format: CI4, offset: 0x280C250, width: 32, height: 32, symbol: ICON_romhack_280C250 }
+romhack/280C490:
+  { type: TEXTURE, format: CI4, offset: 0x280C490, width: 32, height: 32, symbol: ICON_romhack_280C490 }
+romhack/280C6D0:
+  { type: TEXTURE, format: CI4, offset: 0x280C6D0, width: 32, height: 32, symbol: ICON_romhack_280C6D0 }
+romhack/280C910:
+  { type: TEXTURE, format: CI4, offset: 0x280C910, width: 32, height: 32, symbol: ICON_romhack_280C910 }
+romhack/280CB50:
+  { type: TEXTURE, format: CI4, offset: 0x280CB50, width: 32, height: 32, symbol: ICON_romhack_280CB50 }
+romhack/280CD90:
+  { type: TEXTURE, format: CI4, offset: 0x280CD90, width: 32, height: 32, symbol: ICON_romhack_280CD90 }
+romhack/280CFD0:
+  { type: TEXTURE, format: CI4, offset: 0x280CFD0, width: 32, height: 32, symbol: ICON_romhack_280CFD0 }
+romhack/280D210:
+  { type: TEXTURE, format: CI4, offset: 0x280D210, width: 32, height: 32, symbol: ICON_romhack_280D210 }
+romhack/280D450:
+  { type: TEXTURE, format: CI4, offset: 0x280D450, width: 32, height: 32, symbol: ICON_romhack_280D450 }
+romhack/280D690:
+  { type: TEXTURE, format: CI4, offset: 0x280D690, width: 32, height: 32, symbol: ICON_romhack_280D690 }
+romhack/280D8D0:
+  { type: TEXTURE, format: CI4, offset: 0x280D8D0, width: 32, height: 32, symbol: ICON_romhack_280D8D0 }
+romhack/280DB10:
+  { type: TEXTURE, format: CI4, offset: 0x280DB10, width: 32, height: 32, symbol: ICON_romhack_280DB10 }
+romhack/280DD50:
+  { type: TEXTURE, format: CI4, offset: 0x280DD50, width: 32, height: 32, symbol: ICON_romhack_280DD50 }
+romhack/280DF90:
+  { type: TEXTURE, format: CI4, offset: 0x280DF90, width: 32, height: 32, symbol: ICON_romhack_280DF90 }
+romhack/280E1D0:
+  { type: TEXTURE, format: CI4, offset: 0x280E1D0, width: 32, height: 32, symbol: ICON_romhack_280E1D0 }
+romhack/280E410:
+  { type: TEXTURE, format: CI4, offset: 0x280E410, width: 32, height: 32, symbol: ICON_romhack_280E410 }
+romhack/280E650:
+  { type: TEXTURE, format: CI4, offset: 0x280E650, width: 32, height: 32, symbol: ICON_romhack_280E650 }
+romhack/280E890:
+  { type: TEXTURE, format: CI4, offset: 0x280E890, width: 32, height: 32, symbol: ICON_romhack_280E890 }
+romhack/280EAD0:
+  { type: TEXTURE, format: CI4, offset: 0x280EAD0, width: 32, height: 32, symbol: ICON_romhack_280EAD0 }
+romhack/280ED10:
+  { type: TEXTURE, format: CI4, offset: 0x280ED10, width: 32, height: 32, symbol: ICON_romhack_280ED10 }
+romhack/280EF50:
+  { type: TEXTURE, format: CI4, offset: 0x280EF50, width: 32, height: 32, symbol: ICON_romhack_280EF50 }
+romhack/280F190:
+  { type: TEXTURE, format: CI4, offset: 0x280F190, width: 32, height: 32, symbol: ICON_romhack_280F190 }
+romhack/280F3D0:
+  { type: TEXTURE, format: CI4, offset: 0x280F3D0, width: 32, height: 32, symbol: ICON_romhack_280F3D0 }
+romhack/280F610:
+  { type: TEXTURE, format: CI4, offset: 0x280F610, width: 32, height: 32, symbol: ICON_romhack_280F610 }
+romhack/280F850:
+  { type: TEXTURE, format: CI4, offset: 0x280F850, width: 32, height: 32, symbol: ICON_romhack_280F850 }
+romhack/280FA90:
+  { type: TEXTURE, format: CI4, offset: 0x280FA90, width: 32, height: 32, symbol: ICON_romhack_280FA90 }
+romhack/280FCD0:
+  { type: TEXTURE, format: CI4, offset: 0x280FCD0, width: 32, height: 32, symbol: ICON_romhack_280FCD0 }
+romhack/280FF10:
+  { type: TEXTURE, format: CI4, offset: 0x280FF10, width: 32, height: 32, symbol: ICON_romhack_280FF10 }
+romhack/2810150:
+  { type: TEXTURE, format: CI4, offset: 0x2810150, width: 32, height: 32, symbol: ICON_romhack_2810150 }
+romhack/2810390:
+  { type: TEXTURE, format: CI4, offset: 0x2810390, width: 32, height: 32, symbol: ICON_romhack_2810390 }
+romhack/28105D0:
+  { type: TEXTURE, format: CI4, offset: 0x28105D0, width: 32, height: 32, symbol: ICON_romhack_28105D0 }
+romhack/2810810:
+  { type: TEXTURE, format: CI4, offset: 0x2810810, width: 32, height: 32, symbol: ICON_romhack_2810810 }
+romhack/2810A50:
+  { type: TEXTURE, format: CI4, offset: 0x2810A50, width: 32, height: 32, symbol: ICON_romhack_2810A50 }
+romhack/2810C90:
+  { type: TEXTURE, format: CI4, offset: 0x2810C90, width: 32, height: 32, symbol: ICON_romhack_2810C90 }
+romhack/2810ED0:
+  { type: TEXTURE, format: CI4, offset: 0x2810ED0, width: 32, height: 32, symbol: ICON_romhack_2810ED0 }
+romhack/2811110:
+  { type: TEXTURE, format: CI4, offset: 0x2811110, width: 32, height: 32, symbol: ICON_romhack_2811110 }
+romhack/2811350:
+  { type: TEXTURE, format: CI4, offset: 0x2811350, width: 32, height: 32, symbol: ICON_romhack_2811350 }
+romhack/2811590:
+  { type: TEXTURE, format: CI4, offset: 0x2811590, width: 32, height: 32, symbol: ICON_romhack_2811590 }
+romhack/28117D0:
+  { type: TEXTURE, format: CI4, offset: 0x28117D0, width: 32, height: 32, symbol: ICON_romhack_28117D0 }
+romhack/2811A10:
+  { type: TEXTURE, format: CI4, offset: 0x2811A10, width: 32, height: 32, symbol: ICON_romhack_2811A10 }
+romhack/2811C50:
+  { type: TEXTURE, format: CI4, offset: 0x2811C50, width: 32, height: 32, symbol: ICON_romhack_2811C50 }
+romhack/2811E90:
+  { type: TEXTURE, format: CI4, offset: 0x2811E90, width: 32, height: 32, symbol: ICON_romhack_2811E90 }
+romhack/28120D0:
+  { type: TEXTURE, format: CI4, offset: 0x28120D0, width: 32, height: 32, symbol: ICON_romhack_28120D0 }
+romhack/2812310:
+  { type: TEXTURE, format: CI4, offset: 0x2812310, width: 32, height: 32, symbol: ICON_romhack_2812310 }
+romhack/2805190.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2805190, colors: 16, symbol: ICON_romhack_2805190_pal }
+romhack/28051B0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28051B0, colors: 16, symbol: ICON_romhack_28051B0_pal }
+romhack/28053D0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28053D0, colors: 16, symbol: ICON_romhack_28053D0_pal }
+romhack/28053F0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28053F0, colors: 16, symbol: ICON_romhack_28053F0_pal }
+romhack/2805610.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2805610, colors: 16, symbol: ICON_romhack_2805610_pal }
+romhack/2805630.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2805630, colors: 16, symbol: ICON_romhack_2805630_pal }
+romhack/2805850.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2805850, colors: 16, symbol: ICON_romhack_2805850_pal }
+romhack/2805870.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2805870, colors: 16, symbol: ICON_romhack_2805870_pal }
+romhack/2805A90.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2805A90, colors: 16, symbol: ICON_romhack_2805A90_pal }
+romhack/2805AB0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2805AB0, colors: 16, symbol: ICON_romhack_2805AB0_pal }
+romhack/2805CD0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2805CD0, colors: 16, symbol: ICON_romhack_2805CD0_pal }
+romhack/2805CF0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2805CF0, colors: 16, symbol: ICON_romhack_2805CF0_pal }
+romhack/2805F10.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2805F10, colors: 16, symbol: ICON_romhack_2805F10_pal }
+romhack/2805F30.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2805F30, colors: 16, symbol: ICON_romhack_2805F30_pal }
+romhack/2806150.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2806150, colors: 16, symbol: ICON_romhack_2806150_pal }
+romhack/2806170.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2806170, colors: 16, symbol: ICON_romhack_2806170_pal }
+romhack/2806390.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2806390, colors: 16, symbol: ICON_romhack_2806390_pal }
+romhack/28063B0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28063B0, colors: 16, symbol: ICON_romhack_28063B0_pal }
+romhack/28065D0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28065D0, colors: 16, symbol: ICON_romhack_28065D0_pal }
+romhack/28065F0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28065F0, colors: 16, symbol: ICON_romhack_28065F0_pal }
+romhack/2806810.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2806810, colors: 16, symbol: ICON_romhack_2806810_pal }
+romhack/2806830.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2806830, colors: 16, symbol: ICON_romhack_2806830_pal }
+romhack/2806A50.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2806A50, colors: 16, symbol: ICON_romhack_2806A50_pal }
+romhack/2806A70.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2806A70, colors: 16, symbol: ICON_romhack_2806A70_pal }
+romhack/2806C90.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2806C90, colors: 16, symbol: ICON_romhack_2806C90_pal }
+romhack/2806CB0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2806CB0, colors: 16, symbol: ICON_romhack_2806CB0_pal }
+romhack/2806ED0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2806ED0, colors: 16, symbol: ICON_romhack_2806ED0_pal }
+romhack/2806EF0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2806EF0, colors: 16, symbol: ICON_romhack_2806EF0_pal }
+romhack/2807110.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2807110, colors: 16, symbol: ICON_romhack_2807110_pal }
+romhack/2807130.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2807130, colors: 16, symbol: ICON_romhack_2807130_pal }
+romhack/2807350.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2807350, colors: 16, symbol: ICON_romhack_2807350_pal }
+romhack/2807370.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2807370, colors: 16, symbol: ICON_romhack_2807370_pal }
+romhack/2807590.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2807590, colors: 16, symbol: ICON_romhack_2807590_pal }
+romhack/28075B0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28075B0, colors: 16, symbol: ICON_romhack_28075B0_pal }
+romhack/28077D0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28077D0, colors: 16, symbol: ICON_romhack_28077D0_pal }
+romhack/28077F0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28077F0, colors: 16, symbol: ICON_romhack_28077F0_pal }
+romhack/2807A10.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2807A10, colors: 16, symbol: ICON_romhack_2807A10_pal }
+romhack/2807A30.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2807A30, colors: 16, symbol: ICON_romhack_2807A30_pal }
+romhack/2807C50.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2807C50, colors: 16, symbol: ICON_romhack_2807C50_pal }
+romhack/2807C70.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2807C70, colors: 16, symbol: ICON_romhack_2807C70_pal }
+romhack/2807E90.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2807E90, colors: 16, symbol: ICON_romhack_2807E90_pal }
+romhack/2807EB0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2807EB0, colors: 16, symbol: ICON_romhack_2807EB0_pal }
+romhack/28080D0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28080D0, colors: 16, symbol: ICON_romhack_28080D0_pal }
+romhack/28080F0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28080F0, colors: 16, symbol: ICON_romhack_28080F0_pal }
+romhack/2808310.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2808310, colors: 16, symbol: ICON_romhack_2808310_pal }
+romhack/2808330.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2808330, colors: 16, symbol: ICON_romhack_2808330_pal }
+romhack/2808550.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2808550, colors: 16, symbol: ICON_romhack_2808550_pal }
+romhack/2808570.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2808570, colors: 16, symbol: ICON_romhack_2808570_pal }
+romhack/2808790.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2808790, colors: 16, symbol: ICON_romhack_2808790_pal }
+romhack/28087B0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28087B0, colors: 16, symbol: ICON_romhack_28087B0_pal }
+romhack/28089D0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28089D0, colors: 16, symbol: ICON_romhack_28089D0_pal }
+romhack/28089F0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28089F0, colors: 16, symbol: ICON_romhack_28089F0_pal }
+romhack/2808C10.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2808C10, colors: 16, symbol: ICON_romhack_2808C10_pal }
+romhack/2808C30.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2808C30, colors: 16, symbol: ICON_romhack_2808C30_pal }
+romhack/2808E50.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2808E50, colors: 16, symbol: ICON_romhack_2808E50_pal }
+romhack/2808E70.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2808E70, colors: 16, symbol: ICON_romhack_2808E70_pal }
+romhack/2809090.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2809090, colors: 16, symbol: ICON_romhack_2809090_pal }
+romhack/28090B0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28090B0, colors: 16, symbol: ICON_romhack_28090B0_pal }
+romhack/28092D0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28092D0, colors: 16, symbol: ICON_romhack_28092D0_pal }
+romhack/28092F0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28092F0, colors: 16, symbol: ICON_romhack_28092F0_pal }
+romhack/2809510.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2809510, colors: 16, symbol: ICON_romhack_2809510_pal }
+romhack/2809530.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2809530, colors: 16, symbol: ICON_romhack_2809530_pal }
+romhack/2809750.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2809750, colors: 16, symbol: ICON_romhack_2809750_pal }
+romhack/2809770.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2809770, colors: 16, symbol: ICON_romhack_2809770_pal }
+romhack/2809990.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2809990, colors: 16, symbol: ICON_romhack_2809990_pal }
+romhack/28099B0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28099B0, colors: 16, symbol: ICON_romhack_28099B0_pal }
+romhack/2809BD0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2809BD0, colors: 16, symbol: ICON_romhack_2809BD0_pal }
+romhack/2809BF0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2809BF0, colors: 16, symbol: ICON_romhack_2809BF0_pal }
+romhack/2809E10.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2809E10, colors: 16, symbol: ICON_romhack_2809E10_pal }
+romhack/2809E30.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2809E30, colors: 16, symbol: ICON_romhack_2809E30_pal }
+romhack/280A050.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280A050, colors: 16, symbol: ICON_romhack_280A050_pal }
+romhack/280A070.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280A070, colors: 16, symbol: ICON_romhack_280A070_pal }
+romhack/280A290.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280A290, colors: 16, symbol: ICON_romhack_280A290_pal }
+romhack/280A2B0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280A2B0, colors: 16, symbol: ICON_romhack_280A2B0_pal }
+romhack/280A4D0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280A4D0, colors: 16, symbol: ICON_romhack_280A4D0_pal }
+romhack/280A4F0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280A4F0, colors: 16, symbol: ICON_romhack_280A4F0_pal }
+romhack/280A710.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280A710, colors: 16, symbol: ICON_romhack_280A710_pal }
+romhack/280A730.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280A730, colors: 16, symbol: ICON_romhack_280A730_pal }
+romhack/280A950.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280A950, colors: 16, symbol: ICON_romhack_280A950_pal }
+romhack/280A970.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280A970, colors: 16, symbol: ICON_romhack_280A970_pal }
+romhack/280AB90.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280AB90, colors: 16, symbol: ICON_romhack_280AB90_pal }
+romhack/280ABB0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280ABB0, colors: 16, symbol: ICON_romhack_280ABB0_pal }
+romhack/280ADD0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280ADD0, colors: 16, symbol: ICON_romhack_280ADD0_pal }
+romhack/280ADF0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280ADF0, colors: 16, symbol: ICON_romhack_280ADF0_pal }
+romhack/280B010.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280B010, colors: 16, symbol: ICON_romhack_280B010_pal }
+romhack/280B030.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280B030, colors: 16, symbol: ICON_romhack_280B030_pal }
+romhack/280B250.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280B250, colors: 16, symbol: ICON_romhack_280B250_pal }
+romhack/280B270.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280B270, colors: 16, symbol: ICON_romhack_280B270_pal }
+romhack/280B490.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280B490, colors: 16, symbol: ICON_romhack_280B490_pal }
+romhack/280B4B0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280B4B0, colors: 16, symbol: ICON_romhack_280B4B0_pal }
+romhack/280B6D0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280B6D0, colors: 16, symbol: ICON_romhack_280B6D0_pal }
+romhack/280B6F0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280B6F0, colors: 16, symbol: ICON_romhack_280B6F0_pal }
+romhack/280B910.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280B910, colors: 16, symbol: ICON_romhack_280B910_pal }
+romhack/280B930.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280B930, colors: 16, symbol: ICON_romhack_280B930_pal }
+romhack/280BB50.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280BB50, colors: 16, symbol: ICON_romhack_280BB50_pal }
+romhack/280BB70.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280BB70, colors: 16, symbol: ICON_romhack_280BB70_pal }
+romhack/280BD90.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280BD90, colors: 16, symbol: ICON_romhack_280BD90_pal }
+romhack/280BDB0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280BDB0, colors: 16, symbol: ICON_romhack_280BDB0_pal }
+romhack/280BFD0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280BFD0, colors: 16, symbol: ICON_romhack_280BFD0_pal }
+romhack/280BFF0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280BFF0, colors: 16, symbol: ICON_romhack_280BFF0_pal }
+romhack/280C210.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280C210, colors: 16, symbol: ICON_romhack_280C210_pal }
+romhack/280C230.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280C230, colors: 16, symbol: ICON_romhack_280C230_pal }
+romhack/280C450.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280C450, colors: 16, symbol: ICON_romhack_280C450_pal }
+romhack/280C470.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280C470, colors: 16, symbol: ICON_romhack_280C470_pal }
+romhack/280C690.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280C690, colors: 16, symbol: ICON_romhack_280C690_pal }
+romhack/280C6B0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280C6B0, colors: 16, symbol: ICON_romhack_280C6B0_pal }
+romhack/280C8D0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280C8D0, colors: 16, symbol: ICON_romhack_280C8D0_pal }
+romhack/280C8F0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280C8F0, colors: 16, symbol: ICON_romhack_280C8F0_pal }
+romhack/280CB10.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280CB10, colors: 16, symbol: ICON_romhack_280CB10_pal }
+romhack/280CB30.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280CB30, colors: 16, symbol: ICON_romhack_280CB30_pal }
+romhack/280CD50.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280CD50, colors: 16, symbol: ICON_romhack_280CD50_pal }
+romhack/280CD70.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280CD70, colors: 16, symbol: ICON_romhack_280CD70_pal }
+romhack/280CF90.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280CF90, colors: 16, symbol: ICON_romhack_280CF90_pal }
+romhack/280CFB0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280CFB0, colors: 16, symbol: ICON_romhack_280CFB0_pal }
+romhack/280D1D0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280D1D0, colors: 16, symbol: ICON_romhack_280D1D0_pal }
+romhack/280D1F0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280D1F0, colors: 16, symbol: ICON_romhack_280D1F0_pal }
+romhack/280D410.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280D410, colors: 16, symbol: ICON_romhack_280D410_pal }
+romhack/280D430.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280D430, colors: 16, symbol: ICON_romhack_280D430_pal }
+romhack/280D650.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280D650, colors: 16, symbol: ICON_romhack_280D650_pal }
+romhack/280D670.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280D670, colors: 16, symbol: ICON_romhack_280D670_pal }
+romhack/280D890.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280D890, colors: 16, symbol: ICON_romhack_280D890_pal }
+romhack/280D8B0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280D8B0, colors: 16, symbol: ICON_romhack_280D8B0_pal }
+romhack/280DAD0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280DAD0, colors: 16, symbol: ICON_romhack_280DAD0_pal }
+romhack/280DAF0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280DAF0, colors: 16, symbol: ICON_romhack_280DAF0_pal }
+romhack/280DD10.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280DD10, colors: 16, symbol: ICON_romhack_280DD10_pal }
+romhack/280DD30.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280DD30, colors: 16, symbol: ICON_romhack_280DD30_pal }
+romhack/280DF50.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280DF50, colors: 16, symbol: ICON_romhack_280DF50_pal }
+romhack/280DF70.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280DF70, colors: 16, symbol: ICON_romhack_280DF70_pal }
+romhack/280E190.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280E190, colors: 16, symbol: ICON_romhack_280E190_pal }
+romhack/280E1B0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280E1B0, colors: 16, symbol: ICON_romhack_280E1B0_pal }
+romhack/280E3D0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280E3D0, colors: 16, symbol: ICON_romhack_280E3D0_pal }
+romhack/280E3F0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280E3F0, colors: 16, symbol: ICON_romhack_280E3F0_pal }
+romhack/280E610.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280E610, colors: 16, symbol: ICON_romhack_280E610_pal }
+romhack/280E630.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280E630, colors: 16, symbol: ICON_romhack_280E630_pal }
+romhack/280E850.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280E850, colors: 16, symbol: ICON_romhack_280E850_pal }
+romhack/280E870.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280E870, colors: 16, symbol: ICON_romhack_280E870_pal }
+romhack/280EA90.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280EA90, colors: 16, symbol: ICON_romhack_280EA90_pal }
+romhack/280EAB0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280EAB0, colors: 16, symbol: ICON_romhack_280EAB0_pal }
+romhack/280ECD0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280ECD0, colors: 16, symbol: ICON_romhack_280ECD0_pal }
+romhack/280ECF0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280ECF0, colors: 16, symbol: ICON_romhack_280ECF0_pal }
+romhack/280EF10.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280EF10, colors: 16, symbol: ICON_romhack_280EF10_pal }
+romhack/280EF30.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280EF30, colors: 16, symbol: ICON_romhack_280EF30_pal }
+romhack/280F150.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280F150, colors: 16, symbol: ICON_romhack_280F150_pal }
+romhack/280F170.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280F170, colors: 16, symbol: ICON_romhack_280F170_pal }
+romhack/280F390.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280F390, colors: 16, symbol: ICON_romhack_280F390_pal }
+romhack/280F3B0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280F3B0, colors: 16, symbol: ICON_romhack_280F3B0_pal }
+romhack/280F5D0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280F5D0, colors: 16, symbol: ICON_romhack_280F5D0_pal }
+romhack/280F5F0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280F5F0, colors: 16, symbol: ICON_romhack_280F5F0_pal }
+romhack/280F810.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280F810, colors: 16, symbol: ICON_romhack_280F810_pal }
+romhack/280F830.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280F830, colors: 16, symbol: ICON_romhack_280F830_pal }
+romhack/280FA50.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280FA50, colors: 16, symbol: ICON_romhack_280FA50_pal }
+romhack/280FA70.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280FA70, colors: 16, symbol: ICON_romhack_280FA70_pal }
+romhack/280FC90.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280FC90, colors: 16, symbol: ICON_romhack_280FC90_pal }
+romhack/280FCB0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280FCB0, colors: 16, symbol: ICON_romhack_280FCB0_pal }
+romhack/280FED0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280FED0, colors: 16, symbol: ICON_romhack_280FED0_pal }
+romhack/280FEF0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x280FEF0, colors: 16, symbol: ICON_romhack_280FEF0_pal }
+romhack/2810110.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2810110, colors: 16, symbol: ICON_romhack_2810110_pal }
+romhack/2810130.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2810130, colors: 16, symbol: ICON_romhack_2810130_pal }
+romhack/2810350.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2810350, colors: 16, symbol: ICON_romhack_2810350_pal }
+romhack/2810370.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2810370, colors: 16, symbol: ICON_romhack_2810370_pal }
+romhack/2810590.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2810590, colors: 16, symbol: ICON_romhack_2810590_pal }
+romhack/28105B0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28105B0, colors: 16, symbol: ICON_romhack_28105B0_pal }
+romhack/28107D0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28107D0, colors: 16, symbol: ICON_romhack_28107D0_pal }
+romhack/28107F0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28107F0, colors: 16, symbol: ICON_romhack_28107F0_pal }
+romhack/2810A10.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2810A10, colors: 16, symbol: ICON_romhack_2810A10_pal }
+romhack/2810A30.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2810A30, colors: 16, symbol: ICON_romhack_2810A30_pal }
+romhack/2810C50.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2810C50, colors: 16, symbol: ICON_romhack_2810C50_pal }
+romhack/2810C70.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2810C70, colors: 16, symbol: ICON_romhack_2810C70_pal }
+romhack/2810E90.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2810E90, colors: 16, symbol: ICON_romhack_2810E90_pal }
+romhack/2810EB0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2810EB0, colors: 16, symbol: ICON_romhack_2810EB0_pal }
+romhack/28110D0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28110D0, colors: 16, symbol: ICON_romhack_28110D0_pal }
+romhack/28110F0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28110F0, colors: 16, symbol: ICON_romhack_28110F0_pal }
+romhack/2811310.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2811310, colors: 16, symbol: ICON_romhack_2811310_pal }
+romhack/2811330.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2811330, colors: 16, symbol: ICON_romhack_2811330_pal }
+romhack/2811550.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2811550, colors: 16, symbol: ICON_romhack_2811550_pal }
+romhack/2811570.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2811570, colors: 16, symbol: ICON_romhack_2811570_pal }
+romhack/2811790.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2811790, colors: 16, symbol: ICON_romhack_2811790_pal }
+romhack/28117B0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28117B0, colors: 16, symbol: ICON_romhack_28117B0_pal }
+romhack/28119D0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28119D0, colors: 16, symbol: ICON_romhack_28119D0_pal }
+romhack/28119F0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28119F0, colors: 16, symbol: ICON_romhack_28119F0_pal }
+romhack/2811C10.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2811C10, colors: 16, symbol: ICON_romhack_2811C10_pal }
+romhack/2811C30.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2811C30, colors: 16, symbol: ICON_romhack_2811C30_pal }
+romhack/2811E50.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2811E50, colors: 16, symbol: ICON_romhack_2811E50_pal }
+romhack/2811E70.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2811E70, colors: 16, symbol: ICON_romhack_2811E70_pal }
+romhack/2812090.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2812090, colors: 16, symbol: ICON_romhack_2812090_pal }
+romhack/28120B0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28120B0, colors: 16, symbol: ICON_romhack_28120B0_pal }
+romhack/28122D0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28122D0, colors: 16, symbol: ICON_romhack_28122D0_pal }
+romhack/28122F0.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x28122F0, colors: 16, symbol: ICON_romhack_28122F0_pal }
+romhack/2812510.pal:
+  { type: TEXTURE, format: TLUT, offset: 0x2812510, colors: 16, symbol: ICON_romhack_2812510_pal }

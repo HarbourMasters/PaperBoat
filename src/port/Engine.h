@@ -124,6 +124,7 @@ Fast::Interpreter* GameEngine_GetInterpreter();
 extern "C" {
 #else
 #include <stdint.h>
+#include <stdbool.h>
 #define memalloc(size) GameEngine_Malloc(size)
 #endif
 
@@ -137,7 +138,18 @@ void GameEngine_ProcessGfxCommands(Gfx* commands);
 void GameEngine_ProcessGfxCommands(void* commands);
 #endif
 void GameEngine_LogInfo(const char* fmt, ...);
+void GameEngine_LogWarn(const char* fmt, ...);
 void GameEngine_LogStackTrace(const char* label);
+
+#define PORT_MOD_NAME_SIZE 28
+const char* Port_GetModName(void);
+bool Port_ModNameMatches(const char* modName);
+void Port_CopyModName(char* dest);
+
+bool Port_FeatureAllowed(const char* id);
+int32_t Port_FeatureInt(const char* id, int32_t fallback);
+float Port_FeatureFloat(const char* id, float fallback);
+const char* Port_FeatureDisabledBy(const char* id);
 
 // Invalidate GPU texture cache entry for a specific RAM address.
 // Call when player raster cache overwrites a buffer with new image data,

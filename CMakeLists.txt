@@ -628,6 +628,7 @@ if(MSVC)
         /MANIFEST:NO
         /DEBUG
         /SUBSYSTEM:WINDOWS
+        /STACK:8388608
     )
 
     # Remove /RTC from MSVC flags

@@ -5,7 +5,7 @@
 #include "sprite/player.h"
 #include "inventory.h"
 
-static s32 N(KeyItemChoiceList)[ITEM_NUM_KEYS + 1];
+static s32 N(KeyItemChoiceList)[ITEM_TABLE_CAPACITY + 1];
 
 #ifndef _CHOICE_SUPPORT_
 #define _CHOICE_SUPPORT_
@@ -54,7 +54,7 @@ API_CALLABLE(N(BuildKeyItemChoiceList)) {
         N(KeyItemChoiceList)[i] = ITEM_NONE;
     } else {
         s32 pos = 0;
-        for (i = 0; i < NUM_ITEMS; i++) {
+        for (i = 0; i < gItemCount; i++) {
             if (item_is_key(i)) {
                 N(KeyItemChoiceList)[pos++] = i;
             }

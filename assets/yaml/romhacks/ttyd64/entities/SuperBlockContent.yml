@@ -1,0 +1,14 @@
+:config:
+  segments:
+    - [0x0A, 0xE4A6A0]
+
+tex_0:
+  { type: TEXTURE, format: CI4, offset: 0xA000000, width: 32, height: 32, symbol: tex_0 }
+tlut_200:
+  { type: TEXTURE, format: TLUT, offset: 0xA000200, colors: 16, symbol: D_0A000200_E4A8A0 }
+tlut_220:
+  { type: TEXTURE, format: TLUT, offset: 0xA000220, colors: 16, symbol: D_0A000220_E4A8C0 }
+tlut_240:
+  { type: TEXTURE, format: TLUT, offset: 0xA000240, colors: 16, symbol: D_0A000240_E4A8E0 }
+tlut_260:
+  { type: TEXTURE, format: TLUT, offset: 0xA000260, colors: 16, symbol: D_0A000260_E4A900 }

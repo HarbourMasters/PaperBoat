@@ -1,8 +1,11 @@
 #include "ActorBlueprints.h"
+#include "port/Engine.h"
 
 #include "port/ActorTypeNames.h"
 #include "port/ShipInit.hpp"
 #include "port/hooks/Events.h"
+#include "port/romhack/Romhack.h"
+#include "port/save/SaveManager.h"
 #include "port/ui/cvar_prefixes.h"
 
 #include <libultraship/bridge/consolevariablebridge.h>
@@ -161,6 +164,7 @@ static const Chapter sAreaChapters[] = {
     CHAPTER_8,         // kpa4
     CHAPTER_8,         // kkj
     CHAPTER_OTHER,     // dig
+    CHAPTER_OTHER,     // (empty 0x28)
     CHAPTER_4,         // omo2_1
     CHAPTER_4,         // omo2_2
     CHAPTER_4,         // omo2_3
@@ -466,7 +470,10 @@ static void BuildCatalog() {
     }
 }
 
-static std::string GetAutosavePath() {
+static std::filesystem::path GetAutosavePath() {
+    if (Romhack_IsActive()) {
+        return std::filesystem::path(SaveManager_GetSavesDir()) / PRESET_AUTOSAVE_FILE;
+    }
     return Ship::Context::GetPathRelativeToAppDirectory(PRESET_AUTOSAVE_FILE, "pm64");
 }
 
@@ -593,7 +600,10 @@ static void FlushAutosave() {
         root = SerializeOverrides();
     }
     std::string error;
-    if (!WriteJson(GetAutosavePath(), root, &error)) {
+    const std::filesystem::path path = GetAutosavePath();
+    std::error_code ec;
+    std::filesystem::create_directories(path.parent_path(), ec);
+    if (!WriteJson(path, root, &error)) {
         SPDLOG_ERROR("ActorBlueprints: {}", error);
     }
 }
@@ -615,7 +625,7 @@ static void LoadAutosave() {
 }
 
 bool IsEnabled() {
-    return CVarGetInteger(CVAR_ACTOR_BLUEPRINTS_ENABLED, 1) != 0;
+    return Port_FeatureInt("enhancements.actor_blueprints", 1) != 0;
 }
 
 void SetEnabled(bool enabled) {

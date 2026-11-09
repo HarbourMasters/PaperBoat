@@ -60,6 +60,7 @@ API_CALLABLE(N(init)) {
 
     hid = hud_element_create(&HES_BlueMeter);
     acs->hudElemIDs[HIDX_METER] = hid;
+    CALL_EVENT(OnActionCommandHudInit, ACTION_COMMAND_TIDAL_WAVE, acs);
     hud_element_set_render_pos(hid, acs->hudPosX, acs->hudPosY + 28);
     hud_element_set_render_depth(hid, 0);
     hud_element_set_flags(hid, HUD_ELEMENT_FLAG_MANUAL_RENDER | HUD_ELEMENT_FLAG_DISABLED);
@@ -284,7 +285,14 @@ void N(update)(void) {
                         if (acs->meterFillLevel > MAX_MASH_UNITS) {
                             acs->meterFillLevel = MAX_MASH_UNITS;
                         }
-                        acs->state = TIDAL_WAVE_STATE_NEXT_BUTTON;
+                        {
+                            s32 nextState = TIDAL_WAVE_STATE_NEXT_BUTTON;
+                            CALL_EVENT(OnActionCommandNextState, ACTION_COMMAND_TIDAL_WAVE, acs, &nextState);
+                            if (nextState != TIDAL_WAVE_STATE_NEXT_BUTTON && nextState != TIDAL_WAVE_STATE_WRAPUP) {
+                                nextState = TIDAL_WAVE_STATE_NEXT_BUTTON;
+                            }
+                            acs->state = nextState;
+                        }
                         battleStatus->actionProgress++;
                         sfx_play_sound(SOUND_APPROVE);
                         return;

@@ -35,11 +35,37 @@ void au_release_voice(u8 index) {
     voice->priority = AU_PRIORITY_FREE;
 }
 
+static void au_get_largest_SBN_files(u8* sbnData, u32* outMaxBGM, u32* outMaxMSEQ) {
+    SBNHeader* sbnHeader = (SBNHeader*)sbnData;
+    SBNFileEntry* entry = (SBNFileEntry*)(sbnData + sbnHeader->fileListOffset);
+    s32 numEntries = sbnHeader->numEntries;
+
+    *outMaxBGM = 0;
+    *outMaxMSEQ = 0;
+    while (numEntries--) {
+        u32 size = ((entry->data & 0xFFFFFF) + 0xF) & ~0xF;
+        if ((entry->offset & 0xFFFFFF) == 0) {
+            break;
+        }
+        if ((entry->data >> 0x18) == AU_FMT_BGM && size > *outMaxBGM) {
+            *outMaxBGM = size;
+        } else if ((entry->data >> 0x18) == AU_FMT_MSEQ && size > *outMaxMSEQ) {
+            *outMaxMSEQ = size;
+        }
+        entry++;
+    }
+}
+
 void au_engine_init(s32 outputRate) {
     AuGlobals* globals;
     ALHeap* alHeap;
     SBNFileEntry fileEntry;
-    s32* dummyTrackData;
+    u8* dummyTrackData;
+    u32 maxBGMSize;
+    u32 maxMSEQSize;
+    u32 bgmMainSize;
+    u32 bgmAuxSize;
+    u32 mseqSize;
     u8 effects[4];
     u32 i;
 
@@ -55,11 +81,16 @@ void au_engine_init(s32 outputRate) {
     gAuAmbienceManager->globals = gSoundGlobals;
 
     globals = gSoundGlobals;
-    dummyTrackData = alHeapAlloc(alHeap, 1, 0x8000);
+    gSbnData = (u8*)LOAD_ASSET(AUDIO_SBN);
+    au_get_largest_SBN_files(gSbnData, &maxBGMSize, &maxMSEQSize);
+    bgmMainSize = maxBGMSize > 0x5000 ? maxBGMSize : 0x5000;
+    bgmAuxSize = maxBGMSize > 0x5000 ? maxBGMSize : 0x2000;
+    mseqSize = maxMSEQSize > 0x1000 ? maxMSEQSize : 0x1000;
+    dummyTrackData = alHeapAlloc(alHeap, 1, bgmMainSize + bgmAuxSize + mseqSize);
     globals->dataBGM[0] = (BGMHeader*) &dummyTrackData[0];
-    globals->dataBGM[1] = (BGMHeader*) &dummyTrackData[0x1400];
-    globals->dataMSEQ[0] = (MSEQHeader*) &dummyTrackData[0x1C00];
-    globals->dataMSEQ[1] = (MSEQHeader*) &dummyTrackData[0x1400];
+    globals->dataBGM[1] = (BGMHeader*) &dummyTrackData[bgmMainSize];
+    globals->dataMSEQ[0] = (MSEQHeader*) &dummyTrackData[bgmMainSize + bgmAuxSize];
+    globals->dataMSEQ[1] = (MSEQHeader*) &dummyTrackData[bgmMainSize];
 
     for (i = 0; i < ARRAY_COUNT(globals->snapshots); i++) {
         globals->snapshots[i].bgmPlayer = alHeapAlloc(alHeap, 1, sizeof(BGMPlayer));
@@ -104,7 +135,6 @@ void au_engine_init(s32 outputRate) {
         voice->priority = AU_PRIORITY_FREE;
     }
 
-    gSbnData = (u8*)LOAD_ASSET(AUDIO_SBN);
     au_load_INIT(globals, gSbnData, alHeap);
 
     au_bgm_player_init(gBGMPlayerA, AU_PRIORITY_BGM_PLAYER_MAIN, FX_BUS_BGMA_MAIN, globals);

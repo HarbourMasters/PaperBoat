@@ -108,18 +108,29 @@ void btl_state_update_end_turn(void) {
 
     if (gBattleSubState == BTL_SUBSTATE_START_SCRIPTS) {
         gBattleStatus.flags2 &= ~BS_FLAGS2_HIDE_BUFF_COUNTERS;
-        player->disableDismissTimer = 0;
-        player->flags |= ACTOR_FLAG_SHOW_STATUS_ICONS | ACTOR_FLAG_USING_IDLE_ANIM;
+        {
+            CALL_CANCELLABLE_EVENT(OnStatusTick, player, STATUS_PHASE_TURN_END) {
+                player->disableDismissTimer = 0;
+                player->flags |= ACTOR_FLAG_SHOW_STATUS_ICONS | ACTOR_FLAG_USING_IDLE_ANIM;
+            }
+        }
         if (partner != nullptr) {
-            player->flags |= ACTOR_FLAG_SHOW_STATUS_ICONS | ACTOR_FLAG_USING_IDLE_ANIM;
-            partner->disableDismissTimer = 0;
+            CALL_CANCELLABLE_EVENT(OnStatusTick, partner, STATUS_PHASE_TURN_END) {
+                player->flags |= ACTOR_FLAG_SHOW_STATUS_ICONS | ACTOR_FLAG_USING_IDLE_ANIM;
+                partner->disableDismissTimer = 0;
+            }
         }
 
         btl_set_player_idle_anims();
         gBattleStatus.flags1 &= ~BS_FLAGS1_PLAYER_DEFENDING;
-        playerData->starPower += SP_PER_SEG;
-        if (playerData->starPower > playerData->maxStarPower * SP_PER_BAR) {
-            playerData->starPower = playerData->maxStarPower * SP_PER_BAR;
+        s32 starPowerRegen = SP_PER_SEG;
+        CALL_CANCELLABLE_EVENT(OnStarPowerRegen, &starPowerRegen) {
+            playerData->starPower += starPowerRegen;
+            if (playerData->starPower > playerData->maxStarPower * SP_PER_BAR) {
+                playerData->starPower = playerData->maxStarPower * SP_PER_BAR;
+            } else if (playerData->starPower < 0) {
+                playerData->starPower = 0;
+            }
         }
 
         for (i = 0; i < ARRAY_COUNT(battleStatus->enemyActors); i++) {

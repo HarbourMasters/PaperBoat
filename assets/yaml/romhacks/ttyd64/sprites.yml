@@ -1,0 +1,138 @@
+:config:
+  segments:
+    - [0x01, 0x01000000]
+
+sprite_data_header:
+  { type: BLOB, offset: 0x1943010, size: 0x10, symbol: gSpriteDataHeader }
+player_raster_load_descriptors:
+  { type: BLOB, offset: 0x1943068, size: 0xB38, symbol: gPlayerRasterLoadDescriptors }
+player_raster_image_data:
+  { type: BLOB, offset: 0x1943BA0, size: 0x9D1D0, symbol: gPlayerRasterImageData }
+player_sprite_0:
+  { type: PM64:SPRITE, offset: 0x19E0DD8, symbol: gPlayerSprite0, raster_index: 0, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0, raster_offset_scale: 16 }
+player_sprite_1:
+  { type: PM64:SPRITE, offset: 0x19E180A, symbol: gPlayerSprite1, raster_index: 1, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0, raster_offset_scale: 16 }
+player_sprite_2:
+  { type: PM64:SPRITE, offset: 0x19E1D4C, symbol: gPlayerSprite2, raster_index: 2, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0, raster_offset_scale: 16 }
+player_sprite_3:
+  { type: PM64:SPRITE, offset: 0x19E2848, symbol: gPlayerSprite3, raster_index: 3, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0, raster_offset_scale: 16 }
+player_sprite_4:
+  { type: PM64:SPRITE, offset: 0x19E334C, symbol: gPlayerSprite4, raster_index: 4, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0, raster_offset_scale: 16 }
+player_sprite_5:
+  { type: PM64:SPRITE, offset: 0x19E37C2, symbol: gPlayerSprite5, raster_index: 5, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0, raster_offset_scale: 16 }
+player_sprite_6:
+  { type: PM64:SPRITE, offset: 0x19E41BC, symbol: gPlayerSprite6, raster_index: 6, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0, raster_offset_scale: 16 }
+player_sprite_7:
+  { type: PM64:SPRITE, offset: 0x19E462E, symbol: gPlayerSprite7, raster_index: 7, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0, raster_offset_scale: 16 }
+player_sprite_8:
+  { type: PM64:SPRITE, offset: 0x19E4EEA, symbol: gPlayerSprite8, raster_index: 8, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0, raster_offset_scale: 16 }
+player_sprite_9:
+  { type: PM64:SPRITE, offset: 0x19E530A, symbol: gPlayerSprite9, raster_index: 9, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0, raster_offset_scale: 16 }
+player_sprite_10:
+  { type: PM64:SPRITE, offset: 0x19E5E8A, symbol: gPlayerSprite10, raster_index: 10, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0, raster_offset_scale: 16 }
+player_sprite_11:
+  { type: PM64:SPRITE, offset: 0x19E6082, symbol: gPlayerSprite11, raster_index: 11, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0, raster_offset_scale: 16 }
+player_sprite_12:
+  { type: PM64:SPRITE, offset: 0x19E69DE, symbol: gPlayerSprite12, raster_index: 12, raster_header: 0x1943020, raster_sets: 0x1943030, raster_descriptors: 0x1943068, raster_image_data: 0x1943BA0, raster_offset_scale: 16 }
+npc_sprite_000:
+  { type: PM64:SPRITE, offset: 0x19E7668, symbol: gNpcSprite000 }
+npc_sprite_001:
+  { type: PM64:SPRITE, offset: 0x19E8408, symbol: gNpcSprite001 }
+npc_sprite_002:
+  { type: PM64:SPRITE, offset: 0x19EAC3E, symbol: gNpcSprite002 }
+npc_sprite_003:
+  { type: PM64:SPRITE, offset: 0x19EC788, symbol: gNpcSprite003 }
+npc_sprite_004:
+  { type: PM64:SPRITE, offset: 0x19EE3C2, symbol: gNpcSprite004 }
+npc_sprite_005:
+  { type: PM64:SPRITE, offset: 0x19EFFF8, symbol: gNpcSprite005 }
+npc_sprite_006:
+  { type: PM64:SPRITE, offset: 0x19F1054, symbol: gNpcSprite006 }
+npc_sprite_007:
+  { type: PM64:SPRITE, offset: 0x19F2AFA, symbol: gNpcSprite007 }
+npc_sprite_008:
+  { type: PM64:SPRITE, offset: 0x19F42D6, symbol: gNpcSprite008 }
+npc_sprite_009:
+  { type: PM64:SPRITE, offset: 0x19F57B0, symbol: gNpcSprite009 }
+npc_sprite_010:
+  { type: PM64:SPRITE, offset: 0x19F8A20, symbol: gNpcSprite010 }
+npc_sprite_011:
+  { type: PM64:SPRITE, offset: 0x19FAD48, symbol: gNpcSprite011 }
+npc_sprite_012:
+  { type: PM64:SPRITE, offset: 0x19FE3AC, symbol: gNpcSprite012 }
+npc_sprite_013:
+  { type: PM64:SPRITE, offset: 0x1A01148, symbol: gNpcSprite013 }
+npc_sprite_014:
+  { type: PM64:SPRITE, offset: 0x1A03734, symbol: gNpcSprite014 }
+npc_sprite_015:
+  { type: PM64:SPRITE, offset: 0x1A05866, symbol: gNpcSprite015 }
+npc_sprite_017:
+  { type: PM64:SPRITE, offset: 0x1A098CA, symbol: gNpcSprite017 }
+npc_sprite_018:
+  { type: PM64:SPRITE, offset: 0x1A0AA0C, symbol: gNpcSprite018 }
+npc_sprite_019:
+  { type: PM64:SPRITE, offset: 0x1A0B82A, symbol: gNpcSprite019 }
+npc_sprite_020:
+  { type: PM64:SPRITE, offset: 0x1A0C424, symbol: gNpcSprite020 }
+npc_sprite_021:
+  { type: PM64:SPRITE, offset: 0x1A0CFE4, symbol: gNpcSprite021 }
+npc_sprite_022:
+  { type: PM64:SPRITE, offset: 0x1A0F4CC, symbol: gNpcSprite022 }
+npc_sprite_023:
+  { type: PM64:SPRITE, offset: 0x1A100E4, symbol: gNpcSprite023 }
+npc_sprite_042:
+  { type: PM64:SPRITE, offset: 0x1A29A6E, symbol: gNpcSprite042 }
+npc_sprite_044:
+  { type: PM64:SPRITE, offset: 0x1A2D034, symbol: gNpcSprite044 }
+npc_sprite_045:
+  { type: PM64:SPRITE, offset: 0x1A2DC32, symbol: gNpcSprite045 }
+npc_sprite_046:
+  { type: PM64:SPRITE, offset: 0x1A2E742, symbol: gNpcSprite046 }
+npc_sprite_049:
+  { type: PM64:SPRITE, offset: 0x1A34590, symbol: gNpcSprite049 }
+npc_sprite_051:
+  { type: PM64:SPRITE, offset: 0x1A38C28, symbol: gNpcSprite051 }
+npc_sprite_054:
+  { type: PM64:SPRITE, offset: 0x1A3E69E, symbol: gNpcSprite054 }
+npc_sprite_069:
+  { type: PM64:SPRITE, offset: 0x1A5DADA, symbol: gNpcSprite069 }
+npc_sprite_072:
+  { type: PM64:SPRITE, offset: 0x1A68BFE, symbol: gNpcSprite072 }
+npc_sprite_073:
+  { type: PM64:SPRITE, offset: 0x1A6B15C, symbol: gNpcSprite073 }
+npc_sprite_082:
+  { type: PM64:SPRITE, offset: 0x1A81E22, symbol: gNpcSprite082 }
+npc_sprite_085:
+  { type: PM64:SPRITE, offset: 0x1A87AB0, symbol: gNpcSprite085 }
+npc_sprite_086:
+  { type: PM64:SPRITE, offset: 0x1A89C92, symbol: gNpcSprite086 }
+npc_sprite_088:
+  { type: PM64:SPRITE, offset: 0x1A904E8, symbol: gNpcSprite088 }
+npc_sprite_089:
+  { type: PM64:SPRITE, offset: 0x1A94314, symbol: gNpcSprite089 }
+npc_sprite_104:
+  { type: PM64:SPRITE, offset: 0x1AB6D6C, symbol: gNpcSprite104 }
+npc_sprite_111:
+  { type: PM64:SPRITE, offset: 0x1AD444E, symbol: gNpcSprite111 }
+npc_sprite_118:
+  { type: PM64:SPRITE, offset: 0x1AD9298, symbol: gNpcSprite118 }
+npc_sprite_124:
+  { type: PM64:SPRITE, offset: 0x1AE6BB8, symbol: gNpcSprite124 }
+npc_sprite_151:
+  { type: PM64:SPRITE, offset: 0x1B16C80, symbol: gNpcSprite151 }
+npc_sprite_166:
+  { type: PM64:SPRITE, offset: 0x1B2C39C, symbol: gNpcSprite166 }
+npc_sprite_169:
+  { type: PM64:SPRITE, offset: 0x1B2F330, symbol: gNpcSprite169 }
+npc_sprite_211:
+  { type: PM64:SPRITE, offset: 0x1B68F7C, symbol: gNpcSprite211 }
+npc_sprite_229:
+  { type: PM64:SPRITE, offset: 0x2DF4080, symbol: gNpcSprite229 }
+npc_sprite_233:
+  { type: PM64:SPRITE, offset: 0x2DF7EC2, symbol: gNpcSprite233 }
+npc_sprite_234:
+  { type: PM64:SPRITE, offset: 0x2DFD912, symbol: gNpcSprite234 }
+npc_sprite_235:
+  { type: PM64:SPRITE, offset: 0x2DFEBE8, symbol: gNpcSprite235 }
+npc_sprite_236:
+  { type: PM64:SPRITE, offset: 0x2E00122, symbol: gNpcSprite236 }

@@ -4,5 +4,6 @@
 #include <string>
 
 void SaveManager_Init();
+std::string SaveManager_GetSavesDir();
 
 #endif // SAVE_MANAGER_H
