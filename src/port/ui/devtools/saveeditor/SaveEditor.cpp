@@ -20,7 +20,6 @@
 
 #include "common_structs.h"
 #include "assets/ui.h"
-
 extern "C" {
 extern s32 get_global_byte(s32 index);
 extern s8 set_global_byte(s32 index, s32 value);
@@ -609,6 +608,7 @@ typedef enum {
     ITEM_BUTTON_ADD_ITEM,
     ITEM_BUTTON_TOGGLE_BADGE,
     ITEM_BUTTON_REMOVE_ITEM,
+    ITEM_BUTTON_TOGGLE_KEY_ITEM,
 } ItemButtonAction;
 
 const char* ItemRaster(int32_t itemID) {
@@ -834,6 +834,8 @@ void SaveEditor_DrawImageButton(const SaveEditorEntry& entry, ItemButtonAction a
         hasItem = PlayerHasItem(itemID);
     } else if (action == ITEM_BUTTON_TOGGLE_BADGE) {
         hasItem = PlayerHasBadge(itemID);
+    } else if (action == ITEM_BUTTON_TOGGLE_KEY_ITEM) {
+        hasItem = PlayerHasKeyItem(itemID);
     }
 
     SaveEditor_PushImageButtonStyle();
@@ -851,6 +853,9 @@ void SaveEditor_DrawImageButton(const SaveEditorEntry& entry, ItemButtonAction a
                 break;
             case ITEM_BUTTON_REMOVE_ITEM:
                 AddRemove_Item(itemID, true);
+                break;
+            case ITEM_BUTTON_TOGGLE_KEY_ITEM:
+                AddRemove_KeyItem(itemID, hasItem);
                 break;
         }
     }
@@ -1927,6 +1932,39 @@ void SaveEditor_DrawOthersMenu() {
     }
 }
 
+void SaveEditor_DrawKeyItemsMenu() {
+    auto gui = std::dynamic_pointer_cast<Fast::Fast3dGui>(Ship::Context::GetRawInstance()->GetWindow()->GetGui());
+    if (ImGui::BeginChild("KeyItemChild")) {
+        for (int i = 0; i < MAX_KEY_ITEM_SIZE; i++) {
+            ImGui::PushID(i);
+            if (gPlayerData.keyItems[i] == ITEM_NONE) {
+                SaveEditor_PushImageButtonStyle();
+                ImGui::ImageButton("Empty", gui->GetTextureByName(ui_battle_menu_nothing_png), itemImageSize);
+                SaveEditor_PopImageButtonStyle();
+            } else {
+                SaveEditor_DrawImageButton({ "", "", gPlayerData.keyItems[i], 0, 0 }, ITEM_BUTTON_TOGGLE_KEY_ITEM);
+            }
+            ImGui::PopID();
+            if (i != (MAX_KEY_ITEM_SIZE / 2) - 1) {
+                ImGui::SameLine();
+            } else {
+                ImGui::NewLine();
+            }
+        }
+        ImGui::NewLine();
+        ImGui::SeparatorText("Available Items");
+
+        std::vector<SaveEditorEntry> available;
+        for (int32_t id = 1; id < gItemCount; id++) {
+            if ((gItemTable[id].typeFlags & ITEM_TYPE_FLAG_KEY) && ItemRaster(id) != nullptr) {
+                available.push_back({ "", "", id, 0, 0 });
+            }
+        }
+        SaveEditor_DrawItemGrid("KeyItemList", available, ITEM_BUTTON_TOGGLE_KEY_ITEM, false);
+        ImGui::EndChild();
+    }
+}
+
 void SaveEditor_DrawTabBar() {
     if (Features::DrawLockedNotice("devtools.save_editor")) {
         return;
@@ -1963,6 +2001,10 @@ void SaveEditor_DrawTabBar() {
         }
         if (ImGui::BeginTabItem("Tattles")) {
             SaveEditor_DrawTattlesMenu();
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Key Items")) {
+            SaveEditor_DrawKeyItemsMenu();
             ImGui::EndTabItem();
         }
         if (!Mod::SaveEditorTrackers().empty() || !Mod::SaveEditorSections().empty()) {
