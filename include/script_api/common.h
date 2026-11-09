@@ -889,6 +889,10 @@ API_CALLABLE(PutPartnerAway);
 API_CALLABLE(GetCurrentPartnerID);
 
 /// @evtapi
+/// @param outEnabled
+API_CALLABLE(IsPartnerlessCrashProtectionEnabled);
+
+/// @evtapi
 /// @param outCanUse
 API_CALLABLE(PartnerCanUseAbility);
 

@@ -17,6 +17,18 @@ enum {
     SHOW_MESSAGE_SPEAK_TO_NPC       = 3,
 };
 
+static bool should_skip_partner_speech(s32 speakerNpcID) {
+    if (speakerNpcID != NPC_PARTNER) {
+        return false;
+    }
+
+    bool partnerlessCrashProtectionEnabled = true;
+    CALL_EVENT(OnPartnerlessCrashProtectionCheck, &partnerlessCrashProtectionEnabled);
+
+    return partnerlessCrashProtectionEnabled
+        && (gPlayerData.curPartner == PARTNER_NONE || get_npc_safe(NPC_PARTNER) == nullptr);
+}
+
 API_CALLABLE(SpeakToPlayer) {
     return _show_message(script, isInitialCall, SHOW_MESSAGE_SPEAK_TO_PLAYER);
 }
@@ -61,6 +73,10 @@ s32 _show_message(Evt* script, s32 isInitialCall, s32 mode) {
         if (script->functionTemp[1] & SPEECH_FLAG_HAS_OFFSET) {
             ShowMessageScreenOffsetX = evt_get_variable(script, *args++);
             ShowMessageScreenOffsetY = evt_get_variable(script, *args++);
+        }
+
+        if (should_skip_partner_speech(speakerNpcID)) {
+            return ApiStatus_DONE1;
         }
 
         switch (mode) {
