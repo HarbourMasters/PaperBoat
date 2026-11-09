@@ -806,11 +806,29 @@ std::string IconName(const char* raster) {
     return "";
 }
 
+std::string LetterName(int32_t itemID) {
+    for (const auto& letter : Mod::SaveEditorList(MOD_SAVE_EDITOR_LETTERS, kVanillaLetters)) {
+        if (letter.id == itemID && !letter.name.empty()) {
+            return letter.name;
+        }
+    }
+    for (const auto& letter : Mod::SaveEditorList(MOD_SAVE_EDITOR_CHAIN_LETTERS, kVanillaChainLetters)) {
+        if (letter.id == itemID && !letter.name.empty()) {
+            return letter.name;
+        }
+    }
+    return "";
+}
+
 std::string ItemTooltip(const SaveEditorEntry& entry) {
     if (!entry.name.empty()) {
         return entry.name;
     }
-    if (entry.id > 0 && entry.id < gItemCount) {
+    std::string letter = LetterName(entry.id);
+    if (!letter.empty()) {
+        return letter;
+    }
+    if (entry.id > 0 && entry.id < gItemCount && gItemTable[entry.id].nameMsg != 0) {
         std::string name = MessageText(gItemTable[entry.id].nameMsg);
         if (!name.empty()) {
             return name;
@@ -829,6 +847,7 @@ void SaveEditor_DrawImageButton(const SaveEditorEntry& entry, ItemButtonAction a
     }
     ImTextureID itemTexture = ItemIconTexture(gui, itemID);
     bool hasItem = true;
+    const bool letter = action == ITEM_BUTTON_TOGGLE_KEY_ITEM && !LetterName(itemID).empty();
 
     if (action == ITEM_BUTTON_ADD_ITEM) {
         hasItem = PlayerHasItem(itemID);
@@ -842,7 +861,8 @@ void SaveEditor_DrawImageButton(const SaveEditorEntry& entry, ItemButtonAction a
     if (ImGui::ImageButton(
             rasterPath, itemTexture, itemImageSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0),
             ImVec4(1, 1, 1, hasItem ? 1.0f : 0.5f)
-        ))
+        )
+        && !letter)
     {
         switch (action) {
             case ITEM_BUTTON_ADD_ITEM:
@@ -860,7 +880,11 @@ void SaveEditor_DrawImageButton(const SaveEditorEntry& entry, ItemButtonAction a
         }
     }
     if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip("%s", ItemTooltip(entry).c_str());
+        if (letter) {
+            ImGui::SetTooltip("%s - To update use the \"Letters\" tab", ItemTooltip(entry).c_str());
+        } else {
+            ImGui::SetTooltip("%s", ItemTooltip(entry).c_str());
+        }
     }
     SaveEditor_PopImageButtonStyle();
 }
