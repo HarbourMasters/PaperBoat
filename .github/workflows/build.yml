@@ -52,7 +52,7 @@ jobs:
       - name: Cache third-party source builds
         uses: actions/cache@v6
         with:
-          key: linux-thirdparty-sdl2.30.3-tinyxml2.10.0.0-libzip1.10.1
+          key: linux-thirdparty-${{ github.repository }}-sdl2.30.3-tinyxml2.10.0.0-libzip1.10.1
           path: |
             SDL2-2.30.3
             tinyxml2-10.0.0
