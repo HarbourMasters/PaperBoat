@@ -16,6 +16,7 @@
 #include "spdlog/spdlog.h"
 
 #include "port/FilePicker.h"
+#include <ship/utils/binarytools/BitConverter.h>
 
 #ifdef __EMSCRIPTEN__
 #include "port/web/WebUtils.h"
@@ -82,6 +83,7 @@ bool GameExtractor::RunStandalone(std::string rom, const std::string& configDir)
         return false;
     }
 
+    BitConverter::RomToBigEndian(data.data(), data.size());
     if (!GetSupportedRomNode(data, configDir).has_value()) {
         return false;
     }
@@ -104,6 +106,7 @@ bool GameExtractor::LoadRomFromPath(const std::string& romPath) {
         return false;
     }
 
+    BitConverter::RomToBigEndian(romData.data(), romData.size());
     this->mGamePath = romPath;
     this->mGameData = std::move(romData);
     return true;
@@ -211,10 +214,12 @@ std::optional<std::string> GameExtractor::DetectVersion(const std::string& romPa
         return std::nullopt;
     }
 
-    const std::vector<uint8_t> data = ReadWholeFile(romPath);
+    std::vector<uint8_t> data = ReadWholeFile(romPath);
     if (data.empty()) {
         return std::nullopt;
     }
+
+    BitConverter::RomToBigEndian(data.data(), data.size());
 
     auto rom = GetSupportedRomNode(data, configDir);
     if (!rom.has_value()) {
@@ -241,7 +246,7 @@ GameExtractor::FindSupportedRoms(const std::vector<std::string>& searchPaths) {
             continue;
         }
         for (const auto& entry : std::filesystem::directory_iterator(dir, ec)) {
-            if (entry.is_directory() || entry.path().extension() != ".z64") {
+            if (entry.is_directory() || (entry.path().extension() != ".z64" && entry.path().extension() != ".n64")) {
                 continue;
             }
             const std::string full = entry.path().generic_string();
